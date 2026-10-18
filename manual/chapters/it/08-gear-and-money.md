@@ -21,9 +21,9 @@ Ogni arma attacca con un'abilità: coltelli, manganelli e storditori usano **Mel
 
 ## 8-3. Armature {#sec-8-3}
 
-Ogni pezzo protegge locazioni precise (segni di armatura per locazione). L'armatura generale è la somma dei *Max Hits* dei pezzi indossati. La visibilità indica quanto l'armatura salta all'occhio di un osservatore qualsiasi (1 = discreta, 5 = inconfondibile).
+Ogni pezzo aggiunge il suo **valore di armatura** alla tua armatura: la tua armatura è la somma di ciò che indossi (più la copertura in combattimento). La visibilità indica quanto l'armatura salta all'occhio di un osservatore qualsiasi (1 = discreta, 5 = inconfondibile).
 
-I segni di armatura persi per i colpi localizzati restano persi finché l'armatura non viene **riparata** — a riposo, o con la *Field Maintenance* di un Tech Wizard — o finché non cambi quello che indossi.
+L'armatura **si incrina** di 1 quando ferma del tutto un attacco a una locazione, o quando un effetto la intacca. Le incrinature restano finché l'armatura non viene **riparata** (a riposo, o con la *Field Maintenance* di un Tech Wizard) o finché non cambi quello che indossi. I colpi normali non incrinano mai l'armatura (vedi 7-5).
 
 ::table[armor]
 

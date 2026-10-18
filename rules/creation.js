@@ -65,7 +65,6 @@ export function applyEvent(character, event, { choices = null, floor = 6, rng = 
     log.push(message('row', { stat: k.toUpperCase(), n: `${v > 0 ? '+' : ''}${v}` }, `${k.toUpperCase()} row ${v > 0 ? '+' : ''}${v}`));
   }
   if (fx.maxHp) { c.mods.maxHp += fx.maxHp; log.push(message('maxHp', { n: `${fx.maxHp > 0 ? '+' : ''}${fx.maxHp}` }, `Max HP ${fx.maxHp > 0 ? '+' : ''}${fx.maxHp}`)); }
-  if (fx.locationHp) { c.mods.locationHp += fx.locationHp; log.push(message('locationHp', { n: fx.locationHp }, `+${fx.locationHp} HP per body location`)); }
   if (fx.criminalRecord === 'add') { c.criminalRecord = true; log.push(message('record', {}, 'Criminal record')); }
   if (fx.criminalRecord === 'clear') { c.criminalRecord = false; log.push(message('recordCleared', {}, 'Criminal record cleared')); }
   if (fx.credential && !c.credentials.includes(fx.credential)) { c.credentials.push(fx.credential); log.push(message('credential', { name: fx.credential }, `Credential: ${fx.credential}`)); }

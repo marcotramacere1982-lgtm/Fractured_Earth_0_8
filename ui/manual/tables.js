@@ -26,7 +26,6 @@ export function describeEffects(fx, data) {
   if (fx.choice) parts.push(t('fx.choose', { n: fx.choice.amount, of: fx.choice.of.join('/') }));
   if (fx.rowOffsets) parts.push(Object.entries(fx.rowOffsets).map(([k, v]) => t('fx.row', { stat: k.toUpperCase(), n: signed(v) })).join(', '));
   if (fx.maxHp) parts.push(t('fx.maxHp', { n: signed(fx.maxHp) }));
-  if (fx.locationHp) parts.push(t('fx.locationHp', { n: signed(fx.locationHp) }));
   if (fx.criminalRecord === 'add') parts.push(t('fx.record'));
   if (fx.criminalRecord === 'clear') parts.push(t('fx.recordCleared'));
   if (fx.credential) parts.push(`${t('fx.credential')}: ${nameOf(data.careers.credentials, fx.credential)}`);
@@ -63,14 +62,16 @@ const TABLES = {
     d.skills.skills.map((s) => [`<strong>${e(s.name)}</strong>`, e(nameOf(d.skills.categories, s.category)), `<span class="mono">${s.stats.join(' + ')}</span>`, e(s.desc)])),
   combat: (d) => table(['Sum of the two attributes', ...d.combat.derived.map((x) => `${x.id.toUpperCase()} (${x.stats.join('+')})`)],
     d.combat.table.map((r) => [`<span class="mono">${r.min}–${r.max}</span>`, ...d.combat.derived.map((x) => (x.id === 'off' ? signed(r[x.id]) : r[x.id]))])),
-  'body-points': (d) => table(['CON + MST', ...d.body.locations.filter((l, i, a) => a.findIndex((x) => x.bp === l.bp) === i).map((l) => (l.bp === 'arm' ? t('fx.eachArm') : l.bp === 'leg' ? t('fx.eachLeg') : l.name))],
-    d.body.bodyPoints.table.map((r) => [`<span class="mono">${r.min}–${r.max > 900 ? '+' : r.max}</span>`, r.head, r.chest, r.abdomen, r.arm, r.leg])),
-  'hit-locations': (d) => table(['d20', 'Location'], d.body.hitLocation.table.map((r) => {
+  'hit-locations': (d) => table(['d20', 'Location', 'If it gets through the armor', 'Synthetic target'], d.body.hitLocation.table.map((r) => {
     const names = [...new Set(r.locations.map((id) => t(`body.part.${d.body.locations.find((l) => l.id === id)?.bp}`)))];
     const label = r.locations.length > 1 && names.length === 1 ? t('fx.eitherSide', { name: names[0] }) : names.join(' / ');
-    return [`<span class="mono">${r.min === r.max ? r.min : `${r.min}–${r.max}`}</span>`, e(label)];
+    const bp = d.body.locations.find((l) => l.id === r.locations[0])?.bp;
+    const inj = d.body.injuries;
+    const cond = (id) => `<strong>${e(nameOf(d.conditions, id))}</strong>`;
+    const effect = bp === 'head' ? `${cond(inj.head.condition)} · ${e(t('fx.headSevere', { severe: nameOf(d.conditions, inj.head.severe) }))}` : cond(inj[bp].condition);
+    return [`<span class="mono">${r.min === r.max ? r.min : `${r.min}–${r.max}`}</span>`, e(label), effect, cond(inj.synthetic[bp])];
   })),
-  cover: (d) => table(['Cover', 'Armor bonus (general and every location)'], d.difficulty.cover.map((c) => [e(c.name), c.armor ? `+${c.armor}` : '—'])),
+  cover: (d) => table(['Cover', 'Armor bonus'], d.difficulty.cover.map((c) => [e(c.name), c.armor ? `+${c.armor}` : '—'])),
   difficulty: (d) => table(['Tier', 'Penalty to TN', 'Example'], d.difficulty.tiers.map((x) => [`<strong>${x.id} · ${e(x.name)}</strong>`, `−${x.penalty}`, e(x.example)])),
   conditions: (d) => table(['Condition', 'Affects', 'Effects', 'Clears'], d.conditions.map((c) => [`<strong>${e(c.name)}</strong>`, e(c.targets), `<ul>${c.effects.map((x) => `<li>${e(x)}</li>`).join('')}</ul>`, e(c.clear)])),
   adolescence: (d) => events(d.adolescence, d),
@@ -90,11 +91,11 @@ const TABLES = {
       ...samples.map((cr) => `${creditScoreCost({ cost: { cr } }, kind, d.economy)} CRS`), `×${d.economy.cash.minMultiplier}–×${d.economy.cash.maxMultiplier} ${e(t('fx.cash'))}`]));
   },
   weapons: (d) => table(['Weapon', 'Type', 'Skill', 'Damage', 'Range', 'Mag', 'Rel.', 'Rarity', 'Cr', 'CRS'],
-    [...d.weapons].sort((a, b) => a.cost.cr - b.cost.cr).map((w) => [`<strong>${e(w.name)}</strong><br><span class="muted">${e(w.manufacturer)}</span>`, e(w.type), e(nameOf(d.skills.skills, w.skill)), `<span class="mono">${e(w.damage)}</span>`,
+    [...d.weapons].sort((a, b) => a.cost.cr - b.cost.cr).map((w) => [`<strong>${e(w.name)}</strong><br><span class="muted">${e(w.manufacturer)}</span>`, `${e(w.type)}${w.hands === 2 ? `<br><span class="muted">${e(t('weapons.twoHanded'))}</span>` : ''}`, e(nameOf(d.skills.skills, w.skill)), `<span class="mono">${e(w.damage)}</span>`,
       `${w.range.min}–${w.range.max} m`, w.magSize || '—', `${w.reliability}/10`, rarity(w.rarity), w.cost.cr, crs(w, 'weapon', d)]), 'md-table--dense'),
-  armor: (d) => table(['Armor', 'Type', 'Protects (AV)', 'Hits', 'Visibility', 'Rarity', 'Cr', 'CRS'],
+  armor: (d) => table(['Armor', 'Type', 'Armor value', 'Visibility', 'Rarity', 'Cr', 'CRS'],
     [...d.armor].sort((a, b) => a.cost.cr - b.cost.cr).map((a) => [`<strong>${e(a.name)}</strong><br><span class="muted">${e(a.material)}</span>`, e(a.type),
-      e(Object.entries(a.av).filter(([, v]) => v).map(([k, v]) => `${nameOf(d.body.locations, k)} ${v}`).join(', ') || '—'), a.maxHits, `${a.visibility}/5`, rarity(a.rarity), a.cost.cr, crs(a, 'armor', d)]), 'md-table--dense'),
+      `<span class="mono">+${a.maxHits}</span>`, `${a.visibility}/5`, rarity(a.rarity), a.cost.cr, crs(a, 'armor', d)]), 'md-table--dense'),
   items: (d) => table(['Item', 'Type', 'Effect', 'Skill bonus', 'Rarity', 'Cr', 'CRS'],
     [...d.items].sort((a, b) => a.cost.cr - b.cost.cr).map((i) => [`<strong>${e(i.name)}</strong><br><span class="muted">${e(i.desc)}</span>`, e(i.effectType), e(i.effect), e(i.skillBonus), rarity(i.rarity), i.cost.cr, crs(i, 'item', d)]), 'md-table--dense'),
   decks: (d) => table(['Deck', 'RAM', 'Heat cap', 'Mod slots', 'Battery (idle / use)', 'Visibility', 'Rarity', 'Cr', 'CRS'],

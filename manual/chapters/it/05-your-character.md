@@ -72,11 +72,16 @@ Sei valori tattici nascono dalla **somma grezza di due attributi**, cercata nell
 - **Iniziativa** = metà DEX + metà WIS (ciascuna arrotondata per difetto) − 10. All'inizio del combattimento tira d20 + Iniziativa.
 - **HP massimi** = 2 × CON + MST.
 
-### Locazioni del corpo {#sec-5-3-body}
+### Salute, armatura e ferite {#sec-5-3-body}
 
-Il tuo corpo ha sette locazioni. Ognuna ha i suoi HP, basati su CON + MST, e i suoi segni di armatura in base a ciò che indossi. Testa, torace e addome sono **vitali**.
+Hai **una sola riserva di HP** (2 × CON + MST) e **un solo valore di armatura**: la somma dell'armatura che indossi, più la copertura in combattimento. Ogni colpo sottrae la tua armatura dai danni; quello che resta toglie HP.
 
-::table[body-points]
+Il corpo conta quando qualcuno fa un **attacco a una locazione** (*location attack*, 7-5): ha −4 TN e tira dove colpisce. I danni meno l'armatura tolgono HP come sempre, e poi:
+
+- **Se anche un solo punto supera la tua armatura**, la locazione aggiunge una condizione: gamba → *Crippled leg*, braccio → *Broken arm*, addome → *Prone*, torace → *Slowed*, testa → *Stunned* (*Incapacitated* se il colpo ti lascia a metà HP o meno).
+- **Se la tua armatura lo ferma del tutto**, l'armatura **si incrina di 1** finché non viene riparata.
+
+Gli attacchi normali non incrinano mai l'armatura. Braccia rotte e gambe azzoppate restano finché non vengono curate — Primo soccorso, un Trauma Patch o il downtime — e destra e sinistra contano separatamente. La scheda **Salute e condizioni** fa i conti per te: inserisci i danni in *Subisci un colpo* e indica dove, se era un attacco a una locazione.
 
 ### Costruire il tuo Operatore {#sec-5-3-buy}
 
@@ -89,7 +94,7 @@ Alla creazione ogni attributo parte da **6** e hai **20 punti** da spendere. In 
 
 Prima che il tuo Operatore battesse le strade da adulto, la sua giovinezza è stata plasmata dalla rete. **Tre eventi, ciascuno tirato con 2d20**, definiscono cosa ti è successo fino ai 15 anni. I risultati centrali sono comuni; gli estremi (2 e 40) sono rari.
 
-Gli eventi possono cambiare gli attributi, spostare di una riga un valore di combattimento, modificare i Body Points, darti o toglierti i precedenti penali, darti una credenziale di studio o annullare requisiti di carriera futuri. Quando un evento chiede una scelta (per esempio *+2 a INT o WIS*), la Creazione te lo chiede direttamente.
+Gli eventi possono cambiare gli attributi, spostare di una riga un valore di combattimento, modificare i tuoi HP massimi, darti o toglierti i precedenti penali, darti una credenziale di studio o annullare requisiti di carriera futuri. Quando un evento chiede una scelta (per esempio *+2 a INT o WIS*), la Creazione te lo chiede direttamente.
 
 > Risultati che rovinano la tua idea di personaggio? Chiedi al GM: può autorizzare un nuovo tiro.
 
@@ -166,13 +171,13 @@ L'Hacker combatte con la guerra dell'informazione, bilanciando **RAM** e **Heat*
 
 Il Tech Wizard è un architetto del campo di battaglia e un medico da campo che sintonizza il suo rig sull'infrastruttura intorno a sé: linee elettriche, rottami, cavi. Il suo motore è il **Field Sync**: più a lungo mantiene uno scopo, più profonda diventa la sintonia.
 
-- **Due modalità.** **Mend** (supporto: riparare i segni di armatura, curare, alzare coperture, potenziare) o **Surge** (offensiva: togliere segni di armatura, shock, trappole, torrette). Ogni ability ha una faccia Mend e una Surge; la modalità sceglie quale scatta.
+- **Due modalità.** **Mend** (supporto: riparare l'armatura incrinata, curare, alzare coperture, potenziare) o **Surge** (offensiva: incrinare armature, shock, trappole, torrette). Ogni ability ha una faccia Mend e una Surge; la modalità sceglie quale scatta.
 - **Sync 0–3:** *Cold → Warm → Tuned → Resonant*. +1 ogni volta che usi un'ability, e +1 alla fine di un round in cui non hai cambiato modalità.
 - **Cambiare** modalità è gratis all'inizio del tuo turno, ma il Sync torna a 0.
 - **Soglie:** le ability più forti richiedono un Sync minimo.
 - **Resonant cast:** a Sync 3 puoi far scattare un'ability con **entrambe le facce insieme**: la copertura ripara il tuo amico *e* le schegge colpiscono il nemico. Poi il Sync torna a 0 (la modalità resta).
 - **Brownout:** le mosse più pesanti (*Structural Collapse*) azzerano il Sync e mandano il rig offline — niente ability — fino alla fine del round successivo.
-- **Disturbo:** subire danni a una locazione del corpo costa 1 Sync. Tieni il tuo Tech Wizard al riparo.
+- **Disturbo:** perdere HP costa 1 Sync. Tieni il tuo Tech Wizard al riparo.
 - Ogni combattimento inizia a Cold.
 
 - **Mechanic (CON / WIS):** punta su Mend: fortificazioni, riparazione delle armature, cure.
@@ -209,7 +214,7 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 ## 5-8. La scheda del personaggio {#sec-5-8}
 
 - **Barra di stato** — sempre visibile: HP, armatura, iniziativa, azioni, Class TN, Credit Score, contanti e condizioni attive.
-- **Gioco** — armi (TN d'attacco, danni, munizioni, ricarica), il tuo motore di classe e le ability equipaggiate, locazioni del corpo e copertura, valori di combattimento, condizioni, e il pannello del turno (*Inizia combattimento*, *Fine round*).
+- **Gioco** — armi (TN d'attacco, danni, munizioni, ricarica), il tuo motore di classe e le ability equipaggiate, salute, armatura, ferite e condizioni (con *Subisci un colpo*), copertura, valori di combattimento, e il pannello del turno (*Inizia combattimento*, *Fine round*).
 - **Abilità** — attributi (modificabili per ferite, invecchiamento o decisioni del GM) e tutte le abilità. Tocca per tirare con la difficoltà del GM.
 - **Equipaggiamento** — contanti, inventario, il mercato e il tuo stile di vita.
 - **Dossier** — identità, classe, trascorsi, debito, ritratto e storia.

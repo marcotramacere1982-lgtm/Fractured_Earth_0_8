@@ -137,7 +137,7 @@
         "ammo": 1,
         "armorHalf": true
       },
-      "desc": "A brutal point-blank blow or shot: weapon damage that ignores half the target's armor, and strips 1 armor mark."
+      "desc": "A brutal point-blank blow or shot: weapon damage that ignores half the target's armor, and cracks its armor by 1."
     },
     {
       "id": "reckless_execution",
@@ -322,8 +322,8 @@
         "engineer"
       ],
       "minSync": 0,
-      "mend": "Restore 2 armor marks on an adjacent ally (any locations).",
-      "surge": "Strip 2 armor marks from an adjacent enemy, or deal 1d6 to an adjacent drone."
+      "mend": "Mend 2 cracks in an adjacent ally’s armor.",
+      "surge": "Crack an adjacent enemy’s armor by 2, or deal 1d6 to an adjacent drone."
     },
     {
       "id": "deploy_improvised_cover",
@@ -480,7 +480,8 @@
       "subclasses": [
         "dealer",
         "trafficker"
-      ]
+      ],
+      "hands": true
     },
     {
       "id": "safehouse_route",
@@ -504,7 +505,8 @@
       },
       "subclasses": [
         "trafficker"
-      ]
+      ],
+      "hands": true
     },
     {
       "id": "black_market_ammo",

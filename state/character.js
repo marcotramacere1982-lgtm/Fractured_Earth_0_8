@@ -1,7 +1,8 @@
 // Character model (schema v1) and full sheet derivation.
 
 import { computeSkills, computeCombat, initiative, weaponTN } from '../rules/stats.js';
-import { maxHp, locationMaxHp, armorTotals } from '../rules/body.js';
+import { maxHp, armorTotals } from '../rules/body.js';
+import { limbs, movement, usableWeapons } from '../rules/injuries.js';
 import { findSubclass, classTN, deckCapacity, deckStatus } from '../rules/classes.js';
 import { zoneBonus, isRanged } from '../rules/engines.js';
 import { lifestyleUpkeep } from '../rules/economy.js';
@@ -19,7 +20,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
     name,
     attributes,
     rowOffsets: Object.fromEntries(data.combat.derived.map((d) => [d.id, 0])),
-    mods: { maxHp: 0, locationHp: 0 },
+    mods: { maxHp: 0 },
     age: data.adolescence.startAge,
     criminalRecord: false,
     credentials: [],
@@ -42,7 +43,8 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       worn: [], // armor ids currently worn
       slots: { 1: null, 2: null }, // weapon ids
       ammo: { 1: 0, 2: 0 },
-      locations: {}, // { [locationId]: { damage, armorDamage } }
+      armorDamage: 0, // cracks in the worn armor, until repaired
+      injuries: [], // location ids with a broken arm / crippled leg, until treated
       cover: 0,
       abilities: [], // equipped ability ids
       maxAbilities: 3,
@@ -54,13 +56,29 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
   };
 }
 
+/**
+ * Saves from before decision 42 had per-location HP and armor marks: drop them, start with intact armor,
+ * and turn "Resistant to pain" (+1 HP per location) into +3 max HP per point. Safe to run on any save.
+ */
+export function upgradeSave(c) {
+  if (!c?.play) return c;
+  if ('locations' in c.play) delete c.play.locations;
+  c.play.armorDamage ??= 0;
+  c.play.injuries ??= [];
+  if (c.mods && 'locationHp' in c.mods) {
+    c.mods.maxHp = (c.mods.maxHp ?? 0) + 3 * (c.mods.locationHp || 0);
+    delete c.mods.locationHp;
+  }
+  return c;
+}
+
 /** Every number the sheet shows, computed from the character + data. */
 export function deriveSheet(character, data) {
   const a = character.attributes;
   const combat = computeCombat(a, character.rowOffsets, data.combat);
   const hpMax = maxHp(a, data.body, character.mods.maxHp);
-  const locationsMax = locationMaxHp(a, data.body, character.mods.locationHp);
-  const armor = armorTotals(character.play.worn, data.armor, data.body, character.play.cover);
+  const armor = armorTotals(character.play.worn, data.armor, { cover: character.play.cover, cracked: character.play.armorDamage ?? 0 });
+  const injured = limbs(character.play.injuries ?? [], data.body);
   const sub = character.subclassId ? findSubclass(data.classes, character.subclassId) : null;
   const skills = computeSkills(a, data.skills);
   const weapon = (id) => data.weapons.find((w) => w.id === id);
@@ -69,12 +87,12 @@ export function deriveSheet(character, data) {
   return {
     attributes: a,
     skills,
-    weapons: [1, 2].map((slot) => {
+    weapons: usableWeapons([1, 2].map((slot) => {
       const w = weapon(character.play.slots[slot]);
       if (!w) return { slot, empty: true };
       const zoneTn = isRanged(w) ? zone.rangedTn : 0; // Smuggler Cold: steadier aim
       return { slot, ...w, tn: weaponTN(w, skills) + zoneTn, zoneTn, rounds: character.play.ammo[slot] ?? 0 };
-    }),
+    }), injured.arms),
     deck: deck ? (() => {
       const capacity = deckCapacity(deck, character.play.deckMods ?? [], data.deckMods);
       return { ...deck, capacity, status: deckStatus(capacity, character.play.resources) };
@@ -86,21 +104,10 @@ export function deriveSheet(character, data) {
     })(),
     combat,
     zone,
-    move: combat.sqr.value + zone.squares, // squares per Move action
+    move: movement(combat.sqr.value + zone.squares, injured.legs), // squares per Move action
+    injured: { ...injured, locations: character.play.injuries ?? [] },
     initiative: initiative(a, data.combat),
     hp: { max: hpMax, current: character.play.hp ?? hpMax },
-    locations: data.body.locations.map((loc) => {
-      const state = character.play.locations[loc.id] ?? { damage: 0, armorDamage: 0 };
-      const worn = armor.locations[loc.id] - character.play.cover; // armor marks from worn pieces only
-      return {
-        ...loc,
-        max: locationsMax[loc.id],
-        current: locationsMax[loc.id] - state.damage,
-        armorMax: worn,
-        armor: Math.max(0, worn - state.armorDamage), // marks left on the worn pieces
-        cover: character.play.cover, // terrain bonus, never destroyed
-      };
-    }),
     armor,
     class: sub ? { id: sub.cls.id, name: sub.cls.name, subclass: sub.sub, tn: classTN(a, sub.sub) } : null,
   };

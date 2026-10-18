@@ -94,7 +94,7 @@ export function engineCard(c, s, data) {
   if (!c.classId) return card(t('engine.class'), html`<p class="muted">${t('engine.noClass')}</p>`);
   const saved = c.play.resources && Object.keys(c.play.resources).length ? c.play.resources : null;
   const r = c.classId === 'techwiz' ? upgradeTechResources(saved ?? defaultResources('techwiz')) : { ...defaultResources(c.classId), ...saved };
-  const ctx = { capacity: s.deck?.capacity ?? null, weapons: s.weapons };
+  const ctx = { capacity: s.deck?.capacity ?? null, weapons: s.weapons, arms: s.injured.arms };
   const all = data.abilities[c.classId].map((a) => ({ ...a, available: a.subclasses.includes(c.subclassId) }));
   // Equipped = the loadout the player chose (swap between combats, capped by brain fog).
   // Ready = equipped AND the class criteria are met right now (computed live, never stored).

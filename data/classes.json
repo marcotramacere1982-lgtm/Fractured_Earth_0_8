@@ -166,7 +166,7 @@
           "switch": "Switching mode is free at the start of your turn, but Sync drops to 0.",
           "resonant": "At Resonant (3) you may make a Resonant cast: the ability fires both faces, then Sync drops to 0.",
           "brownout": "The heaviest abilities cause a Brownout: Sync 0 and the rig is offline (no abilities) until the end of the next round.",
-          "disruption": "Taking damage to a body location costs 1 Sync.",
+          "disruption": "Losing HP costs 1 Sync.",
           "combat": "Every combat starts at Sync 0 (Cold)."
         }
       },

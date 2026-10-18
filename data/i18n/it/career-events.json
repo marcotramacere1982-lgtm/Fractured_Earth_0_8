@@ -6,7 +6,7 @@
     },
     "bone_disease": {
       "name": "MALATTIA DELLE OSSA",
-      "text": "Sottrai 5 dai Body Points totali. Un'operazione per rimetterti a posto costerebbe circa 50.000 corone."
+      "text": "Sottrai 5 dai tuoi HP massimi. Un'operazione per rimetterti a posto costerebbe circa 50.000 corone."
     },
     "severe_concussion": {
       "name": "COMMOZIONE GRAVE",

@@ -1,4 +1,4 @@
-// Health, body locations, armor.
+// Health and armor. Body locations have no HP or armor of their own (decision 42): see rules/injuries.js.
 
 /** Max HP = 2 x CON + MST, plus flat modifiers from events. */
 export function maxHp(attributes, bodyData, hpMod = 0) {
@@ -6,28 +6,18 @@ export function maxHp(attributes, bodyData, hpMod = 0) {
   return Math.max(1, attributes.CON * con + attributes.MST * mst + hpMod);
 }
 
-/** Max HP per location, from the CON + MST bracket plus a per-location modifier. */
-export function locationMaxHp(attributes, bodyData, perLocationMod = 0) {
-  const sum = attributes.CON + attributes.MST;
-  const { table } = bodyData.bodyPoints;
-  const bracket = table.find((r) => sum >= r.min && sum <= r.max) ?? (sum < table[0].min ? table[0] : table.at(-1));
-  return Object.fromEntries(bodyData.locations.map((loc) => [loc.id, bracket[loc.bp] + perLocationMod]));
-}
-
 /**
- * Armor from owned/worn pieces. General armor = sum of Max Hits; location armor = sum of per-location AV.
- * Cover adds flat armor to general and every location.
+ * One armor value. worn = sum of the worn pieces' rating; cracks (from location attacks the armor stopped,
+ * or effects that strip armor) lower it until repaired; cover adds on top and never cracks.
+ * @returns {{ worn, cracked, current, cover, general }} general = what every hit subtracts
  */
-export function armorTotals(armorIds, armorData, bodyData, cover = 0) {
-  const pieces = armorIds.map((id) => armorData.find((a) => a.id === id)).filter(Boolean);
-  const general = pieces.reduce((s, a) => s + a.maxHits, 0) + cover;
-  const locations = Object.fromEntries(
-    bodyData.locations.map((loc) => [loc.id, pieces.reduce((s, a) => s + (a.av[loc.id] ?? 0), 0) + cover]),
-  );
-  return { general, locations };
+export function armorTotals(armorIds, armorData, { cover = 0, cracked = 0 } = {}) {
+  const worn = armorIds.map((id) => armorData.find((a) => a.id === id)).filter(Boolean).reduce((s, a) => s + a.maxHits, 0);
+  const lost = Math.max(0, Math.min(worn, cracked));
+  return { worn, cracked: lost, current: worn - lost, cover, general: worn - lost + cover };
 }
 
-/** Body locations a d20 hit-location roll can land on (the player/GM picks a side). */
+/** Body locations a location attack's d20 can land on (the attacker picks a side). */
 export function hitLocations(roll, bodyData) {
   const row = bodyData.hitLocation.table.find((r) => roll >= r.min && roll <= r.max);
   return row ? row.locations : [];

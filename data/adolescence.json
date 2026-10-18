@@ -30,7 +30,7 @@
       "roll": 4,
       "id": "weak_bone_structure",
       "name": "WEAK BONE STRUCTURE",
-      "text": "Subtract 5 from Total Body Points.",
+      "text": "Subtract 5 from your maximum HP.",
       "effects": {
         "maxHp": -5
       }
@@ -393,9 +393,9 @@
       "roll": 36,
       "id": "resistant_to_pain",
       "name": "RESISTANT TO PAIN",
-      "text": "Add +1 to your Body Points in each body part.",
+      "text": "Add +3 to your maximum HP.",
       "effects": {
-        "locationHp": 1
+        "maxHp": 3
       }
     },
     {

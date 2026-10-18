@@ -3,6 +3,7 @@
 
 import { roll } from './dice.js';
 import { hitLocations } from './body.js';
+import { locationOutcome } from './injuries.js';
 import { damageDice } from './turn.js';
 
 /**
@@ -40,14 +41,14 @@ export function spawn(template, label) {
     hp: template.hp,
     maxHp: template.hp,
     armor: template.armor,
+    maxArmor: template.armor, // armor cracks from location attacks it stopped; the GM can repair it
     actions: template.actions,
     used: 0,
     sqr: template.sqr,
     attacks: structuredClone(template.attacks ?? []),
     talents: structuredClone(template.talents ?? []),
-    locations: template.locations
-      ? Object.fromEntries(Object.entries(template.locations).map(([k, v]) => [k, { hp: v.hp, maxHp: v.hp, armor: v.armor, maxArmor: v.armor }]))
-      : null,
+    immune: [...(template.immune ?? [])], // conditions this enemy shrugs off (elites: "can't be knocked down"…)
+    injuries: { arm: 0, leg: 0 }, // broken arms / crippled legs (synthetic: jammed mounts are a condition)
     conditions: [],
     notes: '',
   };
@@ -183,32 +184,45 @@ export function updateEnemy(enc, key, fn) {
   return next;
 }
 
-/** Damage to an enemy: armor absorbs first unless it is ignored. Returns { enc, absorbed, taken }. */
-export function damageEnemy(enc, key, amount, { ignoreArmor = false } = {}) {
-  let absorbed = 0, taken = 0;
+/**
+ * Damage to an enemy: armor absorbs first unless it is ignored. part (a location attack: 'head', 'arm'…):
+ * damage that gets through adds the location's condition; armor that stops it all cracks by 1.
+ * Returns { enc, absorbed, taken, condition, immune, crack }.
+ */
+export function damageEnemy(enc, key, amount, { ignoreArmor = false, part = null } = {}, data = null) {
+  let out = { absorbed: 0, taken: 0, condition: null, immune: false, crack: 0 };
   const next = updateEnemy(enc, key, (en) => {
-    absorbed = ignoreArmor ? 0 : Math.min(en.armor, amount);
-    taken = Math.max(0, amount - absorbed);
-    en.hp = Math.max(0, en.hp - taken);
+    const armor = ignoreArmor ? 0 : en.armor;
+    if (part) {
+      const o = locationOutcome({ part, damage: amount, armor, wornArmor: armor, hp: en.hp, maxHp: en.maxHp, tag: en.tag, immune: en.immune ?? [] }, data.body);
+      out = { absorbed: amount - o.taken, taken: o.taken, condition: o.condition, immune: o.immune, crack: o.crack };
+      const limb = o.condition && data.conditions.find((c) => c.id === o.condition)?.limb;
+      en.injuries ??= { arm: 0, leg: 0 };
+      if (limb) en.injuries[limb] = Math.min(2, en.injuries[limb] + 1);
+      else if (o.condition && !en.conditions.includes(o.condition)) en.conditions.push(o.condition);
+      en.armor = Math.max(0, en.armor - o.crack);
+    } else {
+      out.absorbed = Math.min(armor, amount);
+      out.taken = Math.max(0, amount - out.absorbed);
+    }
+    en.hp = Math.max(0, en.hp - out.taken);
   });
-  return { enc: next, absorbed, taken };
+  return { enc: next, ...out };
 }
 
-/** Enemy attack: d20 roll-under the attack TN; on a hit, damage and a hit location for the target. */
-export function enemyAttack(attack, data, rng = Math.random) {
+/**
+ * Enemy attack: d20 roll-under the attack TN. located: a declared location attack (−4 TN) that also rolls
+ * where it lands. On a hit: damage, and for a location attack the possible locations (the GM picks a side).
+ */
+export function enemyAttack(attack, data, rng = Math.random, { located = false } = {}) {
+  const tn = attack.tn - (located ? data.body.locationAttack.tnPenalty : 0);
   const r = roll(data.encounter.attackDie, rng);
-  const hit = r.total <= attack.tn;
+  const hit = r.total <= tn;
   const expr = damageDice(attack.damage);
   const damage = hit && expr ? roll(expr, rng) : null;
-  const locRoll = hit ? roll(data.body.hitLocation.die, rng).total : null;
-  const locations = hit ? hitLocations(locRoll, data.body).map((id) => data.body.locations.find((l) => l.id === id)) : [];
-  return { attack: attack.name, tn: attack.tn, roll: r.total, hit, damage, extra: attack.damage.replace(expr ?? '', '').trim(), locRoll, locations };
-}
-
-/** Which elite zone a player-style hit location lands on (chest/abdomen → torso…). */
-export function eliteZone(locationId, data) {
-  const bp = data.body.locations.find((l) => l.id === locationId)?.bp;
-  return data.encounter.eliteLocations[bp] ?? null;
+  const locRoll = hit && located ? roll(data.body.hitLocation.die, rng).total : null;
+  const locations = locRoll ? hitLocations(locRoll, data.body).map((id) => data.body.locations.find((l) => l.id === id)) : [];
+  return { attack: attack.name, tn, located, roll: r.total, hit, damage, extra: attack.damage.replace(expr ?? '', '').trim(), locRoll, locations };
 }
 
 /** What players' sheets see: order and whose turn — enemies stay anonymous. */

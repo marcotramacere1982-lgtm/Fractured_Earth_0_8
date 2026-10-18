@@ -16,7 +16,7 @@
       "desc": "Apri una porta, usa una console, prendi o passa un oggetto a un alleato vicino."
     },
     "aim": {
-      "desc": "Il tuo prossimo colpo localizzato può spostare il tiro di locazione fino a ±5."
+      "desc": "Il tuo prossimo attacco a una locazione può spostare il tiro di locazione fino a ±5."
     },
     "disengage": {
       "desc": "Allontanati dalla mischia senza provocare un attacco di opportunità."

@@ -28,7 +28,7 @@
       "desc": "Carichi un nemico fino ai tuoi quadretti e colpisci: danni dell'arma +1d6, e il bersaglio è Prone."
     },
     "bunker_buster": {
-      "desc": "Un colpo brutale a bruciapelo: danni dell'arma che ignorano metà dell'armatura del bersaglio, e gli togli 1 segno di armatura."
+      "desc": "Un colpo brutale a bruciapelo: danni dell'arma che ignorano metà dell'armatura del bersaglio, e gli incrini l'armatura di 1."
     },
     "reckless_execution": {
       "desc": "Svuoti il caricatore a bruciapelo: tira due volte i danni dell'arma (in mischia: due colpi). Servono almeno 3 colpi carichi."
@@ -76,8 +76,8 @@
       "surge": "Marchi un punto debole su un nemico in vista: il prossimo colpo contro di lui ignora 2 di armatura."
     },
     "field_maintenance": {
-      "mend": "Ripristini 2 segni di armatura su un alleato adiacente (qualsiasi locazione).",
-      "surge": "Togli 2 segni di armatura a un nemico adiacente, oppure infliggi 1d6 a un drone adiacente."
+      "mend": "Ripari 2 incrinature dell’armatura di un alleato adiacente.",
+      "surge": "Incrini di 2 l’armatura di un nemico adiacente, oppure infliggi 1d6 a un drone adiacente."
     },
     "deploy_improvised_cover": {
       "mend": "Alzi una copertura parziale (+2) in un quadretto accanto a un alleato, finché non viene spostata o distrutta.",

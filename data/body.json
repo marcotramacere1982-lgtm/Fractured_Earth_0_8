@@ -8,100 +8,43 @@
     {
       "id": "head",
       "name": "Head",
-      "vital": true,
       "bp": "head"
     },
     {
       "id": "chest",
       "name": "Chest",
-      "vital": true,
       "bp": "chest"
     },
     {
       "id": "abdomen",
       "name": "Abdomen",
-      "vital": true,
       "bp": "abdomen"
     },
     {
       "id": "rarm",
       "name": "Right Arm",
-      "vital": false,
       "bp": "arm"
     },
     {
       "id": "larm",
       "name": "Left Arm",
-      "vital": false,
       "bp": "arm"
     },
     {
       "id": "rleg",
       "name": "Right Leg",
-      "vital": false,
       "bp": "leg"
     },
     {
       "id": "lleg",
       "name": "Left Leg",
-      "vital": false,
       "bp": "leg"
     }
   ],
-  "bodyPoints": {
-    "note": "Location HP bracket chosen by CON + MST.",
-    "table": [
-      {
-        "min": 2,
-        "max": 15,
-        "head": 1,
-        "chest": 3,
-        "abdomen": 2,
-        "arm": 2,
-        "leg": 2
-      },
-      {
-        "min": 16,
-        "max": 30,
-        "head": 1,
-        "chest": 4,
-        "abdomen": 3,
-        "arm": 2,
-        "leg": 3
-      },
-      {
-        "min": 31,
-        "max": 45,
-        "head": 2,
-        "chest": 5,
-        "abdomen": 3,
-        "arm": 3,
-        "leg": 4
-      },
-      {
-        "min": 46,
-        "max": 60,
-        "head": 2,
-        "chest": 6,
-        "abdomen": 4,
-        "arm": 3,
-        "leg": 4
-      },
-      {
-        "min": 61,
-        "max": 999,
-        "head": 3,
-        "chest": 7,
-        "abdomen": 5,
-        "arm": 4,
-        "leg": 5
-      }
-    ]
-  },
   "hitLocation": {
     "die": "1d20",
     "aim": 5,
-    "note": "Aim (1 extra action) shifts the d20 result by up to ±5.",
+    "note": "Rolled only for a declared location attack. Aim (1 extra action) shifts the d20 result by up to ±5.",
     "table": [
       {
         "min": 1,
@@ -141,5 +84,37 @@
         ]
       }
     ]
+  },
+  "locationAttack": {
+    "tnPenalty": 4,
+    "armorCrack": 1,
+    "note": "Declared before rolling: −4 TN. On a hit, roll the location and damage. Damage minus armor comes off HP as usual. If damage gets through the armor, the location adds its condition; if the armor stops it completely, the armor cracks by 1 (repairable). Cover never cracks."
+  },
+  "injuries": {
+    "note": "Condition added when a location attack gets through the armor. head: Incapacitated instead when the hit leaves the target at half HP or less.",
+    "leg": {
+      "condition": "crippled_leg"
+    },
+    "arm": {
+      "condition": "broken_arm"
+    },
+    "abdomen": {
+      "condition": "prone"
+    },
+    "chest": {
+      "condition": "slowed"
+    },
+    "head": {
+      "condition": "stunned",
+      "severe": "incapacitated",
+      "severeAtHpFraction": 0.5
+    },
+    "synthetic": {
+      "leg": "crippled_leg",
+      "arm": "jammed",
+      "abdomen": "stunned",
+      "chest": "stunned",
+      "head": "blinded"
+    }
   }
 }

@@ -6,7 +6,7 @@
     { "id": "ability", "name": "Use ability", "desc": "Roll your Class TN to land one of your ready abilities.", "roll": "class" },
     { "id": "reload", "name": "Reload / swap", "desc": "Refill the magazine of a weapon, or swap between weapon slots.", "roll": null },
     { "id": "interact", "name": "Interact", "desc": "Open a door, use a console, grab or pass an item to an adjacent ally.", "roll": null },
-    { "id": "aim", "name": "Aim", "desc": "Your next location shot can shift the hit-location roll by up to ±5.", "roll": null },
+    { "id": "aim", "name": "Aim", "desc": "Your next location attack can shift the hit-location roll by up to ±5.", "roll": null },
     { "id": "disengage", "name": "Escape / disengage", "desc": "Step away from melee without provoking an opportunity attack.", "roll": null },
     { "id": "overwatch", "name": "Overwatch", "desc": "Hold a line: free shot at the first enemy that crosses it before your next turn.", "roll": null },
     { "id": "first_aid", "name": "First aid", "desc": "Stabilise or patch up an adjacent ally (Medicine / First Aid, or a med-kit).", "roll": null },

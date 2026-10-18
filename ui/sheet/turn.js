@@ -19,7 +19,7 @@ function orderStrip(c, combat) {
 function spentList(spent) {
   if (!spent?.length) return '';
   const label = (w) => (w.kind === 'ability' ? w.name
-    : `${w.kind === 'dodge' ? t('dodge.title') : t(w.kind === 'attack' || w.kind === 'move' ? `turn.${w.kind}` : `action.${w.kind}`)}${w.name ? ` · ${w.name}` : ''}${w.borrowed ? ` (${t('turn.fromLastRound')})` : ''}`);
+    : `${w.kind === 'dodge' ? t('dodge.title') : t(['attack', 'move', 'located'].includes(w.kind) ? `turn.${w.kind}` : `action.${w.kind}`)}${w.name ? ` · ${w.name}` : ''}${w.borrowed ? ` (${t('turn.fromLastRound')})` : ''}`);
   return html`<ol class="act-spent" aria-label="${t('turn.doneThisRound')}">${spent.map((w) => html`<li class="act-spent__item act-spent__item--${w.kind}">${label(w)}</li>`)}</ol>`;
 }
 
@@ -53,9 +53,14 @@ export function turnCard(c, s, data, combat = null) {
     ${head}
     ${noActions ? html`<p class="notice notice--warn">${t('turn.noneLeft')}</p>` : ''}
     <div class="action-grid">
-      ${weapons.length ? weapons.map((w) => html`
-        <button class="action-btn action-btn--attack" data-action="attackRoll" data-slot="${w.slot}" ${noActions ? raw('disabled') : ''}>
-          <span class="action-btn__name">${t('turn.attack')}</span><span class="action-btn__sub">${w.name} · TN ${w.tn}${w.magSize ? ` · ${w.rounds}/${w.magSize}` : ''}</span></button>`)
+      ${weapons.length ? weapons.map((w) => {
+        const off = noActions || w.usable === false;
+        return html`
+        <button class="action-btn action-btn--attack" data-action="attackRoll" data-slot="${w.slot}" ${off ? raw('disabled') : ''} title="${w.usable === false ? t(`weapons.unusable.${w.why}`) : ''}">
+          <span class="action-btn__name">${t('turn.attack')}</span><span class="action-btn__sub">${w.name} · TN ${w.tn}${w.magSize ? ` · ${w.rounds}/${w.magSize}` : ''}</span></button>
+        <button class="action-btn action-btn--attack action-btn--located" data-action="attackRoll" data-slot="${w.slot}" data-located="1" ${off ? raw('disabled') : ''} title="${t('turn.locatedHint')}">
+          <span class="action-btn__name">⌖ ${t('turn.located')}</span><span class="action-btn__sub">${w.name} · TN ${w.tn - data.body.locationAttack.tnPenalty}</span></button>`;
+      })
         : html`<button class="action-btn" disabled><span class="action-btn__name">${t('turn.attack')}</span><span class="action-btn__sub">${t('turn.noWeapon')}</span></button>`}
       <button class="action-btn" data-action="act" data-kind="move" data-detail="up to ${s.move} squares" ${noActions ? raw('disabled') : ''}>
         <span class="action-btn__name">${t('turn.move')}</span><span class="action-btn__sub">${t('turn.squares', { n: s.move })}</span></button>

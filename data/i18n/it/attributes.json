@@ -10,7 +10,7 @@
     },
     "CON": {
       "name": "Costituzione",
-      "desc": "Robustezza fisica, resistenza, tenuta, e i Body Points di base."
+      "desc": "Robustezza fisica, resistenza, tenuta, e gli HP di base."
     },
     "INT": {
       "name": "Intelligenza",

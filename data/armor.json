@@ -8,15 +8,6 @@
     "material": "Stitched Heavy Leather & Denim",
     "visibility": 2,
     "maxHits": 1,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 15
     }
@@ -30,15 +21,6 @@
     "material": "Heavy Canvas & Leather Patches",
     "visibility": 1,
     "maxHits": 1,
-    "av": {
-      "head": 0,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 1,
-      "lleg": 1
-    },
     "cost": {
       "cr": 20
     }
@@ -52,15 +34,6 @@
     "material": "Thick Cowhide Leather",
     "visibility": 1,
     "maxHits": 2,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 1,
-      "larm": 1,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 35
     }
@@ -74,15 +47,6 @@
     "material": "Multi-layer Padded Cotton",
     "visibility": 2,
     "maxHits": 1,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 25
     }
@@ -96,15 +60,6 @@
     "material": "Kevlar KM2 Soft Weave",
     "visibility": 1,
     "maxHits": 2,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 60
     }
@@ -118,15 +73,6 @@
     "material": "Ballistic Nylon & Aramid Fiber",
     "visibility": 1,
     "maxHits": 1,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 40
     }
@@ -140,15 +86,6 @@
     "material": "Heavy Kevlar Layering",
     "visibility": 2,
     "maxHits": 2,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 75
     }
@@ -162,15 +99,6 @@
     "material": "Steel Mesh & Polyethylene",
     "visibility": 1,
     "maxHits": 3,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 250
     }
@@ -184,15 +112,6 @@
     "material": "Flexible Ballistic Weave",
     "visibility": 1,
     "maxHits": 1,
-    "av": {
-      "head": 0,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 1,
-      "lleg": 1
-    },
     "cost": {
       "cr": 45
     }
@@ -206,15 +125,6 @@
     "material": "Kevlar Knit Tubing",
     "visibility": 1,
     "maxHits": 1,
-    "av": {
-      "head": 0,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 1,
-      "larm": 1,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 30
     }
@@ -228,15 +138,6 @@
     "material": "1000D Cordura & Soft Inserts",
     "visibility": 3,
     "maxHits": 3,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 180
     }
@@ -250,15 +151,6 @@
     "material": "Ripstop Cotton & Kevlar Knee Inserts",
     "visibility": 2,
     "maxHits": 2,
-    "av": {
-      "head": 0,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 1,
-      "lleg": 1
-    },
     "cost": {
       "cr": 55
     }
@@ -272,15 +164,6 @@
     "material": "Impact Polycarbonate & Foam",
     "visibility": 1,
     "maxHits": 1,
-    "av": {
-      "head": 1,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 25
     }
@@ -294,15 +177,6 @@
     "material": "ABS Plastic & Visor",
     "visibility": 5,
     "maxHits": 2,
-    "av": {
-      "head": 1,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 45
     }
@@ -316,15 +190,6 @@
     "material": "Sheet Metal & Rubber Straps",
     "visibility": 5,
     "maxHits": 2,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 90
     }
@@ -338,15 +203,6 @@
     "material": "PVC Pipe & Duct Tape",
     "visibility": 4,
     "maxHits": 1,
-    "av": {
-      "head": 0,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 1,
-      "larm": 1,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 15
     }
@@ -360,15 +216,6 @@
     "material": "Kevlar III-A & Ceramic Steel",
     "visibility": 5,
     "maxHits": 3,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 320
     }
@@ -382,15 +229,6 @@
     "material": "Molded Kevlar & Ceramic Weave",
     "visibility": 5,
     "maxHits": 3,
-    "av": {
-      "head": 1,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 210
     }
@@ -404,15 +242,6 @@
     "material": "Heavy Canvas & Ballistic Inserts",
     "visibility": 4,
     "maxHits": 2,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 1,
-      "larm": 1,
-      "rleg": 1,
-      "lleg": 1
-    },
     "cost": {
       "cr": 120
     }
@@ -426,15 +255,6 @@
     "material": "UHMWPE Polyethylene Weave",
     "visibility": 1,
     "maxHits": 2,
-    "av": {
-      "head": 0,
-      "chest": 1,
-      "abdomen": 1,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 0,
-      "lleg": 0
-    },
     "cost": {
       "cr": 150
     }
@@ -448,15 +268,6 @@
     "material": "Molded Hard Plastic & Foam",
     "visibility": 4,
     "maxHits": 2,
-    "av": {
-      "head": 0,
-      "chest": 0,
-      "abdomen": 0,
-      "rarm": 0,
-      "larm": 0,
-      "rleg": 1,
-      "lleg": 1
-    },
     "cost": {
       "cr": 50
     }

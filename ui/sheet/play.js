@@ -1,7 +1,7 @@
 // Status bar + Play tab (health, body, weapons, conditions, combat values, class engine).
 
 import { html, raw, signed } from '../dom.js';
-import { counter, meter, card, segmented, nameOf, pips } from './parts.js';
+import { counter, meter, card, segmented, nameOf } from './parts.js';
 import { engineCard } from './engine.js';
 import { turnCard } from './turn.js';
 import { info } from '../ref.js';
@@ -32,7 +32,10 @@ export function statusBar(c, s, data) {
         <div class="stat"><span class="label">CRS${info('credit-score', 'Credit Score')}</span><span class="stat__value">${c.attributes.CRS}</span></div>
         <div class="stat"><span class="label">${t('stat.cash')}</span><span class="stat__value stat__value--success">$${c.play.cash}</span></div>
       </div>
-      ${c.play.conditions.length ? html`<div class="cluster">${c.play.conditions.map((id) => html`<span class="pill pill--danger">${nameOf(data.conditions, id)}</span>`)}</div>` : ''}
+      ${c.play.conditions.length || s.injured.locations.length ? html`<div class="cluster">${c.play.conditions.map((id) => html`<span class="pill pill--danger">${nameOf(data.conditions, id)}</span>`)}${s.injured.locations.map((id) => {
+        const loc = data.body.locations.find((l) => l.id === id);
+        return html`<span class="pill pill--danger">${data.conditions.find((k) => k.limb === loc?.bp)?.name} · ${loc?.name}</span>`;
+      })}</div>` : ''}
     </div>`;
 }
 
@@ -46,7 +49,22 @@ function deathNotice(c, s) {
   </p>`;
 }
 
+/** "d20 1–4 Leg → Crippled leg · …": what a location attack does, from the data. */
+export function locationRule(data) {
+  const cond = (id) => data.conditions.find((k) => k.id === id)?.name ?? id;
+  const inj = data.body.injuries;
+  const rows = data.body.hitLocation.table.map((r) => {
+    const bp = data.body.locations.find((l) => l.id === r.locations[0])?.bp;
+    const what = bp === 'head' ? t('body.headRow', { stunned: cond(inj.head.condition), severe: cond(inj.head.severe) }) : cond(inj[bp].condition);
+    return `${r.min}–${r.max} ${t(`body.part.${bp}`)} → ${what}`;
+  });
+  return { rows, head: t('body.headSevere', { stunned: cond(inj.head.condition), severe: cond(inj.head.severe) }) };
+}
+
 function healthCard(c, s, data) {
+  const conds = data.conditions.filter((k) => !k.enemyOnly);
+  const sides = (bp) => data.body.locations.filter((l) => l.bp === bp);
+  const rule = locationRule(data);
   const body = html`
     ${deathNotice(c, s)}
     <div class="spread spread--wrap">
@@ -54,27 +72,48 @@ function healthCard(c, s, data) {
         <span class="label">${t('body.cover')}${info('cover', t('body.cover'))}</span>
         ${segmented('cover', data.difficulty.cover.map((x) => ({ value: x.armor, label: x.armor ? `${x.name.split(' ')[0]} +${x.armor}` : t('body.coverNone') })), c.play.cover)}
       </div>
+      <button class="btn btn--sm" data-action="heal">${t('body.heal')}</button>
+    </div>
+    <div class="spread spread--wrap armor-row">
       <div class="cluster">
-        ${s.locations.some((l) => l.armor < l.armorMax) ? html`<button class="btn btn--sm" data-action="repairArmor" title="${t('body.repairHint')}">${t('body.repair')}</button>` : ''}
-        <button class="btn btn--sm" data-action="heal">${t('body.heal')}</button>
+        <span class="label">${t('stat.armor')}${info('armor', t('stat.armor'))}</span>
+        <span class="stat__value stat__value--info">${s.armor.general}</span>
+        <span class="mono muted">${t('body.armorParts', { worn: s.armor.worn, cracked: s.armor.cracked, cover: s.armor.cover })}</span>
+      </div>
+      <div class="cluster">
+        <button class="btn btn--sm" data-action="armorCrack" data-delta="1" ${s.armor.current > 0 ? '' : raw('disabled')} title="${t('body.crackHint')}">${t('body.crack')}</button>
+        ${s.armor.cracked ? html`<button class="btn btn--sm" data-action="repairArmor" title="${t('body.repairHint')}">${t('body.repair')}</button>` : ''}
       </div>
     </div>
-    <div class="body-map">
-      ${s.locations.map((l) => html`
-        <div class="body-loc body-loc--${l.id} ${l.current <= 0 ? (l.vital ? 'body-loc--dead' : 'body-loc--lost') : ''}">
-          <div class="body-loc__head">
-            <span class="body-loc__name">${l.name}${l.vital ? html`<span class="body-loc__vital" title="${t('body.vital')}">●</span>` : ''}</span>
-            <span class="mono body-loc__nums"><span class="text-danger">${l.current}/${l.max}</span>${l.armorMax ? html` · <span class="text-info">${l.armor}/${l.armorMax}</span>` : ''}${l.cover ? html` · <span class="muted">+${l.cover} ${t('body.coverShort')}</span>` : ''}</span>
-          </div>
-          ${pips({ kind: 'hp', value: l.current, max: l.max, args: { loc: l.id, field: 'hp' }, label: `${l.name} HP` })}
-          ${pips({ kind: 'armor', value: l.armor, max: l.armorMax, args: { loc: l.id, field: 'armor' }, label: `${l.name} ${t('stat.armor')}` })}
-        </div>`)}
+    <form class="hit-form" data-hit-form>
+      <span class="label">${t('hit.title')}${info('location-attack', t('hit.title'))}</span>
+      <input class="input input--num" type="number" min="0" inputmode="numeric" name="damage" placeholder="${t('hit.damage')}" aria-label="${t('hit.damage')}">
+      <select class="select" name="loc" aria-label="${t('hit.where')}">
+        <option value="">${t('hit.none')}</option>
+        ${data.body.locations.map((l) => html`<option value="${l.id}">${t('hit.at', { where: l.name })}</option>`)}
+      </select>
+      <button class="btn btn--sm btn--danger" data-action="takeHit">${t('hit.apply')}</button>
+    </form>
+    <div class="cond-grid">
+      ${conds.map((k) => {
+        if (k.limb) {
+          const hurt = sides(k.limb).filter((l) => s.injured.locations.includes(l.id));
+          return html`<div class="cond ${hurt.length ? 'cond--on' : ''}">
+            <span class="cond__name">${k.name}${hurt.length === 2 ? ' ×2' : ''}</span>
+            <span class="cond__fx">${hurt.length === 2 ? k.effects[1] : k.effects[0]}</span>
+            <span class="cluster">${sides(k.limb).map((l) => html`<button class="btn btn--sm ${s.injured.locations.includes(l.id) ? 'btn--danger' : ''}" data-action="injury" data-loc="${l.id}" aria-pressed="${s.injured.locations.includes(l.id)}" title="${k.clear}">${l.name}</button>`)}</span>
+          </div>`;
+        }
+        const on = c.play.conditions.includes(k.id);
+        return html`<button class="cond ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${k.clear ?? ''}">
+          <span class="cond__name">${k.name}</span>
+          <span class="cond__fx">${k.effects[0]}</span>
+        </button>`;
+      })}
     </div>
-    <p class="hint body-legend"><span class="pip is-filled pip--legend-hp"></span> HP · <span class="pip is-filled pip--legend-armor"></span> ${t('body.legend')}
-      ${c.play.cover ? t('body.coverAll', { n: c.play.cover }) : ''}
-      ${t('body.wearing')}: ${c.play.worn.length ? c.play.worn.map((id) => nameOf(data.armor, id)).join(', ') : t('body.nothing')} — ${t('body.wearingNote')}</p>
-    <p class="hint">${t('body.locationShots')}: d20 → ${data.body.hitLocation.table.map((r) => `${r.min}–${r.max} ${[...new Set(r.locations.map((id) => t(`body.part.${data.body.locations.find((l) => l.id === id)?.bp}`)))].join('/')}`).join(' · ')}. ${t('body.aim')}${info('hit-location', t('body.locationShots'))}</p>`;
-  return card(t('body.title'), body, { sub: t('body.sub'), ref: 'body' });
+    <p class="hint">${t('body.locationRule', { n: data.body.locationAttack.tnPenalty })} ${rule.rows.join(' · ')}. ${t('body.crackRule')}</p>
+    <p class="hint">${t('body.wearing')}: ${c.play.worn.length ? c.play.worn.map((id) => nameOf(data.armor, id)).join(', ') : t('body.nothing')} — ${t('body.wearingNote')}</p>`;
+  return card(t('body.title'), body, { sub: t('body.sub'), ref: 'conditions' });
 }
 
 function weaponsCard(c, s, data) {
@@ -102,7 +141,8 @@ function weaponsCard(c, s, data) {
               <div class="cluster"><span class="label">${t('weapons.ammo')}</span>${counter({ action: 'ammo', value: w.rounds, min: 0, max: w.magSize, args: { slot: w.slot }, label: t('weapons.ammo') })}<span class="mono muted">/${w.magSize} · ${w.ammo ?? ''}</span></div>
               <button class="btn btn--sm" data-action="reload" data-slot="${w.slot}">${t('weapons.reload')}</button>
             </div>${meter(w.rounds, w.magSize, 'info')}` : ''}
-            <div class="cluster"><span class="pill">${w.type}</span><span class="pill">${t('weapons.reliability')} ${w.reliability}/10</span><span class="pill">${w.rarity}</span></div>`}
+            ${w.usable === false ? html`<p class="notice notice--warn">${t(`weapons.unusable.${w.why}`)}</p>` : ''}
+            <div class="cluster"><span class="pill">${w.type}</span>${w.hands === 2 ? html`<span class="pill">${t('weapons.twoHanded')}</span>` : ''}<span class="pill">${t('weapons.reliability')} ${w.reliability}/10</span><span class="pill">${w.rarity}</span></div>`}
         </div>`)}
     </div>`;
   return card(t('weapons.title'), body, { ref: 'weapon-tn' });
@@ -123,24 +163,11 @@ function combatCard(s, data) {
   return card(t('combat.title'), body, { ref: 'combat-values' });
 }
 
-function conditionsCard(c, data) {
-  const body = html`<div class="cond-grid">
-    ${data.conditions.map((k) => {
-      const on = c.play.conditions.includes(k.id);
-      return html`<button class="cond ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}">
-        <span class="cond__name">${k.name}</span>
-        <span class="cond__fx">${k.effects[0]}</span>
-      </button>`;
-    })}
-  </div>`;
-  return card(t('conditions.title'), body, { ref: 'conditions' });
-}
-
 export function playTab(c, s, data, ctx = {}) {
   return html`
     ${turnCard(c, s, data, ctx.combat)}
     <div class="sheet-grid sheet-grid--play">
       <div class="stack">${weaponsCard(c, s, data)}${engineCard(c, s, data)}</div>
-      <div class="stack">${healthCard(c, s, data)}${combatCard(s, data)}${conditionsCard(c, data)}</div>
+      <div class="stack">${healthCard(c, s, data)}${combatCard(s, data)}</div>
     </div>`;
 }

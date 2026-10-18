@@ -13,7 +13,7 @@
     {
       "id": "CON",
       "name": "Constitution",
-      "desc": "Physical toughness, stamina, resistance, and base Body Points."
+      "desc": "Physical toughness, stamina, resistance, and base HP."
     },
     {
       "id": "INT",

@@ -15,6 +15,7 @@ import { openCheck, openShop } from './dialogs.js';
 import { bonus } from '../../rules/stats.js';
 import { roll, formatRoll } from '../../rules/dice.js';
 import { hitLocations } from '../../rules/body.js';
+import { locationRule } from './play.js';
 import { rollDamage, turnStatus, newTurn } from '../../rules/turn.js';
 import { abilityWeapon, stanceMultiplier } from '../../rules/engines.js';
 import { t } from '../../i18n/index.js';
@@ -108,21 +109,43 @@ export function sheetView({ data, store, main, table }, route) {
 
   function damagePanel(w, sh, c, spec = {}) {
     const dmg = rollDamage(w, sh.combat.off.value, Math.random, { bonus: spec.bonus, twice: spec.twice, multiplier: stanceMultiplier(c.classId, c.play.resources, data.classes), flat: sh.zone.damage });
-    const loc = roll('1d20');
-    const where = [...new Set(hitLocations(loc.total, data.body).map((x) => t(`body.part.${data.body.locations.find((l) => l.id === x)?.bp}`)))].join(' / ');
+    let located = '';
+    let where = '';
+    if (spec.located) { // a declared location attack: where it lands, and what that does if it gets through
+      const loc = roll(data.body.hitLocation.die);
+      const ids = hitLocations(loc.total, data.body);
+      const bp = data.body.locations.find((l) => l.id === ids[0])?.bp;
+      const inj = data.body.injuries[bp];
+      const cond = (id) => data.conditions.find((k) => k.id === id)?.name ?? id;
+      where = [...new Set(ids.map((x) => t(`body.part.${data.body.locations.find((l) => l.id === x)?.bp}`)))].join(' / ');
+      located = html`<div class="roll-extra__main"><span class="label">${t('attack.location')}</span><span class="roll-extra__n">${where}</span><span class="mono muted">d20 ${loc.total} · ${t('attack.aimNote')}</span></div>
+        <p class="hint">${t('attack.locationIf', { condition: cond(inj.condition) })}${bp === 'head' ? ` ${locationRule(data).head}` : ''} ${t('attack.locationCrack')}</p>`;
+    }
     return {
-      text: dmg ? `${dmg.total} damage (${damageBreakdown(dmg)})` : '',
+      text: dmg ? `${dmg.total} damage (${damageBreakdown(dmg)})${where ? ` · ${where}` : ''}` : '',
       html: html`<div class="roll-extra">
         ${dmg ? html`<div class="roll-extra__main"><span class="label">${t('attack.damage')} · ${w.name}</span><span class="roll-extra__n">${dmg.total}</span><span class="mono muted">${damageBreakdown(dmg)}</span></div>` : ''}
-        <p class="hint">${spec.armorHalf ? t('attack.armorHalf') : t('attack.armorNote')} ${t('attack.location', { roll: loc.total })} → <strong>${where}</strong> (${t('attack.aimNote')})</p></div>`,
+        ${located}
+        <p class="hint">${spec.armorHalf ? t('attack.armorHalf') : t('attack.armorNote')}</p></div>`,
     };
   }
 
   const offClick = delegate(main, 'click', {
     hp: ({ delta }) => run('hp', { delta }),
     heal: () => run('heal'),
-    pip: (d) => run('locSet', d),
     repairArmor: () => run('repairArmor'),
+    armorCrack: (d) => run('armorCrack', d),
+    injury: (d) => run('injury', d),
+    takeHit: () => {
+      const form = main.querySelector('[data-hit-form]');
+      const damage = Number(form?.elements.damage.value);
+      if (!form || !(damage >= 0) || form.elements.damage.value === '') { toast(t('hit.needDamage'), 'danger'); return; }
+      const loc = form.elements.loc.value;
+      const out = run('takeHit', { damage, loc });
+      if (!out) return;
+      const cond = out?.condition ? data.conditions.find((k) => k.id === out.condition)?.name : null;
+      toast([t('hit.lost', { n: out.taken }), cond ? t('hit.condition', { condition: cond }) : '', out.crack ? t('hit.cracked') : ''].filter(Boolean).join(' '), out.taken || cond ? 'danger' : 'success');
+    },
     cover: ({ value }) => run('cover', { value }),
     condition: ({ id: cid }) => run('condition', { id: cid }),
     attr: (d) => run('attr', d),
@@ -149,18 +172,21 @@ export function sheetView({ data, store, main, table }, route) {
           return damagePanel(w, sh, c, ability.weapon).html;
         } });
     },
-    attackRoll: ({ slot }) => {
+    attackRoll: ({ slot, located }) => {
       const c = character();
       const sh = deriveSheet(c, data);
       const w = sh.weapons.find((x) => String(x.slot) === String(slot));
       if (!w || w.empty || !actionAvailable(c, sh)) return;
+      if (w.usable === false) { toast(t(`weapons.unusable.${w.why}`), 'danger'); return; }
       if (w.magSize && w.rounds <= 0) { toast(t('attack.empty', { weapon: w.name }), 'danger'); return; }
+      const aimed = Boolean(located);
+      const penalty = aimed ? data.body.locationAttack.tnPenalty : 0;
       let damageText = '';
-      openCheck({ name: t('attack.title', { weapon: w.name }), tn: w.tn, sub: nameOfSkill(w.skill) }, data,
-        (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), damageText }),
+      openCheck({ name: t(aimed ? 'attack.locatedTitle' : 'attack.title', { weapon: w.name }), tn: w.tn - penalty, sub: aimed ? `${nameOfSkill(w.skill)} · ${t('attack.locatedSub', { n: penalty })}` : nameOfSkill(w.skill) }, data,
+        (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), damageText, located: aimed }),
         { tier: tableTier(), once: true, after: (r) => {
           if (!r.success) return html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`;
-          const panel = damagePanel(w, sh, c);
+          const panel = damagePanel(w, sh, c, { located: aimed });
           damageText = panel.text;
           return panel.html;
         } });

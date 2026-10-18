@@ -9,7 +9,9 @@ export const newTurn = () => ({ inCombat: false, round: 1, used: 0, reserved: 0,
 
 /** Actions available this round: ACT, or 1 while Stunned (manual 7-6). */
 export function allowance(act, conditions, actionsData) {
-  return conditions.includes('stunned') ? actionsData.stunnedActions : act;
+  if (conditions.includes('stunned')) return actionsData.stunnedActions;
+  if (conditions.includes('slowed')) return Math.max(1, act - 1); // chest hit: the shock costs an action
+  return act;
 }
 
 export function turnStatus(turn, act, conditions, actionsData) {

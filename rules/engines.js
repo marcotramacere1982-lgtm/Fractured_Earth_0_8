@@ -26,7 +26,7 @@ export const isRanged = (w) => (w?.range?.max ?? 0) > 1;
 /** The readied weapon an ability fires: the first that qualifies (a gun if `ranged`; enough rounds, or melee). */
 export function abilityWeapon(a, weapons = []) {
   if (!a.weapon) return null;
-  return weapons.find((w) => !w.empty && (!a.weapon.ranged || isRanged(w)) && (!a.weapon.minAmmo || !w.magSize || w.rounds >= a.weapon.minAmmo)) ?? null;
+  return weapons.find((w) => !w.empty && w.usable !== false && (!a.weapon.ranged || isRanged(w)) && (!a.weapon.minAmmo || !w.magSize || w.rounds >= a.weapon.minAmmo)) ?? null;
 }
 
 function weaponCheck(a, ctx) {
@@ -138,8 +138,9 @@ export function zoneBonus(classId, r, classesData) {
 
 // ------------------------------------------------------------------ public API
 
-/** @returns {{ok: boolean, reason: string|null}} */
+/** @returns {{ok: boolean, reason: string|null}} ctx.arms: broken arms (both → no hands abilities). */
 export function canUse(classId, ability, resources, ctx = {}) {
+  if (ability.hands && ctx.arms >= 2) return { ok: false, code: 'needHands', reason: 'Needs at least one working arm' };
   switch (classId) {
     case 'soldier': return soldierCheck(ability, resources, ctx);
     case 'hacker': {

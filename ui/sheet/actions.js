@@ -7,6 +7,7 @@ import { buy } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
 import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance } from '../../rules/turn.js';
 import { RuleError } from '../../rules/messages.js';
+import { locationOutcome, partOf } from '../../rules/injuries.js';
 
 /** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
 function spend(c, data, what) {
@@ -32,10 +33,26 @@ function capacityOf(c, data) {
   return deck ? deckCapacity(deck, c.play.deckMods ?? [], data.deckMods) : null;
 }
 
-/** New or removed armor recalculates every location's marks from scratch. */
+/** New or removed armor starts intact. */
 function resetArmorMarks(c) {
-  for (const st of Object.values(c.play.locations)) st.armorDamage = 0;
+  c.play.armorDamage = 0;
 }
+
+/** HP actually lost: marks Wounded, and Field Sync disruption shakes a Tech Wizard (−1 Sync). */
+function hurt(c, data, taken) {
+  if (taken <= 0) return '';
+  if (!c.play.conditions.includes('wounded')) c.play.conditions.push('wounded');
+  if (c.classId !== 'techwiz') return '';
+  ensureResources(c);
+  const was = c.play.resources.sync;
+  c.play.resources = disruptSync(c.play.resources);
+  return c.play.resources.sync < was ? ' · Sync −1' : '';
+}
+
+const injuryName = (data, locId) => {
+  const loc = data.body.locations.find((l) => l.id === locId);
+  return `${data.conditions.find((k) => k.limb === loc?.bp)?.name ?? 'Injury'} (${loc?.name ?? locId})`;
+};
 
 /** Armor you acquire is put on straight away (take it off in Gear if you only carry it). */
 function autoWear(c, id) {
@@ -53,41 +70,58 @@ export const actions = {
     const s = deriveSheet(c, data);
     const next = Math.min(s.hp.max, s.hp.current + Number(delta));
     c.play.hp = next >= s.hp.max ? null : next; // allow negatives (overkill tracking)
-    if (Number(delta) < 0 && !c.play.conditions.includes('wounded')) c.play.conditions.push('wounded');
+    const sync = hurt(c, data, -Number(delta));
+    if (sync) log(c, `Took damage${sync}`, 'bad');
   },
+  /** Full HP. Broken arms and crippled legs stay until treated. */
   heal(c) {
     c.play.hp = null;
     c.play.conditions = c.play.conditions.filter((x) => x !== 'wounded');
-    for (const st of Object.values(c.play.locations)) st.damage = 0; // armor marks stay lost until re-worn
-  },
-  /** Restores every destroyed armor mark (downtime repair, or a Tech Wizard's Field Maintenance). */
-  repairArmor(c) {
-    const lost = Object.values(c.play.locations).reduce((n, st) => n + (st.armorDamage ?? 0), 0);
-    if (!lost) throw new RuleError('nothingToRepair', {}, 'No armor marks to repair.');
-    resetArmorMarks(c);
-    log(c, `Armor repaired: ${lost} mark${lost > 1 ? 's' : ''} restored`);
   },
   /**
-   * Sets a body location's HP or armor marks to `value` (tapping a pip).
-   * HP moves both ways, capped by the body table; armor can only be knocked down —
-   * it is restored when the worn armor changes.
+   * A hit taken: damage minus armor comes off HP. With a location (declared location attack), damage
+   * that gets through adds the location's condition; armor that stops it all cracks by 1.
+   * @returns the outcome, for the screen to describe
    */
-  locSet(c, data, { loc, field, value }) {
-    const l = deriveSheet(c, data).locations.find((x) => x.id === loc);
-    const st = (c.play.locations[loc] ??= { damage: 0, armorDamage: 0 });
-    const v = Number(value);
-    if (field === 'hp') {
-      const before = st.damage;
-      st.damage = clamp(l.max - v, 0, l.max);
-      // Field Sync disruption: a hit to a body location shakes the Tech Wizard's focus
-      if (c.classId === 'techwiz' && st.damage > before) {
-        ensureResources(c);
-        const was = c.play.resources.sync;
-        c.play.resources = disruptSync(c.play.resources);
-        if (c.play.resources.sync < was) log(c, `Hit to ${l.name}: Sync −1`, 'bad');
-      }
+  takeHit(c, data, { damage, loc = '' }) {
+    c.play.injuries ??= [];
+    const s = deriveSheet(c, data);
+    const dmg = Math.max(0, Number(damage) || 0);
+    const outcome = loc
+      ? locationOutcome({ part: partOf(loc, data.body), damage: dmg, armor: s.armor.general, wornArmor: s.armor.current, hp: s.hp.current, maxHp: s.hp.max }, data.body)
+      : { taken: Math.max(0, dmg - s.armor.general), condition: null, crack: 0 };
+    const hpNow = s.hp.current - outcome.taken;
+    c.play.hp = hpNow >= s.hp.max ? null : hpNow;
+    const sync = hurt(c, data, outcome.taken);
+    let effect = '';
+    if (outcome.condition) {
+      const limb = data.conditions.find((k) => k.id === outcome.condition)?.limb;
+      if (limb) { if (!c.play.injuries.includes(loc)) c.play.injuries.push(loc); effect = ` · ${injuryName(data, loc)}`; }
+      else { if (!c.play.conditions.includes(outcome.condition)) c.play.conditions.push(outcome.condition); effect = ` · ${data.conditions.find((k) => k.id === outcome.condition)?.name}`; }
     }
-    else if (v < l.armor) st.armorDamage = clamp(l.armorMax - v, 0, l.armorMax);
+    if (outcome.crack) { c.play.armorDamage = (c.play.armorDamage ?? 0) + outcome.crack; effect = ` · armor cracked −${outcome.crack}`; }
+    const where = loc ? ` to the ${data.body.locations.find((l) => l.id === loc)?.name ?? loc}` : '';
+    log(c, `Hit${where}: ${dmg} damage − ${s.armor.general} armor → ${outcome.taken} HP${effect}${sync}`, 'bad');
+    return outcome;
+  },
+  /** Armor cracked by an effect (or fixed by hand): 0 … worn. */
+  armorCrack(c, data, { delta }) {
+    const s = deriveSheet(c, data);
+    c.play.armorDamage = clamp((c.play.armorDamage ?? 0) + Number(delta), 0, s.armor.worn);
+  },
+  /** Mends every crack (downtime repair, or a Tech Wizard's Field Maintenance). */
+  repairArmor(c) {
+    const lost = c.play.armorDamage ?? 0;
+    if (!lost) throw new RuleError('nothingToRepair', {}, 'No armor damage to repair.');
+    resetArmorMarks(c);
+    log(c, `Armor repaired: ${lost} point${lost > 1 ? 's' : ''} restored`);
+  },
+  /** Broken arm / crippled leg on one side: on or off (tapping it on the sheet, or treated). */
+  injury(c, data, { loc }) {
+    c.play.injuries ??= [];
+    const had = c.play.injuries.includes(loc);
+    c.play.injuries = had ? c.play.injuries.filter((x) => x !== loc) : [...c.play.injuries, loc];
+    log(c, had ? `Treated: ${injuryName(data, loc)}` : `Injured: ${injuryName(data, loc)}`, had ? 'ok' : 'bad');
   },
   cover(c, _d, { value }) { c.play.cover = Number(value); },
   condition(c, _d, { id }) {
@@ -190,7 +224,7 @@ export const actions = {
       wounded: c.play.conditions.includes('wounded'),
       classesData: data.classes,
     });
-    c.play.conditions = c.play.conditions.filter((x) => x !== 'stunned');
+    c.play.conditions = c.play.conditions.filter((x) => !data.encounter.roundEndClears.includes(x));
     c.play.turn = endRound(turn);
     log(c, `— End of round ${turn.round} —`);
   },
@@ -235,7 +269,8 @@ export const actions = {
   useRolled(c, data, { id, success, rollText, resonant = false }) {
     ensureResources(c);
     const ability = data.abilities[c.classId].find((a) => a.id === id);
-    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: deriveSheet(c, data).weapons };
+    const sh = deriveSheet(c, data);
+    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.weapons, arms: sh.injured.arms };
     const check = canUse(c.classId, ability, c.play.resources, ctx);
     if (!check.ok) throw new RuleError(check.code, check.vars, `${ability.name}: ${check.reason}`);
     const prefix = spend(c, data, { kind: 'ability', name: ability.name });
@@ -246,11 +281,13 @@ export const actions = {
     log(c, `${prefix}${ability.name}${ctx.resonant ? ' (Resonant cast)' : ''}: ${rollText} → ${success ? 'success' : 'failed'}`, success ? 'ok' : 'bad');
   },
   /** Weapon attack resolved in the dialog: spends the action and one round of ammo. */
-  attack(c, data, { slot, hit, rollText, damageText }) {
+  attack(c, data, { slot, hit, rollText, damageText, located = false }) {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
     if (!w) throw new RuleError('noWeapon', {}, 'No weapon in that slot.');
+    const ws = deriveSheet(c, data).weapons.find((x) => String(x.slot) === String(slot));
+    if (ws?.usable === false) throw new RuleError(ws.why === 'noArms' ? 'noArms' : 'oneArm', { weapon: w.name }, ws.why === 'noArms' ? 'Both arms are broken: no weapons.' : `${w.name}: with a broken arm you can use only one one-handed weapon.`);
     if (w.magSize && (c.play.ammo[slot] ?? 0) <= 0) throw new RuleError('weaponEmpty', { weapon: w.name }, `${w.name} is empty — reload first.`);
-    const prefix = spend(c, data, { kind: 'attack', name: w.name });
+    const prefix = spend(c, data, { kind: located ? 'located' : 'attack', name: w.name });
     if (w.magSize) c.play.ammo[slot] -= 1;
     let momentum = '';
     if (hit && c.classId === 'soldier') {
@@ -258,7 +295,7 @@ export const actions = {
       c.play.resources = weaponHit(c.classId, c.play.resources);
       momentum = ' · +1 TP';
     }
-    log(c, `${prefix}Attack with ${w.name}: ${rollText} → ${hit ? `hit${damageText ? `, ${damageText}` : ''}${momentum}` : 'miss'}`, hit ? 'ok' : 'bad');
+    log(c, `${prefix}${located ? 'Location attack' : 'Attack'} with ${w.name}: ${rollText} → ${hit ? `hit${damageText ? `, ${damageText}` : ''}${momentum}` : 'miss'}`, hit ? 'ok' : 'bad');
   },
   /** Proactive defense: borrows an action from next round and records the Avoid roll. */
   dodge(c, data, { rollText, success }) {

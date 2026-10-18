@@ -21,9 +21,9 @@ Every weapon attacks with a skill: knives, batons and stun guns use **Melee / CQ
 
 ## 8-3. Armor {#sec-8-3}
 
-Each piece protects specific locations (armor marks per location). General armor is the sum of the pieces' *Max Hits*. Visibility tells how obvious the armor is to a casual observer (1 = discreet, 5 = unmistakable).
+Each piece adds its **armor value** to your armor: your armor is the sum of what you wear (plus cover in a fight). Visibility tells how obvious the armor is to a casual observer (1 = discreet, 5 = unmistakable).
 
-Armor marks knocked off by location hits stay lost until the armor is **repaired** — during downtime, or with a Tech Wizard's *Field Maintenance* — or until you change what you wear.
+Armor **cracks** by 1 when it stops a location attack completely, or when an effect strips it. Cracks stay until the armor is **repaired** — during downtime, or with a Tech Wizard's *Field Maintenance* — or until you change what you wear. Normal hits never crack armor (see 7-5).
 
 ::table[armor]
 

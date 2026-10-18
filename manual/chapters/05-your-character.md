@@ -72,11 +72,16 @@ Six tactical values come from the **raw sum of two attributes**, looked up in th
 - **Initiative** = half DEX + half WIS (rounded down each) − 10. Roll d20 + Initiative at the start of combat.
 - **Max HP** = 2 × CON + MST.
 
-### Body locations {#sec-5-3-body}
+### Health, armor and injuries {#sec-5-3-body}
 
-Your body has seven locations. Each has its own HP, based on CON + MST, and its own armor marks from what you wear. Head, chest and abdomen are **vital**.
+You have **one pool of HP** (2 × CON + MST) and **one armor value**: the sum of the armor you wear, plus cover in a fight. Every hit subtracts your armor from the damage; what is left comes off your HP.
 
-::table[body-points]
+Your body matters when someone makes a **location attack** (7-5): they take −4 TN and roll where it lands. Damage minus armor comes off HP as usual, and then:
+
+- **If any damage gets through your armor**, the location adds a condition: leg → *Crippled leg*, arm → *Broken arm*, abdomen → *Prone*, chest → *Slowed*, head → *Stunned* (*Incapacitated* if the hit leaves you at half HP or less).
+- **If your armor stops it completely**, your armor **cracks by 1** until it is repaired.
+
+Normal attacks never crack armor. Broken arms and crippled legs stay until treated — First aid, a Trauma Patch, or downtime — and count left and right separately. The sheet's **Health & conditions** card does the maths: enter the damage under *Take a hit*, and say where if it was a location attack.
 
 ### Building your Operator {#sec-5-3-buy}
 
@@ -89,7 +94,7 @@ At creation every attribute starts at **6** and you have **20 points** to spend.
 
 Before your Operator walked the streets as an adult, their early life was shaped by the grid. **Three events, each rolled on 2d20**, define what happened to you up to age 15. Middle results are common; the extremes (2 and 40) are rare.
 
-Events can change attributes, shift a combat value one row, alter body points, give or clear a criminal record, grant an education credential or waive future career requirements. When an event asks for a choice (for example *+2 to INT or WIS*), the builder asks you directly.
+Events can change attributes, shift a combat value one row, change your maximum HP, give or clear a criminal record, grant an education credential or waive future career requirements. When an event asks for a choice (for example *+2 to INT or WIS*), the builder asks you directly.
 
 > Results that ruin your concept? Ask the GM — they can authorise a re-roll.
 
@@ -166,13 +171,13 @@ The Hacker fights through information warfare, balancing **RAM** against **Heat*
 
 The Tech Wizard is a battlefield architect and field medic who tunes a rig to the infrastructure around them — power lines, scrap, wiring. Their engine is **Field Sync**: the longer they hold one purpose, the deeper the sync.
 
-- **Two modes.** **Mend** (support: repair armor marks, heal, raise cover, buff) or **Surge** (offense: strip armor marks, shock, traps, turrets). Every ability has a Mend face and a Surge face; your mode picks which one fires.
+- **Two modes.** **Mend** (support: mend cracked armor, heal, raise cover, buff) or **Surge** (offense: crack armor, shock, traps, turrets). Every ability has a Mend face and a Surge face; your mode picks which one fires.
 - **Sync 0–3:** *Cold → Warm → Tuned → Resonant*. +1 each time you use an ability, and +1 at the end of a round in which you did not switch mode.
 - **Switching** mode is free at the start of your turn, but Sync drops to 0.
 - **Thresholds:** stronger abilities need a minimum Sync.
 - **Resonant cast:** at Sync 3 you may fire an ability with **both faces at once** — the cover shelters your friend *and* the shrapnel hits the enemy. Sync then drops to 0 (you keep your mode).
 - **Brownout:** the heaviest moves (*Structural Collapse*) drop Sync to 0 and take the rig offline — no abilities — until the end of the next round.
-- **Disruption:** taking damage to a body location costs 1 Sync. Keep your Tech Wizard behind cover.
+- **Disruption:** losing HP costs 1 Sync. Keep your Tech Wizard behind cover.
 - Every combat starts at Cold.
 
 - **Mechanic (CON / WIS):** leans Mend — fortifications, armor repair, healing.
@@ -209,7 +214,7 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 ## 5-8. The Character Sheet {#sec-5-8}
 
 - **Status bar** — always visible: HP, armor, initiative, actions, Class TN, Credit Score, cash and active conditions.
-- **Play** — weapons (attack TN, damage, ammo, reload), your class engine and equipped abilities, body locations and cover, combat values, conditions, and the Turn panel (*Start combat*, *End round*).
+- **Play** — weapons (attack TN, damage, ammo, reload), your class engine and equipped abilities, health, armor, injuries and conditions (with *Take a hit*), cover, combat values, and the Turn panel (*Start combat*, *End round*).
 - **Skills** — attributes (adjustable for injuries, aging or GM rulings) and every skill. Tap to roll with the GM's difficulty.
 - **Gear** — cash, inventory, the market, and your lifestyle.
 - **Dossier** — identity, class, background, debt, portrait and backstory.

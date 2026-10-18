@@ -36,11 +36,11 @@ To declare a ranged attack, deploy a class payload, or interact with a target ac
 
 ### 3. The Cover System (Armor Hardening)
 
-Cover in this system does not make an Operator harder to hit by altering defense rolls; instead, it acts as physical structural shielding that absorbs kinetic and energy damage before it reaches the body. Cover adds flat protection directly to your **General Armor** pool and **ALL Body Hit Locations** simultaneously.
+Cover in this system does not make an Operator harder to hit by altering defense rolls; instead, it acts as physical structural shielding that absorbs kinetic and energy damage before it reaches the body. Cover adds flat protection directly to your **armor** — every hit, wherever it lands.
 
 ::table[cover]
 
-- **Location Shielding:** When targeted by a *LOCATION SHOT* (or random body location hit), the target applies the **+2 or +4 bonus** directly to that body location's Armor Marks (AM) alongside their general gear armor.
+- **Cover never cracks:** when a location attack is stopped completely, only the armor you wear cracks (see 7-5). Cover is terrain: it stays until you leave it or are flanked.
 
 - **Flanking (Negating Cover):** If an attacker maneuvers to an angle where their center-to-center line no longer intersects the target's cover feature, the target is **Flanked** and loses all cover armor bonuses against that attack.
 
@@ -166,7 +166,7 @@ The Hacker dominates digital architecture, manipulating enemy cyberware, automat
 
 ### 7-4-3. The Tech Wizard: Field Sync {#sec-7-4-techwiz}
 
-The Tech Wizard turns scrap, wiring and structure into shelter for the squad — or into weapons. They hold one of two modes, **Mend** (support) or **Surge** (offense), and build **Sync** (*Cold 0 → Warm 1 → Tuned 2 → Resonant 3*) the longer they hold it: +1 per ability used, +1 at the end of each round without a mode switch. Switching is free but resets Sync to 0; a hit to a body location costs 1 Sync.
+The Tech Wizard turns scrap, wiring and structure into shelter for the squad — or into weapons. They hold one of two modes, **Mend** (support) or **Surge** (offense), and build **Sync** (*Cold 0 → Warm 1 → Tuned 2 → Resonant 3*) the longer they hold it: +1 per ability used, +1 at the end of each round without a mode switch. Switching is free but resets Sync to 0; losing HP costs 1 Sync.
 
 **The payoff — Resonant cast:** at Sync 3, the next ability can fire **both faces** (the barricade shelters an ally *and* blasts the enemy beside it), then Sync drops to 0.
 
@@ -180,7 +180,7 @@ The Tech Wizard turns scrap, wiring and structure into shelter for the squad —
 
 > **Combat Scenario Example: The Tech Wizard (Mechanic Subclass)**
 
-> *Round 1:* In **Mend** at Cold, the Mechanic uses *Field Maintenance* on the Soldier (2 armor marks back, Sync → Warm), then *Scavenge & Survey* (Sync → Tuned). The round ends without a switch: **Resonant**.
+> *Round 1:* In **Mend** at Cold, the Mechanic uses *Field Maintenance* on the Soldier (2 armor cracks mended, Sync → Warm), then *Scavenge & Survey* (Sync → Tuned). The round ends without a switch: **Resonant**.
 
 > *Round 2:* An enemy flanks the Hacker. The Mechanic makes a **Resonant cast** of *Improvised Cover*: the Hacker gets Partial cover **and** the hurled scrap plate deals 2d6 to the flanker. Sync back to Cold, still in Mend.
 
@@ -240,27 +240,39 @@ When an Operator performs a standard attack without declaring a specific body ta
 
 **General Armor acts strictly as damage mitigation—it does not increase the difficulty to hit.** Subtract the target's **General Armor Rating** directly from the total rolled damage. Any remaining damage is deducted directly from the target's general HP pool.
 
-### 3. Location-Declared Attacks (Targeted Shots)
+### 3. Location Attacks {#sec-7-5-location}
 
-Operators seeking to disable specific cybernetics, decapitate priority targets, or bypass heavy body armor can declare a **Location Attack**.
-
-- **Action Cost & Restrictions:** A Location Attack consumes **1 Action** and cannot be combined with class abilities.
-
-- **Damage Conversion:** Successful Location Attacks deal **Location Mark Damage**. They do *not* deduct from general HP. Instead, damage is applied through that specific body part's **Location Armor Marks (AM)** to inflict permanent structural Marks or amputations.
+Instead of aiming at centre mass, you can declare a **location attack** before you roll — to cripple a leg, break a gun arm, or put a guard on the floor. Body locations have no HP of their own: they decide **which condition** a hit adds.
 
 **Resolution Flow:**
 
-- **Roll Attack:** Check against the standard weapon or skill TN.
+- **Declare and roll to hit:** a location attack is an attack action at **−4 TN**. It cannot be combined with class abilities.
 
-- **Roll Hit Location (d20):** If the attack hits, roll a d20 on the **Body Location Table** to see where the strike lands.
+- **Roll the location (d20):** on a hit, roll a d20 on the table below. With **Aim** (1 extra action spent before the attack) you may shift that d20 by up to ±5.
 
-- **Roll Damage & Apply to Location:** Roll weapon damage and subtract the target's **Location Armor Marks** for that specific body part. Overflow damage converts to Location Marks.
+- **Roll damage:** as usual. Damage minus the target's armor comes off HP — a location attack is never weaker than a normal one.
 
-> **The "Aim" Tactical Nudge:**
+- **Then the location acts:**
+  - **Damage got through the armor** (at least 1 point): the target gains that location's condition.
+  - **The armor stopped everything:** no condition, but the target's armor **cracks by 1** until repaired. Cover never cracks.
 
-> An Operator can spend **1 additional action** before making a Location Attack to declare **Aim**. Spending this action grants a **±5 modifier** to your d20 *Hit Location roll* (not the attack roll).
+**What each location does:**
 
-> *Example:* You roll a 15 on the location table (Chest). With Aim, you can adjust the result by up to 5 points — shifting it to 19 locks onto the Head for a fatal execution strike.
+- **Head:** *Stunned* — or *Incapacitated* if the hit leaves the target at half its maximum HP or less.
+- **Chest:** *Slowed* — the shock costs 1 action on the next turn.
+- **Abdomen:** *Prone* — doubled over, on the ground.
+- **Arm:** *Broken arm*. One arm: only one one-handed weapon can be used (a hacker deck still works). Both arms: only movement, talking and mental abilities.
+- **Leg:** *Crippled leg*. One leg: half your squares per move. Both legs: 1 square per move.
+
+Left and right count separately. Broken arms and crippled legs stay until treated: **First aid** (1 action, *Medicine / First Aid* check), a **Trauma Patch**, or downtime. A full heal restores HP, not bones.
+
+**Synthetic targets** (drones, turrets, robots) map differently: legs → crippled mobility, arms → *Jammed* weapon mount, chest and abdomen → *Stunned*, head (sensors) → *Blinded*. Some **elites are immune** to a condition (e.g. they cannot be knocked prone): the hit still deals its damage.
+
+**Cracked armor:** normal attacks never crack armor. Armor cracks only when it stops a location attack completely, or when an effect says so (*Bunker Buster*, corrosion, *Field Maintenance* in Surge). **Repair armor** — downtime, or *Field Maintenance* in Mend — mends the cracks.
+
+> *Example:* the Soldier wears 4 armor. A ganger declares a location attack at his chest and rolls 3 damage: the armor holds, and cracks to 3. Next turn the ganger tries again and rolls 5: 2 points get through — the Soldier loses 2 HP and is **Slowed**. Meanwhile, plain shots keep hitting his 3 armor.
+
+> **The "Aim" Tactical Nudge:** spend **1 additional action** before a location attack to **Aim**: you may shift the location d20 by up to ±5 (not the attack roll). *Example:* you roll 15 (chest); with Aim you can move it to 19 — the head.
 
 ::table[hit-locations]
 
@@ -268,7 +280,7 @@ Operators seeking to disable specific cybernetics, decapitate priority targets, 
 
 During high-stakes operations, environmental hazards, heavy ordnance, network hacks, and tactical abilities can inflict severe **Status Conditions** on Operators and enemies alike. Status Conditions alter an entity's operational capability, movement, or accuracy until cleared.
 
-Because these effects are dynamically applied during combat, players and GMs can track active conditions in the **Conditions** card of the sheet's Play tab.
+Because these effects are dynamically applied during combat, players and GMs can track active conditions in the **Health & conditions** card of the sheet's Play tab. Location attacks (7-5) are the most common source: *Broken arm*, *Crippled leg*, *Prone*, *Slowed*, *Stunned* and *Incapacitated*.
 
 **Reference Table: Global Status Conditions**
 
@@ -284,21 +296,11 @@ An Operator or NPC faces immediate death or severe operational impairment under 
 
 - **Base Attribute Zeroing (System Collapse):** If any core Base Attribute (e.g., Constitution, Strength, Dexterity) is temporarily reduced to **0** due to severe neuro-toxins, extreme cybernetic feedback, or debilitating debuffs, the entity suffers instant systemic death. This is a rare, high-lethality occurrence requiring immediate field intervention before the attribute drops to zero.
 
-- **Vital Location Destruction (Instant Death):** If a vital body location—specifically the **Head**, **Chest** or **Abdomen**—is reduced to **0 HP / AM**, the target suffers immediate, non-survivable physical trauma or decapitation and dies instantly.
-
-**Non-Vital Location Amputation (Functional Maiming):** Reducing a non-vital body part to 0 renders that specific limb completely destroyed or amputated:
-
-- **One Arm at 0:** Cannot wield two-handed weapons; primary hand tasks take an accuracy penalty.
-
-- **Two Arms at 0:** All weapon attacks, inventory interactions, and tech operations become completely unusable.
-
-- **One Leg at 0:** Movement Allowance (`SQR`) is cut in half.
-
-- **Two Legs at 0:** Movement is restricted to **1 SQR per Action** (crawling). The Operator cannot declare standing attacks or dodge maneuvers.
+- **Body locations never kill on their own:** a location attack adds a condition (7-5) — a head shot can leave you *Incapacitated* — but death always comes through HP, below.
 
 ### 2. General HP Zeroing & Massive Overkill
 
-When an Operator's **General HP** drops to **0 or below** (without direct destruction of a vital hit location), they immediately collapse into an **Incapacitated / Unconscious** state.
+When an Operator's **General HP** drops to **0 or below**, they immediately collapse into an **Incapacitated / Unconscious** state.
 
 - **Massive Overkill (Negative CON Threshold):** If an attack reduces General HP below zero and the remaining negative damage total meets or exceeds the Operator's **CON score** (e.g., having a CON of 12 and taking enough damage to reach **-12 General HP**), the Operator dies instantly from massive physiological trauma.
 

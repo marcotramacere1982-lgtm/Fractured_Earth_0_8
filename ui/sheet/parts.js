@@ -15,27 +15,6 @@ export function counter({ action, value, args = {}, min = null, max = null, labe
     </span>`;
 }
 
-/**
- * Tappable pip track. kind 'hp' (red, can go up and down) or 'armor' (blue, can only be knocked off).
- * Tapping pip n sets the value to n; tapping the top filled pip removes it.
- * For armor, pips above the current value are shown as lost and are not tappable.
- */
-/** restorable: lost armor marks can be tapped back (GM console); players restore them with Repair armor. */
-export function pips({ kind, value, max, args, label, restorable = false }) {
-  const attrs = raw(Object.entries(args).map(([k, v]) => `data-${k}="${v}"`).join(' '));
-  if (max <= 0) return html`<span class="pips pips--empty">${kind === 'armor' ? t('pips.noArmor') : '—'}</span>`;
-  return html`<span class="pips pips--${kind}" role="group" aria-label="${label} ${value}/${max}">
-    ${Array.from({ length: max }, (_, i) => {
-      const n = i + 1;
-      const filled = n <= value;
-      const target = n === value ? n - 1 : n;
-      const lost = kind === 'armor' && !filled && !restorable;
-      return html`<button class="pip ${filled ? 'is-filled' : lost ? 'is-lost' : ''}" data-action="pip" data-value="${target}" ${attrs}
-        ${lost ? raw('disabled') : ''} aria-label="${label}: ${t('pips.setTo', { n: target })}" title="${lost ? t('pips.destroyed') : t('pips.setTo', { n: target })}"></button>`;
-    })}
-  </span>`;
-}
-
 export function meter(value, max, kind = '') {
   const pct = max > 0 ? Math.max(0, Math.min(100, (value / max) * 100)) : 0;
   return html`<div class="meter" role="meter" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="${max}"><div class="meter__fill ${kind ? `meter__fill--${kind}` : ''}" style="width: ${pct}%"></div></div>`;

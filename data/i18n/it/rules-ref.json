@@ -33,24 +33,28 @@
       "text": "HP massimi = 2 × CON + MST. A 0 HP sei incapacitato e ogni round tiri una prova di morte su CON; arrivare a −CON significa morte immediata."
     },
     "body": {
-      "title": "Locazioni del corpo",
-      "text": "Sette locazioni, ognuna con i suoi HP (da CON + MST) e segni di armatura. Testa, torace e addome sono vitali: a 0 si muore. Braccia e gambe a 0 restano menomate."
+      "title": "Salute, armatura e ferite",
+      "text": "Una sola riserva di HP e un solo valore di armatura. Le locazioni contano solo negli attacchi a una locazione: il danno che supera l’armatura aggiunge una condizione (braccio rotto, gamba azzoppata, prono, rallentato, stordito); se l’armatura ferma tutto si incrina di 1."
     },
     "hit-location": {
-      "title": "Colpi localizzati",
-      "text": "Se colpisci, tira un d20 per la locazione: 1–4 gambe, 5–8 braccia, 9–13 addome, 14–18 torace, 19–20 testa. Mirare (+1 azione) sposta il tiro fino a 5."
+      "title": "Attacco a una locazione",
+      "text": "−4 TN, poi d20: 1–4 gamba (Crippled leg), 5–8 braccio (Broken arm), 9–13 addome (Prone), 14–18 torace (Slowed), 19–20 testa (Stunned; Incapacitated a metà HP o meno). Aim (+1 azione) sposta il d20 di ±5."
+    },
+    "location-attack": {
+      "title": "Attacco a una locazione",
+      "text": "−4 TN, poi d20: 1–4 gamba (Crippled leg), 5–8 braccio (Broken arm), 9–13 addome (Prone), 14–18 torace (Slowed), 19–20 testa (Stunned; Incapacitated a metà HP o meno). Aim (+1 azione) sposta il d20 di ±5."
     },
     "cover": {
       "title": "Copertura",
-      "text": "La copertura è armatura: parziale +2, totale +4, sommata all'armatura generale e a ogni locazione. Se vieni preso di fianco la perdi."
+      "text": "La copertura è armatura: parziale +2, totale +4, su ogni colpo. Non si incrina mai. Chi è preso di fianco la perde."
     },
     "armor": {
       "title": "Armatura",
-      "text": "L'armatura generale (somma dei Max Hits dei pezzi indossati, più la copertura) si sottrae ai danni prima che arrivino agli HP. I colpi localizzati usano i segni di armatura di quella locazione."
+      "text": "Somma dei pezzi indossati più la copertura, sottratta da ogni colpo. Si incrina di 1 solo quando ferma del tutto un attacco a una locazione (o un effetto la intacca); Ripara armatura sistema le incrinature. La copertura non si incrina mai."
     },
     "conditions": {
       "title": "Condizioni",
-      "text": "Prone, Stunned, Blinded, Disconnected, Poisoned, Enraged, Incapacitated e Wounded cambiano quello che puoi fare finché non le rimuovi."
+      "text": "Gli attacchi a una locazione aggiungono Broken arm, Crippled leg, Prone, Slowed, Stunned o Incapacitated; ability e pericoli aggiungono le altre. Le ferite agli arti restano finché non vengono curate (Primo soccorso, Trauma Patch, downtime)."
     },
     "round-end": {
       "title": "Fine del round",

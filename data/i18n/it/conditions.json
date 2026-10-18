@@ -3,7 +3,7 @@
     "targets": "Tutti",
     "effects": [
       "Movimento dimezzato (2 SQR per quadretto).",
-      "+2 armatura contro gli attacchi a distanza su tutte le locazioni.",
+      "+2 armatura contro gli attacchi a distanza.",
       "Gli attacchi in mischia contro di te ottengono +4 TN."
     ],
     "clear": "Spendi 1 azione per rialzarti."
@@ -39,7 +39,7 @@
     "effects": [
       "Subisci 1d4 all'inizio di ogni turno.",
       "Organici: ignora l'armatura, colpisce gli HP.",
-      "Sintetici: toglie 1 segno di armatura per round."
+      "Sintetici: incrina 1 di armatura per round."
     ],
     "clear": "Dura 3 round, oppure un Trauma Patch / kit di Field Repair."
   },
@@ -65,5 +65,35 @@
       "Ha subito danni in questo combattimento. Il pendulum dello Smuggler scivola di +1 a fine round."
     ],
     "clear": "Curato completamente o a fine combattimento."
+  },
+  "slowed": {
+    "targets": "Tutti",
+    "effects": [
+      "−1 azione nel tuo prossimo turno (minimo 1)."
+    ],
+    "clear": "Finisce alla fine del tuo prossimo turno."
+  },
+  "broken_arm": {
+    "targets": "Organici / cibernetici",
+    "effects": [
+      "Un braccio: puoi usare una sola arma a una mano (il deck da hacker funziona comunque).",
+      "Entrambe le braccia: solo movimento, parlare e abilità mentali."
+    ],
+    "clear": "Primo soccorso (1 azione, prova di Medicine / First Aid), un Trauma Patch, o il downtime."
+  },
+  "crippled_leg": {
+    "targets": "Tutti",
+    "effects": [
+      "Una gamba: metà dei quadretti per movimento (per difetto, minimo 1).",
+      "Entrambe le gambe: 1 quadretto per movimento."
+    ],
+    "clear": "Primo soccorso (1 azione, prova di Medicine / First Aid), un Trauma Patch, o il downtime."
+  },
+  "jammed": {
+    "targets": "Unità sintetiche",
+    "effects": [
+      "Supporto dell’arma inceppato: niente attacchi."
+    ],
+    "clear": "1 azione per sbloccarlo (l’unità o un tecnico)."
   }
 }

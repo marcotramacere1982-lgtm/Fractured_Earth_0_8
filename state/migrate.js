@@ -1,6 +1,6 @@
 // Imports v0.8 files (pg_builder init files and Play_game saves) into schema v1.
 
-import { createCharacter, SCHEMA_VERSION } from './character.js';
+import { createCharacter, upgradeSave, SCHEMA_VERSION } from './character.js';
 import { ATTRIBUTES } from '../rules/stats.js';
 
 export function detectFormat(json) {
@@ -15,7 +15,7 @@ export function importCharacter(json, data) {
   const format = detectFormat(json);
   if (format === 'v1') {
     if (json.schemaVersion > SCHEMA_VERSION) throw new Error('This file was made by a newer version of the app.');
-    return { character: json, warnings: [] };
+    return { character: upgradeSave(json), warnings: [] };
   }
   if (format === 'unknown') throw new Error('Not a Fractured Earth character file.');
   return migrateLegacy(json, data, format);

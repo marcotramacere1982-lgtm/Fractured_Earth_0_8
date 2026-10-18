@@ -17,7 +17,7 @@
       "roll": 3,
       "id": "bone_disease",
       "name": "BONE DISEASE",
-      "text": "Subtract 5 from your total Body Points. An operation to fix you would cost about 50,000 crowns.",
+      "text": "Subtract 5 from your maximum HP. An operation to fix you would cost about 50,000 crowns.",
       "effects": {
         "maxHp": -5
       }

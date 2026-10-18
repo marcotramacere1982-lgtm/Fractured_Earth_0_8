@@ -11,7 +11,7 @@ export const kindLabel = (kind) => t(`gear.kind.${kind}`);
 function describe(kind, e) {
   switch (kind) {
     case 'weapon': return `${e.type} · ${e.damage} · ${e.range.min}–${e.range.max}m${e.magSize ? ` · ${t('gear.mag')} ${e.magSize}` : ''}`;
-    case 'armor': return `${e.type} · ${Object.entries(e.av).filter(([, v]) => v).map(([k]) => k).join(', ') || t('gear.noAv')} · ${t('gear.hits')} ${e.maxHits} · ${t('gear.visibility')} ${e.visibility}/5`;
+    case 'armor': return `${e.type} · ${t('stat.armor')} +${e.maxHits} · ${t('gear.visibility')} ${e.visibility}/5`;
     case 'item': return `${e.effectType} · ${e.effect}`;
     case 'deck': return `RAM ${e.ram} · heat cap ${e.heatCap} · ${e.modSlots} mod slot · ${t('gear.battery')} ${e.battery.idle} idle / ${e.battery.usage} use`;
     case 'deckMod': return `+${e.amount} ${e.type === 'ram' ? 'RAM' : 'heat cap'}`;

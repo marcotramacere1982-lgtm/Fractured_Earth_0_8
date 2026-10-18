@@ -2,6 +2,7 @@
 // The UI never mutates characters directly; it calls update(id, fn).
 
 import { importCharacter } from './migrate.js';
+import { upgradeSave } from './character.js';
 import { uid } from './id.js';
 
 const KEY = 'fe.characters.v1';
@@ -15,6 +16,7 @@ const safe = {
 export function createStore() {
   let characters = {};
   try { characters = JSON.parse(safe.get(KEY) ?? '{}'); } catch { characters = {}; }
+  for (const c of Object.values(characters)) upgradeSave(c);
   let activeId = safe.get(ACTIVE);
   const listeners = new Set();
   let saveTimer = null;

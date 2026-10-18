@@ -36,11 +36,11 @@ Per dichiarare un attacco a distanza, lanciare un payload di classe o interagire
 
 ### 3. Il sistema di copertura (rinforzo dell'armatura)
 
-In questo sistema la copertura non rende un Operatore più difficile da colpire alterando i tiri di difesa: funziona invece come una schermatura fisica che assorbe danni cinetici ed energetici prima che arrivino al corpo. La copertura aggiunge protezione fissa all'**armatura generale** e a **TUTTE le locazioni del corpo** contemporaneamente.
+In questo sistema la copertura non rende un Operatore più difficile da colpire alterando i tiri di difesa: funziona invece come una schermatura fisica che assorbe danni cinetici ed energetici prima che arrivino al corpo. La copertura aggiunge protezione fissa alla tua **armatura**, su ogni colpo, ovunque arrivi.
 
 ::table[cover]
 
-- **Schermatura delle locazioni:** quando sei bersaglio di un *COLPO LOCALIZZATO* (o di un colpo su una locazione casuale), applica il **bonus di +2 o +4** direttamente ai segni di armatura (AM) di quella locazione, insieme all'armatura generale dell'equipaggiamento.
+- **La copertura non si incrina:** quando un attacco a una locazione viene fermato del tutto, si incrina solo l'armatura che indossi (vedi 7-5). La copertura è terreno: resta finché non la lasci o non ti prendono di fianco.
 
 - **Prendere di fianco (annullare la copertura):** se un attaccante si sposta in un angolo da cui la sua linea da centro a centro non incrocia più l'elemento di copertura del bersaglio, il bersaglio è **preso di fianco** e perde tutti i bonus di copertura contro quell'attacco.
 
@@ -166,7 +166,7 @@ L'Hacker domina l'architettura digitale: manipola da lontano il cyberware nemico
 
 ### 7-4-3. Il Tech Wizard: Field Sync {#sec-7-4-techwiz}
 
-Il Tech Wizard trasforma rottami, cavi e strutture in riparo per la squadra, o in armi. Mantiene una di due modalità, **Mend** (supporto) o **Surge** (offensiva), e accumula **Sync** (*Cold 0 → Warm 1 → Tuned 2 → Resonant 3*) più a lungo la mantiene: +1 per ogni ability usata, +1 alla fine di ogni round senza cambiare modalità. Cambiare è gratis ma azzera il Sync; un colpo a una locazione del corpo costa 1 Sync.
+Il Tech Wizard trasforma rottami, cavi e strutture in riparo per la squadra, o in armi. Mantiene una di due modalità, **Mend** (supporto) o **Surge** (offensiva), e accumula **Sync** (*Cold 0 → Warm 1 → Tuned 2 → Resonant 3*) più a lungo la mantiene: +1 per ogni ability usata, +1 alla fine di ogni round senza cambiare modalità. Cambiare è gratis ma azzera il Sync; perdere HP costa 1 Sync.
 
 **La ricompensa — Resonant cast:** a Sync 3, la prossima ability può far scattare **entrambe le facce** (la barricata ripara un alleato *e* colpisce il nemico lì accanto), poi il Sync torna a 0.
 
@@ -180,7 +180,7 @@ Il Tech Wizard trasforma rottami, cavi e strutture in riparo per la squadra, o i
 
 > **Esempio di combattimento: il Tech Wizard (sottoclasse Mechanic)**
 
-> *Round 1:* in **Mend** a Cold, il Mechanic usa *Field Maintenance* sul Soldier (2 segni di armatura recuperati, Sync → Warm), poi *Scavenge & Survey* (Sync → Tuned). Il round finisce senza cambi: **Resonant**.
+> *Round 1:* in **Mend** a Cold, il Mechanic usa *Field Maintenance* sul Soldier (2 incrinature dell'armatura riparate, Sync → Warm), poi *Scavenge & Survey* (Sync → Tuned). Il round finisce senza cambi: **Resonant**.
 
 > *Round 2:* un nemico prende di fianco l'Hacker. Il Mechanic fa un **Resonant cast** di *Improvised Cover*: l'Hacker ottiene copertura parziale **e** la lamiera scagliata infligge 2d6 al nemico. Sync di nuovo a Cold, sempre in Mend.
 
@@ -216,7 +216,7 @@ La scheda applica i bonus di zona in automatico: la Attack TN delle armi da fuoc
 
 > *Round 2–3:* arriva un altro colpo e la ferita brucia: il Dealer inizia il round 3 a +1, **Hot**. *Pistol Whip & Rob* su una guardia adiacente (danni dell'arma +1 Hot, e un caricatore nuovo rubato) porta il pendolo a +3. Con almeno 3 colpi carichi il Dealer scatena *Desperate Gamble*: danni dell'arma a ogni nemico in un'area 3×3, caricatore vuoto, e il pendolo crolla a **−3**. Di nuovo Cold, e abbastanza lucido per un colpo preciso il round dopo.
 
-## 7-5. Attacchi, danni, armatura e colpi localizzati {#sec-7-5}
+## 7-5. Attacchi, danni, armatura e attacchi a una locazione {#sec-7-5}
 
 Nel *Fractured Century* la risoluzione del combattimento è veloce, letale e senza ambiguità. Attacchi e ability di classe mettono alla prova la precisione tattica di un Operatore contro numeri bersaglio (TN) espliciti, con un flusso semplice: tiro, danni, armatura.
 
@@ -240,27 +240,39 @@ Quando un Operatore fa un attacco normale senza dichiarare una parte del corpo, 
 
 **L'armatura generale serve solo a ridurre i danni: non rende più difficile colpire.** Sottrai l'**armatura generale** del bersaglio direttamente dai danni totali tirati. Il danno che resta si toglie direttamente dagli HP generali del bersaglio.
 
-### 3. Attacchi dichiarati su una locazione (colpi mirati)
+### 3. Attacchi a una locazione {#sec-7-5-location}
 
-Gli Operatori che vogliono mettere fuori uso una cibernetica precisa, decapitare un bersaglio prioritario o aggirare un'armatura pesante possono dichiarare un **attacco localizzato**.
-
-- **Costo e limiti:** un attacco localizzato costa **1 azione** e non si può combinare con le ability di classe.
-
-- **Conversione dei danni:** gli attacchi localizzati riusciti infliggono **danni alla locazione**. *Non* tolgono HP generali: il danno si applica attraverso i **segni di armatura (AM)** di quella parte del corpo, fino a lasciare segni strutturali permanenti o amputazioni.
+Invece di mirare al centro del corpo, puoi dichiarare un **attacco a una locazione** (*location attack*) prima di tirare: per azzoppare una gamba, rompere il braccio che impugna l'arma o mandare a terra una guardia. Le locazioni del corpo non hanno HP propri: decidono **quale condizione** aggiunge un colpo.
 
 **Come si risolve:**
 
-- **Tiro d'attacco:** contro il normale TN dell'arma o dell'abilità.
+- **Dichiara e tira per colpire:** un attacco a una locazione è un'azione di attacco a **−4 TN**. Non si può combinare con le ability di classe.
 
-- **Tiro della locazione (d20):** se l'attacco va a segno, tira un d20 sulla **tabella delle locazioni** per vedere dove arriva il colpo.
+- **Tira la locazione (d20):** se colpisci, tira un d20 sulla tabella qui sotto. Con **Mirare** (*Aim*, 1 azione in più spesa prima dell'attacco) puoi spostare quel d20 fino a ±5.
 
-- **Danni sulla locazione:** tira i danni dell'arma e sottrai i **segni di armatura** del bersaglio per quella parte del corpo. Il danno in eccesso diventa danno alla locazione.
+- **Tira i danni:** come sempre. I danni meno l'armatura del bersaglio tolgono HP: un attacco a una locazione non è mai più debole di uno normale.
 
-> **Il ritocco tattico "Mirare":**
+- **Poi agisce la locazione:**
+  - **Il danno ha superato l'armatura** (almeno 1 punto): il bersaglio subisce la condizione di quella locazione.
+  - **L'armatura ha fermato tutto:** nessuna condizione, ma l'armatura del bersaglio **si incrina di 1** finché non viene riparata. La copertura non si incrina mai.
 
-> Un Operatore può spendere **1 azione in più** prima di un attacco localizzato per dichiarare di **Mirare** (*Aim*). Questa azione dà un **modificatore di ±5** al tiro d20 *della locazione* (non al tiro d'attacco).
+**Cosa fa ogni locazione:**
 
-> *Esempio:* sulla tabella delle locazioni fai 15 (torace). Avendo mirato, puoi spostare il risultato fino a 5 punti: portarlo a 19 inquadra la testa, per un colpo d'esecuzione fatale.
+- **Testa:** *Stunned*, oppure *Incapacitated* se il colpo lascia il bersaglio a metà dei suoi HP massimi o meno.
+- **Torace:** *Slowed*: lo shock costa 1 azione nel turno successivo.
+- **Addome:** *Prone*: piegato in due, a terra.
+- **Braccio:** *Broken arm*. Un braccio: puoi usare una sola arma a una mano (il deck da hacker funziona comunque). Entrambe le braccia: solo movimento, parlare e abilità mentali.
+- **Gamba:** *Crippled leg*. Una gamba: metà dei quadretti per movimento. Entrambe le gambe: 1 quadretto per movimento.
+
+Destra e sinistra contano separatamente. Braccia rotte e gambe azzoppate restano finché non vengono curate: **Primo soccorso** (1 azione, prova di *Medicine / First Aid*), un **Trauma Patch**, o il downtime. Una cura completa rimette a posto gli HP, non le ossa.
+
+**I bersagli sintetici** (droni, torrette, robot) funzionano diversamente: gambe → mobilità azzoppata, braccia → supporto dell'arma *Jammed*, torace e addome → *Stunned*, testa (sensori) → *Blinded*. Alcuni **élite sono immuni** a una condizione (per esempio non possono essere buttati a terra): il colpo infligge comunque i suoi danni.
+
+**Armatura incrinata:** gli attacchi normali non incrinano mai l'armatura. L'armatura si incrina solo quando ferma del tutto un attacco a una locazione, o quando un effetto lo dice (*Bunker Buster*, corrosione, *Field Maintenance* in Surge). **Ripara armatura** (nel downtime, o con *Field Maintenance* in Mend) sistema le incrinature.
+
+> *Esempio:* il Soldier indossa 4 di armatura. Un ganger dichiara un attacco al suo torace e fa 3 danni: l'armatura regge e si incrina a 3. Al turno dopo il ganger ci riprova e fa 5: 2 punti passano, il Soldier perde 2 HP ed è **Slowed**. Intanto i colpi normali continuano a sbattere contro i suoi 3 di armatura.
+
+> **Il ritocco tattico "Mirare":** spendi **1 azione in più** prima di un attacco a una locazione per **Mirare** (*Aim*): puoi spostare il d20 della locazione fino a ±5 (non il tiro d'attacco). *Esempio:* fai 15 (torace); mirando puoi portarlo a 19, la testa.
 
 ::table[hit-locations]
 
@@ -268,7 +280,7 @@ Gli Operatori che vogliono mettere fuori uso una cibernetica precisa, decapitare
 
 Durante le operazioni ad alta posta, pericoli ambientali, ordigni pesanti, hack di rete e ability tattiche possono infliggere gravi **condizioni** a Operatori e nemici. Le condizioni alterano le capacità operative, il movimento o la precisione di un'entità finché non vengono rimosse.
 
-Siccome questi effetti si applicano durante il combattimento, giocatori e GM possono tenere traccia delle condizioni attive nella scheda *Condizioni* della sezione Gioco, sulla scheda del personaggio.
+Siccome questi effetti si applicano durante il combattimento, giocatori e GM possono tenere traccia delle condizioni attive nella scheda *Salute e condizioni* della sezione Gioco, sulla scheda del personaggio. La fonte più comune sono gli attacchi a una locazione (7-5): *Broken arm*, *Crippled leg*, *Prone*, *Slowed*, *Stunned* e *Incapacitated*.
 
 **Tabella di riferimento: le condizioni**
 
@@ -284,21 +296,11 @@ Un Operatore o un PNG rischia la morte immediata o una grave menomazione operati
 
 - **Un attributo base a zero (collasso del sistema):** se un attributo base (per esempio Costituzione, Forza, Destrezza) scende temporaneamente a **0** per neurotossine potenti, feedback cibernetici estremi o debuff invalidanti, l'entità muore all'istante per collasso dell'organismo. È un evento raro e molto letale, che richiede un intervento immediato sul campo prima che l'attributo arrivi a zero.
 
-- **Distruzione di una locazione vitale (morte istantanea):** se una locazione vitale — cioè **testa**, **torace** o **addome** — scende a **0 HP / AM**, il bersaglio subisce un trauma fisico immediato e non sopravvivibile, o una decapitazione, e muore all'istante.
-
-**Amputazione di una locazione non vitale (menomazione):** portare a 0 una parte del corpo non vitale significa che quell'arto è completamente distrutto o amputato:
-
-- **Un braccio a 0:** non puoi usare armi a due mani; le azioni con la mano principale subiscono una penalità di precisione.
-
-- **Due braccia a 0:** attacchi con armi, interazioni con l'inventario e operazioni tecniche diventano del tutto impossibili.
-
-- **Una gamba a 0:** il movimento (`SQR`) si dimezza.
-
-- **Due gambe a 0:** il movimento è ridotto a **1 SQR per azione** (strisciando). L'Operatore non può dichiarare attacchi in piedi né manovre di schivata.
+- **Le locazioni del corpo non uccidono da sole:** un attacco a una locazione aggiunge una condizione (7-5), e un colpo alla testa può lasciarti *Incapacitated*, ma la morte arriva sempre dagli HP, qui sotto.
 
 ### 2. HP generali a zero e danno devastante
 
-Quando gli **HP generali** di un Operatore scendono a **0 o meno** (senza la distruzione diretta di una locazione vitale), crolla subito in stato di **Incapacitated / privo di sensi**.
+Quando gli **HP generali** di un Operatore scendono a **0 o meno**, crolla subito in stato di **Incapacitated / privo di sensi**.
 
 - **Danno devastante (la soglia della CON negativa):** se un attacco porta gli HP generali sotto zero e il danno negativo rimanente raggiunge o supera il punteggio di **CON** dell'Operatore (per esempio con CON 12, subire abbastanza danni da arrivare a **−12 HP generali**), l'Operatore muore all'istante per il trauma devastante.
 

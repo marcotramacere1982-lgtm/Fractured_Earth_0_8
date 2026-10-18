@@ -10,7 +10,7 @@
     },
     "weak_bone_structure": {
       "name": "OSSA FRAGILI",
-      "text": "Sottrai 5 dai Body Points totali."
+      "text": "Sottrai 5 dai tuoi HP massimi."
     },
     "dimwitted": {
       "name": "TONTO",
@@ -138,7 +138,7 @@
     },
     "resistant_to_pain": {
       "name": "RESISTENTE AL DOLORE",
-      "text": "Aggiungi +1 ai Body Points di ogni parte del corpo."
+      "text": "Aggiungi +3 ai tuoi HP massimi."
     },
     "sole_heir_to_wealthy_aunt": {
       "name": "EREDE DI UNA ZIA RICCA",
