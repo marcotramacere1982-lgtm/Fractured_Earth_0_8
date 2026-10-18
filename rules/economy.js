@@ -25,13 +25,13 @@ export function creditScoreCost(entry, kind, economy, cr = entry.cost.cr) {
 }
 
 /** Both ways to pay for an entry. */
-export function priceOptions(entry, kind, economy, multiplier = economy.cash.defaultMultiplier) {
+export function priceOptions(entry, kind, economy, multiplier = economy.cash.defaultMultiplier, discount = 0) {
   const { minMultiplier, maxMultiplier } = economy.cash;
   const m = Math.min(maxMultiplier, Math.max(minMultiplier, multiplier));
   const crs = creditScoreCost(entry, kind, economy);
   return {
     official: crs === null ? null : { crs },
-    cash: { cash: entry.cost.cr * m, multiplier: m, range: [entry.cost.cr * minMultiplier, entry.cost.cr * maxMultiplier] },
+    cash: { cash: Math.round(entry.cost.cr * m * (1 - discount)), multiplier: m, discount, range: [entry.cost.cr * minMultiplier, entry.cost.cr * maxMultiplier] }, // discount: Fixer's Number
   };
 }
 
@@ -39,10 +39,10 @@ export function priceOptions(entry, kind, economy, multiplier = economy.cash.def
  * Buys one unit. method = 'official' | 'cash'.
  * @returns {{character: object, log: string, notice: object}}  log = English (saved); notice = for the screen. Throws RuleError.
  */
-export function buy(character, { kind, id }, method, data, { multiplier } = {}) {
+export function buy(character, { kind, id }, method, data, { multiplier, discount = 0 } = {}) {
   const entry = findGear(kind, id, data);
   if (!entry) throw new Error(`Unknown ${kind}: ${id}`);
-  const price = priceOptions(entry, kind, data.economy, multiplier);
+  const price = priceOptions(entry, kind, data.economy, multiplier, discount);
   const c = structuredClone(character);
   let log;
   let notice;

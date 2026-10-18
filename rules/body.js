@@ -11,10 +11,10 @@ export function maxHp(attributes, bodyData, hpMod = 0) {
  * or effects that strip armor) lower it until repaired; cover adds on top and never cracks.
  * @returns {{ worn, cracked, current, cover, general }} general = what every hit subtracts
  */
-export function armorTotals(armorIds, armorData, { cover = 0, cracked = 0 } = {}) {
+export function armorTotals(armorIds, armorData, { cover = 0, cracked = 0, bonus = 0 } = {}) {
   const worn = armorIds.map((id) => armorData.find((a) => a.id === id)).filter(Boolean).reduce((s, a) => s + a.maxHits, 0);
   const lost = Math.max(0, Math.min(worn, cracked));
-  return { worn, cracked: lost, current: worn - lost, cover, general: worn - lost + cover };
+  return { worn, cracked: lost, current: worn - lost, cover, bonus, general: worn - lost + cover + bonus }; // bonus: talents, never cracks
 }
 
 /** Body locations a location attack's d20 can land on (the attacker picks a side). */

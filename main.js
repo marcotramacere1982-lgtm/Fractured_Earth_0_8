@@ -37,6 +37,7 @@ async function boot() {
     toast,
     log,
     combat: (id, msg) => store.update(id, (c) => actions.tableCombat(c, data, { msg })),
+    progress: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyProgress(c, data, { msg }); }); return out; },
   });
   const app = { data, store, main, table };
   installTransmissions(store, table);

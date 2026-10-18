@@ -219,3 +219,69 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 - **Gear** — cash, inventory, the market, and your lifestyle.
 - **Dossier** — identity, class, background, debt, portrait and backstory.
 - **Notes** — your field notes and a log of rolls, purchases and ability uses.
+- **Progress** — level, XP, and the talent trees (5-9).
+
+## 5-9. Advancement & Talents {#sec-5-9}
+
+Your Operator grows by surviving missions, not by counting bodies. There is **no XP per kill**: what earns XP is what the crew achieves and the risks it takes.
+
+### Experience (XP) {#sec-5-9-xp}
+
+At the end of a mission the GM awards XP to everyone who took part:
+
+- **Main objective succeeded:** 3 XP · **secondary objective succeeded:** 1 XP · **objective failed:** 1 XP (you learn from it).
+- **A dangerous fight survived:** +1 if it was *Hard*, +2 if *Deadly* — rated by the GM's challenge meter when the fight started. Avoiding a fight costs you nothing.
+- **Spotlight:** +1 (at most 2 per mission) for a clever plan, great roleplay, or pushing your debt's story.
+
+A mission is usually worth 5–8 XP.
+
+### Levels {#sec-5-9-levels}
+
+**10 XP = 1 level** (up to level 10) — roughly a level every one and a half to two missions. Each level gives:
+
+- **Every level:** 1 **talent point**.
+- **Levels 2, 4, 6, 8, 10:** +1 to one attribute (the usual caps and aging still apply).
+- **Levels 3, 6, 9:** +1 equipped ability slot (on top of your brain-fog limit).
+- **Level 5:** tier-3 talents unlock.
+
+XP arrives at once, but you **spend** a level only when the GM opens **level-up** — downtime, somewhere quiet between missions. A heist followed by an escape stays one long run. Rare extra **training** (time and money in downtime) can raise an attribute too, if the GM allows it.
+
+### Talents {#sec-5-9-talents}
+
+Talents are mostly **passive edges**. Each costs **1 talent point**.
+
+- **Trees:** three general trees for everyone (*Survival*, *Street*, *Tactics*) and one tree for your class, with branches for each subclass.
+- **Tiers:** tier 1 any time; **tier 2** from level 3, after a tier-1 talent of the same tree; **tier 3** from level 5, after a tier-2 talent of the same tree. At most **two tier-3 talents**.
+- Some need a minimum attribute (e.g. *Iron Jaw* needs CON 12).
+- **Automatic** talents are applied by the sheet (HP, initiative, armor, class engines…). **At the table** talents are short rules you and the GM apply; once-per-round / combat / mission talents get a *Use* button on the Play tab.
+- The GM may also **gift** a talent as a story reward — free, and without prerequisites.
+
+The Progress tab shows every tree, what you can take now, and why the rest is locked.
+
+**Survival**
+
+::table[talents:survival]
+
+**Street**
+
+::table[talents:street]
+
+**Tactics**
+
+::table[talents:tactics]
+
+**Soldier**
+
+::table[talents:soldier]
+
+**Hacker**
+
+::table[talents:hacker]
+
+**Tech Wizard**
+
+::table[talents:techwiz]
+
+**Smuggler**
+
+::table[talents:smuggler]

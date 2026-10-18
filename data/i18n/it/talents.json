@@ -1,0 +1,152 @@
+{
+  "thick_skin": {
+    "desc": "+3 HP massimi."
+  },
+  "shake_it_off": {
+    "desc": "Rialzarti da Prone non costa azioni, una volta per round."
+  },
+  "iron_jaw": {
+    "desc": "Un colpo alla testa ti lascia Stunned, mai Incapacitated, finché sei sopra 0 HP."
+  },
+  "bone_setter": {
+    "desc": "Il Primo soccorso su un braccio rotto o una gamba azzoppata non richiede tiri, e puoi curarti da solo."
+  },
+  "unbreakable": {
+    "desc": "Una volta per combattimento, rifiuta una condizione nel momento in cui ti viene applicata."
+  },
+  "second_wind": {
+    "desc": "Una volta per combattimento, 1 azione: curi 2d6 HP."
+  },
+  "street_smarts": {
+    "desc": "+1 a Streetwise / Dealing e +1 a Deception / Conning."
+  },
+  "fixers_number": {
+    "desc": "I prezzi di strada (in contanti) costano il 10% in meno."
+  },
+  "read_the_room": {
+    "desc": "+2 TN a Persuasion o Deception contro qualcuno che hai visto agire in questa scena."
+  },
+  "clean_slate": {
+    "desc": "Una volta: +5 Credit Score, e un precedente penale viene cancellato senza rumore."
+  },
+  "network": {
+    "desc": "Una volta per missione, un contatto ti dà informazioni, una porta o un favore (decide il GM)."
+  },
+  "safe_house": {
+    "desc": "Nel downtime le ferite vengono curate e l’armatura riparata gratis."
+  },
+  "quick_draw": {
+    "desc": "+2 all’iniziativa."
+  },
+  "cover_habit": {
+    "desc": "La copertura parziale ti dà +3 invece di +2."
+  },
+  "marksman": {
+    "desc": "Attacchi a una locazione a −2 TN invece di −4."
+  },
+  "fast_hands": {
+    "desc": "Una volta per round, ricaricare o cambiare arma non costa azioni."
+  },
+  "killzone": {
+    "desc": "Quando miri (Aim), l’attacco ottiene anche +2 TN."
+  },
+  "bodyguard": {
+    "desc": "Una volta per round, subisci al posto di un alleato adiacente un colpo diretto a lui."
+  },
+  "drilled": {
+    "desc": "Inizi ogni combattimento con +1 TP."
+  },
+  "hardened": {
+    "desc": "+1 armatura in stance Defensive."
+  },
+  "thick_plates": {
+    "desc": "+1 armatura in Onslaught (attenua il ×1,5 ai danni che subisci)."
+  },
+  "momentum": {
+    "desc": "Abbattere un nemico ti dà +1 TP."
+  },
+  "unstoppable": {
+    "desc": "In Onslaught non puoi essere buttato Prone."
+  },
+  "command_voice": {
+    "desc": "Commanding Directive costa 1 TP in meno."
+  },
+  "spotters_eye": {
+    "desc": "Coordinated Crossfire dura fino alla fine del round successivo."
+  },
+  "battle_plan": {
+    "desc": "Una volta per round, l’alleato che agisce subito dopo di te ottiene +2 TN a un attacco."
+  },
+  "heat_sink": {
+    "desc": "Il deck smaltisce 2 heat per round invece di 1."
+  },
+  "cold_boot": {
+    "desc": "Dopo un Blue Screen il deck si riavvia a cap − 5 invece di − 3."
+  },
+  "silver_tongue": {
+    "desc": "Credentials Spoof costa 1 RAM in meno."
+  },
+  "social_engineer": {
+    "desc": "+2 TN a Deception contro bersagli cibernetici."
+  },
+  "ghost": {
+    "desc": "I tuoi hack sostenuti sopravvivono a un Blue Screen."
+  },
+  "overclocker": {
+    "desc": "+1 RAM."
+  },
+  "thermal_discipline": {
+    "desc": "Overclock Pulse genera 2 heat in meno."
+  },
+  "chain_reaction": {
+    "desc": "Feedback Loop rimbalza su un bersaglio cibernetico o sintetico adiacente, con metà dei danni."
+  },
+  "quick_tune": {
+    "desc": "Ogni combattimento inizia a Warm invece che a Cold."
+  },
+  "grounded": {
+    "desc": "Il disturbo scatta solo quando perdi 4 o più HP in un colpo."
+  },
+  "field_medic": {
+    "desc": "Le cure in Mend +1."
+  },
+  "reinforce": {
+    "desc": "Field Maintenance ripara 3 incrinature invece di 2."
+  },
+  "steady_rig": {
+    "desc": "Cambiare modalità ti lascia 1 Sync."
+  },
+  "live_wire": {
+    "desc": "Danni in Surge +1."
+  },
+  "extra_mount": {
+    "desc": "La tua torretta ha +1 armatura e +4 HP."
+  },
+  "overload": {
+    "desc": "Un Resonant cast non fa scendere il Sync sotto Warm."
+  },
+  "poker_face": {
+    "desc": "Una volta per combattimento, sposta gratis il pendolo di 1 verso 0."
+  },
+  "deep_pockets": {
+    "desc": "Contraband Stash funziona anche a 0 (Composure)."
+  },
+  "hair_trigger": {
+    "desc": "Quando sei Hot: +2 danni invece di +1."
+  },
+  "lucky_mag": {
+    "desc": "Desperate Gamble richiede solo 2 colpi carichi."
+  },
+  "showstopper": {
+    "desc": "Una volta per combattimento, un attacco Hot a segno butta anche il bersaglio Prone."
+  },
+  "old_friends": {
+    "desc": "Call in Favor richiede solo ≤ −2."
+  },
+  "ghost_routes": {
+    "desc": "Safehouse Route sposta due alleati."
+  },
+  "kingpin": {
+    "desc": "Call in Favor due volte per combattimento."
+  }
+}

@@ -28,6 +28,8 @@ export const DATA_FILES = {
   refs: 'rules-ref.json',
   actions: 'actions.json',
   encounter: 'encounter.json',
+  progress: 'progress.json',
+  talents: 'talents.json',
 };
 
 let cache = null;

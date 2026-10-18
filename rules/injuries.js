@@ -13,13 +13,14 @@ export const partOf = (locationId, body) => body.locations.find((l) => l.id === 
  * @param {object} hit { part: 'head'|'chest'|'abdomen'|'arm'|'leg', damage, armor (total incl. cover), wornArmor (crackable), hp, maxHp, tag, immune[] }
  * @returns {{ taken: number, through: boolean, condition: string|null, immune: boolean, crack: number }}
  */
-export function locationOutcome({ part, damage, armor, wornArmor = armor, hp, maxHp, tag = 'organic', immune = [] }, body) {
+export function locationOutcome({ part, damage, armor, wornArmor = armor, hp, maxHp, tag = 'organic', immune = [], headNoIncap = false }, body) {
   const taken = Math.max(0, damage - armor);
   const through = taken > 0;
   if (!through) return { taken: 0, through, condition: null, immune: false, crack: wornArmor > 0 ? body.locationAttack.armorCrack : 0 };
   const rule = body.injuries;
   let condition = tag === 'synthetic' ? rule.synthetic[part] : rule[part]?.condition;
-  if (part === 'head' && tag !== 'synthetic' && hp - taken <= maxHp * rule.head.severeAtHpFraction) condition = rule.head.severe;
+  const stillUp = hp - taken > 0;
+  if (part === 'head' && tag !== 'synthetic' && hp - taken <= maxHp * rule.head.severeAtHpFraction && !(headNoIncap && stillUp)) condition = rule.head.severe; // Iron Jaw
   const isImmune = Boolean(condition && immune.includes(condition));
   return { taken, through, condition: isImmune ? null : condition ?? null, immune: isImmune, crack: 0 };
 }

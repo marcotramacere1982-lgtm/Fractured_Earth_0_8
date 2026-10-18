@@ -219,3 +219,69 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 - **Equipaggiamento** — contanti, inventario, il mercato e il tuo stile di vita.
 - **Dossier** — identità, classe, trascorsi, debito, ritratto e storia.
 - **Note** — i tuoi appunti e il registro di tiri, acquisti e uso delle ability.
+- **Progressi** — livello, XP e gli alberi dei talenti (5-9).
+
+## 5-9. Avanzamento e talenti {#sec-5-9}
+
+Il tuo Operatore cresce sopravvivendo alle missioni, non contando i cadaveri. **Non ci sono XP per le uccisioni**: gli XP vengono da ciò che la squadra ottiene e dai rischi che corre.
+
+### Esperienza (XP) {#sec-5-9-xp}
+
+Alla fine di una missione il GM assegna XP a chi ha partecipato:
+
+- **Obiettivo principale riuscito:** 3 XP · **obiettivo secondario riuscito:** 1 XP · **obiettivo fallito:** 1 XP (si impara anche così).
+- **Un combattimento pericoloso superato:** +1 se era *Hard*, +2 se *Deadly*, secondo il misuratore di sfida del GM all'inizio dello scontro. Evitare uno scontro non ti costa nulla.
+- **Spotlight:** +1 (al massimo 2 per missione) per un piano brillante, un gran gioco di ruolo o per aver spinto la storia del tuo debito.
+
+Una missione vale di solito 5–8 XP.
+
+### Livelli {#sec-5-9-levels}
+
+**10 XP = 1 livello** (fino al livello 10), più o meno un livello ogni missione e mezza o due. Ogni livello dà:
+
+- **Ogni livello:** 1 **punto talento**.
+- **Livelli 2, 4, 6, 8, 10:** +1 a un attributo (valgono i soliti limiti e l'invecchiamento).
+- **Livelli 3, 6, 9:** +1 slot per le ability equipaggiate (oltre al tuo limite di brain fog).
+- **Livello 5:** si sbloccano i talenti di tier 3.
+
+Gli XP arrivano subito, ma un livello lo **spendi** solo quando il GM apre il **level-up**: il downtime, in un posto tranquillo tra una missione e l'altra. Un colpo seguito da una fuga resta un'unica lunga corsa. Un raro **addestramento** extra (tempo e soldi nel downtime) può alzare un attributo, se il GM lo permette.
+
+### Talenti {#sec-5-9-talents}
+
+I talenti sono soprattutto **vantaggi passivi**. Ognuno costa **1 punto talento**.
+
+- **Alberi:** tre alberi generali per tutti (*Survival*, *Street*, *Tactics*) e uno della tua classe, con rami per ogni sottoclasse.
+- **Tier:** tier 1 in qualsiasi momento; **tier 2** dal livello 3, dopo un talento di tier 1 dello stesso albero; **tier 3** dal livello 5, dopo un talento di tier 2 dello stesso albero. Al massimo **due talenti di tier 3**.
+- Alcuni richiedono un attributo minimo (per esempio *Iron Jaw* richiede CON 12).
+- I talenti **automatici** li applica la scheda (HP, iniziativa, armatura, motori di classe…). Quelli **al tavolo** sono brevi regole che tu e il GM applicate; i talenti una volta per round / combattimento / missione hanno un pulsante *Usa* nella sezione Gioco.
+- Il GM può anche **regalare** un talento come premio narrativo: gratis e senza prerequisiti.
+
+La scheda Progressi mostra ogni albero, cosa puoi prendere adesso e perché il resto è bloccato.
+
+**Survival**
+
+::table[talents:survival]
+
+**Street**
+
+::table[talents:street]
+
+**Tactics**
+
+::table[talents:tactics]
+
+**Soldier**
+
+::table[talents:soldier]
+
+**Hacker**
+
+::table[talents:hacker]
+
+**Tech Wizard**
+
+::table[talents:techwiz]
+
+**Smuggler**
+
+::table[talents:smuggler]

@@ -2,6 +2,7 @@
 // All functions take and return plain `resources` objects (no mutation).
 
 import { canRunHack, deckStatus, zoneFor } from './classes.js';
+import { tunedAbility } from './progress.js';
 
 export function defaultResources(classId) {
   switch (classId) {
@@ -98,14 +99,14 @@ function techUse(a, r, ctx) {
   if (a.brownout) return { ...r, sync: 0, offline: 2 }; // offline this round and the next
   if (ctx.resonant) {
     if (r.sync < SYNC_MAX) throw new Error('A Resonant cast needs Sync 3.');
-    return { ...r, sync: 0 };
+    return { ...r, sync: ctx.talents?.resonantFloor ?? 0 }; // Overload: never below Warm
   }
   return { ...r, sync: Math.min(SYNC_MAX, r.sync + 1) };
 }
 
-/** Switching mode is free but re-tunes the rig: Sync back to 0. */
-export function switchMode(r, mode) {
-  return mode === r.mode ? r : { ...r, mode, sync: 0, switched: true };
+/** Switching mode is free but re-tunes the rig: Sync back to 0 (Steady Rig: keep up to `keep`). */
+export function switchMode(r, mode, keep = 0) {
+  return mode === r.mode ? r : { ...r, mode, sync: Math.min(r.sync, keep), switched: true };
 }
 
 /** Disruption: damage to a body location costs 1 Sync. */
@@ -117,7 +118,7 @@ export const disruptSync = (r) => ({ ...r, sync: Math.max(0, r.sync - 1) });
 function smugglerCheck(a, r, ctx = {}) {
   const noWeapon = weaponCheck(a, ctx);
   if (noWeapon) return noWeapon;
-  if (a.oncePerCombat && r.used?.includes(a.id)) return { ok: false, code: 'oncePerCombat', reason: 'Once per combat: already used' };
+  if (a.oncePerCombat && (r.used ?? []).filter((x) => x === a.id).length >= (a.uses ?? 1)) return { ok: false, code: 'oncePerCombat', reason: 'Once per combat: already used' };
   if (a.requires == null) return { ok: true, reason: null };
   const ok = a.requires > 0 ? r.pendulum >= a.requires : r.pendulum <= a.requires;
   const need = `${a.requires > 0 ? '≥ +' : '≤ '}${a.requires}`;
@@ -129,17 +130,19 @@ function smugglerUse(a, r) {
 }
 
 /** Smuggler zone bonuses (decision 38): Cold +2 TN on gun attacks; Hot +1 damage and +1 square. Zero for other classes. */
-export function zoneBonus(classId, r, classesData) {
+export function zoneBonus(classId, r, classesData, talents = {}) {
   const none = { zone: null, name: null, rangedTn: 0, damage: 0, squares: 0 };
   if (classId !== 'smuggler') return none;
   const z = zoneFor(r?.pendulum ?? 0, classesData.classes.find((c) => c.id === 'smuggler').resources.zones);
-  return z ? { zone: z.id, name: z.name, rangedTn: z.bonus?.rangedTn ?? 0, damage: z.bonus?.damage ?? 0, squares: z.bonus?.squares ?? 0 } : none;
+  const damage = z?.bonus?.damage ? z.bonus.damage + (talents.hotDamage ?? 0) : 0; // Hair Trigger: Hot hits harder
+  return z ? { zone: z.id, name: z.name, rangedTn: z.bonus?.rangedTn ?? 0, damage, squares: z.bonus?.squares ?? 0 } : none;
 }
 
 // ------------------------------------------------------------------ public API
 
-/** @returns {{ok: boolean, reason: string|null}} ctx.arms: broken arms (both → no hands abilities). */
-export function canUse(classId, ability, resources, ctx = {}) {
+/** @returns {{ok: boolean, reason: string|null}} ctx.arms: broken arms (both → no hands abilities); ctx.talents: talent effects. */
+export function canUse(classId, base, resources, ctx = {}) {
+  const ability = tunedAbility(base, ctx.talents);
   if (ability.hands && ctx.arms >= 2) return { ok: false, code: 'needHands', reason: 'Needs at least one working arm' };
   switch (classId) {
     case 'soldier': return soldierCheck(ability, resources, ctx);
@@ -153,7 +156,8 @@ export function canUse(classId, ability, resources, ctx = {}) {
   }
 }
 
-export function useAbility(classId, ability, resources, ctx = {}) {
+export function useAbility(classId, base, resources, ctx = {}) {
+  const ability = tunedAbility(base, ctx.talents);
   switch (classId) {
     case 'soldier': return soldierUse(ability, resources);
     case 'hacker': return hackerUse(ability, resources, ctx.capacity);
@@ -173,9 +177,10 @@ export function roundEnd(classId, r, ctx = {}) {
       if (r.stunned) return { ...r, stunned: r.stunned === true ? 0 : r.stunned - 1 }; // `true`: saves from before the 2-round reboot
       const rules = ctx.classesData.classes.find((c) => c.id === 'hacker').resources.roundEnd;
       if (!ctx.capacity) return r;
-      if (r.bluescreen) return { ...r, bluescreen: false, heat: Math.max(0, ctx.capacity.heatCap - rules.rebootHeatBelowCap) };
+      const t = ctx.talents ?? {};
+      if (r.bluescreen) return { ...r, bluescreen: false, heat: Math.max(0, ctx.capacity.heatCap - rules.rebootHeatBelowCap - (t.rebootBelowCap ?? 0)) };
       if (r.heat >= ctx.capacity.heatCap) return { ...r, bluescreen: true };
-      return { ...r, heat: Math.max(0, r.heat - rules.heatVent) };
+      return { ...r, heat: Math.max(0, r.heat - rules.heatVent - (t.heatVent ?? 0)) };
     }
     case 'techwiz': {
       if (r.offline > 0) return { ...r, offline: r.offline - 1, switched: false };
@@ -197,10 +202,13 @@ export function stanceMultiplier(classId, r, classesData) {
   return classesData.classes.find((c) => c.id === 'soldier').resources.stances.find((s) => s.id === r?.stance)?.dealt ?? 1;
 }
 
-/** Start of a new combat: Soldier TP back to 0, Tech Wizard Sync back to Cold, Smuggler once-per-combat abilities ready. */
-export function combatStart(classId, r) {
-  if (classId === 'soldier') return { ...r, tp: 0, stance: 'attack' };
-  if (classId === 'techwiz') return { ...r, sync: 0, offline: 0, switched: false };
+/**
+ * Start of a new combat: Soldier TP back to 0, Tech Wizard Sync back to Cold, Smuggler once-per-combat abilities ready.
+ * talents: Drilled starts with TP, Quick Tune starts Warm.
+ */
+export function combatStart(classId, r, talents = {}) {
+  if (classId === 'soldier') return { ...r, tp: talents.startTp ?? 0, stance: 'attack' };
+  if (classId === 'techwiz') return { ...r, sync: Math.min(SYNC_MAX, talents.startSync ?? 0), offline: 0, switched: false };
   if (classId === 'smuggler') return { ...r, used: [] };
   return r;
 }

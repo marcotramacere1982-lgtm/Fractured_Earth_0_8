@@ -2,15 +2,15 @@
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
 import { canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, disruptSync, upgradeTechResources, weaponHit, abilityWeapon } from '../../rules/engines.js';
-import { deckCapacity } from '../../rules/classes.js';
 import { buy } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
 import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance } from '../../rules/turn.js';
 import { RuleError } from '../../rules/messages.js';
 import { locationOutcome, partOf } from '../../rules/injuries.js';
+import { progressActions, resetUses } from './progress-actions.js';
 
 /** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
-function spend(c, data, what) {
+export function spend(c, data, what) {
   const turn = c.play.turn ?? newTurn();
   if (!turn.inCombat) return '';
   const max = allowance(deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions);
@@ -29,8 +29,7 @@ export function ensureResources(c) {
 }
 
 function capacityOf(c, data) {
-  const deck = data.decks.find((d) => d.id === c.play.deck);
-  return deck ? deckCapacity(deck, c.play.deckMods ?? [], data.deckMods) : null;
+  return deriveSheet(c, data).deck?.capacity ?? null; // includes talents (Overclocker)
 }
 
 /** New or removed armor starts intact. */
@@ -38,11 +37,12 @@ function resetArmorMarks(c) {
   c.play.armorDamage = 0;
 }
 
-/** HP actually lost: marks Wounded, and Field Sync disruption shakes a Tech Wizard (−1 Sync). */
+/** HP actually lost: marks Wounded, and Field Sync disruption shakes a Tech Wizard (−1 Sync; Grounded: only big hits). */
 function hurt(c, data, taken) {
   if (taken <= 0) return '';
   if (!c.play.conditions.includes('wounded')) c.play.conditions.push('wounded');
   if (c.classId !== 'techwiz') return '';
+  if (taken < (deriveSheet(c, data).talents.disruptionMin ?? 0)) return '';
   ensureResources(c);
   const was = c.play.resources.sync;
   c.play.resources = disruptSync(c.play.resources);
@@ -88,7 +88,7 @@ export const actions = {
     const s = deriveSheet(c, data);
     const dmg = Math.max(0, Number(damage) || 0);
     const outcome = loc
-      ? locationOutcome({ part: partOf(loc, data.body), damage: dmg, armor: s.armor.general, wornArmor: s.armor.current, hp: s.hp.current, maxHp: s.hp.max }, data.body)
+      ? locationOutcome({ part: partOf(loc, data.body), damage: dmg, armor: s.armor.general, wornArmor: s.armor.current, hp: s.hp.current, maxHp: s.hp.max, immune: s.immune, headNoIncap: Boolean(s.talents.headNoIncap) }, data.body)
       : { taken: Math.max(0, dmg - s.armor.general), condition: null, crack: 0 };
     const hpNow = s.hp.current - outcome.taken;
     c.play.hp = hpNow >= s.hp.max ? null : hpNow;
@@ -176,7 +176,7 @@ export const actions = {
     if (kind === 'armor') autoWear(c, id);
   },
   buy(c, data, { kind, id, method, multiplier }) {
-    const res = buy(c, { kind, id }, method, data, { multiplier: Number(multiplier) });
+    const res = buy(c, { kind, id }, method, data, { multiplier: Number(multiplier), discount: deriveSheet(c, data).talents.cashDiscount ?? 0 });
     Object.assign(c, res.character);
     if (kind === 'armor') autoWear(c, id);
     log(c, res.log, method === 'official' ? 'warn' : 'info');
@@ -186,10 +186,11 @@ export const actions = {
 
   // ---------------- class engine
   maxAbilities(c, _d, { delta }) { c.play.maxAbilities = clamp(c.play.maxAbilities + Number(delta), 1, 12); },
-  equip(c, _d, { id }) {
+  equip(c, data, { id }) {
+    const limit = deriveSheet(c, data).abilityLimit; // brain fog limit + slots from levels 3 / 6 / 9
     if (c.play.abilities.includes(id)) c.play.abilities = c.play.abilities.filter((x) => x !== id);
-    else if (c.play.abilities.length < c.play.maxAbilities) c.play.abilities.push(id);
-    else throw new RuleError('brainFog', { n: c.play.maxAbilities }, `Brain fog: only ${c.play.maxAbilities} abilities can be equipped. Unequip one first.`);
+    else if (c.play.abilities.length < limit) c.play.abilities.push(id);
+    else throw new RuleError('brainFog', { n: limit }, `Brain fog: only ${limit} abilities can be equipped. Unequip one first.`);
   },
   release(c, data, { id }) {
     c.play.resources = releasePayload(c.play.resources, id, data.abilities);
@@ -202,10 +203,10 @@ export const actions = {
     c.play.resources[key] = clamp((c.play.resources[key] ?? 0) + Number(delta), lo, hi);
   },
   /** Tech Wizard: Mend / Surge. Free, but Sync drops to 0. */
-  techMode(c, _d, { value }) {
+  techMode(c, data, { value }) {
     ensureResources(c);
     const was = c.play.resources;
-    c.play.resources = switchMode(was, value);
+    c.play.resources = switchMode(was, value, deriveSheet(c, data).talents.keepSyncOnSwitch ?? 0);
     if (was.mode !== value) log(c, `Mode → ${value === 'surge' ? 'Surge' : 'Mend'} (Sync reset)`);
   },
   setRes(c, _d, { key, value }) {
@@ -223,14 +224,17 @@ export const actions = {
       capacity: capacityOf(c, data),
       wounded: c.play.conditions.includes('wounded'),
       classesData: data.classes,
+      talents: deriveSheet(c, data).talents,
     });
     c.play.conditions = c.play.conditions.filter((x) => !data.encounter.roundEndClears.includes(x));
+    resetUses(c, data, 'round');
     c.play.turn = endRound(turn);
     log(c, `— End of round ${turn.round} —`);
   },
-  combatStart(c) {
+  combatStart(c, data) {
     ensureResources(c);
-    c.play.resources = combatStart(c.classId, c.play.resources);
+    c.play.resources = combatStart(c.classId, c.play.resources, data ? deriveSheet(c, data).talents : {});
+    if (data) { resetUses(c, data, 'combat'); resetUses(c, data, 'round'); }
     c.play.turn = startCombat();
     log(c, '=== Combat started — round 1 ===');
   },
@@ -250,7 +254,7 @@ export const actions = {
       return;
     }
     if (!mine) {
-      actions.combatStart(c);
+      actions.combatStart(c, data);
       c.play.turn = { ...c.play.turn, tableCombat: msg.id, round: msg.round };
       if (msg.round > 1) log(c, `Joined the GM's combat at round ${msg.round}`);
       return;
@@ -270,7 +274,7 @@ export const actions = {
     ensureResources(c);
     const ability = data.abilities[c.classId].find((a) => a.id === id);
     const sh = deriveSheet(c, data);
-    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.weapons, arms: sh.injured.arms };
+    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.weapons, arms: sh.injured.arms, talents: sh.talents };
     const check = canUse(c.classId, ability, c.play.resources, ctx);
     if (!check.ok) throw new RuleError(check.code, check.vars, `${ability.name}: ${check.reason}`);
     const prefix = spend(c, data, { kind: 'ability', name: ability.name });
@@ -319,6 +323,7 @@ export const actions = {
     c.subclassId = value || null;
     if (changedClass) { c.play.resources = defaultResources(c.classId); c.play.abilities = []; }
   },
+  ...progressActions,
 };
 
 export const ownedOf = owned;

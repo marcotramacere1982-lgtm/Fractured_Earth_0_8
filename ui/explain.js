@@ -45,7 +45,7 @@ const RENDER = {
     return {
       title: x.name,
       html: p(x.desc)
-        + calc(`${parts(x.stats, 'bonus').join(' + ')} = <strong>${x.value}</strong> <span class="muted">(${e(t('explain.halfEach'))})</span>`)
+        + calc(`${parts(x.stats, 'bonus').join(' + ')}${x.talent ? ` ${sign(x.talent)} (${e(t('explain.talents'))})` : ''} = <strong>${x.value}</strong> <span class="muted">(${e(t('explain.halfEach'))})</span>`)
         + p(t('explain.skillRoll', { tn: x.value, passive: x.passive })),
       anchor: data.refs.refs['skill-check']?.anchor,
     };
@@ -64,7 +64,7 @@ const RENDER = {
     const x = explainInitiative(c, data);
     return {
       title: t('explain.feeds.initiative'),
-      html: p(x.use) + calc(`${parts(x.stats, 'bonus').join(' + ')} ${sign(x.offset)} = <strong>${sign(x.value)}</strong> <span class="muted">(${e(t('explain.halfEach'))})</span>`),
+      html: p(x.use) + calc(`${parts(x.stats, 'bonus').join(' + ')} ${sign(x.offset)}${x.talent ? ` ${sign(x.talent)} (${e(t('explain.talents'))})` : ''} = <strong>${sign(x.value)}</strong> <span class="muted">(${e(t('explain.halfEach'))})</span>`),
       anchor: data.refs.refs.initiative?.anchor,
     };
   },
@@ -72,7 +72,7 @@ const RENDER = {
     const x = explainHp(c, data);
     return {
       title: t('explain.feeds.hp'),
-      html: calc(`${x.conX} × CON ${x.con} + ${x.mstX === 1 ? '' : `${x.mstX} × `}MST ${x.mst}${x.mod ? ` ${sign(x.mod)} (${e(t('explain.lifeEvents'))})` : ''} = <strong>${x.value}</strong>`) + p(data.refs.refs.hp?.text),
+      html: calc(`${x.conX} × CON ${x.con} + ${x.mstX === 1 ? '' : `${x.mstX} × `}MST ${x.mst}${x.mod ? ` ${sign(x.mod)} (${e(t('explain.lifeEvents'))})` : ''}${x.talent ? ` ${sign(x.talent)} (${e(t('explain.talents'))})` : ''} = <strong>${x.value}</strong>`) + p(data.refs.refs.hp?.text),
       anchor: data.refs.refs.hp?.anchor,
     };
   },

@@ -16,7 +16,7 @@ const setPath = (obj, path, value) => {
 
 /**
  * @param store  character store (state/store.js)
- * @param hooks  { toast(text, kind), log(character, text, kind), combat(id, combatState) }
+ * @param hooks  { toast(text, kind), log(character, text, kind), combat(id, combatState), progress(id, msg) → summary }
  */
 export function createTableLink(store, hooks) {
   const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null };
@@ -79,6 +79,14 @@ export function createTableLink(store, hooks) {
         if (id) hooks.combat?.(id, msg);
         emit();
         break;
+      case 'progress': { // XP, a gifted talent, level-up opened / closed (decision 44)
+        const out = id ? hooks.progress?.(id, msg) : null;
+        if (out?.levelUp) hooks.toast(t('progress.levelUpToast'), 'success');
+        else if (out?.xp) hooks.toast(t('progress.xpToast', { n: out.xp }), 'success');
+        if (out?.gift) hooks.toast(t('progress.giftToast', { name: out.gift }), 'success');
+        if (out?.open) hooks.toast(t('progress.openToast'), 'success');
+        break;
+      }
       case 'request-sync':
         push();
         break;

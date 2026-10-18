@@ -1,0 +1,77 @@
+{
+  "note": "Advancement (decision 44): mission XP, levels, grants. Levelling is spent only while the GM has opened level-up (downtime).",
+  "xpPerLevel": 10,
+  "maxLevel": 10,
+  "xp": {
+    "primary": 3,
+    "secondary": 1,
+    "failed": 1,
+    "danger": {
+      "amber": 1,
+      "red": 2
+    },
+    "spotlight": 1,
+    "spotlightMax": 2
+  },
+  "grants": {
+    "talentPerLevel": 1,
+    "attributeLevels": [
+      2,
+      4,
+      6,
+      8,
+      10
+    ],
+    "abilitySlotLevels": [
+      3,
+      6,
+      9
+    ]
+  },
+  "tiers": {
+    "2": {
+      "level": 3
+    },
+    "3": {
+      "level": 5,
+      "max": 2
+    }
+  },
+  "trees": [
+    {
+      "id": "survival",
+      "name": "Survival",
+      "kind": "general"
+    },
+    {
+      "id": "street",
+      "name": "Street",
+      "kind": "general"
+    },
+    {
+      "id": "tactics",
+      "name": "Tactics",
+      "kind": "general"
+    },
+    {
+      "id": "soldier",
+      "name": "Soldier",
+      "kind": "class"
+    },
+    {
+      "id": "hacker",
+      "name": "Hacker",
+      "kind": "class"
+    },
+    {
+      "id": "techwiz",
+      "name": "Tech Wizard",
+      "kind": "class"
+    },
+    {
+      "id": "smuggler",
+      "name": "Smuggler",
+      "kind": "class"
+    }
+  ]
+}

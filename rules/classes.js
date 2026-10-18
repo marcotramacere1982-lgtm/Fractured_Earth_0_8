@@ -23,12 +23,12 @@ export function abilitiesFor(abilitiesData, classId, subclassId) {
  * Deck capacity after hardware mods. Each mod takes one of the deck's mod slots;
  * mods beyond the slot count are ignored and reported.
  */
-export function deckCapacity(deck, modIds, modsData) {
+export function deckCapacity(deck, modIds, modsData, extraRam = 0) {
   const mods = modIds.map((id) => modsData.mods.find((m) => m.id === id)).filter(Boolean);
   const installed = mods.slice(0, deck.modSlots);
   const add = (type) => installed.filter((m) => m.type === type).reduce((s, m) => s + m.amount, 0);
   return {
-    ram: deck.ram + add('ram'),
+    ram: deck.ram + add('ram') + extraRam, // extraRam: Overclocker
     heatCap: deck.heatCap + add('cooling'),
     slots: { used: installed.length, max: deck.modSlots },
     installed: installed.map((m) => m.id),

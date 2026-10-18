@@ -4,11 +4,11 @@
 
 /** Fields grouped by how they may legitimately change. */
 const WATCHED = [
-  { path: 'attributes', label: 'Attribute', explain: [] }, // only GM rulings / aging change these
+  { path: 'attributes', label: 'Attribute', explain: [/^Level-up: [A-Z]+ \+1/, /Clean Slate/] }, // GM rulings, aging, level-up raises
   { path: 'rowOffsets', label: 'Combat row', explain: [] },
   { path: 'mods', label: 'Body modifier', explain: [] },
   { path: 'age', label: 'Age', explain: [] },
-  { path: 'criminalRecord', label: 'Criminal record', explain: [] },
+  { path: 'criminalRecord', label: 'Criminal record', explain: [/Clean Slate/] },
   { path: 'credentials', label: 'Credentials', explain: [] },
   { path: 'tags', label: 'Notable', explain: [] },
   { path: 'subclassId', label: 'Subclass', explain: [] },
@@ -16,6 +16,12 @@ const WATCHED = [
   { path: 'play.cash', label: 'Cash', explain: [/^Bought .* on the street/] },
   { path: 'play.inventory', label: 'Inventory', explain: [/^Bought /] },
   { path: 'play.lifestyle', label: 'Lifestyle', explain: [/^Bought /] },
+  // advancement (decision 44): XP and gifts come from the GM; talents and raises only while level-up is open
+  { path: 'progress.xp', label: 'XP', explain: [/^XP [+−-]/] },
+  { path: 'progress.talents', label: 'Talents', explain: [/^Talent: /] },
+  { path: 'progress.gifts', label: 'Talent gifts', explain: [/^Talent gift from the GM/] },
+  { path: 'progress.raises', label: 'Attribute raises', explain: [/^Level-up: /] },
+  { path: 'progress.open', label: 'Level-up open', explain: [/^The GM (opened|closed) level-up/] },
 ];
 
 const get = (obj, path) => path.split('.').reduce((o, k) => o?.[k], obj);

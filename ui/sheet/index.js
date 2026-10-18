@@ -7,6 +7,7 @@ import { deriveSheet } from '../../state/character.js';
 import { exportCharacter, shrinkImage } from '../../state/store.js';
 import { actions, log } from './actions.js';
 import { statusBar, playTab } from './play.js';
+import { progressTab } from './progress.js';
 import { setExplainSource } from '../explain.js';
 import { skillsTab } from './skills.js';
 import { gearTab } from './gear.js';
@@ -33,6 +34,7 @@ const TABS = [
   { id: 'gear', label: 'sheet.tab.gear', view: gearTab },
   { id: 'dossier', label: 'sheet.tab.dossier', view: dossierTab },
   { id: 'notes', label: 'sheet.tab.notes', view: notesTab },
+  { id: 'progress', label: 'sheet.tab.progress', view: progressTab },
 ];
 
 export function sheetView({ data, store, main, table }, route) {
@@ -134,6 +136,12 @@ export function sheetView({ data, store, main, table }, route) {
     hp: ({ delta }) => run('hp', { delta }),
     heal: () => run('heal'),
     repairArmor: () => run('repairArmor'),
+    buyTalent: (d) => run('buyTalent', d),
+    raiseAttribute: (d) => run('raiseAttribute', d),
+    useTalent: (d) => {
+      const out = run('useTalent', d);
+      if (out?.rolled) toast(t('progress.healed', { roll: formatRoll(out.rolled) }), 'success');
+    },
     armorCrack: (d) => run('armorCrack', d),
     injury: (d) => run('injury', d),
     takeHit: () => {
@@ -180,7 +188,7 @@ export function sheetView({ data, store, main, table }, route) {
       if (w.usable === false) { toast(t(`weapons.unusable.${w.why}`), 'danger'); return; }
       if (w.magSize && w.rounds <= 0) { toast(t('attack.empty', { weapon: w.name }), 'danger'); return; }
       const aimed = Boolean(located);
-      const penalty = aimed ? data.body.locationAttack.tnPenalty : 0;
+      const penalty = aimed ? sh.locationPenalty : 0; // Marksman lowers it
       let damageText = '';
       openCheck({ name: t(aimed ? 'attack.locatedTitle' : 'attack.title', { weapon: w.name }), tn: w.tn - penalty, sub: aimed ? `${nameOfSkill(w.skill)} · ${t('attack.locatedSub', { n: penalty })}` : nameOfSkill(w.skill) }, data,
         (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), damageText, located: aimed }),

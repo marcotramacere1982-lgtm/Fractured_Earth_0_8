@@ -94,7 +94,7 @@ export function engineCard(c, s, data) {
   if (!c.classId) return card(t('engine.class'), html`<p class="muted">${t('engine.noClass')}</p>`);
   const saved = c.play.resources && Object.keys(c.play.resources).length ? c.play.resources : null;
   const r = c.classId === 'techwiz' ? upgradeTechResources(saved ?? defaultResources('techwiz')) : { ...defaultResources(c.classId), ...saved };
-  const ctx = { capacity: s.deck?.capacity ?? null, weapons: s.weapons, arms: s.injured.arms };
+  const ctx = { capacity: s.deck?.capacity ?? null, weapons: s.weapons, arms: s.injured.arms, talents: s.talents };
   const all = data.abilities[c.classId].map((a) => ({ ...a, available: a.subclasses.includes(c.subclassId) }));
   // Equipped = the loadout the player chose (swap between combats, capped by brain fog).
   // Ready = equipped AND the class criteria are met right now (computed live, never stored).
@@ -130,9 +130,9 @@ export function engineCard(c, s, data) {
     <div class="stack">
       ${resourcePanel(c, s, data, r)}
       <div class="spread spread--wrap">
-        <span class="label">${t('engine.equipped')} ${equipped.length}/${c.play.maxAbilities} · <span class="text-success">${t('engine.readyCount', { n: readyCount })}</span></span>
+        <span class="label">${t('engine.equipped')} ${equipped.length}/${s.abilityLimit} · <span class="text-success">${t('engine.readyCount', { n: readyCount })}</span></span>
         <span class="cluster"><span class="label">${t('engine.brainFog')}${info('brain-fog', t('engine.brainFog'))}</span>${counter({ action: 'maxAbilities', value: c.play.maxAbilities, min: 1, size: 'sm', label: t('engine.brainFog') })}</span></div>
-      ${equipped.length ? equipped.map((a) => abilityRow(a, true)) : html`<p class="muted">${t('engine.nothingEquipped', { n: c.play.maxAbilities, resource: data.classes.classes.find((k) => k.id === c.classId).resources.counters[0].name })}</p>`}
+      ${equipped.length ? equipped.map((a) => abilityRow(a, true)) : html`<p class="muted">${t('engine.nothingEquipped', { n: s.abilityLimit, resource: data.classes.classes.find((k) => k.id === c.classId).resources.counters[0].name })}</p>`}
       <details class="details" data-keep="abilities"><summary>${t('engine.allAbilities', { cls: data.classes.classes.find((k) => k.id === c.classId).name, n: rest.length })}</summary>
         <div class="stack">${rest.map((a) => abilityRow(a, false))}</div>
       </details>

@@ -3,6 +3,7 @@
 import { computeSkills, computeCombat, initiative, weaponTN } from '../rules/stats.js';
 import { maxHp, armorTotals } from '../rules/body.js';
 import { limbs, movement, usableWeapons } from '../rules/injuries.js';
+import { emptyProgress, progressStatus, talentEffects } from '../rules/progress.js';
 import { findSubclass, classTN, deckCapacity, deckStatus } from '../rules/classes.js';
 import { zoneBonus, isRanged } from '../rules/engines.js';
 import { lifestyleUpkeep } from '../rules/economy.js';
@@ -52,7 +53,9 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       conditions: [],
       turn: { inCombat: false, round: 1, used: 0, reserved: 0, spent: [] },
       inbox: [], // unread GM transmissions { id, t, text, private }
+      talentUses: {}, // talent id -> uses this round / combat / mission
     },
+    progress: emptyProgress(), // XP, bought talents, GM gifts, attribute raises, level-up open (decision 44)
   };
 }
 
@@ -65,6 +68,8 @@ export function upgradeSave(c) {
   if ('locations' in c.play) delete c.play.locations;
   c.play.armorDamage ??= 0;
   c.play.injuries ??= [];
+  c.play.talentUses ??= {};
+  c.progress ??= emptyProgress();
   if (c.mods && 'locationHp' in c.mods) {
     c.mods.maxHp = (c.mods.maxHp ?? 0) + 3 * (c.mods.locationHp || 0);
     delete c.mods.locationHp;
@@ -75,15 +80,22 @@ export function upgradeSave(c) {
 /** Every number the sheet shows, computed from the character + data. */
 export function deriveSheet(character, data) {
   const a = character.attributes;
+  const fx = data.talents ? talentEffects(character, data) : {};
   const combat = computeCombat(a, character.rowOffsets, data.combat);
-  const hpMax = maxHp(a, data.body, character.mods.maxHp);
-  const armor = armorTotals(character.play.worn, data.armor, { cover: character.play.cover, cracked: character.play.armorDamage ?? 0 });
+  const hpMax = maxHp(a, data.body, character.mods.maxHp) + (fx.maxHp ?? 0);
+  const partial = Math.min(...data.difficulty.cover.map((x) => x.armor).filter((n) => n > 0));
+  const stance = character.classId === 'soldier' ? character.play.resources?.stance : null;
+  const armor = armorTotals(character.play.worn, data.armor, {
+    cover: character.play.cover + (character.play.cover === partial ? fx.partialCover ?? 0 : 0), // Cover Habit
+    cracked: character.play.armorDamage ?? 0,
+    bonus: stance ? fx.armorInStance?.[stance] ?? 0 : 0, // Hardened / Thick Plates
+  });
   const injured = limbs(character.play.injuries ?? [], data.body);
   const sub = character.subclassId ? findSubclass(data.classes, character.subclassId) : null;
-  const skills = computeSkills(a, data.skills);
+  const skills = computeSkills(a, data.skills).map((k) => (fx.skills?.[k.id] ? { ...k, value: k.value + fx.skills[k.id], talent: fx.skills[k.id] } : k));
   const weapon = (id) => data.weapons.find((w) => w.id === id);
   const deck = data.decks.find((d) => d.id === character.play.deck) ?? null;
-  const zone = zoneBonus(character.classId, character.play.resources, data.classes);
+  const zone = zoneBonus(character.classId, character.play.resources, data.classes, fx);
   return {
     attributes: a,
     skills,
@@ -94,7 +106,7 @@ export function deriveSheet(character, data) {
       return { slot, ...w, tn: weaponTN(w, skills) + zoneTn, zoneTn, rounds: character.play.ammo[slot] ?? 0 };
     }), injured.arms),
     deck: deck ? (() => {
-      const capacity = deckCapacity(deck, character.play.deckMods ?? [], data.deckMods);
+      const capacity = deckCapacity(deck, character.play.deckMods ?? [], data.deckMods, fx.ram ?? 0);
       return { ...deck, capacity, status: deckStatus(capacity, character.play.resources) };
     })() : null,
     lifestyle: (() => {
@@ -106,7 +118,12 @@ export function deriveSheet(character, data) {
     zone,
     move: movement(combat.sqr.value + zone.squares, injured.legs), // squares per Move action
     injured: { ...injured, locations: character.play.injuries ?? [] },
-    initiative: initiative(a, data.combat),
+    initiative: initiative(a, data.combat) + (fx.initiative ?? 0),
+    talents: fx, // merged automatic talent effects
+    progress: data.progress ? progressStatus(character, data) : null,
+    locationPenalty: Math.max(0, data.body.locationAttack.tnPenalty + (fx.locationPenalty ?? 0)), // Marksman
+    abilityLimit: (character.play.maxAbilities ?? 3) + (data.progress ? progressStatus(character, data).abilitySlots : 0),
+    immune: stance ? fx.immuneInStance?.[stance] ?? [] : [], // Unstoppable
     hp: { max: hpMax, current: character.play.hp ?? hpMax },
     armor,
     class: sub ? { id: sub.cls.id, name: sub.cls.name, subclass: sub.sub, tn: classTN(a, sub.sub) } : null,

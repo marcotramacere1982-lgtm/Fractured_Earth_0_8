@@ -100,15 +100,25 @@ const TABLES = {
     [...d.items].sort((a, b) => a.cost.cr - b.cost.cr).map((i) => [`<strong>${e(i.name)}</strong><br><span class="muted">${e(i.desc)}</span>`, e(i.effectType), e(i.effect), e(i.skillBonus), rarity(i.rarity), i.cost.cr, crs(i, 'item', d)]), 'md-table--dense'),
   decks: (d) => table(['Deck', 'RAM', 'Heat cap', 'Mod slots', 'Battery (idle / use)', 'Visibility', 'Rarity', 'Cr', 'CRS'],
     [...d.decks].sort((a, b) => a.cost.cr - b.cost.cr).map((k) => [`<strong>${e(k.name)}</strong><br><span class="muted">${e(k.desc)}</span>`, k.ram, k.heatCap, k.modSlots, `${e(k.battery.idle)} / ${e(k.battery.usage)}`, `${k.visibility}/5`, rarity(k.rarity), k.cost.cr, crs(k, 'deck', d)]), 'md-table--dense'),
+  talents: (d, tree) => table(['Talent', 'Tier', 'Needs', 'Effect'],
+    d.talents.filter((x) => !tree || x.tree === tree).map((x) => [
+      `<strong>${e(x.name)}</strong>${x.branch ? `<br><span class="muted">${e(nameOf(d.classes.classes.flatMap((c) => c.subclasses), x.branch))}</span>` : ''}`,
+      `<span class="mono">${x.tier}</span>`,
+      e(Object.entries(x.needs ?? {}).map(([k, n]) => `${k} ${n}`).join(', ') || '—'),
+      `${e(x.desc)}${x.kind === 'auto' ? '' : ` <span class="muted">(${e(t('progress.kind.table'))})</span>`}`,
+    ]), 'md-table--dense'),
   'deck-mods': (d) => table(['Mod', 'Type', 'Adds', 'Rarity', 'Cr', 'CRS'],
     d.deckMods.mods.map((m) => [`<strong>${e(m.name)}</strong>`, e(nameOf(d.deckMods.types, m.type)), `+${m.amount} ${m.type === 'ram' ? 'RAM' : 'heat cap'}`, rarity(m.rarity), m.cost.cr, crs(m, 'deckMod', d)])),
   lifestyle: (d) => table(['Category', 'Entry', 'Tier', 'Cr / month', 'CRS / month'],
     d.lifestyle.entries.map((x) => [e(nameOf(d.lifestyle.categories, x.category)), `<strong>${e(x.name)}</strong><br><span class="muted">${e(x.desc)}</span>`, x.tier ?? '—', x.cost.cr, crs(x, 'lifestyle', d)])),
 };
 
-export const TABLE_NAMES = [...Object.keys(TABLES), ...Object.keys(ABILITY_TABLES).map((k) => `abilities:${k}`)];
+const TALENT_TREES = ['survival', 'street', 'tactics', 'soldier', 'hacker', 'techwiz', 'smuggler'];
+
+export const TABLE_NAMES = [...Object.keys(TABLES), ...Object.keys(ABILITY_TABLES).map((k) => `abilities:${k}`), ...TALENT_TREES.map((k) => `talents:${k}`)];
 
 export function renderTable(name, data) {
+  if (name.startsWith('talents:')) return TABLES.talents(data, name.split(':')[1]); // one talent tree
   if (name.startsWith('abilities:')) {
     const cls = name.split(':')[1];
     return ABILITY_TABLES[cls]?.(data.abilities[cls], data) ?? `<p class="md-missing">${e(t('manual.unknownTable'))} ${e(name)}</p>`;

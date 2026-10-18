@@ -123,6 +123,14 @@
     "debt": {
       "title": "Debito speciale",
       "text": "Il motivo per cui accetti lavori pericolosi. Ogni debito è ugualmente duro; il GM usa la minaccia per creare pressione tra una missione e l'altra."
+    },
+    "progress": {
+      "title": "Livello e XP",
+      "text": "XP dagli obiettivi della missione, dai combattimenti pericolosi e dallo Spotlight del GM. 10 XP = 1 livello: un punto talento a ogni livello, +1 attributo ai livelli pari, +1 slot ability ai livelli 3, 6, 9. Lo spendi quando il GM apre il level-up."
+    },
+    "talents": {
+      "title": "Talenti",
+      "text": "Vantaggi passivi comprati con i punti talento. Quelli automatici li applica la scheda; gli altri sono regole al tavolo. I talenti una-volta-per hanno un pulsante Usa."
     }
   }
 }

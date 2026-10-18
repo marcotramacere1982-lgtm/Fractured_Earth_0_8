@@ -216,3 +216,18 @@
 .sync-dial__step.is-on.sync-dial__step--mend { background: var(--color-info-soft); border-color: var(--color-info); color: var(--color-info); }
 .sync-dial__step.is-on.sync-dial__step--surge { background: var(--color-danger-soft); border-color: var(--color-danger); color: var(--color-danger); }
 .btn--resonant { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-soft); }
+
+/* ---------- progress & talents ---------- */
+.level-badge { display: flex; flex-direction: column; }
+.level-badge__n { font-family: var(--font-display); font-size: var(--text-3xl); line-height: 1; color: var(--color-accent); }
+.level-xp { flex: 1 1 12rem; }
+.talent-tier + .talent-tier { margin-top: var(--space-3); }
+.talent-grid { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); margin-top: var(--space-1); }
+.talent { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-border); }
+.talent__name { font-family: var(--font-ui); font-weight: 700; }
+.talent__desc { margin: 0; font-size: var(--text-sm); }
+.talent--owned { border-color: var(--color-success); background: var(--color-success-soft); }
+.talent--ready { border-color: var(--color-accent); }
+.talent--locked { opacity: 0.75; }
+.talent-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+.talent-list__item { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); font-size: var(--text-sm); }

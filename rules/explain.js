@@ -5,6 +5,9 @@ import { bonus, computeCombat, computeSkills, initiative, skillValue } from './s
 import { maxHp } from './body.js';
 import { classTN, findSubclass } from './classes.js';
 import { passiveScore } from './checks.js';
+import { talentEffects } from './progress.js';
+
+const fxOf = (character, data) => (data.talents ? talentEffects(character, data) : {});
 
 const attrName = (data, id) => data.attributes.attributes.find((a) => a.id === id)?.name ?? id;
 const statParts = (ids, character, data) => ids.map((id) => ({ id, name: attrName(data, id), value: character.attributes[id], bonus: bonus(character.attributes[id]) }));
@@ -26,8 +29,9 @@ export function explainAttribute(id, character, data) {
 /** A skill: TN = bonus(A) + bonus(B), and the passive score. */
 export function explainSkill(id, character, data) {
   const skill = data.skills.skills.find((k) => k.id === id);
-  const value = skillValue(skill, character.attributes);
-  return { kind: 'skill', id, name: skill.name, desc: skill.desc, stats: statParts(skill.stats, character, data), value, passive: passiveScore(value, data.difficulty) };
+  const talent = fxOf(character, data).skills?.[id] ?? 0; // e.g. Street Smarts
+  const value = skillValue(skill, character.attributes) + talent;
+  return { kind: 'skill', id, name: skill.name, desc: skill.desc, stats: statParts(skill.stats, character, data), talent, value, passive: passiveScore(value, data.difficulty) };
 }
 
 /** A combat value: raw sum of two attributes → table row (± row shifts from life events) → value. */
@@ -40,13 +44,15 @@ export function explainCombat(id, character, data) {
 
 export function explainInitiative(character, data) {
   const { stats, offset, use } = data.combat.initiative;
-  return { kind: 'initiative', name: 'Initiative', use: use ?? '', stats: statParts(stats, character, data), offset, value: initiative(character.attributes, data.combat) };
+  const talent = fxOf(character, data).initiative ?? 0; // Quick Draw
+  return { kind: 'initiative', name: 'Initiative', use: use ?? '', stats: statParts(stats, character, data), offset, talent, value: initiative(character.attributes, data.combat) + talent };
 }
 
 export function explainHp(character, data) {
   const { con, mst } = data.body.maxHp;
   const mod = character.mods?.maxHp ?? 0;
-  return { kind: 'hp', name: 'Max HP', con: character.attributes.CON, mst: character.attributes.MST, conX: con, mstX: mst, mod, value: maxHp(character.attributes, data.body, mod) };
+  const talent = fxOf(character, data).maxHp ?? 0; // Thick Skin
+  return { kind: 'hp', name: 'Max HP', con: character.attributes.CON, mst: character.attributes.MST, conX: con, mstX: mst, mod, talent, value: maxHp(character.attributes, data.body, mod) + talent };
 }
 
 export function explainClassTN(character, data) {

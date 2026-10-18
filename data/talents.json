@@ -1,0 +1,588 @@
+[
+  {
+    "id": "thick_skin",
+    "name": "Thick Skin",
+    "tree": "survival",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "+3 max HP.",
+    "effects": {
+      "maxHp": 3
+    }
+  },
+  {
+    "id": "shake_it_off",
+    "name": "Shake It Off",
+    "tree": "survival",
+    "tier": 1,
+    "kind": "table",
+    "desc": "Standing up from Prone costs no action, once per round.",
+    "use": "round"
+  },
+  {
+    "id": "iron_jaw",
+    "name": "Iron Jaw",
+    "tree": "survival",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "A head hit leaves you Stunned, never Incapacitated, while you are above 0 HP.",
+    "needs": {
+      "CON": 12
+    },
+    "effects": {
+      "headNoIncap": true
+    }
+  },
+  {
+    "id": "bone_setter",
+    "name": "Bone Setter",
+    "tree": "survival",
+    "tier": 2,
+    "kind": "table",
+    "desc": "First aid on a broken arm or crippled leg needs no roll, and you can treat yourself.",
+    "needs": {
+      "WIS": 10
+    }
+  },
+  {
+    "id": "unbreakable",
+    "name": "Unbreakable",
+    "tree": "survival",
+    "tier": 3,
+    "kind": "table",
+    "desc": "Once per combat, refuse a condition as it is applied.",
+    "use": "combat"
+  },
+  {
+    "id": "second_wind",
+    "name": "Second Wind",
+    "tree": "survival",
+    "tier": 3,
+    "kind": "auto",
+    "desc": "Once per combat, 1 action: heal 2d6 HP.",
+    "needs": {
+      "CON": 14
+    },
+    "use": "combat",
+    "effects": {
+      "heal": "2d6"
+    }
+  },
+  {
+    "id": "street_smarts",
+    "name": "Street Smarts",
+    "tree": "street",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "+1 Streetwise / Dealing and +1 Deception / Conning.",
+    "effects": {
+      "skills": {
+        "streetwise_dealing": 1,
+        "deception_conning": 1
+      }
+    }
+  },
+  {
+    "id": "fixers_number",
+    "name": "Fixer's Number",
+    "tree": "street",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "Street prices (cash) are 10% cheaper.",
+    "effects": {
+      "cashDiscount": 0.1
+    }
+  },
+  {
+    "id": "read_the_room",
+    "name": "Read the Room",
+    "tree": "street",
+    "tier": 2,
+    "kind": "table",
+    "desc": "+2 TN on Persuasion or Deception against someone you've watched act this scene.",
+    "needs": {
+      "CHA": 10
+    }
+  },
+  {
+    "id": "clean_slate",
+    "name": "Clean Slate",
+    "tree": "street",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "Once: +5 Credit Score, and one criminal record is quietly cleared.",
+    "effects": {
+      "onBuy": {
+        "crs": 5,
+        "clearRecord": true
+      }
+    }
+  },
+  {
+    "id": "network",
+    "name": "Network",
+    "tree": "street",
+    "tier": 3,
+    "kind": "table",
+    "desc": "Once per mission, a contact gives you intel, a door, or a favor (the GM decides).",
+    "needs": {
+      "CHA": 12
+    },
+    "use": "mission"
+  },
+  {
+    "id": "safe_house",
+    "name": "Safe House",
+    "tree": "street",
+    "tier": 3,
+    "kind": "table",
+    "desc": "In downtime, injuries are treated and armor is repaired for free."
+  },
+  {
+    "id": "quick_draw",
+    "name": "Quick Draw",
+    "tree": "tactics",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "+2 initiative.",
+    "effects": {
+      "initiative": 2
+    }
+  },
+  {
+    "id": "cover_habit",
+    "name": "Cover Habit",
+    "tree": "tactics",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "Partial cover gives you +3 instead of +2.",
+    "effects": {
+      "partialCover": 1
+    }
+  },
+  {
+    "id": "marksman",
+    "name": "Marksman",
+    "tree": "tactics",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "Location attacks at −2 TN instead of −4.",
+    "needs": {
+      "DEX": 12
+    },
+    "effects": {
+      "locationPenalty": -2
+    }
+  },
+  {
+    "id": "fast_hands",
+    "name": "Fast Hands",
+    "tree": "tactics",
+    "tier": 2,
+    "kind": "table",
+    "desc": "Once per round, reloading or swapping weapons costs no action.",
+    "needs": {
+      "DEX": 10
+    },
+    "use": "round"
+  },
+  {
+    "id": "killzone",
+    "name": "Killzone",
+    "tree": "tactics",
+    "tier": 3,
+    "kind": "table",
+    "desc": "When you Aim, the attack also gets +2 TN."
+  },
+  {
+    "id": "bodyguard",
+    "name": "Bodyguard",
+    "tree": "tactics",
+    "tier": 3,
+    "kind": "table",
+    "desc": "Once per round, take a hit meant for an adjacent ally.",
+    "needs": {
+      "CON": 12
+    },
+    "use": "round"
+  },
+  {
+    "id": "drilled",
+    "name": "Drilled",
+    "tree": "soldier",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "Start every combat with +1 TP.",
+    "effects": {
+      "startTp": 1
+    }
+  },
+  {
+    "id": "hardened",
+    "name": "Hardened",
+    "tree": "soldier",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "+1 armor in Defensive stance.",
+    "effects": {
+      "armorInStance": {
+        "defensive": 1
+      }
+    }
+  },
+  {
+    "id": "thick_plates",
+    "name": "Thick Plates",
+    "tree": "soldier",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "+1 armor in Onslaught (it softens the ×1.5 damage you take).",
+    "branch": "grunt",
+    "effects": {
+      "armorInStance": {
+        "onslaught": 1
+      }
+    }
+  },
+  {
+    "id": "momentum",
+    "name": "Momentum",
+    "tree": "soldier",
+    "tier": 2,
+    "kind": "table",
+    "desc": "Dropping an enemy gives +1 TP.",
+    "branch": "grunt"
+  },
+  {
+    "id": "unstoppable",
+    "name": "Unstoppable",
+    "tree": "soldier",
+    "tier": 3,
+    "kind": "auto",
+    "desc": "In Onslaught you can't be knocked Prone.",
+    "branch": "grunt",
+    "effects": {
+      "immuneInStance": {
+        "onslaught": [
+          "prone"
+        ]
+      }
+    }
+  },
+  {
+    "id": "command_voice",
+    "name": "Command Voice",
+    "tree": "soldier",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "Commanding Directive costs 1 TP less.",
+    "branch": "officer",
+    "effects": {
+      "abilities": {
+        "commanding_directive": {
+          "cost": -1
+        }
+      }
+    }
+  },
+  {
+    "id": "spotters_eye",
+    "name": "Spotter's Eye",
+    "tree": "soldier",
+    "tier": 2,
+    "kind": "table",
+    "desc": "Coordinated Crossfire lasts until the end of the next round.",
+    "branch": "officer"
+  },
+  {
+    "id": "battle_plan",
+    "name": "Battle Plan",
+    "tree": "soldier",
+    "tier": 3,
+    "kind": "table",
+    "desc": "Once per round, the ally who acts right after you gets +2 TN on one attack.",
+    "branch": "officer",
+    "use": "round"
+  },
+  {
+    "id": "heat_sink",
+    "name": "Heat Sink",
+    "tree": "hacker",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "The deck vents 2 heat per round instead of 1.",
+    "effects": {
+      "heatVent": 1
+    }
+  },
+  {
+    "id": "cold_boot",
+    "name": "Cold Boot",
+    "tree": "hacker",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "After a Blue Screen the deck reboots at cap − 5 instead of − 3.",
+    "effects": {
+      "rebootBelowCap": 2
+    }
+  },
+  {
+    "id": "silver_tongue",
+    "name": "Silver Tongue",
+    "tree": "hacker",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "Credentials Spoof costs 1 RAM less.",
+    "branch": "scammer",
+    "effects": {
+      "abilities": {
+        "credentials_spoof": {
+          "ram": -1
+        }
+      }
+    }
+  },
+  {
+    "id": "social_engineer",
+    "name": "Social Engineer",
+    "tree": "hacker",
+    "tier": 2,
+    "kind": "table",
+    "desc": "+2 TN on Deception against cybernetic targets.",
+    "branch": "scammer"
+  },
+  {
+    "id": "ghost",
+    "name": "Ghost",
+    "tree": "hacker",
+    "tier": 3,
+    "kind": "table",
+    "desc": "Your sustained hacks survive a Blue Screen.",
+    "branch": "scammer"
+  },
+  {
+    "id": "overclocker",
+    "name": "Overclocker",
+    "tree": "hacker",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "+1 RAM.",
+    "branch": "master",
+    "effects": {
+      "ram": 1
+    }
+  },
+  {
+    "id": "thermal_discipline",
+    "name": "Thermal Discipline",
+    "tree": "hacker",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "Overclock Pulse makes 2 less heat.",
+    "branch": "master",
+    "effects": {
+      "abilities": {
+        "overclock_pulse": {
+          "heat": -2
+        }
+      }
+    }
+  },
+  {
+    "id": "chain_reaction",
+    "name": "Chain Reaction",
+    "tree": "hacker",
+    "tier": 3,
+    "kind": "table",
+    "desc": "Feedback Loop jumps to an adjacent cybernetic or synthetic target for half damage.",
+    "branch": "master"
+  },
+  {
+    "id": "quick_tune",
+    "name": "Quick Tune",
+    "tree": "techwiz",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "Every combat starts at Warm instead of Cold.",
+    "effects": {
+      "startSync": 1
+    }
+  },
+  {
+    "id": "grounded",
+    "name": "Grounded",
+    "tree": "techwiz",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "Disruption only when you lose 4 or more HP in one hit.",
+    "effects": {
+      "disruptionMin": 4
+    }
+  },
+  {
+    "id": "field_medic",
+    "name": "Field Medic",
+    "tree": "techwiz",
+    "tier": 2,
+    "kind": "table",
+    "desc": "Mend healing +1.",
+    "branch": "mechanic"
+  },
+  {
+    "id": "reinforce",
+    "name": "Reinforce",
+    "tree": "techwiz",
+    "tier": 2,
+    "kind": "table",
+    "desc": "Field Maintenance mends 3 cracks instead of 2.",
+    "branch": "mechanic"
+  },
+  {
+    "id": "steady_rig",
+    "name": "Steady Rig",
+    "tree": "techwiz",
+    "tier": 3,
+    "kind": "auto",
+    "desc": "Switching mode keeps 1 Sync.",
+    "branch": "mechanic",
+    "effects": {
+      "keepSyncOnSwitch": 1
+    }
+  },
+  {
+    "id": "live_wire",
+    "name": "Live Wire",
+    "tree": "techwiz",
+    "tier": 2,
+    "kind": "table",
+    "desc": "Surge damage +1.",
+    "branch": "engineer"
+  },
+  {
+    "id": "extra_mount",
+    "name": "Extra Mount",
+    "tree": "techwiz",
+    "tier": 2,
+    "kind": "table",
+    "desc": "Your sentry turret has +1 armor and +4 HP.",
+    "branch": "engineer"
+  },
+  {
+    "id": "overload",
+    "name": "Overload",
+    "tree": "techwiz",
+    "tier": 3,
+    "kind": "auto",
+    "desc": "A Resonant cast doesn't drop Sync below Warm.",
+    "branch": "engineer",
+    "effects": {
+      "resonantFloor": 1
+    }
+  },
+  {
+    "id": "poker_face",
+    "name": "Poker Face",
+    "tree": "smuggler",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "Once per combat, move the pendulum 1 toward 0 for free.",
+    "use": "combat",
+    "effects": {
+      "pendulumToZero": 1
+    }
+  },
+  {
+    "id": "deep_pockets",
+    "name": "Deep Pockets",
+    "tree": "smuggler",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "Contraband Stash also works at 0 (Composure).",
+    "effects": {
+      "abilities": {
+        "contraband_stash": {
+          "requires": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "hair_trigger",
+    "name": "Hair Trigger",
+    "tree": "smuggler",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "When Hot: +2 damage instead of +1.",
+    "branch": "dealer",
+    "effects": {
+      "hotDamage": 1
+    }
+  },
+  {
+    "id": "lucky_mag",
+    "name": "Lucky Mag",
+    "tree": "smuggler",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "Desperate Gamble needs only 2 rounds loaded.",
+    "branch": "dealer",
+    "effects": {
+      "abilities": {
+        "desperate_gamble": {
+          "minAmmo": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "showstopper",
+    "name": "Showstopper",
+    "tree": "smuggler",
+    "tier": 3,
+    "kind": "table",
+    "desc": "Once per combat, a Hot attack that hits also knocks the target Prone.",
+    "branch": "dealer",
+    "use": "combat"
+  },
+  {
+    "id": "old_friends",
+    "name": "Old Friends",
+    "tree": "smuggler",
+    "tier": 2,
+    "kind": "auto",
+    "desc": "Call in Favor needs only ≤ −2.",
+    "branch": "trafficker",
+    "effects": {
+      "abilities": {
+        "call_in_favor": {
+          "requires": -2
+        }
+      }
+    }
+  },
+  {
+    "id": "ghost_routes",
+    "name": "Ghost Routes",
+    "tree": "smuggler",
+    "tier": 2,
+    "kind": "table",
+    "desc": "Safehouse Route moves two allies.",
+    "branch": "trafficker"
+  },
+  {
+    "id": "kingpin",
+    "name": "Kingpin",
+    "tree": "smuggler",
+    "tier": 3,
+    "kind": "auto",
+    "desc": "Call in Favor twice per combat.",
+    "branch": "trafficker",
+    "effects": {
+      "abilities": {
+        "call_in_favor": {
+          "uses": 2
+        }
+      }
+    }
+  }
+]

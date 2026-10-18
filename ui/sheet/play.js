@@ -3,6 +3,7 @@
 import { html, raw, signed } from '../dom.js';
 import { counter, meter, card, segmented, nameOf } from './parts.js';
 import { engineCard } from './engine.js';
+import { talentsCard } from './progress.js';
 import { turnCard } from './turn.js';
 import { info } from '../ref.js';
 import { explain, hint } from '../explain.js';
@@ -167,7 +168,7 @@ export function playTab(c, s, data, ctx = {}) {
   return html`
     ${turnCard(c, s, data, ctx.combat)}
     <div class="sheet-grid sheet-grid--play">
-      <div class="stack">${weaponsCard(c, s, data)}${engineCard(c, s, data)}</div>
+      <div class="stack">${weaponsCard(c, s, data)}${engineCard(c, s, data)}${talentsCard(c, s, data)}</div>
       <div class="stack">${healthCard(c, s, data)}${combatCard(s, data)}</div>
     </div>`;
 }
