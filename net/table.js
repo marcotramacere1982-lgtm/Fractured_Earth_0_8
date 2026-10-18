@@ -56,8 +56,9 @@ export function createTableLink(store, hooks) {
         store.update(id, (c) => {
           const mid = msg.mid ?? uid();
           if ((c.play.inbox ?? []).some((m) => m.id === mid)) return;
-          c.play.inbox = [{ id: mid, t: Date.now(), text: msg.text, private: Boolean(msg.private), tone: msg.tone === 'hit' ? 'hit' : null }, ...(c.play.inbox ?? [])].slice(0, 20);
-          hooks.log(c, `${msg.tone === 'hit' ? 'HIT' : msg.private ? 'GM (private)' : 'GM'}: ${msg.text}`, msg.tone === 'hit' ? 'bad' : 'warn');
+          c.play.inbox = [{ id: mid, t: Date.now(), text: msg.text ?? '', private: Boolean(msg.private), tone: msg.tone === 'hit' ? 'hit' : null,
+            image: typeof msg.image === 'string' && msg.image.startsWith('/api/table/handout?') ? msg.image : null }, ...(c.play.inbox ?? [])].slice(0, 20);
+          hooks.log(c, `${msg.tone === 'hit' ? 'HIT' : msg.private ? 'GM (private)' : 'GM'}: ${[msg.text, msg.image ? '[image]' : ''].filter(Boolean).join(' ')}`, msg.tone === 'hit' ? 'bad' : 'warn');
         });
         break;
       case 'difficulty':

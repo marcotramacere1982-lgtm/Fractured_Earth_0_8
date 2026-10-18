@@ -299,6 +299,8 @@
   "gear.worn": "Worn",
   "gm.close": "Close message",
   "gm.hit": "YOU ARE HIT",
+  "gm.image": "Image",
+  "gm.imageOpen": "Open the image full size",
   "gm.incoming": "INCOMING TRANSMISSION",
   "gm.message": "GM message",
   "gm.private": "PRIVATE · FOR YOUR EYES ONLY",

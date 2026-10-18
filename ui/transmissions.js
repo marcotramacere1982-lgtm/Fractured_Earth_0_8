@@ -23,11 +23,12 @@ export function installTransmissions(store, table) {
     render(host, html`${inbox.map((m) => html`
       <section class="transmission ${m.private ? 'transmission--private' : ''} ${m.tone === 'hit' ? 'transmission--hit' : ''} ${seen.has(m.id) ? '' : 'transmission--new'}" role="${seen.has(m.id) ? 'region' : 'alert'}" aria-label="${t('gm.message')}">
         <header class="transmission__head">
-          <span class="transmission__tag">${m.tone === 'hit' ? `✖ ${t('gm.hit')}` : m.private ? `◉ ${t('gm.private')}` : `▲ ${t('gm.incoming')}`}</span>
+          <span class="transmission__tag">${m.image ? `▣ ${t('gm.image')} · ` : ''}${m.tone === 'hit' ? `✖ ${t('gm.hit')}` : m.private ? `◉ ${t('gm.private')}` : `▲ ${t('gm.incoming')}`}</span>
           <span class="transmission__meta">GM · ${time(m.t)}</span>
           <button class="transmission__close" data-dismiss="${m.id}" aria-label="${t('gm.close')}">✕</button>
         </header>
-        <p class="transmission__text">${m.text}</p>
+        ${m.image ? html`<a class="transmission__image" href="${m.image}" target="_blank" rel="noopener" title="${t('gm.imageOpen')}"><img src="${m.image}" alt="${t('gm.image')}"></a>` : ''}
+        ${m.text ? html`<p class="transmission__text">${m.text}</p>` : ''}
         ${m.private ? html`<p class="transmission__hint">${t('gm.privateHint')}</p>` : ''}
       </section>`)}`);
     inbox.forEach((m) => seen.add(m.id));

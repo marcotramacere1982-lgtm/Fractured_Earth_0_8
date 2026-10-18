@@ -233,6 +233,8 @@
 }
 .transmission__close:hover { border-color: currentColor; }
 .transmission__text { margin: var(--space-2) 0 0; font-family: var(--font-ui); font-weight: 600; font-size: var(--text-xl); line-height: 1.35; position: relative; }
+.transmission__image { display: block; margin-top: var(--space-2); position: relative; }
+.transmission__image img { display: block; max-width: 100%; max-height: 60vh; margin: 0 auto; border-radius: var(--radius-md); border: var(--border-width) solid var(--color-border-strong); }
 .transmission__hint { margin: var(--space-2) 0 0; font-size: var(--text-sm); color: var(--color-private); position: relative; }
 .transmission--private { border-color: var(--color-private); border-style: dashed; box-shadow: var(--shadow-2), 0 0 0 4px var(--color-private-soft); }
 .transmission--private .transmission__tag { color: var(--color-private); }
