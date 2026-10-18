@@ -48,7 +48,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       maxAbilities: 3,
       resources: {}, // class counters: tp, stance, ram, heat, resonance, phase, pendulum
       conditions: [],
-      turn: { inCombat: false, round: 1, used: 0, reserved: 0 },
+      turn: { inCombat: false, round: 1, used: 0, reserved: 0, spent: [] },
       inbox: [], // unread GM transmissions { id, t, text, private }
     },
   };

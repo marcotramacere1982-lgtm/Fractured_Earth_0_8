@@ -63,8 +63,9 @@ export function dossierTab(c, s, data) {
 
   return html`
     <div class="sheet-grid sheet-grid--dossier">
-      <div class="stack">${identity}${background}${motivator}</div>
-      <div class="stack">${portrait}${story}</div>
+      <div class="stack dossier__info">${identity}${background}${motivator}</div>
+      <div class="stack dossier__story">${story}</div>
+      <div class="stack dossier__photo">${portrait}</div>
     </div>`;
 }
 

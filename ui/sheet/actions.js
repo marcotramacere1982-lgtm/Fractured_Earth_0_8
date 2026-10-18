@@ -8,12 +8,12 @@ import { deriveSheet } from '../../state/character.js';
 import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance } from '../../rules/turn.js';
 import { RuleError } from '../../rules/messages.js';
 
-/** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. */
-function spend(c, data) {
+/** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
+function spend(c, data, what) {
   const turn = c.play.turn ?? newTurn();
   if (!turn.inCombat) return '';
   const max = allowance(deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions);
-  c.play.turn = spendAction(turn, max);
+  c.play.turn = spendAction(turn, max, what);
   return `R${turn.round} · ${c.play.turn.used}/${max} · `;
 }
 
@@ -114,7 +114,7 @@ export const actions = {
   },
   reload(c, data, { slot }) {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
-    const prefix = spend(c, data);
+    const prefix = spend(c, data, { kind: 'reload', name: w?.name });
     c.play.ammo[slot] = w?.magSize ?? 0;
     log(c, `${prefix}Reload ${w?.name ?? 'weapon'}`);
   },
@@ -229,7 +229,7 @@ export const actions = {
   /** Takes a plain action (move, interact, …). In combat it spends one action; outside it just logs. */
   act(c, data, { kind, detail = '' }) {
     const a = data.actions.actions.find((x) => x.id === kind);
-    log(c, `${spend(c, data)}${a?.name ?? kind}${detail ? ` — ${detail}` : ''}`);
+    log(c, `${spend(c, data, { kind })}${a?.name ?? kind}${detail ? ` — ${detail}` : ''}`);
   },
   /** Ability roll resolved in the dialog. `success` from the Class TN roll. */
   useRolled(c, data, { id, success, rollText, resonant = false }) {
@@ -238,7 +238,7 @@ export const actions = {
     const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: deriveSheet(c, data).weapons };
     const check = canUse(c.classId, ability, c.play.resources, ctx);
     if (!check.ok) throw new RuleError(check.code, check.vars, `${ability.name}: ${check.reason}`);
-    const prefix = spend(c, data);
+    const prefix = spend(c, data, { kind: 'ability', name: ability.name });
     if (success || data.classes.abilityRoll.onFailure === 'spend') c.play.resources = useAbility(c.classId, ability, c.play.resources, ctx);
     // abilities that fire a weapon use its ammunition, hit or miss
     const w = abilityWeapon(ability, ctx.weapons);
@@ -250,7 +250,7 @@ export const actions = {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
     if (!w) throw new RuleError('noWeapon', {}, 'No weapon in that slot.');
     if (w.magSize && (c.play.ammo[slot] ?? 0) <= 0) throw new RuleError('weaponEmpty', { weapon: w.name }, `${w.name} is empty — reload first.`);
-    const prefix = spend(c, data);
+    const prefix = spend(c, data, { kind: 'attack', name: w.name });
     if (w.magSize) c.play.ammo[slot] -= 1;
     let momentum = '';
     if (hit && c.classId === 'soldier') {

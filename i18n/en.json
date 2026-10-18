@@ -511,6 +511,8 @@
   "th.d20": "d20",
   "turn.abilitiesHint": "Abilities are used from your class engine below — they roll your Class TN{tn} and spend an action.",
   "turn.attack": "Attack",
+  "turn.doneThisRound": "Done this round",
+  "turn.fromLastRound": "borrowed",
   "turn.borrowed": "{n} already spent next round",
   "turn.dodgeSub": "uses next round",
   "turn.endCombat": "End combat",

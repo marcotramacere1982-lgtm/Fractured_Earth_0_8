@@ -15,6 +15,14 @@ function orderStrip(c, combat) {
       <li class="init-strip__item ${o.current ? 'is-current' : ''} ${o.done ? 'is-done' : ''} ${o.key === c.id ? 'is-me' : ''} ${o.key === 'hostile' ? 'is-hostile' : ''} ${o.down ? 'is-down' : ''}">${o.name}</li>`)}</ol>`;
 }
 
+/** What this round's actions were, in order: "Attack · Pistol", "Move", "Ping Sweep"… */
+function spentList(spent) {
+  if (!spent?.length) return '';
+  const label = (w) => (w.kind === 'ability' ? w.name
+    : `${w.kind === 'dodge' ? t('dodge.title') : t(w.kind === 'attack' || w.kind === 'move' ? `turn.${w.kind}` : `action.${w.kind}`)}${w.name ? ` · ${w.name}` : ''}${w.borrowed ? ` (${t('turn.fromLastRound')})` : ''}`);
+  return html`<ol class="act-spent" aria-label="${t('turn.doneThisRound')}">${spent.map((w) => html`<li class="act-spent__item act-spent__item--${w.kind}">${label(w)}</li>`)}</ol>`;
+}
+
 /** combat: the GM's combat state when this sheet is at the table and the GM runs the rounds. */
 export function turnCard(c, s, data, combat = null) {
   const ts = turnStatus(c.play.turn ?? newTurn(), s.combat.act.value, c.play.conditions, data.actions);
@@ -28,7 +36,8 @@ export function turnCard(c, s, data, combat = null) {
         <div class="turn-round"><span class="label">${t('turn.round')}</span><span class="turn-round__n">${ts.round}</span></div>
         <div class="turn-actions"><span class="label">${t('stat.actions')}${info('actions', t('stat.actions'))}</span>
           <div class="act-pips" role="img" aria-label="${t('turn.leftOf', { left: ts.left, max: ts.max })}">${pipsHtml}</div>
-          <span class="mono muted">${t('turn.left', { n: ts.left })}${ts.reserved ? ` · ${t('turn.borrowed', { n: ts.reserved })}` : ''}${c.play.conditions.includes('stunned') ? ` · ${t('turn.stunned')}` : ''}</span></div>
+          <span class="mono muted">${t('turn.left', { n: ts.left })}${ts.reserved ? ` · ${t('turn.borrowed', { n: ts.reserved })}` : ''}${c.play.conditions.includes('stunned') ? ` · ${t('turn.stunned')}` : ''}</span>
+          ${spentList(ts.spent)}</div>
         ${gmRuns ? html`<p class="muted turn-controls">${t('turn.gmRuns')}${info('round-end', t('turn.endRound'))}</p>` : html`<div class="cluster turn-controls">
           <button class="btn btn--primary" data-action="roundEnd">${t('turn.endRound')}${info('round-end', t('turn.endRound'))}</button>
           <button class="btn btn--ghost btn--sm" data-action="combatEnd">${t('turn.endCombat')}</button>

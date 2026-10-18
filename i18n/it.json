@@ -511,6 +511,8 @@
   "th.d20": "d20",
   "turn.abilitiesHint": "Le ability si usano dal motore di classe qui sotto: tirano il tuo Class TN{tn} e costano un'azione.",
   "turn.attack": "Attacco",
+  "turn.doneThisRound": "Fatto in questo round",
+  "turn.fromLastRound": "anticipata",
   "turn.borrowed": "{n} già spese dal prossimo round",
   "turn.dodgeSub": "usa il prossimo round",
   "turn.endCombat": "Fine combattimento",

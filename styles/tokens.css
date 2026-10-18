@@ -48,6 +48,7 @@
   --radius-lg: 10px;
   --border-width: 1px;
   --touch: 2.5rem;          /* minimum touch target */
+  --size-thumb: 4rem;            /* small portrait thumbnails */
   --content-max: 1500px;
   --header-h: 3.5rem;
 

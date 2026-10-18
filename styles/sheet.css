@@ -21,8 +21,12 @@
 .sheet { display: flex; flex-direction: column; gap: var(--space-3); }
 .sheet-grid { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); align-items: start; }
 .sheet-grid--play { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
-.sheet-grid--dossier { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
-@media (max-width: 900px) { .sheet-grid--play, .sheet-grid--dossier { grid-template-columns: 1fr; } }
+.sheet-grid--dossier { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 0.8fr); grid-template-areas: "info story photo"; }
+.dossier__info { grid-area: info; }
+.dossier__story { grid-area: story; }
+.dossier__photo { grid-area: photo; }
+@media (max-width: 1200px) { .sheet-grid--dossier { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); grid-template-areas: "info story" "photo story"; } }
+@media (max-width: 900px) { .sheet-grid--play { grid-template-columns: 1fr; } .sheet-grid--dossier { grid-template-columns: 1fr; grid-template-areas: "info" "photo" "story"; } }
 
 /* ---------- status bar (sticky) ---------- */
 .sheet-status {
@@ -198,6 +202,11 @@
 .turn-actions { display: flex; flex-direction: column; gap: var(--space-1); flex: 1; min-width: 12rem; }
 .turn-controls { margin-left: auto; }
 .act-pips { display: flex; gap: var(--space-1); }
+.act-spent { display: flex; flex-wrap: wrap; gap: var(--space-1); margin: 0; padding: 0; list-style: none; counter-reset: spent; }
+.act-spent__item { counter-increment: spent; font-size: var(--text-xs); color: var(--color-text-muted); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-sm); padding: 0 var(--space-2); }
+.act-spent__item::before { content: counter(spent) " · "; font-family: var(--font-mono); color: var(--color-text-faint); }
+.act-spent__item--attack { border-color: var(--color-danger); }
+.act-spent__item--ability { border-color: var(--color-accent); }
 .act-pip { width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 2px solid var(--color-accent); background: var(--color-accent); }
 .act-pip.is-used { background: transparent; border-color: var(--color-border-strong); }
 .action-grid { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 10.5rem), 1fr)); }

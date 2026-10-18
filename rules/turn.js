@@ -4,7 +4,8 @@
 import { RuleError } from './messages.js';
 import { roll } from './dice.js';
 
-export const newTurn = () => ({ inCombat: false, round: 1, used: 0, reserved: 0 });
+// spent: what this round's actions were ({ kind, name? }), so the sheet can remind the player.
+export const newTurn = () => ({ inCombat: false, round: 1, used: 0, reserved: 0, spent: [] });
 
 /** Actions available this round: ACT, or 1 while Stunned (manual 7-6). */
 export function allowance(act, conditions, actionsData) {
@@ -16,10 +17,10 @@ export function turnStatus(turn, act, conditions, actionsData) {
   return { ...turn, max, left: Math.max(0, max - turn.used) };
 }
 
-/** Spends one action this round. Throws when none are left. */
-export function spendAction(turn, max) {
+/** Spends one action this round. Throws when none are left. what: { kind, name? } — shown back to the player. */
+export function spendAction(turn, max, what = { kind: 'other' }) {
   if (turn.used >= max) throw new RuleError('noActions', {}, 'No actions left this round.');
-  return { ...turn, used: turn.used + 1 };
+  return { ...turn, used: turn.used + 1, spent: [...(turn.spent ?? []), what] };
 }
 
 /** Proactive defense: borrow an action from next round. Max one round's worth can be borrowed. */
@@ -28,12 +29,13 @@ export function borrowAction(turn, max) {
   return { ...turn, reserved: turn.reserved + 1 };
 }
 
-export const startCombat = () => ({ inCombat: true, round: 1, used: 0, reserved: 0 });
-export const endCombat = (turn) => ({ ...turn, inCombat: false, used: 0, reserved: 0 });
+export const startCombat = () => ({ inCombat: true, round: 1, used: 0, reserved: 0, spent: [] });
+export const endCombat = (turn) => ({ ...turn, inCombat: false, used: 0, reserved: 0, spent: [] });
 
 /** Round end: unspent actions are lost; borrowed actions are already spent next round. */
 export function endRound(turn) {
-  return { ...turn, round: turn.round + 1, used: turn.reserved, reserved: 0 };
+  const borrowed = Array.from({ length: turn.reserved }, () => ({ kind: 'dodge', borrowed: true }));
+  return { ...turn, round: turn.round + 1, used: turn.reserved, reserved: 0, spent: borrowed };
 }
 
 /** Pulls the dice expression out of a weapon damage string ("1d6 (Non-Lethal)" → "1d6"). */
