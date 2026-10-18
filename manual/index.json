@@ -1,0 +1,23 @@
+{
+  "title": "Fractured Earth — Core Rulebook",
+  "parts": [
+    {
+      "title": "The World",
+      "chapters": [
+        { "id": "ch-1", "file": "01-the-story-so-far.md", "title": "The Story So Far" },
+        { "id": "ch-2", "file": "02-the-world-today.md", "title": "The World Today" },
+        { "id": "ch-3", "file": "03-the-landscape.md", "title": "The Landscape" },
+        { "id": "ch-4", "file": "04-living-in-2045.md", "title": "Living in 2045" }
+      ]
+    },
+    {
+      "title": "The Rules",
+      "chapters": [
+        { "id": "ch-5", "file": "05-your-character.md", "title": "Your Character" },
+        { "id": "ch-6", "file": "06-narrative-and-exploration.md", "title": "Narrative & Exploration" },
+        { "id": "ch-7", "file": "07-combat.md", "title": "Combat" },
+        { "id": "ch-8", "file": "08-gear-and-money.md", "title": "Gear & Money" }
+      ]
+    }
+  ]
+}

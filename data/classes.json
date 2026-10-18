@@ -1,0 +1,274 @@
+{
+  "note": "Class TN = round((subclass stat 1 + subclass stat 2) / 2). legacyIndex = position used by v0.8 files.",
+  "legacySubclassOrder": [
+    "grunt",
+    "officer",
+    "scammer",
+    "master",
+    "mechanic",
+    "engineer",
+    "dealer",
+    "trafficker"
+  ],
+  "classes": [
+    {
+      "id": "soldier",
+      "name": "Soldier",
+      "summary": "Front-line powerhouse built for dynamic positioning, combo-driven combat, and high-risk offensive plays.",
+      "resources": {
+        "engine": "Stance-Flow",
+        "counters": [
+          {
+            "id": "tp",
+            "name": "Tactical Points",
+            "min": 0,
+            "max": null,
+            "start": 0,
+            "resetsEachCombat": true
+          }
+        ],
+        "stances": [
+          {
+            "id": "defensive",
+            "name": "Defensive",
+            "dealt": 0.5,
+            "taken": 0.5
+          },
+          {
+            "id": "attack",
+            "name": "Attack",
+            "dealt": 1,
+            "taken": 1
+          },
+          {
+            "id": "onslaught",
+            "name": "Onslaught",
+            "dealt": 1.5,
+            "taken": 1.5
+          }
+        ]
+      },
+      "maxEquippedAbilities": 3,
+      "subclasses": [
+        {
+          "id": "grunt",
+          "name": "Grunt",
+          "stats": [
+            "STR",
+            "CON"
+          ],
+          "desc": "Front-line brawler: armor reduction, close-range devastation, aggressive Onslaught attacks.",
+          "legacyIndex": 0
+        },
+        {
+          "id": "officer",
+          "name": "Officer",
+          "stats": [
+            "DEX",
+            "INT"
+          ],
+          "desc": "Tactical commander: squad positioning, defensive holds, marking priority targets.",
+          "legacyIndex": 1
+        }
+      ]
+    },
+    {
+      "id": "hacker",
+      "name": "Hacker",
+      "summary": "Information warfare specialist balancing RAM and thermal strain to manipulate enemy networks remotely.",
+      "resources": {
+        "engine": "RAM & Thermal Strain",
+        "counters": [
+          {
+            "id": "ram",
+            "name": "RAM used",
+            "min": 0,
+            "maxFrom": "deck.ram"
+          },
+          {
+            "id": "heat",
+            "name": "Heat",
+            "min": 0,
+            "maxFrom": "deck.heatCap"
+          }
+        ],
+        "roundEnd": {
+          "heatVent": 1,
+          "rebootHeatBelowCap": 3
+        },
+        "rules": {
+          "ramFull": "No RAM left: release a sustained payload (Release Payload or System Hard Reboot) to free slots.",
+          "heatCap": "Heat reaching the deck cap = Blue Screen: the deck is locked for the next round, then reboots at cap - 3 heat.",
+          "range": "Hack range: a device in sight, or within 10 squares on a network you have pinged.",
+          "tags": "Enemies are organic, cybernetic or synthetic. Most hacks only touch cybernetic or synthetic targets; organic ones are reached only through their gear.",
+          "auto": "Thermal Dump, Release Payload and System Hard Reboot need no roll; they still take an action."
+        }
+      },
+      "maxEquippedAbilities": 3,
+      "subclasses": [
+        {
+          "id": "scammer",
+          "name": "Scammer",
+          "stats": [
+            "INT",
+            "CHA"
+          ],
+          "desc": "Social engineering, credential spoofing, target distraction, low-cost sustained debuffs.",
+          "legacyIndex": 2
+        },
+        {
+          "id": "master",
+          "name": "Master",
+          "stats": [
+            "INT",
+            "WIS"
+          ],
+          "desc": "Heavy system destruction, deep network control, multi-target payloads, extreme heat.",
+          "legacyIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "techwiz",
+      "name": "TechWiz",
+      "summary": "Battlefield architect controlling engagement flow through spatial manipulation, armor repair, and environmental control.",
+      "resources": {
+        "engine": "Field Sync",
+        "counters": [
+          {
+            "id": "sync",
+            "name": "Sync",
+            "min": 0,
+            "max": 3,
+            "start": 0
+          }
+        ],
+        "modes": [
+          {
+            "id": "mend",
+            "name": "Mend",
+            "desc": "Support face: repair, heal, cover, buff."
+          },
+          {
+            "id": "surge",
+            "name": "Surge",
+            "desc": "Offensive face: strip armor, shock, traps, turrets."
+          }
+        ],
+        "levels": [
+          "Cold",
+          "Warm",
+          "Tuned",
+          "Resonant"
+        ],
+        "rules": {
+          "gain": "+1 Sync each time you use an ability, and +1 at the end of a round in which you did not switch mode (max 3, Resonant).",
+          "switch": "Switching mode is free at the start of your turn, but Sync drops to 0.",
+          "resonant": "At Resonant (3) you may make a Resonant cast: the ability fires both faces, then Sync drops to 0.",
+          "brownout": "The heaviest abilities cause a Brownout: Sync 0 and the rig is offline (no abilities) until the end of the next round.",
+          "disruption": "Taking damage to a body location costs 1 Sync.",
+          "combat": "Every combat starts at Sync 0 (Cold)."
+        }
+      },
+      "maxEquippedAbilities": 3,
+      "subclasses": [
+        {
+          "id": "mechanic",
+          "name": "Mechanic",
+          "stats": [
+            "CON",
+            "WIS"
+          ],
+          "desc": "Field fortification, armor patching, scrap fabrication.",
+          "legacyIndex": 4
+        },
+        {
+          "id": "engineer",
+          "name": "Engineer",
+          "stats": [
+            "DEX",
+            "WIS"
+          ],
+          "desc": "Weapon modifications, electrical traps, automated hardware.",
+          "legacyIndex": 5
+        }
+      ]
+    },
+    {
+      "id": "smuggler",
+      "name": "Smuggler",
+      "summary": "High-speed opportunist thriving on chaos, momentum, and high-stakes black-market gambles.",
+      "resources": {
+        "engine": "Adrenaline Pendulum",
+        "counters": [
+          {
+            "id": "pendulum",
+            "name": "Pendulum",
+            "min": -4,
+            "max": 4,
+            "start": 0
+          }
+        ],
+        "zones": [
+          {
+            "id": "cold",
+            "min": -4,
+            "max": -1,
+            "name": "Cold Calculation",
+            "bonus": {
+              "rangedTn": 2
+            }
+          },
+          {
+            "id": "composure",
+            "min": 0,
+            "max": 0,
+            "name": "Composure",
+            "bonus": {}
+          },
+          {
+            "id": "hot",
+            "min": 1,
+            "max": 4,
+            "name": "Adrenaline Rush",
+            "bonus": {
+              "damage": 1,
+              "squares": 1
+            }
+          }
+        ],
+        "roundEnd": {
+          "woundedShift": 1
+        }
+      },
+      "maxEquippedAbilities": 3,
+      "subclasses": [
+        {
+          "id": "dealer",
+          "name": "Dealer",
+          "stats": [
+            "DEX",
+            "CHA"
+          ],
+          "desc": "Agile gunman and trickster: quick-draw strikes, black-market ammo, close-range robbery.",
+          "legacyIndex": 6
+        },
+        {
+          "id": "trafficker",
+          "name": "Trafficker",
+          "stats": [
+            "WIS",
+            "CHA"
+          ],
+          "desc": "Tactical mastermind and off-grid navigator: map control, decoys, underground favors.",
+          "legacyIndex": 7
+        }
+      ]
+    }
+  ],
+  "abilityRoll": {
+    "tn": "class",
+    "onFailure": "spend",
+    "note": "Every ability rolls d20 against Class TN (minus GM difficulty). onFailure 'spend': the attempt still spends the action and moves the class engine (TP, heat, resonance, pendulum); only the effect fails. Set to 'nothing' to make a failed roll change nothing but the action."
+  }
+}

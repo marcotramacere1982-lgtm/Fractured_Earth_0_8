@@ -1,0 +1,146 @@
+{
+  "note": "Row is chosen by the RAW SUM of the two attributes, then shifted by row offsets (clamped to the table).",
+  "table": [
+    {
+      "min": 2,
+      "max": 10,
+      "sqr": 2,
+      "met": 150,
+      "off": -1,
+      "act": 2,
+      "def": 2,
+      "per": 2
+    },
+    {
+      "min": 11,
+      "max": 20,
+      "sqr": 3,
+      "met": 175,
+      "off": 0,
+      "act": 3,
+      "def": 3,
+      "per": 3
+    },
+    {
+      "min": 21,
+      "max": 30,
+      "sqr": 3,
+      "met": 225,
+      "off": 1,
+      "act": 3,
+      "def": 4,
+      "per": 4
+    },
+    {
+      "min": 31,
+      "max": 40,
+      "sqr": 4,
+      "met": 275,
+      "off": 2,
+      "act": 4,
+      "def": 5,
+      "per": 5
+    },
+    {
+      "min": 41,
+      "max": 50,
+      "sqr": 5,
+      "met": 325,
+      "off": 3,
+      "act": 5,
+      "def": 6,
+      "per": 6
+    },
+    {
+      "min": 51,
+      "max": 60,
+      "sqr": 6,
+      "met": 400,
+      "off": 4,
+      "act": 6,
+      "def": 7,
+      "per": 7
+    },
+    {
+      "min": 61,
+      "max": 99,
+      "sqr": 7,
+      "met": 500,
+      "off": 5,
+      "act": 7,
+      "def": 8,
+      "per": 8
+    }
+  ],
+  "derived": [
+    {
+      "id": "sqr",
+      "name": "Squares per Round",
+      "desc": "Tactical movement grid distance per round",
+      "stats": [
+        "CON",
+        "DEX"
+      ],
+      "use": "How many grid squares one Move action covers (1 square = 1.5 m). Prone halves it; difficult terrain costs double."
+    },
+    {
+      "id": "met",
+      "name": "Meters per Minute",
+      "desc": "Overland/out-of-combat movement rate",
+      "stats": [
+        "CON",
+        "DEX"
+      ],
+      "use": "Travel speed outside combat — chases, patrols, getting across a district."
+    },
+    {
+      "id": "off",
+      "name": "Offensive Bonus",
+      "desc": "Base modifier applied to attack rolls",
+      "stats": [
+        "STR",
+        "DEX"
+      ],
+      "use": "Added to the damage of every weapon hit you land, and to opportunity attacks (1d4 + OFF)."
+    },
+    {
+      "id": "act",
+      "name": "Actions per Round",
+      "desc": "Total tactical action points per turn",
+      "stats": [
+        "WIS",
+        "DEX"
+      ],
+      "use": "How many actions you get each combat round. Stunned leaves you with 1. Dodging spends actions from the next round."
+    },
+    {
+      "id": "def",
+      "name": "Defensive Bonus",
+      "desc": "Base modifier applied to evasion/defense",
+      "stats": [
+        "INT",
+        "DEX"
+      ],
+      "use": "Your defensive edge against incoming attacks. How it applies to enemy attack rolls is still an open rule — the GM decides for now."
+    },
+    {
+      "id": "per",
+      "name": "Perception Bonus",
+      "desc": "Modifier for detecting traps and stealth",
+      "stats": [
+        "INT",
+        "WIS"
+      ],
+      "use": "Your knack for noticing traps, ambushes and hidden details. The GM uses it when something could be spotted."
+    }
+  ],
+  "initiative": {
+    "stats": [
+      "DEX",
+      "WIS"
+    ],
+    "offset": -10,
+    "note": "floor(DEX/2) + floor(WIS/2) - 10",
+    "use": "Rolled once when combat starts: d20 + this. Highest total acts first and the order stays fixed for the whole fight."
+  }
+}

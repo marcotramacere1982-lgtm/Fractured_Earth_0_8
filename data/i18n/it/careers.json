@@ -1,0 +1,68 @@
+{
+  "careers": {
+    "military_law_enforcement_grunt": {
+      "category": "Esercito / Forze dell'ordine",
+      "requirementsText": "STR 9, CON 9, DEX 9"
+    },
+    "military_law_enforcement_officer": {
+      "category": "Esercito / Forze dell'ordine",
+      "requirementsText": "Età max 25, Military Academy"
+    },
+    "media_freelancer": {
+      "category": "Media",
+      "requirementsText": "Età max 25, CHA 13"
+    },
+    "media_reporter": {
+      "category": "Media",
+      "requirementsText": "Età max 25, Media College"
+    },
+    "science_construction_mechanic": {
+      "category": "Scienza / Edilizia",
+      "requirementsText": "Età max 25, INT 13"
+    },
+    "science_construction_scientist": {
+      "category": "Scienza / Edilizia",
+      "requirementsText": "Età max 25, INT 15, Technical University"
+    },
+    "security_investigation": {
+      "category": "Sicurezza / Investigazione",
+      "requirementsText": "Età max 25, qualsiasi istruzione superiore, nessun precedente penale"
+    },
+    "administration_economy_law": {
+      "category": "Amministrazione / Economia / Legge",
+      "requirementsText": "Età max 25, Business School, nessun precedente penale, Credit Score ≥ 35"
+    },
+    "criminal": {
+      "category": "Criminale",
+      "requirementsText": "Nessuno"
+    },
+    "student_military_academy": {
+      "category": "Studente",
+      "requirementsText": "Età max 25, INT 7, Credit Score ≥ 4"
+    },
+    "student_media_college": {
+      "category": "Studente",
+      "requirementsText": "Età max 25, INT 7, Credit Score ≥ 4"
+    },
+    "student_business_school": {
+      "category": "Studente",
+      "requirementsText": "Età max 25, INT 7, Credit Score ≥ 4"
+    },
+    "student_technical_university": {
+      "category": "Studente",
+      "requirementsText": "Età max 25, INT 7, Credit Score ≥ 4"
+    },
+    "franchiser_wage_slave": {
+      "category": "Franchising / Schiavo salariato",
+      "requirementsText": "Nessuno"
+    },
+    "military_special_force": {
+      "category": "Forze speciali",
+      "requirementsText": "STR 13, CON 13, DEX 13, INT 9, WIS 9, Military Academy"
+    },
+    "unemployed_drifter_outcast": {
+      "category": "Disoccupato",
+      "requirementsText": "Nessuno"
+    }
+  }
+}

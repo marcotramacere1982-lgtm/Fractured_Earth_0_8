@@ -1,0 +1,38 @@
+{
+  "pocket_rig_v1": {
+    "desc": "Guscio di smartphone tenuto insieme col nastro, cavi scoperti e una ventolina."
+  },
+  "scrap_deck_80": {
+    "desc": "Tastiera retrò svuotata e imbottita di schede recuperate, con un piccolo LCD."
+  },
+  "aegis_sentinel": {
+    "desc": "Guscio gommato nero opaco che ricorda uno scanner industriale."
+  },
+  "type_2_field_rig": {
+    "desc": "Guscio in acciaio spazzolato con tasti meccanici e alette di raffreddamento esterne."
+  },
+  "apex_edge_pad": {
+    "desc": "Tablet sottile in fibra di carbonio con strisce diagnostiche laterali che brillano di blu."
+  },
+  "command_briefcase": {
+    "desc": "Valigetta tattica con due schermi ribaltabili e raffreddamento a liquido attivo."
+  },
+  "cyber_deck_2000": {
+    "desc": "Telaio in polimero trasparente che mostra le fibre ottiche e i LED del traffico sul bus interno."
+  },
+  "heavy_terminal": {
+    "desc": "Rig da spalla con heat pipe in rame e doppie ventole ad alta velocità."
+  },
+  "apex_spectre": {
+    "desc": "Unità discreta da avambraccio con un display OLED flessibile avvolgente."
+  },
+  "hyperion_proto": {
+    "desc": "Guscio di ossidiana lucida con sfiati criogenici che si ghiacciano sotto carico."
+  },
+  "guerilla_slab": {
+    "desc": "Lastra pesante ricavata da un involucro industriale, con cavi di batteria esterni."
+  },
+  "phantom_operator": {
+    "desc": "Unità a collegamento neurale camuffata da cronografo da polso di lusso."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "tiers": {
+    "0": {
+      "example": "Linea di vista libera, appoggio stabile, rete standard, poco stress."
+    },
+    "1": {
+      "example": "Copertura parziale, pioggia leggera o nebbia, cifratura civile di base, un po' di fretta."
+    },
+    "2": {
+      "example": "Pioggia battente, poca luce, firewall commerciali, sparare mentre corri al riparo."
+    },
+    "3": {
+      "example": "Copertura totale, visibilità zero o fumo denso, cifratura militare, fuoco di soppressione."
+    },
+    "4": {
+      "example": "Appeso a un velivolo in volo, blocco termico attivo, sparare alla cieca contro una copertura."
+    },
+    "5": {
+      "example": "Azioni complesse durante un System Hard Reboot, violare il core di una megacorp sotto il fuoco."
+    }
+  },
+  "cover": {
+    "0": {
+      "name": "Nessuna"
+    },
+    "2": {
+      "name": "Parziale"
+    },
+    "4": {
+      "name": "Totale"
+    }
+  }
+}

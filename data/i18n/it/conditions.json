@@ -1,0 +1,69 @@
+{
+  "prone": {
+    "targets": "Tutti",
+    "effects": [
+      "Movimento dimezzato (2 SQR per quadretto).",
+      "+2 armatura contro gli attacchi a distanza su tutte le locazioni.",
+      "Gli attacchi in mischia contro di te ottengono +4 TN."
+    ],
+    "clear": "Spendi 1 azione per rialzarti."
+  },
+  "stunned": {
+    "targets": "Tutti",
+    "effects": [
+      "Nel prossimo round hai 1 sola azione.",
+      "Niente difesa proattiva né attacchi di opportunità."
+    ],
+    "clear": "Finisce alla fine del tuo prossimo turno."
+  },
+  "blinded": {
+    "targets": "Tutti",
+    "effects": [
+      "Fallisci automaticamente le prove di percezione e di linea di vista.",
+      "I tuoi attacchi hanno −10 TN o colpiscono un quadretto adiacente a caso.",
+      "Gli attacchi a distanza contro di te ottengono +4 TN."
+    ],
+    "clear": "1 azione per ripulire il feedback oculare, oppure dura 1–3 round."
+  },
+  "disconnected": {
+    "targets": "Hacker, unità cibernetiche, torrette",
+    "effects": [
+      "Tagliato fuori da sottoreti, ottiche smart-link e HUD.",
+      "Gli hacker non possono lanciare payload offensivi né mantenere script sostenuti.",
+      "Gli script sostenuti attivi terminano subito."
+    ],
+    "clear": "Prova di Computers / Hacking (1 azione) o un System Hard Reboot."
+  },
+  "poisoned": {
+    "targets": "Unità organiche / sintetiche",
+    "effects": [
+      "Subisci 1d4 all'inizio di ogni turno.",
+      "Organici: ignora l'armatura, colpisce gli HP.",
+      "Sintetici: toglie 1 segno di armatura per round."
+    ],
+    "clear": "Dura 3 round, oppure un Trauma Patch / kit di Field Repair."
+  },
+  "enraged": {
+    "targets": "Tutti",
+    "effects": [
+      "Devi spendere tutte le azioni per avanzare e attaccare il bersaglio visibile più vicino.",
+      "+2 ai danni in mischia; niente copertura né difesa proattiva."
+    ],
+    "clear": "Finisce dopo 2 round o quando non ci sono bersagli in vista."
+  },
+  "incapacitated": {
+    "targets": "Tutti",
+    "effects": [
+      "Privo di sensi o bloccato: nessuna azione, nessuna difesa.",
+      "Gli attacchi colpiscono automaticamente e possono uccidere o amputare."
+    ],
+    "clear": "Serve una stabilizzazione immediata (Healing Surge, Trauma Patch, Tech Repair)."
+  },
+  "wounded": {
+    "targets": "Tutti",
+    "effects": [
+      "Ha subito danni in questo combattimento. Il pendulum dello Smuggler scivola di +1 a fine round."
+    ],
+    "clear": "Curato completamente o a fine combattimento."
+  }
+}

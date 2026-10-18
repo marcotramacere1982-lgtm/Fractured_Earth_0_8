@@ -1,0 +1,145 @@
+{
+  "maxHp": {
+    "note": "2 x CON + MST",
+    "con": 2,
+    "mst": 1
+  },
+  "locations": [
+    {
+      "id": "head",
+      "name": "Head",
+      "vital": true,
+      "bp": "head"
+    },
+    {
+      "id": "chest",
+      "name": "Chest",
+      "vital": true,
+      "bp": "chest"
+    },
+    {
+      "id": "abdomen",
+      "name": "Abdomen",
+      "vital": true,
+      "bp": "abdomen"
+    },
+    {
+      "id": "rarm",
+      "name": "Right Arm",
+      "vital": false,
+      "bp": "arm"
+    },
+    {
+      "id": "larm",
+      "name": "Left Arm",
+      "vital": false,
+      "bp": "arm"
+    },
+    {
+      "id": "rleg",
+      "name": "Right Leg",
+      "vital": false,
+      "bp": "leg"
+    },
+    {
+      "id": "lleg",
+      "name": "Left Leg",
+      "vital": false,
+      "bp": "leg"
+    }
+  ],
+  "bodyPoints": {
+    "note": "Location HP bracket chosen by CON + MST.",
+    "table": [
+      {
+        "min": 2,
+        "max": 15,
+        "head": 1,
+        "chest": 3,
+        "abdomen": 2,
+        "arm": 2,
+        "leg": 2
+      },
+      {
+        "min": 16,
+        "max": 30,
+        "head": 1,
+        "chest": 4,
+        "abdomen": 3,
+        "arm": 2,
+        "leg": 3
+      },
+      {
+        "min": 31,
+        "max": 45,
+        "head": 2,
+        "chest": 5,
+        "abdomen": 3,
+        "arm": 3,
+        "leg": 4
+      },
+      {
+        "min": 46,
+        "max": 60,
+        "head": 2,
+        "chest": 6,
+        "abdomen": 4,
+        "arm": 3,
+        "leg": 4
+      },
+      {
+        "min": 61,
+        "max": 999,
+        "head": 3,
+        "chest": 7,
+        "abdomen": 5,
+        "arm": 4,
+        "leg": 5
+      }
+    ]
+  },
+  "hitLocation": {
+    "die": "1d20",
+    "aim": 5,
+    "note": "Aim (1 extra action) shifts the d20 result by up to ±5.",
+    "table": [
+      {
+        "min": 1,
+        "max": 4,
+        "locations": [
+          "rleg",
+          "lleg"
+        ]
+      },
+      {
+        "min": 5,
+        "max": 8,
+        "locations": [
+          "rarm",
+          "larm"
+        ]
+      },
+      {
+        "min": 9,
+        "max": 13,
+        "locations": [
+          "abdomen"
+        ]
+      },
+      {
+        "min": 14,
+        "max": 18,
+        "locations": [
+          "chest"
+        ]
+      },
+      {
+        "min": 19,
+        "max": 20,
+        "locations": [
+          "head"
+        ]
+      }
+    ]
+  }
+}

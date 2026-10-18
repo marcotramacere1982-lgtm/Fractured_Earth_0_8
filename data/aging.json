@@ -1,0 +1,98 @@
+{
+  "brackets": [
+    {
+      "min": 16,
+      "max": 26,
+      "deathCheck": false,
+      "modifiers": {},
+      "caps": {}
+    },
+    {
+      "min": 27,
+      "max": 32,
+      "deathCheck": false,
+      "modifiers": {
+        "CON": -1,
+        "INT": 1
+      },
+      "caps": {}
+    },
+    {
+      "min": 33,
+      "max": 38,
+      "deathCheck": false,
+      "modifiers": {
+        "STR": -1,
+        "DEX": -1,
+        "CON": -1,
+        "INT": 1,
+        "CHA": 1
+      },
+      "caps": {}
+    },
+    {
+      "min": 39,
+      "max": 44,
+      "deathCheck": false,
+      "modifiers": {
+        "STR": -1,
+        "DEX": -1,
+        "CON": -1,
+        "WIS": 1,
+        "CHA": 1
+      },
+      "caps": {}
+    },
+    {
+      "min": 45,
+      "max": 50,
+      "deathCheck": true,
+      "modifiers": {
+        "STR": -1,
+        "DEX": -1,
+        "CON": -2,
+        "WIS": 1
+      },
+      "caps": {
+        "CON": 15
+      }
+    },
+    {
+      "min": 51,
+      "max": 59,
+      "deathCheck": true,
+      "modifiers": {
+        "STR": -2,
+        "DEX": -1,
+        "CON": -3,
+        "INT": -2,
+        "WIS": 1,
+        "CHA": -2,
+        "MST": -2
+      },
+      "caps": {
+        "STR": 14,
+        "DEX": 15,
+        "CON": 12
+      }
+    },
+    {
+      "min": 60,
+      "max": 99,
+      "deathCheck": true,
+      "modifiers": {
+        "STR": -2,
+        "DEX": -2,
+        "CON": -4,
+        "INT": -2,
+        "CHA": -3,
+        "MST": -3
+      },
+      "caps": {
+        "STR": 14,
+        "DEX": 12,
+        "CON": 10
+      }
+    }
+  ]
+}

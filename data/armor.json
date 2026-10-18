@@ -1,0 +1,464 @@
+[
+  {
+    "id": "scavenger_leather_doublet",
+    "legacyId": 1,
+    "name": "Scavenger Leather Doublet",
+    "type": "vest",
+    "rarity": "F",
+    "material": "Stitched Heavy Leather & Denim",
+    "visibility": 2,
+    "maxHits": 1,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 15
+    }
+  },
+  {
+    "id": "reinforced_work_trousers",
+    "legacyId": 2,
+    "name": "Reinforced Work Trousers",
+    "type": "pants",
+    "rarity": "F",
+    "material": "Heavy Canvas & Leather Patches",
+    "visibility": 1,
+    "maxHits": 1,
+    "av": {
+      "head": 0,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 1,
+      "lleg": 1
+    },
+    "cost": {
+      "cr": 20
+    }
+  },
+  {
+    "id": "biker_leather_jacket",
+    "legacyId": 3,
+    "name": "Biker Leather Jacket",
+    "type": "jacket",
+    "rarity": "E",
+    "material": "Thick Cowhide Leather",
+    "visibility": 1,
+    "maxHits": 2,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 1,
+      "larm": 1,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 35
+    }
+  },
+  {
+    "id": "quilted_padded_gambeson",
+    "legacyId": 4,
+    "name": "Quilted Padded Gambeson",
+    "type": "vest",
+    "rarity": "F",
+    "material": "Multi-layer Padded Cotton",
+    "visibility": 2,
+    "maxHits": 1,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 25
+    }
+  },
+  {
+    "id": "aegis_undercover_soft_vest",
+    "legacyId": 5,
+    "name": "Aegis 'Undercover' Soft Vest",
+    "type": "vest",
+    "rarity": "D",
+    "material": "Kevlar KM2 Soft Weave",
+    "visibility": 1,
+    "maxHits": 2,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 60
+    }
+  },
+  {
+    "id": "street_craft_ballistic_undershirt",
+    "legacyId": 6,
+    "name": "Street Craft Ballistic Undershirt",
+    "type": "vest",
+    "rarity": "E",
+    "material": "Ballistic Nylon & Aramid Fiber",
+    "visibility": 1,
+    "maxHits": 1,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 40
+    }
+  },
+  {
+    "id": "aegis_duty_vest_type_ii",
+    "legacyId": 7,
+    "name": "Aegis Duty Vest Type-II",
+    "type": "vest",
+    "rarity": "D",
+    "material": "Heavy Kevlar Layering",
+    "visibility": 2,
+    "maxHits": 2,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 75
+    }
+  },
+  {
+    "id": "kurogane_spike_guard_vest",
+    "legacyId": 8,
+    "name": "Kurogane Spike-Guard Vest",
+    "type": "vest",
+    "rarity": "B",
+    "material": "Steel Mesh & Polyethylene",
+    "visibility": 1,
+    "maxHits": 3,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 250
+    }
+  },
+  {
+    "id": "ballistic_nylon_liners",
+    "legacyId": 9,
+    "name": "Ballistic Nylon Liners",
+    "type": "pants",
+    "rarity": "E",
+    "material": "Flexible Ballistic Weave",
+    "visibility": 1,
+    "maxHits": 1,
+    "av": {
+      "head": 0,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 1,
+      "lleg": 1
+    },
+    "cost": {
+      "cr": 45
+    }
+  },
+  {
+    "id": "kevlar_arm_sleeves",
+    "legacyId": 10,
+    "name": "Kevlar Arm Sleeves",
+    "type": "sleeves",
+    "rarity": "E",
+    "material": "Kevlar Knit Tubing",
+    "visibility": 1,
+    "maxHits": 1,
+    "av": {
+      "head": 0,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 1,
+      "larm": 1,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 30
+    }
+  },
+  {
+    "id": "apex_tac_lite_plate_carrier",
+    "legacyId": 11,
+    "name": "Apex Tac-Lite Plate Carrier",
+    "type": "vest",
+    "rarity": "C",
+    "material": "1000D Cordura & Soft Inserts",
+    "visibility": 3,
+    "maxHits": 3,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 180
+    }
+  },
+  {
+    "id": "aegis_tactical_cargo_pants",
+    "legacyId": 12,
+    "name": "Aegis Tactical Cargo Pants",
+    "type": "pants",
+    "rarity": "D",
+    "material": "Ripstop Cotton & Kevlar Knee Inserts",
+    "visibility": 2,
+    "maxHits": 2,
+    "av": {
+      "head": 0,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 1,
+      "lleg": 1
+    },
+    "cost": {
+      "cr": 55
+    }
+  },
+  {
+    "id": "low_profile_bump_cap",
+    "legacyId": 13,
+    "name": "Low-Profile Bump Cap",
+    "type": "helmet",
+    "rarity": "F",
+    "material": "Impact Polycarbonate & Foam",
+    "visibility": 1,
+    "maxHits": 1,
+    "av": {
+      "head": 1,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 25
+    }
+  },
+  {
+    "id": "street_craft_riot_helmet",
+    "legacyId": 14,
+    "name": "Street Craft Riot Helmet",
+    "type": "helmet",
+    "rarity": "E",
+    "material": "ABS Plastic & Visor",
+    "visibility": 5,
+    "maxHits": 2,
+    "av": {
+      "head": 1,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 45
+    }
+  },
+  {
+    "id": "scrap_metal_rig",
+    "legacyId": 15,
+    "name": "Scrap Metal Rig",
+    "type": "vest",
+    "rarity": "E",
+    "material": "Sheet Metal & Rubber Straps",
+    "visibility": 5,
+    "maxHits": 2,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 90
+    }
+  },
+  {
+    "id": "improvised_forearm_shin_guards",
+    "legacyId": 16,
+    "name": "Improvised Forearm Shin Guards",
+    "type": "bracers",
+    "rarity": "F",
+    "material": "PVC Pipe & Duct Tape",
+    "visibility": 4,
+    "maxHits": 1,
+    "av": {
+      "head": 0,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 1,
+      "larm": 1,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 15
+    }
+  },
+  {
+    "id": "aegis_heavy_strike_carrier",
+    "legacyId": 17,
+    "name": "Aegis Heavy Strike Carrier",
+    "type": "vest",
+    "rarity": "A",
+    "material": "Kevlar III-A & Ceramic Steel",
+    "visibility": 5,
+    "maxHits": 3,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 320
+    }
+  },
+  {
+    "id": "apex_sentinel_kevlar_helmet",
+    "legacyId": 18,
+    "name": "Apex 'Sentinel' Kevlar Helmet",
+    "type": "helmet",
+    "rarity": "B",
+    "material": "Molded Kevlar & Ceramic Weave",
+    "visibility": 5,
+    "maxHits": 3,
+    "av": {
+      "head": 1,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 210
+    }
+  },
+  {
+    "id": "kurogane_reinforced_coveralls",
+    "legacyId": 19,
+    "name": "Kurogane Reinforced Coveralls",
+    "type": "suit",
+    "rarity": "D",
+    "material": "Heavy Canvas & Ballistic Inserts",
+    "visibility": 4,
+    "maxHits": 2,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 1,
+      "larm": 1,
+      "rleg": 1,
+      "lleg": 1
+    },
+    "cost": {
+      "cr": 120
+    }
+  },
+  {
+    "id": "nova_executive_armored_vest",
+    "legacyId": 20,
+    "name": "Nova Executive Armored Vest",
+    "type": "vest",
+    "rarity": "C",
+    "material": "UHMWPE Polyethylene Weave",
+    "visibility": 1,
+    "maxHits": 2,
+    "av": {
+      "head": 0,
+      "chest": 1,
+      "abdomen": 1,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 0,
+      "lleg": 0
+    },
+    "cost": {
+      "cr": 150
+    }
+  },
+  {
+    "id": "security_shin_guards",
+    "legacyId": 21,
+    "name": "Security Shin Guards",
+    "type": "greaves",
+    "rarity": "E",
+    "material": "Molded Hard Plastic & Foam",
+    "visibility": 4,
+    "maxHits": 2,
+    "av": {
+      "head": 0,
+      "chest": 0,
+      "abdomen": 0,
+      "rarm": 0,
+      "larm": 0,
+      "rleg": 1,
+      "lleg": 1
+    },
+    "cost": {
+      "cr": 50
+    }
+  }
+]

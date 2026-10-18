@@ -1,0 +1,39 @@
+{
+  "actions": {
+    "move": {
+      "desc": "Muoviti fino al tuo SQR in quadretti (1 quadretto = 1,5 m). Il terreno difficile costa il doppio. Se entri in copertura, impostala."
+    },
+    "attack": {
+      "desc": "Tira il TN d'attacco dell'arma. Se colpisci tira i danni + Bonus offensivo; il bersaglio sottrae l'armatura."
+    },
+    "ability": {
+      "desc": "Tira il tuo Class TN per riuscire in una delle tue ability pronte."
+    },
+    "reload": {
+      "desc": "Ricarica il caricatore di un'arma, o cambia arma tra gli slot."
+    },
+    "interact": {
+      "desc": "Apri una porta, usa una console, prendi o passa un oggetto a un alleato vicino."
+    },
+    "aim": {
+      "desc": "Il tuo prossimo colpo localizzato può spostare il tiro di locazione fino a ±5."
+    },
+    "disengage": {
+      "desc": "Allontanati dalla mischia senza provocare un attacco di opportunità."
+    },
+    "overwatch": {
+      "desc": "Tieni una linea: tiro gratuito sul primo nemico che la attraversa prima del tuo prossimo turno."
+    },
+    "first_aid": {
+      "desc": "Stabilizza o medica un alleato vicino (Medicine / First Aid, o un med-kit)."
+    },
+    "other": {
+      "desc": "Qualsiasi altra cosa: il GM decide il tiro e quante azioni richiede."
+    }
+  },
+  "reactions": {
+    "dodge": {
+      "desc": "Quando vieni attaccato fuori dal tuo turno: spendi 1 azione del PROSSIMO round e tira Avoid / Reflexes."
+    }
+  }
+}

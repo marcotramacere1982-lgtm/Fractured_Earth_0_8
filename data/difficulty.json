@@ -1,0 +1,18 @@
+{
+  "note": "Effective TN = skill/attribute TN - tier penalty. Roll d20 <= Effective TN to succeed. Natural 1 / 20 always add a narrative consequence (GM decides).",
+  "die": "1d20",
+  "passiveOffset": -5,
+  "tiers": [
+    { "id": 0, "name": "Routine", "penalty": 0, "example": "Clear line of sight, stable footing, standard net access, low stress." },
+    { "id": 1, "name": "Challenging", "penalty": 2, "example": "Partial cover, light rain or fog, basic civilian encryption, minor time pressure." },
+    { "id": 2, "name": "Hard", "penalty": 4, "example": "Heavy rain, low light, commercial firewalls, firing while moving into cover." },
+    { "id": 3, "name": "Severe", "penalty": 6, "example": "Full cover, zero visibility or heavy smoke, military-grade encryption, active suppression." },
+    { "id": 4, "name": "Extreme", "penalty": 8, "example": "Dangling from a moving aircraft, active thermal lockout, firing blind into cover." },
+    { "id": 5, "name": "Nightmare", "penalty": 10, "example": "Complex actions during a System Hard Reboot, cracking a megacorp core under fire." }
+  ],
+  "cover": [
+    { "id": 0, "name": "No cover", "armor": 0 },
+    { "id": 2, "name": "Partial cover", "armor": 2 },
+    { "id": 4, "name": "Full cover", "armor": 4 }
+  ]
+}

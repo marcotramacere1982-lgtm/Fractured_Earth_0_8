@@ -1,0 +1,42 @@
+[
+  {
+    "id": "prone", "name": "Prone", "targets": "All entities",
+    "effects": ["Movement halved (2 SQR per square).", "+2 armor vs ranged attacks on all locations.", "Melee attacks against you gain +4 TN."],
+    "clear": "Spend 1 action to stand up."
+  },
+  {
+    "id": "stunned", "name": "Stunned", "targets": "All entities",
+    "effects": ["Next round you have only 1 action.", "No proactive defense or opportunity attacks."],
+    "clear": "Clears at the end of your next turn."
+  },
+  {
+    "id": "blinded", "name": "Blinded", "targets": "All entities",
+    "effects": ["Automatically fail perception and line-of-sight checks.", "Your attacks −10 TN or hit a random adjacent square.", "Ranged attacks against you gain +4 TN."],
+    "clear": "1 action to clear ocular feedback, or lasts 1–3 rounds."
+  },
+  {
+    "id": "disconnected", "name": "Disconnected", "targets": "Hackers, cybernetic units, turrets",
+    "effects": ["Cut off from subnets, smart-link optics and HUD.", "Hackers cannot run offensive payloads or keep sustained scripts.", "Active sustained scripts end immediately."],
+    "clear": "Computers / Hacking check (1 action) or a System Hard Reboot."
+  },
+  {
+    "id": "poisoned", "name": "Poisoned / Corroded", "targets": "Organic / synthetic units",
+    "effects": ["Take 1d4 at the start of each turn.", "Organic: bypasses armor, hits HP.", "Synthetic: strips 1 armor mark per round."],
+    "clear": "Lasts 3 rounds, or a Trauma Patch / Field Repair kit."
+  },
+  {
+    "id": "enraged", "name": "Enraged / Berserk", "targets": "All entities",
+    "effects": ["Must spend all actions advancing on and attacking the nearest visible entity.", "+2 melee damage; no cover or proactive defense."],
+    "clear": "Ends after 2 rounds or with no targets in sight."
+  },
+  {
+    "id": "incapacitated", "name": "Incapacitated", "targets": "All entities",
+    "effects": ["Unconscious or bricked: no actions, no defense.", "Attacks hit automatically and can execute or amputate."],
+    "clear": "Needs immediate stabilization (Healing Surge, Trauma Patch, Tech Repair)."
+  },
+  {
+    "id": "wounded", "name": "Wounded", "targets": "All entities",
+    "effects": ["Has taken damage this combat. Smuggler pendulum drifts +1 at round end."],
+    "clear": "Healed to full or end of combat."
+  }
+]

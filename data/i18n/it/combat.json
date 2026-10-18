@@ -1,0 +1,37 @@
+{
+  "derived": {
+    "sqr": {
+      "name": "Quadretti per round",
+      "desc": "Distanza percorsa sulla griglia tattica in un round",
+      "use": "Quanti quadretti copre una singola azione di Movimento (1 quadretto = 1,5 m). Da prono si dimezza; il terreno difficile costa il doppio."
+    },
+    "met": {
+      "name": "Metri al minuto",
+      "desc": "Velocità di spostamento fuori dal combattimento",
+      "use": "Velocità di viaggio fuori dal combattimento: inseguimenti, pattugliamenti, attraversare un quartiere."
+    },
+    "off": {
+      "name": "Bonus offensivo",
+      "desc": "Modificatore offensivo di base",
+      "use": "Si aggiunge ai danni di ogni colpo andato a segno e agli attacchi di opportunità (1d4 + OFF)."
+    },
+    "act": {
+      "name": "Azioni per round",
+      "desc": "Azioni tattiche disponibili in un turno",
+      "use": "Quante azioni hai in ogni round di combattimento. Da stordito ne hai 1. Schivare usa le azioni del round successivo."
+    },
+    "def": {
+      "name": "Bonus difensivo",
+      "desc": "Modificatore di base per schivare e difendersi",
+      "use": "Il tuo vantaggio difensivo contro gli attacchi. Come si applica ai tiri dei nemici è ancora una regola aperta: per ora decide il GM."
+    },
+    "per": {
+      "name": "Bonus percezione",
+      "desc": "Modificatore per individuare trappole e furtività",
+      "use": "La tua capacità di notare trappole, imboscate e dettagli nascosti. Il GM la usa quando c'è qualcosa da scoprire."
+    }
+  },
+  "initiative": {
+    "use": "Si tira una volta all'inizio del combattimento: d20 + questo valore. Agisce per primo il totale più alto, e l'ordine resta lo stesso per tutto lo scontro."
+  }
+}

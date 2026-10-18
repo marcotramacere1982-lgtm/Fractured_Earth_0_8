@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fractured Earth</title>
+  <meta name="description" content="Fractured Earth — digital character sheet, rules and table companion.">
+  <meta name="theme-color" content="#0e1013">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230e1013%22/%3E%3Ctext x=%2216%22 y=%2223%22 font-family=%22monospace%22 font-size=%2218%22 font-weight=%22bold%22 fill=%22%23f2a93b%22 text-anchor=%22middle%22%3E//%3C/text%3E%3C/svg%3E">
+  <script>
+    // apply saved theme before first paint
+    try { const t = localStorage.getItem('fe.theme'); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/sheet.css">
+  <link rel="stylesheet" href="styles/builder.css">
+  <link rel="stylesheet" href="styles/manual.css">
+  <script type="module" src="main.js"></script>
+</head>
+<body>
+  <header class="app-header" id="app-header"></header>
+  <main class="app-main" id="app-main">
+    <div class="empty"><div class="empty__title">Booting terminal…</div></div>
+  </main>
+  <div class="transmissions" id="transmissions"></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <noscript><p class="empty">Fractured Earth needs JavaScript enabled.</p></noscript>
+</body>
+</html>

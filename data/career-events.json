@@ -1,0 +1,450 @@
+{
+  "dice": "2d20",
+  "events": [
+    {
+      "roll": 2,
+      "id": "disabled",
+      "name": "DISABLED",
+      "text": "You have a terrible accident which almost cripples you. Your Movement Allowance values should always be read from the line above the normal in the Combat Statistics Table. An operation to fix you would cost about 100,000 crowns.",
+      "effects": {
+        "rowOffsets": {
+          "sqr": -1,
+          "met": -1
+        }
+      }
+    },
+    {
+      "roll": 3,
+      "id": "bone_disease",
+      "name": "BONE DISEASE",
+      "text": "Subtract 5 from your total Body Points. An operation to fix you would cost about 50,000 crowns.",
+      "effects": {
+        "maxHp": -5
+      }
+    },
+    {
+      "roll": 4,
+      "id": "severe_concussion",
+      "name": "SEVERE CONCUSSION",
+      "text": "You never quite healed from that last blow to your head. Your Defensive and Perception Bonuses should always be read one line above the normal in the Combat Statistics Table.",
+      "effects": {
+        "rowOffsets": {
+          "def": -1,
+          "per": -1
+        }
+      }
+    },
+    {
+      "roll": 5,
+      "id": "involved_in_serious_crime",
+      "name": "INVOLVED IN SERIOUS CRIME",
+      "text": "Guilty or not, you've been sentenced to 1d6+3 years of hard labor (adjust your age immediately). Add +3 to STR, CON, and CHA, but subtract 2 from INT and WIS.",
+      "effects": {
+        "attributes": {
+          "STR": 3,
+          "CON": 3,
+          "INT": -2,
+          "WIS": -2,
+          "CHA": 3
+        },
+        "criminalRecord": "add",
+        "ageDice": "1d6+3"
+      }
+    },
+    {
+      "roll": 6,
+      "id": "involved_in_minor_crime",
+      "name": "INVOLVED IN MINOR CRIME",
+      "text": "You get involved in some petty organized criminal business and sentenced to 1d3 years (adjust your age immediately) of prison. -2 to STR, CON, and WIS. +2 to CHA.",
+      "effects": {
+        "attributes": {
+          "STR": -2,
+          "CON": -2,
+          "WIS": -2,
+          "CHA": 2
+        },
+        "criminalRecord": "add",
+        "ageDice": "1d3"
+      }
+    },
+    {
+      "roll": 7,
+      "id": "guilty",
+      "name": "GUILTY",
+      "text": "A judge forced you to refund your neighbors for a case against you. Reduce your Credit Score by 5.",
+      "effects": {
+        "attributes": {
+          "CRS": -5
+        },
+        "criminalRecord": "add"
+      }
+    },
+    {
+      "roll": 8,
+      "id": "criminal_record",
+      "name": "CRIMINAL RECORD",
+      "text": "Your name is mentioned in connection with a criminal act, and you are recorded somewhere in criminal records—probably for the rest of your life. You are automatically unemployed, and you must start your adventuring career immediately. Your Credit Score drops to 1.",
+      "effects": {
+        "criminalRecord": "add",
+        "setAttributes": {
+          "CRS": 1
+        },
+        "endsCareer": true
+      }
+    },
+    {
+      "roll": 9,
+      "id": "fired",
+      "name": "FIRED",
+      "text": "Intrigue and/or mistakes make you lose your job and force you to be unemployed for 1d3 periods of two years each. You may avoid this period of unemployment if you start your adventuring career right away.",
+      "effects": {
+        "endsCareer": true
+      }
+    },
+    {
+      "roll": 10,
+      "id": "intense_education",
+      "name": "INTENSE EDUCATION",
+      "text": "Narrative flavor — a formative stretch of rigorous study or private schooling that shaped your early worldview."
+    },
+    {
+      "roll": 11,
+      "id": "part_of_unemployment_program",
+      "name": "PART OF UNEMPLOYMENT PROGRAM",
+      "text": "Should you ever be unemployed, you may automatically choose the Student background instead, even if you do not meet the requirements.",
+      "effects": {
+        "tag": "Unemployment Program"
+      }
+    },
+    {
+      "roll": 12,
+      "id": "good_negotiator",
+      "name": "GOOD NEGOTIATOR",
+      "text": "You excel at leveraging market leverage and managing social friction. Add +2 to CHA.",
+      "effects": {
+        "attributes": {
+          "CHA": 2
+        }
+      }
+    },
+    {
+      "roll": 13,
+      "id": "glamorous_employment",
+      "name": "GLAMOROUS EMPLOYMENT",
+      "text": "Your presence opens doors in corporate circles. Add +1 to CHA.",
+      "effects": {
+        "attributes": {
+          "CHA": 1
+        }
+      }
+    },
+    {
+      "roll": 14,
+      "id": "contact_within_a_megacorp",
+      "name": "CONTACT WITHIN A MEGACORP",
+      "text": "You have a contact within one of the megacorporations. Work with your GM to decide how this contact provides insider info or favors."
+    },
+    {
+      "roll": 15,
+      "id": "civil_defense_training",
+      "name": "CIVIL DEFENSE TRAINING",
+      "text": "You have basic civilian defense discipline and weapons handling under stress. Add +1 to DEX.",
+      "effects": {
+        "attributes": {
+          "DEX": 1
+        }
+      }
+    },
+    {
+      "roll": 16,
+      "id": "technical_crash_course",
+      "name": "TECHNICAL CRASH COURSE",
+      "text": "Intensive technical training gives you a strong grasp of electronics and systems repair. Add +1 to INT.",
+      "effects": {
+        "attributes": {
+          "INT": 1
+        }
+      }
+    },
+    {
+      "roll": 17,
+      "id": "administration_night_classes",
+      "name": "ADMINISTRATION NIGHT CLASSES",
+      "text": "Evening coursework improves your procedural knowledge and negotiation discipline. Add +1 to INT.",
+      "effects": {
+        "attributes": {
+          "INT": 1
+        }
+      }
+    },
+    {
+      "roll": 18,
+      "id": "gymnastics_classes",
+      "name": "GYMNASTICS CLASSES",
+      "text": "Physical conditioning improves your poise, agility, and mobility. Add +1 to DEX.",
+      "effects": {
+        "attributes": {
+          "DEX": 1
+        }
+      }
+    },
+    {
+      "roll": 19,
+      "id": "evening_classes",
+      "name": "EVENING CLASSES",
+      "text": "Broad adult education sharpens your intellect and focus. Add +1 to INT.",
+      "effects": {
+        "attributes": {
+          "INT": 1
+        }
+      }
+    },
+    {
+      "roll": 20,
+      "id": "interesting_character",
+      "name": "INTERESTING CHARACTER",
+      "text": "You always seem to fascinate people. Add +1 to CHA.",
+      "effects": {
+        "attributes": {
+          "CHA": 1
+        }
+      }
+    },
+    {
+      "roll": 21,
+      "id": "hard_labor",
+      "name": "HARD LABOR",
+      "text": "Manual labor has toughened your body. Add +1 to STR.",
+      "effects": {
+        "attributes": {
+          "STR": 1
+        }
+      }
+    },
+    {
+      "roll": 22,
+      "id": "strong_will",
+      "name": "STRONG WILL",
+      "text": "Emotional turmoil and mental distress have hardened your outlook. Add +1 to WIS and +1 to MST.",
+      "effects": {
+        "attributes": {
+          "WIS": 1,
+          "MST": 1
+        }
+      }
+    },
+    {
+      "roll": 23,
+      "id": "health_care",
+      "name": "HEALTH CARE",
+      "text": "Eating health food and taking care of your body has really paid off. Add +1 to CON.",
+      "effects": {
+        "attributes": {
+          "CON": 1
+        }
+      }
+    },
+    {
+      "roll": 24,
+      "id": "amateur_gymnast",
+      "name": "AMATEUR GYMNAST",
+      "text": "Add +1 to DEX.",
+      "effects": {
+        "attributes": {
+          "DEX": 1
+        }
+      }
+    },
+    {
+      "roll": 25,
+      "id": "good_immune_system",
+      "name": "GOOD IMMUNE SYSTEM",
+      "text": "Your body is extremely resistant to alien organic substances. Add +1 to CON.",
+      "effects": {
+        "attributes": {
+          "CON": 1
+        }
+      }
+    },
+    {
+      "roll": 26,
+      "id": "extraordinary_chemical_tolerance",
+      "name": "EXTRAORDINARY CHEMICAL TOLERANCE",
+      "text": "Your body is extremely resistant to artificial substances, toxins, and gases. Add +1 to CON.",
+      "effects": {
+        "attributes": {
+          "CON": 1
+        }
+      }
+    },
+    {
+      "roll": 27,
+      "id": "gifted_childhood",
+      "name": "GIFTED CHILDHOOD",
+      "text": "Versatile upbringing and early exposure to multiple disciplines. Add +1 to INT and +1 to WIS.",
+      "effects": {
+        "attributes": {
+          "INT": 1,
+          "WIS": 1
+        }
+      }
+    },
+    {
+      "roll": 28,
+      "id": "wealthy_lover",
+      "name": "WEALTHY LOVER",
+      "text": "Your lover is very wealthy, and also quite generous. Add +1 to Credit Score (100 is maximum).",
+      "effects": {
+        "attributes": {
+          "CRS": 1
+        }
+      }
+    },
+    {
+      "roll": 29,
+      "id": "steady_employment",
+      "name": "STEADY EMPLOYMENT",
+      "text": "Gain +1 to any base attribute of your choice.",
+      "effects": {
+        "choice": {
+          "amount": 1,
+          "of": [
+            "STR",
+            "DEX",
+            "CON",
+            "INT",
+            "WIS",
+            "CHA",
+            "MST"
+          ]
+        }
+      }
+    },
+    {
+      "roll": 30,
+      "id": "amateur_athlete",
+      "name": "AMATEUR ATHLETE",
+      "text": "Add +2 to STR and CON. Your increased characteristics depend upon regular attendance at a gym. Should your Credit Score drop below 4, you must remove these bonuses.",
+      "effects": {
+        "attributes": {
+          "STR": 2,
+          "CON": 2
+        }
+      }
+    },
+    {
+      "roll": 31,
+      "id": "chance_of_a_lifetime",
+      "name": "CHANCE OF A LIFETIME",
+      "text": "You may choose any background, regardless of its requirements and spend 2 years in any profession you like.",
+      "effects": {
+        "waives": [
+          "*"
+        ]
+      }
+    },
+    {
+      "roll": 32,
+      "id": "contacts_within_police_department",
+      "name": "CONTACTS WITHIN POLICE DEPARTMENT",
+      "text": "You will never, ever get your name on a criminal record. If you've been recorded as a criminal, your record is expunged.",
+      "effects": {
+        "criminalRecord": "clear"
+      }
+    },
+    {
+      "roll": 33,
+      "id": "sole_heir_to_wealthy_aunt",
+      "name": "SOLE HEIR TO WEALTHY AUNT",
+      "text": "Your extremely rich aunt remembered you in her will. Add +3 to Credit Score (100 is maximum).",
+      "effects": {
+        "attributes": {
+          "CRS": 3
+        }
+      }
+    },
+    {
+      "roll": 34,
+      "id": "powerful_fanatic_enemy",
+      "name": "POWERFUL, FANATIC ENEMY",
+      "text": "Somehow, you manage to get yourself a deadly enemy who unfortunately also happens to be quite powerful. Your enemy might be a district attorney, an old partner, a jealous associate, or whoever—be creative."
+    },
+    {
+      "roll": 35,
+      "id": "long_legs",
+      "name": "LONG LEGS",
+      "text": "Your Movement Allowance values should always be read from the line below the normal in the Combat Statistics Table.",
+      "effects": {
+        "rowOffsets": {
+          "sqr": 1,
+          "met": 1
+        }
+      }
+    },
+    {
+      "roll": 36,
+      "id": "famous_face",
+      "name": "FAMOUS FACE",
+      "text": "You happen to look a lot like a very famous person. Add +5 to CHA.",
+      "effects": {
+        "attributes": {
+          "CHA": 5
+        }
+      }
+    },
+    {
+      "roll": 37,
+      "id": "movie_star",
+      "name": "MOVIE STAR",
+      "text": "You've had a couple of small parts in soap operas and B-movies. Add +1 to Credit Score and +2 to CHA.",
+      "effects": {
+        "attributes": {
+          "CHA": 2,
+          "CRS": 1
+        }
+      }
+    },
+    {
+      "roll": 38,
+      "id": "promotion",
+      "name": "PROMOTION",
+      "text": "Add +3 to Credit Score and CHA.",
+      "effects": {
+        "attributes": {
+          "CHA": 3,
+          "CRS": 3
+        }
+      }
+    },
+    {
+      "roll": 39,
+      "id": "subject_to_experiments",
+      "name": "SUBJECT TO EXPERIMENTS",
+      "text": "You volunteer to take part in a secret medical experiment which happens to succeed. Add +5 to WIS.",
+      "effects": {
+        "attributes": {
+          "WIS": 5
+        }
+      }
+    },
+    {
+      "roll": 40,
+      "id": "commando_training",
+      "name": "COMMANDO TRAINING",
+      "text": "Instead of your next two background periods, you may spend four years in elite commando training (equivalent to attending a Military academy). Add +2 to all base attributes, +5 to CHA, and +2 to Credit Score (100 maximum).",
+      "effects": {
+        "attributes": {
+          "STR": 2,
+          "DEX": 2,
+          "CON": 2,
+          "INT": 2,
+          "WIS": 2,
+          "CHA": 5,
+          "MST": 2,
+          "CRS": 2
+        },
+        "credential": "military_academy"
+      }
+    }
+  ]
+}

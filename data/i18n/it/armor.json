@@ -1,0 +1,86 @@
+{
+  "scavenger_leather_doublet": {
+    "type": "giubbotto",
+    "material": "Cuoio pesante cucito e denim"
+  },
+  "reinforced_work_trousers": {
+    "type": "pantaloni",
+    "material": "Tela pesante con toppe di cuoio"
+  },
+  "biker_leather_jacket": {
+    "type": "giacca",
+    "material": "Cuoio bovino spesso"
+  },
+  "quilted_padded_gambeson": {
+    "type": "giubbotto",
+    "material": "Cotone imbottito multistrato"
+  },
+  "aegis_undercover_soft_vest": {
+    "type": "giubbotto",
+    "material": "Tessuto morbido in Kevlar KM2"
+  },
+  "street_craft_ballistic_undershirt": {
+    "type": "giubbotto",
+    "material": "Nylon balistico e fibra aramidica"
+  },
+  "aegis_duty_vest_type_ii": {
+    "type": "giubbotto",
+    "material": "Strati pesanti di Kevlar"
+  },
+  "kurogane_spike_guard_vest": {
+    "type": "giubbotto",
+    "material": "Maglia d'acciaio e polietilene"
+  },
+  "ballistic_nylon_liners": {
+    "type": "pantaloni",
+    "material": "Tessuto balistico flessibile"
+  },
+  "kevlar_arm_sleeves": {
+    "type": "maniche",
+    "material": "Maglia tubolare in Kevlar"
+  },
+  "apex_tac_lite_plate_carrier": {
+    "type": "giubbotto",
+    "material": "Cordura 1000D e inserti morbidi"
+  },
+  "aegis_tactical_cargo_pants": {
+    "type": "pantaloni",
+    "material": "Cotone ripstop e ginocchiere in Kevlar"
+  },
+  "low_profile_bump_cap": {
+    "type": "casco",
+    "material": "Policarbonato antiurto e schiuma"
+  },
+  "street_craft_riot_helmet": {
+    "type": "casco",
+    "material": "Plastica ABS e visiera"
+  },
+  "scrap_metal_rig": {
+    "type": "giubbotto",
+    "material": "Lamiera e cinghie di gomma"
+  },
+  "improvised_forearm_shin_guards": {
+    "type": "parabracci",
+    "material": "Tubo in PVC e nastro adesivo"
+  },
+  "aegis_heavy_strike_carrier": {
+    "type": "giubbotto",
+    "material": "Kevlar III-A e acciaio ceramico"
+  },
+  "apex_sentinel_kevlar_helmet": {
+    "type": "casco",
+    "material": "Kevlar stampato e trama ceramica"
+  },
+  "kurogane_reinforced_coveralls": {
+    "type": "tuta",
+    "material": "Tela pesante con inserti balistici"
+  },
+  "nova_executive_armored_vest": {
+    "type": "giubbotto",
+    "material": "Trama in polietilene UHMWPE"
+  },
+  "security_shin_guards": {
+    "type": "schinieri",
+    "material": "Plastica rigida stampata e schiuma"
+  }
+}

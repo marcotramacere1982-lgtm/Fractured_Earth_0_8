@@ -1,0 +1,86 @@
+[
+  {
+    "id": "the_medical_debt_biomarker",
+    "legacyId": 1,
+    "name": "The Medical Debt Biomarker",
+    "debt": "A child or sibling suffers from a chronic illness, and their life-sustaining biopolymer medication was transferred to a high-risk corporate loan with compound daily interest.",
+    "threat": "If their personal Credit Rating dips below Tier-D or they fail to make weekly credit payments, the pharma-conglomerate turns off the remote dosage dispenser."
+  },
+  {
+    "id": "off_grid_family_eviction_notice",
+    "legacyId": 2,
+    "name": "Off-Grid Family Eviction Notice",
+    "debt": "The character’s elderly parents or family were evicted from a privatized corporate urban arcology and forced into an unsanctioned squatters’ ghetto.",
+    "threat": "Private security sweeps are scheduled to clear the sector with heavy industrial equipment. The character needs enough cash to buy an entry-level residency permit in a protected zone."
+  },
+  {
+    "id": "repossession_of_a_dead_parent_s_organ",
+    "legacyId": 3,
+    "name": "Repossession of a Dead Parent's Organ",
+    "debt": "A deceased relative took out a high-interest lease on a synthetic heart or kidney, and the character co-signed the liability contract.",
+    "threat": "Repo-teams are actively tracking the family. To prevent the gruesome physical reclamation of the implant (and the associated public humiliation and bio-clean fees), the character must pay off the defaulted principal."
+  },
+  {
+    "id": "black_market_ar_biometric_cleanse",
+    "legacyId": 4,
+    "name": "Black-Market AR Biometric Cleanse",
+    "debt": "The character was framed for a corporate industrial espionage crime, leaving them flagged on every municipal facial-recognition grid and public AR camera.",
+    "threat": "Their current identity is a rented/borrowed biometric spool that costs exorbitant daily maintenance fees from a back-alley bio-hacker to keep from expiring."
+  },
+  {
+    "id": "buyback_of_a_corporate_indentured_sibling",
+    "legacyId": 5,
+    "name": "Buyback of a Corporate Indentured Sibling",
+    "debt": "A younger sibling signed a 10-year indentured labor contract with an off-shore industrial recycler to pay off family inheritance taxes.",
+    "threat": "Reports from the refinery show high mortality rates. The buyout clause in the contract is astronomically high, requiring immediate, liquid credits before the term ends."
+  },
+  {
+    "id": "the_predatory_education_lien",
+    "legacyId": 6,
+    "name": "The Predatory Education Lien",
+    "debt": "The character attended a corporate-sponsored vocational academy, incurring a specialized predatory loan that garnishes 80% of all legal income.",
+    "threat": "Working a standard, legal job will never clear the interest. Only off-the-books, high-risk mercenary work provides unmonitored cash to pay down the principal under the radar."
+  },
+  {
+    "id": "hostile_corporate_land_grab_payoff",
+    "legacyId": 7,
+    "name": "Hostile Corporate Land-Grab Payoff",
+    "debt": "The character’s family owns one of the last independent ancestral properties or small workshops in a slum targeted for corporate arcology redevelopment.",
+    "threat": "The megacorp is systematically jacking up utility fees, property protection taxes, and code-violation fines to force a distress sale. They need cash to pay off the fraudulent municipal fines."
+  },
+  {
+    "id": "black_market_synthetic_organ_replacement",
+    "legacyId": 8,
+    "name": "Black-Market Synthetic Organ Replacement",
+    "debt": "The character themselves suffers from an aggressive, industrial-toxin-induced organ failure caused by working in un-shielded factory zones as a teen.",
+    "threat": "Public hospitals won't treat low-tier citizens. A shady back-alley street surgeon agreed to perform the transplant, but holds the remote kill-switch until the debt is cleared."
+  },
+  {
+    "id": "bail_money_for_an_arbitrary_corporate_detention",
+    "legacyId": 9,
+    "name": "Bail Money for an Arbitrary Corporate Detention",
+    "debt": "A spouse or partner was rounded up in an arbitrary \"slum sweep\" by private security forces and placed in a privatized labor prison.",
+    "threat": "In this justice system, detainees are charged daily room-and-board fees. If the \"detention account\" runs out of credits, the prisoner is transferred to a permanent penal labor facility."
+  },
+  {
+    "id": "the_stolen_credit_persona_ransom",
+    "legacyId": 10,
+    "name": "The Stolen Credit Persona Ransom",
+    "debt": "A syndicate hacker stole the character's clean citizen identity and credit profile, tanking their score to near-zero while taking out predatory loans in their name.",
+    "threat": "The syndicate is holding the encryption keys to restore the original identity hostage. Until the ransom is paid, the character is legally classified as an \"unregistered vagrant.\""
+  },
+  {
+    "id": "toxic_spill_smear_campaign_defense",
+    "legacyId": 11,
+    "name": "Toxic Spill Smear Campaign Defense",
+    "debt": "The character was a lower-level supervisor blamed by a corporation for a catastrophic chemical/industrial accident in a residential ghetto.",
+    "threat": "The corporation filed a multi-million-credit civil lawsuit to cover their own negligence. If the character cannot pay the settlement installments, they face lifetime penal labor consignment."
+  },
+  {
+    "id": "underground_clinic_cryo_stasis_fees",
+    "legacyId": 12,
+    "name": "Underground Clinic Cryo-Stasis Fees",
+    "debt": "After a near-fatal shooting or collapse, a loved one was placed in an illegal, low-power cryo-stasis pod in an abandoned subway basement to stall brain death.",
+    "threat": "The clinic runs on bootleg power that costs thousands of credits a week in bribe money to local gang leaders and rogue engineers to keep the generators running."
+  }
+]

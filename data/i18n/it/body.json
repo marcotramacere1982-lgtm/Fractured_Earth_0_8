@@ -1,0 +1,25 @@
+{
+  "locations": {
+    "head": {
+      "name": "Testa"
+    },
+    "chest": {
+      "name": "Torace"
+    },
+    "abdomen": {
+      "name": "Addome"
+    },
+    "rarm": {
+      "name": "Braccio destro"
+    },
+    "larm": {
+      "name": "Braccio sinistro"
+    },
+    "rleg": {
+      "name": "Gamba destra"
+    },
+    "lleg": {
+      "name": "Gamba sinistra"
+    }
+  }
+}

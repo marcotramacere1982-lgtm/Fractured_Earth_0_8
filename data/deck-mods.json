@@ -1,0 +1,83 @@
+{
+  "note": "Hardware upgrades for hacker decks, like upgrading a PC. Each mod uses 1 of the deck's mod slots. PROVISIONAL values: owner to tune.",
+  "types": [
+    {
+      "id": "ram",
+      "name": "RAM Expansion",
+      "adds": "ram"
+    },
+    {
+      "id": "cooling",
+      "name": "Cooling Upgrade",
+      "adds": "heatCap"
+    }
+  ],
+  "mods": [
+    {
+      "id": "ram_stick_basic",
+      "name": "Salvaged RAM Stick",
+      "type": "ram",
+      "amount": 1,
+      "rarity": "F",
+      "cost": {
+        "cr": 300
+      },
+      "provisional": true
+    },
+    {
+      "id": "ram_module_pro",
+      "name": "Corporate RAM Module",
+      "type": "ram",
+      "amount": 2,
+      "rarity": "D",
+      "cost": {
+        "cr": 1500
+      },
+      "provisional": true
+    },
+    {
+      "id": "ram_bank_military",
+      "name": "Military RAM Bank",
+      "type": "ram",
+      "amount": 4,
+      "rarity": "B",
+      "cost": {
+        "cr": 6000
+      },
+      "provisional": true
+    },
+    {
+      "id": "cooling_fan_kit",
+      "name": "Scrap Fan Kit",
+      "type": "cooling",
+      "amount": 5,
+      "rarity": "F",
+      "cost": {
+        "cr": 250
+      },
+      "provisional": true
+    },
+    {
+      "id": "cooling_heat_pipes",
+      "name": "Copper Heat Pipes",
+      "type": "cooling",
+      "amount": 10,
+      "rarity": "D",
+      "cost": {
+        "cr": 1200
+      },
+      "provisional": true
+    },
+    {
+      "id": "cooling_cryo_loop",
+      "name": "Cryo Coolant Loop",
+      "type": "cooling",
+      "amount": 20,
+      "rarity": "B",
+      "cost": {
+        "cr": 5000
+      },
+      "provisional": true
+    }
+  ]
+}

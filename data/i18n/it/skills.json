@@ -1,0 +1,99 @@
+{
+  "categories": {
+    "combat": {
+      "name": "Combattimento"
+    },
+    "firearms": {
+      "name": "Armi da fuoco"
+    },
+    "communications": {
+      "name": "Relazioni"
+    },
+    "movement": {
+      "name": "Movimento"
+    },
+    "technical": {
+      "name": "Tecniche"
+    },
+    "special": {
+      "name": "Speciali"
+    }
+  },
+  "skills": {
+    "melee_cqc": {
+      "desc": "Armi improvvisate, manganelli, lotta a distanza ravvicinata."
+    },
+    "brawling": {
+      "desc": "Colpi a mani nude, scorrettezze, risse di strada."
+    },
+    "parrying_blocking": {
+      "desc": "Difendersi da colpi fisici e attacchi ravvicinati."
+    },
+    "thrown_objects": {
+      "desc": "Lanciare attrezzi, armi improvvisate od oggetti per distrarre."
+    },
+    "handguns": {
+      "desc": "Armi corte da occultare, pistole, revolver."
+    },
+    "long_guns_shotguns": {
+      "desc": "Fucili da caccia, carabine, fucili a pompa."
+    },
+    "automatic_firearms": {
+      "desc": "Mitragliette, armi automatiche compatte, controllo del rinculo."
+    },
+    "administration_legal": {
+      "desc": "Burocrazia, pratiche aziendali, cavilli municipali."
+    },
+    "persuasion_social": {
+      "desc": "Negoziare, parlantina, fascino, sangue freddo sotto pressione."
+    },
+    "streetwise_dealing": {
+      "desc": "Commercio al mercato nero, reti clandestine, ricettazione."
+    },
+    "interrogation_intimidation": {
+      "desc": "Estorcere informazioni, fare leva, trovare i punti deboli."
+    },
+    "deception_conning": {
+      "desc": "Travestimenti, bluff, ingegneria sociale sotto osservazione."
+    },
+    "stealth": {
+      "desc": "Pedinare, sfuggire alla sorveglianza, muoversi in silenzio."
+    },
+    "agility_athletics": {
+      "desc": "Parkour, scavalcare ostacoli, sfuggire agli inseguimenti."
+    },
+    "sleight_of_hand": {
+      "desc": "Borseggiare, piazzare prove, piccoli trucchi di mano."
+    },
+    "climb_physical": {
+      "desc": "Scalare muri, forzare accessi, sforzo fisico."
+    },
+    "ground_vehicles": {
+      "desc": "Seminare gli inseguitori, guida in città, moto."
+    },
+    "drones_remote_craft": {
+      "desc": "Pilotare droni civili e di sorveglianza (non velivoli militari)."
+    },
+    "computers_hacking": {
+      "desc": "Accesso ai sistemi, manipolazione delle reti, tracce digitali."
+    },
+    "electronics_security": {
+      "desc": "Aggirare serrature, disattivare sensori, cortocircuitare hardware."
+    },
+    "medicine_first_aid": {
+      "desc": "Traumi sul campo, curare ferite, esami forensi."
+    },
+    "mechanics_fabrication": {
+      "desc": "Riparare veicoli, avviare motori senza chiave, manutenzione degli attrezzi."
+    },
+    "forensics_investigation": {
+      "desc": "Analizzare scene del crimine, leggere le prove fisiche."
+    },
+    "avoid_reflexes": {
+      "desc": "Schivare i pericoli in arrivo, tuffarsi al riparo."
+    },
+    "perception_awareness": {
+      "desc": "Accorgersi di chi ti segue, notare le anomalie, attenzione all'ambiente."
+    }
+  }
+}

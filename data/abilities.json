@@ -1,0 +1,558 @@
+{
+  "soldier": [
+    {
+      "id": "brace_and_dig_in",
+      "name": "Brace & Dig In",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "cost": 0,
+      "gain": 2,
+      "stanceFrom": "any",
+      "stanceTo": "defensive",
+      "desc": "Drop low and set your feet: +2 armor until your next turn. Builds 2 TP."
+    },
+    {
+      "id": "tactical_shot",
+      "name": "Steady Aim",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "cost": 0,
+      "gain": 1,
+      "stanceFrom": "any",
+      "stanceTo": "current",
+      "desc": "Settle your breathing and line up the next shot: your next normal attack this round gets +2 TN. Builds 1 TP."
+    },
+    {
+      "id": "dig_in_and_push",
+      "name": "Dig In & Push",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "cost": 1,
+      "gain": 0,
+      "stanceFrom": "defensive",
+      "stanceTo": "attack",
+      "weapon": {
+        "ammo": 1
+      },
+      "desc": "Break from cover: move up to your squares, then fire at an enemy in sight for weapon damage."
+    },
+    {
+      "id": "suppressive_sweep",
+      "name": "Suppressive Sweep",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "cost": 1,
+      "gain": 0,
+      "stanceFrom": "attack",
+      "stanceTo": "defensive",
+      "weapon": {
+        "ammo": 1,
+        "noDamage": true
+      },
+      "desc": "Pinning fire: one enemy, or two adjacent to each other, attack at −4 TN until the end of next round."
+    },
+    {
+      "id": "overwatch_sweep",
+      "name": "Overwatch Sweep",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "cost": 2,
+      "gain": 0,
+      "stanceFrom": "attack",
+      "stanceTo": "defensive",
+      "desc": "Hold two lines of sight: a free shot at +2 TN on the first enemy that crosses each, before your next turn."
+    },
+    {
+      "id": "commanding_directive",
+      "name": "Commanding Directive",
+      "subclasses": [
+        "officer"
+      ],
+      "cost": 1,
+      "gain": 0,
+      "stanceFrom": "defensive",
+      "stanceTo": "attack",
+      "desc": "Bark an order: an ally in sight takes one free action right now (move or attack)."
+    },
+    {
+      "id": "coordinated_crossfire",
+      "name": "Coordinated Crossfire",
+      "subclasses": [
+        "officer"
+      ],
+      "cost": 2,
+      "gain": 0,
+      "stanceFrom": "defensive",
+      "stanceTo": "attack",
+      "desc": "Mark a target: until the end of the round, allies attacking it get +2 TN and +1d6 damage."
+    },
+    {
+      "id": "tactical_redeploy",
+      "name": "Tactical Redeployment",
+      "subclasses": [
+        "officer"
+      ],
+      "cost": 2,
+      "gain": 0,
+      "stanceFrom": "attack",
+      "stanceTo": "defensive",
+      "desc": "Every ally may move up to their squares without provoking opportunity attacks; allies who end in cover get +2 armor until their next turn."
+    },
+    {
+      "id": "fix_bayonets",
+      "name": "Fix Bayonets / Charge",
+      "subclasses": [
+        "grunt"
+      ],
+      "cost": 2,
+      "gain": 0,
+      "stanceFrom": "attack",
+      "stanceTo": "onslaught",
+      "weapon": {
+        "bonus": "1d6"
+      },
+      "desc": "Charge up to your squares into an enemy and strike: weapon damage +1d6, and the target is Prone."
+    },
+    {
+      "id": "bunker_buster",
+      "name": "Bunker Buster",
+      "subclasses": [
+        "grunt"
+      ],
+      "cost": 2,
+      "gain": 0,
+      "stanceFrom": "onslaught",
+      "stanceTo": "defensive",
+      "weapon": {
+        "ammo": 1,
+        "armorHalf": true
+      },
+      "desc": "A brutal point-blank blow or shot: weapon damage that ignores half the target's armor, and strips 1 armor mark."
+    },
+    {
+      "id": "reckless_execution",
+      "name": "Reckless Execution",
+      "subclasses": [
+        "grunt"
+      ],
+      "cost": 3,
+      "gain": 1,
+      "stanceFrom": "onslaught",
+      "stanceTo": "onslaught",
+      "weapon": {
+        "ammo": "all",
+        "twice": true,
+        "minAmmo": 3
+      },
+      "desc": "Empty the magazine at point blank: roll weapon damage twice (melee: two strikes). Needs at least 3 rounds loaded."
+    }
+  ],
+  "hacker": [
+    {
+      "id": "ping_sweep",
+      "name": "Ping Sweep",
+      "desc": "Map the local network: reveal hidden units and devices within 10 squares, through walls. Until the end of the round, allies get +2 TN against revealed targets.",
+      "ram": 1,
+      "heat": 1,
+      "sustained": false,
+      "subclasses": [
+        "scammer",
+        "master"
+      ]
+    },
+    {
+      "id": "credentials_spoof",
+      "name": "Credentials Spoof",
+      "desc": "Forge a high-clearance ID for you and one ally: synthetic systems (turrets, drones, doors) ignore you both, and organic guards accept you as authorised. Ends if either of you attacks.",
+      "ram": 2,
+      "heat": 1,
+      "sustained": true,
+      "subclasses": [
+        "scammer"
+      ]
+    },
+    {
+      "id": "keylogger_injection",
+      "name": "Keylogger Injection",
+      "desc": "Bug a cybernetic or synthetic target: the GM announces its next action before it acts. Each time it acts, you vent 1 heat.",
+      "ram": 1,
+      "heat": 2,
+      "sustained": true,
+      "subclasses": [
+        "scammer",
+        "master"
+      ]
+    },
+    {
+      "id": "thermal_dump_safe",
+      "name": "Thermal Dump",
+      "desc": "Safe venting cycle: vent 3 heat. No offensive hacks for the rest of this turn. No roll.",
+      "ram": 0,
+      "heat": 0,
+      "sustained": false,
+      "subclasses": [
+        "scammer",
+        "master"
+      ],
+      "heatVent": 3,
+      "auto": true
+    },
+    {
+      "id": "data_loop_strobe",
+      "name": "Data Loop / Strobe",
+      "desc": "Loop a strobe into the optics of a cybernetic or synthetic target: it attacks at −4 TN.",
+      "ram": 2,
+      "heat": 2,
+      "sustained": true,
+      "subclasses": [
+        "scammer"
+      ]
+    },
+    {
+      "id": "feedback_loop_ddos",
+      "name": "Feedback Loop (DDoS)",
+      "desc": "Overload a target’s circuits: 3d6 damage to a synthetic target, 2d6 to a cybernetic one, ignoring armor. No effect on organic targets.",
+      "ram": 3,
+      "heat": 4,
+      "sustained": false,
+      "subclasses": [
+        "master"
+      ],
+      "damage": [
+        {
+          "vs": "synthetic",
+          "dice": "3d6"
+        },
+        {
+          "vs": "cybernetic",
+          "dice": "2d6"
+        }
+      ]
+    },
+    {
+      "id": "overclock_pulse",
+      "name": "Overclock Pulse",
+      "desc": "Push the deck past safe limits: your next instant hack this round hits two targets, or the same target twice.",
+      "ram": 2,
+      "heat": 5,
+      "sustained": false,
+      "subclasses": [
+        "master"
+      ]
+    },
+    {
+      "id": "release_payload",
+      "name": "Release Payload",
+      "desc": "End all your sustained hacks and free their RAM. To end just one, tap its ✕ on the deck panel. No roll.",
+      "ram": 0,
+      "heat": 0,
+      "sustained": false,
+      "subclasses": [
+        "scammer",
+        "master"
+      ],
+      "clearsRam": "sustained",
+      "auto": true
+    },
+    {
+      "id": "system_hard_reboot",
+      "name": "System Hard Reboot",
+      "desc": "Emergency restart: clear all RAM and heat, but the deck stays offline for the rest of this round and the next. No roll.",
+      "ram": 0,
+      "heat": 0,
+      "sustained": false,
+      "subclasses": [
+        "scammer",
+        "master"
+      ],
+      "heatVent": "all",
+      "clearsRam": "all",
+      "auto": true
+    },
+    {
+      "id": "logic_bomb",
+      "name": "Logic Bomb",
+      "desc": "Plant a dormant payload in a cybernetic or synthetic target. When it moves, or when you release it, it detonates: 3d6 damage to the target and 1d6 to anyone adjacent.",
+      "ram": 3,
+      "heat": 3,
+      "sustained": true,
+      "subclasses": [
+        "master"
+      ]
+    },
+    {
+      "id": "false_flag_broadcast",
+      "name": "False Flag Broadcast",
+      "desc": "Spoof a friendly-fire alert: a cybernetic or synthetic enemy spends its next turn attacking its nearest ally.",
+      "ram": 4,
+      "heat": 3,
+      "sustained": false,
+      "subclasses": [
+        "scammer"
+      ]
+    }
+  ],
+  "techwiz": [
+    {
+      "id": "scavenge_and_survey",
+      "name": "Scavenge & Survey",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "minSync": 0,
+      "mend": "Reveal cover and hazards within 6 squares; one ally gets +2 TN on their next Avoid / Reflexes roll.",
+      "surge": "Mark a weak point on an enemy in sight: the next hit against it ignores 2 armor."
+    },
+    {
+      "id": "field_maintenance",
+      "name": "Field Maintenance",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "minSync": 0,
+      "mend": "Restore 2 armor marks on an adjacent ally (any locations).",
+      "surge": "Strip 2 armor marks from an adjacent enemy, or deal 1d6 to an adjacent drone."
+    },
+    {
+      "id": "deploy_improvised_cover",
+      "name": "Improvised Cover",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "minSync": 0,
+      "mend": "Raise Partial cover (+2) in a square next to an ally, until it is moved or destroyed.",
+      "surge": "Hurl the scrap plate: 2d6 to one enemy in sight."
+    },
+    {
+      "id": "targeted_overclock",
+      "name": "Targeted Overclock",
+      "subclasses": [
+        "engineer"
+      ],
+      "minSync": 1,
+      "mend": "An ally in sight gets +1 action next round.",
+      "surge": "An ally's next weapon hit deals +1d6."
+    },
+    {
+      "id": "restock_repair_kits",
+      "name": "Restock & Repair",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "minSync": 1,
+      "mend": "Fabricate 1 Tool Kit from scrap, or fully repair a drone or turret.",
+      "surge": "Salvage a wreck in reach: every ally reloads one weapon for free."
+    },
+    {
+      "id": "fortify_position",
+      "name": "Fortify Position",
+      "subclasses": [
+        "mechanic"
+      ],
+      "minSync": 2,
+      "mend": "A cover piece becomes Full cover (+4) until the end of next round.",
+      "surge": "Electrify a cover piece: an enemy in or next to it takes 1d6 and is Stunned."
+    },
+    {
+      "id": "rig_power_conduit",
+      "name": "Rig Power Conduit",
+      "subclasses": [
+        "engineer"
+      ],
+      "minSync": 2,
+      "mend": "Adjacent allies get +2 armor until the end of next round.",
+      "surge": "A 2×2 shock zone for 3 rounds: 1d6 to anyone ending a turn inside; drones in it are Disconnected."
+    },
+    {
+      "id": "healing_surge",
+      "name": "Healing Surge",
+      "subclasses": [
+        "mechanic"
+      ],
+      "minSync": 2,
+      "mend": "Heal an adjacent ally 2d6 HP, or stabilise someone at 0 HP without a roll.",
+      "surge": "Corrosive injection at melee range: the target is Poisoned / Corroded."
+    },
+    {
+      "id": "deploy_sentry_turret",
+      "name": "Deploy Sentry",
+      "subclasses": [
+        "engineer"
+      ],
+      "minSync": 2,
+      "mend": "A barrier drone gives Partial cover (+2) to allies in a 2×2 area behind it.",
+      "surge": "A sentry turret (HP 8, armor 1) fires at the nearest enemy at each round end: TN 10, 1d6."
+    },
+    {
+      "id": "structural_collapse",
+      "name": "Structural Collapse",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "minSync": 3,
+      "brownout": true,
+      "mend": "Brace the structure: pillars give the whole squad Full cover (+4) until destroyed.",
+      "surge": "Bring the ceiling down on a 3×3 area: 3d6, cover there is destroyed, targets are Prone."
+    }
+  ],
+  "smuggler": [
+    {
+      "id": "street_snap_shot",
+      "name": "Street Snap-Shot",
+      "desc": "Fire your readied gun (weapon damage, 1 round), then move up to 2 squares into cover.",
+      "requires": null,
+      "shift": {
+        "delta": -1
+      },
+      "subclasses": [
+        "dealer",
+        "trafficker"
+      ],
+      "weapon": {
+        "ammo": 1,
+        "minAmmo": 1,
+        "ranged": true
+      }
+    },
+    {
+      "id": "bribe_distraction",
+      "name": "Bribe / Distraction",
+      "desc": "Toss credits or contraband: an organic enemy in sight attacks at −4 TN on its next attack.",
+      "requires": null,
+      "shift": {
+        "delta": 1
+      },
+      "subclasses": [
+        "dealer",
+        "trafficker"
+      ]
+    },
+    {
+      "id": "pistol_whip_rob",
+      "name": "Pistol Whip & Rob",
+      "desc": "Strike an adjacent enemy for weapon damage without using ammo, and take one magazine or item from them (the GM says what).",
+      "requires": 1,
+      "shift": {
+        "delta": 2
+      },
+      "subclasses": [
+        "dealer"
+      ],
+      "weapon": {
+        "ammo": 0
+      }
+    },
+    {
+      "id": "adrenaline_rush",
+      "name": "Adrenaline Rush",
+      "desc": "Sprint up to twice your squares without provoking attacks of opportunity.",
+      "requires": 2,
+      "shift": {
+        "delta": -3
+      },
+      "subclasses": [
+        "dealer"
+      ]
+    },
+    {
+      "id": "contraband_stash",
+      "name": "Contraband Stash",
+      "desc": "Pull something from a hidden pocket. Pick one: heal 1d6 HP; +2 armor until the end of next round; or smoke (2×2 area, attacks through it at −4 TN).",
+      "requires": -1,
+      "shift": {
+        "delta": 2
+      },
+      "subclasses": [
+        "dealer",
+        "trafficker"
+      ]
+    },
+    {
+      "id": "safehouse_route",
+      "name": "Safehouse Route",
+      "desc": "Guide an ally in sight through an unmonitored path: they move up to their squares without provoking attacks and lose Prone or Stunned.",
+      "requires": -2,
+      "shift": {
+        "delta": 2
+      },
+      "subclasses": [
+        "trafficker"
+      ]
+    },
+    {
+      "id": "decoy_deployment",
+      "name": "Decoy Deployment",
+      "desc": "Place a decoy within 5 squares. Until it is destroyed (1 hit) or the next round ends, enemies who can see it attack it first.",
+      "requires": -2,
+      "shift": {
+        "delta": -1
+      },
+      "subclasses": [
+        "trafficker"
+      ]
+    },
+    {
+      "id": "black_market_ammo",
+      "name": "Black-Market Ammo",
+      "desc": "Load special rounds into your readied gun. Until your next reload, pick one: its shots ignore half armor, or deal +1d6 damage.",
+      "requires": -2,
+      "shift": {
+        "delta": 1
+      },
+      "subclasses": [
+        "dealer"
+      ],
+      "weapon": {
+        "ammo": 0,
+        "ranged": true,
+        "noDamage": true
+      }
+    },
+    {
+      "id": "desperate_gamble",
+      "name": "Desperate Gamble",
+      "desc": "Un-aimed full-auto sweep: weapon damage, rolled once, to every enemy in a 3×3 area. Needs 3+ rounds loaded and empties the magazine; your nerve crashes to −3.",
+      "requires": 3,
+      "shift": {
+        "set": -3
+      },
+      "subclasses": [
+        "dealer",
+        "trafficker"
+      ],
+      "weapon": {
+        "ammo": "all",
+        "minAmmo": 3,
+        "ranged": true
+      }
+    },
+    {
+      "id": "call_in_favor",
+      "name": "Call in Favor",
+      "desc": "Outdoors or in an unshielded zone, once per combat. At the start of next round, pick one: a sniper round (3d6 to one target, ignoring armor) or a flare (2d6 to everyone in a 3×3 area).",
+      "requires": -3,
+      "shift": {
+        "delta": 4
+      },
+      "subclasses": [
+        "trafficker"
+      ],
+      "oncePerCombat": true
+    }
+  ]
+}

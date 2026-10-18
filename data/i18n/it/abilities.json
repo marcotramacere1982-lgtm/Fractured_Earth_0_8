@@ -1,0 +1,147 @@
+{
+  "soldier": {
+    "brace_and_dig_in": {
+      "desc": "Ti abbassi e pianti i piedi: +2 di armatura fino al tuo prossimo turno. Accumula 2 TP."
+    },
+    "tactical_shot": {
+      "desc": "Regoli il respiro e allinei il prossimo colpo: il tuo prossimo attacco normale di questo round ottiene +2 TN. Accumula 1 TP."
+    },
+    "dig_in_and_push": {
+      "desc": "Esci dalla copertura: ti muovi fino ai tuoi quadretti, poi spari a un nemico in vista infliggendo i danni dell'arma."
+    },
+    "suppressive_sweep": {
+      "desc": "Fuoco di inchiodamento: un nemico, o due adiacenti tra loro, attaccano a −4 TN fino alla fine del prossimo round."
+    },
+    "overwatch_sweep": {
+      "desc": "Tieni due linee di vista: un tiro gratuito a +2 TN sul primo nemico che attraversa ciascuna, prima del tuo prossimo turno."
+    },
+    "commanding_directive": {
+      "desc": "Urli un ordine: un alleato in vista compie subito un'azione gratuita (movimento o attacco)."
+    },
+    "coordinated_crossfire": {
+      "desc": "Marchi un bersaglio: fino alla fine del round, gli alleati che lo attaccano ottengono +2 TN e +1d6 ai danni."
+    },
+    "tactical_redeploy": {
+      "desc": "Ogni alleato può muoversi fino ai suoi quadretti senza provocare attacchi di opportunità; chi finisce in copertura ottiene +2 di armatura fino al suo prossimo turno."
+    },
+    "fix_bayonets": {
+      "desc": "Carichi un nemico fino ai tuoi quadretti e colpisci: danni dell'arma +1d6, e il bersaglio è Prone."
+    },
+    "bunker_buster": {
+      "desc": "Un colpo brutale a bruciapelo: danni dell'arma che ignorano metà dell'armatura del bersaglio, e gli togli 1 segno di armatura."
+    },
+    "reckless_execution": {
+      "desc": "Svuoti il caricatore a bruciapelo: tira due volte i danni dell'arma (in mischia: due colpi). Servono almeno 3 colpi carichi."
+    }
+  },
+  "hacker": {
+    "ping_sweep": {
+      "desc": "Mappi la rete locale: riveli unità e dispositivi nascosti entro 10 quadretti, anche attraverso i muri. Fino a fine round gli alleati ottengono +2 TN contro i bersagli rivelati."
+    },
+    "credentials_spoof": {
+      "desc": "Falsifichi un ID ad alto livello di accesso per te e un alleato: i sistemi sintetici (torrette, droni, porte) vi ignorano, e le guardie organiche vi considerano autorizzati. Termina se uno di voi attacca."
+    },
+    "keylogger_injection": {
+      "desc": "Infetti un bersaglio cibernetico o sintetico: il GM annuncia la sua prossima azione prima che agisca. Ogni volta che agisce, smaltisci 1 heat."
+    },
+    "thermal_dump_safe": {
+      "name": "Thermal Dump",
+      "desc": "Ciclo di raffreddamento sicuro: smaltisci 3 heat. Niente hack offensivi per il resto del turno. Nessun tiro."
+    },
+    "data_loop_strobe": {
+      "desc": "Mandi in loop uno stroboscopio nelle ottiche di un bersaglio cibernetico o sintetico: attacca a −4 TN."
+    },
+    "feedback_loop_ddos": {
+      "desc": "Sovraccarichi i circuiti del bersaglio: 3d6 danni a un bersaglio sintetico, 2d6 a uno cibernetico, ignorando l’armatura. Nessun effetto sui bersagli organici."
+    },
+    "overclock_pulse": {
+      "desc": "Spingi il deck oltre i limiti di sicurezza: il tuo prossimo hack istantaneo di questo round colpisce due bersagli, o lo stesso bersaglio due volte."
+    },
+    "release_payload": {
+      "desc": "Termini tutti i tuoi hack sostenuti e liberi la loro RAM. Per terminarne uno solo, tocca la sua ✕ nel pannello del deck. Nessun tiro."
+    },
+    "system_hard_reboot": {
+      "desc": "Riavvio d’emergenza: azzeri RAM e heat, ma il deck resta offline per il resto di questo round e per il prossimo. Nessun tiro."
+    },
+    "logic_bomb": {
+      "desc": "Pianti un payload dormiente in un bersaglio cibernetico o sintetico. Quando si muove, o quando lo rilasci, esplode: 3d6 danni al bersaglio e 1d6 a chiunque sia adiacente."
+    },
+    "false_flag_broadcast": {
+      "desc": "Simuli un allarme di fuoco amico: un nemico cibernetico o sintetico passa il suo prossimo turno ad attaccare l’alleato più vicino."
+    }
+  },
+  "techwiz": {
+    "scavenge_and_survey": {
+      "mend": "Riveli coperture e pericoli entro 6 quadretti; un alleato ottiene +2 TN al suo prossimo tiro di Avoid / Reflexes.",
+      "surge": "Marchi un punto debole su un nemico in vista: il prossimo colpo contro di lui ignora 2 di armatura."
+    },
+    "field_maintenance": {
+      "mend": "Ripristini 2 segni di armatura su un alleato adiacente (qualsiasi locazione).",
+      "surge": "Togli 2 segni di armatura a un nemico adiacente, oppure infliggi 1d6 a un drone adiacente."
+    },
+    "deploy_improvised_cover": {
+      "mend": "Alzi una copertura parziale (+2) in un quadretto accanto a un alleato, finché non viene spostata o distrutta.",
+      "surge": "Scagli la lamiera: 2d6 a un nemico in vista."
+    },
+    "targeted_overclock": {
+      "mend": "Un alleato in vista ottiene +1 azione nel prossimo round.",
+      "surge": "Il prossimo colpo a segno con l'arma di un alleato infligge +1d6."
+    },
+    "restock_repair_kits": {
+      "mend": "Fabbrichi 1 Tool Kit con i rottami, oppure ripari del tutto un drone o una torretta.",
+      "surge": "Recuperi pezzi da un rottame a portata: ogni alleato ricarica gratis un'arma."
+    },
+    "fortify_position": {
+      "mend": "Un elemento di copertura diventa copertura totale (+4) fino alla fine del prossimo round.",
+      "surge": "Elettrifichi una copertura: un nemico dentro o accanto subisce 1d6 ed è Stunned."
+    },
+    "rig_power_conduit": {
+      "mend": "Gli alleati adiacenti ottengono +2 di armatura fino alla fine del prossimo round.",
+      "surge": "Una zona di shock 2×2 per 3 round: 1d6 a chi finisce il turno dentro; i droni al suo interno sono Disconnected."
+    },
+    "healing_surge": {
+      "mend": "Curi un alleato adiacente di 2d6 HP, oppure stabilizzi qualcuno a 0 HP senza tirare.",
+      "surge": "Iniezione corrosiva a distanza di mischia: il bersaglio è Poisoned / Corroded."
+    },
+    "deploy_sentry_turret": {
+      "mend": "Un drone barriera dà copertura parziale (+2) agli alleati in un'area 2×2 dietro di sé.",
+      "surge": "Una torretta (HP 8, armatura 1) spara al nemico più vicino a ogni fine round: TN 10, 1d6."
+    },
+    "structural_collapse": {
+      "mend": "Puntelli la struttura: i pilastri danno a tutta la squadra copertura totale (+4) finché non vengono distrutti.",
+      "surge": "Fai crollare il soffitto su un'area 3×3: 3d6, la copertura lì viene distrutta, i bersagli sono Prone."
+    }
+  },
+  "smuggler": {
+    "street_snap_shot": {
+      "desc": "Spari con l'arma da fuoco pronta (danni dell'arma, 1 colpo), poi ti sposti fino a 2 quadretti in copertura."
+    },
+    "bribe_distraction": {
+      "desc": "Lanci crediti o contrabbando: un nemico organico in vista attacca a −4 TN al suo prossimo attacco."
+    },
+    "pistol_whip_rob": {
+      "desc": "Colpisci un nemico adiacente con i danni dell'arma senza consumare munizioni, e gli prendi un caricatore o un oggetto (decide il GM cosa)."
+    },
+    "adrenaline_rush": {
+      "desc": "Scatti fino al doppio dei tuoi quadretti senza provocare attacchi di opportunità."
+    },
+    "contraband_stash": {
+      "desc": "Tiri fuori qualcosa da una tasca nascosta. Scegli: curi 1d6 HP; +2 armatura fino alla fine del prossimo round; oppure fumo (area 2×2, chi attacca attraverso lo fa a −4 TN)."
+    },
+    "safehouse_route": {
+      "desc": "Guidi un alleato in vista lungo un percorso non sorvegliato: si muove fino ai suoi quadretti senza provocare attacchi e perde Prone o Stunned."
+    },
+    "decoy_deployment": {
+      "desc": "Piazzi un’esca entro 5 quadretti. Finché non viene distrutta (1 colpo) o finisce il prossimo round, i nemici che la vedono attaccano prima lei."
+    },
+    "black_market_ammo": {
+      "desc": "Carichi munizioni speciali nell'arma da fuoco pronta. Fino alla prossima ricarica, scegli: i suoi colpi ignorano metà dell'armatura, oppure infliggono +1d6 danni."
+    },
+    "desperate_gamble": {
+      "desc": "Raffica a tappeto senza mirare: danni dell'arma, tirati una volta, a ogni nemico in un'area 3×3. Servono almeno 3 colpi carichi e svuota il caricatore; i tuoi nervi crollano a −3."
+    },
+    "call_in_favor": {
+      "desc": "All'aperto o in una zona non schermata, una volta per combattimento. All'inizio del prossimo round, scegli: un colpo di cecchino (3d6 a un bersaglio, ignorando l'armatura) o un razzo (2d6 a tutti in un'area 3×3)."
+    }
+  }
+}

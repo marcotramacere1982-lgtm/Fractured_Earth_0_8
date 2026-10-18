@@ -1,0 +1,280 @@
+{
+  "categories": [
+    {
+      "id": "combat",
+      "name": "Combat"
+    },
+    {
+      "id": "firearms",
+      "name": "Firearms"
+    },
+    {
+      "id": "communications",
+      "name": "Communications"
+    },
+    {
+      "id": "movement",
+      "name": "Movement"
+    },
+    {
+      "id": "technical",
+      "name": "Technical"
+    },
+    {
+      "id": "special",
+      "name": "Special"
+    }
+  ],
+  "skills": [
+    {
+      "id": "melee_cqc",
+      "name": "Melee / CQC",
+      "category": "combat",
+      "stats": [
+        "STR",
+        "DEX"
+      ],
+      "desc": "Improvised weapons, batons, close-quarters grappling."
+    },
+    {
+      "id": "brawling",
+      "name": "Brawling",
+      "category": "combat",
+      "stats": [
+        "STR",
+        "CON"
+      ],
+      "desc": "Unarmed strikes, dirty fighting, street scuffles."
+    },
+    {
+      "id": "parrying_blocking",
+      "name": "Parrying / Blocking",
+      "category": "combat",
+      "stats": [
+        "DEX",
+        "CON"
+      ],
+      "desc": "Defending against physical blows and close-range strikes."
+    },
+    {
+      "id": "thrown_objects",
+      "name": "Thrown Objects",
+      "category": "combat",
+      "stats": [
+        "DEX",
+        "INT"
+      ],
+      "desc": "Throwing tools, improvised weapons, or distraction items."
+    },
+    {
+      "id": "handguns",
+      "name": "Handguns",
+      "category": "firearms",
+      "stats": [
+        "DEX",
+        "INT"
+      ],
+      "desc": "Concealed sidearms, pistols, revolvers."
+    },
+    {
+      "id": "long_guns_shotguns",
+      "name": "Long Guns / Shotguns",
+      "category": "firearms",
+      "stats": [
+        "STR",
+        "INT"
+      ],
+      "desc": "Hunting rifles, carbines, shotguns."
+    },
+    {
+      "id": "automatic_firearms",
+      "name": "Automatic Firearms",
+      "category": "firearms",
+      "stats": [
+        "DEX",
+        "MST"
+      ],
+      "desc": "Submachine guns, compact automatics, recoil control."
+    },
+    {
+      "id": "administration_legal",
+      "name": "Administration / Legal",
+      "category": "communications",
+      "stats": [
+        "INT",
+        "WIS"
+      ],
+      "desc": "Bureaucracy, corp filings, navigating municipal loopholes."
+    },
+    {
+      "id": "persuasion_social",
+      "name": "Persuasion / Social",
+      "category": "communications",
+      "stats": [
+        "CHA",
+        "WIS"
+      ],
+      "desc": "Negotiation, fast-talking, charm, charm under pressure."
+    },
+    {
+      "id": "streetwise_dealing",
+      "name": "Streetwise / Dealing",
+      "category": "communications",
+      "stats": [
+        "INT",
+        "CHA"
+      ],
+      "desc": "Black market trading, underground networks, fencing goods."
+    },
+    {
+      "id": "interrogation_intimidation",
+      "name": "Interrogation / Intimidation",
+      "category": "communications",
+      "stats": [
+        "CHA",
+        "MST"
+      ],
+      "desc": "Extracting information, leverage, reading pressure points."
+    },
+    {
+      "id": "deception_conning",
+      "name": "Deception / Conning",
+      "category": "communications",
+      "stats": [
+        "INT",
+        "MST"
+      ],
+      "desc": "Disguise, bluffing, social engineering under scrutiny."
+    },
+    {
+      "id": "stealth",
+      "name": "Stealth",
+      "category": "movement",
+      "stats": [
+        "DEX",
+        "WIS"
+      ],
+      "desc": "Shadowing targets, avoiding surveillance, silent movement."
+    },
+    {
+      "id": "agility_athletics",
+      "name": "Agility / Athletics",
+      "category": "movement",
+      "stats": [
+        "DEX",
+        "STR"
+      ],
+      "desc": "Parkour, vaulting, escaping pursuit."
+    },
+    {
+      "id": "sleight_of_hand",
+      "name": "Sleight of Hand",
+      "category": "movement",
+      "stats": [
+        "DEX",
+        "INT"
+      ],
+      "desc": "Pickpocketing, planting evidence, subtle manual tricks."
+    },
+    {
+      "id": "climb_physical",
+      "name": "Climb / Physical",
+      "category": "movement",
+      "stats": [
+        "STR",
+        "CON"
+      ],
+      "desc": "Scaling walls, forcing access, physical exertion."
+    },
+    {
+      "id": "ground_vehicles",
+      "name": "Ground Vehicles",
+      "category": "movement",
+      "stats": [
+        "DEX",
+        "WIS"
+      ],
+      "desc": "Evading pursuit, urban driving, motorbikes."
+    },
+    {
+      "id": "drones_remote_craft",
+      "name": "Drones / Remote Craft",
+      "category": "movement",
+      "stats": [
+        "INT",
+        "MST"
+      ],
+      "desc": "Operating civilian/surveillance drones instead of military aircraft."
+    },
+    {
+      "id": "computers_hacking",
+      "name": "Computers / Hacking",
+      "category": "technical",
+      "stats": [
+        "INT",
+        "MST"
+      ],
+      "desc": "System access, network manipulation, digital footprints."
+    },
+    {
+      "id": "electronics_security",
+      "name": "Electronics / Security",
+      "category": "technical",
+      "stats": [
+        "WIS",
+        "DEX"
+      ],
+      "desc": "Bypassing door locks, disabling sensors, hardware hotwiring."
+    },
+    {
+      "id": "medicine_first_aid",
+      "name": "Medicine / First Aid",
+      "category": "technical",
+      "stats": [
+        "INT",
+        "DEX"
+      ],
+      "desc": "Field trauma, treating wounds, forensic examination."
+    },
+    {
+      "id": "mechanics_fabrication",
+      "name": "Mechanics / Fabrication",
+      "category": "technical",
+      "stats": [
+        "STR",
+        "DEX"
+      ],
+      "desc": "Vehicle repair, hotwiring, tool maintenance."
+    },
+    {
+      "id": "forensics_investigation",
+      "name": "Forensics / Investigation",
+      "category": "technical",
+      "stats": [
+        "INT",
+        "WIS"
+      ],
+      "desc": "Analyzing crime scenes, reading physical evidence."
+    },
+    {
+      "id": "avoid_reflexes",
+      "name": "Avoid / Reflexes (DB)",
+      "category": "special",
+      "stats": [
+        "DEX",
+        "MST"
+      ],
+      "desc": "Dodging incoming hazards, diving for cover."
+    },
+    {
+      "id": "perception_awareness",
+      "name": "Perception / Awareness (PB)",
+      "category": "special",
+      "stats": [
+        "WIS",
+        "MST"
+      ],
+      "desc": "Spotting tails, noticing irregularities, ambient awareness."
+    }
+  ]
+}

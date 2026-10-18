@@ -1,0 +1,124 @@
+{
+  "refs": {
+    "attributes": {
+      "title": "Attributi",
+      "text": "Otto attributi principali. Ognuno ha un bonus pari a metà del suo valore (arrotondato per difetto); le abilità sommano due bonus."
+    },
+    "skill-check": {
+      "title": "Prove di abilità",
+      "text": "TN dell'abilità = bonus dell'attributo A + bonus dell'attributo B. Tira un d20: con un risultato uguale o inferiore riesci. Il GM può sottrarre una penalità di difficoltà."
+    },
+    "passive": {
+      "title": "Punteggio passivo",
+      "text": "TN − 5. Quando non stai cercando attivamente, il GM confronta le minacce nascoste con questo valore senza chiederti di tirare."
+    },
+    "difficulty": {
+      "title": "Livelli di difficoltà",
+      "text": "Il GM riassume la situazione in un livello: Routine 0, Challenging −2, Hard −4, Severe −6, Extreme −8, Nightmare −10, da sottrarre al tuo TN."
+    },
+    "combat-values": {
+      "title": "Valori di combattimento",
+      "text": "Movimento, attacco, azioni, difesa e percezione nascono dalla somma grezza di due attributi, cercata nella tabella di combattimento. Alcuni eventi di vita spostano un valore di una riga."
+    },
+    "initiative": {
+      "title": "Iniziativa",
+      "text": "Metà DEX + metà WIS − 10. All'inizio del combattimento tutti tirano d20 + Iniziativa; l'ordine resta fisso. Puoi ritardare (Delay) per agire per ultimo nel round."
+    },
+    "actions": {
+      "title": "Azioni per round",
+      "text": "Ogni azione di combattimento costa 1 azione: movimento, attacco, ability, ricarica, interazione. Puoi ripetere la stessa azione. Le azioni non spese si perdono a fine turno."
+    },
+    "hp": {
+      "title": "Punti ferita (HP)",
+      "text": "HP massimi = 2 × CON + MST. A 0 HP sei incapacitato e ogni round tiri una prova di morte su CON; arrivare a −CON significa morte immediata."
+    },
+    "body": {
+      "title": "Locazioni del corpo",
+      "text": "Sette locazioni, ognuna con i suoi HP (da CON + MST) e segni di armatura. Testa, torace e addome sono vitali: a 0 si muore. Braccia e gambe a 0 restano menomate."
+    },
+    "hit-location": {
+      "title": "Colpi localizzati",
+      "text": "Se colpisci, tira un d20 per la locazione: 1–4 gambe, 5–8 braccia, 9–13 addome, 14–18 torace, 19–20 testa. Mirare (+1 azione) sposta il tiro fino a 5."
+    },
+    "cover": {
+      "title": "Copertura",
+      "text": "La copertura è armatura: parziale +2, totale +4, sommata all'armatura generale e a ogni locazione. Se vieni preso di fianco la perdi."
+    },
+    "armor": {
+      "title": "Armatura",
+      "text": "L'armatura generale (somma dei Max Hits dei pezzi indossati, più la copertura) si sottrae ai danni prima che arrivino agli HP. I colpi localizzati usano i segni di armatura di quella locazione."
+    },
+    "conditions": {
+      "title": "Condizioni",
+      "text": "Prone, Stunned, Blinded, Disconnected, Poisoned, Enraged, Incapacitated e Wounded cambiano quello che puoi fare finché non le rimuovi."
+    },
+    "round-end": {
+      "title": "Fine del round",
+      "text": "Prima le prove di morte, poi i motori di classe: i deck degli hacker smaltiscono 1 heat (o si riavviano dopo un Blue Screen), i Tech Wizard che hanno mantenuto la modalità ottengono +1 Sync (un Brownout fa il conto alla rovescia), gli Smuggler feriti scivolano di +1."
+    },
+    "class-tn": {
+      "title": "Class TN",
+      "text": "La media dei due attributi principali della tua sottoclasse, arrotondata. Tira un d20 con risultato uguale o inferiore per riuscire in una ability che richiede un tiro."
+    },
+    "brain-fog": {
+      "title": "Equipaggiate e pronte",
+      "text": "Equipaggia ability fino al tuo limite di brain fog (3 all'inizio) e cambiale tra un combattimento e l'altro. Un'ability equipaggiata è pronta solo quando il tuo motore di classe lo permette."
+    },
+    "soldier": {
+      "title": "Soldier · Stance-Flow",
+      "text": "I TP partono da 0 a ogni combattimento. Ogni attacco normale a segno dà +1 TP; Brace & Dig In +2, Steady Aim +1. I colpi finali spendono TP e cambiano stance. Defensive ×0,5, Attack ×1, Onslaught ×1,5 ai danni in entrambe le direzioni."
+    },
+    "hacker": {
+      "title": "Hacker · RAM e Heat",
+      "text": "Il deck determina RAM e heat cap. Gli hack sostenuti bloccano RAM finché non li rilasci. Heat al limite = Blue Screen: bloccato per un round, poi riavvio a cap − 3. Portata: un dispositivo in vista, o 10 quadretti su una rete pingata. Quasi tutti gli hack toccano solo bersagli cibernetici o sintetici."
+    },
+    "techwiz": {
+      "title": "Tech Wizard · Field Sync",
+      "text": "Mend (supporto) o Surge (offensiva). +1 Sync per ogni ability e per ogni round in cui mantieni la modalità; cambiare modalità azzera il Sync. Le ability richiedono un livello di Sync. A Resonant (3) un Resonant cast fa scattare entrambe le facce, poi Sync 0. Structural Collapse provoca un Brownout. I colpi alle locazioni costano 1 Sync."
+    },
+    "smuggler": {
+      "title": "Smuggler · Pendulum",
+      "text": "Da Cold −4 a Hot +4. Ogni abilità richiede un lato e sposta il pendolo. Cold: +2 TN agli attacchi con armi da fuoco. Hot: +1 ai danni e +1 quadretto. Gli Smuggler feriti scivolano di +1 a round."
+    },
+    "deck": {
+      "title": "Deck da hacker",
+      "text": "Il deck determina RAM e heat cap; gli slot mod accolgono espansioni di RAM o raffreddamento. La batteria per ora non ha regole."
+    },
+    "weapon-tn": {
+      "title": "Attaccare con un'arma",
+      "text": "Il TN d'attacco è l'abilità corrispondente (pistola → Handguns, SMG/fucile → Automatic Firearms, cecchino → Long Guns, lame/manganelli → Melee). Ai danni si aggiunge il Bonus offensivo; si sottrae l'armatura."
+    },
+    "credit-score": {
+      "title": "Credit Score",
+      "text": "Non sono soldi: è il tuo margine di debito e la tua reputazione. Gli acquisti ufficiali lo abbassano; si tira anche per mazzette, pedaggi e accessi aziendali."
+    },
+    "market": {
+      "title": "Acquisti",
+      "text": "Ufficiale: paghi in Credit Score (tracciato, conveniente solo per i beni di tutti i giorni). Strada: prezzo di listino ×3–×10 in contanti, nessuna traccia. Rarità A–B solo in strada."
+    },
+    "lifestyle": {
+      "title": "Stile di vita",
+      "text": "Costi mensili per vivere. Per ora vengono solo registrati; salire di livello sarà un arco narrativo da 'diventare ricchi'."
+    },
+    "point-buy": {
+      "title": "Spendere i punti",
+      "text": "Ogni attributo parte da 6; spendi 20 punti, massimo 14 ciascuno. Abbassare il Credit Score (parte da 20) ti dà punti ma ti complica la vita."
+    },
+    "adolescence": {
+      "title": "Eventi della giovinezza",
+      "text": "Tre tiri da 2d20 fino ai 15 anni. I risultati medi sono comuni, gli estremi rari. Gli eventi cambiano attributi, fedina, credenziali e le carriere future."
+    },
+    "careers": {
+      "title": "Carriere",
+      "text": "Periodi facoltativi: +2 anni, modifiche agli attributi, due eventi e una prova d'invecchiamento ciascuno. I requisiti vengono controllati per te; alcuni eventi li annullano o chiudono la fase di carriera."
+    },
+    "aging": {
+      "title": "Invecchiamento",
+      "text": "Dai 27 anni, ogni periodo applica i modificatori della tua fascia d'età; alcune fasce limitano gli attributi. Dai 45 il GM chiede una prova di morte."
+    },
+    "debt": {
+      "title": "Debito speciale",
+      "text": "Il motivo per cui accetti lavori pericolosi. Ogni debito è ugualmente duro; il GM usa la minaccia per creare pressione tra una missione e l'altra."
+    }
+  }
+}

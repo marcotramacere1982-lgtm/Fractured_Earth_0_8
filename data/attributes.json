@@ -1,0 +1,62 @@
+{
+  "attributes": [
+    {
+      "id": "STR",
+      "name": "Strength",
+      "desc": "Raw physical power, melee damage, lifting, and heavy weapon handling."
+    },
+    {
+      "id": "DEX",
+      "name": "Dexterity",
+      "desc": "Coordination, speed, fine motor control, stealth, and reflexes."
+    },
+    {
+      "id": "CON",
+      "name": "Constitution",
+      "desc": "Physical toughness, stamina, resistance, and base Body Points."
+    },
+    {
+      "id": "INT",
+      "name": "Intelligence",
+      "desc": "Logical reasoning, technical knowledge, hacking and medical science."
+    },
+    {
+      "id": "WIS",
+      "name": "Wisdom",
+      "desc": "Street survival instincts, situational awareness, perception, and intuition."
+    },
+    {
+      "id": "CHA",
+      "name": "Charisma",
+      "desc": "Social influence, persuasion, deception, leadership, and street dealing."
+    },
+    {
+      "id": "MST",
+      "name": "Mental Strength",
+      "desc": "Psychological resilience, stress endurance, willpower under pressure."
+    },
+    {
+      "id": "CRS",
+      "name": "Credit Score",
+      "desc": "Your economic footprint, access to legitimate services, and societal standing."
+    }
+  ],
+  "creation": {
+    "pool": 20,
+    "start": 6,
+    "min": 6,
+    "max": 14,
+    "crs": {
+      "start": 20,
+      "max": 20,
+      "note": "Lowering CRS at creation refunds points; it can never be raised above 20 at creation."
+    }
+  },
+  "play": {
+    "min": 0,
+    "crs": {
+      "min": 0,
+      "max": 100
+    }
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "text": "You stumble on proof that a local boss is skimming money from the people under them. What do you do?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Stay quiet, build an airtight case, and bring them down when it hurts most.",
+          "scores": {
+            "soldier.officer": 2,
+            "hacker.master": 1
+          }
+        },
+        {
+          "id": "B",
+          "text": "Let them know you know — and name your price for silence.",
+          "scores": {
+            "hacker.scammer": 2,
+            "smuggler.dealer": 1
+          }
+        },
+        {
+          "id": "C",
+          "text": "Leak it anonymously and watch the fallout from a safe distance.",
+          "scores": {
+            "smuggler.trafficker": 2,
+            "hacker.scammer": 1
+          }
+        },
+        {
+          "id": "D",
+          "text": "Find where the money goes and quietly redirect it to yourself.",
+          "scores": {
+            "smuggler.dealer": 2,
+            "techwiz.mechanic": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "A rival makes a big mistake and leaves themselves exposed. Your move?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Don't rush. Set a trap that turns their mistake into total defeat.",
+          "scores": {
+            "soldier.officer": 2,
+            "hacker.master": 1
+          }
+        },
+        {
+          "id": "B",
+          "text": "Hit them now, hard, before they can recover.",
+          "scores": {
+            "soldier.grunt": 2,
+            "smuggler.dealer": 1
+          }
+        },
+        {
+          "id": "C",
+          "text": "Cut them off — no supplies, no backup, no way out.",
+          "scores": {
+            "techwiz.engineer": 2,
+            "techwiz.mechanic": 1
+          }
+        },
+        {
+          "id": "D",
+          "text": "Feed them bad information so they dig themselves in deeper.",
+          "scores": {
+            "hacker.scammer": 2,
+            "smuggler.trafficker": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "The crew has one night to prepare for a job. How do you spend it?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Studying maps, schedules and guard rotations until the plan is airtight.",
+          "scores": {
+            "soldier.officer": 2,
+            "hacker.master": 2
+          }
+        },
+        {
+          "id": "B",
+          "text": "Cleaning, checking and tuning your weapons and gear.",
+          "scores": {
+            "soldier.grunt": 2,
+            "techwiz.mechanic": 1
+          }
+        },
+        {
+          "id": "C",
+          "text": "Calling in favours: someone on the inside, a driver, a fence.",
+          "scores": {
+            "smuggler.dealer": 2,
+            "smuggler.trafficker": 1
+          }
+        },
+        {
+          "id": "D",
+          "text": "Working out how to blind the cameras and sensors before you go in.",
+          "scores": {
+            "techwiz.engineer": 2,
+            "hacker.master": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "You're locked in a room and an alarm is counting down. How do you get out?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Smash through the door — or the wall.",
+          "scores": {
+            "soldier.grunt": 2,
+            "techwiz.mechanic": 1
+          }
+        },
+        {
+          "id": "B",
+          "text": "Hack the door panel.",
+          "scores": {
+            "hacker.master": 2,
+            "hacker.scammer": 1
+          }
+        },
+        {
+          "id": "C",
+          "text": "Talk the guard outside into opening it, or scare them into it.",
+          "scores": {
+            "hacker.scammer": 2,
+            "smuggler.dealer": 1
+          }
+        },
+        {
+          "id": "D",
+          "text": "Build something out of whatever is lying around.",
+          "scores": {
+            "techwiz.mechanic": 2,
+            "techwiz.engineer": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "How do you feel about rules?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Rules are full of gaps, and I know how to slip through them.",
+          "scores": {
+            "smuggler.dealer": 2,
+            "hacker.scammer": 1
+          }
+        },
+        {
+          "id": "B",
+          "text": "Rules get broken when they get in my way.",
+          "scores": {
+            "soldier.grunt": 2,
+            "soldier.officer": 1
+          }
+        },
+        {
+          "id": "C",
+          "text": "I don't care about rules, only about getting the job done.",
+          "scores": {
+            "smuggler.trafficker": 2,
+            "techwiz.engineer": 1
+          }
+        },
+        {
+          "id": "D",
+          "text": "Every system has patterns. Learn them and you can bend them.",
+          "scores": {
+            "hacker.master": 2,
+            "techwiz.engineer": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "The job is done, but it went badly and you barely made it out. What do you do first?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Go over every step to understand what went wrong.",
+          "scores": {
+            "soldier.officer": 2,
+            "hacker.master": 1
+          }
+        },
+        {
+          "id": "B",
+          "text": "Sell what you grabbed, fast, before anyone comes looking.",
+          "scores": {
+            "smuggler.dealer": 2,
+            "smuggler.trafficker": 1
+          }
+        },
+        {
+          "id": "C",
+          "text": "Fix the team's gear so it's ready for next time.",
+          "scores": {
+            "techwiz.mechanic": 2,
+            "techwiz.engineer": 1
+          }
+        },
+        {
+          "id": "D",
+          "text": "Erase every digital trace you left behind.",
+          "scores": {
+            "hacker.master": 2,
+            "smuggler.trafficker": 2
+          }
+        }
+      ]
+    }
+  ],
+  "suggestedStats": {
+    "soldier": {
+      "stats": {
+        "STR": 14,
+        "CON": 10,
+        "DEX": 8,
+        "INT": 6,
+        "WIS": 8,
+        "CHA": 8,
+        "MST": 8
+      },
+      "description": "Built for frontline resilience, heavy physical capability, and tactical focus."
+    },
+    "hacker": {
+      "stats": {
+        "STR": 6,
+        "CON": 6,
+        "DEX": 8,
+        "INT": 14,
+        "WIS": 8,
+        "CHA": 12,
+        "MST": 8
+      },
+      "description": "Cerebral specialist prioritizing digital mastery, social leverage, and mental fortitude."
+    },
+    "techwiz": {
+      "stats": {
+        "STR": 6,
+        "CON": 12,
+        "DEX": 8,
+        "INT": 8,
+        "WIS": 14,
+        "CHA": 6,
+        "MST": 8
+      },
+      "description": "Pragmatic technician with deep environmental insight and technical resilience."
+    },
+    "smuggler": {
+      "stats": {
+        "STR": 6,
+        "CON": 8,
+        "DEX": 14,
+        "INT": 6,
+        "WIS": 8,
+        "CHA": 12,
+        "MST": 8
+      },
+      "description": "Agile operator relying on quick reflexes, sharp social leverage, and street smarts."
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "note": "Recurring cost of living. Mostly flavour; paid monthly, normally through official channels (Credit Score), which is exactly how the system keeps people in debt. Prices are monthly, in Cr (Stables).",
+  "period": "month",
+  "categories": [
+    { "id": "housing", "name": "Housing" },
+    { "id": "connectivity", "name": "Data & Phone" },
+    { "id": "utilities", "name": "Utilities & Bills" },
+    { "id": "food", "name": "Food" },
+    { "id": "transport", "name": "Transport" },
+    { "id": "health", "name": "Health" },
+    { "id": "entertainment", "name": "Entertainment" },
+    { "id": "compliance", "name": "Compliance & Fees" }
+  ],
+  "entries": [
+    { "id": "housing_capsule_bunk", "category": "housing", "tier": 1, "name": "Capsule Bunk", "desc": "Rented sleeping pod in a corporate-managed tenement, paid by the night in company scrip. Shared washrooms, lockers extra.", "cost": { "cr": 90 } },
+    { "id": "housing_tenement_room", "category": "housing", "tier": 2, "name": "Tenement Room", "desc": "One room in a rusted brick block under the dripping corporate tiers. Shared kitchen, unreliable heating.", "cost": { "cr": 220 } },
+    { "id": "housing_standard_apartment", "category": "housing", "tier": 3, "name": "Standard Apartment", "desc": "Two rooms in a Small Urban hub. Smart lock owned by the landlord's algorithm, rent auto-debited.", "cost": { "cr": 600 } },
+    { "id": "housing_tier_flat", "category": "housing", "tier": 4, "name": "Mid-Tier Flat", "desc": "Climate-controlled unit above the awning line, with a doorman drone and a pristine AR overlay.", "cost": { "cr": 1500 } },
+    { "id": "housing_enclave_residence", "category": "housing", "tier": 5, "name": "Enclave Residence", "desc": "Gated residence in a Pristine Enclave. Requires sponsorship and a flawless Credit Score.", "cost": { "cr": 5000 } },
+
+    { "id": "data_ad_supported", "category": "connectivity", "tier": 1, "name": "Ad-Supported Anchor Plan", "desc": "Free data in exchange for unskippable ads and eye-tracking engagement billing. Amber Static DRM by default.", "cost": { "cr": 0 } },
+    { "id": "data_basic", "category": "connectivity", "tier": 2, "name": "Basic Data & Call Plan", "desc": "Throttled data and voice on the Euro-Grid. Ads still play, but you can skip some of them.", "cost": { "cr": 35 } },
+    { "id": "data_standard", "category": "connectivity", "tier": 3, "name": "Standard Grid Plan", "desc": "Unthrottled urban data, cloud backup and a reduced ad load on the Lens-Frame.", "cost": { "cr": 80 } },
+    { "id": "data_pristine", "category": "connectivity", "tier": 4, "name": "Pristine Spectrum Plan", "desc": "Full-colour, high-fidelity feeds. Reserved for compliant, high-credit profiles.", "cost": { "cr": 250 } },
+
+    { "id": "bill_power", "category": "utilities", "name": "Power Allocation", "desc": "Metered Euro-Grid electricity. Throttled during demand spikes in low-priority sectors.", "cost": { "cr": 45 } },
+    { "id": "bill_water", "category": "utilities", "name": "Filtered Water Quota", "desc": "Monthly allocation of potable water. Overage billed at the turnstile dispenser.", "cost": { "cr": 25 } },
+    { "id": "bill_air_filtration", "category": "utilities", "name": "Air Filtration Levy", "desc": "Municipal surcharge for the block's air scrubbers. Non-payment is not an option in practice.", "cost": { "cr": 15 } },
+    { "id": "bill_infrastructure_fee", "category": "utilities", "name": "Municipal Infrastructure Fee", "desc": "Assessed without warning by the debt-paralyzed city administration. Amount varies.", "cost": { "cr": 20 } },
+
+    { "id": "food_scrip_rations", "category": "food", "tier": 1, "name": "Company Bodega Rations", "desc": "Synthetic, corporate-processed food bought with scrip at company-owned bodegas.", "cost": { "cr": 120 } },
+    { "id": "food_standard_groceries", "category": "food", "tier": 2, "name": "Standard Groceries", "desc": "Automated grocery deliveries from the Ledger. Mostly synthetic, occasionally real vegetables.", "cost": { "cr": 260 } },
+    { "id": "food_real_food", "category": "food", "tier": 3, "name": "Real-Food Subscription", "desc": "Patented crops from the Rural Mono-Crop, delivered weekly. A status symbol.", "cost": { "cr": 700 } },
+
+    { "id": "transport_worker_bus", "category": "transport", "tier": 1, "name": "Worker Bus Pass", "desc": "Subsidised seat on automated corporate buses. Lens-Frame must stay on for training modules during the ride.", "cost": { "cr": 20 } },
+    { "id": "transport_ride_share", "category": "transport", "tier": 2, "name": "Autonomous Ride Credits", "desc": "A monthly bundle of self-driving cab trips. Every trip logged.", "cost": { "cr": 150 } },
+    { "id": "transport_vehicle_lease", "category": "transport", "tier": 3, "name": "Vehicle Lease", "desc": "Leased car with remote kill-switch held by the lender.", "cost": { "cr": 450 } },
+
+    { "id": "health_basic_medical", "category": "health", "tier": 1, "name": "Mandatory Medical Subscription", "desc": "Baseline coverage required by law. Covers neural-dampeners for the Clinical Static, little else.", "cost": { "cr": 60 } },
+    { "id": "health_premium_medical", "category": "health", "tier": 2, "name": "Premium Medical Plan", "desc": "Priority triage at corporate clinics and autodoc access.", "cost": { "cr": 300 } },
+    { "id": "health_neural_dampeners", "category": "health", "name": "Neural-Dampener Prescription", "desc": "Monthly supply of the pills that keep the Hum and the geometric night terrors quiet.", "cost": { "cr": 40 } },
+
+    { "id": "fun_stream_basic", "category": "entertainment", "name": "Feed Stream Bundle", "desc": "Ad-heavy streaming bundle, including live episodes of The Audit Room.", "cost": { "cr": 15 } },
+    { "id": "fun_stream_adfree", "category": "entertainment", "name": "Ad-Free Stream Bundle", "desc": "The same feeds without the ads. Also unlocks voting on The Audit Room.", "cost": { "cr": 45 } },
+    { "id": "fun_algcore_club", "category": "entertainment", "name": "Alg-Core Club Membership", "desc": "Entry to a De-Sync club where the noise jams the audio surveillance grid.", "cost": { "cr": 60 } },
+
+    { "id": "fee_lens_frame_license", "category": "compliance", "name": "Lens-Frame Licence", "desc": "Annual licence for your smart glasses, billed monthly. Unlicensed frames are bricked remotely.", "cost": { "cr": 10 } },
+    { "id": "fee_biometric_upkeep", "category": "compliance", "name": "RFID Capsule Upkeep", "desc": "Maintenance fee for the sub-skin identity capsule. Lapsing flags you as unregistered.", "cost": { "cr": 12 } },
+    { "id": "fee_compliance_training", "category": "compliance", "name": "Compliance Training Waiver", "desc": "Pay to skip mandatory corporate training modules for a month.", "cost": { "cr": 35 } }
+  ]
+}

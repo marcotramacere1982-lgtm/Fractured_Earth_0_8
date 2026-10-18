@@ -1,0 +1,626 @@
+[
+  {
+    "id": "combat_knife",
+    "legacyId": 1,
+    "name": "Combat Knife",
+    "class": "cqc",
+    "type": "knife",
+    "manufacturer": "Street Craft",
+    "damage": "1d6",
+    "ammo": null,
+    "magSize": 0,
+    "range": {
+      "min": 0,
+      "max": 1
+    },
+    "reliability": 10,
+    "rarity": "F",
+    "cost": {
+      "cr": 50
+    },
+    "magCost": {
+      "cr": 0
+    },
+    "skill": "melee_cqc"
+  },
+  {
+    "id": "tanto_blade",
+    "legacyId": 2,
+    "name": "Tanto Blade",
+    "class": "cqc",
+    "type": "knife",
+    "manufacturer": "Kurogane Forge",
+    "damage": "1d6+2",
+    "ammo": null,
+    "magSize": 0,
+    "range": {
+      "min": 0,
+      "max": 1
+    },
+    "reliability": 10,
+    "rarity": "E",
+    "cost": {
+      "cr": 150
+    },
+    "magCost": {
+      "cr": 0
+    },
+    "skill": "melee_cqc"
+  },
+  {
+    "id": "telescopic_baton",
+    "legacyId": 3,
+    "name": "Telescopic Baton",
+    "class": "cqc",
+    "type": "blunt",
+    "manufacturer": "Aegis Security",
+    "damage": "1d6",
+    "ammo": null,
+    "magSize": 0,
+    "range": {
+      "min": 0,
+      "max": 2
+    },
+    "reliability": 10,
+    "rarity": "F",
+    "cost": {
+      "cr": 80
+    },
+    "magCost": {
+      "cr": 0
+    },
+    "skill": "melee_cqc"
+  },
+  {
+    "id": "heavy_crowbar",
+    "legacyId": 4,
+    "name": "Heavy Crowbar",
+    "class": "cqc",
+    "type": "blunt",
+    "manufacturer": "Street Craft",
+    "damage": "1d8",
+    "ammo": null,
+    "magSize": 0,
+    "range": {
+      "min": 0,
+      "max": 1
+    },
+    "reliability": 10,
+    "rarity": "F",
+    "cost": {
+      "cr": 35
+    },
+    "magCost": {
+      "cr": 0
+    },
+    "skill": "melee_cqc"
+  },
+  {
+    "id": "arc_stun_gun",
+    "legacyId": 5,
+    "name": "Arc Stun Gun",
+    "class": "cqc",
+    "type": "stun gun",
+    "manufacturer": "Aegis Security",
+    "damage": "1d6 (Non-Lethal)",
+    "ammo": "Energy Cell",
+    "magSize": 10,
+    "range": {
+      "min": 0,
+      "max": 3
+    },
+    "reliability": 9,
+    "rarity": "E",
+    "cost": {
+      "cr": 250
+    },
+    "magCost": {
+      "cr": 20
+    },
+    "skill": "melee_cqc"
+  },
+  {
+    "id": "zip_9_junk_pistol",
+    "legacyId": 6,
+    "name": "Zip-9 Junk Pistol",
+    "class": "ranged",
+    "type": "pistol",
+    "manufacturer": "Street Craft",
+    "damage": "1d6",
+    "ammo": "9mm",
+    "magSize": 8,
+    "range": {
+      "min": 1,
+      "max": 15
+    },
+    "reliability": 5,
+    "rarity": "F",
+    "cost": {
+      "cr": 120
+    },
+    "magCost": {
+      "cr": 10
+    },
+    "skill": "handguns"
+  },
+  {
+    "id": "aegis_p_18_patrol",
+    "legacyId": 7,
+    "name": "Aegis P-18 Patrol",
+    "class": "ranged",
+    "type": "pistol",
+    "manufacturer": "Aegis Security",
+    "damage": "1d6+1",
+    "ammo": "9mm",
+    "magSize": 15,
+    "range": {
+      "min": 1,
+      "max": 25
+    },
+    "reliability": 8,
+    "rarity": "F",
+    "cost": {
+      "cr": 350
+    },
+    "magCost": {
+      "cr": 25
+    },
+    "skill": "handguns"
+  },
+  {
+    "id": "kurogane_45_heavy",
+    "legacyId": 8,
+    "name": "Kurogane 45 Heavy",
+    "class": "ranged",
+    "type": "pistol",
+    "manufacturer": "Kurogane Forge",
+    "damage": "1d8",
+    "ammo": ".45 ACP",
+    "magSize": 10,
+    "range": {
+      "min": 1,
+      "max": 20
+    },
+    "reliability": 8,
+    "rarity": "E",
+    "cost": {
+      "cr": 500
+    },
+    "magCost": {
+      "cr": 30
+    },
+    "skill": "handguns"
+  },
+  {
+    "id": "apex_model_10_magnum",
+    "legacyId": 9,
+    "name": "Apex Model 10 Magnum",
+    "class": "ranged",
+    "type": "pistol",
+    "manufacturer": "Apex Dynamics",
+    "damage": "2d6",
+    "ammo": ".357 Mag",
+    "magSize": 6,
+    "range": {
+      "min": 2,
+      "max": 35
+    },
+    "reliability": 9,
+    "rarity": "D",
+    "cost": {
+      "cr": 850
+    },
+    "magCost": {
+      "cr": 40
+    },
+    "skill": "handguns"
+  },
+  {
+    "id": "nova_micro_pulse_pistol",
+    "legacyId": 10,
+    "name": "Nova Micro-Pulse Pistol",
+    "class": "ranged",
+    "type": "pistol",
+    "manufacturer": "Nova Armaments",
+    "damage": "1d8+2",
+    "ammo": "Energy Cell",
+    "magSize": 12,
+    "range": {
+      "min": 1,
+      "max": 30
+    },
+    "reliability": 8,
+    "rarity": "D",
+    "cost": {
+      "cr": 1200
+    },
+    "magCost": {
+      "cr": 75
+    },
+    "skill": "handguns"
+  },
+  {
+    "id": "pipe_smg_auto",
+    "legacyId": 11,
+    "name": "Pipe-SMG Auto",
+    "class": "ranged",
+    "type": "SMG",
+    "manufacturer": "Street Craft",
+    "damage": "1d6",
+    "ammo": "9mm",
+    "magSize": 20,
+    "range": {
+      "min": 1,
+      "max": 20
+    },
+    "reliability": 6,
+    "rarity": "E",
+    "cost": {
+      "cr": 400
+    },
+    "magCost": {
+      "cr": 20
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "aegis_vector_9",
+    "legacyId": 12,
+    "name": "Aegis Vector-9",
+    "class": "ranged",
+    "type": "SMG",
+    "manufacturer": "Aegis Security",
+    "damage": "1d6+1",
+    "ammo": "9mm",
+    "magSize": 30,
+    "range": {
+      "min": 1,
+      "max": 35
+    },
+    "reliability": 8,
+    "rarity": "D",
+    "cost": {
+      "cr": 950
+    },
+    "magCost": {
+      "cr": 35
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "kurogane_type_4_sub",
+    "legacyId": 13,
+    "name": "Kurogane Type-4 Sub",
+    "class": "ranged",
+    "type": "SMG",
+    "manufacturer": "Kurogane Forge",
+    "damage": "1d8",
+    "ammo": ".45 ACP",
+    "magSize": 25,
+    "range": {
+      "min": 1,
+      "max": 30
+    },
+    "reliability": 9,
+    "rarity": "C",
+    "cost": {
+      "cr": 1300
+    },
+    "magCost": {
+      "cr": 45
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "apex_spectre_pdw",
+    "legacyId": 14,
+    "name": "Apex Spectre PDW",
+    "class": "ranged",
+    "type": "SMG",
+    "manufacturer": "Apex Dynamics",
+    "damage": "1d8+1",
+    "ammo": "4.6x30mm",
+    "magSize": 30,
+    "range": {
+      "min": 2,
+      "max": 45
+    },
+    "reliability": 8,
+    "rarity": "C",
+    "cost": {
+      "cr": 2200
+    },
+    "magCost": {
+      "cr": 60
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "scrap_carbine_556",
+    "legacyId": 15,
+    "name": "Scrap-Carbine 556",
+    "class": "ranged",
+    "type": "assault rifle",
+    "manufacturer": "Street Craft",
+    "damage": "1d8+1",
+    "ammo": "5.56 NATO",
+    "magSize": 20,
+    "range": {
+      "min": 3,
+      "max": 80
+    },
+    "reliability": 6,
+    "rarity": "D",
+    "cost": {
+      "cr": 800
+    },
+    "magCost": {
+      "cr": 30
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "aegis_defender_ar",
+    "legacyId": 16,
+    "name": "Aegis Defender AR",
+    "class": "ranged",
+    "type": "assault rifle",
+    "manufacturer": "Aegis Security",
+    "damage": "2d6",
+    "ammo": "5.56 NATO",
+    "magSize": 30,
+    "range": {
+      "min": 3,
+      "max": 150
+    },
+    "reliability": 8,
+    "rarity": "C",
+    "cost": {
+      "cr": 1800
+    },
+    "magCost": {
+      "cr": 50
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "kurogane_ronin_7",
+    "legacyId": 17,
+    "name": "Kurogane Ronin-7",
+    "class": "ranged",
+    "type": "assault rifle",
+    "manufacturer": "Kurogane Forge",
+    "damage": "1d10+1",
+    "ammo": "7.62 NATO",
+    "magSize": 20,
+    "range": {
+      "min": 5,
+      "max": 200
+    },
+    "reliability": 9,
+    "rarity": "C",
+    "cost": {
+      "cr": 2800
+    },
+    "magCost": {
+      "cr": 65
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "apex_dominator_v",
+    "legacyId": 18,
+    "name": "Apex Dominator-V",
+    "class": "ranged",
+    "type": "assault rifle",
+    "manufacturer": "Apex Dynamics",
+    "damage": "2d6+2",
+    "ammo": "5.56 NATO",
+    "magSize": 30,
+    "range": {
+      "min": 3,
+      "max": 180
+    },
+    "reliability": 9,
+    "rarity": "B",
+    "cost": {
+      "cr": 4500
+    },
+    "magCost": {
+      "cr": 80
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "nova_plasma_carbine",
+    "legacyId": 19,
+    "name": "Nova Plasma Carbine",
+    "class": "ranged",
+    "type": "assault rifle",
+    "manufacturer": "Nova Armaments",
+    "damage": "2d8",
+    "ammo": "Energy Cell",
+    "magSize": 20,
+    "range": {
+      "min": 3,
+      "max": 120
+    },
+    "reliability": 7,
+    "rarity": "B",
+    "cost": {
+      "cr": 7200
+    },
+    "magCost": {
+      "cr": 150
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "aegis_marksman_7",
+    "legacyId": 20,
+    "name": "Aegis Marksman-7",
+    "class": "ranged",
+    "type": "sniper rifle",
+    "manufacturer": "Aegis Security",
+    "damage": "2d8",
+    "ammo": "7.62 NATO",
+    "magSize": 10,
+    "range": {
+      "min": 10,
+      "max": 400
+    },
+    "reliability": 8,
+    "rarity": "C",
+    "cost": {
+      "cr": 3200
+    },
+    "magCost": {
+      "cr": 60
+    },
+    "skill": "long_guns_shotguns"
+  },
+  {
+    "id": "kurogane_longshot_308",
+    "legacyId": 21,
+    "name": "Kurogane Longshot .308",
+    "class": "ranged",
+    "type": "sniper rifle",
+    "manufacturer": "Kurogane Forge",
+    "damage": "2d8+2",
+    "ammo": ".308 Win",
+    "magSize": 5,
+    "range": {
+      "min": 15,
+      "max": 600
+    },
+    "reliability": 9,
+    "rarity": "B",
+    "cost": {
+      "cr": 5400
+    },
+    "magCost": {
+      "cr": 80
+    },
+    "skill": "long_guns_shotguns"
+  },
+  {
+    "id": "apex_predator_50",
+    "legacyId": 22,
+    "name": "Apex Predator .50",
+    "class": "ranged",
+    "type": "sniper rifle",
+    "manufacturer": "Apex Dynamics",
+    "damage": "3d10",
+    "ammo": ".50 BMG",
+    "magSize": 5,
+    "range": {
+      "min": 20,
+      "max": 1000
+    },
+    "reliability": 8,
+    "rarity": "B",
+    "cost": {
+      "cr": 12500
+    },
+    "magCost": {
+      "cr": 150
+    },
+    "skill": "long_guns_shotguns"
+  },
+  {
+    "id": "nova_arc_lance_precision",
+    "legacyId": 23,
+    "name": "Nova Arc-Lance Precision",
+    "class": "ranged",
+    "type": "sniper rifle",
+    "manufacturer": "Nova Armaments",
+    "damage": "3d10+5",
+    "ammo": "Heavy Energy Cell",
+    "magSize": 3,
+    "range": {
+      "min": 20,
+      "max": 1200
+    },
+    "reliability": 8,
+    "rarity": "A",
+    "cost": {
+      "cr": 28000
+    },
+    "magCost": {
+      "cr": 400
+    },
+    "skill": "long_guns_shotguns"
+  },
+  {
+    "id": "nova_prototype_singularity_pistol",
+    "legacyId": 24,
+    "name": "Nova Prototype Singularity Pistol",
+    "class": "ranged",
+    "type": "pistol",
+    "manufacturer": "Nova Armaments",
+    "damage": "2d10",
+    "ammo": "Heavy Energy Cell",
+    "magSize": 4,
+    "range": {
+      "min": 2,
+      "max": 40
+    },
+    "reliability": 7,
+    "rarity": "A",
+    "cost": {
+      "cr": 18500
+    },
+    "magCost": {
+      "cr": 350
+    },
+    "skill": "handguns"
+  },
+  {
+    "id": "apex_nullifier_smart_rifle",
+    "legacyId": 25,
+    "name": "Apex 'Nullifier' Smart Rifle",
+    "class": "ranged",
+    "type": "assault rifle",
+    "manufacturer": "Apex Dynamics",
+    "damage": "2d8+2",
+    "ammo": "6.8mm SPC",
+    "magSize": 30,
+    "range": {
+      "min": 2,
+      "max": 250
+    },
+    "reliability": 9,
+    "rarity": "A",
+    "cost": {
+      "cr": 22000
+    },
+    "magCost": {
+      "cr": 200
+    },
+    "skill": "automatic_firearms"
+  },
+  {
+    "id": "unarmed_fists",
+    "legacyId": 26,
+    "name": "Unarmed / Fists",
+    "class": "cqc",
+    "type": "melee",
+    "manufacturer": "Natural",
+    "damage": "1d3",
+    "ammo": null,
+    "magSize": 0,
+    "range": {
+      "min": 0,
+      "max": 1
+    },
+    "reliability": 10,
+    "rarity": "F",
+    "cost": {
+      "cr": 0
+    },
+    "magCost": {
+      "cr": 0
+    },
+    "skill": "brawling"
+  }
+]

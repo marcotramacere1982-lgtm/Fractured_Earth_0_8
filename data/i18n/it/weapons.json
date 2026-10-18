@@ -1,0 +1,80 @@
+{
+  "combat_knife": {
+    "type": "coltello"
+  },
+  "tanto_blade": {
+    "type": "coltello"
+  },
+  "telescopic_baton": {
+    "type": "contundente"
+  },
+  "heavy_crowbar": {
+    "type": "contundente"
+  },
+  "arc_stun_gun": {
+    "type": "storditore"
+  },
+  "zip_9_junk_pistol": {
+    "type": "pistola"
+  },
+  "aegis_p_18_patrol": {
+    "type": "pistola"
+  },
+  "kurogane_45_heavy": {
+    "type": "pistola"
+  },
+  "apex_model_10_magnum": {
+    "type": "pistola"
+  },
+  "nova_micro_pulse_pistol": {
+    "type": "pistola"
+  },
+  "pipe_smg_auto": {
+    "type": "SMG"
+  },
+  "aegis_vector_9": {
+    "type": "SMG"
+  },
+  "kurogane_type_4_sub": {
+    "type": "SMG"
+  },
+  "apex_spectre_pdw": {
+    "type": "SMG"
+  },
+  "scrap_carbine_556": {
+    "type": "fucile d'assalto"
+  },
+  "aegis_defender_ar": {
+    "type": "fucile d'assalto"
+  },
+  "kurogane_ronin_7": {
+    "type": "fucile d'assalto"
+  },
+  "apex_dominator_v": {
+    "type": "fucile d'assalto"
+  },
+  "nova_plasma_carbine": {
+    "type": "fucile d'assalto"
+  },
+  "aegis_marksman_7": {
+    "type": "fucile di precisione"
+  },
+  "kurogane_longshot_308": {
+    "type": "fucile di precisione"
+  },
+  "apex_predator_50": {
+    "type": "fucile di precisione"
+  },
+  "nova_arc_lance_precision": {
+    "type": "fucile di precisione"
+  },
+  "nova_prototype_singularity_pistol": {
+    "type": "pistola"
+  },
+  "apex_nullifier_smart_rifle": {
+    "type": "fucile d'assalto"
+  },
+  "unarmed_fists": {
+    "type": "mischia"
+  }
+}

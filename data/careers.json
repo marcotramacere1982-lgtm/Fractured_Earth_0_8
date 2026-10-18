@@ -1,0 +1,326 @@
+{
+  "note": "Each committed term: +2 years, modifiers, 2 career events (2d20), aging check.",
+  "termYears": 2,
+  "eventsPerTerm": 2,
+  "credentials": [
+    {
+      "id": "military_academy",
+      "name": "Military Academy"
+    },
+    {
+      "id": "media_college",
+      "name": "Media College"
+    },
+    {
+      "id": "business_school",
+      "name": "Business School"
+    },
+    {
+      "id": "technical_university",
+      "name": "Technical University"
+    }
+  ],
+  "careers": [
+    {
+      "id": "military_law_enforcement_grunt",
+      "category": "Military / Law Enforcement",
+      "name": "Grunt",
+      "legacyIndex": 0,
+      "requirementsText": "STR 9, CON 9, DEX 9",
+      "requirements": {
+        "minStats": {
+          "STR": 9,
+          "CON": 9,
+          "DEX": 9
+        }
+      },
+      "modifiers": {
+        "STR": 1,
+        "CON": 1,
+        "CRS": 2
+      }
+    },
+    {
+      "id": "military_law_enforcement_officer",
+      "category": "Military / Law Enforcement",
+      "name": "Officer",
+      "legacyIndex": 1,
+      "requirementsText": "Max age 25, Military Academy",
+      "requirements": {
+        "minStats": {},
+        "maxAge": 25,
+        "credential": "military_academy"
+      },
+      "modifiers": {
+        "CON": 1,
+        "INT": 1,
+        "CHA": 1,
+        "CRS": 3
+      }
+    },
+    {
+      "id": "media_freelancer",
+      "category": "Media",
+      "name": "Freelancer",
+      "legacyIndex": 2,
+      "requirementsText": "Max age 25, CHA 13",
+      "requirements": {
+        "minStats": {
+          "CHA": 13
+        },
+        "maxAge": 25
+      },
+      "modifiers": {
+        "DEX": 1,
+        "CHA": 1,
+        "CRS": 2
+      }
+    },
+    {
+      "id": "media_reporter",
+      "category": "Media",
+      "name": "Reporter",
+      "legacyIndex": 3,
+      "requirementsText": "Max age 25, Media College",
+      "requirements": {
+        "minStats": {},
+        "maxAge": 25,
+        "credential": "media_college"
+      },
+      "modifiers": {
+        "INT": 1,
+        "CHA": 1,
+        "CRS": 3
+      }
+    },
+    {
+      "id": "science_construction_mechanic",
+      "category": "Science / Construction",
+      "name": "Mechanic",
+      "legacyIndex": 4,
+      "requirementsText": "Max age 25, INT 13",
+      "requirements": {
+        "minStats": {
+          "INT": 13
+        },
+        "maxAge": 25
+      },
+      "modifiers": {
+        "STR": 1,
+        "CON": 1,
+        "DEX": 1,
+        "CRS": 1
+      }
+    },
+    {
+      "id": "science_construction_scientist",
+      "category": "Science / Construction",
+      "name": "Scientist",
+      "legacyIndex": 5,
+      "requirementsText": "Max age 25, INT 15, Technical University",
+      "requirements": {
+        "minStats": {
+          "INT": 15
+        },
+        "maxAge": 25,
+        "credential": "technical_university"
+      },
+      "modifiers": {
+        "INT": 2,
+        "WIS": 1,
+        "CHA": -1,
+        "MST": 1,
+        "CRS": 5
+      }
+    },
+    {
+      "id": "security_investigation",
+      "category": "Security / Investigation",
+      "name": "Standard",
+      "legacyIndex": 6,
+      "requirementsText": "Max age 25, Any Higher Education, No Criminal Record",
+      "requirements": {
+        "minStats": {},
+        "maxAge": 25,
+        "anyCredential": true,
+        "cleanRecord": true
+      },
+      "modifiers": {
+        "CON": 1,
+        "DEX": 1,
+        "INT": 1,
+        "MST": 1,
+        "CRS": 3
+      }
+    },
+    {
+      "id": "administration_economy_law",
+      "category": "Administration / Economy / Law",
+      "name": "Standard",
+      "legacyIndex": 7,
+      "requirementsText": "Max age 25, Business School, No Criminal Record, Credit Score ≥ 35",
+      "requirements": {
+        "minStats": {},
+        "maxAge": 25,
+        "minCRS": 35,
+        "credential": "business_school",
+        "cleanRecord": true
+      },
+      "modifiers": {
+        "INT": 1,
+        "WIS": 1,
+        "CRS": 10
+      }
+    },
+    {
+      "id": "criminal",
+      "category": "Criminal",
+      "name": "Standard",
+      "legacyIndex": 8,
+      "requirementsText": "None",
+      "requirements": {
+        "minStats": {}
+      },
+      "modifiers": {
+        "STR": 1,
+        "DEX": 2,
+        "MST": 1
+      }
+    },
+    {
+      "id": "student_military_academy",
+      "category": "Student",
+      "name": "Military Academy",
+      "legacyIndex": 9,
+      "requirementsText": "Max age 25, INT 7, Credit Score ≥ 4",
+      "requirements": {
+        "minStats": {
+          "INT": 7
+        },
+        "maxAge": 25,
+        "minCRS": 4
+      },
+      "modifiers": {
+        "STR": 1,
+        "CON": 1,
+        "CRS": -2
+      },
+      "grantsCredential": "military_academy"
+    },
+    {
+      "id": "student_media_college",
+      "category": "Student",
+      "name": "Media College",
+      "legacyIndex": 10,
+      "requirementsText": "Max age 25, INT 7, Credit Score ≥ 4",
+      "requirements": {
+        "minStats": {
+          "INT": 7
+        },
+        "maxAge": 25,
+        "minCRS": 4
+      },
+      "modifiers": {
+        "INT": 1,
+        "CHA": 1,
+        "CRS": -2
+      },
+      "grantsCredential": "media_college"
+    },
+    {
+      "id": "student_business_school",
+      "category": "Student",
+      "name": "Business School",
+      "legacyIndex": 11,
+      "requirementsText": "Max age 25, INT 7, Credit Score ≥ 4",
+      "requirements": {
+        "minStats": {
+          "INT": 7
+        },
+        "maxAge": 25,
+        "minCRS": 4
+      },
+      "modifiers": {
+        "INT": 1,
+        "CHA": 1,
+        "CRS": -2
+      },
+      "grantsCredential": "business_school"
+    },
+    {
+      "id": "student_technical_university",
+      "category": "Student",
+      "name": "Technical University",
+      "legacyIndex": 12,
+      "requirementsText": "Max age 25, INT 7, Credit Score ≥ 4",
+      "requirements": {
+        "minStats": {
+          "INT": 7
+        },
+        "maxAge": 25,
+        "minCRS": 4
+      },
+      "modifiers": {
+        "INT": 2,
+        "CRS": -2
+      },
+      "grantsCredential": "technical_university"
+    },
+    {
+      "id": "franchiser_wage_slave",
+      "category": "Franchiser / Wage Slave",
+      "name": "Standard",
+      "legacyIndex": 13,
+      "requirementsText": "None",
+      "requirements": {
+        "minStats": {}
+      },
+      "modifiers": {
+        "CON": 1
+      }
+    },
+    {
+      "id": "military_special_force",
+      "category": "Military Special Force",
+      "name": "Standard",
+      "legacyIndex": 14,
+      "requirementsText": "STR 13, CON 13, DEX 13, INT 9, WIS 9, Military Academy",
+      "requirements": {
+        "minStats": {
+          "STR": 13,
+          "CON": 13,
+          "DEX": 13,
+          "INT": 9,
+          "WIS": 9
+        },
+        "credential": "military_academy"
+      },
+      "modifiers": {
+        "STR": 2,
+        "CON": 2,
+        "DEX": 1,
+        "WIS": 1,
+        "MST": 2,
+        "CRS": 2
+      }
+    },
+    {
+      "id": "unemployed_drifter_outcast",
+      "category": "Unemployed",
+      "name": "Drifter / Outcast",
+      "legacyIndex": 15,
+      "requirementsText": "None",
+      "requirements": {
+        "minStats": {}
+      },
+      "modifiers": {
+        "CON": 1,
+        "DEX": 1,
+        "WIS": 1,
+        "CHA": -1,
+        "MST": 1,
+        "CRS": -3
+      }
+    }
+  ]
+}

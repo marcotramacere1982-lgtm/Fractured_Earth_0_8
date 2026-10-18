@@ -1,0 +1,18 @@
+{
+  "note": "Italian titles. A chapter listed here is read from chapters/it/<same file>; the others stay English.",
+  "title": "Fractured Earth — Manuale base",
+  "parts": [
+    "Il mondo",
+    "Le regole"
+  ],
+  "chapters": {
+    "ch-1": "La storia finora",
+    "ch-2": "Il mondo di oggi",
+    "ch-3": "Il paesaggio",
+    "ch-4": "Vivere nel 2045",
+    "ch-5": "Il tuo personaggio",
+    "ch-6": "Narrazione ed esplorazione",
+    "ch-7": "Combattimento",
+    "ch-8": "Equipaggiamento e denaro"
+  }
+}

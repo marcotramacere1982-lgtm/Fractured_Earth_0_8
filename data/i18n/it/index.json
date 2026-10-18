@@ -1,0 +1,22 @@
+[
+  "abilities.json",
+  "actions.json",
+  "adolescence.json",
+  "armor.json",
+  "attributes.json",
+  "body.json",
+  "career-events.json",
+  "careers.json",
+  "classes.json",
+  "combat.json",
+  "conditions.json",
+  "debts.json",
+  "decks.json",
+  "difficulty.json",
+  "items.json",
+  "lifestyle.json",
+  "quiz.json",
+  "rules-ref.json",
+  "skills.json",
+  "weapons.json"
+]

@@ -1,0 +1,160 @@
+{
+  "events": {
+    "disabled": {
+      "name": "MENOMATO",
+      "text": "Hai un incidente terribile che quasi ti rende invalido. I valori di movimento si leggono sempre una riga sopra il normale nella tabella di combattimento. Un'operazione per rimetterti a posto costerebbe circa 100.000 corone."
+    },
+    "bone_disease": {
+      "name": "MALATTIA DELLE OSSA",
+      "text": "Sottrai 5 dai Body Points totali. Un'operazione per rimetterti a posto costerebbe circa 50.000 corone."
+    },
+    "severe_concussion": {
+      "name": "COMMOZIONE GRAVE",
+      "text": "Non ti sei mai ripreso del tutto dall'ultimo colpo alla testa. I Bonus difensivo e percezione si leggono sempre una riga sopra il normale nella tabella di combattimento."
+    },
+    "involved_in_serious_crime": {
+      "name": "COINVOLTO IN UN REATO GRAVE",
+      "text": "Colpevole o no, vieni condannato a 1d6+3 anni di lavori forzati (aggiorna subito la tua età). Aggiungi +3 a STR, CON e CHA, ma sottrai 2 a INT e WIS."
+    },
+    "involved_in_minor_crime": {
+      "name": "COINVOLTO IN UN REATO MINORE",
+      "text": "Ti immischi in un piccolo giro criminale organizzato e vieni condannato a 1d3 anni di prigione (aggiorna subito la tua età). −2 a STR, CON e WIS. +2 a CHA."
+    },
+    "guilty": {
+      "name": "COLPEVOLE",
+      "text": "Un giudice ti obbliga a risarcire i vicini per una causa contro di te. Riduci il Credit Score di 5."
+    },
+    "criminal_record": {
+      "name": "PRECEDENTI PENALI",
+      "text": "Il tuo nome viene collegato a un fatto criminale e finisci negli archivi della polizia, probabilmente per sempre. Resti subito disoccupato e devi iniziare immediatamente la tua carriera di avventuriero. Il Credit Score crolla a 1."
+    },
+    "fired": {
+      "name": "LICENZIATO",
+      "text": "Intrighi e/o errori ti fanno perdere il lavoro e ti costringono alla disoccupazione per 1d3 periodi di due anni. Puoi evitarla iniziando subito la tua carriera di avventuriero."
+    },
+    "intense_education": {
+      "name": "STUDI INTENSI",
+      "text": "Solo colore narrativo: un periodo formativo di studio rigoroso o di scuola privata che ha plasmato la tua visione del mondo."
+    },
+    "part_of_unemployment_program": {
+      "name": "PROGRAMMA PER DISOCCUPATI",
+      "text": "Se mai resti disoccupato, puoi scegliere automaticamente il percorso Studente, anche senza i requisiti."
+    },
+    "good_negotiator": {
+      "name": "BUON NEGOZIATORE",
+      "text": "Sai sfruttare il mercato e gestire gli attriti sociali. Aggiungi +2 a CHA."
+    },
+    "glamorous_employment": {
+      "name": "LAVORO PRESTIGIOSO",
+      "text": "La tua presenza apre le porte negli ambienti aziendali. Aggiungi +1 a CHA."
+    },
+    "contact_within_a_megacorp": {
+      "name": "UN CONTATTO IN UNA MEGACORP",
+      "text": "Hai un contatto in una delle megacorporazioni. Con il GM decidi come ti passa informazioni riservate o favori."
+    },
+    "civil_defense_training": {
+      "name": "DIFESA CIVILE",
+      "text": "Hai una disciplina di base nella difesa civile e nel maneggiare armi sotto stress. Aggiungi +1 a DEX."
+    },
+    "technical_crash_course": {
+      "name": "CORSO TECNICO INTENSIVO",
+      "text": "Un addestramento tecnico intensivo ti dà una solida padronanza dell'elettronica e della riparazione dei sistemi. Aggiungi +1 a INT."
+    },
+    "administration_night_classes": {
+      "name": "CORSI SERALI DI AMMINISTRAZIONE",
+      "text": "I corsi serali migliorano la tua conoscenza delle procedure e la disciplina nelle trattative. Aggiungi +1 a INT."
+    },
+    "gymnastics_classes": {
+      "name": "CORSI DI GINNASTICA",
+      "text": "L'allenamento fisico migliora portamento, agilità e mobilità. Aggiungi +1 a DEX."
+    },
+    "evening_classes": {
+      "name": "CORSI SERALI",
+      "text": "Un'istruzione per adulti ad ampio raggio affina intelletto e concentrazione. Aggiungi +1 a INT."
+    },
+    "interesting_character": {
+      "name": "PERSONAGGIO INTERESSANTE",
+      "text": "Sembri sempre affascinare la gente. Aggiungi +1 a CHA."
+    },
+    "hard_labor": {
+      "name": "LAVORO PESANTE",
+      "text": "Il lavoro manuale ti ha temprato il fisico. Aggiungi +1 a STR."
+    },
+    "strong_will": {
+      "name": "VOLONTÀ DI FERRO",
+      "text": "Tormenti emotivi e sofferenze mentali ti hanno indurito. Aggiungi +1 a WIS e +1 a MST."
+    },
+    "health_care": {
+      "name": "CURA DI SÉ",
+      "text": "Mangiare sano e prenderti cura del tuo corpo ha dato i suoi frutti. Aggiungi +1 a CON."
+    },
+    "amateur_gymnast": {
+      "name": "GINNASTA DILETTANTE",
+      "text": "Aggiungi +1 a DEX."
+    },
+    "good_immune_system": {
+      "name": "SISTEMA IMMUNITARIO FORTE",
+      "text": "Il tuo corpo resiste in modo eccezionale alle sostanze organiche estranee. Aggiungi +1 a CON."
+    },
+    "extraordinary_chemical_tolerance": {
+      "name": "TOLLERANZA CHIMICA STRAORDINARIA",
+      "text": "Il tuo corpo resiste in modo eccezionale a sostanze artificiali, tossine e gas. Aggiungi +1 a CON."
+    },
+    "gifted_childhood": {
+      "name": "INFANZIA DOTATA",
+      "text": "Educazione versatile e contatto precoce con molte discipline. Aggiungi +1 a INT e +1 a WIS."
+    },
+    "wealthy_lover": {
+      "name": "AMANTE FACOLTOSO",
+      "text": "Il tuo amante è molto ricco, e anche piuttosto generoso. Aggiungi +1 al Credit Score (massimo 100)."
+    },
+    "steady_employment": {
+      "name": "LAVORO STABILE",
+      "text": "Ottieni +1 a un attributo base a tua scelta."
+    },
+    "amateur_athlete": {
+      "name": "ATLETA DILETTANTE",
+      "text": "Aggiungi +2 a STR e CON. Questi aumenti dipendono dal frequentare regolarmente una palestra: se il tuo Credit Score scende sotto 4, devi toglierli."
+    },
+    "chance_of_a_lifetime": {
+      "name": "L'OCCASIONE DELLA VITA",
+      "text": "Puoi scegliere qualsiasi percorso, ignorandone i requisiti, e passare 2 anni nella professione che preferisci."
+    },
+    "contacts_within_police_department": {
+      "name": "CONTATTI IN POLIZIA",
+      "text": "Il tuo nome non finirà mai negli archivi criminali. Se ci sei già, la tua fedina viene ripulita."
+    },
+    "sole_heir_to_wealthy_aunt": {
+      "name": "EREDE DI UNA ZIA RICCA",
+      "text": "Tua zia, ricchissima, ti ha ricordato nel testamento. Aggiungi +3 al Credit Score (massimo 100)."
+    },
+    "powerful_fanatic_enemy": {
+      "name": "UN NEMICO POTENTE E FANATICO",
+      "text": "In qualche modo ti sei fatto un nemico mortale che, purtroppo, è anche molto potente. Può essere un procuratore distrettuale, un vecchio socio, un collega geloso o chiunque altro: sii creativo."
+    },
+    "long_legs": {
+      "name": "GAMBE LUNGHE",
+      "text": "I valori di movimento si leggono sempre una riga sotto il normale nella tabella di combattimento."
+    },
+    "famous_face": {
+      "name": "FACCIA FAMOSA",
+      "text": "Somigli moltissimo a una persona famosissima. Aggiungi +5 a CHA."
+    },
+    "movie_star": {
+      "name": "STAR DEL CINEMA",
+      "text": "Hai avuto un paio di piccole parti in soap opera e film di serie B. Aggiungi +1 al Credit Score e +2 a CHA."
+    },
+    "promotion": {
+      "name": "PROMOZIONE",
+      "text": "Aggiungi +3 al Credit Score e a CHA."
+    },
+    "subject_to_experiments": {
+      "name": "CAVIA DI ESPERIMENTI",
+      "text": "Ti offri volontario per un esperimento medico segreto, che riesce. Aggiungi +5 a WIS."
+    },
+    "commando_training": {
+      "name": "ADDESTRAMENTO DA COMMANDO",
+      "text": "Al posto dei tuoi prossimi due periodi puoi passare quattro anni nell'addestramento d'élite dei commando (come frequentare un'accademia militare). Aggiungi +2 a tutti gli attributi base, +5 a CHA e +2 al Credit Score (massimo 100)."
+    }
+  }
+}

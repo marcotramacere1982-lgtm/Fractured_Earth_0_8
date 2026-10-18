@@ -1,0 +1,42 @@
+{
+  "note": "Every purchase is either official (Credit Score debt, traced) or street (physical cash at a black-market markup, untraced). Credit is the leash the system uses to keep the lower classes compliant: fine for groceries and rent, ruinous for anything that matters on a job.",
+  "official": {
+    "pays": "CRS",
+    "formula": "ceil(sqrt(cr / divisor) * scrutiny), minimum 1",
+    "divisor": 10,
+    "scrutiny": {
+      "lifestyle": 0.5,
+      "item": 0.5,
+      "armor": 1,
+      "deckMod": 1,
+      "deck": 1.25,
+      "weapon": 1.5
+    },
+    "scrutinyNote": "How much attention an official purchase draws. Higher = the system makes you pay for it in compliance.",
+    "override": "An entry may set cost.scoreOverride to replace the formula (a number), or null to make it cash only. Overrides beat the rarity rule.",
+    "trace": "Official purchases are logged against the character's identity.",
+    "blackMarketRarities": [
+      "A",
+      "B"
+    ],
+    "blackMarketNote": "The two rarest tiers never appear in official shops: street cash only."
+  },
+  "cash": {
+    "pays": "cash",
+    "minMultiplier": 3,
+    "maxMultiplier": 10,
+    "defaultMultiplier": 3,
+    "note": "Street purchases cost the listed Cr price x3 to x10 in physical cash (GM decides by local contraband risk). No trace."
+  },
+  "rarity": {
+    "scale": [
+      "F",
+      "E",
+      "D",
+      "C",
+      "B",
+      "A"
+    ],
+    "note": "F = most common, A = rarest."
+  }
+}

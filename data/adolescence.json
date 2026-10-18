@@ -1,0 +1,466 @@
+{
+  "dice": "2d20",
+  "rolls": 3,
+  "startAge": 15,
+  "events": [
+    {
+      "roll": 2,
+      "id": "disabled",
+      "name": "DISABLED",
+      "text": "You have a terrible accident which almost cripples you. Your Movement Allowance values should always be read from the line above the normal in the Combat Statistics Table.",
+      "effects": {
+        "rowOffsets": {
+          "sqr": -1,
+          "met": -1
+        }
+      }
+    },
+    {
+      "roll": 3,
+      "id": "wimp",
+      "name": "WIMP",
+      "text": "In frightening situations you tend to pass out. Your Actions/Round value should always be read from the line above the normal in the Combat Statistics Table.",
+      "effects": {
+        "rowOffsets": {
+          "act": -1
+        }
+      }
+    },
+    {
+      "roll": 4,
+      "id": "weak_bone_structure",
+      "name": "WEAK BONE STRUCTURE",
+      "text": "Subtract 5 from Total Body Points.",
+      "effects": {
+        "maxHp": -5
+      }
+    },
+    {
+      "roll": 5,
+      "id": "dimwitted",
+      "name": "DIMWITTED",
+      "text": "Your Defensive and Perception Bonuses should always be read one line above the normal in the Combat Statistics Table.",
+      "effects": {
+        "rowOffsets": {
+          "def": -1,
+          "per": -1
+        }
+      }
+    },
+    {
+      "roll": 6,
+      "id": "serious_crime_committed",
+      "name": "SERIOUS CRIME COMMITTED",
+      "text": "Guilty or not you are sentenced for a serious crime for which you spend 1d6+3 years in a labor camp. Incarceration affects characteristics: +3 STR CON CHA, -1 DEX INT WIS.",
+      "effects": {
+        "attributes": {
+          "STR": 3,
+          "DEX": -1,
+          "CON": 3,
+          "INT": -1,
+          "WIS": -1,
+          "CHA": 3,
+          "CRS": -5
+        },
+        "criminalRecord": "add"
+      }
+    },
+    {
+      "roll": 7,
+      "id": "minor_crime_committed",
+      "name": "MINOR CRIME COMMITTED",
+      "text": "You are found guilty of a minor crime resulting in 1d3 years in prison. Prison affects characteristics: +1 STR CHA, -1 CON.",
+      "effects": {
+        "attributes": {
+          "STR": 1,
+          "CON": -1,
+          "CHA": 1,
+          "CRS": -3
+        },
+        "criminalRecord": "add"
+      }
+    },
+    {
+      "roll": 8,
+      "id": "criminal_record",
+      "name": "CRIMINAL RECORD",
+      "text": "You've taken part in some criminal activity and your name is recorded in criminal records—probably for the rest of your life.",
+      "effects": {
+        "attributes": {
+          "CRS": -2
+        },
+        "criminalRecord": "add"
+      }
+    },
+    {
+      "roll": 9,
+      "id": "bad_company",
+      "name": "BAD COMPANY",
+      "text": "Unfortunately you've spent a lot of time in the wrong company. -1 to Credit Score (1 is the minimum).",
+      "effects": {
+        "attributes": {
+          "CRS": -1
+        }
+      }
+    },
+    {
+      "roll": 10,
+      "id": "tragic_accident",
+      "name": "TRAGIC ACCIDENT",
+      "text": "Both your parents died in a terrible accident and you were sent to an orphanage. Credit Score is lowered by 3.",
+      "effects": {
+        "attributes": {
+          "CRS": -3
+        }
+      }
+    },
+    {
+      "roll": 11,
+      "id": "isolated_upbringing",
+      "name": "ISOLATED UPBRINGING",
+      "text": "Raised in a restrictive, sheltered household. You start your adult life socially awkward with a minor community stigma.",
+      "effects": {
+        "tag": "Sheltered Upbringing"
+      }
+    },
+    {
+      "roll": 12,
+      "id": "spoiled_heir",
+      "name": "SPOILED HEIR",
+      "text": "Born into old money with heavy family strings attached. You carry an air of privilege that doesn't always translate to credit.",
+      "effects": {
+        "tag": "Old Family Ties"
+      }
+    },
+    {
+      "roll": 13,
+      "id": "military_heritage",
+      "name": "MILITARY HERITAGE",
+      "text": "Spend two years in a military academy. Raise your INT to 7 if it is lower.",
+      "effects": {
+        "credential": "military_academy",
+        "minAttributes": {
+          "INT": 7
+        }
+      }
+    },
+    {
+      "roll": 14,
+      "id": "technical_talent",
+      "name": "TECHNICAL TALENT",
+      "text": "Spend two years in a technical university. Raise your INT to 12 if it is lower.",
+      "effects": {
+        "credential": "technical_university",
+        "minAttributes": {
+          "INT": 12
+        }
+      }
+    },
+    {
+      "roll": 15,
+      "id": "business_family",
+      "name": "BUSINESS FAMILY",
+      "text": "Attend a business school for two years. Raise your INT to 10 if it is lower.",
+      "effects": {
+        "credential": "business_school",
+        "minAttributes": {
+          "INT": 10
+        }
+      }
+    },
+    {
+      "roll": 16,
+      "id": "media_family",
+      "name": "MEDIA FAMILY",
+      "text": "Enroll in a media college for two years. Raise your INT to 9 if it is lower.",
+      "effects": {
+        "credential": "media_college",
+        "minAttributes": {
+          "INT": 9
+        }
+      }
+    },
+    {
+      "roll": 17,
+      "id": "military_connections",
+      "name": "MILITARY CONNECTIONS",
+      "text": "You have the right connections within the military and may ignore all officer requirements.",
+      "effects": {
+        "tag": "Military Connections",
+        "waives": [
+          "military_law_enforcement_officer"
+        ]
+      }
+    },
+    {
+      "roll": 18,
+      "id": "apprentice_scientist",
+      "name": "APPRENTICE SCIENTIST",
+      "text": "You may ignore requirements if you want to become a scientist.",
+      "effects": {
+        "tag": "Scientist no requirements",
+        "waives": [
+          "science_construction_scientist"
+        ]
+      }
+    },
+    {
+      "roll": 19,
+      "id": "amateur_photographer_writer",
+      "name": "AMATEUR PHOTOGRAPHER/WRITER",
+      "text": "You ignore all requirements if you want to become a reporter.",
+      "effects": {
+        "tag": "Media no requirements",
+        "waives": [
+          "media_reporter"
+        ]
+      }
+    },
+    {
+      "roll": 20,
+      "id": "business_sense",
+      "name": "BUSINESS SENSE",
+      "text": "You ignore all requirements if you choose a background in administration/economy/law.",
+      "effects": {
+        "tag": "Admin no requirements",
+        "waives": [
+          "administration_economy_law"
+        ]
+      }
+    },
+    {
+      "roll": 21,
+      "id": "restless_drifter",
+      "name": "RESTLESS DRIFTER",
+      "text": "Spent your youth bouncing from sector to sector, never settling down long enough to put down deep roots.",
+      "effects": {
+        "tag": "Nomadic Youth"
+      }
+    },
+    {
+      "roll": 22,
+      "id": "street_hustler",
+      "name": "STREET HUSTLER",
+      "text": "Grew up learning survival tricks on the blocks, relying on street smarts rather than formal structure.",
+      "effects": {
+        "tag": "Street Smart Background"
+      }
+    },
+    {
+      "roll": 23,
+      "id": "slick_speaker",
+      "name": "SLICK SPEAKER",
+      "text": "Excel at reading pressure points and driving negotiations under stress. Add +1 to CHA.",
+      "effects": {
+        "attributes": {
+          "CHA": 1
+        }
+      }
+    },
+    {
+      "roll": 24,
+      "id": "natural_technician",
+      "name": "NATURAL TECHNICIAN",
+      "text": "Innate grasp of hardware lock mechanics and electronic systems. Add +1 to INT.",
+      "effects": {
+        "attributes": {
+          "INT": 1
+        }
+      }
+    },
+    {
+      "roll": 25,
+      "id": "slender_body",
+      "name": "SLENDER BODY",
+      "text": "Move with natural grace agility and speed through tight physical spaces. Add +1 to DEX.",
+      "effects": {
+        "attributes": {
+          "DEX": 1
+        }
+      }
+    },
+    {
+      "roll": 26,
+      "id": "weapons_fanatic",
+      "name": "WEAPONS FANATIC",
+      "text": "Intuitive understanding of ballistics firearm mechanics and recoil control. Add +1 to DEX.",
+      "effects": {
+        "attributes": {
+          "DEX": 1
+        }
+      }
+    },
+    {
+      "roll": 27,
+      "id": "martial_arts_training",
+      "name": "MARTIAL ARTS TRAINING",
+      "text": "Formal combat training in close-quarters defense and hand-to-hand. Add +2 CHA and +1 STR.",
+      "effects": {
+        "attributes": {
+          "STR": 1,
+          "CHA": 2
+        }
+      }
+    },
+    {
+      "roll": 28,
+      "id": "anatomical_sixth_sense",
+      "name": "ANATOMICAL SIXTH SENSE",
+      "text": "Hit people where it hurts most. Add +1 to your Offensive Bonus row.",
+      "effects": {
+        "rowOffsets": {
+          "off": 1
+        }
+      }
+    },
+    {
+      "roll": 29,
+      "id": "sharp_senses",
+      "name": "SHARP SENSES",
+      "text": "Exceptional situational awareness reacting to ambient threats. Add +1 to WIS.",
+      "effects": {
+        "attributes": {
+          "WIS": 1
+        }
+      }
+    },
+    {
+      "roll": 30,
+      "id": "strong_will",
+      "name": "STRONG WILL",
+      "text": "Add +1 to WIS and +1 to MST.",
+      "effects": {
+        "attributes": {
+          "WIS": 1,
+          "MST": 1
+        }
+      }
+    },
+    {
+      "roll": 31,
+      "id": "charismatic_voice",
+      "name": "CHARISMATIC VOICE",
+      "text": "Raise your CHA by 2.",
+      "effects": {
+        "attributes": {
+          "CHA": 2
+        }
+      }
+    },
+    {
+      "roll": 32,
+      "id": "good_body_control",
+      "name": "GOOD BODY CONTROL",
+      "text": "Raise DEX by 1 and CON by 1.",
+      "effects": {
+        "attributes": {
+          "DEX": 1,
+          "CON": 1
+        }
+      }
+    },
+    {
+      "roll": 33,
+      "id": "contact_within_a_megacorp",
+      "name": "CONTACT WITHIN A MEGACORP",
+      "text": "Coordinate with your GM to establish a specific corporate contact for insider information or backchannel favors.",
+      "effects": {
+        "tag": "Corporation contact"
+      }
+    },
+    {
+      "roll": 34,
+      "id": "lucky_stiff",
+      "name": "LUCKY STIFF",
+      "text": "Win a small fortune on the lottery. Raise Credit Score by 5.",
+      "effects": {
+        "attributes": {
+          "CRS": 5
+        }
+      }
+    },
+    {
+      "roll": 35,
+      "id": "relative_within_the_police_department",
+      "name": "RELATIVE WITHIN THE POLICE DEPARTMENT",
+      "text": "Trouble with the law are now resolved.",
+      "effects": {
+        "criminalRecord": "clear",
+        "tag": "Police contact"
+      }
+    },
+    {
+      "roll": 36,
+      "id": "resistant_to_pain",
+      "name": "RESISTANT TO PAIN",
+      "text": "Add +1 to your Body Points in each body part.",
+      "effects": {
+        "locationHp": 1
+      }
+    },
+    {
+      "roll": 37,
+      "id": "sole_heir_to_wealthy_aunt",
+      "name": "SOLE HEIR TO WEALTHY AUNT",
+      "text": "Raise your Credit Score by 10.",
+      "effects": {
+        "attributes": {
+          "CRS": 10
+        }
+      }
+    },
+    {
+      "roll": 38,
+      "id": "gifted_student",
+      "name": "GIFTED STUDENT",
+      "text": "Add +2 to INT or WIS.",
+      "effects": {
+        "choice": {
+          "amount": 2,
+          "of": [
+            "INT",
+            "WIS"
+          ]
+        }
+      }
+    },
+    {
+      "roll": 39,
+      "id": "gifted_body",
+      "name": "GIFTED BODY",
+      "text": "Add +1 to any base attribute.",
+      "effects": {
+        "choice": {
+          "amount": 1,
+          "of": [
+            "STR",
+            "DEX",
+            "CON",
+            "INT",
+            "WIS",
+            "CHA",
+            "MST"
+          ]
+        }
+      }
+    },
+    {
+      "roll": 40,
+      "id": "commando_training",
+      "name": "COMMANDO TRAINING",
+      "text": "Elite-forces commando training. Add +2 to all base attributes +5 CHA and +2 Credit Score.",
+      "effects": {
+        "attributes": {
+          "STR": 2,
+          "DEX": 2,
+          "CON": 2,
+          "INT": 2,
+          "WIS": 2,
+          "CHA": 5,
+          "MST": 2,
+          "CRS": 2
+        }
+      }
+    }
+  ]
+}

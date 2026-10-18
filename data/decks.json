@@ -1,0 +1,230 @@
+[
+  {
+    "id": "pocket_rig_v1",
+    "legacyId": 1,
+    "name": "Pocket-Rig v1",
+    "manufacturer": "Street Craft",
+    "desc": "Taped-together smartphone casing with exposed wiring and tiny fan.",
+    "visibility": 1,
+    "modSlots": 1,
+    "ram": 2,
+    "heatCap": 10,
+    "battery": {
+      "idle": "12 hrs",
+      "usage": "3 hrs"
+    },
+    "rarity": "F",
+    "cost": {
+      "cr": 350
+    }
+  },
+  {
+    "id": "scrap_deck_80",
+    "legacyId": 2,
+    "name": "Scrap-Deck 80",
+    "manufacturer": "Street Craft",
+    "desc": "Hollowed retro keyboard stuffed with salvaged PCB boards and small LCD.",
+    "visibility": 3,
+    "modSlots": 1,
+    "ram": 4,
+    "heatCap": 15,
+    "battery": {
+      "idle": "10 hrs",
+      "usage": "4 hrs"
+    },
+    "rarity": "E",
+    "cost": {
+      "cr": 600
+    }
+  },
+  {
+    "id": "aegis_sentinel",
+    "legacyId": 3,
+    "name": "Aegis Sentinel",
+    "manufacturer": "Aegis Security",
+    "desc": "Rubberized matte black casing resembling an industrial scanner.",
+    "visibility": 2,
+    "modSlots": 1,
+    "ram": 4,
+    "heatCap": 20,
+    "battery": {
+      "idle": "18 hrs",
+      "usage": "6 hrs"
+    },
+    "rarity": "E",
+    "cost": {
+      "cr": 1200
+    }
+  },
+  {
+    "id": "type_2_field_rig",
+    "legacyId": 4,
+    "name": "Type-2 Field Rig",
+    "manufacturer": "Kurogane Forge",
+    "desc": "Brushed-steel casing with mechanical switches and external radiator fins.",
+    "visibility": 4,
+    "modSlots": 2,
+    "ram": 6,
+    "heatCap": 30,
+    "battery": {
+      "idle": "16 hrs",
+      "usage": "5 hrs"
+    },
+    "rarity": "D",
+    "cost": {
+      "cr": 2500
+    }
+  },
+  {
+    "id": "apex_edge_pad",
+    "legacyId": 5,
+    "name": "Apex Edge-Pad",
+    "manufacturer": "Apex Dynamics",
+    "desc": "Thin carbon-fiber tablet with glowing blue diagnostic side-strips.",
+    "visibility": 2,
+    "modSlots": 2,
+    "ram": 8,
+    "heatCap": 25,
+    "battery": {
+      "idle": "24 hrs",
+      "usage": "8 hrs"
+    },
+    "rarity": "D",
+    "cost": {
+      "cr": 4200
+    }
+  },
+  {
+    "id": "command_briefcase",
+    "legacyId": 6,
+    "name": "Command Briefcase",
+    "manufacturer": "Aegis Security",
+    "desc": "Tactical briefcase with dual flip-up screens and active liquid cooling.",
+    "visibility": 5,
+    "modSlots": 3,
+    "ram": 8,
+    "heatCap": 45,
+    "battery": {
+      "idle": "20 hrs",
+      "usage": "7 hrs"
+    },
+    "rarity": "C",
+    "cost": {
+      "cr": 6800
+    }
+  },
+  {
+    "id": "cyber_deck_2000",
+    "legacyId": 7,
+    "name": "Cyber-Deck 2000",
+    "manufacturer": "Nova Armaments",
+    "desc": "Clear polymer chassis showing fiber optics and internal bus traffic LEDs.",
+    "visibility": 2,
+    "modSlots": 2,
+    "ram": 10,
+    "heatCap": 35,
+    "battery": {
+      "idle": "20 hrs",
+      "usage": "6 hrs"
+    },
+    "rarity": "C",
+    "cost": {
+      "cr": 9500
+    }
+  },
+  {
+    "id": "heavy_terminal",
+    "legacyId": 8,
+    "name": "Heavy Terminal",
+    "manufacturer": "Kurogane Forge",
+    "desc": "Backpack-mounted rig with copper heat pipes and dual high-speed fans.",
+    "visibility": 5,
+    "modSlots": 3,
+    "ram": 12,
+    "heatCap": 60,
+    "battery": {
+      "idle": "14 hrs",
+      "usage": "5 hrs"
+    },
+    "rarity": "B",
+    "cost": {
+      "cr": 14000
+    }
+  },
+  {
+    "id": "apex_spectre",
+    "legacyId": 9,
+    "name": "Apex Spectre",
+    "manufacturer": "Apex Dynamics",
+    "desc": "Discreet wearable forearm unit with a flexible OLED wrap display.",
+    "visibility": 1,
+    "modSlots": 2,
+    "ram": 10,
+    "heatCap": 30,
+    "battery": {
+      "idle": "30 hrs",
+      "usage": "10 hrs"
+    },
+    "rarity": "B",
+    "cost": {
+      "cr": 18500
+    }
+  },
+  {
+    "id": "hyperion_proto",
+    "legacyId": 10,
+    "name": "Hyperion Proto",
+    "manufacturer": "Nova Armaments",
+    "desc": "Polished obsidian casing with cryo-vent ports that frost over during load.",
+    "visibility": 3,
+    "modSlots": 3,
+    "ram": 16,
+    "heatCap": 75,
+    "battery": {
+      "idle": "16 hrs",
+      "usage": "4 hrs"
+    },
+    "rarity": "A",
+    "cost": {
+      "cr": 32000
+    }
+  },
+  {
+    "id": "guerilla_slab",
+    "legacyId": 11,
+    "name": "Guerilla Slab",
+    "manufacturer": "Street Craft",
+    "desc": "Heavy slab cut from industrial housing with external battery leads.",
+    "visibility": 4,
+    "modSlots": 1,
+    "ram": 6,
+    "heatCap": 20,
+    "battery": {
+      "idle": "8 hrs",
+      "usage": "3 hrs"
+    },
+    "rarity": "E",
+    "cost": {
+      "cr": 850
+    }
+  },
+  {
+    "id": "phantom_operator",
+    "legacyId": 12,
+    "name": "Phantom Operator",
+    "manufacturer": "Apex Dynamics",
+    "desc": "Neural-link unit disguised as a luxury wrist chronograph watch.",
+    "visibility": 1,
+    "modSlots": 3,
+    "ram": 14,
+    "heatCap": 40,
+    "battery": {
+      "idle": "36 hrs",
+      "usage": "12 hrs"
+    },
+    "rarity": "A",
+    "cost": {
+      "cr": 45000
+    }
+  }
+]

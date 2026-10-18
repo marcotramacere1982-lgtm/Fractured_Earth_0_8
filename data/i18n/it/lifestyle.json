@@ -1,0 +1,142 @@
+{
+  "categories": {
+    "housing": {
+      "name": "Casa"
+    },
+    "connectivity": {
+      "name": "Dati e telefono"
+    },
+    "utilities": {
+      "name": "Utenze e bollette"
+    },
+    "food": {
+      "name": "Cibo"
+    },
+    "transport": {
+      "name": "Trasporti"
+    },
+    "health": {
+      "name": "Salute"
+    },
+    "entertainment": {
+      "name": "Svago"
+    },
+    "compliance": {
+      "name": "Conformità e tasse"
+    }
+  },
+  "entries": {
+    "housing_capsule_bunk": {
+      "name": "Cuccetta a capsula",
+      "desc": "Capsula per dormire in affitto in un caseggiato gestito da un'azienda, pagata a notte in scrip aziendale. Bagni in comune, armadietti a parte."
+    },
+    "housing_tenement_room": {
+      "name": "Stanza in caseggiato",
+      "desc": "Una stanza in un blocco di mattoni arrugginiti sotto i livelli aziendali che gocciolano. Cucina in comune, riscaldamento inaffidabile."
+    },
+    "housing_standard_apartment": {
+      "name": "Appartamento standard",
+      "desc": "Due stanze in un piccolo polo urbano. Serratura smart di proprietà dell'algoritmo del padrone di casa, affitto addebitato in automatico."
+    },
+    "housing_tier_flat": {
+      "name": "Appartamento di fascia media",
+      "desc": "Unità climatizzata sopra la linea delle tettoie, con un drone portiere e una sovrapposizione AR immacolata."
+    },
+    "housing_enclave_residence": {
+      "name": "Residenza in enclave",
+      "desc": "Residenza recintata in una Pristine Enclave. Servono uno sponsor e un Credit Score impeccabile."
+    },
+    "data_ad_supported": {
+      "name": "Piano Anchor con pubblicità",
+      "desc": "Dati gratis in cambio di pubblicità non saltabili e fatturazione basata sul tracciamento dello sguardo. DRM Amber Static di serie."
+    },
+    "data_basic": {
+      "name": "Piano base dati e chiamate",
+      "desc": "Dati e voce rallentati sulla Euro-Grid. Le pubblicità ci sono ancora, ma alcune si possono saltare."
+    },
+    "data_standard": {
+      "name": "Piano Grid standard",
+      "desc": "Dati urbani senza limiti di velocità, backup in cloud e meno pubblicità sul Lens-Frame."
+    },
+    "data_pristine": {
+      "name": "Piano Pristine Spectrum",
+      "desc": "Flussi a colori pieni e alta fedeltà. Riservato ai profili in regola e con credito alto."
+    },
+    "bill_power": {
+      "name": "Quota di energia",
+      "desc": "Elettricità a contatore della Euro-Grid. Rallentata durante i picchi di domanda nei settori a bassa priorità."
+    },
+    "bill_water": {
+      "name": "Quota di acqua filtrata",
+      "desc": "Assegnazione mensile di acqua potabile. L'eccedenza si paga al distributore col tornello."
+    },
+    "bill_air_filtration": {
+      "name": "Tassa di filtraggio dell'aria",
+      "desc": "Sovrapprezzo municipale per i depuratori del blocco. In pratica non pagare non è un'opzione."
+    },
+    "bill_infrastructure_fee": {
+      "name": "Tassa infrastrutture municipali",
+      "desc": "Imposta senza preavviso da un'amministrazione cittadina paralizzata dai debiti. L'importo varia."
+    },
+    "food_scrip_rations": {
+      "name": "Razioni dell'emporio aziendale",
+      "desc": "Cibo sintetico, lavorato dalle aziende, comprato con lo scrip negli empori di loro proprietà."
+    },
+    "food_standard_groceries": {
+      "name": "Spesa standard",
+      "desc": "Consegne automatiche della spesa dal Ledger. Quasi tutto sintetico, ogni tanto verdura vera."
+    },
+    "food_real_food": {
+      "name": "Abbonamento a cibo vero",
+      "desc": "Coltivazioni brevettate della Rural Mono-Crop, consegnate ogni settimana. Uno status symbol."
+    },
+    "transport_worker_bus": {
+      "name": "Abbonamento al bus dei lavoratori",
+      "desc": "Posto sovvenzionato sui bus aziendali automatici. Durante il viaggio il Lens-Frame deve restare acceso per i moduli di formazione."
+    },
+    "transport_ride_share": {
+      "name": "Crediti per corse autonome",
+      "desc": "Un pacchetto mensile di corse in taxi a guida autonoma. Ogni viaggio viene registrato."
+    },
+    "transport_vehicle_lease": {
+      "name": "Auto in leasing",
+      "desc": "Auto in leasing, con l'interruttore di blocco remoto in mano a chi te l'ha prestata."
+    },
+    "health_basic_medical": {
+      "name": "Abbonamento medico obbligatorio",
+      "desc": "Copertura di base imposta per legge. Copre i neural-dampener per la Clinical Static, e poco altro."
+    },
+    "health_premium_medical": {
+      "name": "Piano medico premium",
+      "desc": "Triage prioritario nelle cliniche aziendali e accesso agli autodoc."
+    },
+    "health_neural_dampeners": {
+      "name": "Ricetta per neural-dampener",
+      "desc": "Scorta mensile delle pillole che tengono a bada lo Hum e gli incubi geometrici notturni."
+    },
+    "fun_stream_basic": {
+      "name": "Pacchetto streaming",
+      "desc": "Pacchetto di streaming pieno di pubblicità, con le puntate in diretta di The Audit Room."
+    },
+    "fun_stream_adfree": {
+      "name": "Pacchetto streaming senza pubblicità",
+      "desc": "Gli stessi canali, senza pubblicità. Sblocca anche il voto a The Audit Room."
+    },
+    "fun_algcore_club": {
+      "name": "Tessera di un club Alg-Core",
+      "desc": "Ingresso in un club De-Sync dove il rumore disturba la rete di sorveglianza audio."
+    },
+    "fee_lens_frame_license": {
+      "name": "Licenza Lens-Frame",
+      "desc": "Licenza annuale per i tuoi occhiali smart, addebitata ogni mese. Gli occhiali senza licenza vengono bloccati a distanza."
+    },
+    "fee_biometric_upkeep": {
+      "name": "Mantenimento della capsula RFID",
+      "desc": "Quota di manutenzione per la capsula d'identità sottocutanea. Se scade, risulti non registrato."
+    },
+    "fee_compliance_training": {
+      "name": "Esonero dalla formazione obbligatoria",
+      "desc": "Paghi per saltare per un mese i moduli di formazione aziendale obbligatori."
+    }
+  }
+}

@@ -1,0 +1,262 @@
+{
+  "basic_trauma_kit": {
+    "effectType": "Cura HP fissa",
+    "effect": "+5 HP a una parte del corpo",
+    "desc": "Astuccio compatto con lacci emostatici, garze emostatiche e cesoie."
+  },
+  "field_suture_kit": {
+    "effectType": "Cura HP fissa",
+    "effect": "+8 HP a una parte del corpo",
+    "desc": "Aghi chirurgici e filo monofilamento per i tagli profondi."
+  },
+  "burn_gel_spray_and_wrap": {
+    "effectType": "Cura HP fissa",
+    "effect": "+6 HP a una parte del corpo",
+    "desc": "Gel antisettico rinfrescante e bende antiaderenti."
+  },
+  "adrenaline_auto_injector": {
+    "effectType": "Potenziamento / Rianimazione",
+    "effect": "+2 DEX",
+    "desc": "Iniezione d'emergenza di epinefrina. Stabilizza all'istante chi sta morendo."
+  },
+  "focus_pills_cogni_boost": {
+    "effectType": "Potenziamento",
+    "effect": "+5 MST",
+    "desc": "Pillole nootrope stimolanti per una mente lucida."
+  },
+  "coagulant_pills_stanch": {
+    "effectType": "Rimuove condizione",
+    "effect": "Ferma il sanguinamento",
+    "desc": "Farmaco orale che accelera la coagulazione interna."
+  },
+  "painkiller_hypo": {
+    "effectType": "Potenziamento",
+    "effect": "+2 CON",
+    "desc": "Iniezione di oppioide sintetico che attutisce il dolore lancinante."
+  },
+  "broad_spectrum_antitoxin": {
+    "effectType": "Rimuove condizione",
+    "effect": "Neutralizza il veleno",
+    "desc": "Agente di depurazione metabolica contro veleni e tossine organiche."
+  },
+  "chem_purge_tablets": {
+    "effectType": "Rimuove condizione",
+    "effect": "Azzera il livello di tossicità",
+    "desc": "Compresse effervescenti che neutralizzano esposizioni chimiche lievi."
+  },
+  "stim_patch_reflex": {
+    "effectType": "Potenziamento",
+    "effect": "+2 Iniziativa",
+    "desc": "Cerotto transdermico che rilascia stimolanti neurali."
+  },
+  "paramedic_case": {
+    "effectType": "Cura HP fissa",
+    "effect": "+15 HP totali",
+    "desc": "Attrezzatura chirurgica con espansori di volume e suturatrici cutanee."
+  },
+  "smelling_salts_capsule": {
+    "effectType": "Rimuove condizione",
+    "effect": "Rimuove stordimento / incoscienza",
+    "desc": "Capsula di ammoniaca per risvegliare di colpo chi è svenuto."
+  },
+  "mechanical_lockpick_set": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+2 Scasso",
+    "desc": "Grimaldelli in acciaio al carbonio e tensori per serrature meccaniche."
+  },
+  "keycard_bypass_cloner": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+3 prove di sicurezza",
+    "desc": "Dispositivo portatile che forza le serrature magnetiche / RFID."
+  },
+  "fiber_optic_scope": {
+    "effectType": "Utilità",
+    "effect": "Individua minacce / stanze",
+    "desc": "Tubo-telecamera flessibile di 2 m che manda video da sotto le porte."
+  },
+  "compact_bolt_cutters": {
+    "effectType": "Utilità",
+    "effect": "Taglia catene e lucchetti",
+    "desc": "Ganasce in acciaio temprato per tagliare lucchetti e recinzioni."
+  },
+  "glass_cutter_kit": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+2 Ingresso silenzioso",
+    "desc": "Taglierina a punta di diamante con ventose per entrare senza rumore."
+  },
+  "thermite_strips_x3": {
+    "effectType": "Sfondamento",
+    "effect": "Sfonda barriere pesanti",
+    "desc": "Strisce adesive che bruciano abbastanza da fondere i cardini di una porta."
+  },
+  "crowbar_and_mini_pry_set": {
+    "effectType": "Potenziamento",
+    "effect": "+3 STR (forzare porte)",
+    "desc": "Attrezzi in acciaio forgiato per fare grande leva."
+  },
+  "portable_hydraulic_jack": {
+    "effectType": "Utilità",
+    "effect": "+5 STR (sollevare pesi)",
+    "desc": "Martinetto idraulico manuale da 5 tonnellate per sollevare travi o piegare sbarre."
+  },
+  "pneumatic_punch_tool": {
+    "effectType": "Sfondamento",
+    "effect": "Barriere meccaniche",
+    "desc": "Attrezzo ad aria compressa per far saltare rivetti e cardini."
+  },
+  "laser_distance_tape": {
+    "effectType": "Utilità",
+    "effect": "Ricognizione rapida",
+    "desc": "Metro LiDAR portatile che mappa da solo la pianta delle stanze."
+  },
+  "ultrasonic_weld_inspector": {
+    "effectType": "Utilità",
+    "effect": "Scansione di muri / strutture",
+    "desc": "Rileva difetti strutturali o cavità dentro cemento o acciaio spessi."
+  },
+  "electric_screwdriver_set": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "Smontaggio rapido dei pannelli",
+    "desc": "Avvitatore ad alta coppia con 50 inserti di sicurezza."
+  },
+  "laser_sight_calibrator": {
+    "effectType": "Potenziamento",
+    "effect": "+1 Bonus offensivo (OB)",
+    "desc": "Strumento ottico che regola con precisione i mirini delle armi."
+  },
+  "encrypted_burner_phone": {
+    "effectType": "Utilità",
+    "effect": "Chiamate non rintracciabili",
+    "desc": "Telefono usa e getta, non tracciabile, con minuti prepagati."
+  },
+  "tactical_ar_glasses": {
+    "effectType": "Potenziamento",
+    "effect": "+2 Bonus percezione",
+    "desc": "Occhiali HUD con sovrapposizioni termiche e collegamento alle armi."
+  },
+  "clip_on_thermal_lens": {
+    "effectType": "Utilità",
+    "effect": "Visione notturna / termica",
+    "desc": "Lente termica da agganciare a normali occhiali."
+  },
+  "rf_signal_jammer": {
+    "effectType": "Utilità",
+    "effect": "Blocca comunicazioni e segnali",
+    "desc": "Emettitore che blocca rete cellulare, Wi-Fi e onde corte in un raggio di 20 m."
+  },
+  "bug_and_tap_detector": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+3 Controsorveglianza",
+    "desc": "Scanner portatile che segnala microfoni o telecamere nascosti nelle vicinanze."
+  },
+  "parabolic_listening_mic": {
+    "effectType": "Utilità",
+    "effect": "Ascolta suoni lontani",
+    "desc": "Microfono direzionale che capta i suoni attraverso il vetro o all'aperto."
+  },
+  "rugged_field_data_deck": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+2 prove di Hacking",
+    "desc": "Tablet rinforzato carico di strumenti di diagnostica di rete."
+  },
+  "heavy_power_bank": {
+    "effectType": "Utilità",
+    "effect": "Ricarica attrezzature",
+    "desc": "Batteria al litio per ricaricare occhiali AR, radio e attrezzi elettrici."
+  },
+  "pocket_rfid_skimmer": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+2 Furto furtivo",
+    "desc": "Dispositivo discreto che legge le credenziali delle keycard vicine."
+  },
+  "foldable_solar_mat": {
+    "effectType": "Utilità",
+    "effect": "Energia fuori rete",
+    "desc": "Tappetino solare compatto per ricaricare sul campo durante le operazioni lunghe."
+  },
+  "e_tagger_darts_x5": {
+    "effectType": "Utilità",
+    "effect": "Traccia bersagli",
+    "desc": "Micro-dardi adesivi con segnalatore GPS per tracciare veicoli."
+  },
+  "micro_drone_recon_cam": {
+    "effectType": "Utilità",
+    "effect": "Ricognizione aerea",
+    "desc": "Quadricottero tascabile per esplorazioni aeree a corto raggio."
+  },
+  "emp_pulse_grenade": {
+    "effectType": "Utilità / Combattimento",
+    "effect": "Disattiva l'elettronica",
+    "desc": "Ordigno monouso che disattiva l'elettronica in un raggio di 5 m."
+  },
+  "paracord_rope_30m": {
+    "effectType": "Utilità",
+    "effect": "+1 Arrampicata / Legare",
+    "desc": "Corda di nylon leggera da 250 kg di carico, per arrampicarsi o legare."
+  },
+  "folding_grappling_hook": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+2 prove di arrampicata",
+    "desc": "Rampino pieghevole in acciaio a quattro punte, per le funi da scalata."
+  },
+  "tactical_torch_2000lm": {
+    "effectType": "Utilità",
+    "effect": "Fonte di luce / strobo",
+    "desc": "Torcia robusta in alluminio anodizzato con funzione strobo."
+  },
+  "chemical_flare_sticks_x5": {
+    "effectType": "Utilità",
+    "effect": "Fonte di luce affidabile",
+    "desc": "Bastoncini luminosi: luce a mani libere anche sott'acqua o nel gas."
+  },
+  "compact_gas_mask": {
+    "effectType": "Immunità",
+    "effect": "Immunità a gas e fumo",
+    "desc": "Respiratore a pieno facciale con filtro a carboni attivi contro il fumo tossico."
+  },
+  "water_filter_straw": {
+    "effectType": "Utilità",
+    "effect": "Acqua potabile",
+    "desc": "Filtro portatile che elimina il 99,9% di batteri e tossine."
+  },
+  "mylar_thermal_blanket": {
+    "effectType": "Resistenza",
+    "effect": "Resiste a freddo ed esposizione",
+    "desc": "Telo riflettente che trattiene il 90% del calore corporeo col maltempo."
+  },
+  "multi_tool_utility_pliers": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "Riparazioni improvvisate",
+    "desc": "Pinza multiuso pieghevole in acciaio inox, con seghetto e lame."
+  },
+  "smoke_canisters_x2": {
+    "effectType": "Utilità",
+    "effect": "+4 Difesa nel fumo",
+    "desc": "Crea una densa nube di fumo grigio come copertura tattica."
+  },
+  "vehicle_patch_kit": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+2 Riparazione veicoli",
+    "desc": "Tappi per gomme, sigillante spray, nastro per cavi e fusibili di ricambio."
+  },
+  "high_strength_zip_cuffs_x10": {
+    "effectType": "Utilità",
+    "effect": "Immobilizza bersagli",
+    "desc": "Fascette di nylon spesse, fatte per immobilizzare le persone."
+  },
+  "laser_mic_deflector": {
+    "effectType": "Utilità",
+    "effect": "Contro-intercettazione",
+    "desc": "Vibratore da finestra che neutralizza le intercettazioni laser."
+  },
+  "portable_butane_torch": {
+    "effectType": "Utilità",
+    "effect": "Taglio / riscaldamento",
+    "desc": "Cannello compatto per bruciare catene o cavi."
+  },
+  "rappelling_harness": {
+    "effectType": "Attrezzo per abilità",
+    "effect": "+3 Calata / discesa",
+    "desc": "Imbracatura rinforzata con moschettoni e discensore."
+  }
+}

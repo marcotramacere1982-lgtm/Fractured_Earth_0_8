@@ -1,0 +1,62 @@
+{
+  "the_medical_debt_biomarker": {
+    "name": "Il biomarcatore del debito medico",
+    "debt": "Un figlio o un fratello soffre di una malattia cronica, e il suo farmaco biopolimerico salvavita è stato trasferito su un prestito aziendale ad alto rischio con interessi composti giornalieri.",
+    "threat": "Se il suo Credit Rating personale scende sotto il Tier-D o salta un pagamento settimanale, il conglomerato farmaceutico spegne a distanza il dosatore."
+  },
+  "off_grid_family_eviction_notice": {
+    "name": "Sfratto della famiglia fuori rete",
+    "debt": "I genitori anziani o la famiglia del personaggio sono stati sfrattati da un'arcologia urbana privatizzata e costretti in un ghetto abusivo di occupanti.",
+    "threat": "La sicurezza privata ha in programma di sgomberare il settore con mezzi industriali pesanti. Al personaggio servono abbastanza contanti per comprare un permesso di residenza base in una zona protetta."
+  },
+  "repossession_of_a_dead_parent_s_organ": {
+    "name": "Il pignoramento dell'organo di un genitore morto",
+    "debt": "Un parente defunto aveva preso in leasing, a interessi altissimi, un cuore o un rene sintetico, e il personaggio ha controfirmato il contratto di responsabilità.",
+    "threat": "Le squadre di recupero stanno seguendo la famiglia. Per evitare il macabro recupero fisico dell'impianto (con l'umiliazione pubblica e le spese di bonifica biologica), il personaggio deve saldare il capitale insoluto."
+  },
+  "black_market_ar_biometric_cleanse": {
+    "name": "Pulizia biometrica AR al mercato nero",
+    "debt": "Il personaggio è stato incastrato per un caso di spionaggio industriale ed è segnalato su ogni rete municipale di riconoscimento facciale e su ogni telecamera AR pubblica.",
+    "threat": "La sua identità attuale è una bobina biometrica in affitto o in prestito, e un bio-hacker di vicolo pretende quote giornaliere esorbitanti per non farla scadere."
+  },
+  "buyback_of_a_corporate_indentured_sibling": {
+    "name": "Riscattare un fratello in servitù aziendale",
+    "debt": "Un fratello più giovane ha firmato un contratto di servitù di 10 anni con un'azienda di riciclo industriale offshore per pagare le tasse di successione della famiglia.",
+    "threat": "I rapporti dalla raffineria parlano di una mortalità altissima. La clausola di riscatto è astronomica e richiede crediti liquidi, subito, prima della fine del contratto."
+  },
+  "the_predatory_education_lien": {
+    "name": "Il prestito d'istruzione predatorio",
+    "debt": "Il personaggio ha frequentato un'accademia professionale sponsorizzata da un'azienda, contraendo un prestito predatorio che pignora l'80% di ogni reddito legale.",
+    "threat": "Con un lavoro normale e legale non riuscirà mai a coprire gli interessi. Solo il lavoro mercenario in nero e ad alto rischio dà contanti non tracciati per ridurre il capitale senza dare nell'occhio."
+  },
+  "hostile_corporate_land_grab_payoff": {
+    "name": "L'esproprio aziendale ostile",
+    "debt": "La famiglia del personaggio possiede una delle ultime proprietà indipendenti di famiglia, o una piccola officina, in una baraccopoli destinata alla riqualificazione in arcologia.",
+    "threat": "La megacorp sta gonfiando sistematicamente utenze, tasse di protezione e multe per violazioni edilizie, per forzare una vendita in perdita. Servono contanti per pagare le multe municipali fraudolente."
+  },
+  "black_market_synthetic_organ_replacement": {
+    "name": "Organo sintetico dal mercato nero",
+    "debt": "Il personaggio soffre di una grave insufficienza d'organo causata da tossine industriali, dopo aver lavorato da ragazzo in zone di fabbrica non schermate.",
+    "threat": "Gli ospedali pubblici non curano i cittadini di basso livello. Un chirurgo di strada poco raccomandabile ha accettato di fare il trapianto, ma tiene l'interruttore di spegnimento remoto finché il debito non è saldato."
+  },
+  "bail_money_for_an_arbitrary_corporate_detention": {
+    "name": "La cauzione per una detenzione aziendale arbitraria",
+    "debt": "Il coniuge o il partner è stato preso in un \"rastrellamento della baraccopoli\" arbitrario dalle forze di sicurezza private e rinchiuso in una prigione di lavoro privatizzata.",
+    "threat": "In questo sistema di giustizia ai detenuti si addebitano vitto e alloggio ogni giorno. Se il \"conto di detenzione\" resta senza crediti, il prigioniero viene trasferito per sempre in una struttura di lavori forzati."
+  },
+  "the_stolen_credit_persona_ransom": {
+    "name": "Il riscatto dell'identità di credito rubata",
+    "debt": "Un hacker di un sindacato criminale ha rubato l'identità pulita e il profilo di credito del personaggio, affossando il suo punteggio quasi a zero e aprendo prestiti predatori a suo nome.",
+    "threat": "Il sindacato tiene in ostaggio le chiavi di cifratura per ripristinare l'identità originale. Finché il riscatto non è pagato, il personaggio è legalmente un \"vagabondo non registrato\"."
+  },
+  "toxic_spill_smear_campaign_defense": {
+    "name": "La difesa dalla campagna sul disastro tossico",
+    "debt": "Il personaggio era un supervisore di basso livello, accusato da una corporazione di un catastrofico incidente chimico/industriale in un ghetto residenziale.",
+    "threat": "La corporazione ha intentato una causa civile da milioni di crediti per coprire la propria negligenza. Se il personaggio non paga le rate dell'accordo, rischia il lavoro forzato a vita."
+  },
+  "underground_clinic_cryo_stasis_fees": {
+    "name": "Le spese della crio-stasi in una clinica clandestina",
+    "debt": "Dopo una sparatoria o un crollo quasi fatale, una persona cara è stata messa in una capsula di crio-stasi illegale e a bassa potenza, nel seminterrato di una metropolitana abbandonata, per ritardare la morte cerebrale.",
+    "threat": "La clinica va avanti con energia di contrabbando che costa migliaia di crediti a settimana in mazzette ai capibanda locali e a ingegneri senza scrupoli, per tenere accesi i generatori."
+  }
+}

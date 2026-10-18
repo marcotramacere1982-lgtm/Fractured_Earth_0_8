@@ -1,0 +1,678 @@
+[
+  {
+    "id": "basic_trauma_kit",
+    "legacyId": 1,
+    "name": "Basic Trauma Kit",
+    "desc": "Compact pouch with tourniquets, quick-clot gauze, and shears.",
+    "effectType": "HP Flat Heal",
+    "effect": "+5 Body Part HP",
+    "skillBonus": "First Aid (+0)",
+    "rarity": "F",
+    "cost": {
+      "cr": 75
+    }
+  },
+  {
+    "id": "field_suture_kit",
+    "legacyId": 2,
+    "name": "Field Suture Kit",
+    "desc": "Surgical needles and monofilament thread for deep cuts.",
+    "effectType": "HP Flat Heal",
+    "effect": "+8 Body Part HP",
+    "skillBonus": "First Aid (+1)",
+    "rarity": "E",
+    "cost": {
+      "cr": 120
+    }
+  },
+  {
+    "id": "burn_gel_spray_and_wrap",
+    "legacyId": 3,
+    "name": "Burn Gel Spray & Wrap",
+    "desc": "Cooling antiseptic gel and non-stick bandages.",
+    "effectType": "HP Flat Heal",
+    "effect": "+6 Body Part HP",
+    "skillBonus": "First Aid (+0)",
+    "rarity": "E",
+    "cost": {
+      "cr": 90
+    }
+  },
+  {
+    "id": "adrenaline_auto_injector",
+    "legacyId": 4,
+    "name": "Adrenaline Auto-Injector",
+    "desc": "Emergency epinephrine shot. Stabilizes dying state instantly.",
+    "effectType": "Stat Buff / Revive",
+    "effect": "+2 DEX",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 150
+    }
+  },
+  {
+    "id": "focus_pills_cogni_boost",
+    "legacyId": 5,
+    "name": "Focus Pills (Cogni-Boost)",
+    "desc": "Nootropic stimulant pills for mental sharpness.",
+    "effectType": "Stat Buff",
+    "effect": "+5 MST",
+    "skillBonus": "Perception (+1)",
+    "rarity": "D",
+    "cost": {
+      "cr": 200
+    }
+  },
+  {
+    "id": "coagulant_pills_stanch",
+    "legacyId": 6,
+    "name": "Coagulant Pills (Stanch)",
+    "desc": "Oral medication accelerating internal blood clotting.",
+    "effectType": "Condition Removal",
+    "effect": "Stops Bleeding",
+    "skillBonus": "None",
+    "rarity": "E",
+    "cost": {
+      "cr": 110
+    }
+  },
+  {
+    "id": "painkiller_hypo",
+    "legacyId": 7,
+    "name": "Painkiller Hypo",
+    "desc": "Synthetic opioid hypo that dulls excruciating pain.",
+    "effectType": "Stat Buff",
+    "effect": "+2 CON",
+    "skillBonus": "None",
+    "rarity": "E",
+    "cost": {
+      "cr": 130
+    }
+  },
+  {
+    "id": "broad_spectrum_antitoxin",
+    "legacyId": 8,
+    "name": "Broad-Spectrum Antitoxin",
+    "desc": "Metabolic flushing agent against organic poisons and toxins.",
+    "effectType": "Condition Removal",
+    "effect": "Neutralizes Poison",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 180
+    }
+  },
+  {
+    "id": "chem_purge_tablets",
+    "legacyId": 9,
+    "name": "Chem-Purge Tablets",
+    "desc": "Effervescent tablets neutralizing low-level chemical exposure.",
+    "effectType": "Condition Removal",
+    "effect": "Clears Tox-Level",
+    "skillBonus": "None",
+    "rarity": "E",
+    "cost": {
+      "cr": 85
+    }
+  },
+  {
+    "id": "stim_patch_reflex",
+    "legacyId": 10,
+    "name": "Stim-Patch (Reflex)",
+    "desc": "Transdermal patch releasing neural stimulants.",
+    "effectType": "Stat Buff",
+    "effect": "+2 Initiative",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 250
+    }
+  },
+  {
+    "id": "paramedic_case",
+    "legacyId": 11,
+    "name": "Paramedic Case",
+    "desc": "Surgical gear with blood expanders and skin-staplers.",
+    "effectType": "HP Flat Heal",
+    "effect": "+15 Total Body HP",
+    "skillBonus": "First Aid (+3)",
+    "rarity": "C",
+    "cost": {
+      "cr": 600
+    }
+  },
+  {
+    "id": "smelling_salts_capsule",
+    "legacyId": 12,
+    "name": "Smelling Salts Capsule",
+    "desc": "Ammonia capsule to snap unconscious characters awake.",
+    "effectType": "Condition Removal",
+    "effect": "Clears Stun / Unconscious",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 25
+    }
+  },
+  {
+    "id": "mechanical_lockpick_set",
+    "legacyId": 13,
+    "name": "Mechanical Lockpick Set",
+    "desc": "Carbon steel picks and tension wrenches for physical locks.",
+    "effectType": "Skill Tool",
+    "effect": "+2 Lockpicking",
+    "skillBonus": "Lockpicking (+2)",
+    "rarity": "F",
+    "cost": {
+      "cr": 100
+    }
+  },
+  {
+    "id": "keycard_bypass_cloner",
+    "legacyId": 14,
+    "name": "Keycard Bypass Cloner",
+    "desc": "Handheld signal device that cracks magnetic / RFID locks.",
+    "effectType": "Skill Tool",
+    "effect": "+3 Security Check",
+    "skillBonus": "Security (+3)",
+    "rarity": "D",
+    "cost": {
+      "cr": 450
+    }
+  },
+  {
+    "id": "fiber_optic_scope",
+    "legacyId": 15,
+    "name": "Fiber-Optic Scope",
+    "desc": "Flexible 2m camera tube feeding video under doors.",
+    "effectType": "Utility",
+    "effect": "Spot Threats / Rooms",
+    "skillBonus": "Perception (+2)",
+    "rarity": "E",
+    "cost": {
+      "cr": 200
+    }
+  },
+  {
+    "id": "compact_bolt_cutters",
+    "legacyId": 16,
+    "name": "Compact Bolt Cutters",
+    "desc": "Hardened steel jaws for cutting padlocks and fences.",
+    "effectType": "Utility",
+    "effect": "Breaching Chains/Locks",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 60
+    }
+  },
+  {
+    "id": "glass_cutter_kit",
+    "legacyId": 17,
+    "name": "Glass-Cutter Kit",
+    "desc": "Diamond-tipped cutter with suction handles for silent entry.",
+    "effectType": "Skill Tool",
+    "effect": "+2 Silent Entry",
+    "skillBonus": "Stealth (+2)",
+    "rarity": "E",
+    "cost": {
+      "cr": 140
+    }
+  },
+  {
+    "id": "thermite_strips_x3",
+    "legacyId": 18,
+    "name": "Thermite Strips (x3)",
+    "desc": "Adhesive strip burning hot enough to melt door hinges.",
+    "effectType": "Breaching",
+    "effect": "Heavy Barrier Breaching",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 300
+    }
+  },
+  {
+    "id": "crowbar_and_mini_pry_set",
+    "legacyId": 19,
+    "name": "Crowbar & Mini-Pry Set",
+    "desc": "Drop-forged steel tools for high mechanical leverage.",
+    "effectType": "Stat Buff",
+    "effect": "+3 STR (Forcing Doors)",
+    "skillBonus": "Athletics (+2)",
+    "rarity": "F",
+    "cost": {
+      "cr": 45
+    }
+  },
+  {
+    "id": "portable_hydraulic_jack",
+    "legacyId": 20,
+    "name": "Portable Hydraulic Jack",
+    "desc": "5-ton hydraulic hand jack for lifting beams or bending bars.",
+    "effectType": "Utility",
+    "effect": "+5 STR (Lifting Heavy)",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 280
+    }
+  },
+  {
+    "id": "pneumatic_punch_tool",
+    "legacyId": 21,
+    "name": "Pneumatic Punch Tool",
+    "desc": "Compressed air tool used to blast through rivets and hinges.",
+    "effectType": "Breaching",
+    "effect": "Mechanical Barrier",
+    "skillBonus": "Mechanics (+1)",
+    "rarity": "E",
+    "cost": {
+      "cr": 220
+    }
+  },
+  {
+    "id": "laser_distance_tape",
+    "legacyId": 22,
+    "name": "Laser Distance Tape",
+    "desc": "Handheld LiDAR tape that maps room layouts automatically.",
+    "effectType": "Utility",
+    "effect": "Rapid Reconnaissance",
+    "skillBonus": "Perception (+1)",
+    "rarity": "E",
+    "cost": {
+      "cr": 160
+    }
+  },
+  {
+    "id": "ultrasonic_weld_inspector",
+    "legacyId": 23,
+    "name": "Ultrasonic Weld Inspector",
+    "desc": "Detects structural flaws or cavities inside thick concrete/steel.",
+    "effectType": "Utility",
+    "effect": "Wall / Structural Scan",
+    "skillBonus": "Mechanics (+2)",
+    "rarity": "C",
+    "cost": {
+      "cr": 500
+    }
+  },
+  {
+    "id": "electric_screwdriver_set",
+    "legacyId": 24,
+    "name": "Electric Screwdriver Set",
+    "desc": "High-torque screwdriver with 50 security bit heads.",
+    "effectType": "Skill Tool",
+    "effect": "Fast Panel Removal",
+    "skillBonus": "Mechanics (+2)",
+    "rarity": "F",
+    "cost": {
+      "cr": 110
+    }
+  },
+  {
+    "id": "laser_sight_calibrator",
+    "legacyId": 25,
+    "name": "Laser Sight Calibrator",
+    "desc": "Optic alignment tool that fine-tunes weapon sights.",
+    "effectType": "Stat Buff",
+    "effect": "+1 Offensive Bonus (OB)",
+    "skillBonus": "Weapons Tech (+1)",
+    "rarity": "D",
+    "cost": {
+      "cr": 190
+    }
+  },
+  {
+    "id": "encrypted_burner_phone",
+    "legacyId": 26,
+    "name": "Encrypted Burner Phone",
+    "desc": "Disposable, non-trackable cell phone with prepaid minutes.",
+    "effectType": "Utility",
+    "effect": "Untraceable Calls",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 50
+    }
+  },
+  {
+    "id": "tactical_ar_glasses",
+    "legacyId": 27,
+    "name": "Tactical AR Glasses",
+    "desc": "HUD glasses displaying thermal overlays and weapon links.",
+    "effectType": "Stat Buff",
+    "effect": "+2 Perception Bonus",
+    "skillBonus": "Perception (+2)",
+    "rarity": "D",
+    "cost": {
+      "cr": 800
+    }
+  },
+  {
+    "id": "clip_on_thermal_lens",
+    "legacyId": 28,
+    "name": "Clip-On Thermal Lens",
+    "desc": "Thermal camera attachment for standard glasses.",
+    "effectType": "Utility",
+    "effect": "Night Vision / Heat Scan",
+    "skillBonus": "Perception (+3)",
+    "rarity": "D",
+    "cost": {
+      "cr": 650
+    }
+  },
+  {
+    "id": "rf_signal_jammer",
+    "legacyId": 29,
+    "name": "RF Signal Jammer",
+    "desc": "Emitter blocking cellular, Wi-Fi, and shortwave in a 20m radius.",
+    "effectType": "Utility",
+    "effect": "Suppress Comms/Signals",
+    "skillBonus": "None",
+    "rarity": "C",
+    "cost": {
+      "cr": 550
+    }
+  },
+  {
+    "id": "bug_and_tap_detector",
+    "legacyId": 30,
+    "name": "Bug & Tap Detector",
+    "desc": "Handheld scanner alerting to nearby covert mics or cameras.",
+    "effectType": "Skill Tool",
+    "effect": "+3 Counter-Surveillance",
+    "skillBonus": "Security (+3)",
+    "rarity": "D",
+    "cost": {
+      "cr": 350
+    }
+  },
+  {
+    "id": "parabolic_listening_mic",
+    "legacyId": 31,
+    "name": "Parabolic Listening Mic",
+    "desc": "Directional mic filtering sound through glass or open air.",
+    "effectType": "Utility",
+    "effect": "Overhear Distant Audio",
+    "skillBonus": "Perception (+2)",
+    "rarity": "D",
+    "cost": {
+      "cr": 290
+    }
+  },
+  {
+    "id": "rugged_field_data_deck",
+    "legacyId": 32,
+    "name": "Rugged Field Data Deck",
+    "desc": "Ruggedized tablet loaded with network diagnostic tools.",
+    "effectType": "Skill Tool",
+    "effect": "+2 Hacking Checks",
+    "skillBonus": "Hacking (+2)",
+    "rarity": "C",
+    "cost": {
+      "cr": 1100
+    }
+  },
+  {
+    "id": "heavy_power_bank",
+    "legacyId": 33,
+    "name": "Heavy Power Bank",
+    "desc": "Lithium pack to recharge AR glasses, radios, and power tools.",
+    "effectType": "Utility",
+    "effect": "Equipment Recharging",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 120
+    }
+  },
+  {
+    "id": "pocket_rfid_skimmer",
+    "legacyId": 34,
+    "name": "Pocket RFID Skimmer",
+    "desc": "Discreet device reading credentials from keycards nearby.",
+    "effectType": "Skill Tool",
+    "effect": "+2 Stealth Steal",
+    "skillBonus": "Security (+2)",
+    "rarity": "D",
+    "cost": {
+      "cr": 400
+    }
+  },
+  {
+    "id": "foldable_solar_mat",
+    "legacyId": 35,
+    "name": "Foldable Solar Mat",
+    "desc": "Compact solar mat for field charging extended operations.",
+    "effectType": "Utility",
+    "effect": "Off-Grid Power",
+    "skillBonus": "None",
+    "rarity": "E",
+    "cost": {
+      "cr": 150
+    }
+  },
+  {
+    "id": "e_tagger_darts_x5",
+    "legacyId": 36,
+    "name": "E-Tagger Darts (x5)",
+    "desc": "Micro adhesive beacon darts for GPS tracking of vehicles.",
+    "effectType": "Utility",
+    "effect": "Target Tracking",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 220
+    }
+  },
+  {
+    "id": "micro_drone_recon_cam",
+    "legacyId": 37,
+    "name": "Micro-Drone Recon Cam",
+    "desc": "Palm-sized quadcopter for short-range aerial scouting.",
+    "effectType": "Utility",
+    "effect": "Aerial Recon",
+    "skillBonus": "Perception (+3)",
+    "rarity": "C",
+    "cost": {
+      "cr": 750
+    }
+  },
+  {
+    "id": "emp_pulse_grenade",
+    "legacyId": 38,
+    "name": "EMP Pulse Grenade",
+    "desc": "Single-use device disabling electronics in a 5m blast radius.",
+    "effectType": "Utility / Combat",
+    "effect": "Disables Electronics",
+    "skillBonus": "None",
+    "rarity": "B",
+    "cost": {
+      "cr": 950
+    }
+  },
+  {
+    "id": "paracord_rope_30m",
+    "legacyId": 39,
+    "name": "Paracord Rope (30m)",
+    "desc": "Lightweight 550lb test nylon cord for climbing or tying.",
+    "effectType": "Utility",
+    "effect": "+1 Climbing / Binding",
+    "skillBonus": "Athletics (+1)",
+    "rarity": "F",
+    "cost": {
+      "cr": 30
+    }
+  },
+  {
+    "id": "folding_grappling_hook",
+    "legacyId": 40,
+    "name": "Folding Grappling Hook",
+    "desc": "Four-prong collapsible steel hook for climbing lines.",
+    "effectType": "Skill Tool",
+    "effect": "+2 Climbing Checks",
+    "skillBonus": "Athletics (+2)",
+    "rarity": "F",
+    "cost": {
+      "cr": 65
+    }
+  },
+  {
+    "id": "tactical_torch_2000lm",
+    "legacyId": 41,
+    "name": "Tactical Torch (2000lm)",
+    "desc": "Heavy anodized aluminum flashlight with strobe feature.",
+    "effectType": "Utility",
+    "effect": "Light Source / Strobe",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 40
+    }
+  },
+  {
+    "id": "chemical_flare_sticks_x5",
+    "legacyId": 42,
+    "name": "Chemical Flare Sticks (x5)",
+    "desc": "Glow sticks providing hands-free light underwater or in gas.",
+    "effectType": "Utility",
+    "effect": "Reliable Light Source",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 20
+    }
+  },
+  {
+    "id": "compact_gas_mask",
+    "legacyId": 43,
+    "name": "Compact Gas Mask",
+    "desc": "Full-face respirator with charcoal canister for toxic smoke.",
+    "effectType": "Immunity",
+    "effect": "Gas / Smoke Immunity",
+    "skillBonus": "None",
+    "rarity": "E",
+    "cost": {
+      "cr": 210
+    }
+  },
+  {
+    "id": "water_filter_straw",
+    "legacyId": 44,
+    "name": "Water Filter Straw",
+    "desc": "Portable filter removing 99.9% of bacteria and toxins.",
+    "effectType": "Utility",
+    "effect": "Safe Water Source",
+    "skillBonus": "Survival (+1)",
+    "rarity": "F",
+    "cost": {
+      "cr": 35
+    }
+  },
+  {
+    "id": "mylar_thermal_blanket",
+    "legacyId": 45,
+    "name": "Mylar Thermal Blanket",
+    "desc": "Reflective sheet retaining 90% body heat in harsh weather.",
+    "effectType": "Resistance",
+    "effect": "Cold / Exposure Resist",
+    "skillBonus": "Survival (+1)",
+    "rarity": "F",
+    "cost": {
+      "cr": 15
+    }
+  },
+  {
+    "id": "multi_tool_utility_pliers",
+    "legacyId": 46,
+    "name": "Multi-Tool Utility Pliers",
+    "desc": "Foldable stainless steel tool with pliers, saw, and blades.",
+    "effectType": "Skill Tool",
+    "effect": "Improvised Repairs",
+    "skillBonus": "Mechanics (+1)",
+    "rarity": "F",
+    "cost": {
+      "cr": 55
+    }
+  },
+  {
+    "id": "smoke_canisters_x2",
+    "legacyId": 47,
+    "name": "Smoke Canisters (x2)",
+    "desc": "Creates a thick cloud of grey smoke for tactical cover.",
+    "effectType": "Utility",
+    "effect": "+4 Defense In Smoke",
+    "skillBonus": "Stealth (+2)",
+    "rarity": "E",
+    "cost": {
+      "cr": 110
+    }
+  },
+  {
+    "id": "vehicle_patch_kit",
+    "legacyId": 48,
+    "name": "Vehicle Patch Kit",
+    "desc": "Tire plugs, sealant spray, wire tape, and spare fuses.",
+    "effectType": "Skill Tool",
+    "effect": "+2 Vehicle Repair",
+    "skillBonus": "Mechanics (+2)",
+    "rarity": "E",
+    "cost": {
+      "cr": 140
+    }
+  },
+  {
+    "id": "high_strength_zip_cuffs_x10",
+    "legacyId": 49,
+    "name": "High-Strength Zip-Cuffs (x10)",
+    "desc": "Heavy-gauge nylon zip ties designed for restraining targets.",
+    "effectType": "Utility",
+    "effect": "Restraining Targets",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 25
+    }
+  },
+  {
+    "id": "laser_mic_deflector",
+    "legacyId": 50,
+    "name": "Laser Mic Deflector",
+    "desc": "Window-mounted shaker that neutralizes laser eavesdropping.",
+    "effectType": "Utility",
+    "effect": "Counter-Eavesdropping",
+    "skillBonus": "Security (+2)",
+    "rarity": "D",
+    "cost": {
+      "cr": 310
+    }
+  },
+  {
+    "id": "portable_butane_torch",
+    "legacyId": 51,
+    "name": "Portable Butane Torch",
+    "desc": "Compact welding torch for burning through chains or wire.",
+    "effectType": "Utility",
+    "effect": "Cutting / Heating",
+    "skillBonus": "Mechanics (+1)",
+    "rarity": "F",
+    "cost": {
+      "cr": 70
+    }
+  },
+  {
+    "id": "rappelling_harness",
+    "legacyId": 52,
+    "name": "Rappelling Harness",
+    "desc": "Reinforced webbing harness with carabiners and descender ring.",
+    "effectType": "Skill Tool",
+    "effect": "+3 Rappelling / Descent",
+    "skillBonus": "Athletics (+3)",
+    "rarity": "E",
+    "cost": {
+      "cr": 130
+    }
+  }
+]

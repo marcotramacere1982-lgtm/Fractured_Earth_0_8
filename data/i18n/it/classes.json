@@ -1,0 +1,57 @@
+{
+  "classes": {
+    "soldier": {
+      "summary": "Forza d'urto in prima linea, costruita per posizionarsi in modo dinamico, combattere a combo e giocare all'attacco ad alto rischio.",
+      "subclasses": {
+        "grunt": {
+          "desc": "Picchiatore di prima linea: riduzione dell'armatura, devastazione a corto raggio, attacchi aggressivi in Onslaught."
+        },
+        "officer": {
+          "desc": "Comandante tattico: posizionamento della squadra, tenuta difensiva, marcatura dei bersagli prioritari."
+        }
+      }
+    },
+    "hacker": {
+      "summary": "Specialista della guerra informatica: bilancia RAM e stress termico per manipolare da remoto le reti nemiche.",
+      "resources": {
+        "rules": {
+          "ramFull": "RAM esaurita: rilascia un payload sostenuto (Release Payload o System Hard Reboot) per liberare slot.",
+          "heatCap": "Heat al limite del deck = Blue Screen: il deck resta bloccato per il round successivo, poi si riavvia a cap − 3 di heat.",
+          "range": "Portata degli hack: un dispositivo in vista, o entro 10 quadretti su una rete che hai pingato.",
+          "tags": "I nemici sono organici, cibernetici o sintetici. Quasi tutti gli hack toccano solo bersagli cibernetici o sintetici; quelli organici si raggiungono solo attraverso il loro equipaggiamento.",
+          "auto": "Thermal Dump, Release Payload e System Hard Reboot non richiedono tiri; costano comunque un’azione."
+        }
+      },
+      "subclasses": {
+        "scammer": {
+          "desc": "Ingegneria sociale, credenziali falsificate, distrazione dei bersagli, debuff sostenuti a basso costo."
+        },
+        "master": {
+          "desc": "Distruzione pesante dei sistemi, controllo profondo delle reti, payload multi-bersaglio, heat estremo."
+        }
+      }
+    },
+    "techwiz": {
+      "summary": "Architetto del campo di battaglia: controlla lo scontro manipolando lo spazio, riparando armature e plasmando l'ambiente.",
+      "subclasses": {
+        "mechanic": {
+          "desc": "Fortificazioni da campo, rattoppo delle armature, fabbricazione con rottami."
+        },
+        "engineer": {
+          "desc": "Modifiche alle armi, trappole elettriche, hardware automatizzato."
+        }
+      }
+    },
+    "smuggler": {
+      "summary": "Opportunista ad alta velocità che prospera nel caos, nello slancio e nelle scommesse ad alto rischio del mercato nero.",
+      "subclasses": {
+        "dealer": {
+          "desc": "Pistolero agile e imbroglione: estrazione rapida, munizioni del mercato nero, rapine a distanza ravvicinata."
+        },
+        "trafficker": {
+          "desc": "Stratega tattico e navigatore fuori rete: controllo della mappa, esche, favori del sottobosco."
+        }
+      }
+    }
+  }
+}

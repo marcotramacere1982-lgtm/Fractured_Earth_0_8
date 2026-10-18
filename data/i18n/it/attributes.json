@@ -1,0 +1,35 @@
+{
+  "attributes": {
+    "STR": {
+      "name": "Forza",
+      "desc": "Potenza fisica pura, danni in mischia, sollevare pesi, maneggiare armi pesanti."
+    },
+    "DEX": {
+      "name": "Destrezza",
+      "desc": "Coordinazione, velocità, motricità fine, furtività e riflessi."
+    },
+    "CON": {
+      "name": "Costituzione",
+      "desc": "Robustezza fisica, resistenza, tenuta, e i Body Points di base."
+    },
+    "INT": {
+      "name": "Intelligenza",
+      "desc": "Ragionamento logico, conoscenze tecniche, hacking e scienze mediche."
+    },
+    "WIS": {
+      "name": "Saggezza",
+      "desc": "Istinto di sopravvivenza in strada, consapevolezza dell'ambiente, percezione e intuito."
+    },
+    "CHA": {
+      "name": "Carisma",
+      "desc": "Influenza sociale, persuasione, inganno, leadership e trattative di strada."
+    },
+    "MST": {
+      "name": "Forza mentale",
+      "desc": "Tenuta psicologica, resistenza allo stress, forza di volontà sotto pressione."
+    },
+    "CRS": {
+      "desc": "La tua impronta economica: accesso ai servizi legali e posizione nella società."
+    }
+  }
+}

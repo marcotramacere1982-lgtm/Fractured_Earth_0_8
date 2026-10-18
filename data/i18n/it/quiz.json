@@ -1,0 +1,120 @@
+{
+  "questions": {
+    "q1": {
+      "text": "Trovi le prove che un boss del quartiere sta rubando soldi alla gente sotto di lui. Cosa fai?",
+      "options": {
+        "A": {
+          "text": "Stai zitto, costruisci un caso inattaccabile e lo fai cadere quando fa più male."
+        },
+        "B": {
+          "text": "Gli fai capire che sai tutto, e fissi il tuo prezzo per il silenzio."
+        },
+        "C": {
+          "text": "Fai trapelare tutto in forma anonima e ti godi lo spettacolo da lontano."
+        },
+        "D": {
+          "text": "Scopri dove finiscono i soldi e li dirotti in silenzio verso di te."
+        }
+      }
+    },
+    "q2": {
+      "text": "Un rivale commette un grosso errore e resta scoperto. La tua mossa?",
+      "options": {
+        "A": {
+          "text": "Niente fretta. Prepari una trappola che trasformi il suo errore in una disfatta totale."
+        },
+        "B": {
+          "text": "Lo colpisci subito, e forte, prima che possa riprendersi."
+        },
+        "C": {
+          "text": "Lo isoli: niente rifornimenti, niente rinforzi, nessuna via di fuga."
+        },
+        "D": {
+          "text": "Gli passi informazioni false, così si scava la fossa da solo."
+        }
+      }
+    },
+    "q3": {
+      "text": "La squadra ha una notte per prepararsi a un colpo. Come la passi?",
+      "options": {
+        "A": {
+          "text": "Studiando mappe, orari e turni di guardia finché il piano non ha una falla."
+        },
+        "B": {
+          "text": "Pulendo, controllando e mettendo a punto armi ed equipaggiamento."
+        },
+        "C": {
+          "text": "Riscuotendo favori: qualcuno all'interno, un autista, un ricettatore."
+        },
+        "D": {
+          "text": "Capendo come accecare telecamere e sensori prima di entrare."
+        }
+      }
+    },
+    "q4": {
+      "text": "Sei chiuso in una stanza e un allarme sta facendo il conto alla rovescia. Come esci?",
+      "options": {
+        "A": {
+          "text": "Sfondi la porta, o il muro."
+        },
+        "B": {
+          "text": "Hackeri il pannello della porta."
+        },
+        "C": {
+          "text": "Convinci la guardia fuori ad aprire, o la spaventi finché non lo fa."
+        },
+        "D": {
+          "text": "Costruisci qualcosa con quello che trovi in giro."
+        }
+      }
+    },
+    "q5": {
+      "text": "Che rapporto hai con le regole?",
+      "options": {
+        "A": {
+          "text": "Le regole sono piene di buchi, e io so come infilarmici."
+        },
+        "B": {
+          "text": "Le regole si rompono quando mi intralciano."
+        },
+        "C": {
+          "text": "Delle regole non mi importa: conta solo portare a termine il lavoro."
+        },
+        "D": {
+          "text": "Ogni sistema ha i suoi schemi. Imparali e potrai piegarli."
+        }
+      }
+    },
+    "q6": {
+      "text": "Il lavoro è fatto, ma è andato male e ne sei uscito per un pelo. Qual è la prima cosa che fai?",
+      "options": {
+        "A": {
+          "text": "Ripercorri ogni passaggio per capire cosa è andato storto."
+        },
+        "B": {
+          "text": "Vendi in fretta quello che hai preso, prima che qualcuno venga a cercarlo."
+        },
+        "C": {
+          "text": "Sistemi l'equipaggiamento della squadra, così è pronto per la prossima volta."
+        },
+        "D": {
+          "text": "Cancelli ogni traccia digitale che hai lasciato."
+        }
+      }
+    }
+  },
+  "suggestedStats": {
+    "soldier": {
+      "description": "Costruito per resistere in prima linea, con grande capacità fisica e lucidità tattica."
+    },
+    "hacker": {
+      "description": "Specialista cerebrale: padronanza digitale, leva sociale e tenuta mentale."
+    },
+    "techwiz": {
+      "description": "Tecnico pragmatico con un profondo intuito per l'ambiente e grande resistenza tecnica."
+    },
+    "smuggler": {
+      "description": "Operatore agile che conta su riflessi pronti, leva sociale e furbizia di strada."
+    }
+  }
+}
