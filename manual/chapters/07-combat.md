@@ -142,7 +142,7 @@ The Hacker dominates digital architecture, manipulating enemy cyberware, automat
 
 - **Deck capacity:** the Hacker's **deck** sets maximum RAM and the heat cap (see *Hacker Decks & Mods*, 8-5). Hardware mods raise both.
 
-- **Thermal Strain (Heat):** every hack generates Heat; the deck vents 1 per round. Reaching the heat cap triggers a **Blue Screen**: the deck is locked for the next round, then reboots at cap − 3 Heat. Manage heat with *Thermal Dump* (−3 Heat) or an emergency *System Hard Reboot* (clears RAM and Heat; the deck is offline for the rest of this round and the next).
+- **Thermal Strain (Heat):** every hack generates Heat; the deck vents 1 per round. Reaching the heat cap triggers a **Blue Screen**: every sustained hack crashes (its RAM is freed), the deck is locked for the next round, then reboots at cap − 3 Heat. The *Ghost* talent keeps sustained hacks alive. Manage heat with *Thermal Dump* (−3 Heat) or an emergency *System Hard Reboot* (clears RAM and Heat; the deck is offline for the rest of this round and the next).
 
 **Range & Targets:**
 
@@ -352,7 +352,7 @@ Every **Incapacitated / Unconscious** Operator sitting at 0 HP who has not been 
 
 - **Passive Thermal Decay:** Decks not in Blue Screen vent **−1 Heat**.
 
-- **Blue Screen:** a deck that reached its heat cap this round stays locked through the next round, then reboots at **cap − 3** Heat. A deck stunned by *System Hard Reboot* comes back online.
+- **Blue Screen:** a deck that reached its heat cap this round drops every sustained hack, stays locked through the next round, then reboots at **cap − 3** Heat. A deck stunned by *System Hard Reboot* comes back online.
 
 **The Tech Wizard (Field Sync):**
 

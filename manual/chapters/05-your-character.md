@@ -157,7 +157,7 @@ The Hacker fights through information warfare, balancing **RAM** against **Heat*
 
 - **Instant hacks** need free RAM while they run and add heat.
 - **Sustained hacks** keep their RAM locked until you release them: tap ✕ on one in the deck panel, or use *Release Payload* to end them all.
-- **Heat** builds with every hack and drops by 1 at the end of each round. If it reaches the deck's cap, the deck **Blue Screens**: locked for the next round, then it reboots at cap − 3. *Thermal Dump* vents 3 heat; *System Hard Reboot* clears everything but keeps the deck offline for the rest of this round and the next.
+- **Heat** builds with every hack and drops by 1 at the end of each round. If it reaches the deck's cap, the deck **Blue Screens**: every sustained hack crashes (their RAM is freed), the deck is locked for the next round, then it reboots at cap − 3. *Thermal Dump* vents 3 heat; *System Hard Reboot* clears everything but keeps the deck offline for the rest of this round and the next.
 - **Range:** a device in sight, or within 10 squares on a network you have pinged.
 - **What you can touch:** enemies are **organic**, **cybernetic** or **synthetic**. Most hacks only work on cybernetic or synthetic targets; organic ones are reached through the gear around them (doors, turrets, comms). The GM tells you which is which.
 - *Thermal Dump*, *Release Payload* and *System Hard Reboot* need no roll; they still take an action.

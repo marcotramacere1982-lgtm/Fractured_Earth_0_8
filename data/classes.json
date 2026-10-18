@@ -98,7 +98,7 @@
         },
         "rules": {
           "ramFull": "No RAM left: release a sustained payload (Release Payload or System Hard Reboot) to free slots.",
-          "heatCap": "Heat reaching the deck cap = Blue Screen: the deck is locked for the next round, then reboots at cap - 3 heat.",
+          "heatCap": "Heat reaching the deck cap = Blue Screen: every sustained hack crashes (RAM freed), the deck is locked for the next round, then reboots at cap - 3 heat.",
           "range": "Hack range: a device in sight, or within 10 squares on a network you have pinged.",
           "tags": "Enemies are organic, cybernetic or synthetic. Most hacks only touch cybernetic or synthetic targets; organic ones are reached only through their gear.",
           "auto": "Thermal Dump, Release Payload and System Hard Reboot need no roll; they still take an action."

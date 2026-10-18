@@ -50,7 +50,8 @@ function resourcePanel(c, s, data, r) {
             ${owned.map((o) => html`<option value="${o.id}" ${c.play.deck === o.id ? raw('selected') : ''}>${nameOf(data.decks, o.id)}</option>`)}
           </select></div>
         ${!d ? html`<p class="notice notice--warn">${owned.length ? t('engine.selectDeck') : t('engine.buyDeck')}</p>` : html`
-          ${d.status.heat.bluescreen ? html`<p class="notice notice--danger">BLUE SCREEN — ${t('engine.bluescreen', { heat: d.capacity.heatCap - 3 })}</p>` : ''}
+          ${!r.bluescreen && d.status.heat.bluescreen ? html`<p class="notice notice--warn">${t(s.talents.keepSustainedOnBluescreen ? 'engine.overheatGhost' : 'engine.overheat')}</p>` : ''}
+          ${r.bluescreen ? html`<p class="notice notice--danger">BLUE SCREEN — ${t(s.talents.keepSustainedOnBluescreen ? 'engine.bluescreenGhost' : 'engine.bluescreen', { heat: d.capacity.heatCap - cls.resources.roundEnd.rebootHeatBelowCap - (s.talents.rebootBelowCap ?? 0) })}</p>` : ''}
           ${r.stunned ? html`<p class="notice notice--warn">${t('engine.reboot')}</p>` : ''}
           <div class="engine-row"><span class="label">${t('engine.ramUsed')}</span>${counter({ action: 'res', value: r.ram, min: 0, max: d.capacity.ram, args: { key: 'ram', min: 0, max: d.capacity.ram }, label: 'RAM' })}<span class="mono muted">/ ${d.capacity.ram}</span></div>
           ${meter(r.ram, d.capacity.ram, 'info')}

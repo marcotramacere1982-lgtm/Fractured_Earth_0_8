@@ -356,9 +356,12 @@
     "name": "Ghost",
     "tree": "hacker",
     "tier": 3,
-    "kind": "table",
-    "desc": "Your sustained hacks survive a Blue Screen.",
-    "branch": "scammer"
+    "kind": "auto",
+    "desc": "Your sustained hacks survive a Blue Screen (normally it crashes them all).",
+    "branch": "scammer",
+    "effects": {
+      "keepSustainedOnBluescreen": true
+    }
   },
   {
     "id": "overclocker",

@@ -16,7 +16,7 @@
       "resources": {
         "rules": {
           "ramFull": "RAM esaurita: rilascia un payload sostenuto (Release Payload o System Hard Reboot) per liberare slot.",
-          "heatCap": "Heat al limite del deck = Blue Screen: il deck resta bloccato per il round successivo, poi si riavvia a cap − 3 di heat.",
+          "heatCap": "Heat al limite del deck = Blue Screen: tutti gli hack sostenuti crollano (RAM liberata), il deck resta bloccato per il round successivo, poi si riavvia a cap − 3 di heat.",
           "range": "Portata degli hack: un dispositivo in vista, o entro 10 quadretti su una rete che hai pingato.",
           "tags": "I nemici sono organici, cibernetici o sintetici. Quasi tutti gli hack toccano solo bersagli cibernetici o sintetici; quelli organici si raggiungono solo attraverso il loro equipaggiamento.",
           "auto": "Thermal Dump, Release Payload e System Hard Reboot non richiedono tiri; costano comunque un’azione."

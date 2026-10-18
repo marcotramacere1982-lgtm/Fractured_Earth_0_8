@@ -157,7 +157,7 @@ L'Hacker combatte con la guerra dell'informazione, bilanciando **RAM** e **Heat*
 
 - Gli **hack istantanei** richiedono RAM libera mentre girano e aggiungono heat.
 - Gli **hack sostenuti** tengono bloccata la loro RAM finché non li rilasci: tocca la ✕ di uno nel pannello del deck, oppure usa *Release Payload* per terminarli tutti.
-- L'**heat** sale a ogni hack e scende di 1 alla fine di ogni round. Se raggiunge il limite del deck, il deck va in **Blue Screen**: bloccato per il round successivo, poi si riavvia a cap − 3. *Thermal Dump* smaltisce 3 heat; *System Hard Reboot* azzera tutto ma lascia il deck offline per il resto di questo round e per il prossimo.
+- L'**heat** sale a ogni hack e scende di 1 alla fine di ogni round. Se raggiunge il limite del deck, il deck va in **Blue Screen**: tutti gli hack sostenuti crollano (la loro RAM si libera), il deck resta bloccato per il round successivo, poi si riavvia a cap − 3. *Thermal Dump* smaltisce 3 heat; *System Hard Reboot* azzera tutto ma lascia il deck offline per il resto di questo round e per il prossimo.
 - **Portata (range):** un dispositivo in vista, o entro 10 quadretti su una rete che hai pingato.
 - **Cosa puoi toccare:** i nemici sono **organici** (organic), **cibernetici** (cybernetic) o **sintetici** (synthetic). Quasi tutti gli hack funzionano solo su bersagli cibernetici o sintetici; quelli organici si raggiungono attraverso l'equipaggiamento che li circonda (porte, torrette, comunicazioni). Il GM ti dice chi è cosa.
 - *Thermal Dump*, *Release Payload* e *System Hard Reboot* non richiedono tiri; costano comunque un'azione.

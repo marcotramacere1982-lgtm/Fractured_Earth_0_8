@@ -38,7 +38,7 @@ export function deckCapacity(deck, modIds, modsData, extraRam = 0) {
 
 /**
  * Hacker deck status from its (modded) capacity.
- * Full RAM blocks new payloads until one is released; heat at the cap = Blue Screen (deck locked 1 turn).
+ * Full RAM blocks new payloads until one is released; heat at the cap = Blue Screen (round end: engines.roundEnd).
  */
 export function deckStatus(capacity, { ram = 0, heat = 0, bluescreen = false } = {}) {
   if (!capacity) return null;
@@ -46,22 +46,6 @@ export function deckStatus(capacity, { ram = 0, heat = 0, bluescreen = false } =
     ram: { used: ram, max: capacity.ram, free: Math.max(0, capacity.ram - ram), full: ram >= capacity.ram },
     heat: { value: heat, max: capacity.heatCap, bluescreen: bluescreen || heat >= capacity.heatCap },
   };
-}
-
-/**
- * Round end for a hacker.
- * - Normal: the deck passively vents heat (1 per round).
- * - Heat at the cap: Blue Screen starts; the deck stays locked through the next round.
- * - End of the locked round: the deck reboots warm, at cap − 3 (no "max out for a clean deck" exploit).
- */
-export function hackerRoundEnd(resources, capacity, classesData) {
-  const rules = classesData.classes.find((c) => c.id === 'hacker').resources.roundEnd;
-  const heat = resources.heat ?? 0;
-  if (resources.bluescreen) {
-    return { ...resources, bluescreen: false, heat: Math.max(0, capacity.heatCap - rules.rebootHeatBelowCap) };
-  }
-  if (capacity && heat >= capacity.heatCap) return { ...resources, bluescreen: true };
-  return { ...resources, heat: Math.max(0, heat - rules.heatVent) };
 }
 
 /** Whether a hacker ability can run right now on this deck. */

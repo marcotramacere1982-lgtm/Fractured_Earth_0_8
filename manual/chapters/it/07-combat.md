@@ -142,7 +142,7 @@ L'Hacker domina l'architettura digitale: manipola da lontano il cyberware nemico
 
 - **Capacità del deck:** il **deck** dell'Hacker determina la RAM massima e l'heat cap (vedi *Deck e mod da Hacker*, 8-5). Le mod hardware alzano entrambi.
 
-- **Stress termico (Heat):** ogni hack genera Heat; il deck ne smaltisce 1 a round. Raggiungere l'heat cap provoca un **Blue Screen**: il deck resta bloccato per il round successivo, poi si riavvia a cap − 3 di Heat. Gestisci l'heat con *Thermal Dump* (−3 Heat) o con un *System Hard Reboot* d'emergenza (azzera RAM e Heat; il deck resta offline per il resto di questo round e per il prossimo).
+- **Stress termico (Heat):** ogni hack genera Heat; il deck ne smaltisce 1 a round. Raggiungere l'heat cap provoca un **Blue Screen**: tutti gli hack sostenuti crollano (la loro RAM si libera), il deck resta bloccato per il round successivo, poi si riavvia a cap − 3 di Heat. Il talento *Ghost* tiene in vita gli hack sostenuti. Gestisci l'heat con *Thermal Dump* (−3 Heat) o con un *System Hard Reboot* d'emergenza (azzera RAM e Heat; il deck resta offline per il resto di questo round e per il prossimo).
 
 **Portata e bersagli:**
 
@@ -352,7 +352,7 @@ Ogni Operatore **Incapacitated / privo di sensi** a 0 HP e non stabilizzato deve
 
 - **Raffreddamento passivo:** i deck che non sono in Blue Screen smaltiscono **−1 Heat**.
 
-- **Blue Screen:** un deck che in questo round ha raggiunto l'heat cap resta bloccato per tutto il round successivo, poi si riavvia a **cap − 3** di Heat. Un deck stordito da *System Hard Reboot* torna online.
+- **Blue Screen:** un deck che in questo round ha raggiunto l'heat cap perde tutti gli hack sostenuti, resta bloccato per tutto il round successivo, poi si riavvia a **cap − 3** di Heat. Un deck stordito da *System Hard Reboot* torna online.
 
 **Il Tech Wizard (Field Sync):**
 

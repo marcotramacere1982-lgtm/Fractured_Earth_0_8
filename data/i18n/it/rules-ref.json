@@ -74,7 +74,7 @@
     },
     "hacker": {
       "title": "Hacker · RAM e Heat",
-      "text": "Il deck determina RAM e heat cap. Gli hack sostenuti bloccano RAM finché non li rilasci. Heat al limite = Blue Screen: bloccato per un round, poi riavvio a cap − 3. Portata: un dispositivo in vista, o 10 quadretti su una rete pingata. Quasi tutti gli hack toccano solo bersagli cibernetici o sintetici."
+      "text": "Il deck determina RAM e heat cap. Gli hack sostenuti bloccano RAM finché non li rilasci. Heat al limite = Blue Screen: gli hack sostenuti crollano, bloccato per un round, poi riavvio a cap − 3. Portata: un dispositivo in vista, o 10 quadretti su una rete pingata. Quasi tutti gli hack toccano solo bersagli cibernetici o sintetici."
     },
     "techwiz": {
       "title": "Tech Wizard · Field Sync",

@@ -90,7 +90,7 @@
     "desc": "+2 TN a Deception contro bersagli cibernetici."
   },
   "ghost": {
-    "desc": "I tuoi hack sostenuti sopravvivono a un Blue Screen."
+    "desc": "I tuoi hack sostenuti sopravvivono a un Blue Screen (di solito li fa crollare tutti)."
   },
   "overclocker": {
     "desc": "+1 RAM."

@@ -179,7 +179,9 @@ export function roundEnd(classId, r, ctx = {}) {
       if (!ctx.capacity) return r;
       const t = ctx.talents ?? {};
       if (r.bluescreen) return { ...r, bluescreen: false, heat: Math.max(0, ctx.capacity.heatCap - rules.rebootHeatBelowCap - (t.rebootBelowCap ?? 0)) };
-      if (r.heat >= ctx.capacity.heatCap) return { ...r, bluescreen: true };
+      if (r.heat >= ctx.capacity.heatCap) { // Blue Screen: locked next round; sustained hacks crash with it (Ghost keeps them)
+        return t.keepSustainedOnBluescreen ? { ...r, bluescreen: true } : { ...r, bluescreen: true, sustained: [], ram: 0 };
+      }
       return { ...r, heat: Math.max(0, r.heat - rules.heatVent - (t.heatVent ?? 0)) };
     }
     case 'techwiz': {
