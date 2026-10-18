@@ -1,6 +1,7 @@
 // Builder step views. Each step: { id, title, lede, view(draft, data), done(draft, data) -> true | 'reason' }.
 
 import { html, raw, signed } from '../dom.js';
+import { driveEditor } from '../sheet/drive.js';
 import { counter, nameOf } from '../sheet/parts.js';
 import { bonus } from '../../rules/stats.js';
 import { pointsRemaining, canAdjust, careerChecks } from '../../rules/creation.js';
@@ -298,6 +299,7 @@ export const STEPS = [
           <div class="stack">
             <span class="label">${t('builder.topSkills')}</span>
             <div class="b-skills">${[...s.skills].sort((x, y) => y.value - x.value).slice(0, 10).map((k) => html`<span class="pill">${k.name} <strong class="text-accent">${k.value}</strong></span>`)}</div>
+            ${driveEditor(c, data, 'builder')}
             <button class="btn btn--primary btn--block b-create" data-action="create">${t('builder.create')}</button>
           </div>
         </div>`;

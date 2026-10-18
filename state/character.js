@@ -58,6 +58,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
     },
     progress: emptyProgress(), // XP, bought talents, GM gifts, attribute raises, level-up open (decision 44)
     downtime: emptyDowntime(), // debt pressure 0–3 and the story timeline of downtime events (decision 46)
+    drive: { type: null, line: '' }, // Justice or Ambition + a personal line: a story compass, never a score (decision 47)
   };
 }
 
@@ -73,6 +74,7 @@ export function upgradeSave(c) {
   c.play.talentUses ??= {};
   c.progress ??= emptyProgress();
   c.downtime ??= emptyDowntime();
+  c.drive ??= { type: null, line: '' };
   if (c.mods && 'locationHp' in c.mods) {
     c.mods.maxHp = (c.mods.maxHp ?? 0) + 3 * (c.mods.locationHp || 0);
     delete c.mods.locationHp;

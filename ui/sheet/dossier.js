@@ -4,6 +4,7 @@ import { html, raw } from '../dom.js';
 import { card, nameOf } from './parts.js';
 import { sanitizeHtml } from '../sanitize.js';
 import { debtPressure, timelineCard } from './timeline.js';
+import { driveEditor } from './drive.js';
 import { t } from '../../i18n/index.js';
 
 export function dossierTab(c, s, data) {
@@ -20,7 +21,8 @@ export function dossierTab(c, s, data) {
         <select class="select" data-action="subclass"><option value="">— ${t('common.choose')} —</option>${subOptions}</select></label>
       <label class="field"><span class="label">${t('common.age')}</span><input class="input input--num" type="number" value="${c.age}" data-action="field" data-path="age" data-number="1"></label>
     </div>
-    ${sub ? html`<p class="hint">${sub.desc}</p>` : ''}`);
+    ${sub ? html`<p class="hint">${sub.desc}</p>` : ''}
+    ${driveEditor(c, data, 'sheet')}`);
 
   const portrait = card(t('dossier.visual'), html`
     <div class="portrait">

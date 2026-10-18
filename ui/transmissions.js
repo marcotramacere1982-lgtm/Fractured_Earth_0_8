@@ -4,6 +4,7 @@
 import { html, render } from './dom.js';
 import { t } from '../i18n/index.js';
 import { downtimeReport } from './sheet/timeline.js';
+import { unityCard } from './unity.js';
 
 const time = (t) => new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -18,10 +19,12 @@ export function installTransmissions(store, table) {
   const draw = () => {
     const c = characterId() ? store.get(characterId()) : null;
     const inbox = c?.play?.inbox ?? [];
-    const signature = inbox.map((m) => m.id).join('|');
+    const u = characterId() ? table.state.unity : null; // an open Unity Check (decision 47)
+    const mine = u ? table.state.myVotes[u.id] : null;
+    const signature = [inbox.map((m) => m.id).join('|'), u ? `${u.id}:${u.phase}:${mine ?? ''}` : ''].join('#');
     if (signature === shown) return;
     shown = signature;
-    render(host, html`${inbox.map((m) => html`
+    render(host, html`${unityCard(u, characterId(), mine)}${inbox.map((m) => html`
       <section class="transmission ${m.private ? 'transmission--private' : ''} ${m.tone === 'hit' ? 'transmission--hit' : ''} ${seen.has(m.id) ? '' : 'transmission--new'}" role="${seen.has(m.id) ? 'region' : 'alert'}" aria-label="${t('gm.message')}">
         <header class="transmission__head">
           <span class="transmission__tag">${m.kind === 'downtime' ? `◷ ${t('downtime.tag')} · ${m.title}` : ''}${m.kind === 'downtime' ? '' : m.image ? `▣ ${t('gm.image')} · ` : ''}${m.kind === 'downtime' ? '' : m.tone === 'hit' ? `✖ ${t('gm.hit')}` : m.private ? `◉ ${t('gm.private')}` : `▲ ${t('gm.incoming')}`}</span>
@@ -36,6 +39,8 @@ export function installTransmissions(store, table) {
   };
 
   host.addEventListener('click', (e) => {
+    const vote = e.target.closest('[data-unity-vote]');
+    if (vote) { table.vote(vote.dataset.check, vote.dataset.unityVote); return; }
     const btn = e.target.closest('[data-dismiss]');
     if (!btn) return;
     store.update(characterId(), (c) => { c.play.inbox = (c.play.inbox ?? []).filter((m) => m.id !== btn.dataset.dismiss); });

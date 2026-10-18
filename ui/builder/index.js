@@ -178,6 +178,7 @@ export function builderView({ data, store, main }) {
       d.character = prev; d.pending = [];
       pushLog('career', [{ kind: 'warn', text: '> Last term undone.' }]);
     }),
+    driveType: ({ value }) => commit((d) => { d.character.drive = { ...(d.character.drive ?? { line: '' }), type: value }; }),
     rollDebt: () => commit((d) => { d.character.debtId = data.debts[Math.floor(Math.random() * data.debts.length)].id; }),
     pickClass: ({ id }) => commit((d) => {
       const cls = data.classes.classes.find((k) => k.subclasses.some((s) => s.id === id));

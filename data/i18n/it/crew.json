@@ -1,0 +1,62 @@
+{
+  "bands": {
+    "broken": {
+      "effect": "La squadra si è spaccata. Un tradimento o una separazione diventa un aggancio per una missione."
+    },
+    "fractured": {
+      "effect": "Niente aiuto reciproco in combattimento; si litiga sulle spartizioni; gli eventi di squadra nel downtime prendono una brutta piega."
+    },
+    "steady": {
+      "effect": "Una squadra che funziona. Nessun effetto particolare."
+    },
+    "tight": {
+      "effect": "Una volta per missione, un favore di squadra: qualcuno prende un colpo al posto tuo, divide un consumabile o copre una rata (decide il GM)."
+    }
+  },
+  "drives": {
+    "justice": {
+      "desc": "Rabbia contro il sistema: qualcuno deve rimettere le cose a posto, o fargliela pagare."
+    },
+    "ambition": {
+      "desc": "Volere di più per te e per i tuoi: fuori dalla fogna, a qualunque costo."
+    }
+  },
+  "lines": {
+    "j1": {
+      "text": "Nessun ragazzino finirà come mio fratello."
+    },
+    "j2": {
+      "text": "Qualcuno deve fargliela pagare."
+    },
+    "j3": {
+      "text": "Il Ledger tiene i conti. Anch’io."
+    },
+    "j4": {
+      "text": "Non guarderò più dall’altra parte."
+    },
+    "j5": {
+      "text": "Il mio quartiere merita di meglio."
+    },
+    "j6": {
+      "text": "Brucerò i loro archivi, una torre alla volta."
+    },
+    "a1": {
+      "text": "Non sarò mai più povero."
+    },
+    "a2": {
+      "text": "Un ultimo grande colpo, e poi sparisco."
+    },
+    "a3": {
+      "text": "Voglio un posto alla loro tavola."
+    },
+    "a4": {
+      "text": "La mia famiglia vivrà dietro le mura."
+    },
+    "a5": {
+      "text": "Il rispetto si compra. Io sto comprando."
+    },
+    "a6": {
+      "text": "Non devo niente a nessuno, e continuerà così."
+    }
+  }
+}

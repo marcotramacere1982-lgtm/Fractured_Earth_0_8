@@ -192,28 +192,44 @@ Fazioni, megacorp e sindacati di strada non guardano agli Operatori con una lent
 
 - **Conseguenze inattese:** in una rete digitale così connessa, i "danni collaterali" e i "favori involontari" si propagano. Lasciare in vita un lavoratore di basso livello può salvarti la coscienza, ma se quel lavoratore registra l'irruzione, il livello di minaccia del debito speciale della squadra schizza in alto in automatico.
 
-### 2. Il Unity Protocol (coesione del gruppo e voto della squadra)
+### 2. Il Unity Protocol (fiducia della squadra e Unity Check) {#sec-6-6-unity}
 
-Siccome il mondo fuori è freddo e transazionale, l'unica vera protezione di un Operatore è la sua squadra. Quando un giocatore dichiara un intento ad alta posta o che divide — giustiziare un contatto prigioniero, tradire un intermediario a metà lavoro, far scattare un allarme senza motivo — il GM ferma l'azione e chiama una **prova di unità** (*Unity Check*):
+Visto che il mondo là fuori è freddo e transazionale, l'unica vera protezione di un Operatore è la sua squadra. La squadra condivide un'unica **traccia Squadra** da 0 a 10, che parte da 5.
 
-+-----------------------------------------------------------------------+ | IL UNITY PROTOCOL | | "Intento dichiarato: schierarsi con la megacorp contro il nostro intermediario." | | | | [ VOTO DELLA SQUADRA ] | | - D'ACCORDO (passa): l'azione procede con l'appoggio della squadra. | | - CONTRARI (non passa): l'azione è contestata dal gruppo. | | | | Scelta dell'Operatore: rinunciare all'intento OPPURE scavalcare la squadra e procedere. | +-----------------------------------------------------------------------+
+> **La traccia Squadra misura se la squadra agisce unita, mai se l'azione è giusta.** Una squadra che decide insieme di giustiziare un ostaggio guadagna fiducia esattamente come una squadra che decide di liberarlo. Costa solo andare contro la squadra. Gioca il tuo personaggio senza paura: nessuno ti sta giudicando come persona.
 
-- **L'intento sospeso:** il GM chiede al resto del gruppo: *"La squadra è d'accordo con questa azione?"*
+**Cosa la muove:**
 
-**Il voto della squadra:** il gruppo vota apertamente.
+- **+1, intenzione condivisa.** La squadra sostiene insieme una scelta costosa o rischiosa: tutti tornano indietro per l'obiettivo secondario, tutti restano per tirare fuori un compagno. *Conta l'intenzione, non il risultato*: sale che sia andata bene o no.
+- **+1, a giudizio del GM.** Momenti di vero spirito di squadra: coprirsi a vicenda, dividere un bottino in modo onesto, pagare la rata del debito di un compagno.
+- **−1, scavalcare la squadra.** Un giocatore va avanti contro una squadra che si era opposta.
 
-- **Unanimità o maggioranza a favore:** l'azione si svolge come previsto.
+**Cosa fa:**
 
-- **Dissenso o maggioranza contraria:** il giocatore che agisce viene informato esplicitamente che la squadra è contraria.
+- **Tight (7–10):** una volta per missione, un **favore di squadra**: qualcuno prende un colpo al posto tuo, divide un consumabile o copre una rata (decide il GM).
+- **Steady (4–6):** una squadra che funziona. Nessun effetto particolare.
+- **Fractured (1–3):** niente aiuto reciproco in combattimento; si litiga sulle spartizioni; gli eventi di squadra nel downtime prendono una brutta piega.
+- **Broken (0):** la squadra si è spaccata: un tradimento o una separazione diventa un aggancio per una missione.
 
-- **La scelta del cane sciolto:** il giocatore che agisce resta del tutto libero di **scavalcare** la squadra ed eseguire comunque l'azione.
+**Il Unity Check.** Quando un giocatore dichiara un'intenzione divisiva e ad alto rischio (giustiziare un prigioniero, tradire un fixer, far scattare un allarme), il GM apre un Unity Check:
 
-### 3. Le conseguenze del fare da soli
+1. L'intenzione compare sulla scheda di tutti: *"Kira vuole: eliminare l'ostaggio."*
+2. **La squadra ne parla al tavolo.** È questa la scena: prendetevi il tempo che serve.
+3. Ogni altro giocatore blocca un **voto segreto** sulla sua scheda: **Appoggio**, **Mi oppongo** o **Mi astengo**. Si può cambiare il voto finché il GM non lo rivela.
+4. Il GM rivela **solo il conteggio** (*Appoggio 2 · Mi oppongo 1 · Mi astengo 1*), mai chi ha votato cosa.
+5. Decide chi agisce. È sempre libero di andare avanti. Se lo fa contro una squadra che si è opposta, la traccia scende di 1; se la squadra lo ha appoggiato, sale di 1.
 
-Un Operatore che scavalca la squadra rompe la fiducia operativa. Anche se non scatta subito una penalità numerica, fare da soli ha un peso immediato nel gioco:
+I tavoli che preferiscono possono votare a voce: il GM registra semplicemente l'esito.
 
-- **La squadra se lo ricorda:** minare la coesione del gruppo cambia le dinamiche. In futuro gli alleati potrebbero rifiutarsi di aiutare con le reazioni, tenersi i consumabili del mercato nero comuni o non bruciare favori tattici per un compagno che fa di testa sua.
+### 3. Drive {#sec-6-6-drives}
 
-- **Spartizioni incrinate:** le azioni solitarie che mettono a rischio una missione possono spingere i compagni a cambiare la divisione dei crediti o a rifiutarsi di coprire gli interessi del debito comune durante il riposo.
+Ogni Operatore ha un **Drive**: non una morale, una direzione.
 
-> In nessun caso il disaccordo del gruppo deve fermarti, se senti che quello che stai facendo è assolutamente la scelta giusta: come nella vita, a volte vedi oltre il momento e scommetti sul futuro. Fai attenzione, però, a non alienarti il gruppo: è l'unica cosa che può salvarti quando serve.
+- **Justice:** rabbia contro il sistema. Qualcuno deve rimettere le cose a posto, o fargliela pagare.
+- **Ambition:** volere di più per te e per i tuoi. Fuori dalla fogna, a qualunque costo.
+
+Aggiungi una frase personale con parole tue (*"Nessun ragazzino finirà come mio fratello."*, *"Non sarò mai più povero."*), scelta fra i suggerimenti o scritta da te, quando completi il personaggio (e modificabile nel Dossier).
+
+Un Drive non viene mai valutato né giudicato. Quando agisci seguendolo in un momento che ti costa, il GM può assegnarti XP di **Spotlight** (5-9). I Drive che tirano in direzioni diverse dentro la stessa squadra sono da dove nascono gli Unity Check, e le scene migliori.
+
+> In nessun caso il disaccordo del gruppo deve fermarti, se senti che quello che stai facendo è assolutamente la scelta giusta: a volte vedi oltre quello che succede adesso, e scommetti sul futuro. Fai attenzione, però, a non allontanare la tua squadra: è l'unica cosa che può salvarti.

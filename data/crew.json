@@ -1,0 +1,121 @@
+{
+  "note": "Crew trust (decision 47): one shared track for the whole crew. It measures whether the crew acts together, never whether the act was good. Committed intent raises it whatever the result; overriding a crew that objected lowers it.",
+  "track": {
+    "min": 0,
+    "max": 10,
+    "start": 5
+  },
+  "bands": [
+    {
+      "id": "broken",
+      "min": 0,
+      "max": 0,
+      "name": "Broken",
+      "effect": "The crew has split. A betrayal or a parting of ways becomes a mission hook."
+    },
+    {
+      "id": "fractured",
+      "min": 1,
+      "max": 3,
+      "name": "Fractured",
+      "effect": "No help from each other in combat; payouts get argued over; crew downtime events turn sour."
+    },
+    {
+      "id": "steady",
+      "min": 4,
+      "max": 6,
+      "name": "Steady",
+      "effect": "A working crew. No special effect."
+    },
+    {
+      "id": "tight",
+      "min": 7,
+      "max": 10,
+      "name": "Tight",
+      "effect": "Once per mission, a crew favour: someone takes a hit for you, shares a consumable or covers an instalment (the GM rules it)."
+    }
+  ],
+  "unity": {
+    "backed": 1,
+    "override": -1,
+    "votes": [
+      "back",
+      "object",
+      "abstain"
+    ]
+  },
+  "drives": [
+    {
+      "id": "justice",
+      "name": "Justice",
+      "desc": "Rage at the system: someone has to make it right, or make it pay."
+    },
+    {
+      "id": "ambition",
+      "name": "Ambition",
+      "desc": "Wanting more for yourself and your own: out of the gutter, whatever it takes."
+    }
+  ],
+  "lines": [
+    {
+      "id": "j1",
+      "drive": "justice",
+      "text": "No kid ends up like my brother."
+    },
+    {
+      "id": "j2",
+      "drive": "justice",
+      "text": "Someone has to make them pay."
+    },
+    {
+      "id": "j3",
+      "drive": "justice",
+      "text": "The Ledger keeps score. So do I."
+    },
+    {
+      "id": "j4",
+      "drive": "justice",
+      "text": "I won't look away again."
+    },
+    {
+      "id": "j5",
+      "drive": "justice",
+      "text": "My block deserves better than this."
+    },
+    {
+      "id": "j6",
+      "drive": "justice",
+      "text": "I'll burn their records, one tower at a time."
+    },
+    {
+      "id": "a1",
+      "drive": "ambition",
+      "text": "I'll never be poor again."
+    },
+    {
+      "id": "a2",
+      "drive": "ambition",
+      "text": "One big score, and I'm out."
+    },
+    {
+      "id": "a3",
+      "drive": "ambition",
+      "text": "I want a seat at their table."
+    },
+    {
+      "id": "a4",
+      "drive": "ambition",
+      "text": "My family will live behind the walls."
+    },
+    {
+      "id": "a5",
+      "drive": "ambition",
+      "text": "Respect is bought. I'm buying."
+    },
+    {
+      "id": "a6",
+      "drive": "ambition",
+      "text": "I owe nobody anything, and I'll keep it that way."
+    }
+  ]
+}

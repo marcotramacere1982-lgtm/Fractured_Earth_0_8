@@ -19,7 +19,8 @@ const setPath = (obj, path, value) => {
  * @param hooks  { toast(text, kind), log(character, text, kind), combat(id, combatState), progress(id, msg) → summary }
  */
 export function createTableLink(store, hooks) {
-  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null };
+  // crew: the shared trust track; unity: the open Unity Check; myVotes: this sheet's ballot per check (decision 47)
+  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, myVotes: {} };
   const listeners = new Set();
   const handled = new Set(); // message ids already applied (the server re-sends until acknowledged)
   let source = null;
@@ -90,6 +91,14 @@ export function createTableLink(store, hooks) {
       case 'downtime': // the GM's downtime report (decision 46)
         if (id && hooks.downtime?.(id, msg)) hooks.toast(t('downtime.toast'), 'success');
         break;
+      case 'crew':
+        state.crew = { value: msg.value, band: msg.band };
+        emit();
+        break;
+      case 'unity':
+        state.unity = msg.closed ? null : msg;
+        emit();
+        break;
       case 'request-sync':
         push();
         break;
@@ -109,6 +118,15 @@ export function createTableLink(store, hooks) {
   return {
     state,
     subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); },
+
+    /** A secret Unity Check ballot: back · object · abstain. It can change until the GM reveals the tally. */
+    async vote(check, vote) {
+      state.myVotes = { ...state.myVotes, [check]: vote };
+      emit();
+      try {
+        await fetch('/api/table/vote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, check, vote }) });
+      } catch { /* offline: the GM can still record the outcome by voice */ }
+    },
 
     async detect() {
       // the table server marks the page it serves; static hosts (GitHub Pages) skip the probe entirely

@@ -135,6 +135,14 @@
     "downtime": {
       "title": "Downtime",
       "text": "Tra una missione e l'altra: tornano HP e armatura (anche le ferite, se passa abbastanza tempo), le spese di vita vengono mostrate da sistemare al tavolo, e ogni giocatore riceve un evento della sua storia. La pressione del debito sale di 1 a ogni downtime; una rata la abbassa."
+    },
+    "crew": {
+      "title": "Squadra e Unity",
+      "text": "Un'unica traccia condivisa 0–10. Misura se la squadra agisce unita, mai se l'azione è giusta: intenzione condivisa +1, scavalcare una squadra che si è opposta −1. Tight 7+: un favore di squadra per missione. Fractured 3 o meno: niente aiuto in combattimento."
+    },
+    "drive": {
+      "title": "Drive",
+      "text": "Justice o Ambition, più una frase tua: come si comporta naturalmente il personaggio. Mai valutato né giudicato; seguirlo quando costa può valere XP di Spotlight."
     }
   }
 }

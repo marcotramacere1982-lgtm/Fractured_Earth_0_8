@@ -31,6 +31,7 @@ export const DATA_FILES = {
   progress: 'progress.json',
   talents: 'talents.json',
   downtime: 'downtime.json',
+  crew: 'crew.json',
 };
 
 let cache = null;

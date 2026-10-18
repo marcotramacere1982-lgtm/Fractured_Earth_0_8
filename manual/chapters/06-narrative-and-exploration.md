@@ -192,28 +192,44 @@ Factions, megacorps, and street syndicates do not view Operators through a moral
 
 - **Unexpected Consequences:** In a heavily connected digital grid, "collateral damage" or "unintended favors" ripple outward. Leaving a low-level worker alive might preserve your conscience, but if that worker logs the breach, your team's Special Debt threat level spikes automatically.
 
-### 2. The Unity Protocol (Party Cohesion & Team Votes)
+### 2. The Unity Protocol (Crew Trust & Unity Checks) {#sec-6-6-unity}
 
-Because the world outside is cold and transactional, an Operator's only real protection is their crew. When a single player declares a high-stakes or divisive intent—such as executing a captive contact, double-crossing a fixer mid-job, or triggering an unprovoked alarm—the GM pauses the action to call a **Unity Check**:
+Because the world outside is cold and transactional, an Operator's only real protection is their crew. The crew shares one **Crew track** from 0 to 10, starting at 5.
 
-+-----------------------------------------------------------------------+ | THE UNITY PROTOCOL | | "Intent Declared: Siding with the Megacorp against our Fixer." | | | | [ TEAM VOTE ] | | - AGREE (Pass): Action proceeds with crew support. | | - DISAGREE (Fail): Action is contested internally. | | | | Operator Choice: Abort the intent OR Override the crew and proceed. | +-----------------------------------------------------------------------+
+> **The Crew track measures whether the crew acts together — never whether the act was good.** A crew that agrees to execute a hostage gains trust exactly like a crew that agrees to free him. Only going against the crew costs anything. Play your character boldly: nobody is judging you as a person.
 
-- **The Intent Intercept:** The GM asks the rest of the party: *"Does the crew agree with this action?"*
+**What moves it:**
 
-**The Team Vote:** The party votes openly.
+- **+1 — committed intent.** The crew backs a costly or risky call together: everyone goes back for the secondary objective, everyone stays to pull a teammate out. *Intention counts, not results*: it rises whether it worked or not.
+- **+1 — the GM's call.** Moments of real crew spirit: covering for each other, sharing a payout fairly, paying a teammate's debt instalment.
+- **−1 — override.** A player goes ahead against a crew that objected.
 
-- **Unanimous / Majority Support:** The action executes as intended.
+**What it does:**
 
-- **Dissent / Majority Rejection:** The acting player is explicitly informed that their crew opposes the move.
+- **Tight (7–10):** once per mission, a **crew favour** — someone takes a hit for you, shares a consumable or covers an instalment (the GM rules it).
+- **Steady (4–6):** a working crew. No special effect.
+- **Fractured (1–3):** no help from each other in combat; payouts get argued over; crew downtime events turn sour.
+- **Broken (0):** the crew has split — a betrayal or a parting of ways becomes a mission hook.
 
-- **The Rogue Choice:** The acting player retains full freedom to **Override** their team and execute the action anyway.
+**The Unity Check.** When a player declares a divisive, high-stakes intent — executing a captive, double-crossing a fixer, triggering an alarm — the GM opens a Unity Check:
 
-### 3. Consequences of Going Rogue
+1. The intent appears on everyone's sheet: *"Kira wants to: terminate the hostage."*
+2. **The crew talks it through at the table.** This is the scene — take the time it needs.
+3. Each other player locks a **secret vote** on their sheet: **Back**, **Object** or **Stay out**. Votes can change until the GM reveals them.
+4. The GM reveals the **tally only** — *Back 2 · Object 1 · Stay out 1* — never who voted what.
+5. The acting player decides. They are always free to go ahead. If they do so against a crew that objected, the track drops by 1; if the crew backed them, it rises by 1.
 
-An Operator who overrides their team breaks operational trust. While no rigid math penalty is enforced immediately, going rogue carries immediate in-game weight:
+Tables that prefer it can vote by voice: the GM simply records the outcome.
 
-- **The Crew Remembers:** Undermining party cohesion alters squad dynamics. Allies may refuse to lend reaction assistance, withhold shared black-market consumables, or refuse to burn tactical favors for a rogue teammate in future encounters.
+### 3. Drives {#sec-6-6-drives}
 
-- **Fractured Payouts:** Unilateral actions that jeopardize a mission can cause team members to alter credit distribution or refuse to cover collective debt interest during Downtime.
+Every Operator has a **Drive** — not a morality, a direction:
 
-> By no means a group disagreeing with you should stop you if you feel that what you are doing is absolutely the right choice: as in real life, sometimes you see beyond what is happening now, and bet on the future. Be mindful, however, to not alienate your party - as they are the only thing that can save you if needed.
+- **Justice:** rage at the system. Someone has to make it right, or make it pay.
+- **Ambition:** wanting more for yourself and your own. Out of the gutter, whatever it takes.
+
+Add a personal line in your own words — *"No kid ends up like my brother."*, *"I'll never be poor again."* — picked from the suggestions or written yourself, when you finish your character (and editable on the Dossier).
+
+A Drive is never scored or judged. When you act on it at a moment that costs you, the GM may award **Spotlight** XP (5-9). Drives that pull different ways inside one crew are where Unity Checks come from — and where the best scenes are.
+
+> By no means should a group disagreeing with you stop you if you feel that what you are doing is absolutely the right choice: sometimes you see beyond what is happening now, and bet on the future. Be mindful, however, not to alienate your crew — they are the only thing that can save you.

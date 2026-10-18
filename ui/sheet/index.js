@@ -70,7 +70,7 @@ export function sheetView({ data, store, main, table }, route) {
             ${TABS.map((x) => html`<a class="tab" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
           </nav>
           <div class="cluster">
-            ${tableButton(table, id)}
+            ${crewBadge(table, data)}${tableButton(table, id)}
             <button class="btn btn--sm" data-action="export" title="${t('sheet.exportHint')}">${t('common.export')}</button>
           </div>
         </div>
@@ -137,6 +137,7 @@ export function sheetView({ data, store, main, table }, route) {
     heal: () => run('heal'),
     repairArmor: () => run('repairArmor'),
     buyTalent: (d) => run('buyTalent', d),
+    driveType: ({ value }) => run('field', { path: 'drive.type', value }),
     payInstalment: () => {
       const out = run('payInstalment');
       if (out) toast(t('downtime.paid', { cr: out.paid, n: out.pressure }), 'success');
@@ -271,6 +272,14 @@ export function sheetView({ data, store, main, table }, route) {
 }
 
 /** Join / leave the GM's live table (only shown when the app is served by the table server). */
+/** The crew's shared trust (decision 47), while at the table. */
+function crewBadge(table, data) {
+  const crew = table?.state.crew;
+  if (!crew || !table.state.joinedId) return '';
+  const band = data.crew.bands.find((b) => b.id === crew.band);
+  return html`<span class="pill crew-pill crew-pill--${crew.band}" title="${band?.effect ?? ''}">${t('crew.badge', { n: crew.value, band: band?.name ?? '' })}</span>`;
+}
+
 function tableButton(table, id) {
   if (!table?.state.available) return '';
   const here = table.state.joinedId === id;
