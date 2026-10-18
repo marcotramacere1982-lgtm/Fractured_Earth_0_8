@@ -59,6 +59,8 @@ export function auditChanges(prev, next) {
       ? [[w.path, a, b]]
       : leaves(w.path, b).map(([p, v]) => [p, get(prev, p), v]).filter(([, x, y]) => !same(x, y));
     for (const [path, from, to] of pairs) {
+      // a field the accepted baseline never had: an app update added it, not the player — adopt it quietly
+      if (from === undefined) continue;
       let reason = fresh.find((t) => w.explain.some((re) => re.test(t))) ?? null;
       if (path === 'attributes.CRS' && to < from) reason = fresh.find((t) => /^Bought .* officially/.test(t)) ?? null;
       changes.push({ path, label: w.label + (path.includes('.') && w.path !== path ? ` ${path.split('.').pop()}` : ''), from, to, explained: Boolean(reason), reason });
