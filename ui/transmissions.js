@@ -3,6 +3,7 @@
 
 import { html, render } from './dom.js';
 import { t } from '../i18n/index.js';
+import { downtimeReport } from './sheet/timeline.js';
 
 const time = (t) => new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -23,13 +24,13 @@ export function installTransmissions(store, table) {
     render(host, html`${inbox.map((m) => html`
       <section class="transmission ${m.private ? 'transmission--private' : ''} ${m.tone === 'hit' ? 'transmission--hit' : ''} ${seen.has(m.id) ? '' : 'transmission--new'}" role="${seen.has(m.id) ? 'region' : 'alert'}" aria-label="${t('gm.message')}">
         <header class="transmission__head">
-          <span class="transmission__tag">${m.image ? `▣ ${t('gm.image')} · ` : ''}${m.tone === 'hit' ? `✖ ${t('gm.hit')}` : m.private ? `◉ ${t('gm.private')}` : `▲ ${t('gm.incoming')}`}</span>
+          <span class="transmission__tag">${m.kind === 'downtime' ? `◷ ${t('downtime.tag')} · ${m.title}` : ''}${m.kind === 'downtime' ? '' : m.image ? `▣ ${t('gm.image')} · ` : ''}${m.kind === 'downtime' ? '' : m.tone === 'hit' ? `✖ ${t('gm.hit')}` : m.private ? `◉ ${t('gm.private')}` : `▲ ${t('gm.incoming')}`}</span>
           <span class="transmission__meta">GM · ${time(m.t)}</span>
           <button class="transmission__close" data-dismiss="${m.id}" aria-label="${t('gm.close')}">✕</button>
         </header>
         ${m.image ? html`<a class="transmission__image" href="${m.image}" target="_blank" rel="noopener" title="${t('gm.imageOpen')}"><img src="${m.image}" alt="${t('gm.image')}"></a>` : ''}
-        ${m.text ? html`<p class="transmission__text">${m.text}</p>` : ''}
-        ${m.private ? html`<p class="transmission__hint">${t('gm.privateHint')}</p>` : ''}
+        ${m.kind === 'downtime' ? downtimeReport(m) : html`${m.text ? html`<p class="transmission__text">${m.text}</p>` : ''}
+        ${m.private ? html`<p class="transmission__hint">${t('gm.privateHint')}</p>` : ''}`}
       </section>`)}`);
     inbox.forEach((m) => seen.add(m.id));
   };

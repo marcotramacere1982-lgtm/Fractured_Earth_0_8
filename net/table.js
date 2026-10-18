@@ -87,6 +87,9 @@ export function createTableLink(store, hooks) {
         if (out?.open) hooks.toast(t('progress.openToast'), 'success');
         break;
       }
+      case 'downtime': // the GM's downtime report (decision 46)
+        if (id && hooks.downtime?.(id, msg)) hooks.toast(t('downtime.toast'), 'success');
+        break;
       case 'request-sync':
         push();
         break;

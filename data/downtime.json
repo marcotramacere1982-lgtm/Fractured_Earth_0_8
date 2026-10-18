@@ -1,0 +1,69 @@
+{
+  "note": "Downtime (decision 46): time passes between missions. Healing and armor repair are automatic; upkeep and every event option are shown, never applied — players and GM settle them.",
+  "durations": [
+    {
+      "id": "days",
+      "name": "A few days",
+      "months": 0.25,
+      "injuries": false
+    },
+    {
+      "id": "weeks",
+      "name": "A few weeks",
+      "months": 0.5,
+      "injuries": true
+    },
+    {
+      "id": "month",
+      "name": "About a month",
+      "months": 1,
+      "injuries": true
+    },
+    {
+      "id": "months",
+      "name": "Several months",
+      "months": 3,
+      "injuries": true
+    }
+  ],
+  "debt": {
+    "max": 3,
+    "crisisResetTo": 1,
+    "stages": [
+      {
+        "id": 1,
+        "name": "Squeeze",
+        "instalment": 300
+      },
+      {
+        "id": 2,
+        "name": "Escalation",
+        "instalment": 800
+      },
+      {
+        "id": 3,
+        "name": "Crisis",
+        "instalment": 2000
+      }
+    ]
+  },
+  "match": {
+    "note": "Confidence score (0-100) for suggesting events. Recently used events are scaled down.",
+    "debt": 100,
+    "life": 90,
+    "state": 70,
+    "career": 60,
+    "careerTrack": 15,
+    "careerRecent": 10,
+    "world": 20,
+    "recentlyUsed": 0.2,
+    "recentWindow": 12,
+    "suggestions": 3
+  },
+  "state": {
+    "flushCash": 5000,
+    "lowCrs": 5,
+    "highCrs": 50,
+    "olderAge": 45
+  }
+}

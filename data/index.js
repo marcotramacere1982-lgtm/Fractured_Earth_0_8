@@ -30,6 +30,7 @@ export const DATA_FILES = {
   encounter: 'encounter.json',
   progress: 'progress.json',
   talents: 'talents.json',
+  downtime: 'downtime.json',
 };
 
 let cache = null;

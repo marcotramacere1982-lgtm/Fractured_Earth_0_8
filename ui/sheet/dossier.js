@@ -3,6 +3,7 @@
 import { html, raw } from '../dom.js';
 import { card, nameOf } from './parts.js';
 import { sanitizeHtml } from '../sanitize.js';
+import { debtPressure, timelineCard } from './timeline.js';
 import { t } from '../../i18n/index.js';
 
 export function dossierTab(c, s, data) {
@@ -53,7 +54,8 @@ export function dossierTab(c, s, data) {
         <option value="">— ${t('common.none')} —</option>
         ${data.debts.map((d) => html`<option value="${d.id}" ${c.debtId === d.id ? raw('selected') : ''}>${d.name}</option>`)}
       </select></label>
-    ${debt ? html`<p>${debt.debt}</p><p class="hint"><strong>${t('dossier.threat')}:</strong> ${debt.threat}</p>` : ''}`);
+    ${debt ? html`<p>${debt.debt}</p><p class="hint"><strong>${t('dossier.threat')}:</strong> ${debt.threat}</p>` : ''}
+    ${debtPressure(c, data)}`);
 
   const story = card(t('dossier.backstory'), html`
     ${c.narrative.backstoryHtml ? html`<div class="prose">${raw(sanitizeHtml(c.narrative.backstoryHtml))}</div>` : html`<p class="muted">${t('dossier.noBackstory')}</p>`}
@@ -64,7 +66,7 @@ export function dossierTab(c, s, data) {
   return html`
     <div class="sheet-grid sheet-grid--dossier">
       <div class="stack dossier__info">${identity}${background}${motivator}</div>
-      <div class="stack dossier__story">${story}</div>
+      <div class="stack dossier__story">${story}${timelineCard(c)}</div>
       <div class="stack dossier__photo">${portrait}</div>
     </div>`;
 }

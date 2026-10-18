@@ -231,3 +231,16 @@
 .talent--locked { opacity: 0.75; }
 .talent-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
 .talent-list__item { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); font-size: var(--text-sm); }
+
+/* ---------- downtime ---------- */
+.dt-event { display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2); }
+.dt-event__title { font-family: var(--font-ui); font-weight: 700; }
+.dt-event__text { margin: 0; }
+.dt-event__options { margin: var(--space-1) 0 0; padding-left: var(--space-4); font-size: var(--text-sm); }
+.dt-report { margin: var(--space-2) 0 0; padding-left: var(--space-4); font-size: var(--text-sm); }
+.dt-pressure { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-3); }
+.dt-pressure__track { display: inline-flex; gap: var(--space-1); }
+.dt-pressure__step { padding: 0 var(--space-2); border-radius: var(--radius-sm); border: var(--border-width) solid var(--color-border); font-size: var(--text-xs); color: var(--color-text-muted); }
+.dt-pressure__step.is-on { border-color: var(--color-danger); color: var(--color-danger); background: var(--color-danger-soft); }
+.dt-timeline { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-3); }
+.dt-timeline__item + .dt-timeline__item { border-top: var(--border-width) dashed var(--color-border); padding-top: var(--space-2); }

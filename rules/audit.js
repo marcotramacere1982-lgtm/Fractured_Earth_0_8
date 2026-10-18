@@ -13,7 +13,7 @@ const WATCHED = [
   { path: 'tags', label: 'Notable', explain: [] },
   { path: 'subclassId', label: 'Subclass', explain: [] },
   { path: 'play.maxAbilities', label: 'Brain fog limit', explain: [] },
-  { path: 'play.cash', label: 'Cash', explain: [/^Bought .* on the street/] },
+  { path: 'play.cash', label: 'Cash', explain: [/^Bought .* on the street/, /^Debt instalment paid/] },
   { path: 'play.inventory', label: 'Inventory', explain: [/^Bought /] },
   { path: 'play.lifestyle', label: 'Lifestyle', explain: [/^Bought /] },
   // advancement (decision 44): XP and gifts come from the GM; talents and raises only while level-up is open
@@ -22,6 +22,8 @@ const WATCHED = [
   { path: 'progress.gifts', label: 'Talent gifts', explain: [/^Talent gift from the GM/] },
   { path: 'progress.raises', label: 'Attribute raises', explain: [/^Level-up: /] },
   { path: 'progress.open', label: 'Level-up open', explain: [/^The GM (opened|closed) level-up/] },
+  // downtime (decision 46): pressure moves with the GM's downtime, an instalment, or the GM
+  { path: 'downtime.pressure', label: 'Debt pressure', explain: [/^Downtime \(/, /^Debt instalment paid/, /^Debt pressure set by the GM/] },
 ];
 
 const get = (obj, path) => path.split('.').reduce((o, k) => o?.[k], obj);

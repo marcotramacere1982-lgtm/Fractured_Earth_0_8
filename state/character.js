@@ -4,6 +4,7 @@ import { computeSkills, computeCombat, initiative, weaponTN } from '../rules/sta
 import { maxHp, armorTotals } from '../rules/body.js';
 import { limbs, movement, usableWeapons } from '../rules/injuries.js';
 import { emptyProgress, progressStatus, talentEffects } from '../rules/progress.js';
+import { emptyDowntime } from '../rules/downtime.js';
 import { findSubclass, classTN, deckCapacity, deckStatus } from '../rules/classes.js';
 import { zoneBonus, isRanged } from '../rules/engines.js';
 import { lifestyleUpkeep } from '../rules/economy.js';
@@ -56,6 +57,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       talentUses: {}, // talent id -> uses this round / combat / mission
     },
     progress: emptyProgress(), // XP, bought talents, GM gifts, attribute raises, level-up open (decision 44)
+    downtime: emptyDowntime(), // debt pressure 0–3 and the story timeline of downtime events (decision 46)
   };
 }
 
@@ -70,6 +72,7 @@ export function upgradeSave(c) {
   c.play.injuries ??= [];
   c.play.talentUses ??= {};
   c.progress ??= emptyProgress();
+  c.downtime ??= emptyDowntime();
   if (c.mods && 'locationHp' in c.mods) {
     c.mods.maxHp = (c.mods.maxHp ?? 0) + 3 * (c.mods.locationHp || 0);
     delete c.mods.locationHp;

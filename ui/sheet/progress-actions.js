@@ -109,6 +109,11 @@ export const progressActions = {
       out.open = c.progress.open;
       log(c, c.progress.open ? 'The GM opened level-up (downtime)' : 'The GM closed level-up', 'warn');
     }
+    if (Number.isInteger(msg.debtPressure)) {
+      c.downtime ??= { pressure: 0, timeline: [], seen: [] };
+      c.downtime.pressure = Math.max(0, Math.min(data.downtime.debt.max, msg.debtPressure));
+      log(c, `Debt pressure set by the GM: ${c.downtime.pressure}`, 'warn');
+    }
     if (msg.mission) resetUses(c, data, 'mission');
     out.levelUp = progressStatus(c, data).level > before;
     if (out.levelUp) log(c, `Level ${progressStatus(c, data).level} reached`, 'ok');

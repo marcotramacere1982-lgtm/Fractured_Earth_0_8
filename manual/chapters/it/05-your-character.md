@@ -217,9 +217,10 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 - **Gioco** — armi (TN d'attacco, danni, munizioni, ricarica), il tuo motore di classe e le ability equipaggiate, salute, armatura, ferite e condizioni (con *Subisci un colpo*), copertura, valori di combattimento, e il pannello del turno (*Inizia combattimento*, *Fine round*).
 - **Abilità** — attributi (modificabili per ferite, invecchiamento o decisioni del GM) e tutte le abilità. Tocca per tirare con la difficoltà del GM.
 - **Equipaggiamento** — contanti, inventario, il mercato e il tuo stile di vita.
-- **Dossier** — identità, classe, trascorsi, debito, ritratto e storia.
+- **Dossier** — identità, classe, trascorsi, debito (con pressione e rate), ritratto, storia e *La storia finora* (5-10).
 - **Note** — i tuoi appunti e il registro di tiri, acquisti e uso delle ability.
 - **Progressi** — livello, XP e gli alberi dei talenti (5-9).
+
 
 ## 5-9. Avanzamento e talenti {#sec-5-9}
 
@@ -285,3 +286,26 @@ La scheda Progressi mostra ogni albero, cosa puoi prendere adesso e perché il r
 **Smuggler**
 
 ::table[talents:smuggler]
+
+## 5-10. Downtime {#sec-5-10}
+
+Tra una missione e l'altra, quando la squadra è in un posto tranquillo, il GM può chiamare un **downtime**: passano alcuni giorni, settimane o mesi. Missioni una dopo l'altra (un colpo, poi la fuga) sono un'unica lunga corsa: il downtime aspetta un momento sicuro.
+
+Alla fine del downtime ogni giocatore riceve un **resoconto**:
+
+- **Riposo:** tornano HP e armatura. Guariscono anche braccia rotte e gambe azzoppate, se è passato abbastanza tempo.
+- **Spese di vita:** quanto costa il tuo stile di vita per quel periodo. Viene **mostrato, non addebitato**: sistematelo con il GM, pagando, vendendo qualcosa, trattando.
+- **Un evento della tua storia:** qualcosa della *tua* vita: il tuo debito, la tua vecchia carriera, il tuo passato, o la situazione in cui sei. Le opzioni sono idee, mai automatiche: parlatene con il GM e scegliete.
+- Di solito si apre anche il **level-up** (5-9).
+
+Ogni evento finisce in **La storia finora** nel tuo Dossier, così la vita del personaggio tra un lavoro e l'altro si costruisce lungo la campagna.
+
+### La pressione del debito {#sec-5-10-debt}
+
+Il tuo debito non aspetta. La sua **pressione** va da 0 a 3 e sale di **1 a ogni downtime**:
+
+- **1 · Squeeze**: il primo avvertimento. Una rata da **$300** la abbassa.
+- **2 · Escalation**: le cose peggiorano. Rata da **$800**.
+- **3 · Crisis**: la minaccia è arrivata, e di solito diventa una missione. Rata da **$2.000**. Superata la crisi, la pressione torna a 1.
+
+Pagare è **una tua scelta**: il pulsante *Paga una rata* nel Dossier prende i contanti e abbassa la pressione di un gradino. Anche la storia può abbassarla (un accordo, un favore, una missione), e alcune strade narrative difficili possono chiudere un debito per sempre.

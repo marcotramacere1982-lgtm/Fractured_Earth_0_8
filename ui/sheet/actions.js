@@ -8,6 +8,7 @@ import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, a
 import { RuleError } from '../../rules/messages.js';
 import { locationOutcome, partOf } from '../../rules/injuries.js';
 import { progressActions, resetUses } from './progress-actions.js';
+import { downtimeActions } from './downtime-actions.js';
 
 /** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
 export function spend(c, data, what) {
@@ -324,6 +325,7 @@ export const actions = {
     if (changedClass) { c.play.resources = defaultResources(c.classId); c.play.abilities = []; }
   },
   ...progressActions,
+  ...downtimeActions,
 };
 
 export const ownedOf = owned;

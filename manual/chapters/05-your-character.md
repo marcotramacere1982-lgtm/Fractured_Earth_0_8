@@ -217,9 +217,10 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 - **Play** — weapons (attack TN, damage, ammo, reload), your class engine and equipped abilities, health, armor, injuries and conditions (with *Take a hit*), cover, combat values, and the Turn panel (*Start combat*, *End round*).
 - **Skills** — attributes (adjustable for injuries, aging or GM rulings) and every skill. Tap to roll with the GM's difficulty.
 - **Gear** — cash, inventory, the market, and your lifestyle.
-- **Dossier** — identity, class, background, debt, portrait and backstory.
+- **Dossier** — identity, class, background, debt (with its pressure and instalments), portrait, backstory and *Story so far* (5-10).
 - **Notes** — your field notes and a log of rolls, purchases and ability uses.
 - **Progress** — level, XP, and the talent trees (5-9).
+
 
 ## 5-9. Advancement & Talents {#sec-5-9}
 
@@ -285,3 +286,26 @@ The Progress tab shows every tree, what you can take now, and why the rest is lo
 **Smuggler**
 
 ::table[talents:smuggler]
+
+## 5-10. Downtime {#sec-5-10}
+
+Between missions, when the crew is somewhere quiet, the GM can call a **downtime**: a few days, weeks or months pass. Back-to-back missions (a heist, then the escape) are one long run — downtime waits for a safe moment.
+
+When downtime ends, each player gets a **report**:
+
+- **Rest:** HP and armor come back. Broken arms and crippled legs heal too, if enough time passed.
+- **Upkeep:** what your lifestyle costs for the period. It is **shown, not charged** — settle it with the GM: pay, sell something, negotiate.
+- **A story event:** something from *your* life — your debt, your old career, your past, or the state you're in. The options are ideas, never automatic: talk it through with the GM and choose.
+- **Level-up** usually opens at the same time (5-9).
+
+Every event goes into **Story so far** on your Dossier, so your character's life between jobs builds up over the campaign.
+
+### Debt pressure {#sec-5-10-debt}
+
+Your debt doesn't wait. Its **pressure** goes from 0 to 3 and rises by **1 at every downtime**:
+
+- **1 · Squeeze** — the first warning. An instalment of **$300** lowers it.
+- **2 · Escalation** — things get worse. Instalment **$800**.
+- **3 · Crisis** — the threat is here, and it usually becomes a mission. Instalment **$2,000**. Once the crisis is dealt with, pressure goes back to 1.
+
+Paying is **your choice**: the *Pay instalment* button on the Dossier takes the cash and lowers pressure by one step. The story can lower it too — a deal, a favour, a mission — and a few hard story paths can end a debt for good.

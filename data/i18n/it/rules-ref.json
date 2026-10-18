@@ -131,6 +131,10 @@
     "talents": {
       "title": "Talenti",
       "text": "Vantaggi passivi comprati con i punti talento. Quelli automatici li applica la scheda; gli altri sono regole al tavolo. I talenti una-volta-per hanno un pulsante Usa."
+    },
+    "downtime": {
+      "title": "Downtime",
+      "text": "Tra una missione e l'altra: tornano HP e armatura (anche le ferite, se passa abbastanza tempo), le spese di vita vengono mostrate da sistemare al tavolo, e ogni giocatore riceve un evento della sua storia. La pressione del debito sale di 1 a ogni downtime; una rata la abbassa."
     }
   }
 }

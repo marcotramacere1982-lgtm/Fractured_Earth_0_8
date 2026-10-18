@@ -137,6 +137,10 @@ export function sheetView({ data, store, main, table }, route) {
     heal: () => run('heal'),
     repairArmor: () => run('repairArmor'),
     buyTalent: (d) => run('buyTalent', d),
+    payInstalment: () => {
+      const out = run('payInstalment');
+      if (out) toast(t('downtime.paid', { cr: out.paid, n: out.pressure }), 'success');
+    },
     raiseAttribute: (d) => run('raiseAttribute', d),
     useTalent: (d) => {
       const out = run('useTalent', d);
