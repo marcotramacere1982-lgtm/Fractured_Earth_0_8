@@ -184,6 +184,7 @@ export const actions = {
     const row = c.play.inventory.find((x) => x.kind === kind && x.id === id);
     if (!row) return;
     row.qty += Number(delta);
+    if ((row.official ?? 0) > Math.max(0, row.qty)) row.official = Math.max(0, row.qty); // street units leave first
     if (row.qty <= 0) {
       c.play.inventory = c.play.inventory.filter((x) => x !== row);
       if (kind === 'armor') { c.play.worn = c.play.worn.filter((x) => x !== id); resetArmorMarks(c); }

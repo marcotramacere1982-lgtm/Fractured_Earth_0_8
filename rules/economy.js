@@ -18,8 +18,14 @@ export function magazines(data) {
   return magCache.get(data.weapons);
 }
 
-/** What selling one gives back: half the list price (custom items have none: the player types it). */
-export const sellPrice = (entry, economy) => (entry?.cost ? Math.floor(entry.cost.cr * economy.sell.fraction) : 0);
+/**
+ * What selling one gives back: half the list price; a quarter for gear bought officially (registered, decision 57).
+ * Custom items have no price: the player types it.
+ */
+export const sellPrice = (entry, economy, { official = false } = {}) => (entry?.cost ? Math.floor(entry.cost.cr * (official ? economy.sell.officialFraction : economy.sell.fraction)) : 0);
+
+/** Whether the next unit of a row to leave is a registered (officially bought) one: street units go first. */
+export const nextIsOfficial = (row) => (row?.official ?? 0) >= (row?.qty ?? 0) && (row?.official ?? 0) > 0;
 
 export function findGear(kind, id, data) {
   if (kind === 'ammo') return magazines(data).find((x) => x.id === id) ?? null;
@@ -81,9 +87,10 @@ export function buy(character, { kind, id }, method, data, { multiplier, discoun
   if (kind === 'lifestyle') {
     if (!c.play.lifestyle.includes(id)) c.play.lifestyle.push(id);
   } else {
-    addItem(c, kind, id);
+    const official = method === 'official'; // registered: resells for a quarter (decision 57)
+    addItem(c, kind, id, 1, { official });
     if (kind === 'weapon' && entry.magSize) { // every gun comes with spare magazines
-      addItem(c, 'ammo', magazineId(id), data.economy.magazine.startSpares);
+      addItem(c, 'ammo', magazineId(id), data.economy.magazine.startSpares, { official });
       log += ` + ${data.economy.magazine.startSpares} spare magazines`;
       notice = message(`${notice.code}Spares`, { ...notice.vars, spares: data.economy.magazine.startSpares }, log);
     }
@@ -92,9 +99,10 @@ export function buy(character, { kind, id }, method, data, { multiplier, discoun
 }
 
 /** Puts n of an item in the inventory (stacks with the same kind + id). */
-export function addItem(c, kind, id, n = 1) {
-  const owned = c.play.inventory.find((x) => x.kind === kind && x.id === id);
-  if (owned) owned.qty += n; else c.play.inventory.push({ kind, id, qty: n });
+export function addItem(c, kind, id, n = 1, { official = false } = {}) {
+  let owned = c.play.inventory.find((x) => x.kind === kind && x.id === id);
+  if (owned) owned.qty += n; else c.play.inventory.push(owned = { kind, id, qty: n });
+  if (official) owned.official = (owned.official ?? 0) + n; // how many of these were bought officially
 }
 
 /** Monthly cost of the character's lifestyle, both ways. */

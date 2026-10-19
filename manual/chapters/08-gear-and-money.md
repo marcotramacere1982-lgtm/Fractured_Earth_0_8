@@ -53,7 +53,7 @@ An optic sets the Scavenger's **Range**, **Track** and **mode** (5-6). Anyone ca
 
 **Custom items.** The market's *Misc* tab adds anything worth tracking — a keycard, a sealed package, a photo — to a *Misc* group: no price, no rules. If it cost money, change your cash by hand.
 
-**Trash and trade.** Every inventory row has 🗑 (drop one, after asking) and ⇄ (trade): **sell** it for half the list price (custom items: type what you got), or **give** it to a player at the table — it lands on their sheet even if their tablet is asleep, and in combat it costs 1 action (Interact). Everything is logged, so the GM sees where things went.
+**Trash and trade.** Every inventory row has 🗑 (drop one, after asking) and ⇄ (trade): **sell** it for half the list price — a quarter if you bought it officially (registered gear is built to age fast; street-bought units are sold first) — (custom items: type what you got), or **give** it to a player at the table — it lands on their sheet even if their tablet is asleep, and in combat it costs 1 action (Interact). Everything is logged, so the GM sees where things went.
 
 ## 8-6. Lifestyle {#sec-8-6}
 

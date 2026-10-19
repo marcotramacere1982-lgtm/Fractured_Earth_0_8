@@ -20,7 +20,7 @@ import { abilityWeapon } from '../../rules/engines.js';
 import { weaponFlow, hackFlow } from './attack-flow.js';
 import { openTrade } from './trade.js';
 import { itemName } from './inventory-actions.js';
-import { findGear, sellPrice } from '../../rules/economy.js';
+import { findGear, sellPrice, nextIsOfficial } from '../../rules/economy.js';
 import { t, getLang } from '../../i18n/index.js';
 import { storyPrompt } from '../builder/prompts.js';
 import { soundOn, setSound } from '../sound.js';
@@ -223,14 +223,15 @@ export function sheetView({ data, store, main, table }, route) {
       if (!row) return;
       const name = itemName(row, data);
       const atTable = table?.state.available && table.state.joinedId === id;
-      openTrade({ name, price: kind === 'custom' ? null : sellPrice(findGear(kind, itemId, data), data.economy) }, {
+      const registered = nextIsOfficial(row);
+      openTrade({ name, registered, price: kind === 'custom' ? null : sellPrice(findGear(kind, itemId, data), data.economy, { official: registered }) }, {
         inCombat: Boolean(c.play.turn?.inCombat),
         players: atTable ? async () => (await table.players()).filter((p) => p.id !== id) : null,
         onSell: (price) => { let cash = 0; store.update(id, (draft) => { cash = actions.sell(draft, data, { kind, id: itemId, price }); }); return t('trade.sold', { item: name, n: cash }); },
         onGift: async (player) => {
           const now = character();
           if (!actionAvailable(now, deriveSheet(now, data))) throw new Error(t('turn.noActions'));
-          const item = kind === 'custom' ? { kind, name: row.name, note: row.note ?? '' } : { kind, id: itemId };
+          const item = kind === 'custom' ? { kind, name: row.name, note: row.note ?? '' } : { kind, id: itemId, official: registered };
           if (!(await table.gift(player.id, item))) throw new Error(t('dossier.askFailed'));
           store.update(id, (draft) => { actions.giveItem(draft, data, { kind, id: itemId, toName: player.name }); }); // braces: update() would take a returned object as the new character
           return t('trade.given', { item: name, to: player.name });

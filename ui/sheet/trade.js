@@ -24,7 +24,7 @@ export function openTrade(item, { players = null, inCombat = false, onSell, onGi
           <input class="input input--num" type="number" min="0" inputmode="numeric" value="${state.price}" data-action="tPrice" aria-label="${t('trade.price')}">
           <button class="btn" data-action="tSell">${t('trade.sellBtn')}</button></div>
           <p class="hint">${t('trade.customPrice')}</p>`
-        : html`<button class="btn" data-action="tSell">${t('trade.sellFor', { n: item.price })}</button><p class="hint">${t('trade.halfPrice')}</p>`}
+        : html`<button class="btn" data-action="tSell">${t('trade.sellFor', { n: item.price })}</button><p class="hint">${t(item.registered ? 'trade.quarterPrice' : 'trade.halfPrice')}</p>`}
       </section>
       <section class="stack stack--tight">
         <span class="label">${t('trade.gift')}</span>

@@ -53,7 +53,7 @@ L'ottica determina **Portata**, **Track** e **modalità** dello Scavenger (5-6).
 
 **Oggetti personalizzati.** *Varie* nel mercato aggiunge qualunque cosa valga la pena tenere (una keycard, un pacco sigillato, una foto) a un gruppo *Varie*: niente prezzo, niente regole. Se è costato qualcosa, cambia i contanti a mano.
 
-**Buttare e scambiare.** Ogni riga dell'inventario ha 🗑 (butta un pezzo, dopo conferma) e ⇄ (scambia): **vendi** a metà del prezzo di listino (oggetti personalizzati: scrivi quanto hai ricavato), oppure **dai** a un giocatore al tavolo: arriva sulla sua scheda anche se il tablet dorme, e in combattimento costa 1 azione (Interagisci). Tutto finisce nel registro, così il GM vede dove sono finite le cose.
+**Buttare e scambiare.** Ogni riga dell'inventario ha 🗑 (butta un pezzo, dopo conferma) e ⇄ (scambia): **vendi** a metà del prezzo di listino, o a un quarto se l'hai comprato ufficialmente (l'equipaggiamento registrato è fatto per invecchiare in fretta; i pezzi comprati in strada si vendono per primi) (oggetti personalizzati: scrivi quanto hai ricavato), oppure **dai** a un giocatore al tavolo: arriva sulla sua scheda anche se il tablet dorme, e in combattimento costa 1 azione (Interagisci). Tutto finisce nel registro, così il GM vede dove sono finite le cose.
 
 ## 8-6. Stile di vita {#sec-8-6}
 

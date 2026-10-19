@@ -1,7 +1,7 @@
 // Inventory actions (decision 55): custom items, trash, sell, gifts between players. Logs stay English and
 // explain every change to the GM's audit ("Dropped …", "Sold …", "Gave …", "Received …", "Added …").
 
-import { findGear, sellPrice, addItem } from '../../rules/economy.js';
+import { findGear, sellPrice, addItem, nextIsOfficial } from '../../rules/economy.js';
 import { RuleError } from '../../rules/messages.js';
 import { uid } from '../../state/id.js';
 import { log, spend, actions } from './actions.js';
@@ -36,10 +36,11 @@ export const inventoryActions = {
   sell(c, data, { kind, id, price = null }) {
     const row = rowOf(c, kind, id);
     if (!row) throw new RuleError('noItem', {}, 'Not in your inventory any more.');
-    const cash = kind === 'custom' ? Math.max(0, Math.round(Number(price) || 0)) : sellPrice(findGear(kind, id, data), data.economy);
+    const official = nextIsOfficial(row);
+    const cash = kind === 'custom' ? Math.max(0, Math.round(Number(price) || 0)) : sellPrice(findGear(kind, id, data), data.economy, { official });
     takeOne(c, data, kind, id);
     c.play.cash += cash;
-    log(c, `Sold ${itemName(row, data)} for $${cash}`);
+    log(c, `Sold ${itemName(row, data)} for $${cash}${official ? ' (registered: a quarter of list)' : ''}`);
     return cash;
   },
   /** Hands one to another player at the table (an Interact action in combat). @returns the item to send. */
@@ -47,9 +48,10 @@ export const inventoryActions = {
     const row = rowOf(c, kind, id);
     if (!row) throw new RuleError('noItem', {}, 'Not in your inventory any more.');
     const prefix = spend(c, data, { kind: 'interact', name: `give ${itemName(row, data)}` });
+    const official = nextIsOfficial(row); // a registered item stays registered
     takeOne(c, data, kind, id);
     log(c, `Gave ${itemName(row, data)} to ${toName}${prefix ? ` (${prefix.replace(/ · $/, '')})` : ''}`);
-    return kind === 'custom' ? { kind, id: uid(), name: row.name, note: row.note ?? '' } : { kind, id };
+    return kind === 'custom' ? { kind, id: uid(), name: row.name, note: row.note ?? '' } : { kind, id, official };
   },
   /** A gift from another sheet (durable `gift` message). Returns the item's name, or null if it isn't valid. */
   receiveItem(c, data, { msg }) {
@@ -59,7 +61,7 @@ export const inventoryActions = {
       c.play.inventory.push({ kind: 'custom', id: uid(), name: String(it.name).slice(0, 60), note: String(it.note ?? '').slice(0, 200), qty: 1 });
     } else {
       if (!findGear(it.kind, it.id, data)) return null;
-      addItem(c, it.kind, it.id);
+      addItem(c, it.kind, it.id, 1, { official: it.official === true });
     }
     const name = itemName(it, data);
     log(c, `Received ${name} from ${String(msg.fromName ?? 'another player').slice(0, 40)}`);

@@ -49,6 +49,7 @@
   },
   "sell": {
     "fraction": 0.5,
-    "note": "Selling gives half the list price in cash (custom items: the player types the amount)."
+    "officialFraction": 0.25,
+    "note": "Selling gives half the list price in cash; gear bought officially (registered) only a quarter — resale is allowed, but corporate planned obsolescence makes it worth little (decision 57). Street-bought units are sold first. Custom items: the player types the amount."
   }
 }

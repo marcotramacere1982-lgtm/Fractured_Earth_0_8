@@ -45,7 +45,7 @@ export function gearTab(c, s, data) {
             if (!e) return html`<div class="row"><span class="row__main muted">${t('gear.unknown')}: ${r.id}</span></div>`;
             const worn = kind === 'armor' && c.play.worn.includes(r.id);
             return html`<div class="row row--wrap">
-              <div class="row__main"><div class="row__title">${e.name}${e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}</div><div class="row__meta">${describe(kind, e, data)}</div></div>
+              <div class="row__main"><div class="row__title">${e.name}${e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}${r.official ? html` <span class="pill pill--info" title="${t('gear.registeredHint')}">${t('gear.registered', { n: r.official })}</span>` : ''}</div><div class="row__meta">${describe(kind, e, data)}</div></div>
               ${kind === 'armor' ? html`<button class="btn btn--sm" data-action="wear" data-id="${r.id}" aria-pressed="${worn}">${worn ? `✓ ${t('gear.worn')}` : t('gear.wear')}</button>` : ''}
               ${counter({ action: 'qty', value: r.qty, min: 0, args: { kind, id: r.id }, size: 'sm', label: `${e.name} · ${t('gear.qty')}` })}
               <span class="cluster inv-acts">
