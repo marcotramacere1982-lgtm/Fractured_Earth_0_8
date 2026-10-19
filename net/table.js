@@ -5,6 +5,7 @@ import { uid } from '../state/id.js';
 import { t } from '../i18n/index.js';
 
 const JOINED = 'fe.table.joined';
+const TURN_CUE = 'fe.table.turnCue'; // last turn chimed (combat:round), so a reload or reconnect doesn't chime again
 const SYNC_DELAY = 700;
 
 const setPath = (obj, path, value) => {
@@ -16,7 +17,8 @@ const setPath = (obj, path, value) => {
 
 /**
  * @param store  character store (state/store.js)
- * @param hooks  { toast(text, kind), log(character, text, kind), combat(id, combatState), progress(id, msg) → summary }
+ * @param hooks  { toast(text, kind), log(character, text, kind), combat(id, combatState), progress(id, msg) → summary,
+ *                 notify(cue): 'turn' · 'message' · 'hit' (decision 52: soft sounds) }
  */
 export function createTableLink(store, hooks) {
   // crew: the shared trust track; unity: the open Unity Check; myVotes: this sheet's ballot per check (decision 47)
@@ -61,6 +63,7 @@ export function createTableLink(store, hooks) {
             image: typeof msg.image === 'string' && msg.image.startsWith('/api/table/handout?') ? msg.image : null }, ...(c.play.inbox ?? [])].slice(0, 20);
           hooks.log(c, `${msg.tone === 'hit' ? 'HIT' : msg.private ? 'GM (private)' : 'GM'}: ${[msg.text, msg.image ? '[image]' : ''].filter(Boolean).join(' ')}`, msg.tone === 'hit' ? 'bad' : 'warn');
         });
+        hooks.notify?.(msg.tone === 'hit' ? 'hit' : 'message');
         break;
       case 'difficulty':
         if ((msg.tier ?? null) === state.difficulty) break; // replayed on reconnect: nothing new
@@ -71,25 +74,43 @@ export function createTableLink(store, hooks) {
       case 'restore':
         store.update(id, (c) => {
           for (const [path, value] of Object.entries(msg.values ?? {})) setPath(c, path, value);
-          hooks.log(c, `GM restored: ${Object.keys(msg.values ?? {}).join(', ')}`, 'bad');
+          hooks.log(c, msg.undo ? `↶ Undo by the GM (${String(msg.undo).slice(0, 120)})` : `GM restored: ${Object.keys(msg.values ?? {}).join(', ')}`, msg.undo ? 'warn' : 'bad');
         });
-        hooks.toast(t('table.restored'), 'danger');
+        hooks.toast(msg.undo ? t('table.undone') : t('table.restored'), msg.undo ? 'success' : 'danger');
+        hooks.notify?.('message');
         break;
-      case 'combat':
+      case 'combat': {
+        // your turn starts: one soft chime per turn (Delay can bring you back the same round: no second chime)
+        const mark = `${msg.id}:${msg.round}`;
+        if (msg.active && id && msg.current === id) {
+          let last = null;
+          try { last = sessionStorage.getItem(TURN_CUE); sessionStorage.setItem(TURN_CUE, mark); } catch { /* private mode */ }
+          if (last !== mark) hooks.notify?.('turn');
+        }
         state.combat = msg.active ? msg : null;
         if (id) hooks.combat?.(id, msg);
         emit();
         break;
+      }
       case 'progress': { // XP, a gifted talent, level-up opened / closed (decision 44)
         const out = id ? hooks.progress?.(id, msg) : null;
         if (out?.levelUp) hooks.toast(t('progress.levelUpToast'), 'success');
         else if (out?.xp) hooks.toast(t('progress.xpToast', { n: out.xp }), 'success');
         if (out?.gift) hooks.toast(t('progress.giftToast', { name: out.gift }), 'success');
         if (out?.open) hooks.toast(t('progress.openToast'), 'success');
+        if (out) hooks.notify?.('message');
         break;
       }
+      case 'gift': { // another player handed you something (decision 55)
+        const name = id ? hooks.gift?.(id, msg) : null;
+        if (name) { hooks.toast(t('trade.received', { item: name, from: msg.fromName ?? '' }), 'success'); hooks.notify?.('message'); }
+        break;
+      }
+      case 'backstory': // written by the GM's Claude (decision 50)
+        if (id && hooks.backstory?.(id, msg)) { hooks.toast(t('table.backstoryToast'), 'success'); hooks.notify?.('message'); }
+        break;
       case 'downtime': // the GM's downtime report (decision 46)
-        if (id && hooks.downtime?.(id, msg)) hooks.toast(t('downtime.toast'), 'success');
+        if (id && hooks.downtime?.(id, msg)) { hooks.toast(t('downtime.toast'), 'success'); hooks.notify?.('message'); }
         break;
       case 'crew':
         state.crew = { value: msg.value, band: msg.band };
@@ -118,6 +139,29 @@ export function createTableLink(store, hooks) {
   return {
     state,
     subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); },
+
+    /**
+     * Ask the GM for a backstory (decision 50). Works before joining (the builder): the answer waits in the
+     * server's mailbox for this character id. @returns true when the server took it.
+     */
+    async askBackstory(request) {
+      try {
+        const res = await fetch('/api/table/backstory', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(request) });
+        return res.ok;
+      } catch { return false; }
+    },
+
+    /** Characters at the table (to hand them items). [] when not at a table. */
+    async players() {
+      try { return (await (await fetch('/api/table/players', { cache: 'no-store' })).json()).players ?? []; } catch { return []; }
+    },
+    /** Sends an item to another sheet. @returns true when the server took it. */
+    async gift(to, item) {
+      try {
+        const res = await fetch('/api/table/gift', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ from: state.joinedId, to, item }) });
+        return res.ok;
+      } catch { return false; }
+    },
 
     /** A secret Unity Check ballot: back · object · abstain. It can change until the GM reveals the tally. */
     async vote(check, vote) {
@@ -153,7 +197,13 @@ export function createTableLink(store, hooks) {
       try { sessionStorage.setItem(JOINED, id); } catch { /* private mode */ }
       connect(id);
       unsubscribe?.();
-      unsubscribe = store.subscribe((change) => { if (change.id === id) schedule(); });
+      // every logged action is sent at once, so the server keeps a snapshot per action (the GM's undo, decision 56)
+      let lastLine = store.get(id)?.play?.log?.[0]?.t ?? null;
+      unsubscribe = store.subscribe((change) => {
+        if (change.id !== id) return;
+        const line = store.get(id)?.play?.log?.[0]?.t ?? null;
+        if (line !== lastLine) { lastLine = line; clearTimeout(timer); push(); } else schedule();
+      });
       emit();
     },
 

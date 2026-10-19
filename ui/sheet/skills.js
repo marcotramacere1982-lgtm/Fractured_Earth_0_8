@@ -1,7 +1,7 @@
 // Skills tab: attributes (with in-play adjustments) and every skill as a tap-to-roll target.
 
 import { html, raw, signed } from '../dom.js';
-import { counter, card } from './parts.js';
+import { counter, card, temp } from './parts.js';
 import { bonus } from '../../rules/stats.js';
 import { passiveScore } from '../../rules/checks.js';
 import { explain, hint } from '../explain.js';
@@ -40,7 +40,7 @@ export function skillsTab(c, s, data) {
                 <span class="icon">${raw(data.icons[k.id.replace(/_(db|pb)$/, '')] ?? '')}</span>
                 <span class="skill__name">${k.name}</span>
                 <span class="skill__stats">${k.stats.join('+')}</span>
-                <span class="skill__tn">${k.value}</span>
+                <span class="skill__tn">${temp(k.base, k.value)}</span>
                 <span class="skill__passive">${passiveScore(k.value, data.difficulty)}</span>
               </button>
               ${explain('skill', k.id, k.name)}

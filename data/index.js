@@ -33,6 +33,7 @@ export const DATA_FILES = {
   talents: 'talents.json',
   downtime: 'downtime.json',
   crew: 'crew.json',
+  tours: 'tours.json',
 };
 
 let cache = null;

@@ -29,7 +29,25 @@ export function roll(expr, rng = Math.random) {
   return { expr, rolls, mod, total: rolls.reduce((s, r) => s + r, 0) + mod };
 }
 
-export function formatRoll({ expr, rolls, mod, total }) {
+/** Lowest and highest total of an expression ("2d4+1" → 3–9). */
+export function diceRange(expr) {
+  const { count, sides, mod } = parseDice(expr);
+  return { min: count + mod, max: count * sides + mod };
+}
+
+/**
+ * A roll made with physical dice: the player types the total. Throws RangeError when it can't be rolled
+ * with these dice. Shown as "1d6: 4 (typed)".
+ */
+export function typedRoll(expr, total) {
+  const n = Number(total);
+  const { min, max } = diceRange(expr);
+  if (!Number.isInteger(n) || n < min || n > max) throw new RangeError(`${expr}: ${min}–${max}`);
+  return { expr, rolls: [], mod: 0, total: n, typed: true };
+}
+
+export function formatRoll({ expr, rolls, mod, total, typed = false }) {
+  if (typed) return `${expr}: ${total} (typed)`;
   const modText = mod ? ` ${mod > 0 ? '+' : '−'} ${Math.abs(mod)}` : '';
   return `${expr}: [${rolls.join(', ')}]${modText} = ${total}`;
 }

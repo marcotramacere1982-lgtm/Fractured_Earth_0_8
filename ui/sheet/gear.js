@@ -2,7 +2,7 @@
 
 import { html, raw } from '../dom.js';
 import { card, counter, nameOf } from './parts.js';
-import { CATALOGS, findGear } from '../../rules/economy.js';
+import { CATALOGS, findGear, magazines } from '../../rules/economy.js';
 import { t } from '../../i18n/index.js';
 
 /** Translated name of a gear category. */
@@ -15,13 +15,15 @@ function describe(kind, e, data) {
     case 'item': return `${e.effectType} · ${e.effect}`;
     case 'deck': return `RAM ${e.ram} · heat cap ${e.heatCap} · ${e.modSlots} mod slot · ${t('gear.battery')} ${e.battery.idle} idle / ${e.battery.usage} use`;
     case 'deckMod': return `+${e.amount} ${e.type === 'ram' ? 'RAM' : 'heat cap'}`;
+    case 'ammo': return `${e.ammo} · ${t('gear.rounds', { n: e.magSize })}`;
+    case 'custom': return e.note || t('gear.customNote');
     case 'optic': return `${t('gear.opticStats', { range: e.range, track: e.track })}${e.mode ? ` · ${nameOf(data.classes.classes.find((k) => k.id === 'scavenger').resources.modes, e.mode)}` : ''} · ${t('gear.visibility')} ${e.visibility}/5 · Scavenger`;
     default: return e.desc ?? '';
   }
 }
 
 export function gearTab(c, s, data) {
-  const kinds = ['weapon', 'armor', 'item', 'deck', 'deckMod', 'optic'];
+  const kinds = ['weapon', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'optic', 'custom'];
   const money = card(t('gear.money'), html`
     <div class="cluster cluster--gap">
       <label class="field"><span class="label">${t('gear.cash')}</span>
@@ -29,7 +31,7 @@ export function gearTab(c, s, data) {
       <div class="stat"><span class="label">Credit Score</span><span class="stat__value">${c.attributes.CRS}</span><span class="stat__sub">${t('gear.crsSub')}</span></div>
       <button class="btn btn--primary" data-action="shop" data-kind="weapon">${t('gear.openMarket')}</button>
     </div>
-    <p class="hint">${t('gear.marketHint')}</p>`, { ref: 'market' });
+    <p class="hint">${t('gear.marketHint')}</p>`, { ref: 'market', tour: 'market' });
 
   const inventory = kinds.map((kind) => {
     const rows = c.play.inventory.filter((x) => x.kind === kind);
@@ -39,13 +41,17 @@ export function gearTab(c, s, data) {
         <h3 class="label">${kindLabel(kind)}</h3>
         <div class="rows">
           ${rows.map((r) => {
-            const e = findGear(kind, r.id, data);
+            const e = kind === 'custom' ? r : findGear(kind, r.id, data);
             if (!e) return html`<div class="row"><span class="row__main muted">${t('gear.unknown')}: ${r.id}</span></div>`;
             const worn = kind === 'armor' && c.play.worn.includes(r.id);
-            return html`<div class="row">
-              <div class="row__main"><div class="row__title">${e.name} <span class="pill">${e.rarity ?? ''}</span></div><div class="row__meta">${describe(kind, e, data)}</div></div>
+            return html`<div class="row row--wrap">
+              <div class="row__main"><div class="row__title">${e.name}${e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}</div><div class="row__meta">${describe(kind, e, data)}</div></div>
               ${kind === 'armor' ? html`<button class="btn btn--sm" data-action="wear" data-id="${r.id}" aria-pressed="${worn}">${worn ? `✓ ${t('gear.worn')}` : t('gear.wear')}</button>` : ''}
               ${counter({ action: 'qty', value: r.qty, min: 0, args: { kind, id: r.id }, size: 'sm', label: `${e.name} · ${t('gear.qty')}` })}
+              <span class="cluster inv-acts">
+                <button class="btn btn--sm btn--ghost btn--icon" data-action="trade" data-kind="${kind}" data-id="${r.id}" title="${t('trade.title')}" aria-label="${t('trade.title')}: ${e.name}">⇄</button>
+                <button class="btn btn--sm btn--ghost btn--icon text-danger" data-action="trash" data-kind="${kind}" data-id="${r.id}" title="${t('trade.trash')}" aria-label="${t('trade.trash')}: ${e.name}">🗑</button>
+              </span>
             </div>`;
           })}
         </div>
@@ -71,6 +77,7 @@ export function gearTab(c, s, data) {
 }
 
 export const catalog = (kind, data) => {
+  if (kind === 'ammo') return magazines(data);
   const tbl = data[CATALOGS[kind]];
   return Array.isArray(tbl) ? tbl : tbl.mods ?? tbl.entries;
 };

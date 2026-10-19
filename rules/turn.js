@@ -54,10 +54,16 @@ export function damageDice(damage) {
 export function rollDamage(weapon, off, rng = Math.random, { bonus = null, twice = false, multiplier = 1, flat = 0, exploit = null } = {}) {
   const expr = damageDice(weapon.damage);
   if (!expr) return null;
-  const r = roll(expr, rng);
-  const second = twice ? roll(expr, rng) : null;
-  const extra = bonus ? roll(bonus, rng) : null;
-  const tells = exploit ? roll(exploit, rng) : null; // Scavenger Exploit: 1d4 per Tell spent
-  const raw = r.total + (second?.total ?? 0) + (extra?.total ?? 0) + (tells?.total ?? 0) + off + flat;
-  return { ...r, base: r, off, second, extra, exploit: tells, flat, multiplier, total: Math.max(0, Math.floor(raw * multiplier)) };
+  const base = roll(expr, rng);
+  return damageFrom({ base, second: twice ? roll(expr, rng) : null, extra: bonus ? roll(bonus, rng) : null, exploit: exploit ? roll(exploit, rng) : null }, off, { multiplier, flat });
+}
+
+/**
+ * Damage from dice already rolled (by the app or typed from physical dice): base weapon dice, second roll,
+ * bonus dice, Exploit dice (Scavenger, 1d4 per Tell), + OFF + flat (Hot) + named extras ({ n, label }: Enraged…),
+ * × multiplier (rounded down, last).
+ */
+export function damageFrom({ base, second = null, extra = null, exploit = null }, off, { multiplier = 1, flat = 0, extras = [] } = {}) {
+  const raw = base.total + (second?.total ?? 0) + (extra?.total ?? 0) + (exploit?.total ?? 0) + off + flat + extras.reduce((s, x) => s + x.n, 0);
+  return { ...base, base, off, second, extra, exploit, flat, extras, multiplier, total: Math.max(0, Math.floor(raw * multiplier)) };
 }

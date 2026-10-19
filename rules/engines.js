@@ -141,11 +141,11 @@ export function zoneBonus(classId, r, classesData, talents = {}) {
 }
 
 // ------------------------------------------------------------------ scavenger (Tells)
-// Tells live on enemies: tells = { [enemy key]: 0–3 }. target = the enemy abilities and Exploit spend from.
+// Tells live on enemies: tells = { [enemy key]: 0–3 }. target = the enemy abilities spend from (Exploit is picked in the attack window).
 // toPlace = Tells still to place this turn (a reminder); attacked = attacked this round (no Unseen next round).
 // marks = enemies the player named by hand when no GM runs the fight ([{ key, name }]).
 
-export const newTells = () => ({ tells: {}, target: null, exploit: 0, toPlace: 0, attacked: false, used: [], marks: [] });
+export const newTells = () => ({ tells: {}, target: null, toPlace: 0, attacked: false, used: [], marks: [] });
 
 const tellRules = (classesData) => classesData.classes.find((c) => c.id === 'scavenger').resources.tells;
 
@@ -172,32 +172,28 @@ export function placeTells(r, key, delta, { track, classesData }) {
   const tells = { ...r.tells, [key]: next };
   if (!next) delete tells[key];
   const placed = Math.max(0, next - have);
-  return { ...r, tells, toPlace: Math.max(0, (r.toPlace ?? 0) - placed), exploit: key === r.target ? Math.min(r.exploit ?? 0, next) : r.exploit };
+  return { ...r, tells, toPlace: Math.max(0, (r.toPlace ?? 0) - placed) };
 }
 
 /** Enemies that went down or left the fight take their Tells with them. alive: keys still standing. */
 export function pruneTells(r, alive) {
   const tells = Object.fromEntries(Object.entries(r.tells ?? {}).filter(([k]) => alive.includes(k)));
   const target = alive.includes(r.target) ? r.target : null;
-  return { ...r, tells, target, exploit: target ? Math.min(r.exploit ?? 0, tells[target] ?? 0) : 0 };
+  return { ...r, tells, target };
 }
 
-/** Exploit dice for a hit on the target: n Tells × 1d4 (Dirty Fighting: d6 in melee). null when nothing is readied. */
-export function exploitDice(r, classesData, { melee = false, talents = {} } = {}) {
-  const n = Math.min(r?.exploit ?? 0, r?.tells?.[r?.target] ?? 0);
-  if (!n) return null;
+/** Exploit dice for n Tells spent on a hit: n × 1d4 (Dirty Fighting: d6 in melee). */
+export function exploitDice(n, classesData, { melee = false, talents = {} } = {}) {
   const die = (melee && talents.exploitMeleeDie) || tellRules(classesData).exploitDie;
-  return { n, expr: `${n}${die.slice(die.indexOf('d'))}` };
+  return `${n}${die.slice(die.indexOf('d'))}`;
 }
 
-/** A hit that used Exploit spends those Tells. */
-export function spendExploit(r) {
-  const n = Math.min(r.exploit ?? 0, r.tells?.[r.target] ?? 0);
-  if (!n) return r;
-  const left = r.tells[r.target] - n;
-  const tells = { ...r.tells, [r.target]: left };
-  if (!left) delete tells[r.target];
-  return { ...r, tells, exploit: 0 };
+/** Exploit: a hit spends n of that enemy's Tells (never more than it has). */
+export function spendTells(r, key, n) {
+  const left = Math.max(0, (r.tells?.[key] ?? 0) - n);
+  const tells = { ...r.tells, [key]: left };
+  if (!left) delete tells[key];
+  return { ...r, tells };
 }
 
 function scavengerCheck(a, r, ctx = {}) {
@@ -214,7 +210,6 @@ function scavengerUse(a, r, ctx = {}) {
     const left = (r.tells[r.target] ?? 0) - a.tells;
     next.tells = { ...r.tells, [r.target]: left };
     if (!left) delete next.tells[r.target];
-    next.exploit = Math.min(r.exploit ?? 0, Math.max(0, left));
   }
   if (a.gain?.target && !ctx.failed) next = placeTells({ ...next, toPlace: next.toPlace + a.gain.target }, r.target, a.gain.target, { track: ctx.track ?? 1, classesData: ctx.classesData });
   if (a.gain?.spread && !ctx.failed) next.toPlace = (next.toPlace ?? 0) + a.gain.spread; // one on each of up to n enemies: placed by hand

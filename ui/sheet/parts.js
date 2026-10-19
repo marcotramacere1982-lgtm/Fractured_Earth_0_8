@@ -20,9 +20,10 @@ export function meter(value, max, kind = '') {
   return html`<div class="meter" role="meter" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="${max}"><div class="meter__fill ${kind ? `meter__fill--${kind}` : ''}" style="width: ${pct}%"></div></div>`;
 }
 
-export function card(title, body, { sub = '', actions = '', flush = false, id = '', ref = '' } = {}) {
+/** tour: a [data-tour] mark the guided tours can point at. */
+export function card(title, body, { sub = '', actions = '', flush = false, id = '', ref = '', tour = '' } = {}) {
   return html`
-    <section class="card" ${id ? raw(`id="${id}"`) : ''}>
+    <section class="card" ${id ? raw(`id="${id}"`) : ''} ${tour ? raw(`data-tour="${tour}"`) : ''}>
       <header class="card__head"><h2 class="card__title">${title}${sub ? html`<small>${sub}</small>` : ''}${ref ? info(ref, title) : ''}</h2>${actions}</header>
       <div class="card__body ${flush ? 'card__body--flush' : ''}">${body}</div>
     </section>`;
@@ -36,3 +37,12 @@ export function segmented(action, options, current, extra = {}) {
 }
 
 export const nameOf = (list, id) => list.find((x) => x.id === id)?.name ?? id;
+
+/**
+ * A value changed by a condition (decision 54): the value in play, green when better / red when worse,
+ * with the normal one small beside it. fmt formats both (e.g. signed).
+ */
+export function temp(base, now, fmt = (x) => x) {
+  if (base === undefined || base === now) return html`${fmt(now)}`;
+  return html`<span class="temp ${now > base ? 'temp--up' : 'temp--down'}" title="${t('temp.normal', { n: fmt(base) })}">${fmt(now)}</span><span class="temp__base">${fmt(base)}</span>`;
+}

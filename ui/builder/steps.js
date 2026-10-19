@@ -252,9 +252,12 @@ export const STEPS = [
     id: 'story',
     get title() { return t('builder.story.title'); },
     get lede() { return t('builder.story.lede'); },
-    view(draft, data) {
+    view(draft, data, ctx = {}) {
       const c = draft.character;
       return html`
+        ${ctx.atTable ? html`<div class="notice b-story__gm">
+          ${c.narrative.backstoryRequest ? t('builder.sentToGm') : html`<span>${t('builder.gmOffer')}</span> <button class="btn btn--sm btn--primary" data-action="sendStory">${t('builder.sendToGm')}</button>`}
+        </div>` : ''}
         <div class="b-story">
           <div class="stack">
             <div class="spread"><span class="label">${t('builder.storyPrompt')}</span><button class="btn btn--sm" data-action="copy" data-target="p-story">${t('common.copy')}</button></div>

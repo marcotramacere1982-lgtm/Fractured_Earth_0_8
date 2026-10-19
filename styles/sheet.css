@@ -187,6 +187,11 @@
 .action-btn--reaction .action-btn__name { color: var(--color-info); }
 
 /* ---------- damage after a hit ---------- */
+/* Roll window steps after a hit: damage, Exploit, hit location (rolled by the app or typed) */
+.flow-done { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); color: var(--color-text-muted); font-size: var(--text-sm); }
+.flow-step { display: grid; gap: var(--space-2); padding: var(--space-3); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-accent); background: var(--color-accent-soft); }
+.flow-dice { display: grid; gap: var(--space-2); }
+.flow-dice__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
 .roll-extra { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-danger); background: var(--color-danger-soft); }
 .roll-extra__main { display: flex; align-items: baseline; gap: var(--space-3); }
 .roll-extra__n { font-family: var(--font-mono); font-weight: 600; font-size: var(--text-2xl); color: var(--color-danger); }
@@ -235,7 +240,6 @@
   background: none; border: 0; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer;
 }
 .tell-row__name { font-family: var(--font-ui); font-weight: 700; font-size: var(--text-md); }
-.tell-row__exploit { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
 .tell-pips { display: inline-flex; gap: var(--space-1); padding: 0 var(--space-1); }
 .tell-pip { width: 0.9rem; height: 0.9rem; border-radius: 50%; border: var(--border-width) solid var(--color-danger); }
 .tell-pip.is-on { background: var(--color-danger); }
@@ -279,3 +283,21 @@
 .crew-pill--tight { border-color: var(--color-success); color: var(--color-success); }
 .crew-pill--fractured, .crew-pill--broken { border-color: var(--color-danger); color: var(--color-danger); }
 .drive { margin-top: var(--space-3); }
+
+/* Boosts: positive conditions, set by hand (decision 54) */
+.cond-group { margin: var(--space-3) 0 0; }
+.cond--boost.cond--on { border-color: var(--color-success); background: var(--color-success-soft); }
+.cond--boost.cond--on .cond__name { color: var(--color-success); }
+
+/* Inventory rows: trade and trash (decision 55) */
+.inv-acts { margin-left: auto; }
+
+/* Weapon ammo block: counter, max and Reload on one row; facts as pills (decision 55) */
+.ammo { display: grid; gap: var(--space-2); min-width: 0; }
+.ammo__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.ammo__row > .mono { white-space: nowrap; }
+.ammo__reload { margin-left: auto; }
+.ammo__facts { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+
+/* The weapon in hand (decision 56) */
+.weapon--in-hand { border-color: var(--color-accent); box-shadow: 0 0 0 1px var(--color-accent-soft); }

@@ -8,7 +8,10 @@
       "+2 armor vs ranged attacks.",
       "Melee attacks against you gain +4 TN."
     ],
-    "clear": "Spend 1 action to stand up."
+    "clear": "Spend 1 action to stand up.",
+    "mods": {
+      "moveHalf": true
+    }
   },
   {
     "id": "slowed",
@@ -38,7 +41,10 @@
       "Your attacks −10 TN or hit a random adjacent square.",
       "Ranged attacks against you gain +4 TN."
     ],
-    "clear": "1 action to clear ocular feedback, or lasts 1–3 rounds."
+    "clear": "1 action to clear ocular feedback, or lasts 1–3 rounds.",
+    "mods": {
+      "attackTn": -10
+    }
   },
   {
     "id": "broken_arm",
@@ -102,7 +108,10 @@
       "Must spend all actions advancing on and attacking the nearest visible entity.",
       "+2 melee damage; no cover or proactive defense."
     ],
-    "clear": "Ends after 2 rounds or with no targets in sight."
+    "clear": "Ends after 2 rounds or with no targets in sight.",
+    "mods": {
+      "meleeDamage": 2
+    }
   },
   {
     "id": "incapacitated",
@@ -122,5 +131,83 @@
       "Has taken damage this combat. Smuggler pendulum drifts +1 at round end."
     ],
     "clear": "Healed to full or end of combat."
+  },
+  {
+    "id": "overdrive",
+    "name": "Overdrive",
+    "targets": "Operators",
+    "positive": true,
+    "effects": [
+      "+1 action each round."
+    ],
+    "clear": "Until the GM ends it (usually at the end of the scene).",
+    "mods": {
+      "act": 1
+    }
+  },
+  {
+    "id": "focused",
+    "name": "Focused",
+    "targets": "Operators",
+    "positive": true,
+    "effects": [
+      "+2 TN on attacks."
+    ],
+    "clear": "Until the GM ends it (usually at the end of the scene).",
+    "mods": {
+      "attackTn": 2
+    }
+  },
+  {
+    "id": "sharp",
+    "name": "Sharp",
+    "targets": "Operators",
+    "positive": true,
+    "effects": [
+      "+1 TN on skill checks."
+    ],
+    "clear": "Until the GM ends it (usually at the end of the scene).",
+    "mods": {
+      "skillTn": 1
+    }
+  },
+  {
+    "id": "fired_up",
+    "name": "Fired Up",
+    "targets": "Operators",
+    "positive": true,
+    "effects": [
+      "+1 OFF: every hit you land deals +1 damage."
+    ],
+    "clear": "Until the GM ends it (usually at the end of the scene).",
+    "mods": {
+      "off": 1
+    }
+  },
+  {
+    "id": "guarded",
+    "name": "Guarded",
+    "targets": "Operators",
+    "positive": true,
+    "effects": [
+      "+1 DEF."
+    ],
+    "clear": "Until the GM ends it (usually at the end of the scene).",
+    "mods": {
+      "def": 1
+    }
+  },
+  {
+    "id": "bolstered",
+    "name": "Bolstered",
+    "targets": "Operators",
+    "positive": true,
+    "effects": [
+      "+1 armor against every hit."
+    ],
+    "clear": "Until the GM ends it (usually at the end of the scene).",
+    "mods": {
+      "armor": 1
+    }
   }
 ]

@@ -76,7 +76,8 @@ Durante un round di combattimento, un Operatore può spendere le sue azioni in q
 
 - **Ability di classe:** attivi un'ability di classe pronta o un modulo tattico dal tuo HUD (per esempio *Ping Sweep*, *Brace & Dig In*, *Contraband Stash*). Attivare un'ability di classe costa **1 azione**, salvo indicazione diversa sulla sua scheda.
 
-- **Ricarica o cambio d'equipaggiamento:** spendi **1 azione** per sostituire un caricatore vuoto e azzerare il contatore delle munizioni dell'arma (`AMMO WP`), o per passare dall'arma principale a quella secondaria (Slot 1 ↔ Slot 2).
+- **Ricarica o cambio d'equipaggiamento:** spendi **1 azione** per inserire un caricatore di scorta nell'arma che hai in mano (quello vecchio si butta), o per passare all'altra arma. **Solo l'arma in mano può attaccare**, quindi per sparare con l'altra devi prima cambiare. Fuori dal combattimento scegli liberamente l'arma in mano sulla scheda dell'arma. Il pulsante *Ricarica / cambia* della scheda mostra entrambe le scelte.
+- **Seconde possibilità:** se un giocatore vuole ritirare una mossa, decide il GM. Dalla console il GM può annullare l'ultima azione di un giocatore, il suo round o il suo intero combattimento; la scheda torna indietro e ogni annullamento viene registrato dove il GM lo vede, così il tavolo resta equo. Quando il GM ritira una sua mossa sul tracker del combattimento, il tavolo viene avvisato.
 
 **Interagire con l'ambiente e l'inventario:** azionare console, aprire porte blindate, raccogliere equipaggiamento caduto o scambiare oggetti con un compagno adiacente (per esempio passargli un med-kit o un caricatore).
 
@@ -224,7 +225,7 @@ Lo Scavenger trasforma l'attenzione in danno. I **Tell** stanno sui singoli nemi
 
 - **Inizio del tuo turno:** piazza 1 Tell su un nemico che vedi, o 2 se sei Unseen (copertura totale e nessun attacco nel round precedente). La scheda ti ricorda quanti ne restano da piazzare.
 - **Attaccare** (un attacco, o *Called Shot* / *Kill Shot*) significa che in questo round hai attaccato: il round dopo ne piazzi solo 1. *Vanish* (una volta per scontro) ti riporta in copertura totale e cancella questo effetto.
-- **Exploit:** prepara dei Tell sul bersaglio; il tuo prossimo colpo a segno con un attacco aggiunge +1d4 per Tell (la scheda li tira insieme ai danni) e li spende.
+- **Exploit:** dopo che un attacco va a segno e i danni sono inseriti, la finestra del tiro chiede quale nemico hai colpito e quanti dei suoi Tell spendere: +1d4 ciascuno, tirati o inseriti, poi quei Tell spariscono.
 - **Le abilità** costano Tell sul bersaglio: 1 per un piccolo vantaggio (*Mark*, *Lift*, *Misdirect*, *Pin the Route*), 2 per uno grosso (*Jam*, *Called Shot*, *Strip*), 3 per il colpo finale (*Kill Shot*). Come ogni abilità tirano la tua Class TN, e un tiro fallito paga comunque il costo.
 - **Fine round:** togli i Tell di ogni nemico che hai perso di vista in questo round. I nemici che vanno a terra si portano via i loro Tell automaticamente.
 
@@ -299,6 +300,10 @@ Destra e sinistra contano separatamente. Braccia rotte e gambe azzoppate restano
 Durante le operazioni ad alta posta, pericoli ambientali, ordigni pesanti, hack di rete e ability tattiche possono infliggere gravi **condizioni** a Operatori e nemici. Le condizioni alterano le capacità operative, il movimento o la precisione di un'entità finché non vengono rimosse.
 
 Siccome questi effetti si applicano durante il combattimento, giocatori e GM possono tenere traccia delle condizioni attive nella scheda *Salute e condizioni* della sezione Gioco, sulla scheda del personaggio. La fonte più comune sono gli attacchi a una locazione (7-5): *Broken arm*, *Crippled leg*, *Prone*, *Slowed*, *Stunned* e *Incapacitated*.
+
+**La scheda applica i numeri.** Le condizioni che cambiano un valore lo cambiano sulla scheda: *Stunned* e *Slowed* riducono le azioni del round, *Prone* dimezza i quadretti per movimento, *Blinded* toglie −10 TN ai tuoi attacchi, *Enraged* aggiunge +2 ai colpi in mischia (visibile nei danni). Un valore cambiato compare in **rosso** (peggio) o in **verde** (meglio), con quello normale piccolo accanto.
+
+**Potenziamenti.** Sei condizioni positive che il GM (o la situazione) può concedere, da attivare a mano sulla scheda e che durano finché il GM non le termina, di solito alla fine della scena: *Overdrive* (+1 azione a ogni round), *Focused* (+2 TN agli attacchi), *Sharp* (+1 TN alle prove di abilità), *Fired Up* (+1 OFF), *Guarded* (+1 DEF) e *Bolstered* (+1 armatura).
 
 **Tabella di riferimento: le condizioni**
 

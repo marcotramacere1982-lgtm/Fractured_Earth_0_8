@@ -13,10 +13,11 @@ const safe = {
   set(k, v) { try { localStorage.setItem(k, v); return true; } catch { return false; } },
 };
 
-export function createStore() {
+/** data: game tables, for save upgrades that need them (spare magazines, decision 55). */
+export function createStore({ data = null } = {}) {
   let characters = {};
   try { characters = JSON.parse(safe.get(KEY) ?? '{}'); } catch { characters = {}; }
-  for (const c of Object.values(characters)) upgradeSave(c);
+  for (const c of Object.values(characters)) upgradeSave(c, data);
   let activeId = safe.get(ACTIVE);
   const listeners = new Set();
   let saveTimer = null;

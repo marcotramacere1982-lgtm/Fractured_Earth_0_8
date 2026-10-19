@@ -12,21 +12,22 @@ import { setExplainSource } from '../explain.js';
 import { skillsTab } from './skills.js';
 import { gearTab } from './gear.js';
 import { dossierTab, notesTab } from './dossier.js';
-import { openCheck, openShop } from './dialogs.js';
+import { openCheck, openShop, openChoice } from './dialogs.js';
 import { bonus } from '../../rules/stats.js';
-import { roll, formatRoll } from '../../rules/dice.js';
-import { hitLocations } from '../../rules/body.js';
-import { locationRule } from './play.js';
-import { rollDamage, turnStatus, newTurn } from '../../rules/turn.js';
-import { abilityWeapon, stanceMultiplier, exploitDice, isRanged } from '../../rules/engines.js';
-import { t } from '../../i18n/index.js';
+import { formatRoll } from '../../rules/dice.js';
+import { turnStatus, newTurn } from '../../rules/turn.js';
+import { abilityWeapon } from '../../rules/engines.js';
+import { weaponFlow, hackFlow } from './attack-flow.js';
+import { openTrade } from './trade.js';
+import { itemName } from './inventory-actions.js';
+import { findGear, sellPrice } from '../../rules/economy.js';
+import { t, getLang } from '../../i18n/index.js';
+import { storyPrompt } from '../builder/prompts.js';
+import { soundOn, setSound } from '../sound.js';
+import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 
 const rollText = (r) => `d20 ${r.roll} vs ${r.effective}`;
-
-/** Breakdown of a damage roll: dice, second roll, bonus dice, OFF, stance multiplier. */
-const damageBreakdown = (d) => [formatRoll(d.base ?? d), d.second ? `+ ${formatRoll(d.second)}` : '', d.extra ? `+ ${formatRoll(d.extra)}` : '', d.exploit ? `+ Exploit ${formatRoll(d.exploit)}` : '',
-  d.off ? `${d.off > 0 ? '+' : '−'} OFF ${Math.abs(d.off)}` : '', d.flat ? `+ ${d.flat} Hot` : '', d.multiplier !== 1 ? `× ${d.multiplier}` : ''].filter(Boolean).join(' ');
 
 const TABS = [
   { id: 'play', label: 'sheet.tab.play', view: playTab },
@@ -65,16 +66,19 @@ export function sheetView({ data, store, main, table }, route) {
       <div class="sheet">
         ${statusBar(c, s, data)}
         ${tableBanner(table, id, data)}
+        ${tourDone('general') ? '' : html`<p class="notice tour-offer"><span>${t('tour.offer')}</span>
+          <button class="btn btn--sm btn--primary" data-action="tour" data-id="general">${t('tour.offerStart')}</button>
+          <button class="btn btn--sm btn--ghost" data-action="tourSkip">${t('tour.offerNo')}</button></p>`}
         <div class="sheet-nav">
-          <nav class="tabs" role="tablist" aria-label="${t('sheet.sections')}">
+          <nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
             ${TABS.map((x) => html`<a class="tab" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
           </nav>
           <div class="cluster">
-            ${crewBadge(table, data)}${tableButton(table, id)}
+            ${crewBadge(table, data)}${soundButton(table)}<button class="btn btn--sm btn--ghost" data-action="tour" data-id="general" title="${t('tour.startHint')}" aria-label="${t('tour.startHint')}">?</button>${tableButton(table, id)}
             <button class="btn btn--sm" data-action="export" title="${t('sheet.exportHint')}">${t('common.export')}</button>
           </div>
         </div>
-        <div class="sheet-body">${tab.view(c, s, data, { combat: table?.state.joinedId === id ? table.state.combat : null })}</div>
+        <div class="sheet-body">${tab.view(c, s, data, { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available) })}</div>
       </div>`);
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
   };
@@ -101,36 +105,14 @@ export function sheetView({ data, store, main, table }, route) {
     return { name: k.name, tn: k.value, sub: k.stats.join(' + ') };
   };
 
-  /** Damage + hit location for a hit with weapon w (normal attack, or an ability firing it). */
-  /** Hack damage depends on what the target is (organic / cybernetic / synthetic): roll each option, the GM applies the matching one. */
-  function hackDamage(ability) {
-    return html`<div class="roll-extra">
-      ${ability.damage.map((d) => { const r = roll(d.dice); return html`<div class="roll-extra__main"><span class="label">${t('attack.damage')} · ${t(`tag.${d.vs}`)}</span><span class="roll-extra__n">${r.total}</span><span class="mono muted">${formatRoll(r)}</span></div>`; })}
-      <p class="hint">${t('attack.hackNote')}</p></div>`;
-  }
-
-  function damagePanel(w, sh, c, spec = {}) {
-    const dmg = rollDamage(w, sh.combat.off.value, Math.random, { bonus: spec.bonus, twice: spec.twice, multiplier: stanceMultiplier(c.classId, c.play.resources, data.classes), flat: sh.zone.damage, exploit: spec.exploit?.expr });
-    let located = '';
-    let where = '';
-    if (spec.located) { // a declared location attack: where it lands, and what that does if it gets through
-      const loc = roll(data.body.hitLocation.die);
-      const ids = hitLocations(loc.total, data.body);
-      const bp = data.body.locations.find((l) => l.id === ids[0])?.bp;
-      const inj = data.body.injuries[bp];
-      const cond = (id) => data.conditions.find((k) => k.id === id)?.name ?? id;
-      where = [...new Set(ids.map((x) => t(`body.part.${data.body.locations.find((l) => l.id === x)?.bp}`)))].join(' / ');
-      located = html`<div class="roll-extra__main"><span class="label">${t('attack.location')}</span><span class="roll-extra__n">${where}</span><span class="mono muted">d20 ${loc.total} · ${t('attack.aimNote')}</span></div>
-        <p class="hint">${t('attack.locationIf', { condition: cond(inj.condition) })}${bp === 'head' ? ` ${locationRule(data).head}` : ''} ${t('attack.locationCrack')}</p>`;
-    }
-    return {
-      text: dmg ? `${dmg.total} damage (${damageBreakdown(dmg)})${where ? ` · ${where}` : ''}` : '',
-      html: html`<div class="roll-extra">
-        ${dmg ? html`<div class="roll-extra__main"><span class="label">${t('attack.damage')} · ${w.name}</span><span class="roll-extra__n">${dmg.total}</span><span class="mono muted">${damageBreakdown(dmg)}</span></div>` : ''}
-        ${located}
-        <p class="hint">${spec.armorHalf ? t('attack.armorHalf') : t('attack.armorNote')}</p></div>`,
-    };
-  }
+  const tableCombat = () => (table?.state.joinedId === id ? table.state.combat : null);
+  /** Damage steps after a successful ability: its weapon's dice (Called Shot, Kill Shot…) or a hack's own dice. */
+  const abilityFlow = (c, sh, ability) => {
+    const onDone = (o) => run('attackDamage', o);
+    if (ability.damage) return hackFlow({ ability, onDone });
+    const w = abilityWeapon(ability, sh.armed);
+    return w && !ability.weapon.noDamage ? weaponFlow({ c, sh, data, w, spec: ability.weapon, onDone }) : null;
+  };
 
   const offClick = delegate(main, 'click', {
     hp: ({ delta }) => run('hp', { delta }),
@@ -177,13 +159,7 @@ export function sheetView({ data, store, main, table }, route) {
       if (ability.auto) { run('useRolled', { id: abilityId, success: true, rollText: 'no roll' }); return; } // housekeeping: no Class TN roll
       openCheck({ name: resonant ? `${ability.name} · ${t('engine.resonantCast')}` : ability.name, tn: sh.class.tn, sub: `Class TN · ${sh.class.subclass.name}` }, data,
         (r) => run('useRolled', { id: abilityId, success: r.success, rollText: rollText(r), resonant: Boolean(resonant) }),
-        { tier: tableTier(), once: true, after: (r) => {
-          if (!r.success) return data.classes.abilityRoll.onFailure === 'spend' ? html`<p class="hint">${t('check.abilityFailed')}</p>` : '';
-          if (ability.damage) return hackDamage(ability);
-          const w = abilityWeapon(ability, sh.weapons);
-          if (!w || ability.weapon.noDamage) return '';
-          return damagePanel(w, sh, c, ability.weapon).html;
-        } });
+        { tier: tableTier(), once: true, flow: abilityFlow(c, sh, ability), after: (r) => (!r.success && data.classes.abilityRoll.onFailure === 'spend' ? html`<p class="hint">${t('check.abilityFailed')}</p>` : '') });
     },
     attackRoll: ({ slot, located }) => {
       const c = character();
@@ -194,17 +170,11 @@ export function sheetView({ data, store, main, table }, route) {
       if (w.magSize && w.rounds <= 0) { toast(t('attack.empty', { weapon: w.name }), 'danger'); return; }
       const aimed = Boolean(located);
       const penalty = aimed ? sh.locationPenalty : 0; // Marksman lowers it
-      // Scavenger: the readied Exploit on the target (read before the roll: a hit spends those Tells)
-      const exploit = c.classId === 'scavenger' ? exploitDice(c.play.resources, data.classes, { melee: !isRanged(w), talents: sh.talents }) : null;
-      let damageText = '';
       openCheck({ name: t(aimed ? 'attack.locatedTitle' : 'attack.title', { weapon: w.name }), tn: w.tn - penalty, sub: aimed ? `${nameOfSkill(w.skill)} · ${t('attack.locatedSub', { n: penalty })}` : nameOfSkill(w.skill) }, data,
-        (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), damageText, located: aimed }),
-        { tier: tableTier(), once: true, after: (r) => {
-          if (!r.success) return html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`;
-          const panel = damagePanel(w, sh, c, { located: aimed, exploit });
-          damageText = panel.text;
-          return panel.html;
-        } });
+        (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), located: aimed }),
+        { tier: tableTier(), once: true,
+          after: (r) => (r.success ? '' : html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`),
+          flow: weaponFlow({ c, sh, data, w, spec: { located: aimed }, exploit: true, combat: tableCombat(), onDone: (o) => run('attackDamage', o) }) });
     },
     dodgeRoll: () => {
       const c = character();
@@ -214,21 +184,75 @@ export function sheetView({ data, store, main, table }, route) {
         (r) => run('dodge', { success: r.success, rollText: rollText(r) }), { tier: tableTier(), once: true });
     },
     act: ({ kind, detail }) => { const c = character(); if (actionAvailable(c, deriveSheet(c, data))) run('act', { kind, detail }); },
+    /** Reload / swap (decision 56): a small choice — reload the weapon in hand, or swap to the other one. */
     reloadPick: () => {
       const c = character();
       const sh = deriveSheet(c, data);
-      const w = sh.weapons.filter((x) => !x.empty && x.magSize && x.rounds < x.magSize).sort((a, b) => a.rounds - b.rounds)[0];
-      if (!w) { toast(t('reload.full')); return; }
-      if (actionAvailable(c, sh)) run('reload', { slot: w.slot });
+      if (!actionAvailable(c, sh)) return;
+      const inHand = sh.weapons.find((w) => w.inHand);
+      const other = sh.weapons.find((w) => !w.empty && !w.inHand);
+      const choices = [];
+      if (inHand?.magSize) {
+        const why = inHand.rounds >= inHand.magSize ? t('reload.full') : !inHand.spares ? t('weapons.noSpares') : '';
+        choices.push({ value: `r${inHand.slot}`, label: t('reload.reload', { weapon: inHand.name, rounds: inHand.rounds, max: inHand.magSize, n: inHand.spares }), why });
+      }
+      if (other) choices.push({ value: `s${other.slot}`, label: t('reload.swap', { weapon: other.name }), why: other.usable === false ? t(`weapons.unusable.${other.why}`) : '' });
+      if (!choices.length) { toast(t('reload.nothing')); return; }
+      openChoice(t('action.reload'), choices, (v) => run(v[0] === 'r' ? 'reload' : 'hand', { slot: v.slice(1) }));
     },
+    hand: ({ slot }) => { const c = character(); if (actionAvailable(c, deriveSheet(c, data))) run('hand', { slot }); },
     combatEnd: () => run('combatEnd'),
+    /** Decision 50: the GM's Claude writes (or polishes) the backstory; it comes back as a durable message. */
+    askBackstory: async () => {
+      const c = character();
+      const mode = c.narrative.backstoryHtml?.trim() ? 'revise' : 'write';
+      const ok = await table?.askBackstory({ id, name: c.name, player: c.player, lang: getLang(), prompt: storyPrompt(c, data), current: c.narrative.backstoryHtml ?? '', mode });
+      if (ok) { run('backstoryAsked', { mode }); toast(t('dossier.askedToast'), 'success'); } else toast(t('dossier.askFailed'), 'danger');
+    },
+    backstoryUndo: () => run('backstoryUndo'),
+    soundToggle: () => { setSound(!soundOn()); draw(); },
+    /** Decision 55: drop one (asks first). */
+    trash: ({ kind, id: itemId }) => {
+      const row = character().play.inventory.find((x) => x.kind === kind && x.id === itemId);
+      if (row && confirm(t('trade.trashConfirm', { item: itemName(row, data) }))) run('trash', { kind, id: itemId });
+    },
+    /** Decision 55: sell for half the list price, or hand it to another player at the table. */
+    trade: ({ kind, id: itemId }) => {
+      const c = character();
+      const row = c.play.inventory.find((x) => x.kind === kind && x.id === itemId);
+      if (!row) return;
+      const name = itemName(row, data);
+      const atTable = table?.state.available && table.state.joinedId === id;
+      openTrade({ name, price: kind === 'custom' ? null : sellPrice(findGear(kind, itemId, data), data.economy) }, {
+        inCombat: Boolean(c.play.turn?.inCombat),
+        players: atTable ? async () => (await table.players()).filter((p) => p.id !== id) : null,
+        onSell: (price) => { let cash = 0; store.update(id, (draft) => { cash = actions.sell(draft, data, { kind, id: itemId, price }); }); return t('trade.sold', { item: name, n: cash }); },
+        onGift: async (player) => {
+          const now = character();
+          if (!actionAvailable(now, deriveSheet(now, data))) throw new Error(t('turn.noActions'));
+          const item = kind === 'custom' ? { kind, name: row.name, note: row.note ?? '' } : { kind, id: itemId };
+          if (!(await table.gift(player.id, item))) throw new Error(t('dossier.askFailed'));
+          store.update(id, (draft) => { actions.giveItem(draft, data, { kind, id: itemId, toName: player.name }); }); // braces: update() would take a returned object as the new character
+          return t('trade.given', { item: name, to: player.name });
+        },
+      });
+    },
+    /** Decision 53: guided tours (general, or class.<id>) — they switch tabs as they go. */
+    tour: ({ id: tourId }) => {
+      const tour = data.tours.tours.find((x) => x.id === tourId);
+      if (tour) startTour(tour, { openTab: (tabId) => { if (location.hash !== href('sheet', id, tabId)) go('sheet', id, tabId); }, onClose: () => draw() });
+    },
+    tourSkip: () => { markTourDone('general'); draw(); },
+    copyPrompt: async ({ target }) => {
+      const el = document.getElementById(target);
+      try { await navigator.clipboard.writeText(el.value); toast(t('builder.copied'), 'success'); } catch { el.select(); document.execCommand('copy'); toast(t('builder.copied')); }
+    },
     release: (d) => run('release', d),
     res: (d) => run('res', d),
     setRes: (d) => run('setRes', d),
     techMode: (d) => run('techMode', d),
     tell: ({ key, delta }) => run('tell', { key, delta, combat: table?.state.joinedId === id ? table.state.combat : null }),
     tellTarget: ({ key }) => run('tellTarget', { key }),
-    exploit: ({ value }) => run('exploit', { n: value }),
     markRemove: ({ key }) => run('markRemove', { key }),
     deckMod: (d) => run('deckMod', d),
     roundEnd: () => run('roundEnd'),
@@ -243,8 +267,9 @@ export function sheetView({ data, store, main, table }, route) {
         log(c, `${target.name}: rolled ${r.roll} vs ${r.effective} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
       }), { tier: tableTier() });
     },
-    shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, data, ({ kind: k, id: itemId, method, multiplier }) => {
+    shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, data, ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
       if (method === 'free') { run('add', { kind: k, id: itemId }); return t('shop.added'); }
+      if (method === 'custom') { store.update(id, (draft) => { actions.addCustom(draft, data, rest); }); return t('shop.added'); }
       let notice;
       store.update(id, (draft) => { notice = actions.buy(draft, data, { kind: k, id: itemId, method, multiplier }); });
       return ruleText(notice);
@@ -286,6 +311,13 @@ function crewBadge(table, data) {
   if (!crew || !table.state.joinedId) return '';
   const band = data.crew.bands.find((b) => b.id === crew.band);
   return html`<span class="pill crew-pill crew-pill--${crew.band}" title="${band?.effect ?? ''}">${t('crew.badge', { n: crew.value, band: band?.name ?? '' })}</span>`;
+}
+
+/** Decision 52: soft sounds at the table (your turn, GM messages, hits), switched per device. */
+function soundButton(table) {
+  if (!table?.state.available) return '';
+  const on = soundOn();
+  return html`<button class="btn btn--sm btn--ghost" data-action="soundToggle" aria-pressed="${on}" title="${t('sheet.soundHint')}" aria-label="${t(on ? 'sheet.soundOn' : 'sheet.soundOff')}">${on ? '🔔' : '🔕'}</button>`;
 }
 
 function tableButton(table, id) {

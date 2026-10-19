@@ -1,0 +1,229 @@
+{
+  "note": "Guided tours of the sheet (decision 53). target = a [data-tour] mark in the sheet; tab = the sheet tab to open first; optional steps are skipped when their target isn't on screen (e.g. Hostiles outside a GM-run fight); no target = a centred note. Text overlays: i18n/<lang>/tours.json.",
+  "tours": [
+    {
+      "id": "general",
+      "name": "The sheet",
+      "steps": [
+        {
+          "id": "status",
+          "tab": "play",
+          "target": "status",
+          "title": "Your status",
+          "text": "Name, class and the numbers you check most, always at the top. A value in green or red is changed by a condition (the normal one is shown small beside it)."
+        },
+        {
+          "id": "tabs",
+          "tab": "play",
+          "target": "tabs",
+          "title": "Six tabs",
+          "text": "Play for the fight, Skills for checks, Gear for money and the market, Dossier for your story and debt, Notes for anything, Progress for XP and talents."
+        },
+        {
+          "id": "health",
+          "tab": "play",
+          "target": "health",
+          "title": "Health & Conditions",
+          "text": "When you're hit, use Take a hit: type the damage and, for a location attack, where it landed. The sheet takes off your armor, lowers HP and adds the injury or condition. Full heal and Repair armor are here too. Tap a condition to switch it on; Boosts (green) are the good ones the GM may grant."
+        },
+        {
+          "id": "weapons",
+          "tab": "play",
+          "target": "weapons",
+          "title": "Ready your weapons",
+          "text": "Pick up to two weapons for your slots: these are what the Attack buttons use. Ammo and reloads are tracked here. Buy weapons in Gear → Market first."
+        },
+        {
+          "id": "turn",
+          "tab": "play",
+          "target": "turn",
+          "title": "Your turn",
+          "text": "The dots are your actions this round: every button you press spends one. At the table the GM runs the rounds and the strip shows whose turn it is — your tablet chimes softly when it's yours."
+        },
+        {
+          "id": "hostiles",
+          "tab": "play",
+          "target": "hostiles",
+          "optional": true,
+          "title": "Hostiles",
+          "text": "The enemies the GM has revealed, by letter, with a rough wound band and what you can see on them. Say “I shoot B” — the GM uses the same letters."
+        },
+        {
+          "id": "attack",
+          "tab": "play",
+          "target": "actions",
+          "title": "Attacking: the roll window",
+          "text": "Attack opens the roll window. First the d20 to hit. On a hit it goes step by step: damage, then (Scavenger) Exploit, then where it lands for a ⌖ location attack. At every step press Roll, or type what your own dice show and press Enter. The total comes at the end."
+        },
+        {
+          "id": "engine",
+          "tab": "play",
+          "target": "engine",
+          "title": "Your class engine",
+          "text": "Your class resource and your equipped abilities (up to 3). An ability turns green when you can use it now; otherwise the sheet tells you what's missing. The Class tour button explains your class in a minute."
+        },
+        {
+          "id": "market",
+          "tab": "gear",
+          "target": "market",
+          "title": "Money and the Market",
+          "text": "Buy officially with your Credit Score (traced) or on the street with cash (untraced, marked up). Guns come with 2 spare magazines — more in the Ammo tab — and Reload uses one. Hackers need a deck and Scavengers an optic. Misc adds story items with no rules. Each inventory row has ⇄ to sell or give it to a player, and 🗑 to drop it."
+        },
+        {
+          "id": "story",
+          "tab": "dossier",
+          "target": "story",
+          "title": "Your Dossier",
+          "text": "Identity, debt and backstory. At the table you can ask the GM to write or polish your backstory; the prompts for your own AI (story and portrait) are here too."
+        },
+        {
+          "id": "info",
+          "tab": "play",
+          "title": "Rules one tap away",
+          "text": "Any ⓘ opens a short rule with a link to the manual. Replay this tour any time from the ? button at the top of the sheet."
+        }
+      ]
+    },
+    {
+      "id": "class.soldier",
+      "name": "Soldier",
+      "steps": [
+        {
+          "id": "tp",
+          "tab": "play",
+          "target": "engine-resource",
+          "title": "Tactical Points",
+          "text": "TP start at 0 every fight. Every normal attack that hits gives +1 TP; Brace & Dig In gives +2, Steady Aim +1. No cap: bank them."
+        },
+        {
+          "id": "stance",
+          "tab": "play",
+          "target": "engine-resource",
+          "title": "Stance",
+          "text": "Defensive: ×0.5 damage dealt and taken. Attack: normal. Onslaught: ×1.5 dealt and taken. The sheet applies your stance to every damage roll."
+        },
+        {
+          "id": "abilities",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Finishers",
+          "text": "Abilities cost TP and move you between stances. Equip up to 3; green means ready now. Use rolls your Class TN and spends an action."
+        }
+      ]
+    },
+    {
+      "id": "class.hacker",
+      "name": "Hacker",
+      "steps": [
+        {
+          "id": "deck",
+          "tab": "play",
+          "target": "engine-item",
+          "title": "Your deck",
+          "text": "The deck sets your RAM and heat cap. No deck, no hacks: buy one in Gear → Market → Decks, then pick it here. Mods add RAM or cooling."
+        },
+        {
+          "id": "ram",
+          "tab": "play",
+          "target": "engine-resource",
+          "title": "RAM and Heat",
+          "text": "Hacks need free RAM. Sustained hacks keep theirs locked until you release them (✕). Every hack adds heat, −1 each round. Heat at the cap = Blue Screen: sustained hacks crash and the deck is locked for a round."
+        },
+        {
+          "id": "abilities",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Hacks",
+          "text": "Each card shows its RAM and heat. Most hacks only touch cybernetic or synthetic targets — the Hostiles list shows which is which. Thermal Dump, Release Payload and Hard Reboot need no roll."
+        }
+      ]
+    },
+    {
+      "id": "class.techwiz",
+      "name": "Tech Wizard",
+      "steps": [
+        {
+          "id": "mode",
+          "tab": "play",
+          "target": "engine-resource",
+          "title": "Mend or Surge",
+          "text": "Every ability has two faces: Mend (support) and Surge (offense). Your mode picks which one fires. Switching is free, but Sync drops to 0."
+        },
+        {
+          "id": "sync",
+          "tab": "play",
+          "target": "engine-resource",
+          "title": "Field Sync",
+          "text": "Sync 0–3, Cold to Resonant: +1 for each ability used, +1 at round end if you held your mode. Losing HP costs 1. At Resonant you can fire both faces at once."
+        },
+        {
+          "id": "abilities",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Abilities",
+          "text": "Stronger abilities need a minimum Sync. Brownout moves take the rig offline until the end of next round. Keep your Tech Wizard behind cover."
+        }
+      ]
+    },
+    {
+      "id": "class.smuggler",
+      "name": "Smuggler",
+      "steps": [
+        {
+          "id": "pendulum",
+          "tab": "play",
+          "target": "engine-resource",
+          "title": "The Pendulum",
+          "text": "From −4 to +4. Cold (below 0): +2 TN on gun attacks. Hot (above 0): +1 damage and +1 square per move. The sheet applies both for you."
+        },
+        {
+          "id": "abilities",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Abilities swing it",
+          "text": "Each ability needs a side of the pendulum and shifts it when used. Wounded Smugglers drift +1 toward Hot at the end of each round."
+        },
+        {
+          "id": "rhythm",
+          "tab": "play",
+          "title": "The rhythm",
+          "text": "Plan in Cold, take a hit, swing Hot, cash in with a reckless move, crash back to Cold. Desperate Gamble goes all-in."
+        }
+      ]
+    },
+    {
+      "id": "class.scavenger",
+      "name": "Scavenger",
+      "steps": [
+        {
+          "id": "optic",
+          "tab": "play",
+          "target": "engine-item",
+          "title": "Your optic",
+          "text": "Range: how far away you can place Tells. Track: how many enemies hold your Tells at once. Buy one in Gear → Market → Optics; without one you have bare lenses (range 4, Track 1)."
+        },
+        {
+          "id": "tells",
+          "tab": "play",
+          "target": "tells",
+          "title": "Tells on enemies",
+          "text": "At the start of your turn place 1 Tell, or 2 if you're Unseen (full cover, no attack last round). Max 3 per enemy. Tap an enemy to make it your target for abilities."
+        },
+        {
+          "id": "exploit",
+          "tab": "play",
+          "target": "actions",
+          "title": "Exploit",
+          "text": "When an attack hits, the roll window asks which enemy you hit and how many of its Tells to spend: +1d4 damage each, then they're gone. A miss spends nothing."
+        },
+        {
+          "id": "abilities",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Abilities",
+          "text": "They spend the target's Tells: 1 for a small edge, 2 for a big one, 3 for the finisher. Close Study and Case the Room place more Tells."
+        }
+      ]
+    }
+  ]
+}

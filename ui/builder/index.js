@@ -8,7 +8,8 @@ import { typeInto } from './console.js';
 import { info } from '../ref.js';
 import { createCharacter } from '../../state/character.js';
 import { setExplainSource } from '../explain.js';
-import { t } from '../../i18n/index.js';
+import { t, getLang } from '../../i18n/index.js';
+import { storyPrompt } from './prompts.js';
 import { shrinkImage } from '../../state/store.js';
 import { runAdolescence, runCareerTerm, resolveChoice } from '../../rules/builder.js';
 
@@ -44,7 +45,7 @@ const setPath = (obj, path, value) => {
   o[keys[0]] = value;
 };
 
-export function builderView({ data, store, main }) {
+export function builderView({ data, store, main, table }) {
   let draft = loadDraft(data);
   setExplainSource(() => draft.character);
   let animateFrom = null; // index in the current log to start typing from (transient)
@@ -79,7 +80,7 @@ export function builderView({ data, store, main }) {
         </ol>
         <section class="card b-card">
           <header class="card__head"><div><h2 class="card__title">${st.title}${st.ref ? info(st.ref, st.title) : ''}</h2><p class="hint b-lede">${st.lede}</p></div></header>
-          <div class="card__body stack">${st.view({ ...draft, log }, data)}</div>
+          <div class="card__body stack">${st.view({ ...draft, log }, data, { atTable: Boolean(table?.state.available) })}</div>
           <footer class="card__foot">
             <button class="btn" data-action="prev" ${draft.step === 0 ? 'disabled' : ''}>${t('common.back')}</button>
             <span class="hint b-nav-reason">${nav.reason}</span>
@@ -188,6 +189,15 @@ export function builderView({ data, store, main }) {
       const el = document.getElementById(target);
       try { await navigator.clipboard.writeText(el.value); toast(t('builder.copied'), 'success'); }
       catch { el.select(); document.execCommand('copy'); toast(t('builder.copied')); }
+    },
+    /** Decision 50: the GM's Claude writes the backstory; it arrives on the sheet once the GM sends it. */
+    sendStory: async () => {
+      const c = draft.character;
+      const mode = c.narrative.backstoryHtml?.trim() ? 'revise' : 'write';
+      const ok = await table?.askBackstory({ id: c.id, name: c.name, player: c.player, lang: getLang(), prompt: storyPrompt(c, data), current: c.narrative.backstoryHtml ?? '', mode });
+      if (!ok) { toast(t('dossier.askFailed'), 'danger'); return; }
+      commit((d) => { d.character.narrative.backstoryRequest = { at: Date.now(), mode }; });
+      toast(t('dossier.askedToast'), 'success');
     },
     create: () => {
       const c = structuredClone(draft.character);

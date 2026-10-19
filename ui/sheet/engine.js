@@ -6,6 +6,7 @@ import { canUse, defaultResources, upgradeTechResources, SYNC_MAX, newTells, tel
 import { zoneFor } from '../../rules/classes.js';
 import { info } from '../ref.js';
 import { t, tn } from '../../i18n/index.js';
+import { tourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 
 const deltaText = (d) => ('set' in d ? `= ${signed(d.set)}` : signed(d.delta));
@@ -31,7 +32,7 @@ function abilityText(cls, a, r) {
 }
 
 /** Scavenger: the enemies that can hold Tells — the GM's hostiles at the table, or enemies named by hand. */
-function tellTargets(r, combat) {
+export function tellTargets(r, combat) {
   if (combat?.hostiles?.length) return combat.hostiles.filter((h) => h.band !== 'down').map((h) => ({ key: h.key, letter: h.letter, name: h.name }));
   return (r.marks ?? []).map((m) => ({ key: m.key, letter: '', name: m.name, mark: true }));
 }
@@ -58,11 +59,10 @@ function scavengerPanel(c, s, data, r, combat) {
         ${pips(n)}
         <button class="counter__btn" data-action="tell" data-key="${x.key}" data-delta="1" ${n < per ? '' : raw('disabled')} aria-label="${t('engine.tellOn')}">+</button></span>
       ${x.mark ? html`<button class="btn btn--sm btn--ghost" data-action="markRemove" data-key="${x.key}" aria-label="${t('common.remove')}">✕</button>` : ''}
-      ${on && n ? html`<div class="tell-row__exploit"><span class="label">${t('engine.exploit')}</span>${segmented('exploit', Array.from({ length: n + 1 }, (_, i) => ({ value: i, label: i ? `${i} · +${i}d4` : '0' })), r.exploit ?? 0)}</div>` : ''}
     </li>`;
   };
   return html`
-    <div class="engine-row"><span class="label">${t('engine.optic')}${info('optic', t('engine.optic'))}</span>
+    <div class="engine-row" data-tour="engine-item"><span class="label">${t('engine.optic')}${info('optic', t('engine.optic'))}</span>
       <select class="select" data-action="optic">
         <option value="">— ${t('engine.noOptic')} —</option>
         ${owned.map((x) => html`<option value="${x.id}" ${c.play.optic === x.id ? raw('selected') : ''}>${nameOf(data.optics, x.id)}</option>`)}
@@ -71,7 +71,7 @@ function scavengerPanel(c, s, data, r, combat) {
     ${!o.item ? html`<p class="hint">${t(owned.length ? 'engine.selectOptic' : 'engine.buyOptic')}</p>` : ''}
     ${inCombat && r.toPlace > 0 ? html`<p class="notice notice--ok" role="status">${tn('engine.toPlace', r.toPlace)}${unseen ? html` <span class="pill pill--info">Unseen</span>` : ''}</p>` : ''}
     <div class="spread"><span class="label">${t('engine.tellsTitle')}</span><span class="mono muted">${t('engine.tracking', { n: holding, track: o.track })}</span></div>
-    ${targets.length ? html`<ul class="tell-list">${targets.map(row)}</ul>` : html`<p class="muted">${t(combat ? 'engine.noHostiles' : 'engine.noMarks')}</p>`}
+    <div data-tour="tells">${targets.length ? html`<ul class="tell-list">${targets.map(row)}</ul>` : html`<p class="muted">${t(combat ? 'engine.noHostiles' : 'engine.noMarks')}</p>`}</div>
     ${combat?.hostiles?.length ? '' : html`<input class="input" data-action="markAdd" placeholder="${t('engine.addMark')}" maxlength="24" aria-label="${t('engine.addMark')}">`}
     <p class="hint">${t('engine.scavengerHint')}</p>`;
 }
@@ -91,7 +91,7 @@ function resourcePanel(c, s, data, r, combat) {
       const ownedMods = c.play.inventory.filter((x) => x.kind === 'deckMod');
       const d = s.deck;
       return html`
-        <div class="engine-row"><span class="label">Deck${info('deck', 'Deck')}</span>
+        <div class="engine-row" data-tour="engine-item"><span class="label">Deck${info('deck', 'Deck')}</span>
           <select class="select" data-action="deck">
             <option value="">— ${t('engine.noDeck')} —</option>
             ${owned.map((o) => html`<option value="${o.id}" ${c.play.deck === o.id ? raw('selected') : ''}>${nameOf(data.decks, o.id)}</option>`)}
@@ -145,7 +145,7 @@ export function engineCard(c, s, data, combat = null) {
   const saved = c.play.resources && Object.keys(c.play.resources).length ? c.play.resources : null;
   const r = c.classId === 'techwiz' ? upgradeTechResources(saved ?? defaultResources('techwiz'))
     : c.classId === 'scavenger' ? { ...newTells(), ...saved } : { ...defaultResources(c.classId), ...saved };
-  const ctx = { capacity: s.deck?.capacity ?? null, weapons: s.weapons, arms: s.injured.arms, talents: s.talents };
+  const ctx = { capacity: s.deck?.capacity ?? null, weapons: s.armed, arms: s.injured.arms, talents: s.talents };
   const all = data.abilities[c.classId].map((a) => ({ ...a, available: a.subclasses.includes(c.subclassId) }));
   // Equipped = the loadout the player chose (swap between combats, capped by brain fog).
   // Ready = equipped AND the class criteria are met right now (computed live, never stored).
@@ -177,9 +177,13 @@ export function engineCard(c, s, data, combat = null) {
       </div>`;
   };
 
+  const cls = data.classes.classes.find((k) => k.id === c.classId);
   const body = html`
     <div class="stack">
-      ${resourcePanel(c, s, data, r, combat)}
+      ${tourDone(`class.${c.classId}`) ? '' : html`<p class="notice tour-offer"><span>${t('tour.classOffer', { cls: cls.name })}</span>
+        <button class="btn btn--sm btn--primary" data-action="tour" data-id="class.${c.classId}">${t('tour.classTour')}</button></p>`}
+      <div class="stack" data-tour="engine-resource">${resourcePanel(c, s, data, r, combat)}</div>
+      <div class="stack" data-tour="engine-abilities">
       <div class="spread spread--wrap">
         <span class="label">${t('engine.equipped')} ${equipped.length}/${s.abilityLimit} · <span class="text-success">${t('engine.readyCount', { n: readyCount })}</span></span>
         <span class="cluster"><span class="label">${t('engine.brainFog')}${info('brain-fog', t('engine.brainFog'))}</span>${counter({ action: 'maxAbilities', value: c.play.maxAbilities, min: 1, size: 'sm', label: t('engine.brainFog') })}</span></div>
@@ -187,6 +191,8 @@ export function engineCard(c, s, data, combat = null) {
       <details class="details" data-keep="abilities"><summary>${t('engine.allAbilities', { cls: data.classes.classes.find((k) => k.id === c.classId).name, n: rest.length })}</summary>
         <div class="stack">${rest.map((a) => abilityRow(a, false))}</div>
       </details>
+      </div>
     </div>`;
-  return card(`${s.class.name} · ${t('engine.title')}`, body, { sub: data.classes.classes.find((k) => k.id === c.classId).resources.engine, ref: c.classId });
+  return card(`${s.class.name} · ${t('engine.title')}`, body, { sub: cls.resources.engine, ref: c.classId, tour: 'engine',
+    actions: html`<button class="btn btn--sm btn--ghost" data-action="tour" data-id="class.${c.classId}">${t('tour.classTour')}</button>` });
 }

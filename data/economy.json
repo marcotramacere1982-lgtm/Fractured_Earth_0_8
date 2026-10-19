@@ -11,7 +11,8 @@
       "deckMod": 1,
       "deck": 1.25,
       "weapon": 1.5,
-      "optic": 1
+      "optic": 1,
+      "ammo": 0.75
     },
     "scrutinyNote": "How much attention an official purchase draws. Higher = the system makes you pay for it in compliance.",
     "override": "An entry may set cost.scoreOverride to replace the formula (a number), or null to make it cash only. Overrides beat the rarity rule.",
@@ -39,5 +40,15 @@
       "A"
     ],
     "note": "F = most common, A = rarest."
+  },
+  "magazine": {
+    "pricePct": 0.1,
+    "min": 5,
+    "startSpares": 2,
+    "note": "Decision 55: a spare magazine for a gun costs 10% of the gun (minimum 5 Cr). Every gun bought comes with 2. Reload uses one; the partly used one is discarded."
+  },
+  "sell": {
+    "fraction": 0.5,
+    "note": "Selling gives half the list price in cash (custom items: the player types the amount)."
   }
 }

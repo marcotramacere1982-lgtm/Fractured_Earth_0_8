@@ -1,5 +1,6 @@
 // Entry point: load data, create the store, start the router.
 
+import { cue } from './ui/sound.js';
 import { loadData } from './data/index.js';
 import { loadI18n, t, getLang } from './i18n/index.js';
 import { createStore } from './state/store.js';
@@ -32,13 +33,16 @@ async function boot() {
   }
   installRefs(data.refs);
   installExplain(data);
-  const store = createStore();
+  const store = createStore({ data });
   const table = createTableLink(store, {
     toast,
     log,
     combat: (id, msg) => store.update(id, (c) => actions.tableCombat(c, data, { msg })),
     progress: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyProgress(c, data, { msg }); }); return out; },
     downtime: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyDowntime(c, data, { msg }); }); return out; },
+    notify: cue,
+    gift: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.receiveItem(c, data, { msg }); }); return out; },
+    backstory: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.applyBackstory(c, data, { msg }); }); return out; },
   });
   const app = { data, store, main, table };
   installTransmissions(store, table);

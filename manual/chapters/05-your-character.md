@@ -32,6 +32,8 @@ The app is a smart paper sheet: it does the maths, keeps the rules one tap away 
 
 - **Builder** — creates a character in about five minutes. Every step explains itself; rolls print in a terminal log; choices you need to make appear inline. An *Advanced mode* lets experienced players type values directly or pick specific events (marked `[MANUAL]` for the GM).
 - **Character sheet** — your live sheet during play: HP, body, weapons, class engine, skills, gear, notes. Everything recalculates the moment something changes.
+- **Real dice welcome** — every roll window takes the app's roll or yours. After a hit, the window goes step by step: damage, then (Scavenger) Exploit, then the hit location of a location attack. At each step press *Roll*, or type what your dice show and press *Enter my dice*; the summary comes at the end.
+- **Guided tours** — the **?** button at the top of the sheet walks you through it in about two minutes: status, weapons, your turn, the roll window, your class engine, the market and the Dossier. The engine card has a **Class tour** for your class's resource and abilities. New sheets offer both once.
 - **Manual** — this book. Any ⓘ on the sheet or in the builder opens a short explanation with a link to the full rule here.
 - **Language** — the EN / IT switch at the top changes the app and this manual. Game terms stay in English, so you and the GM use the same words.
 
@@ -43,7 +45,7 @@ The app is a smart paper sheet: it does the maths, keeps the rules one tap away 
 
 ### Playing at the table
 
-The GM can run the app from a laptop on the table's Wi-Fi: every tablet opens the same address and works even without internet. Opening the files directly by double-click does not work — the app must be served from a computer (ask your GM).
+The GM can run the app from a laptop on the table's Wi-Fi: every tablet opens the same address and works even without internet. At the table the sheet plays a soft sound when your combat turn starts, when the GM sends you something and when you are hit; the 🔔 button in the sheet header switches it off on that device. (Browsers only allow sound after your first tap on the page.) Opening the files directly by double-click does not work — the app must be served from a computer (ask your GM).
 
 ## 5-3. Attributes & Checks {#sec-5-3}
 
@@ -210,7 +212,7 @@ The Scavenger reads the fight before joining it. It picks the dangerous target, 
 - **Limits:** at most **3 Tells on one enemy**, and only as many enemies hold your Tells as your **optic can Track**.
 - **Losing Tells:** an enemy's Tells are gone when it goes down, or at the end of a round in which you lost sight of it.
 - **Your target:** tap an enemy on the sheet to make it your target. Abilities spend **that enemy's** Tells.
-- **Exploit (always on):** ready some of the target's Tells; on your next hit with an attack, each adds **+1d4 damage**, then they are spent. A miss keeps them.
+- **Exploit (always on):** when an attack hits, the roll window asks which enemy you hit and how many of its Tells to spend; each adds **+1d4 damage** (rolled or typed) and is used up. A miss spends nothing.
 - **Salvage (always on):** after a fight, take one extra item from what the enemies dropped (Liftable list below).
 
 Build Tells on the enemy that really matters: a full burst is +3d4 on one hit, but it takes about two rounds, so it is wasted on a cheap drone.
@@ -237,7 +239,8 @@ At the live table your Tells sit on the GM's **Hostiles** list (by letter), and 
 The builder's last steps turn your rolls into a story. It compiles two prompts from everything you rolled:
 
 - **Backstory prompt** — paste it into any AI assistant (or use it as a writing guide) and paste the result back. It already contains the setting, your events, career and debt. With the app in Italian, it asks the AI to write the story in Italian.
-- **Portrait prompt** — for an image generator. Add your own look: gender, hair, eyes, build, clothing, marks.
+- **Or ask the GM** — at the live table, *Send to the GM* (in the builder) or *Ask the GM to write it* (Dossier) hands the same prompt to the GM, who has it written, reads it and sends it to your sheet. It lands on the Dossier; you can still edit it, or go back to your previous version. With a backstory already written, the button asks the GM to polish it instead.
+- **Portrait prompt** — for an image generator (both prompts stay on the Dossier, under *Prompts for your own AI*). Add your own look: gender, hair, eyes, build, clothing, marks.
 
 Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so saves stay small.
 

@@ -1,14 +1,16 @@
 // Sheet actions: each takes the draft character (+ data, args) and mutates it.
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
-import { canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendExploit } from '../../rules/engines.js';
-import { buy } from '../../rules/economy.js';
+import { canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells } from '../../rules/engines.js';
+import { buy, magazineId, addItem } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
 import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance } from '../../rules/turn.js';
 import { RuleError } from '../../rules/messages.js';
 import { locationOutcome, partOf } from '../../rules/injuries.js';
 import { progressActions, resetUses } from './progress-actions.js';
 import { downtimeActions } from './downtime-actions.js';
+import { storyActions } from './story-actions.js';
+import { inventoryActions } from './inventory-actions.js';
 
 /** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
 export function spend(c, data, what) {
@@ -152,11 +154,25 @@ export const actions = {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
     c.play.ammo[slot] = clamp((c.play.ammo[slot] ?? 0) + Number(delta), 0, w?.magSize ?? 0);
   },
+  /** Takes a weapon in hand (decision 56): free out of combat, 1 action in combat. */
+  hand(c, data, { slot }) {
+    const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
+    if (!w || String(deriveSheet(c, data).handSlot) === String(slot)) return;
+    const prefix = spend(c, data, { kind: 'swap', name: w.name });
+    c.play.hand = Number(slot);
+    if (prefix) log(c, `${prefix}Swap to ${w.name}`);
+  },
+  /** Uses one spare magazine (decision 55); the partly used one is discarded. No spares: blocked. In combat: the weapon in hand. */
   reload(c, data, { slot }) {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
-    const prefix = spend(c, data, { kind: 'reload', name: w?.name });
-    c.play.ammo[slot] = w?.magSize ?? 0;
-    log(c, `${prefix}Reload ${w?.name ?? 'weapon'}`);
+    if (!w?.magSize) return;
+    if (c.play.turn?.inCombat && String(deriveSheet(c, data).handSlot) !== String(slot)) throw new RuleError('notInHand', { weapon: w.name }, `The ${w.name} isn't in your hand: swap to it first.`);
+    const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.id));
+    if (!mags?.qty) throw new RuleError('noMagazine', { weapon: w.name }, `No spare magazines for the ${w.name}: buy some, or ask the GM.`);
+    const prefix = spend(c, data, { kind: 'reload', name: w.name });
+    actions.qty(c, data, { kind: 'ammo', id: mags.id, delta: -1 });
+    c.play.ammo[slot] = w.magSize;
+    log(c, `${prefix}Reload ${w.name} (${mags.qty} spare magazine${mags.qty === 1 ? '' : 's'} left)`);
   },
 
   // ---------------- inventory
@@ -177,10 +193,10 @@ export const actions = {
       if (kind === 'optic' && c.play.optic === id) c.play.optic = null;
     }
   },
-  add(c, _d, { kind, id }) {
-    const row = c.play.inventory.find((x) => x.kind === kind && x.id === id);
-    if (row) row.qty += 1; else c.play.inventory.push({ kind, id, qty: 1 });
+  add(c, data, { kind, id }) {
+    addItem(c, kind, id);
     if (kind === 'armor') autoWear(c, id);
+    if (kind === 'weapon' && data.weapons.find((w) => w.id === id)?.magSize) addItem(c, 'ammo', magazineId(id), data.economy.magazine.startSpares); // guns come with spares
   },
   buy(c, data, { kind, id, method, multiplier }) {
     const res = buy(c, { kind, id }, method, data, { multiplier: Number(multiplier), discount: deriveSheet(c, data).talents.cashDiscount ?? 0 });
@@ -233,16 +249,10 @@ export const actions = {
     const now = c.play.resources.tells[key] ?? 0;
     if (now !== was) log(c, `${now > was ? 'Tell on' : 'Tell off'} ${tellName(c, key, combat)} (${now}/3)`);
   },
-  /** The enemy abilities and Exploit spend from. Changing target clears a readied Exploit. */
+  /** The enemy abilities spend Tells from. */
   tellTarget(c, _d, { key }) {
     ensureResources(c);
-    if (c.play.resources.target !== key) c.play.resources = { ...c.play.resources, target: key || null, exploit: 0 };
-  },
-  /** How many of the target's Tells the next hit spends (Exploit). */
-  exploit(c, _d, { n }) {
-    ensureResources(c);
-    const r = c.play.resources;
-    r.exploit = clamp(Number(n), 0, r.tells[r.target] ?? 0);
+    c.play.resources = { ...c.play.resources, target: key || null };
   },
   /** Without a GM-run fight: name enemies by hand ("Heavy", "Drone 2"). */
   markAdd(c, _d, { name }) {
@@ -324,7 +334,7 @@ export const actions = {
     ensureResources(c);
     const ability = data.abilities[c.classId].find((a) => a.id === id);
     const sh = deriveSheet(c, data);
-    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.weapons, arms: sh.injured.arms, talents: sh.talents, track: sh.optic?.track ?? 1, classesData: data.classes, failed: !success };
+    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.armed, arms: sh.injured.arms, talents: sh.talents, track: sh.optic?.track ?? 1, classesData: data.classes, failed: !success };
     const check = canUse(c.classId, ability, c.play.resources, ctx);
     if (!check.ok) throw new RuleError(check.code, check.vars, `${ability.name}: ${check.reason}`);
     const prefix = spend(c, data, { kind: 'ability', name: ability.name });
@@ -341,22 +351,31 @@ export const actions = {
     const ws = deriveSheet(c, data).weapons.find((x) => String(x.slot) === String(slot));
     if (ws?.usable === false) throw new RuleError(ws.why === 'noArms' ? 'noArms' : 'oneArm', { weapon: w.name }, ws.why === 'noArms' ? 'Both arms are broken: no weapons.' : `${w.name}: with a broken arm you can use only one one-handed weapon.`);
     if (w.magSize && (c.play.ammo[slot] ?? 0) <= 0) throw new RuleError('weaponEmpty', { weapon: w.name }, `${w.name} is empty — reload first.`);
+    if (c.play.turn?.inCombat && ws && !ws.inHand) throw new RuleError('notInHand', { weapon: w.name }, `The ${w.name} isn't in your hand: swap to it first.`);
     const prefix = spend(c, data, { kind: located ? 'located' : 'attack', name: w.name });
-    if (w.magSize) c.play.ammo[slot] -= 1;
+    if (w.magSize) c.play.ammo[slot] = Math.max(0, c.play.ammo[slot] - (w.burst ?? 1)); // automatic weapons: a 3-round burst
     let momentum = '';
     if (hit && c.classId === 'soldier') {
       ensureResources(c);
       c.play.resources = weaponHit(c.classId, c.play.resources);
       momentum = ' · +1 TP';
     }
-    if (c.classId === 'scavenger') { // attacking breaks Unseen; a hit spends the readied Exploit
+    if (c.classId === 'scavenger') { // attacking breaks Unseen (Exploit is spent in the damage step)
       ensureResources(c);
-      const r = c.play.resources;
-      const n = Math.min(r.exploit ?? 0, r.tells[r.target] ?? 0);
-      c.play.resources = { ...(hit ? spendExploit(r) : r), attacked: true };
-      if (hit && n) momentum = ` · Exploit ${n} Tell${n > 1 ? 's' : ''}`;
+      c.play.resources = { ...c.play.resources, attacked: true };
     }
     log(c, `${prefix}${located ? 'Location attack' : 'Attack'} with ${w.name}: ${rollText} → ${hit ? `hit${damageText ? `, ${damageText}` : ''}${momentum}` : 'miss'}`, hit ? 'ok' : 'bad');
+  },
+  /**
+   * The damage step of an attack or ability, once every die is in (app-rolled or typed): logs it, and for
+   * the Scavenger spends the Tells used for Exploit on that enemy.
+   */
+  attackDamage(c, data, { text, exploit = null }) {
+    if (exploit?.n) {
+      ensureResources(c);
+      c.play.resources = spendTells(c.play.resources, exploit.key, Number(exploit.n));
+    }
+    log(c, `  → ${text}${exploit?.n ? ` · Exploit ${exploit.n} Tell${exploit.n > 1 ? 's' : ''} on ${exploit.name ?? exploit.key}` : ''}`, 'ok');
   },
   /** Proactive defense: borrows an action from next round and records the Avoid roll. */
   dodge(c, data, { rollText, success }) {
@@ -382,6 +401,8 @@ export const actions = {
   },
   ...progressActions,
   ...downtimeActions,
+  ...storyActions,
+  ...inventoryActions,
 };
 
 export const ownedOf = owned;

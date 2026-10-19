@@ -32,6 +32,8 @@ L'app è una scheda di carta intelligente: fa i conti, ti tiene le regole a un t
 
 - **Creazione** — crea un personaggio in circa cinque minuti. Ogni passo si spiega da solo; i tiri compaiono in un registro stile terminale; le scelte da fare appaiono al momento. La *Modalità avanzata* permette ai giocatori esperti di scrivere direttamente i valori o di scegliere eventi precisi (segnati `[MANUAL]` per il GM).
 - **Scheda del personaggio** — la tua scheda viva durante il gioco: HP, corpo, armi, motore di classe, abilità, equipaggiamento, note. Tutto si ricalcola nel momento in cui qualcosa cambia.
+- **Dadi veri benvenuti** — ogni finestra di tiro accetta il tiro dell'app o il tuo. Dopo un colpo a segno, la finestra procede un passo alla volta: danni, poi (Scavenger) Exploit, poi la locazione colpita di un attacco a una locazione. A ogni passo premi *Tira*, oppure scrivi quello che mostrano i tuoi dadi e premi *Inserisci i miei dadi*; il riepilogo arriva alla fine.
+- **Tour guidati** — il pulsante **?** in cima alla scheda te la mostra in circa due minuti: stato, armi, il tuo turno, la finestra del tiro, il motore della classe, il mercato e il Dossier. La scheda del motore ha un **Tour della classe** per la risorsa e le abilità della tua classe. Le schede nuove li propongono entrambi una volta.
 - **Manuale** — questo libro. Ogni ⓘ sulla scheda o durante la creazione apre una breve spiegazione con un link alla regola completa qui.
 - **Lingua** — il selettore EN / IT in alto cambia la lingua dell'app e del manuale. I termini di gioco restano in inglese, così tu e il GM usate le stesse parole.
 
@@ -43,7 +45,7 @@ L'app è una scheda di carta intelligente: fa i conti, ti tiene le regole a un t
 
 ### Giocare al tavolo
 
-Il GM può far girare l'app da un portatile sul Wi-Fi del tavolo: ogni tablet apre lo stesso indirizzo e funziona anche senza internet. Aprire i file con un doppio clic non funziona: l'app deve essere servita da un computer (chiedi al tuo GM).
+Il GM può far girare l'app da un portatile sul Wi-Fi del tavolo: ogni tablet apre lo stesso indirizzo e funziona anche senza internet. Al tavolo la scheda emette un suono discreto quando inizia il tuo turno di combattimento, quando il GM ti invia qualcosa e quando vieni colpito; il pulsante 🔔 nell'intestazione della scheda lo spegne su quel dispositivo. (I browser permettono i suoni solo dopo il primo tocco sulla pagina.) Aprire i file con un doppio clic non funziona: l'app deve essere servita da un computer (chiedi al tuo GM).
 
 ## 5-3. Attributi e prove {#sec-5-3}
 
@@ -210,7 +212,7 @@ Lo Scavenger legge lo scontro prima di entrarci. Sceglie il bersaglio pericoloso
 - **Limiti:** al massimo **3 Tell su un nemico**, e solo tanti nemici quanti la tua **ottica può tracciare (Track)** tengono i tuoi Tell.
 - **Perdere i Tell:** i Tell di un nemico spariscono quando va a terra, o alla fine di un round in cui lo hai perso di vista.
 - **Il tuo bersaglio:** tocca un nemico sulla scheda per renderlo il tuo bersaglio. Le abilità spendono i Tell di **quel nemico**.
-- **Exploit (sempre attivo):** prepara alcuni Tell del bersaglio; al tuo prossimo colpo a segno con un attacco, ognuno aggiunge **+1d4 danni**, poi si spendono. Se manchi, restano.
+- **Exploit (sempre attivo):** quando un attacco va a segno, la finestra del tiro chiede quale nemico hai colpito e quanti dei suoi Tell spendere; ognuno aggiunge **+1d4 danni** (tirati o inseriti) e si consuma. Se manchi, non spendi nulla.
 - **Salvage (sempre attivo):** dopo uno scontro, prendi un oggetto in più fra quelli lasciati dai nemici (lista Liftable qui sotto).
 
 Accumula Tell sul nemico che conta davvero: una raffica piena è +3d4 su un colpo, ma serve circa due round, quindi è sprecata su un drone da quattro soldi.
@@ -237,7 +239,8 @@ Al tavolo dal vivo i tuoi Tell stanno sulla lista **Ostili** del GM (per lettera
 Gli ultimi passi della Creazione trasformano i tuoi tiri in una storia. Prepara due prompt con tutto quello che hai tirato:
 
 - **Prompt della storia** — incollalo in un assistente IA qualsiasi (o usalo come traccia per scrivere) e incolla qui il risultato. Contiene già l'ambientazione, i tuoi eventi, la carriera e il debito. Con l'app in italiano, chiede all'IA di scrivere la storia in italiano.
-- **Prompt del ritratto** — per un generatore di immagini. Aggiungi il tuo aspetto: genere, capelli, occhi, corporatura, abiti, segni particolari.
+- **Oppure chiedi al GM** — al tavolo dal vivo, *Invia al GM* (nella Creazione) o *Chiedi al GM di scriverla* (Dossier) passa lo stesso prompt al GM, che la fa scrivere, la legge e la invia alla tua scheda. Arriva nel Dossier; puoi sempre modificarla, o tornare alla tua versione precedente. Se hai già una storia, il pulsante chiede invece al GM di rifinirla.
+- **Prompt del ritratto** — per un generatore di immagini (entrambi i prompt restano nel Dossier, sotto *Prompt per la tua IA*). Aggiungi il tuo aspetto: genere, capelli, occhi, corporatura, abiti, segni particolari.
 
 Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automatico perché i salvataggi restino leggeri.
 

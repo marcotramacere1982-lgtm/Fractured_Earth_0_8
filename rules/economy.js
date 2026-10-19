@@ -4,7 +4,25 @@ import { RuleError, message } from './messages.js';
 
 export const CATALOGS = { weapon: 'weapons', armor: 'armor', item: 'items', deck: 'decks', deckMod: 'deckMods', optic: 'optics', lifestyle: 'lifestyle' };
 
+/** Spare magazines (decision 55): one entry per gun with a magazine, priced from the gun. id 'mag.<weapon id>'. */
+const magCache = new WeakMap();
+export const magazineId = (weaponId) => `mag.${weaponId}`;
+export function magazines(data) {
+  if (!magCache.has(data.weapons)) {
+    const m = data.economy.magazine;
+    magCache.set(data.weapons, data.weapons.filter((w) => w.magSize).map((w) => ({
+      id: magazineId(w.id), weaponId: w.id, name: `${w.name} magazine`, ammo: w.ammo, magSize: w.magSize, rarity: w.rarity,
+      cost: { cr: Math.max(m.min, Math.round(w.cost.cr * m.pricePct)) },
+    })));
+  }
+  return magCache.get(data.weapons);
+}
+
+/** What selling one gives back: half the list price (custom items have none: the player types it). */
+export const sellPrice = (entry, economy) => (entry?.cost ? Math.floor(entry.cost.cr * economy.sell.fraction) : 0);
+
 export function findGear(kind, id, data) {
+  if (kind === 'ammo') return magazines(data).find((x) => x.id === id) ?? null;
   const table = data[CATALOGS[kind]];
   const list = Array.isArray(table) ? table : table?.mods ?? table?.entries;
   return list?.find((x) => x.id === id) ?? null;
@@ -63,10 +81,20 @@ export function buy(character, { kind, id }, method, data, { multiplier, discoun
   if (kind === 'lifestyle') {
     if (!c.play.lifestyle.includes(id)) c.play.lifestyle.push(id);
   } else {
-    const owned = c.play.inventory.find((x) => x.kind === kind && x.id === id);
-    if (owned) owned.qty += 1; else c.play.inventory.push({ kind, id, qty: 1 });
+    addItem(c, kind, id);
+    if (kind === 'weapon' && entry.magSize) { // every gun comes with spare magazines
+      addItem(c, 'ammo', magazineId(id), data.economy.magazine.startSpares);
+      log += ` + ${data.economy.magazine.startSpares} spare magazines`;
+      notice = message(`${notice.code}Spares`, { ...notice.vars, spares: data.economy.magazine.startSpares }, log);
+    }
   }
   return { character: c, log, notice };
+}
+
+/** Puts n of an item in the inventory (stacks with the same kind + id). */
+export function addItem(c, kind, id, n = 1) {
+  const owned = c.play.inventory.find((x) => x.kind === kind && x.id === id);
+  if (owned) owned.qty += n; else c.play.inventory.push({ kind, id, qty: n });
 }
 
 /** Monthly cost of the character's lifestyle, both ways. */

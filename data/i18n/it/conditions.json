@@ -95,5 +95,47 @@
       "Supporto dell’arma inceppato: niente attacchi."
     ],
     "clear": "1 azione per sbloccarlo (l’unità o un tecnico)."
+  },
+  "overdrive": {
+    "targets": "Operatori",
+    "effects": [
+      "+1 azione a ogni round."
+    ],
+    "clear": "Finché il GM non lo termina (di solito alla fine della scena)."
+  },
+  "focused": {
+    "targets": "Operatori",
+    "effects": [
+      "+2 TN agli attacchi."
+    ],
+    "clear": "Finché il GM non lo termina (di solito alla fine della scena)."
+  },
+  "sharp": {
+    "targets": "Operatori",
+    "effects": [
+      "+1 TN alle prove di abilità."
+    ],
+    "clear": "Finché il GM non lo termina (di solito alla fine della scena)."
+  },
+  "fired_up": {
+    "targets": "Operatori",
+    "effects": [
+      "+1 OFF: ogni colpo a segno infligge +1 danno."
+    ],
+    "clear": "Finché il GM non lo termina (di solito alla fine della scena)."
+  },
+  "guarded": {
+    "targets": "Operatori",
+    "effects": [
+      "+1 DEF."
+    ],
+    "clear": "Finché il GM non lo termina (di solito alla fine della scena)."
+  },
+  "bolstered": {
+    "targets": "Operatori",
+    "effects": [
+      "+1 armatura contro ogni colpo."
+    ],
+    "clear": "Finché il GM non lo termina (di solito alla fine della scena)."
   }
 }

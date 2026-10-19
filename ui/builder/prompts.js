@@ -10,7 +10,8 @@ const LANGUAGE_LINE = {
 
 const eventName = (list, id) => list.find((e) => e.id === id);
 
-export function storyPrompt(c, data) {
+/** lang: the language the backstory is written in (default: the interface language). */
+export function storyPrompt(c, data, lang = getLang()) {
   const sub = c.subclassId ? findSubclass(data.classes, c.subclassId) : null;
   const adolescence = c.history.adolescence.map((h) => eventName(data.adolescence.events, h.eventId)).filter(Boolean);
   const careers = c.history.careers.map((h) => {
@@ -37,7 +38,7 @@ CHARACTER:
 - Notable: ${c.tags.filter((t) => t !== 'Career ended').join(', ') || 'none'}
 - Special debt (the reason they take dangerous jobs): ${debt ? `${debt.name} — ${debt.debt}` : 'none'}
 
-FORMAT: plain HTML only — start with <h3>Backstory</h3>, then 5–6 <p> paragraphs. No markdown, no code fences, no other tags.${LANGUAGE_LINE[getLang()] ?? ''}`;
+FORMAT: plain HTML only — start with <h3>Backstory</h3>, then 5–6 <p> paragraphs. No markdown, no code fences, no other tags.${LANGUAGE_LINE[lang] ?? ''}`;
 }
 
 export function portraitPrompt(c, data) {

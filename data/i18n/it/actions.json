@@ -10,7 +10,7 @@
       "desc": "Tira il tuo Class TN per riuscire in una delle tue ability pronte."
     },
     "reload": {
-      "desc": "Ricarica il caricatore di un'arma, o cambia arma tra gli slot."
+      "desc": "Inserisci un caricatore di scorta nell'arma in mano (quello vecchio si butta), o passa all'altra arma: solo l'arma in mano può attaccare."
     },
     "interact": {
       "desc": "Apri una porta, usa una console, prendi o passa un oggetto a un alleato vicino."

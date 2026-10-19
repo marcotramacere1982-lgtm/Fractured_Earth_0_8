@@ -1,0 +1,137 @@
+{
+  "tours": {
+    "general": {
+      "name": "La scheda",
+      "steps": {
+        "status": {
+          "title": "Il tuo stato",
+          "text": "Nome, classe e i numeri che guardi più spesso, sempre in cima. Un valore in verde o in rosso è cambiato da una condizione (quello normale è piccolo accanto)."
+        },
+        "tabs": {
+          "title": "Sei sezioni",
+          "text": "Gioco per lo scontro, Abilità per le prove, Equipaggiamento per soldi e mercato, Dossier per la tua storia e il debito, Note per tutto il resto, Progressi per XP e talenti."
+        },
+        "weapons": {
+          "title": "Prepara le armi",
+          "text": "Scegli fino a due armi per gli slot: sono quelle che usano i pulsanti Attacco. Munizioni e ricariche si tengono qui. Prima compra le armi in Equipaggiamento → Mercato."
+        },
+        "turn": {
+          "title": "Il tuo turno",
+          "text": "I pallini sono le tue azioni di questo round: ogni pulsante che premi ne spende una. Al tavolo il GM gestisce i round e la striscia mostra di chi è il turno; il tablet suona piano quando tocca a te."
+        },
+        "hostiles": {
+          "title": "Ostili",
+          "text": "I nemici che il GM ha rivelato, con una lettera, una fascia di ferite e quello che si vede su di loro. Di' “sparo a B”: il GM usa le stesse lettere."
+        },
+        "attack": {
+          "title": "Attaccare: la finestra del tiro",
+          "text": "Attacco apre la finestra del tiro. Prima il d20 per colpire. Se colpisci procede un passo alla volta: danni, poi (Scavenger) Exploit, poi dove colpisce per un attacco ⌖ a una locazione. A ogni passo premi Tira, oppure scrivi quello che mostrano i tuoi dadi e premi Inserisci. Il totale arriva alla fine."
+        },
+        "engine": {
+          "title": "Il motore della tua classe",
+          "text": "La risorsa della tua classe e le abilità equipaggiate (fino a 3). Un'abilità diventa verde quando puoi usarla adesso; altrimenti la scheda ti dice cosa manca. Il pulsante Tour della classe la spiega in un minuto."
+        },
+        "market": {
+          "title": "Soldi e Mercato",
+          "text": "Compra in modo ufficiale con il Credit Score (tracciato) o per strada in contanti (non tracciato, con ricarico). Le armi arrivano con 2 caricatori di scorta (altri nella sezione Munizioni) e Ricarica ne usa uno. Gli Hacker hanno bisogno di un deck e gli Scavenger di un'ottica. Varie aggiunge oggetti di storia senza regole. Ogni riga dell'inventario ha ⇄ per vendere o dare a un giocatore, e 🗑 per buttare."
+        },
+        "story": {
+          "title": "Il tuo Dossier",
+          "text": "Identità, debito e storia. Al tavolo puoi chiedere al GM di scrivere o rifinire la tua storia; qui ci sono anche i prompt per la tua IA (storia e ritratto)."
+        },
+        "info": {
+          "title": "Le regole a un tocco",
+          "text": "Ogni ⓘ apre una regola breve con un link al manuale. Puoi rifare questo tour quando vuoi dal pulsante ? in cima alla scheda."
+        },
+        "health": {
+          "title": "Salute e condizioni",
+          "text": "Quando vieni colpito usa Subisci un colpo: scrivi i danni e, per un attacco a una locazione, dove ha colpito. La scheda toglie l'armatura, abbassa gli HP e aggiunge la ferita o la condizione. Qui ci sono anche Cura completa e Ripara armatura. Tocca una condizione per attivarla; i Potenziamenti (in verde) sono quelle positive che il GM può concedere."
+        }
+      }
+    },
+    "class.soldier": {
+      "steps": {
+        "tp": {
+          "title": "Tactical Points",
+          "text": "I TP partono da 0 a ogni scontro. Ogni attacco normale a segno dà +1 TP; Brace & Dig In dà +2, Steady Aim +1. Nessun limite: accumulali."
+        },
+        "stance": {
+          "title": "Postura",
+          "text": "Defensive: ×0,5 ai danni inflitti e subiti. Attack: normale. Onslaught: ×1,5 inflitti e subiti. La scheda applica la postura a ogni tiro di danni."
+        },
+        "abilities": {
+          "title": "Le mosse finali",
+          "text": "Le abilità costano TP e ti spostano fra le posture. Equipaggiane fino a 3; verde vuol dire pronta adesso. Usarla tira la tua Class TN e spende un'azione."
+        }
+      }
+    },
+    "class.hacker": {
+      "steps": {
+        "deck": {
+          "title": "Il tuo deck",
+          "text": "Il deck determina RAM e heat cap. Senza deck niente hack: comprane uno in Equipaggiamento → Mercato → Deck, poi sceglilo qui. Le mod aggiungono RAM o raffreddamento."
+        },
+        "ram": {
+          "title": "RAM e Heat",
+          "text": "Gli hack hanno bisogno di RAM libera. Gli hack sostenuti la tengono occupata finché non li rilasci (✕). Ogni hack aggiunge heat, −1 a ogni round. Heat al limite = Blue Screen: gli hack sostenuti crollano e il deck si blocca per un round."
+        },
+        "abilities": {
+          "title": "Gli hack",
+          "text": "Ogni carta mostra RAM e heat. Quasi tutti gli hack funzionano solo su bersagli cibernetici o sintetici: la lista Ostili mostra chi è cosa. Thermal Dump, Release Payload e Hard Reboot non richiedono tiri."
+        }
+      }
+    },
+    "class.techwiz": {
+      "steps": {
+        "mode": {
+          "title": "Mend o Surge",
+          "text": "Ogni abilità ha due facce: Mend (supporto) e Surge (attacco). La modalità sceglie quale scatta. Cambiarla è gratis, ma la Sync torna a 0."
+        },
+        "sync": {
+          "title": "Field Sync",
+          "text": "Sync 0–3, da Cold a Resonant: +1 per ogni abilità usata, +1 a fine round se hai tenuto la modalità. Perdere HP costa 1. A Resonant puoi usare entrambe le facce insieme."
+        },
+        "abilities": {
+          "title": "Le abilità",
+          "text": "Le abilità più forti richiedono una Sync minima. Le mosse da Brownout spengono il rig fino alla fine del round successivo. Tieni il Tech Wizard al riparo."
+        }
+      }
+    },
+    "class.smuggler": {
+      "steps": {
+        "pendulum": {
+          "title": "Il Pendolo",
+          "text": "Da −4 a +4. Cold (sotto lo 0): +2 TN agli attacchi con armi da fuoco. Hot (sopra lo 0): +1 ai danni e +1 quadretto per movimento. La scheda li applica da sola."
+        },
+        "abilities": {
+          "title": "Le abilità lo fanno oscillare",
+          "text": "Ogni abilità richiede un lato del pendolo e lo sposta quando la usi. Gli Smuggler feriti scivolano di +1 verso Hot a fine round."
+        },
+        "rhythm": {
+          "title": "Il ritmo",
+          "text": "Pianifica in Cold, prendi un colpo, passa a Hot, incassa con una mossa spericolata, ricadi in Cold. Desperate Gamble punta tutto."
+        }
+      }
+    },
+    "class.scavenger": {
+      "steps": {
+        "optic": {
+          "title": "La tua ottica",
+          "text": "Portata: quanto lontano puoi piazzare Tell. Track: quanti nemici tengono i tuoi Tell nello stesso momento. Comprane una in Equipaggiamento → Mercato → Ottiche; senza hai le lenti di base (portata 4, Track 1)."
+        },
+        "tells": {
+          "title": "Tell sui nemici",
+          "text": "All'inizio del tuo turno piazza 1 Tell, o 2 se sei Unseen (copertura totale, nessun attacco nel round precedente). Massimo 3 per nemico. Tocca un nemico per renderlo il bersaglio delle abilità."
+        },
+        "exploit": {
+          "title": "Exploit",
+          "text": "Quando un attacco va a segno, la finestra del tiro chiede quale nemico hai colpito e quanti dei suoi Tell spendere: +1d4 danni ciascuno, poi spariscono. Se manchi, non spendi nulla."
+        },
+        "abilities": {
+          "title": "Le abilità",
+          "text": "Spendono i Tell del bersaglio: 1 per un piccolo vantaggio, 2 per uno grosso, 3 per il colpo finale. Close Study e Case the Room piazzano altri Tell."
+        }
+      }
+    }
+  }
+}

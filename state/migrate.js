@@ -15,10 +15,13 @@ export function importCharacter(json, data) {
   const format = detectFormat(json);
   if (format === 'v1') {
     if (json.schemaVersion > SCHEMA_VERSION) throw new Error('This file was made by a newer version of the app.');
-    return { character: upgradeSave(json), warnings: [] };
+    return { character: upgradeSave(json, data), warnings: [] };
   }
   if (format === 'unknown') throw new Error('Not a Fractured Earth character file.');
-  return migrateLegacy(json, data, format);
+  const out = migrateLegacy(json, data, format);
+  out.character.play.sparesGranted = false; // legacy guns get their spare magazines
+  upgradeSave(out.character, data);
+  return out;
 }
 
 function migrateLegacy(json, data, format) {

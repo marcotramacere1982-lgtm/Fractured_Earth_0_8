@@ -76,7 +76,8 @@ During a combat round, an Operator can spend their available action allowance on
 
 - **Class Abilities:** Activate a readied class ability or tactical module from your active HUD loadout (e.g., *Ping Sweep*, *Brace & Dig In*, *Contraband Stash*). Activating a class ability consumes **1 Action**, unless explicitly stated otherwise on the ability card.
 
-- **Reload or Swap Equipment:** Spend **1 Action** to replace a depleted magazine and reset your weapon's current ammunition counter (`AMMO WP`), or switch between your primary and secondary equipped weapon slots (Weapon 1 ↔ Weapon 2).
+- **Reload or Swap Equipment:** Spend **1 Action** to load a spare magazine into the weapon in your hand (the old one is discarded), or to swap to your other weapon slot. **Only the weapon in hand can attack**, so firing the other one means swapping first. Out of combat you pick the weapon in hand freely on the weapon card. The sheet's *Reload / swap* button shows both choices.
+- **Second chances:** if a player wants to take back a move, the GM decides. From the console the GM can undo a player's last action, their round or their whole combat; their sheet goes back and every undo is logged where the GM sees it, so the table stays fair. When the GM takes back one of their own moves on the combat tracker, the table is told.
 
 **Interact with Environment & Inventory:** Operate physical consoles, open blast doors, grab dropped gear, or exchange items with an adjacent squadmate (e.g., passing a med-kit or ammo clip).
 
@@ -224,7 +225,7 @@ The Scavenger turns attention into damage. **Tells** sit on individual enemies (
 
 - **Start of your turn:** place 1 Tell on an enemy you can see, or 2 if you are Unseen (full cover and no attack last round). The sheet reminds you how many are still to place.
 - **Attacking** (an attack, or *Called Shot* / *Kill Shot*) means you count as having attacked this round: next round you place only 1. *Vanish* (once per combat) slips you back into full cover and clears that.
-- **Exploit:** ready Tells on your target; your next hit with an attack adds +1d4 per Tell (the sheet rolls them with the damage) and spends them.
+- **Exploit:** after an attack hits and the damage is in, the roll window asks which enemy you hit and how many of its Tells to spend: +1d4 each, rolled or typed, then those Tells are gone.
 - **Abilities** cost Tells on the target: 1 for a small edge (*Mark*, *Lift*, *Misdirect*, *Pin the Route*), 2 for a big one (*Jam*, *Called Shot*, *Strip*), 3 for the finisher (*Kill Shot*). Like every ability they roll your Class TN, and a failed roll still pays its cost.
 - **Round end:** remove the Tells of any enemy you lost sight of this round. Enemies that go down take their Tells with them automatically.
 
@@ -299,6 +300,10 @@ Left and right count separately. Broken arms and crippled legs stay until treate
 During high-stakes operations, environmental hazards, heavy ordnance, network hacks, and tactical abilities can inflict severe **Status Conditions** on Operators and enemies alike. Status Conditions alter an entity's operational capability, movement, or accuracy until cleared.
 
 Because these effects are dynamically applied during combat, players and GMs can track active conditions in the **Health & conditions** card of the sheet's Play tab. Location attacks (7-5) are the most common source: *Broken arm*, *Crippled leg*, *Prone*, *Slowed*, *Stunned* and *Incapacitated*.
+
+**The sheet applies the numbers.** Conditions that change a value change it on the sheet: *Stunned* and *Slowed* lower this round's actions, *Prone* halves your squares per move, *Blinded* takes −10 TN off your attacks, *Enraged* adds +2 to melee hits (shown in the damage). A changed value shows in **red** (worse) or **green** (better), with the normal one small beside it.
+
+**Boosts.** Six positive conditions the GM (or a situation) may grant, set by hand on the sheet and lasting until the GM ends them, usually at the end of the scene: *Overdrive* (+1 action each round), *Focused* (+2 TN on attacks), *Sharp* (+1 TN on skill checks), *Fired Up* (+1 OFF), *Guarded* (+1 DEF) and *Bolstered* (+1 armor).
 
 **Reference Table: Global Status Conditions**
 

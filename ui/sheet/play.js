@@ -1,7 +1,7 @@
 // Status bar + Play tab (health, body, weapons, conditions, combat values, class engine).
 
 import { html, raw, signed } from '../dom.js';
-import { counter, meter, card, segmented, nameOf } from './parts.js';
+import { counter, meter, card, segmented, nameOf, temp } from './parts.js';
 import { engineCard } from './engine.js';
 import { talentsCard } from './progress.js';
 import { turnCard } from './turn.js';
@@ -12,7 +12,7 @@ import { t } from '../../i18n/index.js';
 export function statusBar(c, s, data) {
   const hpKind = s.hp.current <= 0 ? 'danger' : s.hp.current <= s.hp.max / 3 ? 'danger' : 'success';
   return html`
-    <div class="sheet-status">
+    <div class="sheet-status" data-tour="status">
       <div class="sheet-status__id">
         ${c.portrait.dataUrl ? html`<img class="avatar avatar--sm" src="${c.portrait.dataUrl}" alt="">` : ''}
         <div>
@@ -26,14 +26,14 @@ export function statusBar(c, s, data) {
           <div class="cluster">${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span></div>
           ${meter(s.hp.current, s.hp.max, hpKind)}
         </div>
-        <div class="stat"><span class="label">${t('stat.armor')}${info('armor', t('stat.armor'))}</span><span class="stat__value stat__value--info">${s.armor.general}</span></div>
+        <div class="stat"><span class="label">${t('stat.armor')}${info('armor', t('stat.armor'))}</span><span class="stat__value stat__value--info">${temp(s.armor.general - s.armor.condition, s.armor.general)}</span></div>
         <div class="stat"><span class="label">${t('stat.init')}${explain('initiative', '', t('explain.feeds.initiative'))}</span><span class="stat__value">${signed(s.initiative)}</span></div>
-        <div class="stat"><span class="label">${t('stat.actions')}${explain('combat', 'act', t('stat.actions'))}</span><span class="stat__value">${s.combat.act.value}</span></div>
+        <div class="stat"><span class="label">${t('stat.actions')}${explain('combat', 'act', t('stat.actions'))}</span><span class="stat__value">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></div>
         ${s.class ? html`<div class="stat"><span class="label">Class TN${explain('class-tn', '', 'Class TN')}</span><span class="stat__value stat__value--accent">${s.class.tn}</span></div>` : ''}
         <div class="stat"><span class="label">CRS${info('credit-score', 'Credit Score')}</span><span class="stat__value">${c.attributes.CRS}</span></div>
         <div class="stat"><span class="label">${t('stat.cash')}</span><span class="stat__value stat__value--success">$${c.play.cash}</span></div>
       </div>
-      ${c.play.conditions.length || s.injured.locations.length ? html`<div class="cluster">${c.play.conditions.map((id) => html`<span class="pill pill--danger">${nameOf(data.conditions, id)}</span>`)}${s.injured.locations.map((id) => {
+      ${c.play.conditions.length || s.injured.locations.length ? html`<div class="cluster">${c.play.conditions.map((id) => html`<span class="pill ${data.conditions.find((k) => k.id === id)?.positive ? 'pill--success' : 'pill--danger'}">${nameOf(data.conditions, id)}</span>`)}${s.injured.locations.map((id) => {
         const loc = data.body.locations.find((l) => l.id === id);
         return html`<span class="pill pill--danger">${data.conditions.find((k) => k.limb === loc?.bp)?.name} · ${loc?.name}</span>`;
       })}</div>` : ''}
@@ -63,7 +63,8 @@ export function locationRule(data) {
 }
 
 function healthCard(c, s, data) {
-  const conds = data.conditions.filter((k) => !k.enemyOnly);
+  const conds = data.conditions.filter((k) => !k.enemyOnly && !k.positive);
+  const boosts = data.conditions.filter((k) => k.positive);
   const sides = (bp) => data.body.locations.filter((l) => l.bp === bp);
   const rule = locationRule(data);
   const body = html`
@@ -112,9 +113,16 @@ function healthCard(c, s, data) {
         </button>`;
       })}
     </div>
+    <h3 class="label cond-group">${t('body.boosts')}</h3>
+    <div class="cond-grid">${boosts.map((k) => {
+      const on = c.play.conditions.includes(k.id);
+      return html`<button class="cond cond--boost ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${k.clear ?? ''}">
+        <span class="cond__name">${k.name}</span><span class="cond__fx">${k.effects[0]}</span></button>`;
+    })}</div>
+    <p class="hint">${t('body.boostsHint')}</p>
     <p class="hint">${t('body.locationRule', { n: data.body.locationAttack.tnPenalty })} ${rule.rows.join(' · ')}. ${t('body.crackRule')}</p>
     <p class="hint">${t('body.wearing')}: ${c.play.worn.length ? c.play.worn.map((id) => nameOf(data.armor, id)).join(', ') : t('body.nothing')} — ${t('body.wearingNote')}</p>`;
-  return card(t('body.title'), body, { sub: t('body.sub'), ref: 'conditions' });
+  return card(t('body.title'), body, { sub: t('body.sub'), ref: 'conditions', tour: 'health' });
 }
 
 function weaponsCard(c, s, data) {
@@ -127,26 +135,33 @@ function weaponsCard(c, s, data) {
   const body = html`
     <div class="weapon-grid">
       ${s.weapons.map((w) => html`
-        <div class="weapon">
+        <div class="weapon ${w.inHand ? 'weapon--in-hand' : ''}">
           <div class="spread"><span class="label">${t('weapons.slot')} ${w.slot}</span>${options(w.slot)}</div>
           ${w.empty ? html`<p class="muted">${owned.length ? t('weapons.pick') : t('weapons.none')}</p>` : html`
-            <div class="weapon__name">${w.name}</div>
+            <div class="spread"><div class="weapon__name">${w.name}</div>
+              ${w.inHand ? html`<span class="pill pill--accent">${t('weapons.inHand')}</span>` : html`<button class="btn btn--sm" data-action="hand" data-slot="${w.slot}" title="${t('weapons.takeHint')}">${t('weapons.take')}</button>`}</div>
             <div class="weapon__stats">
               <button class="stat stat--button" data-action="check" data-kind="skill" data-id="${w.skill}" title="${t('weapons.rollAttack')}">
-                <span class="label">${t('weapons.attackTn')}</span><span class="stat__value stat__value--accent">${w.tn}</span><span class="stat__sub">${w.zoneTn ? html`<span class="text-info">+${w.zoneTn} Cold</span> · ` : ''}${nameOf(data.skills.skills, w.skill)}</span>
+                <span class="label">${t('weapons.attackTn')}</span><span class="stat__value stat__value--accent">${temp(w.base, w.tn)}</span><span class="stat__sub">${w.zoneTn ? html`<span class="text-info">+${w.zoneTn} Cold</span> · ` : ''}${nameOf(data.skills.skills, w.skill)}</span>
               </button>
-              <div class="stat"><span class="label">${t('attack.damage')}</span><span class="stat__value">${w.damage}</span><span class="stat__sub">+ OFF ${signed(s.combat.off.value)}</span></div>
+              <div class="stat"><span class="label">${t('attack.damage')}</span><span class="stat__value">${w.damage}</span><span class="stat__sub">+ OFF ${temp(s.combat.off.base, s.combat.off.value, signed)}${s.conditionMods.meleeDamage && !(w.range?.max > 1) ? ` +${s.conditionMods.meleeDamage}` : ''}</span></div>
               <div class="stat"><span class="label">${t('weapons.range')}</span><span class="stat__value">${w.range.max}m</span><span class="stat__sub">min ${w.range.min}m</span></div>
             </div>
-            ${w.magSize ? html`<div class="spread">
-              <div class="cluster"><span class="label">${t('weapons.ammo')}</span>${counter({ action: 'ammo', value: w.rounds, min: 0, max: w.magSize, args: { slot: w.slot }, label: t('weapons.ammo') })}<span class="mono muted">/${w.magSize} · ${w.ammo ?? ''}</span></div>
-              <button class="btn btn--sm" data-action="reload" data-slot="${w.slot}">${t('weapons.reload')}</button>
-            </div>${meter(w.rounds, w.magSize, 'info')}` : ''}
+            ${w.magSize ? html`<div class="ammo">
+              <div class="ammo__row"><span class="label">${t('weapons.ammo')}</span>
+                ${counter({ action: 'ammo', value: w.rounds, min: 0, max: w.magSize, args: { slot: w.slot }, label: t('weapons.ammo') })}
+                <span class="mono muted">/ ${w.magSize}</span>
+                <button class="btn btn--sm ammo__reload" data-action="reload" data-slot="${w.slot}" ${w.spares ? '' : raw('disabled')} title="${w.spares ? '' : t('weapons.noSpares')}">${t('weapons.reload')}</button></div>
+              ${meter(w.rounds, w.magSize, 'info')}
+              <div class="ammo__facts">${w.ammo ? html`<span class="pill">${w.ammo}</span>` : ''}
+                <span class="pill ${w.spares ? '' : 'pill--danger'}">${t('weapons.spares', { n: w.spares })}</span>
+                ${w.burst > 1 ? html`<span class="pill">${t('weapons.burst', { n: w.burst, left: w.attacksLeft })}</span>` : ''}</div>
+            </div>` : ''}
             ${w.usable === false ? html`<p class="notice notice--warn">${t(`weapons.unusable.${w.why}`)}</p>` : ''}
             <div class="cluster"><span class="pill">${w.type}</span>${w.hands === 2 ? html`<span class="pill">${t('weapons.twoHanded')}</span>` : ''}<span class="pill">${t('weapons.reliability')} ${w.reliability}/10</span><span class="pill">${w.rarity}</span></div>`}
         </div>`)}
     </div>`;
-  return card(t('weapons.title'), body, { ref: 'weapon-tn' });
+  return card(t('weapons.title'), body, { ref: 'weapon-tn', tour: 'weapons' });
 }
 
 function combatCard(s, data) {
@@ -155,7 +170,7 @@ function combatCard(s, data) {
       ${data.combat.derived.map((d) => html`
         <div class="stat" ${hint('combat', d.id)}>
           <span class="label">${d.name}${explain('combat', d.id, d.name)}</span>
-          <span class="stat__value">${d.id === 'off' ? signed(s.combat[d.id].value) : s.combat[d.id].value}</span>
+          <span class="stat__value">${temp(s.combat[d.id].base, s.combat[d.id].value, d.id === 'off' ? signed : (x) => x)}</span>
           <span class="stat__sub">${d.stats.join('+')} ${s.combat[d.id].sum}</span>
         </div>`)}
       <div class="stat" ${hint('initiative')}><span class="label">${t('explain.feeds.initiative')}${explain('initiative', '', t('explain.feeds.initiative'))}</span><span class="stat__value">${signed(s.initiative)}</span><span class="stat__sub">${t('combat.initRoll')}</span></div>

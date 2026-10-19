@@ -6,8 +6,10 @@ import { sanitizeHtml } from '../sanitize.js';
 import { debtPressure, timelineCard } from './timeline.js';
 import { driveEditor } from './drive.js';
 import { t } from '../../i18n/index.js';
+import { storyPrompt, portraitPrompt } from '../builder/prompts.js';
 
-export function dossierTab(c, s, data) {
+/** ctx.atTable: served by the GM's table server, so the backstory can be asked from the GM (decision 50). */
+export function dossierTab(c, s, data, ctx = {}) {
   const subOptions = data.classes.classes.map((cls) => html`
     <optgroup label="${cls.name}">${cls.subclasses.map((sub) => html`
       <option value="${sub.id}" ${c.subclassId === sub.id ? raw('selected') : ''}>${sub.name} (${sub.stats.join('/')})</option>`)}</optgroup>`);
@@ -59,11 +61,24 @@ export function dossierTab(c, s, data) {
     ${debt ? html`<p>${debt.debt}</p><p class="hint"><strong>${t('dossier.threat')}:</strong> ${debt.threat}</p>` : ''}
     ${debtPressure(c, data)}`);
 
+  const has = Boolean(c.narrative.backstoryHtml?.trim());
+  const asked = c.narrative.backstoryRequest;
   const story = card(t('dossier.backstory'), html`
-    ${c.narrative.backstoryHtml ? html`<div class="prose">${raw(sanitizeHtml(c.narrative.backstoryHtml))}</div>` : html`<p class="muted">${t('dossier.noBackstory')}</p>`}
+    ${asked ? html`<p class="notice" role="status">${t('dossier.waiting', { date: new Date(asked.at).toLocaleDateString() })}</p>` : ''}
+    ${has ? html`<div class="prose">${raw(sanitizeHtml(c.narrative.backstoryHtml))}</div>` : html`<p class="muted">${t('dossier.noBackstory')}</p>`}
+    <div class="cluster">
+      ${ctx.atTable ? html`<button class="btn btn--sm ${has ? '' : 'btn--primary'}" data-action="askBackstory" title="${t('dossier.askHint')}">${t(has ? 'dossier.askGmRevise' : 'dossier.askGm')}</button>` : ''}
+      ${c.narrative.backstoryPrevious ? html`<button class="btn btn--sm btn--ghost" data-action="backstoryUndo">${t('dossier.undoBackstory')}</button>` : ''}
+    </div>
+    <details class="details" data-keep="own-ai"><summary>${t('dossier.ownAi')}</summary>
+      <div class="spread"><span class="hint">${t('dossier.ownAiHint')}</span><button class="btn btn--sm" data-action="copyPrompt" data-target="dossier-prompt">${t('common.copy')}</button></div>
+      <textarea class="textarea mono b-prompt" id="dossier-prompt" readonly>${storyPrompt(c, data)}</textarea>
+      <div class="spread"><span class="label">${t('builder.portraitPrompt')}</span><button class="btn btn--sm" data-action="copyPrompt" data-target="dossier-portrait">${t('common.copy')}</button></div>
+      <textarea class="textarea mono b-prompt b-prompt--short" id="dossier-portrait" readonly>${portraitPrompt(c, data)}</textarea>
+    </details>
     <details class="details" data-keep="backstory"><summary>${t('dossier.editBackstory')}</summary>
       <textarea class="textarea" data-action="field" data-path="narrative.backstoryHtml" placeholder="${t('dossier.backstoryPlaceholder')}">${c.narrative.backstoryHtml}</textarea>
-    </details>`);
+    </details>`, { tour: 'story' });
 
   return html`
     <div class="sheet-grid sheet-grid--dossier">

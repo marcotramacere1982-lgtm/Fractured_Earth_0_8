@@ -255,3 +255,25 @@
 .transmission--hit { border-color: var(--color-danger); box-shadow: var(--shadow-2), 0 0 0 4px var(--color-danger-soft); }
 .transmission--hit .transmission__tag { color: var(--color-danger); }
 @keyframes transmission-in { from { opacity: 0; transform: translateY(-0.75rem); } to { opacity: 1; transform: none; } }
+
+/* ---------- Guided tour (decision 53) ---------- */
+.tour { position: fixed; inset: 0; z-index: 70; pointer-events: none; }
+.tour__spot {
+  position: fixed; border-radius: var(--radius-md); border: 2px solid var(--color-accent);
+  box-shadow: 0 0 0 200vmax var(--color-scrim); transition: all var(--dur) var(--ease);
+}
+.tour--centred .tour__spot { top: 50%; left: 50%; width: 0; height: 0; border: 0; }
+.tour__bubble {
+  position: fixed; pointer-events: auto; width: min(24rem, calc(100vw - 1rem)); display: grid; gap: var(--space-2);
+  padding: var(--space-4); border-radius: var(--radius-lg); background: var(--color-surface); color: var(--color-text);
+  border: 2px solid var(--color-accent); box-shadow: var(--shadow-2);
+}
+.tour--centred .tour__bubble { top: 50% !important; left: 50% !important; transform: translate(-50%, -50%); }
+.tour__title { margin: 0; font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: 0.04em; }
+.tour__text { margin: 0; line-height: var(--leading-text); }
+.tour-offer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+
+/* ---------- A value changed by a condition (decision 54) ---------- */
+.temp--up { color: var(--color-success); }
+.temp--down { color: var(--color-danger); }
+.temp__base { margin-left: var(--space-1); font-size: 0.6em; color: var(--color-text-faint); text-decoration: line-through; }

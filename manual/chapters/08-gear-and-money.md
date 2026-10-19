@@ -45,6 +45,16 @@ An optic sets the Scavenger's **Range**, **Track** and **mode** (5-6). Anyone ca
 
 ::table[optics]
 
+## Ammo, misc items and trading {#sec-8-ammo}
+
+**Magazines.** Every gun has its own spare magazine in the market's *Ammo* tab (your guns' magazines come first, marked *fits your gun*). A magazine costs 10% of the gun's price (at least 5 Cr), and **every gun comes with 2 spares**. *Reload* loads a spare and discards the one in the gun; with no spares left you can't reload — buy some, or ask the GM. The weapon card shows how many spares you have.
+
+**Bursts.** SMGs and assault rifles fire **3-round bursts**: each attack uses 3 rounds, so a 30-round magazine is 10 attacks. The sheet counts it for you ("10 attacks left"). Abilities use the ammunition they say.
+
+**Custom items.** The market's *Misc* tab adds anything worth tracking — a keycard, a sealed package, a photo — to a *Misc* group: no price, no rules. If it cost money, change your cash by hand.
+
+**Trash and trade.** Every inventory row has 🗑 (drop one, after asking) and ⇄ (trade): **sell** it for half the list price (custom items: type what you got), or **give** it to a player at the table — it lands on their sheet even if their tablet is asleep, and in combat it costs 1 action (Interact). Everything is logged, so the GM sees where things went.
+
 ## 8-6. Lifestyle {#sec-8-6}
 
 The monthly cost of existing. Operators start at the bottom; moving up is something you earn. Lifestyle is tracked on the sheet but has no mechanical effect yet.
