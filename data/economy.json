@@ -10,7 +10,8 @@
       "armor": 1,
       "deckMod": 1,
       "deck": 1.25,
-      "weapon": 1.5
+      "weapon": 1.5,
+      "optic": 1
     },
     "scrutinyNote": "How much attention an official purchase draws. Higher = the system makes you pay for it in compliance.",
     "override": "An entry may set cost.scoreOverride to replace the formula (a number), or null to make it cash only. Overrides beat the rarity rule.",

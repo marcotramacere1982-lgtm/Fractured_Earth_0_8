@@ -8,6 +8,8 @@ La fase di combattimento
 
 All'inizio di uno scontro, tutti gli Operatori e le unità ostili tirano d20 + bonus di iniziativa per stabilire l'ordine fisso delle azioni. Questo ordine resta lo stesso per tutto il combattimento, così il ritmo tattico resta prevedibile senza dover ritirare a ogni round. Per gli aggiustamenti tattici improvvisi, un giocatore può scegliere di ritardare (*Delay*) il proprio turno durante un round. Dichiarare un ritardo sposta volontariamente il turno dell'Operatore alla fine del round in corso — dopo che hanno agito tutte le unità, amiche e nemiche — per reagire ai cambiamenti sul campo, aspettare che la squadra si prepari o coordinare un'avanzata a fine turno.
 
+**Al tavolo dal vivo**, la tua scheda mostra l'ordine con ogni nemico come *Hostile*, quindi non dice mai quale nemico agisce e quando. Sotto, la lista **Ostili** mostra i nemici che il GM ha rivelato, ognuno con una lettera (A, B, C…) che il GM usa anche a voce e sulle miniature: il nome che gli dà il GM, organico o sintetico, una fascia di ferite (Illeso, Ferito, Grave a metà HP o meno, A terra) e le condizioni visibili. I nemici che il GM tiene nascosti (un'imboscata, un cecchino) compaiono solo quando vengono rivelati.
+
 ## 7-2. Linea di vista, copertura e geometria della griglia {#sec-7-2}
 
 Il combattimento nel *Fractured Century* è tattico, spaziale e spietato. Posizione, linea di vista e copertura fisica fanno la differenza tra sopravvivere a uno scontro e subire una ferita strutturale fatale. Movimento e geometria sulla griglia sono volutamente intuitivi, perché il combattimento di squadra resti veloce.
@@ -215,6 +217,22 @@ La scheda applica i bonus di zona in automatico: la Attack TN delle armi da fuoc
 > *Round 1:* il Dealer parte da 0, Composure. Spara uno *Street Snap-Shot* e si butta in copertura: il pendolo scende a −1, **Cold**. Il prossimo colpo normale è a +2 TN. Nel turno nemico il Dealer viene colpito ed è Wounded; il dolore spinge il pendolo di +1 a fine round, di nuovo a 0.
 
 > *Round 2–3:* arriva un altro colpo e la ferita brucia: il Dealer inizia il round 3 a +1, **Hot**. *Pistol Whip & Rob* su una guardia adiacente (danni dell'arma +1 Hot, e un caricatore nuovo rubato) porta il pendolo a +3. Con almeno 3 colpi carichi il Dealer scatena *Desperate Gamble*: danni dell'arma a ogni nemico in un'area 3×3, caricatore vuoto, e il pendolo crolla a **−3**. Di nuovo Cold, e abbastanza lucido per un colpo preciso il round dopo.
+
+### 7-4-5. Lo Scavenger: i Tell {#sec-7-4-scavenger}
+
+Lo Scavenger trasforma l'attenzione in danno. I **Tell** stanno sui singoli nemici (massimo 3 ciascuno, su tanti nemici quanti l'ottica può tracciare) e si spendono su quel nemico.
+
+- **Inizio del tuo turno:** piazza 1 Tell su un nemico che vedi, o 2 se sei Unseen (copertura totale e nessun attacco nel round precedente). La scheda ti ricorda quanti ne restano da piazzare.
+- **Attaccare** (un attacco, o *Called Shot* / *Kill Shot*) significa che in questo round hai attaccato: il round dopo ne piazzi solo 1. *Vanish* (una volta per scontro) ti riporta in copertura totale e cancella questo effetto.
+- **Exploit:** prepara dei Tell sul bersaglio; il tuo prossimo colpo a segno con un attacco aggiunge +1d4 per Tell (la scheda li tira insieme ai danni) e li spende.
+- **Le abilità** costano Tell sul bersaglio: 1 per un piccolo vantaggio (*Mark*, *Lift*, *Misdirect*, *Pin the Route*), 2 per uno grosso (*Jam*, *Called Shot*, *Strip*), 3 per il colpo finale (*Kill Shot*). Come ogni abilità tirano la tua Class TN, e un tiro fallito paga comunque il costo.
+- **Fine round:** togli i Tell di ogni nemico che hai perso di vista in questo round. I nemici che vanno a terra si portano via i loro Tell automaticamente.
+
+> **Esempio di combattimento: lo Scavenger (sottoclasse Stalker)**
+
+> *Round 1:* lo Stalker (Courier Visor, Track 3) parte in copertura totale dietro un container, Unseen: 2 Tell. Uno va sul mitragliere pesante (B), uno sul cecchino (C). Usa *Case the Room* per un'altra occhiata: 1 Tell in più ciascuno su B e C, e uno sulla guardia (A). B ora ne ha 2.
+
+> *Round 2:* ancora Unseen (nessun attacco finora): altri 2 Tell su B, che arriva al massimo di 3. Lo Stalker si sporge e spara *Kill Shot* su B: 3 Tell spesi, danni dell'arma +3d4, copertura ignorata, armatura dimezzata. B va giù. Avendo attaccato, il round dopo ne piazzerebbe solo 1, quindi usa *Vanish* per tornare dietro il container, di nuovo Unseen.
 
 ## 7-5. Attacchi, danni, armatura e attacchi a una locazione {#sec-7-5}
 

@@ -39,6 +39,12 @@ Il deck determina la **RAM** e l'**heat cap** dell'Hacker. Gli slot mod accolgon
 
 ::table[deck-mods]
 
+### Ottiche da Scavenger {#sec-8-5-optics}
+
+L'ottica determina **Portata**, **Track** e **modalità** dello Scavenger (5-6). Chiunque può comprarne una; solo uno Scavenger ne usa i numeri.
+
+::table[optics]
+
 ## 8-6. Stile di vita {#sec-8-6}
 
 Il costo mensile dell'esistere. Gli operatori partono dal fondo; salire è qualcosa che ci si guadagna. Lo stile di vita è registrato sulla scheda, ma per ora non ha effetti di gioco.

@@ -6,7 +6,7 @@ import { limbs, movement, usableWeapons } from '../rules/injuries.js';
 import { emptyProgress, progressStatus, talentEffects } from '../rules/progress.js';
 import { emptyDowntime } from '../rules/downtime.js';
 import { findSubclass, classTN, deckCapacity, deckStatus } from '../rules/classes.js';
-import { zoneBonus, isRanged } from '../rules/engines.js';
+import { zoneBonus, isRanged, opticStats } from '../rules/engines.js';
 import { lifestyleUpkeep } from '../rules/economy.js';
 import { uid } from './id.js';
 
@@ -41,6 +41,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       inventory: [], // { kind: 'weapon'|'armor'|'item'|'deck', id, qty }
       deck: null, // active hacker deck id
       deckMods: [], // installed deck mod ids
+      optic: null, // active Scavenger optic id
       lifestyle: [], // lifestyle entry ids (rent tier, plans, bills)
       worn: [], // armor ids currently worn
       slots: { 1: null, 2: null }, // weapon ids
@@ -72,6 +73,7 @@ export function upgradeSave(c) {
   c.play.armorDamage ??= 0;
   c.play.injuries ??= [];
   c.play.talentUses ??= {};
+  c.play.optic ??= null;
   c.progress ??= emptyProgress();
   c.downtime ??= emptyDowntime();
   c.drive ??= { type: null, line: '' };
@@ -100,6 +102,7 @@ export function deriveSheet(character, data) {
   const skills = computeSkills(a, data.skills).map((k) => (fx.skills?.[k.id] ? { ...k, value: k.value + fx.skills[k.id], talent: fx.skills[k.id] } : k));
   const weapon = (id) => data.weapons.find((w) => w.id === id);
   const deck = data.decks.find((d) => d.id === character.play.deck) ?? null;
+  const optic = character.classId === 'scavenger' ? data.optics.find((o) => o.id === character.play.optic) ?? null : null;
   const zone = zoneBonus(character.classId, character.play.resources, data.classes, fx);
   return {
     attributes: a,
@@ -114,6 +117,7 @@ export function deriveSheet(character, data) {
       const capacity = deckCapacity(deck, character.play.deckMods ?? [], data.deckMods, fx.ram ?? 0);
       return { ...deck, capacity, status: deckStatus(capacity, character.play.resources) };
     })() : null,
+    optic: character.classId === 'scavenger' ? { item: optic, ...opticStats(optic, data.classes) } : null, // Scavenger: range, track, mode
     lifestyle: (() => {
       const upkeep = lifestyleUpkeep(character.play.lifestyle ?? [], data);
       const tierOf = (cat) => upkeep.entries.find((x) => x.category === cat)?.tier ?? null;

@@ -18,14 +18,14 @@ import { roll, formatRoll } from '../../rules/dice.js';
 import { hitLocations } from '../../rules/body.js';
 import { locationRule } from './play.js';
 import { rollDamage, turnStatus, newTurn } from '../../rules/turn.js';
-import { abilityWeapon, stanceMultiplier } from '../../rules/engines.js';
+import { abilityWeapon, stanceMultiplier, exploitDice, isRanged } from '../../rules/engines.js';
 import { t } from '../../i18n/index.js';
 import { ruleText } from '../rule-text.js';
 
 const rollText = (r) => `d20 ${r.roll} vs ${r.effective}`;
 
 /** Breakdown of a damage roll: dice, second roll, bonus dice, OFF, stance multiplier. */
-const damageBreakdown = (d) => [formatRoll(d.base ?? d), d.second ? `+ ${formatRoll(d.second)}` : '', d.extra ? `+ ${formatRoll(d.extra)}` : '',
+const damageBreakdown = (d) => [formatRoll(d.base ?? d), d.second ? `+ ${formatRoll(d.second)}` : '', d.extra ? `+ ${formatRoll(d.extra)}` : '', d.exploit ? `+ Exploit ${formatRoll(d.exploit)}` : '',
   d.off ? `${d.off > 0 ? '+' : '−'} OFF ${Math.abs(d.off)}` : '', d.flat ? `+ ${d.flat} Hot` : '', d.multiplier !== 1 ? `× ${d.multiplier}` : ''].filter(Boolean).join(' ');
 
 const TABS = [
@@ -110,7 +110,7 @@ export function sheetView({ data, store, main, table }, route) {
   }
 
   function damagePanel(w, sh, c, spec = {}) {
-    const dmg = rollDamage(w, sh.combat.off.value, Math.random, { bonus: spec.bonus, twice: spec.twice, multiplier: stanceMultiplier(c.classId, c.play.resources, data.classes), flat: sh.zone.damage });
+    const dmg = rollDamage(w, sh.combat.off.value, Math.random, { bonus: spec.bonus, twice: spec.twice, multiplier: stanceMultiplier(c.classId, c.play.resources, data.classes), flat: sh.zone.damage, exploit: spec.exploit?.expr });
     let located = '';
     let where = '';
     if (spec.located) { // a declared location attack: where it lands, and what that does if it gets through
@@ -194,12 +194,14 @@ export function sheetView({ data, store, main, table }, route) {
       if (w.magSize && w.rounds <= 0) { toast(t('attack.empty', { weapon: w.name }), 'danger'); return; }
       const aimed = Boolean(located);
       const penalty = aimed ? sh.locationPenalty : 0; // Marksman lowers it
+      // Scavenger: the readied Exploit on the target (read before the roll: a hit spends those Tells)
+      const exploit = c.classId === 'scavenger' ? exploitDice(c.play.resources, data.classes, { melee: !isRanged(w), talents: sh.talents }) : null;
       let damageText = '';
       openCheck({ name: t(aimed ? 'attack.locatedTitle' : 'attack.title', { weapon: w.name }), tn: w.tn - penalty, sub: aimed ? `${nameOfSkill(w.skill)} · ${t('attack.locatedSub', { n: penalty })}` : nameOfSkill(w.skill) }, data,
         (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), damageText, located: aimed }),
         { tier: tableTier(), once: true, after: (r) => {
           if (!r.success) return html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`;
-          const panel = damagePanel(w, sh, c, { located: aimed });
+          const panel = damagePanel(w, sh, c, { located: aimed, exploit });
           damageText = panel.text;
           return panel.html;
         } });
@@ -224,6 +226,10 @@ export function sheetView({ data, store, main, table }, route) {
     res: (d) => run('res', d),
     setRes: (d) => run('setRes', d),
     techMode: (d) => run('techMode', d),
+    tell: ({ key, delta }) => run('tell', { key, delta, combat: table?.state.joinedId === id ? table.state.combat : null }),
+    tellTarget: ({ key }) => run('tellTarget', { key }),
+    exploit: ({ value }) => run('exploit', { n: value }),
+    markRemove: ({ key }) => run('markRemove', { key }),
     deckMod: (d) => run('deckMod', d),
     roundEnd: () => run('roundEnd'),
     combatStart: () => run('combatStart'),
@@ -248,6 +254,8 @@ export function sheetView({ data, store, main, table }, route) {
   const offChange = delegate(main, 'change', {
     slot: (d, e) => run('slot', { slot: d.slot, value: e.target.value }),
     deck: (_, e) => run('deck', { value: e.target.value }),
+    optic: (_, e) => run('optic', { value: e.target.value }),
+    markAdd: (_, e) => run('markAdd', { name: e.target.value }),
     subclass: (_, e) => run('subclass', { value: e.target.value }),
     cash: (_, e) => run('cash', { value: e.target.value }),
     field: (d, e) => run('field', { path: d.path, value: d.number ? Number(e.target.value) : e.target.value }),

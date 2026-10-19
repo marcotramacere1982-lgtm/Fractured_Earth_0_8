@@ -148,5 +148,29 @@
   },
   "kingpin": {
     "desc": "Call in Favor due volte per combattimento."
+  },
+  "cold_read": {
+    "desc": "La prima volta che piazzi Tell in uno scontro, ne piazzi 1 in più."
+  },
+  "scrounger": {
+    "desc": "Salvage prende 2 oggetti invece di 1."
+  },
+  "sticky_fingers": {
+    "desc": "Una volta per scontro, Lift non costa Tell (serve comunque il tiro)."
+  },
+  "dirty_fighting": {
+    "desc": "Exploit tira d6 invece di d4 con un'arma da mischia."
+  },
+  "clean_sweep": {
+    "desc": "Strip disarma il bersaglio e in più gli incrina l'armatura di 2."
+  },
+  "shared_notes": {
+    "desc": "Mark dà anche agli alleati +1d4 danni contro il bersaglio."
+  },
+  "patient_eye": {
+    "desc": "Dalla copertura totale, Case the Room piazza 2 Tell su uno dei suoi bersagli."
+  },
+  "long_memory": {
+    "desc": "Quando un bersaglio con i tuoi Tell va a terra, sposta fino a 2 di quei Tell su un altro nemico che vedi."
   }
 }

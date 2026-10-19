@@ -2,7 +2,7 @@
 
 import { RuleError, message } from './messages.js';
 
-export const CATALOGS = { weapon: 'weapons', armor: 'armor', item: 'items', deck: 'decks', deckMod: 'deckMods', lifestyle: 'lifestyle' };
+export const CATALOGS = { weapon: 'weapons', armor: 'armor', item: 'items', deck: 'decks', deckMod: 'deckMods', optic: 'optics', lifestyle: 'lifestyle' };
 
 export function findGear(kind, id, data) {
   const table = data[CATALOGS[kind]];

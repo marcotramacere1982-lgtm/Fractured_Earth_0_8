@@ -12,14 +12,19 @@ import { damageDice } from './turn.js';
  *   enemy entries:  key = 'e1', 'e2'…; enemy = live instance (see spawn)
  */
 export const newEncounter = () => ({
-  id: null, active: false, round: 1, order: [], acted: [], entries: [], seq: 0,
+  id: null, active: false, round: 1, order: [], acted: [], entries: [], seq: 0, letters: 0,
 });
+
+/** Enemy letters for the table: A…Z, then A2…Z2. Never reused within an encounter. */
+export const letterOf = (i) => `${String.fromCharCode(65 + (i % 26))}${i >= 26 ? Math.floor(i / 26) + 1 : ''}`;
 
 /** Encounters saved before "acted" existed used a turn index; set-ups saved unsorted get sorted. */
 export function upgradeEncounter(enc) {
   const { turn = 0, ...rest } = enc;
   const acted = Array.isArray(enc.acted) ? enc.acted : enc.active ? enc.order.slice(0, turn) : [];
-  return { ...rest, acted, order: enc.active ? enc.order : sortKeys(enc.entries) };
+  const next = { ...rest, acted, order: enc.active ? enc.order : sortKeys(enc.entries), letters: enc.letters ?? 0 };
+  next.entries = enc.entries.map((e) => (e.kind !== 'enemy' || e.letter ? e : { ...e, letter: letterOf(next.letters++), publicName: '', hidden: false }));
+  return next;
 }
 
 const clone = (enc) => structuredClone(enc);
@@ -74,7 +79,12 @@ export function addEnemies(enc, template, count = 1) {
     next.seq += 1;
     const n = same + i + 1;
     const label = count + same > 1 ? `${template.name} #${n}` : template.name;
-    next.entries.push({ key: `e${next.seq}`, kind: 'enemy', name: label, init: template.init ?? 0, roll: null, reinforcement: next.active, enemy: spawn(template, label) });
+    const letter = letterOf(next.letters ?? 0);
+    next.letters = (next.letters ?? 0) + 1;
+    next.entries.push({
+      key: `e${next.seq}`, kind: 'enemy', name: label, init: template.init ?? 0, roll: null, reinforcement: next.active, enemy: spawn(template, label),
+      letter, publicName: template.publicName ?? '', hidden: false, // what the players' sheets see (publicView)
+    });
     if (next.active) next.order.push(`e${next.seq}`);
   }
   if (!next.active) next.order = sortKeys(next.entries);
@@ -175,6 +185,26 @@ export function endCombat(enc) {
   return next;
 }
 
+/** What the players see of an enemy: the name the GM gives it at the table, and whether it is revealed. */
+export function setPublic(enc, key, { publicName, hidden } = {}) {
+  const next = clone(enc);
+  const e = entryOf(next, key);
+  if (!e?.enemy) throw new Error('No such enemy.');
+  if (publicName !== undefined) e.publicName = String(publicName).trim().slice(0, 40);
+  if (hidden !== undefined) e.hidden = Boolean(hidden);
+  return next;
+}
+
+/** "B · Guard": how the table calls an enemy (the GM's public name, or the generic label). */
+export const tableName = (e, data) => `${e.letter} · ${e.publicName || data.encounter.hostileLabel}`;
+
+/** A rough wound band anyone at the table could see: unhurt, hurt, bloodied (≤ half), down. */
+export function woundBand(hp, maxHp, data) {
+  if (hp <= 0) return 'down';
+  if (hp >= maxHp) return 'unhurt';
+  return hp / maxHp <= data.encounter.bloodiedAt ? 'bloodied' : 'hurt';
+}
+
 /** Applies a change to one enemy instance. */
 export function updateEnemy(enc, key, fn) {
   const next = clone(enc);
@@ -225,15 +255,29 @@ export function enemyAttack(attack, data, rng = Math.random, { located = false }
   return { attack: attack.name, tn, located, roll: r.total, hit, damage, extra: attack.damage.replace(expr ?? '', '').trim(), locRoll, locations };
 }
 
-/** What players' sheets see: order and whose turn — enemies stay anonymous. */
+/**
+ * What players' sheets see. The order shows whose turn it is, with enemies anonymous ("Hostile"), so it never
+ * tells which enemy acts when. Hostiles: the revealed enemies by letter, with what anyone could see — the
+ * public name, organic/synthetic, a wound band and visible conditions. Never HP, armor, stats or initiative.
+ */
 export function publicView(enc, data) {
+  const visible = (e) => e && !(e.kind === 'enemy' && e.hidden);
+  const limbs = data.conditions.filter((c) => c.limb);
   return {
     type: 'combat',
     id: enc.id,
     active: enc.active,
     round: enc.round,
     current: currentKey(enc),
-    order: enc.order.map((k) => entryOf(enc, k)).filter(Boolean)
+    hostiles: enc.entries.filter((e) => e.enemy && visible(e)).map((e) => ({
+      key: e.key,
+      letter: e.letter,
+      name: e.publicName || data.encounter.hostileLabel,
+      tag: e.enemy.tag ?? 'organic',
+      band: woundBand(e.enemy.hp, e.enemy.maxHp, data),
+      conditions: [...e.enemy.conditions, ...limbs.filter((c) => e.enemy.injuries?.[c.limb] > 0).map((c) => c.id)],
+    })),
+    order: enc.order.map((k) => entryOf(enc, k)).filter(visible)
       .map((e) => ({
         key: e.kind === 'player' ? e.key : 'hostile',
         name: e.kind === 'player' ? e.name : data.encounter.hostileLabel,

@@ -8,19 +8,20 @@ import { t } from '../../i18n/index.js';
 /** Translated name of a gear category. */
 export const kindLabel = (kind) => t(`gear.kind.${kind}`);
 
-function describe(kind, e) {
+function describe(kind, e, data) {
   switch (kind) {
     case 'weapon': return `${e.type} · ${e.damage} · ${e.range.min}–${e.range.max}m${e.magSize ? ` · ${t('gear.mag')} ${e.magSize}` : ''}`;
     case 'armor': return `${e.type} · ${t('stat.armor')} +${e.maxHits} · ${t('gear.visibility')} ${e.visibility}/5`;
     case 'item': return `${e.effectType} · ${e.effect}`;
     case 'deck': return `RAM ${e.ram} · heat cap ${e.heatCap} · ${e.modSlots} mod slot · ${t('gear.battery')} ${e.battery.idle} idle / ${e.battery.usage} use`;
     case 'deckMod': return `+${e.amount} ${e.type === 'ram' ? 'RAM' : 'heat cap'}`;
+    case 'optic': return `${t('gear.opticStats', { range: e.range, track: e.track })}${e.mode ? ` · ${nameOf(data.classes.classes.find((k) => k.id === 'scavenger').resources.modes, e.mode)}` : ''} · ${t('gear.visibility')} ${e.visibility}/5 · Scavenger`;
     default: return e.desc ?? '';
   }
 }
 
 export function gearTab(c, s, data) {
-  const kinds = ['weapon', 'armor', 'item', 'deck', 'deckMod'];
+  const kinds = ['weapon', 'armor', 'item', 'deck', 'deckMod', 'optic'];
   const money = card(t('gear.money'), html`
     <div class="cluster cluster--gap">
       <label class="field"><span class="label">${t('gear.cash')}</span>
@@ -42,7 +43,7 @@ export function gearTab(c, s, data) {
             if (!e) return html`<div class="row"><span class="row__main muted">${t('gear.unknown')}: ${r.id}</span></div>`;
             const worn = kind === 'armor' && c.play.worn.includes(r.id);
             return html`<div class="row">
-              <div class="row__main"><div class="row__title">${e.name} <span class="pill">${e.rarity ?? ''}</span></div><div class="row__meta">${describe(kind, e)}</div></div>
+              <div class="row__main"><div class="row__title">${e.name} <span class="pill">${e.rarity ?? ''}</span></div><div class="row__meta">${describe(kind, e, data)}</div></div>
               ${kind === 'armor' ? html`<button class="btn btn--sm" data-action="wear" data-id="${r.id}" aria-pressed="${worn}">${worn ? `✓ ${t('gear.worn')}` : t('gear.wear')}</button>` : ''}
               ${counter({ action: 'qty', value: r.qty, min: 0, args: { kind, id: r.id }, size: 'sm', label: `${e.name} · ${t('gear.qty')}` })}
             </div>`;

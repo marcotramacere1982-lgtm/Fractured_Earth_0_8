@@ -35,6 +35,14 @@
             "smuggler.dealer": 2,
             "techwiz.mechanic": 1
           }
+        },
+        {
+          "id": "E",
+          "text": "Break in at night and take the ledger, and anything else worth taking.",
+          "scores": {
+            "scavenger.prowler": 2,
+            "smuggler.dealer": 1
+          }
         }
       ]
     },
@@ -72,6 +80,14 @@
           "scores": {
             "hacker.scammer": 2,
             "smuggler.trafficker": 1
+          }
+        },
+        {
+          "id": "E",
+          "text": "Watch them for a while. Learn their habits, then strike where it hurts.",
+          "scores": {
+            "scavenger.stalker": 2,
+            "soldier.officer": 1
           }
         }
       ]
@@ -111,6 +127,14 @@
             "techwiz.engineer": 2,
             "hacker.master": 1
           }
+        },
+        {
+          "id": "E",
+          "text": "Scouting the site from a rooftop until you know every blind spot.",
+          "scores": {
+            "scavenger.stalker": 2,
+            "scavenger.prowler": 1
+          }
         }
       ]
     },
@@ -148,6 +172,14 @@
           "scores": {
             "techwiz.mechanic": 2,
             "techwiz.engineer": 1
+          }
+        },
+        {
+          "id": "E",
+          "text": "Pick the lock with whatever you have in your pockets.",
+          "scores": {
+            "scavenger.prowler": 2,
+            "techwiz.mechanic": 1
           }
         }
       ]
@@ -187,6 +219,14 @@
             "hacker.master": 2,
             "techwiz.engineer": 1
           }
+        },
+        {
+          "id": "E",
+          "text": "Rules are for people with something to lose.",
+          "scores": {
+            "scavenger.prowler": 2,
+            "smuggler.trafficker": 1
+          }
         }
       ]
     },
@@ -224,6 +264,14 @@
           "scores": {
             "hacker.master": 2,
             "smuggler.trafficker": 2
+          }
+        },
+        {
+          "id": "E",
+          "text": "Disappear for a few days, then go back for what you left behind.",
+          "scores": {
+            "scavenger.stalker": 2,
+            "scavenger.prowler": 1
           }
         }
       ]
@@ -277,6 +325,18 @@
         "MST": 8
       },
       "description": "Agile operator relying on quick reflexes, sharp social leverage, and street smarts."
+    },
+    "scavenger": {
+      "stats": {
+        "STR": 6,
+        "CON": 12,
+        "DEX": 12,
+        "INT": 10,
+        "WIS": 8,
+        "CHA": 6,
+        "MST": 8
+      },
+      "description": "Hard to kill and hard to read: quick hands, patience and a mind for patterns."
     }
   }
 }

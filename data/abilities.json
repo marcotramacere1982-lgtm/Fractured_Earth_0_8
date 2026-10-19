@@ -556,5 +556,131 @@
       ],
       "oncePerCombat": true
     }
+  ],
+  "scavenger": [
+    {
+      "id": "case_the_room",
+      "name": "Case the Room",
+      "subclasses": [
+        "stalker"
+      ],
+      "gain": {
+        "spread": 3
+      },
+      "desc": "Sweep the area through your optic: place 1 Tell on each of up to 3 enemies you can see."
+    },
+    {
+      "id": "close_study",
+      "name": "Close Study",
+      "subclasses": [
+        "prowler"
+      ],
+      "gain": {
+        "target": 2
+      },
+      "adjacent": true,
+      "desc": "Get close and read them while you talk: +2 Tells on one adjacent enemy. Works in the open."
+    },
+    {
+      "id": "mark",
+      "name": "Mark",
+      "subclasses": [
+        "stalker"
+      ],
+      "tells": 1,
+      "desc": "Paint the target for the crew: allies get +2 TN on attacks against it until the end of the round."
+    },
+    {
+      "id": "lift",
+      "name": "Lift",
+      "subclasses": [
+        "prowler"
+      ],
+      "tells": 1,
+      "adjacent": true,
+      "hands": true,
+      "desc": "Take one item off an adjacent target: a magazine, a consumable, a small tool, keycards or creds, or a civilian weapon. The GM says what it carries (Liftable list)."
+    },
+    {
+      "id": "misdirect",
+      "name": "Misdirect",
+      "subclasses": [
+        "prowler"
+      ],
+      "tells": 1,
+      "desc": "Feint and shift: the target's next attack is at −4 TN, and if it misses it hits another enemy next to it, if there is one (GM's call)."
+    },
+    {
+      "id": "pin_the_route",
+      "name": "Pin the Route",
+      "subclasses": [
+        "stalker"
+      ],
+      "tells": 1,
+      "desc": "Call out its path to the crew: the target is Slowed until the end of its next turn."
+    },
+    {
+      "id": "jam",
+      "name": "Jam",
+      "subclasses": [
+        "prowler"
+      ],
+      "tells": 2,
+      "adjacent": true,
+      "hands": true,
+      "desc": "Tamper with an adjacent target's weapon: it is Jammed."
+    },
+    {
+      "id": "called_shot",
+      "name": "Called Shot",
+      "subclasses": [
+        "stalker"
+      ],
+      "tells": 2,
+      "weapon": {
+        "ammo": 1,
+        "minAmmo": 1,
+        "ranged": true,
+        "located": true
+      },
+      "desc": "Fire your readied gun as a location attack on your Class TN, with no −4 penalty: roll where it lands and apply that location's effect."
+    },
+    {
+      "id": "strip",
+      "name": "Strip",
+      "subclasses": [
+        "prowler"
+      ],
+      "tells": 2,
+      "adjacent": true,
+      "hands": true,
+      "desc": "Tear off a plate or disarm an adjacent target. Pick one: it drops its weapon (1 action to pick it up; an AI-locked weapon is useless to you), or its armor cracks by 2."
+    },
+    {
+      "id": "kill_shot",
+      "name": "Kill Shot",
+      "subclasses": [
+        "stalker"
+      ],
+      "tells": 3,
+      "weapon": {
+        "ammo": 1,
+        "minAmmo": 1,
+        "ranged": true,
+        "bonus": "3d4",
+        "armorHalf": true
+      },
+      "desc": "Everything you learned in one shot: your readied gun deals weapon damage +3d4, ignoring cover, and its armor counts half."
+    },
+    {
+      "id": "vanish",
+      "name": "Vanish",
+      "subclasses": [
+        "prowler",
+        "stalker"
+      ],
+      "oncePerCombat": true,
+      "desc": "Slip out of sight: move up to your squares into full cover without provoking attacks. You count as not having attacked this round, so you start next round Unseen."
+    }
   ]
 }

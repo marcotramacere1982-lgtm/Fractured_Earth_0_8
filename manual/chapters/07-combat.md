@@ -8,6 +8,8 @@ Combat phase
 
 At the onset of a combat engagement, all participating Operators and hostile units roll a standard d20 + Initiative Bonus to establish the battle's static action sequence. This calculated turn order remains fixed for the entirety of the fight, ensuring a predictable tactical flow without the friction of re-rolling each round. To account for sudden tactical adjustments, a player may elect to Delay their turn during a round. Declaring a Delay voluntarily shifts the Operator's action slot to the very end of the current round—after all other friendly and enemy units have acted—allowing them to react to changing battlefield conditions, wait for team setups, or coordinate late-turn pushes.
 
+**At the live table**, your sheet shows the order with every enemy as *Hostile*, so it never tells which enemy acts when. Below it, the **Hostiles** list shows the enemies the GM has revealed, each with a letter (A, B, C…) the GM also uses out loud and on the miniatures: the name the GM gives it, organic or synthetic, a wound band (Unhurt, Hurt, Bloodied at half HP or less, Down) and visible conditions. Enemies the GM keeps hidden — an ambusher, a sniper — appear only once revealed.
+
 ## 7-2. Line of Sight, Cover & Grid Geometry {#sec-7-2}
 
 Combat in *The Fractured Century* is tactical, spatial, and unforgiving. Position, line-of-sight, and physical cover mean the difference between surviving a skirmish and suffering a fatal structural injury. Grid movement and spatial geometry are kept intentionally intuitive so squad combat remains fast-paced.
@@ -215,6 +217,22 @@ The sheet applies the zone bonuses automatically: gun Attack TN, damage rolls (s
 > *Round 1:* The Dealer starts at 0 Composure. They fire a *Street Snap-Shot* and duck into cover: the pendulum drops to −1, **Cold**. The next normal shot is at +2 TN. During the enemy's turn the Dealer takes a hit and is Wounded; pain pushes the pendulum +1 at round end, back to 0.
 
 > *Rounds 2–3:* Another hit lands and the wound bites: the Dealer starts round 3 at +1, **Hot**. *Pistol Whip & Rob* on an adjacent guard (weapon damage +1 Hot, and a fresh magazine stolen) swings the pendulum to +3. With 3+ rounds loaded the Dealer unleashes *Desperate Gamble*: weapon damage to every enemy in a 3×3 area, magazine empty, and the pendulum crashes to **−3**. Cold again, and steady enough for a precise shot next round.
+
+### 7-4-5. The Scavenger: Tells {#sec-7-4-scavenger}
+
+The Scavenger turns attention into damage. **Tells** sit on individual enemies (max 3 each, as many enemies as the optic can Track) and are spent on that enemy.
+
+- **Start of your turn:** place 1 Tell on an enemy you can see, or 2 if you are Unseen (full cover and no attack last round). The sheet reminds you how many are still to place.
+- **Attacking** (an attack, or *Called Shot* / *Kill Shot*) means you count as having attacked this round: next round you place only 1. *Vanish* (once per combat) slips you back into full cover and clears that.
+- **Exploit:** ready Tells on your target; your next hit with an attack adds +1d4 per Tell (the sheet rolls them with the damage) and spends them.
+- **Abilities** cost Tells on the target: 1 for a small edge (*Mark*, *Lift*, *Misdirect*, *Pin the Route*), 2 for a big one (*Jam*, *Called Shot*, *Strip*), 3 for the finisher (*Kill Shot*). Like every ability they roll your Class TN, and a failed roll still pays its cost.
+- **Round end:** remove the Tells of any enemy you lost sight of this round. Enemies that go down take their Tells with them automatically.
+
+> **Combat Scenario Example: The Scavenger (Stalker Subclass)**
+
+> *Round 1:* The Stalker (Courier Visor, Track 3) starts in full cover behind a container, Unseen: 2 Tells. One goes on the heavy gunner (B), one on the sniper (C). They use *Case the Room* for a third look: 1 more Tell each on B and C, and one on the guard (A). B now has 2.
+
+> *Round 2:* Still Unseen (no attack yet): 2 more Tells on B, which caps at 3. The Stalker leans out and fires *Kill Shot* at B: 3 Tells spent, weapon damage +3d4, cover ignored, armor counts half. B drops. Having attacked, next round they place only 1, so they *Vanish* back behind the container to be Unseen again.
 
 ## 7-5. Attacks, Damage Resolution, Armor & Targeted Location System {#sec-7-5}
 

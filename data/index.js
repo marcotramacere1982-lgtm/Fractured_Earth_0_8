@@ -20,6 +20,7 @@ export const DATA_FILES = {
   items: 'items.json',
   decks: 'decks.json',
   deckMods: 'deck-mods.json',
+  optics: 'optics.json',
   economy: 'economy.json',
   lifestyle: 'lifestyle.json',
   difficulty: 'difficulty.json',

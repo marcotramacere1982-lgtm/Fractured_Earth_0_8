@@ -72,6 +72,11 @@
       "id": "smuggler",
       "name": "Smuggler",
       "kind": "class"
+    },
+    {
+      "id": "scavenger",
+      "name": "Scavenger",
+      "kind": "class"
     }
   ]
 }

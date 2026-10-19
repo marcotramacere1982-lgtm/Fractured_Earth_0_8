@@ -1,0 +1,114 @@
+[
+  {
+    "id": "street_lenses",
+    "name": "Street Lenses",
+    "manufacturer": "Street Craft",
+    "desc": "Cracked AR contacts with a jailbroken overlay. Better than nothing.",
+    "range": 6,
+    "track": 2,
+    "mode": null,
+    "visibility": 1,
+    "rarity": "F",
+    "cost": {
+      "cr": 300
+    }
+  },
+  {
+    "id": "scrap_monocle",
+    "name": "Scrap Monocle",
+    "manufacturer": "Street Craft",
+    "desc": "A salvaged rangefinder taped to a headband; the motion filter flickers but works.",
+    "range": 8,
+    "track": 2,
+    "mode": "motion",
+    "visibility": 2,
+    "rarity": "E",
+    "cost": {
+      "cr": 650
+    }
+  },
+  {
+    "id": "night_owl",
+    "name": "Night Owl",
+    "manufacturer": "Aegis",
+    "desc": "Surplus security goggles with a thermal layer.",
+    "range": 8,
+    "track": 2,
+    "mode": "thermal",
+    "visibility": 3,
+    "rarity": "E",
+    "cost": {
+      "cr": 1100
+    }
+  },
+  {
+    "id": "courier_visor",
+    "name": "Courier Visor",
+    "manufacturer": "Aegis",
+    "desc": "A delivery rider's visor: wide field, clean tracking, nothing fancy.",
+    "range": 10,
+    "track": 3,
+    "mode": null,
+    "visibility": 2,
+    "rarity": "D",
+    "cost": {
+      "cr": 2600
+    }
+  },
+  {
+    "id": "hawkeye",
+    "name": "Hawkeye",
+    "manufacturer": "Apex",
+    "desc": "A long-glass scope-cam you can watch through from behind a corner.",
+    "range": 16,
+    "track": 2,
+    "mode": "longglass",
+    "visibility": 3,
+    "rarity": "D",
+    "cost": {
+      "cr": 4500
+    }
+  },
+  {
+    "id": "field_spotter",
+    "name": "Field Spotter",
+    "manufacturer": "Aegis",
+    "desc": "Military spotter optics, serial numbers filed off.",
+    "range": 12,
+    "track": 3,
+    "mode": "thermal",
+    "visibility": 4,
+    "rarity": "C",
+    "cost": {
+      "cr": 7000
+    }
+  },
+  {
+    "id": "mantis",
+    "name": "Mantis",
+    "manufacturer": "Hyperion",
+    "desc": "Compound-eye headset: tracks four targets and flags every move.",
+    "range": 12,
+    "track": 4,
+    "mode": "motion",
+    "visibility": 4,
+    "rarity": "B",
+    "cost": {
+      "cr": 15000
+    }
+  },
+  {
+    "id": "phantom_eye",
+    "name": "Phantom Eye",
+    "manufacturer": "Apex",
+    "desc": "A corporate pattern-recognition lens. Nearly invisible; never forgets a gait.",
+    "range": 14,
+    "track": 4,
+    "mode": "pattern",
+    "visibility": 1,
+    "rarity": "A",
+    "cost": {
+      "cr": 38000
+    }
+  }
+]

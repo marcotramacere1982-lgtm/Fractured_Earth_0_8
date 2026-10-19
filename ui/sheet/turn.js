@@ -15,6 +15,22 @@ function orderStrip(c, combat) {
       <li class="init-strip__item ${o.current ? 'is-current' : ''} ${o.done ? 'is-done' : ''} ${o.key === c.id ? 'is-me' : ''} ${o.key === 'hostile' ? 'is-hostile' : ''} ${o.down ? 'is-down' : ''}">${o.name}</li>`)}</ol>`;
 }
 
+/** The enemies the GM has revealed, by letter: what anyone at the table could see of them. */
+function hostilesList(combat, data) {
+  if (!combat.hostiles?.length) return '';
+  const condName = (id) => data.conditions.find((x) => x.id === id)?.name ?? id;
+  return html`
+    <h3 class="label hostiles__title">${t('turn.hostiles')}${info('hostiles', t('turn.hostiles'))}</h3>
+    <ul class="hostiles">${combat.hostiles.map((h) => html`
+      <li class="hostiles__row ${h.band === 'down' ? 'is-down' : ''}">
+        <span class="letter-badge">${h.letter}</span>
+        <span class="hostiles__name">${h.name}</span>
+        <span class="pill tag--${h.tag}">${h.tag}</span>
+        <span class="pill hostiles__band hostiles__band--${h.band}">${t(`turn.band.${h.band}`)}</span>
+        ${h.conditions.map((id) => html`<span class="pill pill--danger">${condName(id)}</span>`)}
+      </li>`)}</ul>`;
+}
+
 /** What this round's actions were, in order: "Attack · Pistol", "Move", "Ping Sweep"… */
 function spentList(spent) {
   if (!spent?.length) return '';
@@ -43,7 +59,7 @@ export function turnCard(c, s, data, combat = null) {
           <button class="btn btn--ghost btn--sm" data-action="combatEnd">${t('turn.endCombat')}</button>
         </div>`}
       </div>
-      ${gmRuns ? orderStrip(c, combat) : ''}`
+      ${gmRuns ? html`${orderStrip(c, combat)}${hostilesList(combat, data)}` : ''}`
     : html`<div class="turn-head">
         <p class="muted turn-idle">${t('turn.idle')}</p>
         <button class="btn btn--primary" data-action="combatStart">${t('turn.startCombat')}</button>

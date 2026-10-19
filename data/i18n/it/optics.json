@@ -1,0 +1,26 @@
+{
+  "street_lenses": {
+    "desc": "Lenti AR incrinate con un overlay sbloccato. Meglio di niente."
+  },
+  "scrap_monocle": {
+    "desc": "Un telemetro di recupero fissato a una fascia col nastro; il filtro di movimento sfarfalla ma funziona."
+  },
+  "night_owl": {
+    "desc": "Visori di sicurezza di seconda mano con uno strato termico."
+  },
+  "courier_visor": {
+    "desc": "Il visore di un rider delle consegne: campo largo, tracciamento pulito, niente di speciale."
+  },
+  "hawkeye": {
+    "desc": "Una scope-cam a lungo raggio da guardare da dietro un angolo."
+  },
+  "field_spotter": {
+    "desc": "Ottiche da osservatore militare, numeri di serie limati via."
+  },
+  "mantis": {
+    "desc": "Visore a occhio composto: traccia quattro bersagli e segnala ogni movimento."
+  },
+  "phantom_eye": {
+    "desc": "Una lente aziendale a riconoscimento di schemi. Quasi invisibile; non dimentica mai un'andatura."
+  }
+}

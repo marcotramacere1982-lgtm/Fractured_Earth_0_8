@@ -49,14 +49,15 @@ export function damageDice(damage) {
 /**
  * Damage roll for a hit: weapon dice + Offensive Bonus (minimum 0).
  * opts (abilities, stances): bonus = extra dice ("1d6"), twice = weapon dice rolled twice,
- * multiplier = Soldier stance (×0.5 / ×1 / ×1.5, rounded down, applied last).
+ * multiplier = Soldier stance (×0.5 / ×1 / ×1.5, rounded down, applied last); exploit = Scavenger Exploit dice ("2d4").
  */
-export function rollDamage(weapon, off, rng = Math.random, { bonus = null, twice = false, multiplier = 1, flat = 0 } = {}) {
+export function rollDamage(weapon, off, rng = Math.random, { bonus = null, twice = false, multiplier = 1, flat = 0, exploit = null } = {}) {
   const expr = damageDice(weapon.damage);
   if (!expr) return null;
   const r = roll(expr, rng);
   const second = twice ? roll(expr, rng) : null;
   const extra = bonus ? roll(bonus, rng) : null;
-  const raw = r.total + (second?.total ?? 0) + (extra?.total ?? 0) + off + flat;
-  return { ...r, base: r, off, second, extra, flat, multiplier, total: Math.max(0, Math.floor(raw * multiplier)) };
+  const tells = exploit ? roll(exploit, rng) : null; // Scavenger Exploit: 1d4 per Tell spent
+  const raw = r.total + (second?.total ?? 0) + (extra?.total ?? 0) + (tells?.total ?? 0) + off + flat;
+  return { ...r, base: r, off, second, extra, exploit: tells, flat, multiplier, total: Math.max(0, Math.floor(raw * multiplier)) };
 }

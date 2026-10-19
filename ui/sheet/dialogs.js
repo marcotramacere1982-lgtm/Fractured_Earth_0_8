@@ -84,7 +84,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
 /** Market dialog. free = add without paying (GM-granted gear). onBuy({kind,id,method,multiplier}) may throw. */
 export function openShop({ kind = 'weapon', free = false }, character, data, onBuy) {
   const state = { kind, query: '', multiplier: data.economy.cash.defaultMultiplier, message: '' };
-  const kinds = free ? ['weapon', 'armor', 'item', 'deck', 'deckMod'] : ['weapon', 'armor', 'item', 'deck', 'deckMod', 'lifestyle'];
+  const kinds = free ? ['weapon', 'armor', 'item', 'deck', 'deckMod', 'optic'] : ['weapon', 'armor', 'item', 'deck', 'deckMod', 'optic', 'lifestyle'];
   const draw = () => {
     const c = character();
     const list = catalog(state.kind, data)
@@ -106,7 +106,7 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
             return html`<div class="row row--wrap">
               <div class="row__main">
                 <div class="row__title">${e.name} ${e.rarity ? html`<span class="pill ${['A', 'B'].includes(e.rarity) ? 'pill--danger' : ''}">${e.rarity}</span>` : ''}${e.provisional ? html` <span class="pill">${t('shop.provisional')}</span>` : ''}</div>
-                <div class="row__meta">${describe(state.kind, e)} · ${t('shop.list')} ${e.cost.cr} Cr${state.kind === 'lifestyle' ? `/${t('gear.month')}` : ''}</div>
+                <div class="row__meta">${describe(state.kind, e, data)} · ${t('shop.list')} ${e.cost.cr} Cr${state.kind === 'lifestyle' ? `/${t('gear.month')}` : ''}</div>
               </div>
               <div class="cluster">${free ? html`<button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="free">${t('common.add')}</button>` : html`
                 <button class="btn btn--sm" data-action="buy" data-id="${e.id}" data-method="official" ${p.official ? '' : 'disabled'} title="${p.official ? t('shop.officialHint') : t('shop.blackOnly')}">${p.official ? `${p.official.crs} CRS` : t('shop.noOfficial')}</button>

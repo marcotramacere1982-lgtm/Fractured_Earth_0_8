@@ -39,6 +39,12 @@ A deck sets the Hacker's **RAM** and **heat cap**. Mod slots take hardware upgra
 
 ::table[deck-mods]
 
+### Scavenger optics {#sec-8-5-optics}
+
+An optic sets the Scavenger's **Range**, **Track** and **mode** (5-6). Anyone can buy one; only a Scavenger uses the numbers.
+
+::table[optics]
+
 ## 8-6. Lifestyle {#sec-8-6}
 
 The monthly cost of existing. Operators start at the bottom; moving up is something you earn. Lifestyle is tracked on the sheet but has no mechanical effect yet.

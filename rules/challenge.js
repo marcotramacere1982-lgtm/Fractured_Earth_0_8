@@ -30,9 +30,12 @@ export function playerProfile(character, sheet, data) {
     const d = damageStats(w.damage);
     return d ? { name: w.name, tn: w.tn, avg: Math.max(0, (d.avg + bonus) * mult), max: Math.max(0, (d.max + bonus) * mult) } : null;
   }).filter(Boolean);
+  // Scavenger Exploit: the Tells gained per round come back as +1d4 each on one hit (no armor in the way)
+  const tells = character.classId === 'scavenger' ? data.classes.classes.find((c) => c.id === 'scavenger').resources.tells : null;
+  const extra = tells ? tells.estimatePerRound * damageStats(tells.exploitDie).avg : 0;
   return {
     key: character.id, name: character.name || 'Unnamed', classId: character.classId,
-    hp: sheet.hp.current, maxHp: sheet.hp.max, armor: sheet.armor.general, actions: sheet.combat.act.value, attacks,
+    hp: sheet.hp.current, maxHp: sheet.hp.max, armor: sheet.armor.general, actions: sheet.combat.act.value, attacks, extra,
   };
 }
 
@@ -44,10 +47,11 @@ export function enemyProfile(name, en) {
   };
 }
 
-/** Expected damage per round of one attacker against armor A (best attack; armor subtracts per hit). */
+/** Expected damage per round of one attacker against armor A (best attack; armor subtracts per hit; + once-a-round extra). */
 export function damagePerRound(attacker, armor, tnPenalty = 0) {
   const best = Math.max(0, ...attacker.attacks.map((a) => hitChance(a.tn - tnPenalty) * Math.max(0, a.avg - armor)));
-  return attacker.actions * best;
+  const bestTn = Math.max(0, ...attacker.attacks.map((a) => a.tn));
+  return attacker.actions * best + (attacker.extra && attacker.attacks.length ? hitChance(bestTn - tnPenalty) * attacker.extra : 0);
 }
 
 const canHurt = (attacker, armor) => attacker.attacks.some((a) => a.avg > armor);

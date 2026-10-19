@@ -52,6 +52,8 @@ const ABILITY_TABLES = {
     list.map((a) => [`<strong>${e(a.name)}</strong>`, a.ram, a.heat, a.sustained ? 'Sustained' : 'Instant', e(a.subclasses.map((s) => nameOf(data.classes.classes.flatMap((c) => c.subclasses), s)).join(', ')), e(a.desc)])),
   techwiz: (list, data) => table(['Ability', 'Needs', 'Subclass', 'Mend (support)', 'Surge (offense)'],
     list.map((a) => [`<strong>${e(a.name)}</strong>${a.brownout ? ' <span class="md-badge md-badge--danger">Brownout</span>' : ''}`, `Sync ${e(data.classes.classes.find((c) => c.id === 'techwiz').resources.levels[a.minSync])}`, e(a.subclasses.map((s) => nameOf(data.classes.classes.flatMap((c) => c.subclasses), s)).join(', ')), e(a.mend), e(a.surge)])),
+  scavenger: (list, data) => table(['Ability', 'Tells', 'Subclass', 'Effect'],
+    list.map((a) => [`<strong>${e(a.name)}</strong>`, a.tells ? `${a.tells} on the target` : a.gain?.target ? `+${a.gain.target} on the target` : a.gain?.spread ? `+1 on up to ${a.gain.spread}` : a.oncePerCombat ? 'once per combat' : '—', e(a.subclasses.map((s) => nameOf(data.classes.classes.flatMap((c) => c.subclasses), s)).join(', ')), e(a.desc)])),
   smuggler: (list, data) => table(['Ability', 'Needs', 'Shift', 'Subclass', 'Effect'],
     list.map((a) => [`<strong>${e(a.name)}</strong>`, a.requires == null ? e(t('engine.any')) : `${a.requires > 0 ? '≥ ' : '≤ '}${signed(a.requires)}`, 'set' in a.shift ? `= ${signed(a.shift.set)}` : signed(a.shift.delta), e(a.subclasses.map((s) => nameOf(data.classes.classes.flatMap((c) => c.subclasses), s)).join(', ')), e(a.desc)])),
 };
@@ -100,6 +102,9 @@ const TABLES = {
     [...d.items].sort((a, b) => a.cost.cr - b.cost.cr).map((i) => [`<strong>${e(i.name)}</strong><br><span class="muted">${e(i.desc)}</span>`, e(i.effectType), e(i.effect), e(i.skillBonus), rarity(i.rarity), i.cost.cr, crs(i, 'item', d)]), 'md-table--dense'),
   decks: (d) => table(['Deck', 'RAM', 'Heat cap', 'Mod slots', 'Battery (idle / use)', 'Visibility', 'Rarity', 'Cr', 'CRS'],
     [...d.decks].sort((a, b) => a.cost.cr - b.cost.cr).map((k) => [`<strong>${e(k.name)}</strong><br><span class="muted">${e(k.desc)}</span>`, k.ram, k.heatCap, k.modSlots, `${e(k.battery.idle)} / ${e(k.battery.usage)}`, `${k.visibility}/5`, rarity(k.rarity), k.cost.cr, crs(k, 'deck', d)]), 'md-table--dense'),
+  optics: (d) => table(['Optic', 'Range', 'Track', 'Mode', 'Visibility', 'Rarity', 'Cr', 'CRS'],
+    [...d.optics].sort((a, b) => a.cost.cr - b.cost.cr).map((o) => [`<strong>${e(o.name)}</strong><br><span class="muted">${e(o.desc)}</span>`, o.range, o.track,
+      o.mode ? e(nameOf(d.classes.classes.find((c) => c.id === 'scavenger').resources.modes, o.mode)) : '—', `${o.visibility}/5`, rarity(o.rarity), o.cost.cr, crs(o, 'optic', d)]), 'md-table--dense'),
   talents: (d, tree) => table(['Talent', 'Tier', 'Needs', 'Effect'],
     d.talents.filter((x) => !tree || x.tree === tree).map((x) => [
       `<strong>${e(x.name)}</strong>${x.branch ? `<br><span class="muted">${e(nameOf(d.classes.classes.flatMap((c) => c.subclasses), x.branch))}</span>` : ''}`,
@@ -113,7 +118,7 @@ const TABLES = {
     d.lifestyle.entries.map((x) => [e(nameOf(d.lifestyle.categories, x.category)), `<strong>${e(x.name)}</strong><br><span class="muted">${e(x.desc)}</span>`, x.tier ?? '—', x.cost.cr, crs(x, 'lifestyle', d)])),
 };
 
-const TALENT_TREES = ['survival', 'street', 'tactics', 'soldier', 'hacker', 'techwiz', 'smuggler'];
+const TALENT_TREES = ['survival', 'street', 'tactics', 'soldier', 'hacker', 'techwiz', 'smuggler', 'scavenger'];
 
 export const TABLE_NAMES = [...Object.keys(TABLES), ...Object.keys(ABILITY_TABLES).map((k) => `abilities:${k}`), ...TALENT_TREES.map((k) => `talents:${k}`)];
 

@@ -2,6 +2,7 @@
   "initiativeDie": "1d20",
   "attackDie": "1d20",
   "hostileLabel": "Hostile",
+  "bloodiedAt": 0.5,
   "note": "Enemy attacks hit on d20 <= attack TN (roll-under, like players). A location attack takes −4 TN and rolls a hit location. Damage minus the target’s armor is applied by the target. Reinforcements added mid-fight act last, then roll initiative at round end.",
   "roundEndClears": [
     "stunned",

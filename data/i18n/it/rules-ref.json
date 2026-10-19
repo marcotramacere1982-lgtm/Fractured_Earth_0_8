@@ -143,6 +143,18 @@
     "drive": {
       "title": "Drive",
       "text": "Justice o Ambition, più una frase tua: come si comporta naturalmente il personaggio. Mai valutato né giudicato; seguirlo quando costa può valere XP di Spotlight."
+    },
+    "hostiles": {
+      "title": "Ostili",
+      "text": "I nemici che il GM ha rivelato, con una lettera (la stessa che il GM usa al tavolo). Vedi quello che vedrebbe chiunque: il nome che gli dà il GM, organico o sintetico, una fascia di ferite (Illeso, Ferito, Grave a metà HP o meno, A terra) e le condizioni visibili. Mai HP, armatura o iniziativa."
+    },
+    "scavenger": {
+      "title": "Scavenger · Tell",
+      "text": "I Tell stanno sui nemici: 1 per turno (2 se Unseen: copertura totale, nessun attacco nel round precedente), massimo 3 ciascuno, su tanti nemici quanti la tua ottica traccia. Le abilità spendono i Tell del bersaglio; Exploit aggiunge +1d4 per Tell al tuo prossimo colpo. Si perdono quando il nemico va a terra o lo perdi di vista."
+    },
+    "optic": {
+      "title": "Ottica",
+      "text": "Portata: i quadretti entro cui piazzi Tell. Track: quanti nemici tengono i tuoi Tell nello stesso momento. Modalità: un vantaggio (Thermal, Motion, Long-glass, Pattern). Senza: lenti AR di base, portata 4, Track 1."
     }
   }
 }

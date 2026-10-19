@@ -209,6 +209,36 @@
 .init-strip__item.is-current { background: var(--color-accent-soft); border-color: var(--color-accent); border-width: 2px; }
 .init-strip__item.is-done { opacity: 0.55; }
 .init-strip__item.is-down { text-decoration: line-through; }
+.hostiles__title { margin: var(--space-4) 0 var(--space-2); display: flex; align-items: center; gap: var(--space-1); }
+.hostiles { list-style: none; margin: 0 0 var(--space-4); padding: 0; display: grid; gap: var(--space-1); }
+.hostiles__row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2);
+  padding: var(--space-2); border-radius: var(--radius-sm); border: var(--border-width) solid var(--color-danger-soft);
+}
+.hostiles__name { font-family: var(--font-ui); font-weight: 700; font-size: var(--text-md); margin-right: auto; }
+.hostiles__row.is-down { opacity: 0.55; }
+.hostiles__row.is-down .hostiles__name { text-decoration: line-through; }
+.hostiles__band--unhurt { color: var(--color-text-muted); }
+.hostiles__band--hurt { color: var(--color-warning); border-color: var(--color-warning); }
+.hostiles__band--bloodied { color: var(--color-danger); border-color: var(--color-danger); background: var(--color-danger-soft); }
+.hostiles__band--down { color: var(--color-text-faint); }
+
+/* ---------- Scavenger: Tells on enemies ---------- */
+.tell-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
+.tell-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2);
+  padding: var(--space-2); border-radius: var(--radius-sm); border: var(--border-width) solid var(--color-border);
+}
+.tell-row.is-target { border-color: var(--color-accent); background: var(--color-accent-soft); }
+.tell-row__pick {
+  display: flex; align-items: center; gap: var(--space-2); flex: 1 1 10rem; min-height: var(--touch);
+  background: none; border: 0; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.tell-row__name { font-family: var(--font-ui); font-weight: 700; font-size: var(--text-md); }
+.tell-row__exploit { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.tell-pips { display: inline-flex; gap: var(--space-1); padding: 0 var(--space-1); }
+.tell-pip { width: 0.9rem; height: 0.9rem; border-radius: 50%; border: var(--border-width) solid var(--color-danger); }
+.tell-pip.is-on { background: var(--color-danger); }
 
 /* ---------- Tech Wizard: Field Sync ---------- */
 .sync-dial { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-1); }

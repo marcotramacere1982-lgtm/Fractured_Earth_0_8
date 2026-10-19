@@ -202,6 +202,36 @@ The sheet applies the zone bonuses for you: the Attack TN of your guns, your dam
 
 ::table[abilities:smuggler]
 
+### The Scavenger {#sec-5-6-scavenger}
+
+The Scavenger reads the fight before joining it. It picks the dangerous target, learns how it moves, then cashes that knowledge in all at once, or takes what the enemy carries. No career is required: anyone can live this way at night, though Drifters fit it best. Its engine is **Tells**, and Tells live **on the enemies**, not in a pool.
+
+- **Gaining Tells:** at the start of each of your turns, place **1 Tell** on an enemy you can see within your optic's range. Place **2** if you are **Unseen**: in **full cover** and you did not attack last round. Being Unseen only speeds up your Tells; enemies can still shoot at you.
+- **Limits:** at most **3 Tells on one enemy**, and only as many enemies hold your Tells as your **optic can Track**.
+- **Losing Tells:** an enemy's Tells are gone when it goes down, or at the end of a round in which you lost sight of it.
+- **Your target:** tap an enemy on the sheet to make it your target. Abilities spend **that enemy's** Tells.
+- **Exploit (always on):** ready some of the target's Tells; on your next hit with an attack, each adds **+1d4 damage**, then they are spent. A miss keeps them.
+- **Salvage (always on):** after a fight, take one extra item from what the enemies dropped (Liftable list below).
+
+Build Tells on the enemy that really matters: a full burst is +3d4 on one hit, but it takes about two rounds, so it is wasted on a cheap drone.
+
+At the live table your Tells sit on the GM's **Hostiles** list (by letter), and the GM sees them. Without a GM-run fight, name the enemies yourself on the sheet ("Heavy", "Drone 2").
+
+**What Lift can take (the GM decides, using this list):**
+
+- **Yes:** a magazine; consumables (stims, medkits, grenades); small tools; keycards, data chips and creds; civilian or junk weapons (knives, junk pistols).
+- **AI-locked:** military and corporate weapons are biometric-locked: in unauthorised hands they brick. *Strip* can disarm them, never make them yours.
+- **Never:** worn armor, cyberware, or anything on a synthetic or drone.
+
+**Optics.** Everyone wears basic AR lenses (range 4, Track 1). A Scavenger's optic is the professional version, bought on the market like a deck: **Range** (squares within which you place Tells), **Track** (how many enemies can hold your Tells at once) and one **mode**: *Thermal* (Tells through smoke, darkness and partial cover), *Motion* (once per turn, +1 Tell on an enemy that moved since your last turn), *Long-glass* (range doubled while in full cover), *Pattern* (Tells are lost only when the target goes down).
+
+::table[optics]
+
+- **Prowler (DEX / CON):** close and quick-handed: reads an enemy face to face (*Close Study*), lifts what it carries, jams its gun and strips its plates.
+- **Stalker (CON / INT):** patient eye at a distance: *Case the Room*, marks targets for the crew, *Called Shot* and *Kill Shot*.
+
+::table[abilities:scavenger]
+
 ## 5-7. Story & Portrait {#sec-5-7}
 
 The builder's last steps turn your rolls into a story. It compiles two prompts from everything you rolled:
@@ -286,6 +316,10 @@ The Progress tab shows every tree, what you can take now, and why the rest is lo
 **Smuggler**
 
 ::table[talents:smuggler]
+
+**Scavenger**
+
+::table[talents:scavenger]
 
 ## 5-10. Downtime {#sec-5-10}
 

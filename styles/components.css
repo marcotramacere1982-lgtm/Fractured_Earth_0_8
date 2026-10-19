@@ -90,6 +90,16 @@
 .pill--info { color: var(--color-info); border-color: var(--color-info); background: var(--color-info-soft); }
 .pill--danger { color: var(--color-danger); border-color: var(--color-danger); background: var(--color-danger-soft); }
 .pill--success { color: var(--color-success); border-color: var(--color-success); background: var(--color-success-soft); }
+/* What hacks can touch: an enemy's organic / cybernetic / synthetic tag. */
+.tag--synthetic { border-color: var(--color-info); color: var(--color-info); }
+.tag--cybernetic { border-color: var(--color-private); color: var(--color-private); }
+.tag--organic { color: var(--color-text-muted); }
+/* An enemy's table letter (A, B, C…), the same on the GM tracker and the players' sheets. */
+.letter-badge {
+  display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; padding: 0 var(--space-1);
+  border-radius: var(--radius-sm); background: var(--color-danger); color: var(--color-text-inverse);
+  font-family: var(--font-mono); font-weight: 700; font-size: var(--text-sm); line-height: 1; vertical-align: middle;
+}
 
 /* ---------- form fields ---------- */
 .field { display: flex; flex-direction: column; gap: var(--space-1); }

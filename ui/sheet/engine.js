@@ -2,10 +2,10 @@
 
 import { html, raw, signed } from '../dom.js';
 import { counter, meter, card, segmented, nameOf } from './parts.js';
-import { canUse, defaultResources, upgradeTechResources, SYNC_MAX } from '../../rules/engines.js';
+import { canUse, defaultResources, upgradeTechResources, SYNC_MAX, newTells, tellGain } from '../../rules/engines.js';
 import { zoneFor } from '../../rules/classes.js';
 import { info } from '../ref.js';
-import { t } from '../../i18n/index.js';
+import { t, tn } from '../../i18n/index.js';
 import { ruleText } from '../rule-text.js';
 
 const deltaText = (d) => ('set' in d ? `= ${signed(d.set)}` : signed(d.delta));
@@ -15,6 +15,7 @@ function abilityMeta(cls, a) {
     case 'soldier': return html`<span class="pill">${a.cost} TP</span>${a.gain ? html`<span class="pill pill--success">+${a.gain} TP</span>` : ''}<span class="pill">${a.stanceFrom} → ${a.stanceTo}</span>`;
     case 'hacker': return html`<span class="pill pill--info">${a.ram} RAM</span><span class="pill pill--danger">${a.heat} heat</span>${a.sustained ? html`<span class="pill pill--accent">sustained</span>` : ''}${a.heatVent ? html`<span class="pill pill--success">vent ${a.heatVent === 'all' ? t('engine.all') : `−${a.heatVent}`}</span>` : ''}`;
     case 'techwiz': return html`<span class="pill">${a.minSync ? `Sync ≥ ${['Cold', 'Warm', 'Tuned', 'Resonant'][a.minSync]}` : t('engine.anySync')}</span>${a.brownout ? html`<span class="pill pill--danger">Brownout</span>` : ''}`;
+    case 'scavenger': return html`${a.tells ? html`<span class="pill pill--danger">${t('engine.tellsCost', { n: a.tells })}</span>` : ''}${a.gain?.target ? html`<span class="pill pill--success">${t('engine.gainTarget', { n: a.gain.target })}</span>` : ''}${a.gain?.spread ? html`<span class="pill pill--success">${t('engine.gainSpread', { n: a.gain.spread })}</span>` : ''}${a.adjacent ? html`<span class="pill">${t('engine.adjacent')}</span>` : ''}${a.oncePerCombat ? html`<span class="pill pill--accent">${t('engine.oncePerCombat')}</span>` : ''}${!a.tells && !a.gain && !a.oncePerCombat ? html`<span class="pill">${t('engine.any')}</span>` : ''}`;
     case 'smuggler': return html`${a.requires != null ? html`<span class="pill">${t('engine.needs')} ${a.requires > 0 ? '≥ ' : '≤ '}${signed(a.requires)}</span>` : html`<span class="pill">${t('engine.any')}</span>`}<span class="pill pill--accent">shift ${deltaText(a.shift)}</span>`;
     default: return '';
   }
@@ -29,7 +30,53 @@ function abilityText(cls, a, r) {
   return html`<p class="ability__text">${a.desc}</p>${a.prereq ? html`<p class="hint">${t('engine.prereq')}: ${a.prereq}</p>` : ''}`;
 }
 
-function resourcePanel(c, s, data, r) {
+/** Scavenger: the enemies that can hold Tells — the GM's hostiles at the table, or enemies named by hand. */
+function tellTargets(r, combat) {
+  if (combat?.hostiles?.length) return combat.hostiles.filter((h) => h.band !== 'down').map((h) => ({ key: h.key, letter: h.letter, name: h.name }));
+  return (r.marks ?? []).map((m) => ({ key: m.key, letter: '', name: m.name, mark: true }));
+}
+
+function scavengerPanel(c, s, data, r, combat) {
+  const rules = data.classes.classes.find((k) => k.id === 'scavenger').resources;
+  const per = rules.tells.perEnemy;
+  const owned = c.play.inventory.filter((x) => x.kind === 'optic');
+  const o = s.optic;
+  const mode = o.mode ? rules.modes.find((m) => m.id === o.mode) : null;
+  const targets = tellTargets(r, combat);
+  const holding = Object.values(r.tells).filter((n) => n > 0).length;
+  const inCombat = Boolean(c.play.turn?.inCombat);
+  const unseen = tellGain(r, c.play.cover ?? 0, data.classes) > rules.tells.gain;
+  const pips = (n) => html`<span class="tell-pips" role="img" aria-label="${t('engine.tellsOf', { n, max: per })}">${Array.from({ length: per }, (_, i) => html`<span class="tell-pip ${i < n ? 'is-on' : ''}"></span>`)}</span>`;
+  const row = (x) => {
+    const n = r.tells[x.key] ?? 0;
+    const on = r.target === x.key;
+    return html`<li class="tell-row ${on ? 'is-target' : ''}">
+      <button class="tell-row__pick" data-action="tellTarget" data-key="${x.key}" aria-pressed="${on}" title="${t('engine.setTarget')}">
+        ${x.letter ? html`<span class="letter-badge">${x.letter}</span>` : ''}<span class="tell-row__name">${x.name}</span>${on ? html`<span class="pill pill--accent">${t('engine.target')}</span>` : ''}</button>
+      <span class="counter">
+        <button class="counter__btn" data-action="tell" data-key="${x.key}" data-delta="-1" ${n ? '' : raw('disabled')} aria-label="${t('engine.tellOff')}">−</button>
+        ${pips(n)}
+        <button class="counter__btn" data-action="tell" data-key="${x.key}" data-delta="1" ${n < per ? '' : raw('disabled')} aria-label="${t('engine.tellOn')}">+</button></span>
+      ${x.mark ? html`<button class="btn btn--sm btn--ghost" data-action="markRemove" data-key="${x.key}" aria-label="${t('common.remove')}">✕</button>` : ''}
+      ${on && n ? html`<div class="tell-row__exploit"><span class="label">${t('engine.exploit')}</span>${segmented('exploit', Array.from({ length: n + 1 }, (_, i) => ({ value: i, label: i ? `${i} · +${i}d4` : '0' })), r.exploit ?? 0)}</div>` : ''}
+    </li>`;
+  };
+  return html`
+    <div class="engine-row"><span class="label">${t('engine.optic')}${info('optic', t('engine.optic'))}</span>
+      <select class="select" data-action="optic">
+        <option value="">— ${t('engine.noOptic')} —</option>
+        ${owned.map((x) => html`<option value="${x.id}" ${c.play.optic === x.id ? raw('selected') : ''}>${nameOf(data.optics, x.id)}</option>`)}
+      </select></div>
+    <p class="mono muted">${t('engine.opticStats', { range: o.range, track: o.track })}${mode ? html` · <strong>${mode.name}</strong> ${mode.desc}` : ''}</p>
+    ${!o.item ? html`<p class="hint">${t(owned.length ? 'engine.selectOptic' : 'engine.buyOptic')}</p>` : ''}
+    ${inCombat && r.toPlace > 0 ? html`<p class="notice notice--ok" role="status">${tn('engine.toPlace', r.toPlace)}${unseen ? html` <span class="pill pill--info">Unseen</span>` : ''}</p>` : ''}
+    <div class="spread"><span class="label">${t('engine.tellsTitle')}</span><span class="mono muted">${t('engine.tracking', { n: holding, track: o.track })}</span></div>
+    ${targets.length ? html`<ul class="tell-list">${targets.map(row)}</ul>` : html`<p class="muted">${t(combat ? 'engine.noHostiles' : 'engine.noMarks')}</p>`}
+    ${combat?.hostiles?.length ? '' : html`<input class="input" data-action="markAdd" placeholder="${t('engine.addMark')}" maxlength="24" aria-label="${t('engine.addMark')}">`}
+    <p class="hint">${t('engine.scavengerHint')}</p>`;
+}
+
+function resourcePanel(c, s, data, r, combat) {
   const cls = data.classes.classes.find((k) => k.id === c.classId);
   switch (c.classId) {
     case 'soldier': {
@@ -87,14 +134,17 @@ function resourcePanel(c, s, data, r) {
         ${r.pendulum < 0 ? html`<p class="notice">${t('engine.zoneCold')}</p>` : r.pendulum > 0 ? html`<p class="notice notice--warn">${t('engine.zoneHot')}</p>` : ''}
         <p class="hint">${t('engine.smugglerHint')}</p>`;
     }
+    case 'scavenger': return scavengerPanel(c, s, data, r, combat);
     default: return '';
   }
 }
 
-export function engineCard(c, s, data) {
+/** combat: the GM's combat state at the table (the Scavenger's Tells sit on its hostiles). */
+export function engineCard(c, s, data, combat = null) {
   if (!c.classId) return card(t('engine.class'), html`<p class="muted">${t('engine.noClass')}</p>`);
   const saved = c.play.resources && Object.keys(c.play.resources).length ? c.play.resources : null;
-  const r = c.classId === 'techwiz' ? upgradeTechResources(saved ?? defaultResources('techwiz')) : { ...defaultResources(c.classId), ...saved };
+  const r = c.classId === 'techwiz' ? upgradeTechResources(saved ?? defaultResources('techwiz'))
+    : c.classId === 'scavenger' ? { ...newTells(), ...saved } : { ...defaultResources(c.classId), ...saved };
   const ctx = { capacity: s.deck?.capacity ?? null, weapons: s.weapons, arms: s.injured.arms, talents: s.talents };
   const all = data.abilities[c.classId].map((a) => ({ ...a, available: a.subclasses.includes(c.subclassId) }));
   // Equipped = the loadout the player chose (swap between combats, capped by brain fog).
@@ -129,7 +179,7 @@ export function engineCard(c, s, data) {
 
   const body = html`
     <div class="stack">
-      ${resourcePanel(c, s, data, r)}
+      ${resourcePanel(c, s, data, r, combat)}
       <div class="spread spread--wrap">
         <span class="label">${t('engine.equipped')} ${equipped.length}/${s.abilityLimit} · <span class="text-success">${t('engine.readyCount', { n: readyCount })}</span></span>
         <span class="cluster"><span class="label">${t('engine.brainFog')}${info('brain-fog', t('engine.brainFog'))}</span>${counter({ action: 'maxAbilities', value: c.play.maxAbilities, min: 1, size: 'sm', label: t('engine.brainFog') })}</span></div>

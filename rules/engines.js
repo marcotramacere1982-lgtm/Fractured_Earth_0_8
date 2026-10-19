@@ -3,6 +3,7 @@
 
 import { canRunHack, deckStatus, zoneFor } from './classes.js';
 import { tunedAbility } from './progress.js';
+import { RuleError } from './messages.js';
 
 export function defaultResources(classId) {
   switch (classId) {
@@ -10,6 +11,7 @@ export function defaultResources(classId) {
     case 'hacker': return { ram: 0, heat: 0, bluescreen: false, stunned: false, sustained: [] };
     case 'techwiz': return { sync: 0, mode: 'mend', offline: 0, switched: false };
     case 'smuggler': return { pendulum: 0, used: [] }; // used: once-per-combat abilities spent
+    case 'scavenger': return newTells();
     default: return {};
   }
 }
@@ -138,6 +140,89 @@ export function zoneBonus(classId, r, classesData, talents = {}) {
   return z ? { zone: z.id, name: z.name, rangedTn: z.bonus?.rangedTn ?? 0, damage, squares: z.bonus?.squares ?? 0 } : none;
 }
 
+// ------------------------------------------------------------------ scavenger (Tells)
+// Tells live on enemies: tells = { [enemy key]: 0–3 }. target = the enemy abilities and Exploit spend from.
+// toPlace = Tells still to place this turn (a reminder); attacked = attacked this round (no Unseen next round).
+// marks = enemies the player named by hand when no GM runs the fight ([{ key, name }]).
+
+export const newTells = () => ({ tells: {}, target: null, exploit: 0, toPlace: 0, attacked: false, used: [], marks: [] });
+
+const tellRules = (classesData) => classesData.classes.find((c) => c.id === 'scavenger').resources.tells;
+
+/** Optic numbers in play: the equipped optic, or bare AR lenses. */
+export function opticStats(optic, classesData) {
+  const base = tellRules(classesData).noOptic;
+  return optic ? { range: optic.range, track: optic.track, mode: optic.mode ?? null } : { range: base.range, track: base.track, mode: null };
+}
+
+/** Tells gained at the start of a turn: 1, or 2 when Unseen (full cover and no attack last round). */
+export function tellGain(r, cover, classesData) {
+  const rules = tellRules(classesData);
+  return cover >= rules.unseenCover && !r.attacked ? rules.gainUnseen : rules.gain;
+}
+
+/** Puts Tells on (delta > 0) or takes them off an enemy. Max 3 each; only `track` enemies may hold Tells. */
+export function placeTells(r, key, delta, { track, classesData }) {
+  const per = tellRules(classesData).perEnemy;
+  const have = r.tells[key] ?? 0;
+  const next = Math.max(0, Math.min(per, have + delta));
+  if (delta > 0 && have >= per) throw new RuleError('tellsFull', { n: per }, `At most ${per} Tells on one enemy.`);
+  const holding = Object.entries(r.tells).filter(([k, n]) => n > 0 && k !== key).length;
+  if (delta > 0 && have === 0 && holding >= track) throw new RuleError('trackFull', { n: track }, `Your optic tracks ${track} enemies at a time: drop the Tells on one first.`);
+  const tells = { ...r.tells, [key]: next };
+  if (!next) delete tells[key];
+  const placed = Math.max(0, next - have);
+  return { ...r, tells, toPlace: Math.max(0, (r.toPlace ?? 0) - placed), exploit: key === r.target ? Math.min(r.exploit ?? 0, next) : r.exploit };
+}
+
+/** Enemies that went down or left the fight take their Tells with them. alive: keys still standing. */
+export function pruneTells(r, alive) {
+  const tells = Object.fromEntries(Object.entries(r.tells ?? {}).filter(([k]) => alive.includes(k)));
+  const target = alive.includes(r.target) ? r.target : null;
+  return { ...r, tells, target, exploit: target ? Math.min(r.exploit ?? 0, tells[target] ?? 0) : 0 };
+}
+
+/** Exploit dice for a hit on the target: n Tells × 1d4 (Dirty Fighting: d6 in melee). null when nothing is readied. */
+export function exploitDice(r, classesData, { melee = false, talents = {} } = {}) {
+  const n = Math.min(r?.exploit ?? 0, r?.tells?.[r?.target] ?? 0);
+  if (!n) return null;
+  const die = (melee && talents.exploitMeleeDie) || tellRules(classesData).exploitDie;
+  return { n, expr: `${n}${die.slice(die.indexOf('d'))}` };
+}
+
+/** A hit that used Exploit spends those Tells. */
+export function spendExploit(r) {
+  const n = Math.min(r.exploit ?? 0, r.tells?.[r.target] ?? 0);
+  if (!n) return r;
+  const left = r.tells[r.target] - n;
+  const tells = { ...r.tells, [r.target]: left };
+  if (!left) delete tells[r.target];
+  return { ...r, tells, exploit: 0 };
+}
+
+function scavengerCheck(a, r, ctx = {}) {
+  const noWeapon = weaponCheck(a, ctx);
+  if (noWeapon) return noWeapon;
+  if (a.oncePerCombat && (r.used ?? []).filter((x) => x === a.id).length >= (a.uses ?? 1)) return { ok: false, code: 'oncePerCombat', reason: 'Once per combat: already used' };
+  if ((a.tells || a.gain?.target) && !r.target) return { ok: false, code: 'needTarget', reason: 'Pick a target first' };
+  if (a.tells && (r.tells?.[r.target] ?? 0) < a.tells) return { ok: false, code: 'needTells', vars: { n: a.tells }, reason: `Needs ${a.tells} Tells on the target` };
+  return { ok: true, reason: null };
+}
+function scavengerUse(a, r, ctx = {}) {
+  let next = { ...r, used: a.oncePerCombat ? [...(r.used ?? []), a.id] : r.used };
+  if (a.tells) {
+    const left = (r.tells[r.target] ?? 0) - a.tells;
+    next.tells = { ...r.tells, [r.target]: left };
+    if (!left) delete next.tells[r.target];
+    next.exploit = Math.min(r.exploit ?? 0, Math.max(0, left));
+  }
+  if (a.gain?.target && !ctx.failed) next = placeTells({ ...next, toPlace: next.toPlace + a.gain.target }, r.target, a.gain.target, { track: ctx.track ?? 1, classesData: ctx.classesData });
+  if (a.gain?.spread && !ctx.failed) next.toPlace = (next.toPlace ?? 0) + a.gain.spread; // one on each of up to n enemies: placed by hand
+  if (a.weapon) next.attacked = true;
+  if (a.id === 'vanish') next.attacked = false;
+  return next;
+}
+
 // ------------------------------------------------------------------ public API
 
 /** @returns {{ok: boolean, reason: string|null}} ctx.arms: broken arms (both → no hands abilities); ctx.talents: talent effects. */
@@ -152,6 +237,7 @@ export function canUse(classId, base, resources, ctx = {}) {
     }
     case 'techwiz': return techCheck(ability, resources);
     case 'smuggler': return smugglerCheck(ability, resources, ctx);
+    case 'scavenger': return scavengerCheck(ability, resources, ctx);
     default: return { ok: false, code: 'noClass', reason: 'No class' };
   }
 }
@@ -163,6 +249,7 @@ export function useAbility(classId, base, resources, ctx = {}) {
     case 'hacker': return hackerUse(ability, resources, ctx.capacity);
     case 'techwiz': return techUse(ability, resources, ctx);
     case 'smuggler': return smugglerUse(ability, resources);
+    case 'scavenger': return scavengerUse(ability, resources, ctx);
     default: return resources;
   }
 }
@@ -189,6 +276,7 @@ export function roundEnd(classId, r, ctx = {}) {
       return { ...r, sync: r.switched ? r.sync : Math.min(SYNC_MAX, r.sync + 1), switched: false }; // held the mode: +1
     }
     case 'smuggler': return ctx.wounded ? { ...r, pendulum: Math.min(4, r.pendulum + 1) } : r;
+    case 'scavenger': return { ...r, toPlace: tellGain(r, ctx.cover ?? 0, ctx.classesData), attacked: false }; // next turn's Tells (a readied Exploit stays)
     default: return r;
   }
 }
@@ -208,7 +296,11 @@ export function stanceMultiplier(classId, r, classesData) {
  * Start of a new combat: Soldier TP back to 0, Tech Wizard Sync back to Cold, Smuggler once-per-combat abilities ready.
  * talents: Drilled starts with TP, Quick Tune starts Warm.
  */
-export function combatStart(classId, r, talents = {}) {
+export function combatStart(classId, r, talents = {}, { cover = 0, classesData = null } = {}) {
+  if (classId === 'scavenger') {
+    const fresh = { ...newTells(), marks: r.marks ?? [] };
+    return { ...fresh, toPlace: (classesData ? tellGain(fresh, cover, classesData) : 1) + (talents.startTells ?? 0) };
+  }
   if (classId === 'soldier') return { ...r, tp: talents.startTp ?? 0, stance: 'attack' };
   if (classId === 'techwiz') return { ...r, sync: Math.min(SYNC_MAX, talents.startSync ?? 0), offline: 0, switched: false };
   if (classId === 'smuggler') return { ...r, used: [] };

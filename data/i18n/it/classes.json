@@ -52,6 +52,45 @@
           "desc": "Stratega tattico e navigatore fuori rete: controllo della mappa, esche, favori del sottobosco."
         }
       }
+    },
+    "scavenger": {
+      "summary": "Paziente lettore dello scontro: studia il bersaglio pericoloso, poi incassa tutto quello che ha imparato in un colpo solo, o si prende quello che il nemico si porta addosso.",
+      "resources": {
+        "rules": {
+          "gain": "All'inizio di ogni tuo turno, piazza 1 Tell su un nemico che vedi entro la portata della tua ottica; 2 se sei in copertura totale e non hai attaccato nel round precedente (Unseen).",
+          "cap": "Al massimo 3 Tell su un nemico, e solo tanti nemici quanti la tua ottica può tracciare (Track) tengono i tuoi Tell.",
+          "lost": "I Tell su un nemico si perdono quando va a terra, o alla fine di un round in cui lo hai perso di vista.",
+          "exploit": "Exploit (sempre attivo): quando colpisci un nemico, spendi quanti suoi Tell vuoi per +1d4 danni ciascuno.",
+          "salvage": "Salvage (sempre attivo): dopo uno scontro, prendi un oggetto in più fra quelli lasciati dai nemici (lista Liftable)."
+        },
+        "modes": {
+          "thermal": {
+            "desc": "Piazzi Tell attraverso fumo, buio e copertura parziale."
+          },
+          "motion": {
+            "desc": "Una volta per turno, un nemico che si è mosso dal tuo ultimo turno riceve +1 Tell quando ne piazzi uno su di lui."
+          },
+          "longglass": {
+            "desc": "La portata dell'ottica raddoppia mentre sei in copertura totale."
+          },
+          "pattern": {
+            "desc": "I Tell non si perdono mai per la linea di vista, solo quando il bersaglio va a terra."
+          }
+        },
+        "liftable": {
+          "yes": "Un caricatore; consumabili (stimolanti, medikit, granate); piccoli attrezzi; keycard, data chip e crediti; armi civili o di scarto (coltelli, pistole da strada).",
+          "locked": "Le armi militari e aziendali hanno il blocco biometrico: in mani non autorizzate si bruciano. Strip può disarmarle, mai renderle tue.",
+          "never": "Armature indossate, cyberware, o qualunque cosa addosso a un sintetico o a un drone."
+        }
+      },
+      "subclasses": {
+        "prowler": {
+          "desc": "Da vicino e con le mani svelte: legge un nemico faccia a faccia, gli sfila quello che porta, gli inceppa l'arma e gli strappa le piastre."
+        },
+        "stalker": {
+          "desc": "Occhio paziente a distanza: studia la stanza attraverso l'ottica, marca i bersagli per la squadra, fa il colpo che conta."
+        }
+      }
     }
   }
 }

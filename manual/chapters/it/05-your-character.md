@@ -202,6 +202,36 @@ La scheda applica i bonus di zona per te: la Attack TN delle tue armi da fuoco, 
 
 ::table[abilities:smuggler]
 
+### Lo Scavenger {#sec-5-6-scavenger}
+
+Lo Scavenger legge lo scontro prima di entrarci. Sceglie il bersaglio pericoloso, impara come si muove, poi incassa tutto quello che sa in un colpo solo, o si prende quello che il nemico porta addosso. Non serve nessuna carriera: chiunque può vivere così di notte, anche se i Drifter ci stanno meglio di tutti. Il suo motore sono i **Tell**, e i Tell stanno **sui nemici**, non in una riserva.
+
+- **Guadagnare Tell:** all'inizio di ogni tuo turno, piazza **1 Tell** su un nemico che vedi entro la portata della tua ottica. Piazzane **2** se sei **Unseen**: in **copertura totale** e non hai attaccato nel round precedente. Essere Unseen accelera solo i tuoi Tell; i nemici possono comunque spararti.
+- **Limiti:** al massimo **3 Tell su un nemico**, e solo tanti nemici quanti la tua **ottica può tracciare (Track)** tengono i tuoi Tell.
+- **Perdere i Tell:** i Tell di un nemico spariscono quando va a terra, o alla fine di un round in cui lo hai perso di vista.
+- **Il tuo bersaglio:** tocca un nemico sulla scheda per renderlo il tuo bersaglio. Le abilità spendono i Tell di **quel nemico**.
+- **Exploit (sempre attivo):** prepara alcuni Tell del bersaglio; al tuo prossimo colpo a segno con un attacco, ognuno aggiunge **+1d4 danni**, poi si spendono. Se manchi, restano.
+- **Salvage (sempre attivo):** dopo uno scontro, prendi un oggetto in più fra quelli lasciati dai nemici (lista Liftable qui sotto).
+
+Accumula Tell sul nemico che conta davvero: una raffica piena è +3d4 su un colpo, ma serve circa due round, quindi è sprecata su un drone da quattro soldi.
+
+Al tavolo dal vivo i tuoi Tell stanno sulla lista **Ostili** del GM (per lettera), e il GM li vede. Se il GM non gestisce lo scontro, dai tu un nome ai nemici sulla scheda ("Pesante", "Drone 2").
+
+**Cosa può prendere Lift (decide il GM, usando questa lista):**
+
+- **Sì:** un caricatore; consumabili (stimolanti, medikit, granate); piccoli attrezzi; keycard, data chip e crediti; armi civili o di scarto (coltelli, pistole da strada).
+- **Blocco IA:** le armi militari e aziendali hanno il blocco biometrico: in mani non autorizzate si bruciano. *Strip* può disarmarle, mai renderle tue.
+- **Mai:** armature indossate, cyberware, o qualunque cosa addosso a un sintetico o a un drone.
+
+**Ottiche.** Tutti portano lenti AR di base (portata 4, Track 1). L'ottica dello Scavenger è la versione professionale, si compra al mercato come un deck: **Portata** (i quadretti entro cui piazzi Tell), **Track** (quanti nemici possono tenere i tuoi Tell nello stesso momento) e una **modalità**: *Thermal* (Tell attraverso fumo, buio e copertura parziale), *Motion* (una volta per turno, +1 Tell su un nemico che si è mosso dal tuo ultimo turno), *Long-glass* (portata raddoppiata in copertura totale), *Pattern* (i Tell si perdono solo quando il bersaglio va a terra).
+
+::table[optics]
+
+- **Prowler (DEX / CON):** da vicino e con le mani svelte: legge un nemico faccia a faccia (*Close Study*), gli sfila quello che porta, gli inceppa l'arma e gli strappa le piastre.
+- **Stalker (CON / INT):** occhio paziente a distanza: *Case the Room*, marca i bersagli per la squadra, *Called Shot* e *Kill Shot*.
+
+::table[abilities:scavenger]
+
 ## 5-7. Storia e ritratto {#sec-5-7}
 
 Gli ultimi passi della Creazione trasformano i tuoi tiri in una storia. Prepara due prompt con tutto quello che hai tirato:
@@ -286,6 +316,10 @@ La scheda Progressi mostra ogni albero, cosa puoi prendere adesso e perché il r
 **Smuggler**
 
 ::table[talents:smuggler]
+
+**Scavenger**
+
+::table[talents:scavenger]
 
 ## 5-10. Downtime {#sec-5-10}
 

@@ -143,5 +143,40 @@
     "call_in_favor": {
       "desc": "All'aperto o in una zona non schermata, una volta per combattimento. All'inizio del prossimo round, scegli: un colpo di cecchino (3d6 a un bersaglio, ignorando l'armatura) o un razzo (2d6 a tutti in un'area 3×3)."
     }
+  },
+  "scavenger": {
+    "case_the_room": {
+      "desc": "Scandagli la zona con l'ottica: piazza 1 Tell su ciascuno di massimo 3 nemici che vedi."
+    },
+    "close_study": {
+      "desc": "Ti avvicini e li leggi mentre parli: +2 Tell su un nemico adiacente. Funziona anche allo scoperto."
+    },
+    "mark": {
+      "desc": "Segnali il bersaglio alla squadra: gli alleati ottengono +2 TN sugli attacchi contro di lui fino alla fine del round."
+    },
+    "lift": {
+      "desc": "Sfili un oggetto a un bersaglio adiacente: un caricatore, un consumabile, un piccolo attrezzo, keycard o crediti, o un'arma civile. Il GM dice cosa porta (lista Liftable)."
+    },
+    "misdirect": {
+      "desc": "Finta e spostamento: il prossimo attacco del bersaglio è a −4 TN, e se manca colpisce un altro nemico accanto a lui, se c'è (decide il GM)."
+    },
+    "pin_the_route": {
+      "desc": "Annunci il suo percorso alla squadra: il bersaglio è Slowed fino alla fine del suo prossimo turno."
+    },
+    "jam": {
+      "desc": "Manometti l'arma di un bersaglio adiacente: è Jammed."
+    },
+    "called_shot": {
+      "desc": "Spari con l'arma pronta un attacco localizzato sulla tua Class TN, senza la penalità di −4: tira dove colpisce e applica l'effetto di quella zona."
+    },
+    "strip": {
+      "desc": "Strappi una piastra o disarmi un bersaglio adiacente. Scegli: lascia cadere l'arma (1 azione per raccoglierla; un'arma col blocco IA per te è inutile), oppure la sua armatura si incrina di 2."
+    },
+    "kill_shot": {
+      "desc": "Tutto quello che hai imparato in un colpo: la tua arma pronta infligge i suoi danni +3d4, ignorando la copertura, e la sua armatura conta la metà."
+    },
+    "vanish": {
+      "desc": "Sparisci dalla vista: ti muovi fino ai tuoi quadretti in copertura totale senza provocare attacchi. Conti come se non avessi attaccato in questo round, quindi inizi il prossimo Unseen."
+    }
   }
 }

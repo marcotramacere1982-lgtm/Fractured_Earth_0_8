@@ -8,7 +8,9 @@
     "mechanic",
     "engineer",
     "dealer",
-    "trafficker"
+    "trafficker",
+    "prowler",
+    "stalker"
   ],
   "classes": [
     {
@@ -262,6 +264,91 @@
           ],
           "desc": "Tactical mastermind and off-grid navigator: map control, decoys, underground favors.",
           "legacyIndex": 7
+        }
+      ]
+    },
+    {
+      "id": "scavenger",
+      "name": "Scavenger",
+      "summary": "Patient reader of the fight: studies the dangerous target, then cashes in everything it learned at once, or takes what the enemy carries.",
+      "resources": {
+        "engine": "Tells",
+        "counters": [
+          {
+            "id": "tells",
+            "name": "Tells",
+            "min": 0,
+            "max": 3,
+            "start": 0,
+            "resetsEachCombat": true
+          }
+        ],
+        "tells": {
+          "perEnemy": 3,
+          "gain": 1,
+          "gainUnseen": 2,
+          "unseenCover": 4,
+          "exploitDie": "1d4",
+          "noOptic": {
+            "range": 4,
+            "track": 1
+          },
+          "estimatePerRound": 1.25
+        },
+        "rules": {
+          "gain": "At the start of each of your turns, place 1 Tell on an enemy you can see within your optic's range; 2 if you are in full cover and did not attack last round (Unseen).",
+          "cap": "At most 3 Tells on one enemy, and only as many enemies hold your Tells as your optic can Track.",
+          "lost": "Tells on an enemy are lost when it goes down, or at the end of a round in which you lost sight of it.",
+          "exploit": "Exploit (always on): when you hit an enemy, spend any of its Tells for +1d4 damage each.",
+          "salvage": "Salvage (always on): after a fight, take one extra item from what the enemies dropped (Liftable list)."
+        },
+        "modes": [
+          {
+            "id": "thermal",
+            "name": "Thermal",
+            "desc": "Place Tells through smoke, darkness and partial cover."
+          },
+          {
+            "id": "motion",
+            "name": "Motion",
+            "desc": "Once per turn, an enemy that moved since your last turn gets +1 Tell when you place one on it."
+          },
+          {
+            "id": "longglass",
+            "name": "Long-glass",
+            "desc": "Your optic's range doubles while you are in full cover."
+          },
+          {
+            "id": "pattern",
+            "name": "Pattern",
+            "desc": "Tells are never lost to line of sight, only when the target goes down."
+          }
+        ],
+        "liftable": {
+          "yes": "A magazine; consumables (stims, medkits, grenades); small tools; keycards, data chips and creds; civilian or junk weapons (knives, junk pistols).",
+          "locked": "Military and corporate weapons are biometric-locked: in unauthorised hands they brick. Strip can disarm them, never make them yours.",
+          "never": "Worn armor, cyberware, or anything on a synthetic or drone."
+        }
+      },
+      "maxEquippedAbilities": 3,
+      "subclasses": [
+        {
+          "id": "prowler",
+          "name": "Prowler",
+          "stats": [
+            "DEX",
+            "CON"
+          ],
+          "desc": "Close and quick-handed: reads an enemy face to face, lifts what it carries, jams its gun and strips its plates."
+        },
+        {
+          "id": "stalker",
+          "name": "Stalker",
+          "stats": [
+            "CON",
+            "INT"
+          ],
+          "desc": "Patient eye at a distance: cases the room through the optic, marks targets for the crew, makes the shot that matters."
         }
       ]
     }

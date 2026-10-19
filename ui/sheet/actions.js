@@ -1,7 +1,7 @@
 // Sheet actions: each takes the draft character (+ data, args) and mutates it.
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
-import { canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, disruptSync, upgradeTechResources, weaponHit, abilityWeapon } from '../../rules/engines.js';
+import { canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendExploit } from '../../rules/engines.js';
 import { buy } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
 import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance } from '../../rules/turn.js';
@@ -27,7 +27,12 @@ export function ensureResources(c) {
   if (c.classId === 'hacker') c.play.resources.sustained ??= [];
   if (c.classId === 'techwiz') c.play.resources = upgradeTechResources(c.play.resources);
   if (c.classId === 'smuggler') c.play.resources.used ??= [];
+  if (c.classId === 'scavenger') c.play.resources = { ...newTells(), ...c.play.resources };
 }
+
+/** Scavenger: the optic's track limit and the class data, for placing Tells. */
+const tellCtx = (c, data) => ({ track: deriveSheet(c, data).optic?.track ?? 1, classesData: data.classes });
+const tellName = (c, key, combat) => combat?.hostiles?.find((h) => h.key === key)?.letter ?? c.play.resources.marks?.find((m) => m.key === key)?.name ?? key;
 
 function capacityOf(c, data) {
   return deriveSheet(c, data).deck?.capacity ?? null; // includes talents (Overclocker)
@@ -169,6 +174,7 @@ export const actions = {
       if (kind === 'weapon') for (const s of [1, 2]) if (c.play.slots[s] === id) c.play.slots[s] = null;
       if (kind === 'deck' && c.play.deck === id) c.play.deck = null;
       if (kind === 'deckMod') c.play.deckMods = c.play.deckMods.filter((x) => x !== id);
+      if (kind === 'optic' && c.play.optic === id) c.play.optic = null;
     }
   },
   add(c, _d, { kind, id }) {
@@ -215,6 +221,43 @@ export const actions = {
     c.play.resources[key] = /^-?\d+$/.test(value) ? Number(value) : value;
   },
   deck(c, _d, { value }) { c.play.deck = value || null; },
+  optic(c, _d, { value }) { c.play.optic = value || null; },
+
+  // ---------------- scavenger: Tells live on enemies (GM's hostiles by key, or enemies named by hand)
+  /** Places (delta +1) or removes (−1) a Tell on an enemy. */
+  tell(c, data, { key, delta, combat = null }) {
+    ensureResources(c);
+    const was = c.play.resources.tells[key] ?? 0;
+    c.play.resources = placeTells(c.play.resources, key, Number(delta), tellCtx(c, data));
+    if (!c.play.resources.target && Number(delta) > 0) c.play.resources.target = key;
+    const now = c.play.resources.tells[key] ?? 0;
+    if (now !== was) log(c, `${now > was ? 'Tell on' : 'Tell off'} ${tellName(c, key, combat)} (${now}/3)`);
+  },
+  /** The enemy abilities and Exploit spend from. Changing target clears a readied Exploit. */
+  tellTarget(c, _d, { key }) {
+    ensureResources(c);
+    if (c.play.resources.target !== key) c.play.resources = { ...c.play.resources, target: key || null, exploit: 0 };
+  },
+  /** How many of the target's Tells the next hit spends (Exploit). */
+  exploit(c, _d, { n }) {
+    ensureResources(c);
+    const r = c.play.resources;
+    r.exploit = clamp(Number(n), 0, r.tells[r.target] ?? 0);
+  },
+  /** Without a GM-run fight: name enemies by hand ("Heavy", "Drone 2"). */
+  markAdd(c, _d, { name }) {
+    ensureResources(c);
+    const label = String(name ?? '').trim().slice(0, 24);
+    if (!label) return;
+    const n = (c.play.resources.marks ?? []).reduce((m, x) => Math.max(m, Number(x.key.slice(1)) || 0), 0) + 1;
+    c.play.resources.marks = [...(c.play.resources.marks ?? []), { key: `m${n}`, name: label }];
+  },
+  markRemove(c, _d, { key }) {
+    ensureResources(c);
+    const r = c.play.resources;
+    r.marks = (r.marks ?? []).filter((m) => m.key !== key);
+    c.play.resources = pruneTells(r, [...r.marks.map((m) => m.key), ...Object.keys(r.tells).filter((k) => !k.startsWith('m'))]);
+  },
   deckMod(c, _d, { id }) {
     c.play.deckMods = c.play.deckMods.includes(id) ? c.play.deckMods.filter((x) => x !== id) : [...c.play.deckMods, id];
   },
@@ -224,6 +267,7 @@ export const actions = {
     c.play.resources = roundEnd(c.classId, c.play.resources, {
       capacity: capacityOf(c, data),
       wounded: c.play.conditions.includes('wounded'),
+      cover: c.play.cover ?? 0, // Scavenger: full cover and no attack → Unseen
       classesData: data.classes,
       talents: deriveSheet(c, data).talents,
     });
@@ -234,7 +278,7 @@ export const actions = {
   },
   combatStart(c, data) {
     ensureResources(c);
-    c.play.resources = combatStart(c.classId, c.play.resources, data ? deriveSheet(c, data).talents : {});
+    c.play.resources = combatStart(c.classId, c.play.resources, data ? deriveSheet(c, data).talents : {}, { cover: c.play.cover ?? 0, classesData: data?.classes });
     if (data) { resetUses(c, data, 'combat'); resetUses(c, data, 'round'); }
     c.play.turn = startCombat();
     log(c, '=== Combat started — round 1 ===');
@@ -260,6 +304,11 @@ export const actions = {
       if (msg.round > 1) log(c, `Joined the GM's combat at round ${msg.round}`);
       return;
     }
+    // Scavenger: enemies that went down or left take their Tells with them
+    if (c.classId === 'scavenger' && msg.hostiles) {
+      ensureResources(c);
+      c.play.resources = pruneTells(c.play.resources, [...msg.hostiles.filter((h) => h.band !== 'down').map((h) => h.key), ...(c.play.resources.marks ?? []).map((m) => m.key)]);
+    }
     // catch up one round end per missed round (capped: a long disconnect must not drain the engine)
     for (let i = 0; i < 3 && c.play.turn.round < msg.round; i++) actions.roundEnd(c, data);
     if (c.play.turn.round < msg.round) c.play.turn = { ...c.play.turn, round: msg.round };
@@ -275,7 +324,7 @@ export const actions = {
     ensureResources(c);
     const ability = data.abilities[c.classId].find((a) => a.id === id);
     const sh = deriveSheet(c, data);
-    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.weapons, arms: sh.injured.arms, talents: sh.talents };
+    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.weapons, arms: sh.injured.arms, talents: sh.talents, track: sh.optic?.track ?? 1, classesData: data.classes, failed: !success };
     const check = canUse(c.classId, ability, c.play.resources, ctx);
     if (!check.ok) throw new RuleError(check.code, check.vars, `${ability.name}: ${check.reason}`);
     const prefix = spend(c, data, { kind: 'ability', name: ability.name });
@@ -299,6 +348,13 @@ export const actions = {
       ensureResources(c);
       c.play.resources = weaponHit(c.classId, c.play.resources);
       momentum = ' · +1 TP';
+    }
+    if (c.classId === 'scavenger') { // attacking breaks Unseen; a hit spends the readied Exploit
+      ensureResources(c);
+      const r = c.play.resources;
+      const n = Math.min(r.exploit ?? 0, r.tells[r.target] ?? 0);
+      c.play.resources = { ...(hit ? spendExploit(r) : r), attacked: true };
+      if (hit && n) momentum = ` · Exploit ${n} Tell${n > 1 ? 's' : ''}`;
     }
     log(c, `${prefix}${located ? 'Location attack' : 'Attack'} with ${w.name}: ${rollText} → ${hit ? `hit${damageText ? `, ${damageText}` : ''}${momentum}` : 'miss'}`, hit ? 'ok' : 'bad');
   },

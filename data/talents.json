@@ -587,5 +587,83 @@
         }
       }
     }
+  },
+  {
+    "id": "cold_read",
+    "name": "Cold Read",
+    "tree": "scavenger",
+    "tier": 1,
+    "kind": "auto",
+    "desc": "The first time you place Tells in a combat, place 1 extra.",
+    "effects": {
+      "startTells": 1
+    }
+  },
+  {
+    "id": "scrounger",
+    "name": "Scrounger",
+    "tree": "scavenger",
+    "tier": 1,
+    "kind": "table",
+    "desc": "Salvage takes 2 items instead of 1."
+  },
+  {
+    "id": "sticky_fingers",
+    "name": "Sticky Fingers",
+    "tree": "scavenger",
+    "tier": 2,
+    "kind": "table",
+    "branch": "prowler",
+    "use": "combat",
+    "desc": "Once per combat, Lift costs no Tells (it still needs the roll)."
+  },
+  {
+    "id": "dirty_fighting",
+    "name": "Dirty Fighting",
+    "tree": "scavenger",
+    "tier": 2,
+    "kind": "auto",
+    "branch": "prowler",
+    "desc": "Exploit rolls d6 instead of d4 with a melee weapon.",
+    "effects": {
+      "exploitMeleeDie": "1d6"
+    }
+  },
+  {
+    "id": "clean_sweep",
+    "name": "Clean Sweep",
+    "tree": "scavenger",
+    "tier": 3,
+    "kind": "table",
+    "branch": "prowler",
+    "desc": "Strip both disarms the target and cracks its armor by 2."
+  },
+  {
+    "id": "shared_notes",
+    "name": "Shared Notes",
+    "tree": "scavenger",
+    "tier": 2,
+    "kind": "table",
+    "branch": "stalker",
+    "desc": "Mark also gives allies +1d4 damage against the target."
+  },
+  {
+    "id": "patient_eye",
+    "name": "Patient Eye",
+    "tree": "scavenger",
+    "tier": 2,
+    "kind": "table",
+    "branch": "stalker",
+    "desc": "From full cover, Case the Room places 2 Tells on one of its targets."
+  },
+  {
+    "id": "long_memory",
+    "name": "Long Memory",
+    "tree": "scavenger",
+    "tier": 3,
+    "kind": "table",
+    "branch": "stalker",
+    "use": "combat",
+    "desc": "When a target holding your Tells goes down, move up to 2 of them to another enemy you can see."
   }
 ]
