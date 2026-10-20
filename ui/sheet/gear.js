@@ -3,16 +3,22 @@
 import { html, raw } from '../dom.js';
 import { card, counter, nameOf } from './parts.js';
 import { CATALOGS, findGear, magazines } from '../../rules/economy.js';
+import { bonusText } from '../../rules/uniques.js';
 import { t } from '../../i18n/index.js';
 
 /** Translated name of a gear category. */
 export const kindLabel = (kind) => t(`gear.kind.${kind}`);
 
 function describe(kind, e, data) {
+  if (e.unique) return [baseDescribe(kind, e, data), bonusText(e, data), e.note ? `◆ ${e.note}` : ''].filter(Boolean).join(' · ');
+  return baseDescribe(kind, e, data);
+}
+
+function baseDescribe(kind, e, data) {
   switch (kind) {
     case 'weapon': return `${e.type} · ${e.damage} · ${e.range.min}–${e.range.max}m${e.magSize ? ` · ${t('gear.mag')} ${e.magSize}` : ''}`;
     case 'armor': return `${e.type} · ${t('stat.armor')} +${e.maxHits} · ${t('gear.visibility')} ${e.visibility}/5`;
-    case 'item': return `${e.effectType} · ${e.effect}`;
+    case 'item': return e.effect; // the effect says it all (the market groups by kind)
     case 'deck': return `RAM ${e.ram} · heat cap ${e.heatCap} · ${e.modSlots} mod slot · ${t('gear.battery')} ${e.battery.idle} idle / ${e.battery.usage} use`;
     case 'deckMod': return `+${e.amount} ${e.type === 'ram' ? 'RAM' : 'heat cap'}`;
     case 'ammo': return `${e.ammo} · ${t('gear.rounds', { n: e.magSize })}`;
@@ -44,8 +50,10 @@ export function gearTab(c, s, data) {
             const e = kind === 'custom' ? r : findGear(kind, r.id, data);
             if (!e) return html`<div class="row"><span class="row__main muted">${t('gear.unknown')}: ${r.id}</span></div>`;
             const worn = kind === 'armor' && c.play.worn.includes(r.id);
-            return html`<div class="row row--wrap">
-              <div class="row__main"><div class="row__title">${e.name}${e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}${r.official ? html` <span class="pill pill--info" title="${t('gear.registeredHint')}">${t('gear.registered', { n: r.official })}</span>` : ''}</div><div class="row__meta">${describe(kind, e, data)}</div></div>
+            return html`<div class="row row--wrap ${r.unique ? 'row--unique' : ''}">
+              <div class="row__main"><div class="row__title">${e.name}${r.unique ? html` <span class="pill pill--unique">${t('gear.unique')}</span>` : e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}${r.official ? html` <span class="pill pill--info" title="${t('gear.registeredHint')}">${t('gear.registered', { n: r.official })}</span>` : ''}</div><div class="row__meta">${describe(kind, e, data)}</div></div>
+              ${kind === 'item' && e.story ? html`<button class="btn btn--sm" data-action="storyUse" data-id="${r.id}" title="${t('use.storyHint')}">${t('use.use')}</button>` : ''}
+              ${kind === 'item' && e.use ? html`<button class="btn btn--sm" data-action="useItem" data-id="${r.id}" title="${e.use.options.map((o) => o.text).join(' · ')}">${t('use.use')}</button>` : ''}
               ${kind === 'armor' ? html`<button class="btn btn--sm" data-action="wear" data-id="${r.id}" aria-pressed="${worn}">${worn ? `✓ ${t('gear.worn')}` : t('gear.wear')}</button>` : ''}
               ${counter({ action: 'qty', value: r.qty, min: 0, args: { kind, id: r.id }, size: 'sm', label: `${e.name} · ${t('gear.qty')}` })}
               <span class="cluster inv-acts">
@@ -64,7 +72,7 @@ export function gearTab(c, s, data) {
 
   const lifestyle = card(t('gear.kind.lifestyle'), html`
     ${s.lifestyle.entries.length ? html`<div class="rows">${s.lifestyle.entries.map((e) => html`
-      <div class="row"><div class="row__main"><div class="row__title">${e.name}${e.tier ? html` <span class="pill">${t('gear.tier')} ${e.tier}</span>` : ''}</div><div class="row__meta">${nameOf(data.lifestyle.categories, e.category)} · ${e.cost.cr} Cr/${t('gear.month')}</div></div>
+      <div class="row"><div class="row__main"><div class="row__title">${e.name}${e.tier ? html` <span class="pill">${t('gear.tier')} ${e.tier}</span>` : ''}</div><div class="row__meta">${nameOf(data.lifestyle.categories, e.category)} · $${e.cost.cr}/${t('gear.month')}</div></div>
       <button class="btn btn--sm btn--ghost" data-action="dropLifestyle" data-id="${e.id}" aria-label="${t('common.remove')}: ${e.name}">✕</button></div>`)}</div>
       <p class="mono">${t('gear.upkeep', { cr: s.lifestyle.cr, crs: s.lifestyle.crs })}</p>`
     : html`<p class="muted">${t('gear.noLifestyle')}</p>`}`, {
@@ -79,6 +87,6 @@ export function gearTab(c, s, data) {
 export const catalog = (kind, data) => {
   if (kind === 'ammo') return magazines(data);
   const tbl = data[CATALOGS[kind]];
-  return Array.isArray(tbl) ? tbl : tbl.mods ?? tbl.entries;
+  return (Array.isArray(tbl) ? tbl : tbl.mods ?? tbl.entries).filter((e) => !e.unique); // uniques are never for sale
 };
 export { describe };

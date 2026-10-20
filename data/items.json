@@ -4,12 +4,27 @@
     "legacyId": 1,
     "name": "Basic Trauma Kit",
     "desc": "Compact pouch with tourniquets, quick-clot gauze, and shears.",
-    "effectType": "HP Flat Heal",
-    "effect": "+5 Body Part HP",
+    "effectType": "Heal",
+    "effect": "Heal 1d6+2 / Treat one Broken arm or Crippled leg",
     "skillBonus": "First Aid (+0)",
     "rarity": "F",
     "cost": {
       "cr": 75
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "heal",
+          "heal": "1d6+2",
+          "text": "Heal 1d6+2"
+        },
+        {
+          "id": "limb",
+          "treatLimb": 1,
+          "text": "Treat one Broken arm or Crippled leg"
+        }
+      ]
     }
   },
   {
@@ -17,25 +32,56 @@
     "legacyId": 2,
     "name": "Field Suture Kit",
     "desc": "Surgical needles and monofilament thread for deep cuts.",
-    "effectType": "HP Flat Heal",
-    "effect": "+8 Body Part HP",
+    "effectType": "Heal",
+    "effect": "Heal 2d6",
     "skillBonus": "First Aid (+1)",
     "rarity": "E",
     "cost": {
       "cr": 120
-    }
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "heal",
+          "heal": "2d6",
+          "text": "Heal 2d6"
+        }
+      ]
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "medicine_first_aid",
+        "tn": 1,
+        "when": "while you carry one"
+      }
+    ]
   },
   {
     "id": "burn_gel_spray_and_wrap",
     "legacyId": 3,
     "name": "Burn Gel Spray & Wrap",
     "desc": "Cooling antiseptic gel and non-stick bandages.",
-    "effectType": "HP Flat Heal",
-    "effect": "+6 Body Part HP",
+    "effectType": "Heal",
+    "effect": "Heal 1d6+1 and end Poisoned / Corroded",
     "skillBonus": "First Aid (+0)",
     "rarity": "E",
     "cost": {
       "cr": 90
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "heal",
+          "heal": "1d6+1",
+          "clears": [
+            "poisoned"
+          ],
+          "text": "Heal 1d6+1 and end Poisoned / Corroded"
+        }
+      ]
     }
   },
   {
@@ -44,11 +90,32 @@
     "name": "Adrenaline Auto-Injector",
     "desc": "Emergency epinephrine shot. Stabilizes dying state instantly.",
     "effectType": "Stat Buff / Revive",
-    "effect": "+2 DEX",
+    "effect": "+2 DEX for 3 rounds, then a crash (Slowed 1 round) / An Incapacitated patient above 0 HP gets back up",
     "skillBonus": "None",
     "rarity": "D",
     "cost": {
       "cr": 150
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "boost",
+          "boost": {
+            "attrs": {
+              "DEX": 2
+            },
+            "rounds": 3,
+            "crash": true
+          },
+          "text": "+2 DEX for 3 rounds, then a crash (Slowed 1 round)"
+        },
+        {
+          "id": "revive",
+          "revive": true,
+          "text": "An Incapacitated patient above 0 HP gets back up"
+        }
+      ]
     }
   },
   {
@@ -57,11 +124,28 @@
     "name": "Focus Pills (Cogni-Boost)",
     "desc": "Nootropic stimulant pills for mental sharpness.",
     "effectType": "Stat Buff",
-    "effect": "+5 MST",
+    "effect": "+1 TN on skill checks and +2 MST for the scene",
     "skillBonus": "Perception (+1)",
     "rarity": "D",
     "cost": {
       "cr": 200
+    },
+    "use": {
+      "options": [
+        {
+          "id": "boost",
+          "boost": {
+            "attrs": {
+              "MST": 2
+            },
+            "mods": {
+              "skillTn": 1
+            },
+            "rounds": null
+          },
+          "text": "+1 TN on skill checks and +2 MST for the scene"
+        }
+      ]
     }
   },
   {
@@ -70,11 +154,24 @@
     "name": "Coagulant Pills (Stanch)",
     "desc": "Oral medication accelerating internal blood clotting.",
     "effectType": "Condition Removal",
-    "effect": "Stops Bleeding",
+    "effect": "Heal 1d4+1 and end Slowed",
     "skillBonus": "None",
     "rarity": "E",
     "cost": {
       "cr": 110
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "heal",
+          "heal": "1d4+1",
+          "clears": [
+            "slowed"
+          ],
+          "text": "Heal 1d4+1 and end Slowed"
+        }
+      ]
     }
   },
   {
@@ -83,11 +180,26 @@
     "name": "Painkiller Hypo",
     "desc": "Synthetic opioid hypo that dulls excruciating pain.",
     "effectType": "Stat Buff",
-    "effect": "+2 CON",
+    "effect": "+2 CON for 5 rounds (+4 max HP and +4 HP now)",
     "skillBonus": "None",
     "rarity": "E",
     "cost": {
       "cr": 130
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "boost",
+          "boost": {
+            "attrs": {
+              "CON": 2
+            },
+            "rounds": 5
+          },
+          "text": "+2 CON for 5 rounds (+4 max HP and +4 HP now)"
+        }
+      ]
     }
   },
   {
@@ -96,11 +208,26 @@
     "name": "Broad-Spectrum Antitoxin",
     "desc": "Metabolic flushing agent against organic poisons and toxins.",
     "effectType": "Condition Removal",
-    "effect": "Neutralizes Poison",
+    "effect": "End Poisoned / Corroded; immune to it for the scene",
     "skillBonus": "None",
     "rarity": "D",
     "cost": {
       "cr": 180
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "cure",
+          "clears": [
+            "poisoned"
+          ],
+          "immune": [
+            "poisoned"
+          ],
+          "text": "End Poisoned / Corroded; immune to it for the scene"
+        }
+      ]
     }
   },
   {
@@ -109,11 +236,25 @@
     "name": "Chem-Purge Tablets",
     "desc": "Effervescent tablets neutralizing low-level chemical exposure.",
     "effectType": "Condition Removal",
-    "effect": "Clears Tox-Level",
+    "effect": "End Enraged, any stim crash and any stim boost",
     "skillBonus": "None",
     "rarity": "E",
     "cost": {
       "cr": 85
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "purge",
+          "clears": [
+            "enraged",
+            "slowed"
+          ],
+          "endStims": true,
+          "text": "End Enraged, any stim crash and any stim boost"
+        }
+      ]
     }
   },
   {
@@ -122,11 +263,26 @@
     "name": "Stim-Patch (Reflex)",
     "desc": "Transdermal patch releasing neural stimulants.",
     "effectType": "Stat Buff",
-    "effect": "+2 Initiative",
+    "effect": "+1 action for 2 rounds (+2 initiative if used before the fight), then a crash",
     "skillBonus": "None",
     "rarity": "D",
     "cost": {
       "cr": 250
+    },
+    "use": {
+      "options": [
+        {
+          "id": "boost",
+          "boost": {
+            "mods": {
+              "act": 1
+            },
+            "rounds": 2,
+            "crash": true
+          },
+          "text": "+1 action for 2 rounds (+2 initiative if used before the fight), then a crash"
+        }
+      ]
     }
   },
   {
@@ -134,13 +290,33 @@
     "legacyId": 11,
     "name": "Paramedic Case",
     "desc": "Surgical gear with blood expanders and skin-staplers.",
-    "effectType": "HP Flat Heal",
-    "effect": "+15 Total Body HP",
+    "effectType": "Heal",
+    "effect": "Heal 2d6+4, treat every Broken arm / Crippled leg, and an Incapacitated patient above 0 HP gets back up",
     "skillBonus": "First Aid (+3)",
     "rarity": "C",
     "cost": {
       "cr": 600
-    }
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "all",
+          "heal": "2d6+4",
+          "treatLimb": "all",
+          "revive": true,
+          "text": "Heal 2d6+4, treat every Broken arm / Crippled leg, and an Incapacitated patient above 0 HP gets back up"
+        }
+      ]
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "medicine_first_aid",
+        "tn": 2,
+        "when": "while you carry one"
+      }
+    ]
   },
   {
     "id": "smelling_salts_capsule",
@@ -148,11 +324,24 @@
     "name": "Smelling Salts Capsule",
     "desc": "Ammonia capsule to snap unconscious characters awake.",
     "effectType": "Condition Removal",
-    "effect": "Clears Stun / Unconscious",
+    "effect": "End Stunned; an Incapacitated patient above 0 HP comes round",
     "skillBonus": "None",
     "rarity": "F",
     "cost": {
       "cr": 25
+    },
+    "use": {
+      "ally": true,
+      "options": [
+        {
+          "id": "wake",
+          "clears": [
+            "stunned"
+          ],
+          "revive": true,
+          "text": "End Stunned; an Incapacitated patient above 0 HP comes round"
+        }
+      ]
     }
   },
   {
@@ -161,12 +350,20 @@
     "name": "Mechanical Lockpick Set",
     "desc": "Carbon steel picks and tension wrenches for physical locks.",
     "effectType": "Skill Tool",
-    "effect": "+2 Lockpicking",
+    "effect": "Sleight of Hand +2 · physical locks",
     "skillBonus": "Lockpicking (+2)",
     "rarity": "F",
     "cost": {
       "cr": 100
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "sleight_of_hand",
+        "tn": 2,
+        "when": "physical locks"
+      }
+    ]
   },
   {
     "id": "keycard_bypass_cloner",
@@ -174,12 +371,20 @@
     "name": "Keycard Bypass Cloner",
     "desc": "Handheld signal device that cracks magnetic / RFID locks.",
     "effectType": "Skill Tool",
-    "effect": "+3 Security Check",
+    "effect": "Electronics / Security +3 · magnetic and RFID locks, card readers",
     "skillBonus": "Security (+3)",
     "rarity": "D",
     "cost": {
       "cr": 450
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "electronics_security",
+        "tn": 3,
+        "when": "magnetic and RFID locks, card readers"
+      }
+    ]
   },
   {
     "id": "fiber_optic_scope",
@@ -187,12 +392,20 @@
     "name": "Fiber-Optic Scope",
     "desc": "Flexible 2m camera tube feeding video under doors.",
     "effectType": "Utility",
-    "effect": "Spot Threats / Rooms",
+    "effect": "Perception / Awareness (PB) +2 · looking under doors and round corners",
     "skillBonus": "Perception (+2)",
     "rarity": "E",
     "cost": {
       "cr": 200
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "perception_awareness",
+        "tn": 2,
+        "when": "looking under doors and round corners"
+      }
+    ]
   },
   {
     "id": "compact_bolt_cutters",
@@ -205,7 +418,8 @@
     "rarity": "F",
     "cost": {
       "cr": 60
-    }
+    },
+    "story": true
   },
   {
     "id": "glass_cutter_kit",
@@ -213,12 +427,20 @@
     "name": "Glass-Cutter Kit",
     "desc": "Diamond-tipped cutter with suction handles for silent entry.",
     "effectType": "Skill Tool",
-    "effect": "+2 Silent Entry",
+    "effect": "Stealth +2 · getting in through glass silently",
     "skillBonus": "Stealth (+2)",
     "rarity": "E",
     "cost": {
       "cr": 140
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "stealth",
+        "tn": 2,
+        "when": "getting in through glass silently"
+      }
+    ]
   },
   {
     "id": "thermite_strips_x3",
@@ -226,11 +448,21 @@
     "name": "Thermite Strips (x3)",
     "desc": "Adhesive strip burning hot enough to melt door hinges.",
     "effectType": "Breaching",
-    "effect": "Heavy Barrier Breaching",
+    "effect": "Burn through a door or lock in 1 round (3d6 to anything strapped to it)",
     "skillBonus": "None",
     "rarity": "D",
     "cost": {
       "cr": 300
+    },
+    "pack": 3,
+    "use": {
+      "options": [
+        {
+          "id": "burn",
+          "table": "Burns through a door, lock or panel in 1 round; anything strapped to it takes 3d6",
+          "text": "Burn through a door or lock in 1 round (3d6 to anything strapped to it)"
+        }
+      ]
     }
   },
   {
@@ -239,12 +471,20 @@
     "name": "Crowbar & Mini-Pry Set",
     "desc": "Drop-forged steel tools for high mechanical leverage.",
     "effectType": "Stat Buff",
-    "effect": "+3 STR (Forcing Doors)",
+    "effect": "STR check +3 · forcing doors, crates, panels",
     "skillBonus": "Athletics (+2)",
     "rarity": "F",
     "cost": {
       "cr": 45
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "attr": "STR",
+        "tn": 3,
+        "when": "forcing doors, crates, panels"
+      }
+    ]
   },
   {
     "id": "portable_hydraulic_jack",
@@ -252,12 +492,20 @@
     "name": "Portable Hydraulic Jack",
     "desc": "5-ton hydraulic hand jack for lifting beams or bending bars.",
     "effectType": "Utility",
-    "effect": "+5 STR (Lifting Heavy)",
+    "effect": "STR check +5 · lifting beams, bending bars",
     "skillBonus": "None",
     "rarity": "D",
     "cost": {
       "cr": 280
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "attr": "STR",
+        "tn": 5,
+        "when": "lifting beams, bending bars"
+      }
+    ]
   },
   {
     "id": "pneumatic_punch_tool",
@@ -265,12 +513,20 @@
     "name": "Pneumatic Punch Tool",
     "desc": "Compressed air tool used to blast through rivets and hinges.",
     "effectType": "Breaching",
-    "effect": "Mechanical Barrier",
+    "effect": "Mechanics / Fabrication +2 · blasting rivets and hinges",
     "skillBonus": "Mechanics (+1)",
     "rarity": "E",
     "cost": {
       "cr": 220
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "mechanics_fabrication",
+        "tn": 2,
+        "when": "blasting rivets and hinges"
+      }
+    ]
   },
   {
     "id": "laser_distance_tape",
@@ -278,12 +534,20 @@
     "name": "Laser Distance Tape",
     "desc": "Handheld LiDAR tape that maps room layouts automatically.",
     "effectType": "Utility",
-    "effect": "Rapid Reconnaissance",
+    "effect": "Perception / Awareness (PB) +1 · mapping a room or building fast",
     "skillBonus": "Perception (+1)",
     "rarity": "E",
     "cost": {
       "cr": 160
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "perception_awareness",
+        "tn": 1,
+        "when": "mapping a room or building fast"
+      }
+    ]
   },
   {
     "id": "ultrasonic_weld_inspector",
@@ -291,12 +555,20 @@
     "name": "Ultrasonic Weld Inspector",
     "desc": "Detects structural flaws or cavities inside thick concrete/steel.",
     "effectType": "Utility",
-    "effect": "Wall / Structural Scan",
+    "effect": "Forensics / Investigation +2 · cavities, flaws, hidden compartments in walls",
     "skillBonus": "Mechanics (+2)",
     "rarity": "C",
     "cost": {
       "cr": 500
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "forensics_investigation",
+        "tn": 2,
+        "when": "cavities, flaws, hidden compartments in walls"
+      }
+    ]
   },
   {
     "id": "electric_screwdriver_set",
@@ -304,12 +576,20 @@
     "name": "Electric Screwdriver Set",
     "desc": "High-torque screwdriver with 50 security bit heads.",
     "effectType": "Skill Tool",
-    "effect": "Fast Panel Removal",
+    "effect": "Mechanics / Fabrication +2 · opening panels and housings",
     "skillBonus": "Mechanics (+2)",
     "rarity": "F",
     "cost": {
       "cr": 110
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "mechanics_fabrication",
+        "tn": 2,
+        "when": "opening panels and housings"
+      }
+    ]
   },
   {
     "id": "laser_sight_calibrator",
@@ -317,12 +597,21 @@
     "name": "Laser Sight Calibrator",
     "desc": "Optic alignment tool that fine-tunes weapon sights.",
     "effectType": "Stat Buff",
-    "effect": "+1 Offensive Bonus (OB)",
+    "effect": "Gun attacks +1 · every gun attack (calibrated sights)",
     "skillBonus": "Weapons Tech (+1)",
     "rarity": "D",
     "cost": {
       "cr": 190
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "attack": "gun",
+        "tn": 1,
+        "when": "every gun attack (calibrated sights)",
+        "always": true
+      }
+    ]
   },
   {
     "id": "encrypted_burner_phone",
@@ -335,7 +624,8 @@
     "rarity": "F",
     "cost": {
       "cr": 50
-    }
+    },
+    "story": true
   },
   {
     "id": "tactical_ar_glasses",
@@ -343,12 +633,21 @@
     "name": "Tactical AR Glasses",
     "desc": "HUD glasses displaying thermal overlays and weapon links.",
     "effectType": "Stat Buff",
-    "effect": "+2 Perception Bonus",
+    "effect": "Perception / Awareness (PB) +2 · worn: every Perception check",
     "skillBonus": "Perception (+2)",
     "rarity": "D",
     "cost": {
       "cr": 800
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "perception_awareness",
+        "tn": 2,
+        "when": "worn: every Perception check",
+        "always": true
+      }
+    ]
   },
   {
     "id": "clip_on_thermal_lens",
@@ -356,12 +655,20 @@
     "name": "Clip-On Thermal Lens",
     "desc": "Thermal camera attachment for standard glasses.",
     "effectType": "Utility",
-    "effect": "Night Vision / Heat Scan",
+    "effect": "Perception / Awareness (PB) +3 · in darkness or smoke, spotting warm bodies",
     "skillBonus": "Perception (+3)",
     "rarity": "D",
     "cost": {
       "cr": 650
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "perception_awareness",
+        "tn": 3,
+        "when": "in darkness or smoke, spotting warm bodies"
+      }
+    ]
   },
   {
     "id": "rf_signal_jammer",
@@ -374,7 +681,8 @@
     "rarity": "C",
     "cost": {
       "cr": 550
-    }
+    },
+    "story": true
   },
   {
     "id": "bug_and_tap_detector",
@@ -382,12 +690,20 @@
     "name": "Bug & Tap Detector",
     "desc": "Handheld scanner alerting to nearby covert mics or cameras.",
     "effectType": "Skill Tool",
-    "effect": "+3 Counter-Surveillance",
+    "effect": "Electronics / Security +3 · finding hidden mics and cameras",
     "skillBonus": "Security (+3)",
     "rarity": "D",
     "cost": {
       "cr": 350
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "electronics_security",
+        "tn": 3,
+        "when": "finding hidden mics and cameras"
+      }
+    ]
   },
   {
     "id": "parabolic_listening_mic",
@@ -395,12 +711,20 @@
     "name": "Parabolic Listening Mic",
     "desc": "Directional mic filtering sound through glass or open air.",
     "effectType": "Utility",
-    "effect": "Overhear Distant Audio",
+    "effect": "Perception / Awareness (PB) +2 · listening at a distance",
     "skillBonus": "Perception (+2)",
     "rarity": "D",
     "cost": {
       "cr": 290
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "perception_awareness",
+        "tn": 2,
+        "when": "listening at a distance"
+      }
+    ]
   },
   {
     "id": "rugged_field_data_deck",
@@ -408,12 +732,20 @@
     "name": "Rugged Field Data Deck",
     "desc": "Ruggedized tablet loaded with network diagnostic tools.",
     "effectType": "Skill Tool",
-    "effect": "+2 Hacking Checks",
+    "effect": "Computers / Hacking +2 · Computers / Hacking checks (not a Hacker's deck)",
     "skillBonus": "Hacking (+2)",
     "rarity": "C",
     "cost": {
       "cr": 1100
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "computers_hacking",
+        "tn": 2,
+        "when": "Computers / Hacking checks (not a Hacker's deck)"
+      }
+    ]
   },
   {
     "id": "heavy_power_bank",
@@ -426,7 +758,8 @@
     "rarity": "F",
     "cost": {
       "cr": 120
-    }
+    },
+    "story": true
   },
   {
     "id": "pocket_rfid_skimmer",
@@ -434,12 +767,20 @@
     "name": "Pocket RFID Skimmer",
     "desc": "Discreet device reading credentials from keycards nearby.",
     "effectType": "Skill Tool",
-    "effect": "+2 Stealth Steal",
+    "effect": "Sleight of Hand +2 · lifting credentials off a card or badge",
     "skillBonus": "Security (+2)",
     "rarity": "D",
     "cost": {
       "cr": 400
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "sleight_of_hand",
+        "tn": 2,
+        "when": "lifting credentials off a card or badge"
+      }
+    ]
   },
   {
     "id": "foldable_solar_mat",
@@ -452,7 +793,8 @@
     "rarity": "E",
     "cost": {
       "cr": 150
-    }
+    },
+    "story": true
   },
   {
     "id": "e_tagger_darts_x5",
@@ -460,11 +802,21 @@
     "name": "E-Tagger Darts (x5)",
     "desc": "Micro adhesive beacon darts for GPS tracking of vehicles.",
     "effectType": "Utility",
-    "effect": "Target Tracking",
+    "effect": "Tag a target (a ranged attack, no damage): allies +1 TN against it for the scene",
     "skillBonus": "None",
     "rarity": "D",
     "cost": {
       "cr": 220
+    },
+    "pack": 5,
+    "use": {
+      "options": [
+        {
+          "id": "tag",
+          "table": "Target tagged for the scene: allies +1 TN against it; a Scavenger's Tells on it aren't lost to line of sight",
+          "text": "Tag a target (a ranged attack, no damage): allies +1 TN against it for the scene"
+        }
+      ]
     }
   },
   {
@@ -473,12 +825,20 @@
     "name": "Micro-Drone Recon Cam",
     "desc": "Palm-sized quadcopter for short-range aerial scouting.",
     "effectType": "Utility",
-    "effect": "Aerial Recon",
+    "effect": "Perception / Awareness (PB) +3 · scouting from above",
     "skillBonus": "Perception (+3)",
     "rarity": "C",
     "cost": {
       "cr": 750
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "perception_awareness",
+        "tn": 3,
+        "when": "scouting from above"
+      }
+    ]
   },
   {
     "id": "emp_pulse_grenade",
@@ -486,11 +846,20 @@
     "name": "EMP Pulse Grenade",
     "desc": "Single-use device disabling electronics in a 5m blast radius.",
     "effectType": "Utility / Combat",
-    "effect": "Disables Electronics",
+    "effect": "3×3: synthetic Jammed, cybernetic Disconnected until the end of next round",
     "skillBonus": "None",
     "rarity": "B",
     "cost": {
       "cr": 950
+    },
+    "use": {
+      "options": [
+        {
+          "id": "throw",
+          "table": "3×3 EMP: synthetic enemies Jammed, cybernetic ones Disconnected (hackers in the area too) until the end of next round",
+          "text": "3×3: synthetic Jammed, cybernetic Disconnected until the end of next round"
+        }
+      ]
     }
   },
   {
@@ -499,12 +868,20 @@
     "name": "Paracord Rope (30m)",
     "desc": "Lightweight 550lb test nylon cord for climbing or tying.",
     "effectType": "Utility",
-    "effect": "+1 Climbing / Binding",
+    "effect": "Climb / Physical +1 · climbing, or tying someone up",
     "skillBonus": "Athletics (+1)",
     "rarity": "F",
     "cost": {
       "cr": 30
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "climb_physical",
+        "tn": 1,
+        "when": "climbing, or tying someone up"
+      }
+    ]
   },
   {
     "id": "folding_grappling_hook",
@@ -512,12 +889,20 @@
     "name": "Folding Grappling Hook",
     "desc": "Four-prong collapsible steel hook for climbing lines.",
     "effectType": "Skill Tool",
-    "effect": "+2 Climbing Checks",
+    "effect": "Climb / Physical +2 · climbing with a line",
     "skillBonus": "Athletics (+2)",
     "rarity": "F",
     "cost": {
       "cr": 65
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "climb_physical",
+        "tn": 2,
+        "when": "climbing with a line"
+      }
+    ]
   },
   {
     "id": "tactical_torch_2000lm",
@@ -530,7 +915,8 @@
     "rarity": "F",
     "cost": {
       "cr": 40
-    }
+    },
+    "story": true
   },
   {
     "id": "chemical_flare_sticks_x5",
@@ -538,11 +924,21 @@
     "name": "Chemical Flare Sticks (x5)",
     "desc": "Glow sticks providing hands-free light underwater or in gas.",
     "effectType": "Utility",
-    "effect": "Reliable Light Source",
+    "effect": "Light an area for the scene: no darkness penalties",
     "skillBonus": "None",
     "rarity": "F",
     "cost": {
       "cr": 20
+    },
+    "pack": 5,
+    "use": {
+      "options": [
+        {
+          "id": "light",
+          "table": "Area lit for the scene: no darkness penalties there",
+          "text": "Light an area for the scene: no darkness penalties"
+        }
+      ]
     }
   },
   {
@@ -551,12 +947,16 @@
     "name": "Compact Gas Mask",
     "desc": "Full-face respirator with charcoal canister for toxic smoke.",
     "effectType": "Immunity",
-    "effect": "Gas / Smoke Immunity",
+    "effect": "Immune to gas while worn",
     "skillBonus": "None",
     "rarity": "E",
     "cost": {
       "cr": 210
-    }
+    },
+    "carry": {
+      "text": "Immune to gas (tear gas, nerve gas, toxic fumes) while you wear it. Smoke still blocks sight."
+    },
+    "story": true
   },
   {
     "id": "water_filter_straw",
@@ -569,7 +969,8 @@
     "rarity": "F",
     "cost": {
       "cr": 35
-    }
+    },
+    "story": true
   },
   {
     "id": "mylar_thermal_blanket",
@@ -582,7 +983,8 @@
     "rarity": "F",
     "cost": {
       "cr": 15
-    }
+    },
+    "story": true
   },
   {
     "id": "multi_tool_utility_pliers",
@@ -590,12 +992,20 @@
     "name": "Multi-Tool Utility Pliers",
     "desc": "Foldable stainless steel tool with pliers, saw, and blades.",
     "effectType": "Skill Tool",
-    "effect": "Improvised Repairs",
+    "effect": "Mechanics / Fabrication +1 · any improvised repair",
     "skillBonus": "Mechanics (+1)",
     "rarity": "F",
     "cost": {
       "cr": 55
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "mechanics_fabrication",
+        "tn": 1,
+        "when": "any improvised repair"
+      }
+    ]
   },
   {
     "id": "smoke_canisters_x2",
@@ -603,11 +1013,21 @@
     "name": "Smoke Canisters (x2)",
     "desc": "Creates a thick cloud of grey smoke for tactical cover.",
     "effectType": "Utility",
-    "effect": "+4 Defense In Smoke",
+    "effect": "2×2 smoke for 3 rounds: −4 TN through it, full cover inside",
     "skillBonus": "Stealth (+2)",
     "rarity": "E",
     "cost": {
       "cr": 110
+    },
+    "pack": 2,
+    "use": {
+      "options": [
+        {
+          "id": "throw",
+          "table": "2×2 smoke cloud for 3 rounds: attacks into or through it at −4 TN; inside it counts as full cover",
+          "text": "2×2 smoke for 3 rounds: −4 TN through it, full cover inside"
+        }
+      ]
     }
   },
   {
@@ -616,12 +1036,20 @@
     "name": "Vehicle Patch Kit",
     "desc": "Tire plugs, sealant spray, wire tape, and spare fuses.",
     "effectType": "Skill Tool",
-    "effect": "+2 Vehicle Repair",
+    "effect": "Mechanics / Fabrication +2 · vehicles only",
     "skillBonus": "Mechanics (+2)",
     "rarity": "E",
     "cost": {
       "cr": 140
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "mechanics_fabrication",
+        "tn": 2,
+        "when": "vehicles only"
+      }
+    ]
   },
   {
     "id": "high_strength_zip_cuffs_x10",
@@ -634,7 +1062,8 @@
     "rarity": "F",
     "cost": {
       "cr": 25
-    }
+    },
+    "story": true
   },
   {
     "id": "laser_mic_deflector",
@@ -642,12 +1071,20 @@
     "name": "Laser Mic Deflector",
     "desc": "Window-mounted shaker that neutralizes laser eavesdropping.",
     "effectType": "Utility",
-    "effect": "Counter-Eavesdropping",
+    "effect": "Electronics / Security +2 · keeping a room safe from listening",
     "skillBonus": "Security (+2)",
     "rarity": "D",
     "cost": {
       "cr": 310
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "electronics_security",
+        "tn": 2,
+        "when": "keeping a room safe from listening"
+      }
+    ]
   },
   {
     "id": "portable_butane_torch",
@@ -655,12 +1092,20 @@
     "name": "Portable Butane Torch",
     "desc": "Compact welding torch for burning through chains or wire.",
     "effectType": "Utility",
-    "effect": "Cutting / Heating",
+    "effect": "Mechanics / Fabrication +1 · cutting or heating metal",
     "skillBonus": "Mechanics (+1)",
     "rarity": "F",
     "cost": {
       "cr": 70
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "mechanics_fabrication",
+        "tn": 1,
+        "when": "cutting or heating metal"
+      }
+    ]
   },
   {
     "id": "rappelling_harness",
@@ -668,11 +1113,19 @@
     "name": "Rappelling Harness",
     "desc": "Reinforced webbing harness with carabiners and descender ring.",
     "effectType": "Skill Tool",
-    "effect": "+3 Rappelling / Descent",
+    "effect": "Climb / Physical +3 · going down a line",
     "skillBonus": "Athletics (+3)",
     "rarity": "E",
     "cost": {
       "cr": 130
-    }
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "climb_physical",
+        "tn": 3,
+        "when": "going down a line"
+      }
+    ]
   }
 ]

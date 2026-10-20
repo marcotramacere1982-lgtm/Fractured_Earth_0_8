@@ -84,7 +84,7 @@ export function turnCard(c, s, data, combat = null) {
       <button class="action-btn" data-action="act" data-kind="move" data-detail="up to ${s.move} squares" ${noActions ? raw('disabled') : ''}>
         <span class="action-btn__name">${t('turn.move')}</span><span class="action-btn__sub">${s.move !== s.moveBase ? html`<span class="temp temp--down">${t('turn.squares', { n: s.move })}</span>` : t('turn.squares', { n: s.move })}</span></button>
       ${data.actions.actions.filter((a) => !['move', 'attack', 'ability'].includes(a.id)).map((a) => html`
-        <button class="action-btn" data-action="${a.id === 'reload' ? 'reloadPick' : 'act'}" data-kind="${a.id}" title="${a.desc}" ${noActions ? raw('disabled') : ''}>
+        <button class="action-btn" data-action="${a.id === 'reload' ? 'reloadPick' : a.id === 'use_item' ? 'useItem' : 'act'}" data-kind="${a.id}" title="${a.desc}" ${noActions ? raw('disabled') : ''}>
           <span class="action-btn__name">${t(`action.${a.id}`)}</span><span class="action-btn__sub">${a.desc.split('.')[0]}</span></button>`)}
       ${ts.inCombat ? html`<button class="action-btn action-btn--reaction" data-action="dodgeRoll" title="${data.actions.reactions[0].desc}">
         <span class="action-btn__name">${t('dodge.title')}</span><span class="action-btn__sub">${t('turn.dodgeSub')} · Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value}</span></button>` : ''}

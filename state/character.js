@@ -10,6 +10,8 @@ import { zoneBonus, isRanged, opticStats } from '../rules/engines.js';
 import { lifestyleUpkeep, magazineId, addItem } from '../rules/economy.js';
 import { conditionMods, halvedMove } from '../rules/conditions.js';
 import { allowance } from '../rules/turn.js';
+import { effectTotals } from '../rules/items.js';
+import { withUniques, uniqueBonuses } from '../rules/uniques.js';
 import { uid } from './id.js';
 
 export const SCHEMA_VERSION = 1;
@@ -49,6 +51,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       worn: [], // armor ids currently worn
       slots: { 1: null, 2: null }, // weapon ids
       hand: 1, // the slot in hand (decision 56): in combat only it can attack; swapping costs an action
+      effects: [], // timed effects of items used (decision 58): stims, painkillers…
       ammo: { 1: 0, 2: 0 },
       armorDamage: 0, // cracks in the worn armor, until repaired
       injuries: [], // location ids with a broken arm / crippled leg, until treated
@@ -85,6 +88,7 @@ export function upgradeSave(c, data = null) {
   c.play.talentUses ??= {};
   c.play.optic ??= null;
   c.play.hand ??= 1;
+  c.play.effects ??= [];
   c.progress ??= emptyProgress();
   c.downtime ??= emptyDowntime();
   c.drive ??= { type: null, line: '' };
@@ -97,10 +101,18 @@ export function upgradeSave(c, data = null) {
 
 /** Every number the sheet shows, computed from the character + data. */
 export function deriveSheet(character, data) {
-  const a = character.attributes;
+  data = withUniques(data, character); // the GM's unique items read like catalog entries (decision 61)
+  // items' timed effects (decision 58) and the bonuses of uniques in use: attribute boosts flow through everything
+  const items = effectTotals(character.play.effects);
+  const uniq = uniqueBonuses(character);
+  const boost = (k) => (items.attrs[k] ?? 0) + (uniq.attrs[k] ?? 0);
+  const a = Object.keys(items.attrs).length || Object.keys(uniq.attrs).length
+    ? Object.fromEntries(Object.entries(character.attributes).map(([k, v]) => [k, v + boost(k)]))
+    : character.attributes;
+  for (const [k, v] of Object.entries(uniq.mods)) items.mods[k] = (items.mods[k] ?? 0) + v;
   const fx = data.talents ? talentEffects(character, data) : {};
   // conditions that change numbers (decision 54): the sheet shows the changed value next to the normal one (`base`)
-  const cm = conditionMods(character.play.conditions, data.conditions);
+  const cm = conditionMods(character.play.conditions, data.conditions, items.mods);
   const combatBase = computeCombat(a, character.rowOffsets, data.combat);
   const combat = Object.fromEntries(Object.entries(combatBase).map(([k, v]) => (cm[k] ? [k, { ...v, value: v.value + cm[k], base: v.value }] : [k, v])));
   const hpMax = maxHp(a, data.body, character.mods.maxHp) + (fx.maxHp ?? 0);
@@ -114,7 +126,8 @@ export function deriveSheet(character, data) {
   armor.condition = cm.armor;
   const injured = limbs(character.play.injuries ?? [], data.body);
   const sub = character.subclassId ? findSubclass(data.classes, character.subclassId) : null;
-  const skillsBase = computeSkills(a, data.skills).map((k) => (fx.skills?.[k.id] ? { ...k, value: k.value + fx.skills[k.id], talent: fx.skills[k.id] } : k));
+  const skillsBase = computeSkills(a, data.skills).map((k) => (fx.skills?.[k.id] ? { ...k, value: k.value + fx.skills[k.id], talent: fx.skills[k.id] } : k))
+    .map((k) => (uniq.skills[k.id] ? { ...k, value: k.value + uniq.skills[k.id], unique: uniq.skills[k.id] } : k));
   const skills = cm.skillTn ? skillsBase.map((k) => ({ ...k, value: k.value + cm.skillTn, base: k.value })) : skillsBase; // Sharp: skill checks, not attacks
   const weapon = (id) => data.weapons.find((w) => w.id === id);
   const deck = data.decks.find((d) => d.id === character.play.deck) ?? null;
@@ -126,16 +139,18 @@ export function deriveSheet(character, data) {
       const w = weapon(character.play.slots[slot]);
       if (!w) return { slot, empty: true };
       const zoneTn = isRanged(w) ? zone.rangedTn : 0; // Smuggler Cold: steadier aim
-      const tn = weaponTN(w, skillsBase) + zoneTn;
+      const tn = weaponTN(w, skillsBase) + zoneTn + (w.tnBonus ?? 0); // a unique's own TN bonus
       const rounds = character.play.ammo[slot] ?? 0;
       const spares = w.magSize ? character.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.id))?.qty ?? 0 : 0;
-      return { slot, ...w, tn: tn + cm.attackTn, ...(cm.attackTn ? { base: tn } : {}), zoneTn, rounds, spares, // Focused / Blinded
+      return { slot, ...w, tn: tn + cm.attackTn, base: cm.attackTn ? tn : undefined, zoneTn, rounds, spares, // Focused / Blinded; only a condition sets `base`, never a record field
         burst: w.burst ?? 1, attacksLeft: w.magSize ? Math.ceil(rounds / (w.burst ?? 1)) : null, // automatic weapons fire 3-round bursts
         inHand: slot === handSlot };
     }), injured.arms);
   const inCombat = Boolean(character.play.turn?.inCombat);
   return {
     attributes: a,
+    attributesBase: character.attributes, // before item boosts (shown beside the boosted value)
+    effects: character.play.effects ?? [],
     skills,
     weapons,
     handSlot,
@@ -157,12 +172,12 @@ export function deriveSheet(character, data) {
     actionsNow: allowance(combat.act.value, character.play.conditions, data.actions), // this round: Stunned 1, Slowed −1
     conditionMods: cm,
     injured: { ...injured, locations: character.play.injuries ?? [] },
-    initiative: initiative(a, data.combat) + (fx.initiative ?? 0),
+    initiative: initiative(a, data.combat) + (fx.initiative ?? 0) + uniq.init,
     talents: fx, // merged automatic talent effects
     progress: data.progress ? progressStatus(character, data) : null,
     locationPenalty: Math.max(0, data.body.locationAttack.tnPenalty + (fx.locationPenalty ?? 0)), // Marksman
     abilityLimit: (character.play.maxAbilities ?? 3) + (data.progress ? progressStatus(character, data).abilitySlots : 0),
-    immune: stance ? fx.immuneInStance?.[stance] ?? [] : [], // Unstoppable
+    immune: [...(stance ? fx.immuneInStance?.[stance] ?? [] : []), ...items.immune], // Unstoppable; antitoxin
     hp: { max: hpMax, current: character.play.hp ?? hpMax },
     armor,
     class: sub ? { id: sub.cls.id, name: sub.cls.name, subclass: sub.sub, tn: classTN(a, sub.sub) } : null,

@@ -20,7 +20,7 @@ export function openTrade(item, { players = null, inCombat = false, onSell, onGi
       ${state.done ? html`<button class="btn btn--primary btn--block" data-action="close">${t('common.done')}</button>` : html`
       <section class="stack stack--tight">
         <span class="label">${t('trade.sell')}</span>
-        ${item.price == null ? html`<div class="cluster"><span class="muted">$</span>
+        ${item.unfenceable ? html`<p class="hint">${t('trade.unfenceable')}</p>` : item.price == null ? html`<div class="cluster"><span class="muted">$</span>
           <input class="input input--num" type="number" min="0" inputmode="numeric" value="${state.price}" data-action="tPrice" aria-label="${t('trade.price')}">
           <button class="btn" data-action="tSell">${t('trade.sellBtn')}</button></div>
           <p class="hint">${t('trade.customPrice')}</p>`

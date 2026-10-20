@@ -29,6 +29,10 @@ Armor **cracks** by 1 when it stops a location attack completely, or when an eff
 
 ## 8-4. Items & Tools {#sec-8-4}
 
+**Using items.** Consumables — kits, stims, antidotes, grenades — have a **Use** button in the inventory, and *Use item* on the Turn card (**1 action** in combat, free outside). Pick the item and, if it offers a choice, what it does; medical items work **on you** or **on an ally next to you** (the window shows the result, e.g. "heal 7", and they enter it on their own sheet). Heals are rolled by the app or typed from your dice. **Timed effects** (+2 DEX for 3 rounds…) show as a green pill on the status bar, count down at each round end and raise every number built on them; strong stims end in a **crash** (Slowed for a round). Items sold in packs ("×5") give that many. Smoke, EMP, darts and the like change the battlefield: the sheet spends the action and logs the effect, the GM applies it.
+
+**Tools.** Gear you carry — lockpicks, climbing hooks, AR glasses, a crowbar — helps a roll when it fits: the roll window lists the tools for that skill, attribute or attack as tick boxes ("Mechanical Lockpick Set +2 · physical locks"). Tick the one that applies; **one tool counts per roll**, nothing is used up, and the GM can say it doesn't apply. Always-on gear (AR glasses for Perception, a laser sight for gun attacks) starts ticked. The log names the tool. A **gas mask** in your inventory makes you immune to gas.
+
 ::table[items]
 
 ## 8-5. Hacker Decks & Mods {#sec-8-5}
@@ -47,16 +51,18 @@ An optic sets the Scavenger's **Range**, **Track** and **mode** (5-6). Anyone ca
 
 ## Ammo, misc items and trading {#sec-8-ammo}
 
-**Magazines.** Every gun has its own spare magazine in the market's *Ammo* tab (your guns' magazines come first, marked *fits your gun*). A magazine costs 10% of the gun's price (at least 5 Cr), and **every gun comes with 2 spares**. *Reload* loads a spare and discards the one in the gun; with no spares left you can't reload — buy some, or ask the GM. The weapon card shows how many spares you have.
+**Magazines.** Every gun has its own spare magazine in the market's *Ammo* tab (your guns' magazines come first, marked *fits your gun*). A magazine costs 10% of the gun's price (at least $5), and **every gun comes with 2 spares**. *Reload* loads a spare and discards the one in the gun; with no spares left you can't reload — buy some, or ask the GM. The weapon card shows how many spares you have.
 
 **Bursts.** SMGs and assault rifles fire **3-round bursts**: each attack uses 3 rounds, so a 30-round magazine is 10 attacks. The sheet counts it for you ("10 attacks left"). Abilities use the ammunition they say.
 
 **Custom items.** The market's *Misc* tab adds anything worth tracking — a keycard, a sealed package, a photo — to a *Misc* group: no price, no rules. If it cost money, change your cash by hand.
 
+**Unique items.** Sometimes you find something one of a kind — an experimental smart pistol, a heavily modded deck. The GM forges it and sends it to whoever found it; it shows in **purple** with a *unique* tag, with a one-line note ("◆ Smart-link: locks onto body heat") on the weapon card. Its bonuses apply while it's in use: a weapon in a slot, armor worn, the active deck or optic, an item carried. It keeps every stat if you hand it to someone, it's never on sale, and some can't be fenced at all. Its magazines are in the market's Ammo tab like any other gun's.
+
 **Trash and trade.** Every inventory row has 🗑 (drop one, after asking) and ⇄ (trade): **sell** it for half the list price — a quarter if you bought it officially (registered gear is built to age fast; street-bought units are sold first) — (custom items: type what you got), or **give** it to a player at the table — it lands on their sheet even if their tablet is asleep, and in combat it costs 1 action (Interact). Everything is logged, so the GM sees where things went.
 
 ## 8-6. Lifestyle {#sec-8-6}
 
-The monthly cost of existing. Operators start at the bottom; moving up is something you earn. Lifestyle is tracked on the sheet but has no mechanical effect yet.
+The monthly cost of existing. Operators start at the bottom; moving up is something you earn. Pick yours in the market's Lifestyle tab with **Choose**: it charges nothing, and one choice per category replaces the previous (a new flat replaces the old one). The sheet shows the monthly upkeep in $ (or ≈ Credit Score if paid officially); the GM's downtime report shows it for the time that passed, and the table settles it however it likes. It has no other mechanical effect yet.
 
 ::table[lifestyle]

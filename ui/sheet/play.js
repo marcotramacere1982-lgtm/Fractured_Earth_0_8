@@ -5,9 +5,10 @@ import { counter, meter, card, segmented, nameOf, temp } from './parts.js';
 import { engineCard } from './engine.js';
 import { talentsCard } from './progress.js';
 import { turnCard } from './turn.js';
+import { carriedProtections } from '../../rules/tools.js';
 import { info } from '../ref.js';
 import { explain, hint } from '../explain.js';
-import { t } from '../../i18n/index.js';
+import { t, tn } from '../../i18n/index.js';
 
 export function statusBar(c, s, data) {
   const hpKind = s.hp.current <= 0 ? 'danger' : s.hp.current <= s.hp.max / 3 ? 'danger' : 'success';
@@ -33,6 +34,8 @@ export function statusBar(c, s, data) {
         <div class="stat"><span class="label">CRS${info('credit-score', 'Credit Score')}</span><span class="stat__value">${c.attributes.CRS}</span></div>
         <div class="stat"><span class="label">${t('stat.cash')}</span><span class="stat__value stat__value--success">$${c.play.cash}</span></div>
       </div>
+      ${s.effects.length ? html`<div class="cluster">${s.effects.map((e) => html`<span class="pill pill--success effect-pill">${e.name} · ${e.roundsLeft == null ? t('use.scene') : tn('use.rounds', e.roundsLeft)}
+        <button class="effect-pill__end" data-action="endEffect" data-id="${e.id}" aria-label="${t('use.end', { name: e.name })}" title="${t('use.end', { name: e.name })}">✕</button></span>`)}</div>` : ''}
       ${c.play.conditions.length || s.injured.locations.length ? html`<div class="cluster">${c.play.conditions.map((id) => html`<span class="pill ${data.conditions.find((k) => k.id === id)?.positive ? 'pill--success' : 'pill--danger'}">${nameOf(data.conditions, id)}</span>`)}${s.injured.locations.map((id) => {
         const loc = data.body.locations.find((l) => l.id === id);
         return html`<span class="pill pill--danger">${data.conditions.find((k) => k.limb === loc?.bp)?.name} · ${loc?.name}</span>`;
@@ -113,6 +116,7 @@ function healthCard(c, s, data) {
         </button>`;
       })}
     </div>
+    ${carriedProtections(c.play.inventory, data.items).map((pr) => html`<p class="notice notice--ok"><strong>${pr.name}:</strong> ${pr.text}</p>`)}
     <h3 class="label cond-group">${t('body.boosts')}</h3>
     <div class="cond-grid">${boosts.map((k) => {
       const on = c.play.conditions.includes(k.id);
@@ -140,6 +144,7 @@ function weaponsCard(c, s, data) {
           ${w.empty ? html`<p class="muted">${owned.length ? t('weapons.pick') : t('weapons.none')}</p>` : html`
             <div class="spread"><div class="weapon__name">${w.name}</div>
               ${w.inHand ? html`<span class="pill pill--accent">${t('weapons.inHand')}</span>` : html`<button class="btn btn--sm" data-action="hand" data-slot="${w.slot}" title="${t('weapons.takeHint')}">${t('weapons.take')}</button>`}</div>
+            ${w.note ? html`<p class="weapon__note">◆ ${w.note}</p>` : ''}
             <div class="weapon__stats">
               <button class="stat stat--button" data-action="check" data-kind="skill" data-id="${w.skill}" title="${t('weapons.rollAttack')}">
                 <span class="label">${t('weapons.attackTn')}</span><span class="stat__value stat__value--accent">${temp(w.base, w.tn)}</span><span class="stat__sub">${w.zoneTn ? html`<span class="text-info">+${w.zoneTn} Cold</span> · ` : ''}${nameOf(data.skills.skills, w.skill)}</span>

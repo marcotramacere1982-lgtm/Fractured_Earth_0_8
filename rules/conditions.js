@@ -6,8 +6,8 @@
 const NUMERIC = ['act', 'attackTn', 'skillTn', 'off', 'def', 'armor', 'meleeDamage'];
 
 /** The summed effect of the active conditions. Unknown ids are ignored. */
-export function conditionMods(ids, conditionsData) {
-  const out = Object.fromEntries(NUMERIC.map((k) => [k, 0]));
+export function conditionMods(ids, conditionsData, extra = {}) {
+  const out = Object.fromEntries(NUMERIC.map((k) => [k, extra[k] ?? 0])); // extra: item effects' mods (decision 58)
   out.moveHalf = false;
   for (const id of ids ?? []) {
     const m = conditionsData.find((c) => c.id === id)?.mods;

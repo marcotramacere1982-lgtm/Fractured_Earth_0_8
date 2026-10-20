@@ -22,7 +22,7 @@ export function magazines(data) {
  * What selling one gives back: half the list price; a quarter for gear bought officially (registered, decision 57).
  * Custom items have no price: the player types it.
  */
-export const sellPrice = (entry, economy, { official = false } = {}) => (entry?.cost ? Math.floor(entry.cost.cr * (official ? economy.sell.officialFraction : economy.sell.fraction)) : 0);
+export const sellPrice = (entry, economy, { official = false } = {}) => (entry?.cost ? Math.floor((entry.cost.cr / (entry.pack ?? 1)) * (official ? economy.sell.officialFraction : economy.sell.fraction)) : 0); // per unit of a pack
 
 /** Whether the next unit of a row to leave is a registered (officially bought) one: street units go first. */
 export const nextIsOfficial = (row) => (row?.official ?? 0) >= (row?.qty ?? 0) && (row?.official ?? 0) > 0;
@@ -88,7 +88,7 @@ export function buy(character, { kind, id }, method, data, { multiplier, discoun
     if (!c.play.lifestyle.includes(id)) c.play.lifestyle.push(id);
   } else {
     const official = method === 'official'; // registered: resells for a quarter (decision 57)
-    addItem(c, kind, id, 1, { official });
+    addItem(c, kind, id, entry.pack ?? 1, { official }); // packs ("×5") give that many
     if (kind === 'weapon' && entry.magSize) { // every gun comes with spare magazines
       addItem(c, 'ammo', magazineId(id), data.economy.magazine.startSpares, { official });
       log += ` + ${data.economy.magazine.startSpares} spare magazines`;

@@ -301,3 +301,18 @@
 
 /* The weapon in hand (decision 56) */
 .weapon--in-hand { border-color: var(--color-accent); box-shadow: 0 0 0 1px var(--color-accent-soft); }
+
+/* Item effects running (decision 58) */
+.effect-pill__end { background: none; border: 0; color: inherit; padding: 0 0 0 var(--space-1); cursor: pointer; font: inherit; }
+
+/* Tools in the roll window (decision 59): one counts */
+.tool-list { display: grid; gap: var(--space-1); }
+.tool { display: flex; align-items: center; gap: var(--space-2); min-height: var(--touch); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); border: var(--border-width) solid var(--color-border); cursor: pointer; }
+.tool.is-on { border-color: var(--color-success); background: var(--color-success-soft); }
+.tool input { width: 1.2rem; height: 1.2rem; }
+
+.weapon__note { margin: 0; font-size: var(--text-sm); color: var(--color-unique); }
+
+/* Market: group headings (weapon type, where armor is worn, what an item is for) */
+.market-group { margin: var(--space-3) 0 var(--space-1); font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--color-accent); }
+.market-group:first-child { margin-top: 0; }

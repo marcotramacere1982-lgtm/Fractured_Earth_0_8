@@ -29,6 +29,9 @@
     },
     "other": {
       "desc": "Qualsiasi altra cosa: il GM decide il tiro e quante azioni richiede."
+    },
+    "use_item": {
+      "desc": "Usa un consumabile: una cura, uno stimolante, un antidoto, una granata."
     }
   },
   "reactions": {

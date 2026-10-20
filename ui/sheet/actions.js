@@ -11,6 +11,7 @@ import { progressActions, resetUses } from './progress-actions.js';
 import { downtimeActions } from './downtime-actions.js';
 import { storyActions } from './story-actions.js';
 import { inventoryActions } from './inventory-actions.js';
+import { itemActions, tickItemEffects, endItemEffects } from './item-actions.js';
 
 /** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
 export function spend(c, data, what) {
@@ -195,7 +196,7 @@ export const actions = {
     }
   },
   add(c, data, { kind, id }) {
-    addItem(c, kind, id);
+    addItem(c, kind, id, kind === 'item' ? data.items.find((i) => i.id === id)?.pack ?? 1 : 1); // packs: ×5 gives 5
     if (kind === 'armor') autoWear(c, id);
     if (kind === 'weapon' && data.weapons.find((w) => w.id === id)?.magSize) addItem(c, 'ammo', magazineId(id), data.economy.magazine.startSpares); // guns come with spares
   },
@@ -283,6 +284,7 @@ export const actions = {
       talents: deriveSheet(c, data).talents,
     });
     c.play.conditions = c.play.conditions.filter((x) => !data.encounter.roundEndClears.includes(x));
+    tickItemEffects(c, data); // after the clear: a stim crash Slows next round
     resetUses(c, data, 'round');
     c.play.turn = endRound(turn);
     log(c, `— End of round ${turn.round} —`);
@@ -294,7 +296,8 @@ export const actions = {
     c.play.turn = startCombat();
     log(c, '=== Combat started — round 1 ===');
   },
-  combatEnd(c) {
+  combatEnd(c, data) {
+    if (data) endItemEffects(c, data);
     c.play.turn = endCombat(c.play.turn ?? newTurn());
     log(c, '=== Combat over ===');
   },
@@ -306,7 +309,7 @@ export const actions = {
     const turn = c.play.turn ?? newTurn();
     const mine = turn.inCombat && turn.tableCombat === msg.id;
     if (!msg.active) {
-      if (mine) actions.combatEnd(c);
+      if (mine) actions.combatEnd(c, data);
       return;
     }
     if (!mine) {
@@ -404,6 +407,7 @@ export const actions = {
   ...downtimeActions,
   ...storyActions,
   ...inventoryActions,
+  ...itemActions,
 };
 
 export const ownedOf = owned;

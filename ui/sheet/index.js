@@ -16,9 +16,12 @@ import { openCheck, openShop, openChoice } from './dialogs.js';
 import { bonus } from '../../rules/stats.js';
 import { formatRoll } from '../../rules/dice.js';
 import { turnStatus, newTurn } from '../../rules/turn.js';
-import { abilityWeapon } from '../../rules/engines.js';
 import { weaponFlow, hackFlow } from './attack-flow.js';
 import { openTrade } from './trade.js';
+import { startUseItem } from './use-item.js';
+import { toolsFor } from '../../rules/tools.js';
+import { withUniques } from '../../rules/uniques.js';
+import { abilityWeapon, isRanged } from '../../rules/engines.js';
 import { itemName } from './inventory-actions.js';
 import { findGear, sellPrice, nextIsOfficial } from '../../rules/economy.js';
 import { t, getLang } from '../../i18n/index.js';
@@ -27,7 +30,7 @@ import { soundOn, setSound } from '../sound.js';
 import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 
-const rollText = (r) => `d20 ${r.roll} vs ${r.effective}`;
+const rollText = (r) => `d20 ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}`;
 
 const TABS = [
   { id: 'play', label: 'sheet.tab.play', view: playTab },
@@ -78,7 +81,7 @@ export function sheetView({ data, store, main, table }, route) {
             <button class="btn btn--sm" data-action="export" title="${t('sheet.exportHint')}">${t('common.export')}</button>
           </div>
         </div>
-        <div class="sheet-body">${tab.view(c, s, data, { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available) })}</div>
+        <div class="sheet-body">${tab.view(c, s, withUniques(data, c), { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available) })}</div>
       </div>`);
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
   };
@@ -87,7 +90,7 @@ export function sheetView({ data, store, main, table }, route) {
   const run = (name, args = {}, opts = {}) => {
     let result;
     try {
-      store.update(id, (draft) => { result = actions[name](draft, data, args); }, opts);
+      store.update(id, (draft) => { result = actions[name](draft, withUniques(data, draft), args); }, opts); // uniques read like catalog entries
     } catch (err) {
       toast(ruleText(err), 'danger');
     }
@@ -96,13 +99,15 @@ export function sheetView({ data, store, main, table }, route) {
 
   const checkTarget = ({ kind, id: targetId }) => {
     const c = character();
+    const s = deriveSheet(c, data);
     if (kind === 'attr') {
       const a = data.attributes.attributes.find((x) => x.id === targetId);
+      const v = s.attributes[targetId]; // with item boosts (decision 58)
       // attribute check: roll against the attribute value itself
-      return { name: t('check.attribute', { name: a.name }), tn: c.attributes[targetId], sub: `${a.id} ${c.attributes[targetId]} (bonus ${bonus(c.attributes[targetId])})` };
+      return { name: t('check.attribute', { name: a.name }), tn: v, sub: `${a.id} ${v} (bonus ${bonus(v)})`, tools: toolsFor(c.play.inventory, data.items, { attr: targetId }) };
     }
-    const k = deriveSheet(c, data).skills.find((x) => x.id === targetId);
-    return { name: k.name, tn: k.value, sub: k.stats.join(' + ') };
+    const k = s.skills.find((x) => x.id === targetId);
+    return { name: k.name, tn: k.value, sub: k.stats.join(' + '), tools: toolsFor(c.play.inventory, data.items, { skill: targetId }) };
   };
 
   const tableCombat = () => (table?.state.joinedId === id ? table.state.combat : null);
@@ -172,7 +177,7 @@ export function sheetView({ data, store, main, table }, route) {
       const penalty = aimed ? sh.locationPenalty : 0; // Marksman lowers it
       openCheck({ name: t(aimed ? 'attack.locatedTitle' : 'attack.title', { weapon: w.name }), tn: w.tn - penalty, sub: aimed ? `${nameOfSkill(w.skill)} · ${t('attack.locatedSub', { n: penalty })}` : nameOfSkill(w.skill) }, data,
         (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), located: aimed }),
-        { tier: tableTier(), once: true,
+        { tier: tableTier(), once: true, tools: toolsFor(c.play.inventory, data.items, { skill: w.skill, attack: isRanged(w) ? 'gun' : null }),
           after: (r) => (r.success ? '' : html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`),
           flow: weaponFlow({ c, sh, data, w, spec: { located: aimed }, exploit: true, combat: tableCombat(), onDone: (o) => run('attackDamage', o) }) });
     },
@@ -211,6 +216,14 @@ export function sheetView({ data, store, main, table }, route) {
     },
     backstoryUndo: () => run('backstoryUndo'),
     soundToggle: () => { setSound(!soundOn()); draw(); },
+    /** Decision 58: use a consumable (1 action in combat) — from the Turn card or an inventory row. */
+    useItem: ({ id: itemId }) => {
+      const c = character();
+      if (!actionAvailable(c, deriveSheet(c, data))) return;
+      startUseItem({ character, data, run, onlyId: itemId ?? null });
+    },
+    endEffect: ({ id: effectId }) => run('endEffect', { id: effectId }),
+    storyUse: ({ id: itemId }) => { run('storyUse', { id: itemId }); toast(t('use.storyDone')); },
     /** Decision 55: drop one (asks first). */
     trash: ({ kind, id: itemId }) => {
       const row = character().play.inventory.find((x) => x.kind === kind && x.id === itemId);
@@ -221,17 +234,18 @@ export function sheetView({ data, store, main, table }, route) {
       const c = character();
       const row = c.play.inventory.find((x) => x.kind === kind && x.id === itemId);
       if (!row) return;
-      const name = itemName(row, data);
+      const name = itemName(row, withUniques(data, c));
       const atTable = table?.state.available && table.state.joinedId === id;
       const registered = nextIsOfficial(row);
-      openTrade({ name, registered, price: kind === 'custom' ? null : sellPrice(findGear(kind, itemId, data), data.economy, { official: registered }) }, {
+      const unfenceable = Boolean(row.unique && !row.unique.cost?.cr); // a unique the GM marked "can't be fenced"
+      openTrade({ name, registered, unfenceable, price: kind === 'custom' ? null : sellPrice(findGear(kind, itemId, withUniques(data, c)), data.economy, { official: registered }) }, {
         inCombat: Boolean(c.play.turn?.inCombat),
         players: atTable ? async () => (await table.players()).filter((p) => p.id !== id) : null,
         onSell: (price) => { let cash = 0; store.update(id, (draft) => { cash = actions.sell(draft, data, { kind, id: itemId, price }); }); return t('trade.sold', { item: name, n: cash }); },
         onGift: async (player) => {
           const now = character();
           if (!actionAvailable(now, deriveSheet(now, data))) throw new Error(t('turn.noActions'));
-          const item = kind === 'custom' ? { kind, name: row.name, note: row.note ?? '' } : { kind, id: itemId, official: registered };
+          const item = kind === 'custom' ? { kind, name: row.name, note: row.note ?? '' } : { kind, id: itemId, official: registered, ...(row.unique ? { unique: row.unique } : {}) };
           if (!(await table.gift(player.id, item))) throw new Error(t('dossier.askFailed'));
           store.update(id, (draft) => { actions.giveItem(draft, data, { kind, id: itemId, toName: player.name }); }); // braces: update() would take a returned object as the new character
           return t('trade.given', { item: name, to: player.name });
@@ -265,11 +279,12 @@ export function sheetView({ data, store, main, table }, route) {
     check: (d) => {
       const target = checkTarget(d);
       openCheck(target, data, (r) => store.update(id, (c) => {
-        log(c, `${target.name}: rolled ${r.roll} vs ${r.effective} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
-      }), { tier: tableTier() });
+        log(c, `${target.name}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
+      }), { tier: tableTier(), tools: target.tools });
     },
-    shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, data, ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
+    shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, withUniques(data, character()), ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
       if (method === 'free') { run('add', { kind: k, id: itemId }); return t('shop.added'); }
+      if (method === 'choose') { run('chooseLifestyle', { id: itemId }); return t('shop.chosen'); }
       if (method === 'custom') { store.update(id, (draft) => { actions.addCustom(draft, data, rest); }); return t('shop.added'); }
       let notice;
       store.update(id, (draft) => { notice = actions.buy(draft, data, { kind: k, id: itemId, method, multiplier }); });

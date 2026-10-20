@@ -4,8 +4,9 @@ import { html, render, delegate, cleanup } from '../dom.js';
 import { segmented } from './parts.js';
 import { resolveCheck } from '../../rules/checks.js';
 import { roll, formatRoll, typedRoll } from '../../rules/dice.js';
-import { priceOptions } from '../../rules/economy.js';
+import { priceOptions, findGear, magazineId, creditScoreCost } from '../../rules/economy.js';
 import { catalog, describe, kindLabel } from './gear.js';
+import { marketGroups } from './market-groups.js';
 import { info } from '../ref.js';
 import { t } from '../../i18n/index.js';
 import { ruleText } from '../rule-text.js';
@@ -31,19 +32,23 @@ export function openDialog(draw, handlers) {
  * Check dialog. target = { name, tn, sub }. onResult(result) is called once per roll (for logging / actions).
  * Supports an app roll or entering a physical die result.
  * opts.once: only one roll (an action was spent); opts.after(result) → extra HTML under the result.
+ * opts.tools: carried tools that fit this roll ([{ id, name, tn, when, always }], decision 59) — tick boxes, one counts.
  * opts.flow: what follows a success, step by step (damage, Exploit, hit location…), each step rolled by the app
  *   or typed from physical dice: { next(answers) → step | null, summary(answers) → HTML, complete(answers) }.
  *   step = { id, title, hint?, dice?: [{ key, label, expr }], choose?: [{ value, label }], recap?(answer) → text }
  */
-export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null } = {}) {
-  const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false };
+export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [] } = {}) {
+  const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false,
+    tool: tools.find((x) => x.always)?.id ?? null };
+  const tool = () => tools.find((x) => x.id === state.tool) ?? null;
+  const tn = () => target.tn + (tool()?.tn ?? 0);
   const flowOn = () => Boolean(flow && state.result?.success);
   const step = () => (flowOn() ? flow.next(state.answers) : null);
   const finish = () => { if (flowOn() && !step() && !state.finished) { state.finished = true; flow.complete(state.answers); } };
   const tiers = data.difficulty.tiers;
   const resolve = (value, dice = null) => {
     if (once && state.result) return;
-    state.result = { ...resolveCheck(target.tn, value, state.tier, data.difficulty), dice };
+    state.result = { ...resolveCheck(tn(), value, state.tier, data.difficulty), dice, tool: tool() };
     state.extra = after ? after(state.result) : '';
     onResult(state.result);
     finish();
@@ -93,10 +98,15 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       <header class="card__head"><h2 class="card__title">${target.name}<small>${target.sub ?? ''}</small></h2><button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
       <div class="dialog__body stack">
         <div class="cluster cluster--gap">
-          <div class="stat"><span class="label">TN</span><span class="stat__value">${target.tn}</span></div>
+          <div class="stat"><span class="label">TN</span><span class="stat__value">${tn()}</span>${tool() ? html`<span class="stat__sub text-success">+${tool().tn} ${tool().name}</span>` : ''}</div>
           <div class="stat"><span class="label">${t('check.difficulty')}</span><span class="stat__value stat__value--danger">−${tier.penalty}</span></div>
-          <div class="stat"><span class="label">${t('check.rollUnder')}</span><span class="stat__value stat__value--accent">${target.tn - tier.penalty}</span></div>
+          <div class="stat"><span class="label">${t('check.rollUnder')}</span><span class="stat__value stat__value--accent">${tn() - tier.penalty}</span></div>
         </div>
+        ${tools.length ? html`<div class="stack stack--tight"><span class="label">${t('tools.title')}</span>
+          <div class="tool-list">${tools.map((x) => html`<label class="tool ${state.tool === x.id ? 'is-on' : ''}">
+            <input type="checkbox" data-action="tool" data-id="${x.id}" ${state.tool === x.id ? 'checked' : ''} ${once && state.result ? 'disabled' : ''}>
+            <span><strong>${x.name} +${x.tn}</strong> <span class="muted">· ${x.when}</span></span></label>`)}</div>
+          <p class="hint">${t('tools.hint')}</p></div>` : ''}
         <div class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
           ${segmented('tier', tiers.map((x) => ({ value: x.id, label: `${x.name}` })), state.tier)}
           <p class="hint">${tier.example}</p></div>
@@ -120,6 +130,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       tier: ({ value }) => { if (once && state.result) return; state.tier = Number(value); state.result = null; d.redraw(); },
       roll: () => { const dice = roll('1d20'); resolve(dice.total, dice); },
       enter: () => { const v = Number(state.manual); if (v >= 1 && v <= 20) resolve(v); },
+      tool: ({ id }) => { if (once && state.result) return; state.tool = state.tool === id ? null : id; state.result = null; d.redraw(); },
       flowChoose: ({ value }) => answer(value),
       flowRoll: () => diceAnswer(false),
       flowEnter: () => diceAnswer(true),
@@ -136,7 +147,7 @@ export function openChoice(title, choices, onPick) {
   const d = openDialog(() => html`
     <header class="card__head"><h2 class="card__title">${title}</h2><button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
     <div class="dialog__body stack">${choices.map((ch) => html`
-      <button class="btn btn--block ${ch.why ? '' : 'btn--primary'}" data-action="pick" data-value="${ch.value}" ${ch.why ? 'disabled' : ''}>${ch.label}</button>
+      <button class="btn btn--block choice ${ch.why ? '' : 'btn--primary'}" data-action="pick" data-value="${ch.value}" ${ch.why ? 'disabled' : ''}>${ch.label}${ch.sub ? html`<small class="choice__sub">${ch.sub}</small>` : ''}</button>
       ${ch.why ? html`<p class="hint">${ch.why}</p>` : ''}`)}</div>`, {
     click: { pick: ({ value }) => { d.close(); onPick(value); } },
   });
@@ -153,6 +164,14 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
     <label class="field"><span class="label">${t('shop.customNote')}</span><input class="input" maxlength="200" value="${state.custom.note}" data-action="cField" data-field="note"></label>
     <label class="field"><span class="label">${t('gear.qty')}</span><input class="input input--num" type="number" min="1" max="99" value="${state.custom.qty}" data-action="cField" data-field="qty"></label>
     <button class="btn btn--primary" data-action="addCustom">${t('shop.customAdd')}</button></div>`;
+  /** The list price means nothing to players (they see CRS and $): weapons show a spare magazine's street price instead,
+   *  lifestyle its monthly upkeep. */
+  const metaPrice = (e) => {
+    if (state.kind === 'lifestyle') return ` · ${t('shop.monthly', { cash: e.cost.cr, crs: creditScoreCost(e, 'lifestyle', data.economy) ?? '—' })}`;
+    if (state.kind !== 'weapon' || !e.magSize) return '';
+    const mag = findGear('ammo', magazineId(e.id), data);
+    return mag ? ` · ${t('shop.spareMag', { cash: priceOptions(mag, 'ammo', data.economy, state.multiplier).cash.cash })}` : '';
+  };
   const draw = () => {
     const c = character();
     const guns = new Set(c.play.inventory.filter((x) => x.kind === 'weapon').map((x) => x.id));
@@ -167,22 +186,26 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
         <div class="tabs" role="tablist">${kinds.map((k) => html`<button class="tab" role="tab" data-action="kind" data-value="${k}" aria-selected="${k === state.kind}">${kindLabel(k)}</button>`)}</div>
         <div class="cluster cluster--gap">
           <input class="input" type="search" placeholder="${t('common.search')}…" value="${state.query}" data-action="query" aria-label="${t('common.search')}">
-          ${free ? '' : html`<div class="cluster"><span class="label">${t('shop.markup')}</span>${segmented('mult', [3, 5, 7, 10].map((m) => ({ value: m, label: `×${m}` })), state.multiplier)}</div>`}
+          ${free || state.kind === 'lifestyle' ? '' : html`<div class="cluster"><span class="label">${t('shop.markup')}</span>${segmented('mult', [3, 5, 7, 10].map((m) => ({ value: m, label: `×${m}` })), state.multiplier)}</div>`}
         </div>
         ${state.message ? html`<p class="notice ${state.message.startsWith('✓') ? 'notice--ok' : 'notice--danger'}">${state.message}</p>` : ''}
         ${state.kind === 'custom' ? customForm() : html`<div class="rows">
-          ${list.map((e) => {
+          ${marketGroups(state.kind, list, data, fits).map((g) => html`${g.label ? html`<h3 class="market-group">${g.label} <span class="muted">· ${g.items.length}</span></h3>` : ''}
+          ${g.items.map((e) => {
             const p = priceOptions(e, state.kind, data.economy, state.multiplier);
             return html`<div class="row row--wrap">
               <div class="row__main">
                 <div class="row__title">${e.name} ${fits(e) ? html`<span class="pill pill--success">${t('shop.fits')}</span>` : ''}${e.rarity ? html`<span class="pill ${['A', 'B'].includes(e.rarity) ? 'pill--danger' : ''}">${e.rarity}</span>` : ''}${e.provisional ? html` <span class="pill">${t('shop.provisional')}</span>` : ''}</div>
-                <div class="row__meta">${describe(state.kind, e, data)} · ${t('shop.list')} ${e.cost.cr} Cr${state.kind === 'lifestyle' ? `/${t('gear.month')}` : ''}</div>
+                <div class="row__meta">${describe(state.kind, e, data)}${metaPrice(e)}</div>
               </div>
-              <div class="cluster">${free ? html`<button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="free">${t('common.add')}</button>` : html`
+              <div class="cluster">${state.kind === 'lifestyle' ? (c.play.lifestyle ?? []).includes(e.id)
+                ? html`<span class="pill pill--success">✓ ${t('shop.current')}</span>`
+                : html`<button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="choose">${t('shop.choose')}</button>`
+              : free ? html`<button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="free">${t('common.add')}</button>` : html`
                 <button class="btn btn--sm" data-action="buy" data-id="${e.id}" data-method="official" ${p.official ? '' : 'disabled'} title="${p.official ? t('shop.officialHint') : t('shop.blackOnly')}">${p.official ? `${p.official.crs} CRS` : t('shop.noOfficial')}</button>
                 <button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="cash" title="${t('shop.streetPrice', { n: p.cash.multiplier })}">$${p.cash.cash}</button>`}
               </div></div>`;
-          })}
+          })}`)}
           ${list.length ? '' : html`<p class="muted">${t('common.noMatch')}</p>`}
         </div>`}
       </div>`;

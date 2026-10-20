@@ -14,8 +14,8 @@ const WATCHED = [
   { path: 'subclassId', label: 'Subclass', explain: [] },
   { path: 'play.maxAbilities', label: 'Brain fog limit', explain: [] },
   { path: 'play.cash', label: 'Cash', explain: [/^Bought .* on the street/, /^Debt instalment paid/, /^Sold /] },
-  { path: 'play.inventory', label: 'Inventory', explain: [/^Bought /, /^Dropped /, /^Sold /, /^Gave /, /^Received /, /^Added /, /(^|· )Reload /] },
-  { path: 'play.lifestyle', label: 'Lifestyle', explain: [/^Bought /] },
+  { path: 'play.inventory', label: 'Inventory', explain: [/^Bought /, /^Dropped /, /^Sold /, /^Gave /, /^Received /, /^Added /, /(^|· )Reload /, /(^|· )Used /] },
+  { path: 'play.lifestyle', label: 'Lifestyle', explain: [/^Bought /, /^Lifestyle: /] },
   // advancement (decision 44): XP and gifts come from the GM; talents and raises only while level-up is open
   { path: 'progress.xp', label: 'XP', explain: [/^XP [+−-]/] },
   { path: 'progress.talents', label: 'Talents', explain: [/^Talent: /] },

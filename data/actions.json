@@ -50,6 +50,12 @@
       "roll": null
     },
     {
+      "id": "use_item",
+      "name": "Use item",
+      "desc": "Use a consumable: a heal, a stim, an antidote, a grenade.",
+      "roll": null
+    },
+    {
       "id": "first_aid",
       "name": "First aid",
       "desc": "Stabilise or patch up an adjacent ally (Medicine / First Aid, or a med-kit).",

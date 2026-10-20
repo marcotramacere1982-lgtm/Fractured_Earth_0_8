@@ -96,6 +96,8 @@
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
   --shadow-2: 0 8px 28px rgba(0, 0, 0, 0.45);
   --color-scrim: rgba(0, 0, 0, 0.6);
+  --color-unique: #c792ea; /* the GM's unique items (decision 61) */
+  --color-unique-soft: rgba(199, 146, 234, 0.14);
   --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
 
   color-scheme: dark;
@@ -124,6 +126,8 @@
   --color-danger-soft: rgba(198, 40, 40, 0.1);
   --color-warning: #8f6d00;
   --color-private: #7b2fd0;
+  --color-unique: #7b3fb0;
+  --color-unique-soft: rgba(123, 63, 176, 0.12);
   --color-private-soft: rgba(123, 47, 208, 0.1);
   --color-terminal: #101418;
   --color-terminal-text: #f5f1e8;

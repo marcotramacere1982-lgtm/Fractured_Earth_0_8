@@ -55,7 +55,7 @@
       "One arm: only one one-handed weapon can be used (a hacker deck still works).",
       "Both arms: only movement, talking and mental abilities."
     ],
-    "clear": "First aid (1 action, Medicine / First Aid check), a Trauma Patch, or downtime."
+    "clear": "First aid (1 action, Medicine / First Aid check), a Basic Trauma Kit or Paramedic Case, or downtime."
   },
   {
     "id": "crippled_leg",
@@ -66,7 +66,7 @@
       "One leg: half squares per move (rounded down, minimum 1).",
       "Both legs: 1 square per move."
     ],
-    "clear": "First aid (1 action, Medicine / First Aid check), a Trauma Patch, or downtime."
+    "clear": "First aid (1 action, Medicine / First Aid check), a Basic Trauma Kit or Paramedic Case, or downtime."
   },
   {
     "id": "disconnected",
@@ -98,7 +98,7 @@
       "Organic: bypasses armor, hits HP.",
       "Synthetic: cracks 1 armor per round."
     ],
-    "clear": "Lasts 3 rounds, or a Trauma Patch / Field Repair kit."
+    "clear": "Lasts 3 rounds, or Antitoxin / Burn Gel."
   },
   {
     "id": "enraged",
@@ -121,7 +121,7 @@
       "Unconscious or bricked: no actions, no defense.",
       "Attacks hit automatically and can execute or amputate."
     ],
-    "clear": "Needs immediate stabilization (Healing Surge, Trauma Patch, Tech Repair)."
+    "clear": "Needs immediate stabilization: above 0 HP, a Paramedic Case, Adrenaline or Smelling Salts gets you up."
   },
   {
     "id": "wounded",
