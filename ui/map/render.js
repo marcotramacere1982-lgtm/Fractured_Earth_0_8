@@ -38,7 +38,10 @@ function segment(w, data) {
   if (w.kind === 'door') return gap + (w.open
     ? line('map-door map-door--open', W * 0.6, 'butt', `stroke-dasharray="${U * 0.15} ${U * 0.1}"`)
     : line(`map-door${w.locked ? ' map-door--locked' : ''}`, W * 0.8)); // locked: only on GM screens (players never get it)
-  return line('map-wall', W, 'square');
+  if (w.broken) return line('map-wall map-wall--broken', W * 0.6, 'butt', `stroke-dasharray="${U * 0.12} ${U * 0.1}"`); // a breach (decision 83)
+  return line('map-wall', W, 'square')
+    + (w.cracks ? line('map-wall-crack', W * 0.45, 'butt', `stroke-dasharray="${U * 0.05} ${U * 0.13}"`) : '') // the GM showed players it's weak
+    + (w.breakable ? line('map-wall-weak', W * 0.3, 'butt', `stroke-dasharray="${U * 0.2} ${U * 0.1}"`) : ''); // GM screens only
 }
 
 /** Every segment, walls first; the selected one gets a highlight and its two end handles. */

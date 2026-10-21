@@ -2,6 +2,7 @@
 // windows as straight segments in square coordinates ({ x, y } = corners, 0,0 top-left). Pure: shared by the
 // GM map builder and, later, the sheet's map view. Every change returns a new map.
 
+import { normalizeZones } from './zones.js';
 import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges } from './props.js';
 
 export const MAP_SCHEMA = 1;
@@ -20,7 +21,7 @@ export function newMap(data, { id, name = 'Untitled map', cols, rows, t = Date.n
   return {
     schemaVersion: MAP_SCHEMA, id, name,
     cols: clampInt(cols ?? s.default.cols, s.min, s.max), rows: clampInt(rows ?? s.default.rows, s.min, s.max),
-    walls: [], props: [], ambient: 'bright', createdAt: t, updatedAt: t, // ambient: bright | dark (decision 74)
+    walls: [], props: [], zones: [], ambient: 'bright', createdAt: t, updatedAt: t, // ambient: bright | dark (decision 74); zones: GM-only (decision 83)
   };
 }
 
@@ -43,6 +44,11 @@ export function addWall(map, { a, b, kind = 'wall', width = 'standard', open = f
   return next;
 }
 const LASER_KEYS = Object.keys(laserState());
+/**
+ * Breakable walls (decision 83): `breakable` (GM-only, set in the builder), `broken` (a breach: blocks nothing) and
+ * `cracks` (the GM shows players it's weak). Only walls carry them.
+ */
+const WEAK_KEYS = ['breakable', 'broken', 'cracks'];
 
 export const removeWall = (map, id) => ({ ...clone(map), walls: map.walls.filter((w) => w.id !== id) });
 
@@ -56,6 +62,8 @@ export function setWall(map, id, fields) {
   if (w.kind === 'door') { w.open = !!w.open; w.locked = !!w.locked; } else { delete w.open; delete w.locked; } // locked: GM-only (decision 73)
   if (w.kind === 'laser' && !wasLaser) Object.assign(w, laserState(), fields.hidden != null ? { hidden: fields.hidden } : {});
   if (w.kind !== 'laser') for (const k of LASER_KEYS) delete w[k];
+  if (w.kind !== 'wall') for (const k of WEAK_KEYS) delete w[k];
+  for (const k of WEAK_KEYS) if (w[k] === false) delete w[k]; // kept only when true: old maps and files stay the same
   return next;
 }
 
@@ -122,7 +130,8 @@ export function normalizeMap(raw, data) {
     const b = pt(w?.b);
     if (!a || !b || samePoint(a, b) || !kinds.has(w.kind) || !widths.has(w.width)) continue;
     const laser = w.kind === 'laser' ? Object.fromEntries(Object.entries(laserState()).map(([k, v]) => [k, typeof w[k] === 'boolean' ? w[k] : v])) : {};
-    walls.push({ id: idFor(w.id), a, b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open === true, locked: w.locked === true } : {}), ...laser });
+    const weak = w.kind === 'wall' ? Object.fromEntries(WEAK_KEYS.filter((k) => w[k] === true).map((k) => [k, true])) : {};
+    walls.push({ id: idFor(w.id), a, b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open === true, locked: w.locked === true } : {}), ...laser, ...weak });
   }
   // props (decision 68): known library pieces only, ids kept like walls
   const props = [];
@@ -139,7 +148,7 @@ export function normalizeMap(raw, data) {
     const reach = Object.fromEntries(Object.entries(q.reach ?? {}).filter(([k, n]) => def.sensor?.reach?.[k] != null && Number.isFinite(n)).map(([k, n]) => [k, Math.max(min, Math.min(max, Math.round(n)))]));
     props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}) });
   }
-  return { ...base, walls, props, ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
+  return { ...base, walls, props, zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
 }
 
 /** Counts by kind, for the builder's summary. */
@@ -178,7 +187,8 @@ export function publicMap(live, people, data) {
   return {
     type: 'map', id: live.id, name: m.name, cols: m.cols, rows: m.rows, canMove: live.playersMove !== false,
     // hidden lasers and props stay with the GM; so do on / off and the sensor flags (players never know if a sensor is live)
-    walls: m.walls.filter((w) => !w.hidden).map((w) => ({ id: w.id, a: w.a, b: w.b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open } : {}) })),
+    walls: m.walls.filter((w) => !w.hidden).map((w) => ({ id: w.id, a: w.a, b: w.b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open } : {}),
+      ...(w.broken ? { broken: true } : {}), ...(w.cracks ? { cracks: true } : {}) })), // a weak wall's `breakable` never leaves the GM (decision 83)
     props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.reach ? { reach: p.reach } : {}), ...publicState(p, propDef(data, p.prop)) })),
     tokens: people.filter((p) => !p.hidden && live.tokens[p.key]).map((p) => ({
       key: p.key, kind: p.kind, label: p.label, name: p.name, x: live.tokens[p.key].x, y: live.tokens[p.key].y, down: Boolean(p.down), current: Boolean(p.current),
@@ -215,9 +225,10 @@ const centre = (s) => ({ x: s.x + 0.5, y: s.y + 0.5 });
  * a door or window lying along it. Returns segments { a, b, kind, open? } — openings included as they are.
  */
 export function solidSegments(map) {
-  const openings = map.walls.filter((w) => w.kind !== 'wall');
+  const standing = map.walls.filter((w) => !w.broken); // a broken-through wall is a gap (decision 83)
+  const openings = standing.filter((w) => w.kind !== 'wall');
   const out = [...openings];
-  for (const w of map.walls.filter((x) => x.kind === 'wall')) {
+  for (const w of standing.filter((x) => x.kind === 'wall')) {
     const dx = w.b.x - w.a.x;
     const dy = w.b.y - w.a.y;
     const len2 = dx * dx + dy * dy;

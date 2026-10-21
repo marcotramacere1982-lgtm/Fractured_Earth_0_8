@@ -200,6 +200,12 @@
     },
     "flare_light": {
       "name": "Bengala"
+    },
+    "concrete_block": {
+      "name": "Blocco di cemento"
+    },
+    "concrete_pillar": {
+      "name": "Pilastro di cemento"
     }
   }
 }

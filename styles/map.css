@@ -50,6 +50,8 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 .map-prop--crate .solid { fill: var(--color-surface-2); }
 .map-prop--obstacle .solid { stroke: var(--color-text); fill: var(--color-surface-3); }
 .map-prop--obstacle .detail { stroke: var(--color-text-muted); }
+.map-prop--structure .solid { stroke: var(--color-text); fill: var(--color-text-muted); } /* concrete: reads as wall */
+.map-prop--structure .detail { stroke: var(--color-surface-3); }
 .map-prop--terrain .solid { stroke: var(--color-text-faint); fill: none; }
 .map-prop--terrain .detail { stroke: var(--color-border-strong); }
 .map-prop--light { color: var(--color-warning); }
@@ -105,6 +107,23 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 .map-prop--level .solid { stroke: var(--color-text-muted); fill: var(--color-surface-2); }
 .map-prop--level .detail { stroke: var(--color-text-muted); }
 .map-door--locked { stroke: var(--color-danger); }
+/* builder groups (decision 83) */
+.mb-group-box { fill: var(--color-accent-soft); stroke: var(--color-accent); pointer-events: none; }
+.mb-group-pick { fill: none; stroke: var(--color-accent); pointer-events: none; }
+/* GM event zones (decision 83): GM screens only */
+.map-zone { pointer-events: none; }
+.map-zone__area { fill: currentColor; fill-opacity: 0.08; stroke: currentColor; }
+.map-zone__tag { fill: currentColor; font-family: var(--font-display); letter-spacing: 0.04em; }
+.map-zone--entry { color: var(--color-success); }
+.map-zone--exit { color: var(--color-info); }
+.map-zone--trigger { color: var(--color-danger); }
+.map-zone--note { color: var(--color-private); }
+.map-zone--selected .map-zone__area { fill-opacity: 0.18; stroke-dasharray: none; }
+.lm-zone-note { margin: 0; white-space: pre-line; }
+/* breakable walls (decision 83): weak = GM screens only; cracks = shown to players; broken = a breach */
+.map-wall-weak { stroke: var(--color-accent); }
+.map-wall-crack { stroke: var(--color-bg); }
+.map-wall--broken { stroke: var(--color-text-muted); opacity: 0.7; }
 .map-prop--zone { color: var(--color-private); opacity: 0.55; } /* darkness zones: GM screens only */
 .map-prop--zone .solid { stroke: none; fill: var(--color-bg); }
 .map-prop--zone .detail { stroke: var(--color-private); }

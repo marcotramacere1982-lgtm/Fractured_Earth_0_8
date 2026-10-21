@@ -122,13 +122,17 @@ La scheda conta già quello che il giocatore porta con sé: gli attrezzi compaio
 
 **La regola.** Le mappe tattiche usano quadretti di **1,5 m** (7-2). Muri e porte chiuse bloccano movimento e vista; porte aperte e finestre lasciano passare la vista; gli oggetti possono bloccare la vista, dare copertura o rendere il terreno difficile (2 quadretti per quadretto).
 
-**Nella console — scheda Maps.** Un editor per le mappe da mettere sul tavolo:
+**Nella console — scheda Maps.** Un editor per le mappe da mettere sul tavolo: la mappa e la libreria a sinistra, il disegno al centro, e a destra **Properties** — quello che hai selezionato (o le opzioni dello strumento), poi i tuoi blocchi e le mappe salvate. Le proprietà decidono come le cose **partono** sul tavolo: una porta già chiusa a chiave, una luce spenta, un pezzo nascosto, un muro debole già sfondato o con le crepe visibili. La scheda Deploy le cambia dal vivo; la mappa salvata tiene la partenza.
 
 - **Muri** in tre spessori, **porte** e **finestre** sulle linee della griglia; aggancio alla griglia attivabile. Una porta può partire aperta, chiusa o **chiusa a chiave** (la serratura non viene mai mostrata ai giocatori).
-- **La libreria** — mobili, casse, terminali, veicoli, coperture, pavimenti, scale e ascensori, divisi in gruppi e cercabili. Ogni pezzo dice il suo ingombro e cosa blocca; *Turn* lo ruota.
+- **Muri sfondabili** — seleziona un muro e scegli *Breakable*: un punto debole che la squadra può sfondare quando lo decidi tu. Lo vedi solo tu (tratteggio ambra); i giocatori vedono un muro normale finché non mostri le crepe dalla scheda Deploy (9-8).
+- **La libreria** — blocchi e pilastri di cemento pieni, mobili, casse, terminali, coperture, pavimenti, scale e ascensori, divisi in gruppi. Ogni pezzo dice il suo ingombro e cosa blocca; *Turn* lo ruota.
+- **Place: One, Line o Area** — con un pezzo scelto, *Line* e *Area* lo copiano mentre trascini: uno accanto all'altro da dove parti (non si sovrappongono mai, qualunque sia l'aggancio), oppure uno ogni 1–4 quadretti (le luci a soffitto). I punti che hanno già quel pezzo vengono saltati, quindi ripassare su un'area non aggiunge niente; un pavimento può sostituire quello che c'è già.
 - **Pezzi nascosti** (*Hidden (GM only)*) — bottino da trovare cercando, una trappola, una porta segreta: piazzati ora, rivelati in gioco.
 - **Sicurezza** — sensori, raggi laser e tastierini d'allarme, solo per il GM; luci accendibili e spegnibili; casseforti a muro che si aprono.
 - **Luce** — l'ambiente della mappa, *Bright* o *Dark*, e le **zone d'oscurità** per gli angoli bui di una mappa illuminata.
+- **Zone evento** — lo strumento *Zone* trascina un rettangolo: **Entry**, **Trigger** (numerati T1, T2…), **Exit** o **Note**, ognuno con un'etichetta e una nota ("la pattuglia arriva dalla scala est"). Le vedi solo tu e non cambiano niente nelle regole: toccane una dalla scheda Deploy per leggerne la nota.
+- **Gruppi e blocchi** — lo strumento *Group* trascina un riquadro intorno a muri, pezzi e zone: trascina all'interno per spostarli insieme, oppure *Turn*, *Duplicate*, *Delete*. *Save as block* conserva il gruppo con un nome (una stanza di motel, una fila di cubicoli); sceglilo in **Blocks** e tocca per lasciarne delle copie, ruotate con R. Quello che lasci è indipendente: modifica ogni copia come vuoi. I blocchi stanno in `local/gm/blocks.json`.
 - **Save**, *Duplicate*, *Export file*. Le mappe si salvano in `local/gm/maps/`; non viene pubblicato niente.
 
 > **Prima di tutto, divertirsi.** Una mappa è un palcoscenico, non un rompicapo. Costruisci le stanze dove succederà qualcosa e racconta il resto. Dieci minuti su una buona mappa valgono più di un'ora su una mappa perfetta.
@@ -146,6 +150,8 @@ La scheda conta già quello che il giocatore porta con sé: gli attrezzi compaio
 - **Players move their markers: on / off** — lascia che i giocatori trascinino i propri segnalini, oppure muovi tu tutti quanti. In combattimento la console ricontrolla ogni movimento con i quadretti e il turno del giocatore.
 - **Fog of war & light** — nebbia *On* oppure *Off — they see everything*; *Reveal all*, *Reset*, e *Edit squares* per rivelare un quadretto a mano (una planimetria comprata, una telecamera). *Bright* / *Dark* cambia l'ambiente dal vivo.
 - **Pezzi** — toccane uno per rivelarlo, nasconderlo di nuovo, accenderlo o spegnerlo (luci, sensori, laser), aprire o chiudere a chiave una porta, o toglierlo per questa sessione. La mappa salvata tiene il suo stato iniziale.
+- **Muri deboli** — tocca un muro sfondabile: *Break through* lo trasforma in una breccia per tutti (lì niente blocca movimento o vista; *Repair* se hai toccato quello sbagliato), e *Show cracks to players* lo suggerisce sulla loro mappa quando un personaggio se ne accorge. Il tiro per sfondarlo lo decidi tu.
+- **Zone evento** — toccane una per leggerne etichetta e nota.
 - **NPCs** — scegli un ruolo (impiegato, addetto, guardia…) e *+ Add*: i giocatori vedono *Worker 1* finché non lo rinomini con un nome vero. Ogni PNG ha una nota privata per te.
 - **Marks** — i giocatori si indicano le cose nel proprio colore (un mirino, una freccia, un punto di domanda, una linea a mano libera, 7-2 §5); spariscono dopo due minuti, a meno che non vengano tenuti. Scegli uno strumento per disegnare i tuoi, in ambra ("lo senti arrivare da *qui*"); in modalità segni, un tocco su qualsiasi segno lo toglie; *Clear all* pulisce tutto. I segni non vengono mai salvati e non toccano le regole; spariscono quando la mappa lascia il tavolo.
 - **Take the map off the table** quando la scena finisce.

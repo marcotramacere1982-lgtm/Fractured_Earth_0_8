@@ -122,13 +122,17 @@ The sheet already counts what the player carries: tools appear as tick boxes (on
 
 **The rule.** Tactical maps use squares of **1.5 m** (7-2). Walls and closed doors block movement and sight; open doors and windows let sight through; pieces can block sight, give cover or make difficult ground (2 squares per square).
 
-**In the console — Maps tab.** A builder for the maps you'll put on the table:
+**In the console — Maps tab.** A builder for the maps you'll put on the table: the map and the library on the left, the drawing in the middle, and on the right **Properties** — whatever you selected (or the tool's options), then your blocks and saved maps. Properties set how things **start** on the table: a door already locked, a light off, a piece hidden, a weak wall already broken or showing cracks. The Deploy tab changes them live; the saved map keeps the start.
 
 - **Walls** in three widths, **doors** and **windows** on the grid lines; snap on or off. A door can start open, closed or **locked** (locks are never shown to players).
-- **The library** — furniture, crates, terminals, vehicles, cover, floors, stairs and elevators, grouped and searchable. Each piece says its footprint and what it blocks; *Turn* rotates it.
+- **Breakable walls** — select a wall and tick *Breakable*: a weak spot the crew can break through on your call. Only you see it (dashed amber); players see an ordinary wall until you show its cracks on the Deploy tab (9-8).
+- **The library** — solid concrete blocks and pillars, furniture, crates, terminals, cover, floors, stairs and elevators, grouped. Each piece says its footprint and what it blocks; *Turn* rotates it.
+- **Place: One, Line or Area** — with a piece picked, *Line* and *Area* copy it as you drag: side by side from where you start (they never overlap, whatever the snap), or one every 1–4 squares (ceiling lights). Spots that already hold the piece are skipped, so going over an area twice adds nothing; a floor texture can replace the floor already there.
 - **Hidden pieces** (*Hidden (GM only)*) — loot found by searching, a trap, a secret door: placed now, revealed in play.
 - **Security** — sensors, laser lines and alarm keypads, GM-only; lights that can be on or off; wall safes that open.
 - **Light** — the map's environment, *Bright* or *Dark*, and **darkness zones** for unlit corners of a bright map.
+- **Event zones** — the *Zone* tool drags a rectangle: **Entry**, **Trigger** (numbered T1, T2…), **Exit** or **Note**, each with a label and a note ("patrol arrives from the east stairwell"). Only you see them and they change nothing in the rules: tap one on the Deploy tab to read its note.
+- **Groups and blocks** — the *Group* tool drags a box round walls, pieces and zones: drag inside it to move them together, or *Turn*, *Duplicate*, *Delete*. *Save as block* keeps the group by name (a motel room, a row of cubicles); pick it in **Blocks** and tap to drop copies, turned with R. What you drop is independent — edit each copy as you like. Blocks are kept in `local/gm/blocks.json`.
 - **Save**, *Duplicate*, *Export file*. Maps are saved in `local/gm/maps/`; nothing is published.
 
 > **Keep it fun.** A map is a stage, not a puzzle. Build the rooms where something will happen, and describe the rest. Ten minutes on a good map beats an hour on a perfect one.
@@ -146,6 +150,8 @@ The sheet already counts what the player carries: tools appear as tick boxes (on
 - **Players move their markers: on / off** — let players drag their own markers, or move everyone yourself. In combat the console re-checks every move against the player's squares and turn.
 - **Fog of war & light** — fog *On* or *Off — they see everything*; *Reveal all*, *Reset*, and *Edit squares* to reveal a square by hand (a floor plan they bought, a camera feed). *Bright* / *Dark* changes the environment live.
 - **Pieces** — tap one to reveal it, hide it again, switch it on or off (lights, sensors, lasers), open or lock a door, or take it off for this session. The saved map keeps its starting state.
+- **Weak walls** — tap a breakable wall: *Break through* turns it into a breach for everyone (nothing blocks movement or sight there; *Repair* if you tapped the wrong one), and *Show cracks to players* hints it on their map when a character notices. The roll to break it is your call.
+- **Event zones** — tap one to read its label and note.
 - **NPCs** — pick a role (worker, clerk, guard…) and *+ Add*: players see *Worker 1* until you rename it to a real name. Each NPC has a private note for you.
 - **Marks** — players point things out to each other in their colour (a crosshair, an arrow, a question mark, a freehand line, 7-2 §5); they fade after two minutes unless pinned. Pick a tool to draw your own, in amber ("you hear it from *here*"); in marking mode a tap on any mark removes it; *Clear all* wipes the board. Marks are never saved and never touch the rules; they go when the map comes off the table.
 - **Take the map off the table** when the scene ends.

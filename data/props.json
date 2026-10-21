@@ -34,6 +34,8 @@
     {"id": "crate_large", "name": "Crate (large)", "file": "crate_large.svg", "category": "crate", "size": {"w": 2, "h": 1}, "blocksMove": true, "difficult": false, "blocksSight": true, "cover": "full"},
     {"id": "crate_medium", "name": "Crate (medium)", "file": "crate_medium.svg", "category": "crate", "size": {"w": 1, "h": 1}, "blocksMove": true, "difficult": false, "blocksSight": false, "cover": "half"},
     {"id": "crate_small", "name": "Crate (small)", "file": "crate_small.svg", "category": "crate", "size": {"w": 0.5, "h": 0.5}, "blocksMove": false, "difficult": true, "blocksSight": false, "cover": "half"},
+    {"id": "concrete_block", "name": "Concrete block", "file": "concrete_block.svg", "category": "structure", "size": {"w": 1, "h": 1}, "blocksMove": true, "difficult": false, "blocksSight": true, "cover": "full"},
+    {"id": "concrete_pillar", "name": "Concrete pillar", "file": "concrete_pillar.svg", "category": "structure", "size": {"w": 0.5, "h": 0.5}, "blocksMove": true, "difficult": false, "blocksSight": true, "cover": "full"},
     {"id": "rubble_block_1x1", "name": "Rubble block", "file": "rubble_block_1x1.svg", "category": "obstacle", "size": {"w": 1, "h": 1}, "blocksMove": true, "difficult": false, "blocksSight": false, "cover": "half"},
     {"id": "rubble_block_2x1", "name": "Rubble heap", "file": "rubble_block_2x1.svg", "category": "obstacle", "size": {"w": 2, "h": 1}, "blocksMove": true, "difficult": false, "blocksSight": true, "cover": "full"},
     {"id": "terrain_mud", "name": "Mud (difficult)", "file": "terrain_mud.svg", "category": "terrain", "size": {"w": 1, "h": 1}, "blocksMove": false, "difficult": true, "blocksSight": false, "cover": "none"},

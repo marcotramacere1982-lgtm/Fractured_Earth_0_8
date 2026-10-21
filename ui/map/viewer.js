@@ -9,6 +9,8 @@ import { loadProps } from './props.js';
 import { hitProp } from '../../rules/props.js';
 import { createCamera } from './camera.js';
 import { marksSvg, nextFade, markAt } from './marks.js';
+import { zonesSvg } from './zones.js';
+import { zoneAt } from '../../rules/zones.js';
 import { squareAt, onBoard, squaresBetween, doorAt, hitWall } from '../../rules/map.js';
 
 const DRAG_PX = 6;
@@ -16,6 +18,7 @@ const DOOR_PX = 16;
 
 /**
  * on: { moveToken(key, square), tapToken(key), tapProp(id), tapSquare(square), tapDoor(id), tapLaser(id), idle(), wantsSquare() → taps go to squares, readout(squares | null) → text,
+ *       tapWall(id) (GM: a breakable or broken wall), tapZone(id) (GM: an event zone),
  *       canDrag(key) → may this marker be dragged (default: all), reach(key) → Map "x,y" → steps to shade (optional),
  *       route(key, to) → the squares walked from its square to `to`, or null when it can't get there (optional),
  *       marks (decision 82): markTool() → the tool being drawn with, or null (not marking); markColor() → the colour
@@ -26,7 +29,7 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   const U = data.map.square.units;
   const node = document.createElement('div');
   node.className = 'map-view';
-  node.innerHTML = `<svg class="map-view__svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img"><g data-board></g><g data-props></g><g data-walls></g><g data-fog></g><g data-los></g><g data-tokens></g><g data-marks></g><g data-ghost></g></svg>
+  node.innerHTML = `<svg class="map-view__svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img"><g data-board></g><g data-props></g><g data-walls></g><g data-zones></g><g data-fog></g><g data-los></g><g data-tokens></g><g data-marks></g><g data-ghost></g></svg>
     <p class="map-view__readout mono" hidden></p>`;
   const svg = node.querySelector('svg');
   const board = node.querySelector('[data-board]');
@@ -37,6 +40,7 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   const fogLayer = node.querySelector('[data-fog]');
   const ghost = node.querySelector('[data-ghost]');
   const marksLayer = node.querySelector('[data-marks]');
+  const zonesLayer = node.querySelector('[data-zones]');
   let fadeTimer = null;
   const readout = node.querySelector('.map-view__readout');
   let state = null; // { key, map: { cols, rows, walls, props }, tokens, you, selected, selectedProp, sight: { from, to, result } | null }
@@ -61,6 +65,7 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
       propsKey = pk;
       render(propsLayer, propsSvg(next.map.props, data, { selected: next.selectedProp }));
     }
+    zonesLayer.innerHTML = next.map.zones?.length ? zonesSvg(next.map.zones, data, { selected: next.selectedZone }) : ''; // GM only: players' maps carry no zones
     render(tokensLayer, tokensSvg(next.tokens, data, next));
     losLayer.innerHTML = next.sight ? sightSvg(next.sight) : '';
     fogLayer.innerHTML = next.fog ? fogSvg(next.map, next.fog) : '';
@@ -197,13 +202,16 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
         const prop = !tk && on.tapProp ? hitProp(state.map, data, p, { ground: false }) : null;
         const door = on.tapDoor ? doorAt(state.map, p, cam.pxToSq(DOOR_PX)) : null;
         const laser = !tk && !prop && !door && on.tapLaser ? hitWall({ ...state.map, walls: state.map.walls.filter((w) => w.kind === 'laser') }, p, cam.pxToSq(DOOR_PX)) : null;
+        const weak = !tk && !prop && !door && !laser && on.tapWall ? hitWall({ ...state.map, walls: state.map.walls.filter((w) => w.breakable || w.broken) }, p, cam.pxToSq(DOOR_PX)) : null; // GM: breakable walls (decision 83)
         // terrain and outlines last; floor textures never (on the table they are only looks)
         const ground = !tk && !prop && !door && !laser && on.tapProp ? hitProp(state.map, data, p, { ground: 'only', floors: false }) : null;
         if (tk) on.tapToken(tk.key);
         else if (prop) on.tapProp(prop);
         else if (door) on.tapDoor(door);
         else if (laser) on.tapLaser(laser);
+        else if (weak) on.tapWall(weak);
         else if (ground) on.tapProp(ground);
+        else if (on.tapZone && zoneAt(state.map, p)) on.tapZone(zoneAt(state.map, p)); // GM event zones (decision 83)
         else if (onBoard(state.map, squareAt(p))) on.tapSquare?.(squareAt(p));
       }
     }

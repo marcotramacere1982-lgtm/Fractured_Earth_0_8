@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Concrete pillar, ½ × ½: a structural column. Blocks movement and sight. -->
+  <rect class="solid" x="2" y="2" width="46" height="46" fill="currentColor" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M12 14 L20 12 M30 36 L38 32" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>
