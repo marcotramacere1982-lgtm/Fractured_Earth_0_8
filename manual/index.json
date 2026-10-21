@@ -18,6 +18,19 @@
         { "id": "ch-7", "file": "07-combat.md", "title": "Combat" },
         { "id": "ch-8", "file": "08-gear-and-money.md", "title": "Gear & Money" }
       ]
+    },
+    {
+      "title": "The Game Master",
+      "chapters": [
+        { "id": "ch-9", "file": "09-running-the-game.md", "title": "Running the Game" }
+      ]
+    },
+    {
+      "title": "The Collection",
+      "chapters": [
+        { "id": "ch-10", "file": "10-enemies.md", "title": "Enemies" },
+        { "id": "ch-11", "file": "11-people.md", "title": "People of 2045" }
+      ]
     }
   ]
 }

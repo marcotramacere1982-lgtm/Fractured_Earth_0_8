@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Small cabinet, ½ × ½: two doors at the front (bottom). -->
+  <rect class="solid" x="5" y="5" width="40" height="40" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M25 10 L25 44 M21 38 L21 42 M29 38 L29 42" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

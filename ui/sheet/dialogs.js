@@ -1,6 +1,6 @@
 // Native <dialog>s: skill/attribute checks and the market.
 
-import { html, render, delegate, cleanup } from '../dom.js';
+import { html, render, delegate, cleanup, signed } from '../dom.js';
 import { segmented } from './parts.js';
 import { resolveCheck } from '../../rules/checks.js';
 import { roll, formatRoll, typedRoll } from '../../rules/dice.js';
@@ -37,18 +37,24 @@ export function openDialog(draw, handlers) {
  *   or typed from physical dice: { next(answers) → step | null, summary(answers) → HTML, complete(answers) }.
  *   step = { id, title, hint?, dice?: [{ key, label, expr }], choose?: [{ value, label }], recap?(answer) → text }
  */
-export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [] } = {}) {
+/**
+ * light (decision 76): { kind, options: [{ id, tn }], pick } from rules/darkness.js → lightOptions — a Light row
+ * with the suggested option chosen; the player can change it.
+ */
+export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [], light = null, boosts = [] } = {}) {
   const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false,
-    tool: tools.find((x) => x.always)?.id ?? null };
+    tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null };
   const tool = () => tools.find((x) => x.id === state.tool) ?? null;
-  const tn = () => target.tn + (tool()?.tn ?? 0);
+  const lightOpt = () => light?.options.find((o) => o.id === state.light) ?? null;
+  const tn = () => target.tn + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0);
   const flowOn = () => Boolean(flow && state.result?.success);
   const step = () => (flowOn() ? flow.next(state.answers) : null);
   const finish = () => { if (flowOn() && !step() && !state.finished) { state.finished = true; flow.complete(state.answers); } };
   const tiers = data.difficulty.tiers;
   const resolve = (value, dice = null) => {
     if (once && state.result) return;
-    state.result = { ...resolveCheck(tn(), value, state.tier, data.difficulty), dice, tool: tool() };
+    const lo = lightOpt();
+    state.result = { ...resolveCheck(tn(), value, state.tier, data.difficulty), dice, tool: tool(), light: lo?.tn ? { tn: lo.tn, label: t(`light.${light.kind}.${lo.id}`) } : null };
     state.extra = after ? after(state.result) : '';
     onResult(state.result);
     finish();
@@ -99,14 +105,19 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       <div class="dialog__body stack">
         <div class="cluster cluster--gap">
           <div class="stat"><span class="label">TN</span><span class="stat__value">${tn()}</span>${tool() ? html`<span class="stat__sub text-success">+${tool().tn} ${tool().name}</span>` : ''}</div>
-          <div class="stat"><span class="label">${t('check.difficulty')}</span><span class="stat__value stat__value--danger">−${tier.penalty}</span></div>
+          <div class="stat"><span class="label">${t('check.difficulty')}</span><span class="stat__value ${tier.penalty > 0 ? 'stat__value--danger' : tier.penalty < 0 ? 'text-success' : ''}">${signed(-tier.penalty)}</span></div>
           <div class="stat"><span class="label">${t('check.rollUnder')}</span><span class="stat__value stat__value--accent">${tn() - tier.penalty}</span></div>
         </div>
+        ${boosts.length ? html`<p class="check-boosts"><span class="label">${t('check.inPlay')}</span> ${boosts.map((b) => html`<span class="pill ${b.delta > 0 ? 'pill--success' : 'pill--danger'}">${b.name} ${b.delta > 0 ? '+' : '−'}${Math.abs(b.delta)}</span>`)}
+          <span class="hint">${t('check.inPlayHint')}</span></p>` : ''}
         ${tools.length ? html`<div class="stack stack--tight"><span class="label">${t('tools.title')}</span>
           <div class="tool-list">${tools.map((x) => html`<label class="tool ${state.tool === x.id ? 'is-on' : ''}">
             <input type="checkbox" data-action="tool" data-id="${x.id}" ${state.tool === x.id ? 'checked' : ''} ${once && state.result ? 'disabled' : ''}>
             <span><strong>${x.name} +${x.tn}</strong> <span class="muted">· ${x.when}</span></span></label>`)}</div>
           <p class="hint">${t('tools.hint')}</p></div>` : ''}
+        ${light ? html`<div class="stack stack--tight"><span class="label">${t('light.title')}${info('darkness', t('light.title'))}</span>
+          <div class="segmented" role="group" aria-label="${t('light.title')}">${light.options.map((o) => html`<button class="segmented__opt" data-action="light" data-id="${o.id}" aria-pressed="${state.light === o.id}" ${once && state.result ? 'disabled' : ''}>${t(`light.${light.kind}.${o.id}`)}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
+          <p class="hint">${t('light.suggested', { option: t(`light.${light.kind}.${light.pick}`) })}</p></div>` : ''}
         <div class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
           ${segmented('tier', tiers.map((x) => ({ value: x.id, label: `${x.name}` })), state.tier)}
           <p class="hint">${tier.example}</p></div>
@@ -131,6 +142,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       roll: () => { const dice = roll('1d20'); resolve(dice.total, dice); },
       enter: () => { const v = Number(state.manual); if (v >= 1 && v <= 20) resolve(v); },
       tool: ({ id }) => { if (once && state.result) return; state.tool = state.tool === id ? null : id; state.result = null; d.redraw(); },
+      light: ({ id }) => { if (once && state.result) return; state.light = id; state.result = null; d.redraw(); },
       flowChoose: ({ value }) => answer(value),
       flowRoll: () => diceAnswer(false),
       flowEnter: () => diceAnswer(true),

@@ -668,7 +668,33 @@
         "tn": 3,
         "when": "in darkness or smoke, spotting warm bodies"
       }
-    ]
+    ],
+    "vision": {
+      "thermal": 6
+    }
+  },
+  {
+    "id": "night_vision_goggles",
+    "name": "Night-Vision Goggles",
+    "desc": "Light-amplifying goggles: grainy green, but you see in the dark.",
+    "effectType": "Utility",
+    "effect": "Perception / Awareness (PB) +2 · in darkness; on the map you see unlit squares up to 6 away",
+    "skillBonus": "Perception (+2)",
+    "rarity": "D",
+    "cost": {
+      "cr": 1200
+    },
+    "tool": [
+      {
+        "id": "main",
+        "skill": "perception_awareness",
+        "tn": 2,
+        "when": "in darkness"
+      }
+    ],
+    "vision": {
+      "dark": 6
+    }
   },
   {
     "id": "rf_signal_jammer",
@@ -910,13 +936,17 @@
     "name": "Tactical Torch (2000lm)",
     "desc": "Heavy anodized aluminum flashlight with strobe feature.",
     "effectType": "Utility",
-    "effect": "Light Source / Strobe",
+    "effect": "Light Source / Strobe · on the map: switch it on from the Map tab to light 4 squares around you",
     "skillBonus": "None",
     "rarity": "F",
     "cost": {
       "cr": 40
     },
-    "story": true
+    "story": true,
+    "light": {
+      "radius": 4,
+      "carried": true
+    }
   },
   {
     "id": "chemical_flare_sticks_x5",
@@ -939,6 +969,10 @@
           "text": "Light an area for the scene: no darkness penalties"
         }
       ]
+    },
+    "light": {
+      "radius": 3,
+      "drop": true
     }
   },
   {

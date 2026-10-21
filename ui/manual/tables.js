@@ -45,6 +45,27 @@ const rarity = (r) => `<span class="md-badge ${['A', 'B'].includes(r) ? 'md-badg
 const events = (tbl, data) => table(['Roll', 'Event', 'What happens', 'Mechanics'],
   tbl.events.map((ev) => [`<span class="mono">${ev.roll}</span>`, `<strong>${e(ev.name)}</strong>`, e(ev.text), describeEffects(ev.effects, data)]), 'md-table--events');
 
+/** The collection (decision 81): stat cards to browse, not a table to look things up in. */
+const TAG_BADGE = { synthetic: 'md-badge--info', cybernetic: 'md-badge--warn', organic: '' };
+const fighterCard = (x, d) => `<article class="md-card${x.kind === 'elite' ? ' md-card--elite' : ''}">
+  <header class="md-card__head"><strong class="md-card__name">${e(x.name)}</strong> <span class="md-badge ${TAG_BADGE[x.tag] ?? ''}">${e(x.tag ?? 'organic')}</span></header>
+  <p class="md-card__desc">${e(x.desc)}</p>
+  <dl class="md-card__stats">${[['HP', x.hp], ['Armor', x.armor], ['Actions', x.actions], ['Squares', x.sqr ?? '—'], ['INIT', signed(x.init ?? 0)]]
+    .map(([k, v]) => `<div><dt>${e(th(k))}</dt><dd>${v}</dd></div>`).join('')}</dl>
+  <ul class="md-card__attacks">${x.attacks.map((a) => `<li><strong>${e(a.name)}</strong> <span class="muted">${e(a.type)}</span> <span class="mono">TN ${a.tn} · ${e(a.damage)}</span> <span class="muted mono">(⌖ TN ${a.tn - d.body.locationAttack.tnPenalty})</span></li>`).join('')}</ul>
+  ${x.behaviour ? `<p class="md-card__line"><span class="md-card__label">${e(th('Behaviour'))}</span> ${e(x.behaviour)}</p>` : ''}
+  ${x.talents?.length ? x.talents.map((s) => `<p class="md-card__special"><span class="md-card__label">${e(th('Special'))}</span> <strong>${e(s.name)}</strong> — ${e(s.desc)}</p>`).join('') : ''}
+  ${x.immune?.length ? `<p class="md-card__line"><span class="md-card__label">${e(th('Immune'))}</span> ${e(x.immune.map((id) => nameOf(d.conditions, id)).join(', '))}</p>` : ''}
+</article>`;
+const DISPOSITION = { Hostile: 'md-badge--danger', Suspicious: 'md-badge--warn', Friendly: 'md-badge--ok' };
+const personCard = (p) => `<article class="md-card">
+  <header class="md-card__head"><strong class="md-card__name">${e(p.name)}</strong> <span class="md-badge ${DISPOSITION[p.disposition] ?? ''}">${e(p.disposition)}</span></header>
+  <p class="md-card__line muted">${e(p.corpo && p.corpo !== p.faction ? `${p.faction} · ${p.corpo}` : p.faction)}</p>
+  <p class="md-card__line"><span class="md-card__label">${e(th('Goal'))}</span> ${e(p.goal)}</p>
+  ${p.traits?.length ? `<p class="md-card__line">${p.traits.map((x) => `<span class="md-badge">${e(x)}</span>`).join(' ')}</p>` : ''}
+</article>`;
+const cards = (list) => `<div class="md-cards">${list}</div>`;
+
 const ABILITY_TABLES = {
   soldier: (list, data) => table(['Ability', 'TP cost', 'Gain', 'Stance', 'Subclass', 'Effect'],
     list.map((a) => [`<strong>${e(a.name)}</strong>`, a.cost, a.gain ? `+${a.gain}` : '—', `${e(a.stanceFrom)} → ${e(a.stanceTo)}`, e(a.subclasses.map((s) => nameOf(data.classes.classes.flatMap((c) => c.subclasses), s)).join(', ')), e(a.desc)])),
@@ -74,7 +95,7 @@ const TABLES = {
     return [`<span class="mono">${r.min === r.max ? r.min : `${r.min}–${r.max}`}</span>`, e(label), effect, cond(inj.synthetic[bp])];
   })),
   cover: (d) => table(['Cover', 'Armor bonus'], d.difficulty.cover.map((c) => [e(c.name), c.armor ? `+${c.armor}` : '—'])),
-  difficulty: (d) => table(['Tier', 'Penalty to TN', 'Example'], d.difficulty.tiers.map((x) => [`<strong>${x.id} · ${e(x.name)}</strong>`, `−${x.penalty}`, e(x.example)])),
+  difficulty: (d) => table(['Tier', 'TN change', 'Example'], d.difficulty.tiers.map((x) => [`<strong>${e(x.name)}</strong>`, x.penalty > 0 ? `−${x.penalty}` : x.penalty < 0 ? `+${-x.penalty}` : '0', e(x.example)])),
   conditions: (d) => table(['Condition', 'Affects', 'Effects', 'Clears'], d.conditions.map((c) => [`<strong>${e(c.name)}</strong>`, e(c.targets), `<ul>${c.effects.map((x) => `<li>${e(x)}</li>`).join('')}</ul>`, e(c.clear)])),
   adolescence: (d) => events(d.adolescence, d),
   'career-events': (d) => events(d.careerEvents, d),
@@ -114,6 +135,9 @@ const TABLES = {
     ]), 'md-table--dense'),
   'deck-mods': (d) => table(['Mod', 'Type', 'Adds', 'Rarity', 'List $', 'CRS'],
     d.deckMods.mods.map((m) => [`<strong>${e(m.name)}</strong>`, e(nameOf(d.deckMods.types, m.type)), `+${m.amount} ${m.type === 'ram' ? 'RAM' : 'heat cap'}`, rarity(m.rarity), m.cost.cr, crs(m, 'deckMod', d)])),
+  enemies: (d) => cards(d.collection.enemies.map((x) => fighterCard(x, d)).join('')),
+  elites: (d) => cards(d.collection.elites.map((x) => fighterCard(x, d)).join('')),
+  people: (d) => [...new Set(d.collection.people.map((p) => p.faction))].map((f) => `<h4 class="md-cards__group">${e(f)}</h4>${cards(d.collection.people.filter((p) => p.faction === f).map(personCard).join(''))}`).join(''),
   lifestyle: (d) => table(['Category', 'Entry', 'Tier', '$ / month', 'CRS / month'],
     d.lifestyle.entries.map((x) => [e(nameOf(d.lifestyle.categories, x.category)), `<strong>${e(x.name)}</strong><br><span class="muted">${e(x.desc)}</span>`, x.tier ?? '—', x.cost.cr, crs(x, 'lifestyle', d)])),
 };

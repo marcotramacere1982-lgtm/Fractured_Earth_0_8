@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Couch, 2 × 1. The backrest is at the top (the back). -->
+  <rect class="solid" x="4" y="4" width="192" height="92" rx="8" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M26 26 L174 26 M26 26 L26 92 M174 26 L174 92 M75 26 L75 92 M125 26 L125 92" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

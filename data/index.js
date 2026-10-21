@@ -34,6 +34,9 @@ export const DATA_FILES = {
   downtime: 'downtime.json',
   crew: 'crew.json',
   tours: 'tours.json',
+  map: 'map.json',
+  props: 'props.json',
+  collection: 'collection.json',
 };
 
 let cache = null;

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A dark stain (oil, water, worse), 1 × 1. -->
+  <path class="solid" d="M30 22 C48 12 70 20 76 38 C86 50 80 72 62 78 C48 90 26 84 22 66 C10 54 14 32 30 22 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/><circle class="detail" cx="84" cy="24" r="2.2" fill="currentColor" stroke="none"/><circle class="detail" cx="16" cy="86" r="2.2" fill="currentColor" stroke="none"/><circle class="detail" cx="88" cy="82" r="2.2" fill="currentColor" stroke="none"/>
+</svg>

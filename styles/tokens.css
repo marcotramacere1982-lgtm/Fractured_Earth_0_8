@@ -79,6 +79,7 @@
   --color-danger: #ef5b5b;
   --color-danger-soft: rgba(239, 91, 91, 0.14);
   --color-warning: #e2c35a;
+  --color-warning-soft: rgba(226, 195, 90, 0.16);
   --color-private: #c792ff;        /* private GM messages */
   --color-private-soft: rgba(199, 146, 255, 0.16);
   --color-terminal: #07090b;
@@ -125,6 +126,7 @@
   --color-danger: #c62828;
   --color-danger-soft: rgba(198, 40, 40, 0.1);
   --color-warning: #8f6d00;
+  --color-warning-soft: rgba(143, 109, 0, 0.12);
   --color-private: #7b2fd0;
   --color-unique: #7b3fb0;
   --color-unique-soft: rgba(123, 63, 176, 0.12);

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 15">
+  <!-- Wall vent panel, 1 × 0.15. The top edge goes on the wall. -->
+  <rect class="solid" x="4" y="3" width="92" height="9" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M16 4 L16 11 M28 4 L28 11 M40 4 L40 11 M52 4 L52 11 M64 4 L64 11 M76 4 L76 11 M88 4 L88 11" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

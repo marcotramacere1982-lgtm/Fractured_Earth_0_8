@@ -1,0 +1,205 @@
+{
+  "props": {
+    "table_1x05": {
+      "name": "Tavolo"
+    },
+    "cupboard_2x05": {
+      "name": "Armadio"
+    },
+    "loot_cache": {
+      "name": "Bottino"
+    },
+    "trap": {
+      "name": "Trappola"
+    },
+    "chair_05": {
+      "name": "Sedia"
+    },
+    "plant_potted": {
+      "name": "Pianta in vaso"
+    },
+    "desk_laptop_1x05": {
+      "name": "Scrivania con portatile"
+    },
+    "tv_wall_1": {
+      "name": "Schermo a parete"
+    },
+    "camera_360": {
+      "name": "Telecamera (360°)"
+    },
+    "camera_directional": {
+      "name": "Telecamera (direzionale)"
+    },
+    "light_ceiling": {
+      "name": "Luce a soffitto"
+    },
+    "light_floor": {
+      "name": "Lampada da terra"
+    },
+    "wall_vent_1": {
+      "name": "Griglia di aerazione"
+    },
+    "junction_box": {
+      "name": "Scatola di derivazione"
+    },
+    "bed_1x2": {
+      "name": "Letto"
+    },
+    "couch_2x1": {
+      "name": "Divano"
+    },
+    "vending_machine": {
+      "name": "Distributore automatico"
+    },
+    "crate_small": {
+      "name": "Cassa (piccola)"
+    },
+    "crate_medium": {
+      "name": "Cassa (media)"
+    },
+    "crate_large": {
+      "name": "Cassa (grande)"
+    },
+    "rubble_block_1x1": {
+      "name": "Blocco di macerie"
+    },
+    "rubble_block_2x1": {
+      "name": "Cumulo di macerie"
+    },
+    "terrain_rubble": {
+      "name": "Macerie (terreno difficile)"
+    },
+    "terrain_mud": {
+      "name": "Fango (terreno difficile)"
+    },
+    "motion_sensor": {
+      "name": "Sensore di movimento"
+    },
+    "audio_sensor": {
+      "name": "Sensore audio"
+    },
+    "touch_sensor": {
+      "name": "Sensore di contatto"
+    },
+    "omni_node": {
+      "name": "Nodo omni (parete)"
+    },
+    "omni_ceiling": {
+      "name": "Nodo omni (soffitto)"
+    },
+    "server_tower": {
+      "name": "Torre server"
+    },
+    "desk_pc": {
+      "name": "Scrivania con PC"
+    },
+    "books_pile": {
+      "name": "Pila di libri e carte"
+    },
+    "gun_rack_small": {
+      "name": "Rastrelliera (piccola)"
+    },
+    "gun_rack_medium": {
+      "name": "Rastrelliera (media)"
+    },
+    "kitchenette_1": {
+      "name": "Angolo cottura (1 q)"
+    },
+    "kitchenette_2": {
+      "name": "Angolo cottura (2 q)"
+    },
+    "toilet_home": {
+      "name": "WC"
+    },
+    "shower": {
+      "name": "Doccia"
+    },
+    "sink_home": {
+      "name": "Lavandino"
+    },
+    "cabinet_small": {
+      "name": "Mobiletto"
+    },
+    "toilet_wall": {
+      "name": "WC sospeso (ufficio)"
+    },
+    "sink_office": {
+      "name": "Lavabo doppio (ufficio)"
+    },
+    "toilet_stall": {
+      "name": "Box WC (ufficio)"
+    },
+    "first_aid_box": {
+      "name": "Cassetta pronto soccorso"
+    },
+    "fire_box": {
+      "name": "Cassetta antincendio"
+    },
+    "fire_alarm": {
+      "name": "Allarme antincendio"
+    },
+    "wall_plug": {
+      "name": "Presa a muro"
+    },
+    "wall_switch": {
+      "name": "Interruttore"
+    },
+    "keypad": {
+      "name": "Tastierino allarme"
+    },
+    "wall_safe": {
+      "name": "Cassaforte a muro"
+    },
+    "body_outline_1": {
+      "name": "Sagoma (distesa)"
+    },
+    "body_outline_2": {
+      "name": "Sagoma (scomposta)"
+    },
+    "body_outline_3": {
+      "name": "Sagoma (rannicchiata)"
+    },
+    "floor_concrete": {
+      "name": "Pavimento: cemento"
+    },
+    "floor_tiles": {
+      "name": "Pavimento: piastrelle"
+    },
+    "floor_wood": {
+      "name": "Pavimento: legno"
+    },
+    "floor_carpet": {
+      "name": "Pavimento: moquette"
+    },
+    "floor_grating": {
+      "name": "Pavimento: grigliato"
+    },
+    "floor_stain": {
+      "name": "Pavimento: macchia"
+    },
+    "floor_cracked": {
+      "name": "Pavimento: crepato"
+    },
+    "elevator_small": {
+      "name": "Ascensore (piccolo)"
+    },
+    "elevator_medium": {
+      "name": "Ascensore (medio)"
+    },
+    "stairs_straight": {
+      "name": "Scale (dritte)"
+    },
+    "stairs_wide": {
+      "name": "Scale (larghe)"
+    },
+    "stairs_ramp": {
+      "name": "Rampa"
+    },
+    "zone_darkness": {
+      "name": "Oscurità (zona)"
+    },
+    "flare_light": {
+      "name": "Bengala"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- Small gun rack, 1 × ¼, on a wall (top edge): three long guns. -->
+  <rect class="solid" x="3" y="3" width="94" height="19" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M18 6 L28 19 M43 6 L53 19 M68 6 L78 19" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg>

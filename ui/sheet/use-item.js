@@ -38,9 +38,10 @@ function openResult(title, text) {
 }
 
 /**
- * ctx: { character(), data, run(name, args) → result, onlyId? (start from one item: the inventory's Use button) }
+ * ctx: { character(), data, run(name, args) → result, onlyId? (start from one item: the inventory's Use button),
+ *        onUsed?(item) — after it was used (a flare drops a light on the table map) }
  */
-export function startUseItem({ character, data, run, onlyId = null }) {
+export function startUseItem({ character, data, run, onlyId = null, onUsed = null }) {
   const c = character();
   const list = usableItems(c.play.inventory, data.items).filter((x) => !onlyId || x.item.id === onlyId);
   if (!list.length) { openResult(t('action.use_item'), t('use.nothing')); return; }
@@ -48,6 +49,7 @@ export function startUseItem({ character, data, run, onlyId = null }) {
   const finish = (item, opt, target, limb) => {
     const go = (healRoll) => {
       const text = run('useItem', { id: item.id, option: opt.id, target, limb, heal: healRoll?.total ?? null, healText: healRoll ? formatRoll(healRoll) : '' });
+      if (text != null) onUsed?.(item);
       if (text && target === 'ally') openResult(item.name, text);
     };
     if (opt.heal) openDice(`${item.name} · ${t('use.heal')}`, opt.heal, go); else go(null);

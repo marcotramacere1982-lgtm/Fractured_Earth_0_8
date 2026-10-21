@@ -280,6 +280,7 @@ export const actions = {
       capacity: capacityOf(c, data),
       wounded: c.play.conditions.includes('wounded'),
       cover: c.play.cover ?? 0, // Scavenger: full cover and no attack → Unseen
+      inDark: Boolean(c.play.inDark), // …or in the dark (decision 76)
       classesData: data.classes,
       talents: deriveSheet(c, data).talents,
     });
@@ -332,6 +333,31 @@ export const actions = {
   act(c, data, { kind, detail = '' }) {
     const a = data.actions.actions.find((x) => x.id === kind);
     log(c, `${spend(c, data, { kind })}${a?.name ?? kind}${detail ? ` — ${detail}` : ''}`);
+    if (kind === 'move' && c.play.turn?.inCombat) c.play.turn = { ...c.play.turn, moveLeft: deriveSheet(c, data).move }; // the squares of this Move
+  },
+  /** Scavenger (decision 76): "in the dark" — unlit and unseen by the target — counts as Unseen for Tells. */
+  inDark(c, _data, { on }) {
+    c.play.inDark = Boolean(on);
+    log(c, on ? 'In the dark (Unseen for Tells)' : 'Out of the dark');
+  },
+  /** The torch (decision 75): switched on, it lights the squares round your marker on the table map. */
+  torch(c, _data, { on }) {
+    c.play.torch = Boolean(on);
+    log(c, on ? 'Torch on' : 'Torch off');
+  },
+  /**
+   * A drag on the table map in combat (decision 73): it spends the squares left from this round's Move first,
+   * and takes a new Move action only when they run out — three one-square steps are one action.
+   */
+  mapMove(c, data, { steps }) {
+    const turn = c.play.turn ?? newTurn();
+    if (!turn.inCombat) return;
+    let left = turn.moveLeft ?? 0;
+    let prefix = '';
+    if (steps > left) { prefix = spend(c, data, { kind: 'move' }); left += deriveSheet(c, data).move; }
+    left = Math.max(0, left - steps);
+    c.play.turn = { ...c.play.turn, moveLeft: left };
+    log(c, `${prefix}Move on the map — ${steps} square${steps === 1 ? '' : 's'}${left ? ` (${left} left)` : ''}`);
   },
   /** Ability roll resolved in the dialog. `success` from the Class TN roll. */
   useRolled(c, data, { id, success, rollText, resonant = false }) {

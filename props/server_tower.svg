@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 100">
+  <!-- Server tower / rack, ½ × 1. Back at the top, blinking front at the bottom. -->
+  <rect class="solid" x="4" y="4" width="42" height="92" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M10 20 L40 20 M10 34 L40 34 M10 48 L40 48 M10 62 L40 62 M10 76 L40 76" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="14" cy="88" r="2.5" fill="currentColor" stroke="none"/><circle class="detail" cx="22" cy="88" r="2.5" fill="currentColor" stroke="none"/><circle class="detail" cx="30" cy="88" r="2.5" fill="currentColor" stroke="none"/>
+</svg>

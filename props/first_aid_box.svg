@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 15">
+  <!-- Wall first aid box, 0.4 × 0.15: top edge on the wall. -->
+  <rect class="solid" x="3" y="2" width="34" height="11" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M20 4 L20 11 M16.5 7.5 L23.5 7.5" fill="none" stroke="currentColor" stroke-width="2.5"/>
+</svg>

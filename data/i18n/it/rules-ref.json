@@ -155,6 +155,14 @@
     "optic": {
       "title": "Ottica",
       "text": "Portata: i quadretti entro cui piazzi Tell. Track: quanti nemici tengono i tuoi Tell nello stesso momento. Modalità: un vantaggio (Thermal, Motion, Long-glass, Pattern). Senza: lenti AR di base, portata 4, Track 1."
+    },
+    "map": {
+      "title": "La mappa",
+      "text": "Vedi quello che la squadra vede adesso; i quadretti attenuati sono ricordati. Trascina il segnalino per muoverti — in combattimento un'azione Move ti dà i quadretti del round. Tocca una porta accanto a te per aprirla (Interact), un segnalino per linea di vista e portata. Solo informazione: decide il GM."
+    },
+    "darkness": {
+      "title": "Il buio",
+      "text": "Al buio: un bersaglio visto solo come traccia termica −2 (niente colpi mirati), uno che non vedi −4; Stealth +2 non illuminato, −4 illuminato o con la torcia accesa; Perception −2 senza visione notturna o termica. La scheda suggerisce, tu confermi."
     }
   }
 }

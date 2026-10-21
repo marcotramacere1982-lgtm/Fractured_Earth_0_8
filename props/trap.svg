@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60">
+  <!-- Trap marker, 0.6 × 0.6 square. A warning triangle; the "!" is drawn, not typed (no text in props). -->
+  <path class="solid" d="M30 6 L56 52 L4 52 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <line class="detail" x1="30" y1="22" x2="30" y2="38" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  <circle class="detail" cx="30" cy="45" r="2.5" fill="currentColor" stroke="none"/>
+</svg>

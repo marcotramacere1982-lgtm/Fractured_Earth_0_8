@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300">
+  <!-- Wide stairs, 2 × 3: on at either end only; the arrow points up. -->
+  <rect class="solid" x="4" y="4" width="192" height="292" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M4 30 L196 30 M4 56 L196 56 M4 82 L196 82 M4 108 L196 108 M4 134 L196 134 M4 160 L196 160 M4 186 L196 186 M4 212 L196 212 M4 238 L196 238 M4 264 L196 264" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M100 270 L100 40 M86 58 L100 40 L114 58" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -47,7 +47,7 @@ export function skillsTab(c, s, data) {
             </div>`)}
         </div>`)}
     </div>
-    <p class="hint">${t('skills.hint')}</p>`, { sub: t('skills.sub'), ref: 'skill-check' });
+    <p class="hint">${t('skills.hint')}</p>`, { sub: t('skills.sub'), ref: 'skill-check', tour: 'skills' });
 
   return html`<div class="stack">${attrs}${skills}</div>`;
 }

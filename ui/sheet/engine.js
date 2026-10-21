@@ -46,7 +46,7 @@ function scavengerPanel(c, s, data, r, combat) {
   const targets = tellTargets(r, combat);
   const holding = Object.values(r.tells).filter((n) => n > 0).length;
   const inCombat = Boolean(c.play.turn?.inCombat);
-  const unseen = tellGain(r, c.play.cover ?? 0, data.classes) > rules.tells.gain;
+  const unseen = tellGain(r, c.play.cover ?? 0, data.classes, Boolean(c.play.inDark)) > rules.tells.gain;
   const pips = (n) => html`<span class="tell-pips" role="img" aria-label="${t('engine.tellsOf', { n, max: per })}">${Array.from({ length: per }, (_, i) => html`<span class="tell-pip ${i < n ? 'is-on' : ''}"></span>`)}</span>`;
   const row = (x) => {
     const n = r.tells[x.key] ?? 0;
@@ -70,6 +70,8 @@ function scavengerPanel(c, s, data, r, combat) {
     <p class="mono muted">${t('engine.opticStats', { range: o.range, track: o.track })}${mode ? html` · <strong>${mode.name}</strong> ${mode.desc}` : ''}</p>
     ${!o.item ? html`<p class="hint">${t(owned.length ? 'engine.selectOptic' : 'engine.buyOptic')}</p>` : ''}
     ${inCombat && r.toPlace > 0 ? html`<p class="notice notice--ok" role="status">${tn('engine.toPlace', r.toPlace)}${unseen ? html` <span class="pill pill--info">Unseen</span>` : ''}</p>` : ''}
+    <div class="cluster"><button class="btn btn--sm ${c.play.inDark ? 'btn--primary' : ''}" data-action="inDark" data-on="${c.play.inDark ? '0' : '1'}" aria-pressed="${Boolean(c.play.inDark)}">${t(c.play.inDark ? 'engine.inDarkOn' : 'engine.inDarkOff')}</button>
+      <span class="hint">${t('engine.inDarkHint')}</span></div>
     <div class="spread"><span class="label">${t('engine.tellsTitle')}</span><span class="mono muted">${t('engine.tracking', { n: holding, track: o.track })}</span></div>
     <div data-tour="tells">${targets.length ? html`<ul class="tell-list">${targets.map(row)}</ul>` : html`<p class="muted">${t(combat ? 'engine.noHostiles' : 'engine.noMarks')}</p>`}</div>
     ${combat?.hostiles?.length ? '' : html`<input class="input" data-action="markAdd" placeholder="${t('engine.addMark')}" maxlength="24" aria-label="${t('engine.addMark')}">`}

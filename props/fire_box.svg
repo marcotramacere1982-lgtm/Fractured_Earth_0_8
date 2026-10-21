@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 15">
+  <!-- Wall fire box (hose or extinguisher), 0.5 × 0.15: top edge on the wall. -->
+  <rect class="solid" x="3" y="2" width="44" height="11" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="detail" cx="16" cy="7.5" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><path class="detail" d="M24 7.5 L42 7.5" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

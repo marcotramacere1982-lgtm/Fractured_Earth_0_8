@@ -57,7 +57,7 @@
       "summary": "Paziente lettore dello scontro: studia il bersaglio pericoloso, poi incassa tutto quello che ha imparato in un colpo solo, o si prende quello che il nemico si porta addosso.",
       "resources": {
         "rules": {
-          "gain": "All'inizio di ogni tuo turno, piazza 1 Tell su un nemico che vedi entro la portata della tua ottica; 2 se sei in copertura totale e non hai attaccato nel round precedente (Unseen).",
+          "gain": "All'inizio di ogni tuo turno, piazza 1 Tell su un nemico che vedi entro la portata della tua ottica; 2 se sei in copertura totale o al buio e non hai attaccato nel round precedente (Unseen).",
           "cap": "Al massimo 3 Tell su un nemico, e solo tanti nemici quanti la tua ottica può tracciare (Track) tengono i tuoi Tell.",
           "lost": "I Tell su un nemico si perdono quando va a terra, o alla fine di un round in cui lo hai perso di vista.",
           "exploit": "Exploit (sempre attivo): quando colpisci un nemico, spendi quanti suoi Tell vuoi per +1d4 danni ciascuno.",

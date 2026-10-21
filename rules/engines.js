@@ -155,10 +155,13 @@ export function opticStats(optic, classesData) {
   return optic ? { range: optic.range, track: optic.track, mode: optic.mode ?? null } : { range: base.range, track: base.track, mode: null };
 }
 
-/** Tells gained at the start of a turn: 1, or 2 when Unseen (full cover and no attack last round). */
-export function tellGain(r, cover, classesData) {
+/**
+ * Tells gained at the start of a turn: 1, or 2 when Unseen — full cover, or in the dark (unlit, and the GM
+ * agrees the target can't see you: decision 76) — and no attack last round.
+ */
+export function tellGain(r, cover, classesData, inDark = false) {
   const rules = tellRules(classesData);
-  return cover >= rules.unseenCover && !r.attacked ? rules.gainUnseen : rules.gain;
+  return (cover >= rules.unseenCover || inDark) && !r.attacked ? rules.gainUnseen : rules.gain;
 }
 
 /** Puts Tells on (delta > 0) or takes them off an enemy. Max 3 each; only `track` enemies may hold Tells. */
@@ -271,7 +274,7 @@ export function roundEnd(classId, r, ctx = {}) {
       return { ...r, sync: r.switched ? r.sync : Math.min(SYNC_MAX, r.sync + 1), switched: false }; // held the mode: +1
     }
     case 'smuggler': return ctx.wounded ? { ...r, pendulum: Math.min(4, r.pendulum + 1) } : r;
-    case 'scavenger': return { ...r, toPlace: tellGain(r, ctx.cover ?? 0, ctx.classesData), attacked: false }; // next turn's Tells (a readied Exploit stays)
+    case 'scavenger': return { ...r, toPlace: tellGain(r, ctx.cover ?? 0, ctx.classesData, ctx.inDark), attacked: false }; // next turn's Tells (a readied Exploit stays)
     default: return r;
   }
 }

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Floor lamp, ½ × ½: a round shade with its frame (no rays, unlike a ceiling light). -->
+  <circle class="solid" cx="25" cy="25" r="16" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="25" cy="25" r="4" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M25 9 L25 21 M25 29 L25 41 M9 25 L21 25 M29 25 L41 25" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

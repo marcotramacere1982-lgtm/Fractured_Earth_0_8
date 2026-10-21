@@ -33,7 +33,7 @@ The app is a smart paper sheet: it does the maths, keeps the rules one tap away 
 - **Builder** — creates a character in about five minutes. Every step explains itself; rolls print in a terminal log; choices you need to make appear inline. An *Advanced mode* lets experienced players type values directly or pick specific events (marked `[MANUAL]` for the GM).
 - **Character sheet** — your live sheet during play: HP, body, weapons, class engine, skills, gear, notes. Everything recalculates the moment something changes.
 - **Real dice welcome** — every roll window takes the app's roll or yours. After a hit, the window goes step by step: damage, then (Scavenger) Exploit, then the hit location of a location attack. At each step press *Roll*, or type what your dice show and press *Enter my dice*; the summary comes at the end.
-- **Guided tours** — the **?** button at the top of the sheet walks you through it in about two minutes: status, weapons, your turn, the roll window, your class engine, the market and the Dossier. The engine card has a **Class tour** for your class's resource and abilities. New sheets offer both once.
+- **Guided tours** — the **?** button at the top of the sheet walks you through it in about two minutes: status, weapons, your turn, the roll window, your class engine, checks, the market and the Dossier. The engine card has a **Class tour** for your class's resource and abilities, and the Map tab has a **Map tour** (7-2 §5). Each is offered once; the **?** buttons replay them.
 - **Manual** — this book. Any ⓘ on the sheet or in the builder opens a short explanation with a link to the full rule here.
 - **Language** — the EN / IT switch at the top changes the app and this manual. Game terms stay in English, so you and the GM use the same words.
 
@@ -62,6 +62,15 @@ You rarely roll against raw attributes. Every attribute has a **bonus equal to h
 > **Example:** Thrown Objects uses DEX + INT. DEX 10 (bonus +5) and INT 12 (bonus +6) give TN 11: roll 11 or less on a d20.
 
 Because every attribute feeds several skills, neglecting one leaves blind spots across the whole tree. The sheet calculates all skills live — tap any skill to roll it.
+
+**The roll window.** Tapping a skill or an attribute opens it. From top to bottom:
+- **TN, Difficulty and Roll ≤** — your TN, the difficulty step (the GM's table difficulty is picked for you; red when harder, green when easier, 6-2) and the number you need.
+- **In play** — items and effects already counted in your TN: a stim you took, a drug, an optic. Nothing to do; it tells you why the number is what it is.
+- **Gear that helps** — tools you carry that fit this skill (a lockpick set, a medkit). Tick the one that fits; only one counts, and the GM can say it doesn't apply here.
+- **Light** — only in the dark (7-2 §4): the sheet pre-picks the line from the map or the GM's Light switch; change it if the scene says otherwise.
+- **Roll** — press *Roll d20*, or type what your own die shows and press *Resolve*. Margins, near misses and natural 1 / 20 are spelled out.
+
+> **Locks: three ways through a door.** A **mechanical** lock (a padlock, an old tenement door) is **Sleight of Hand** — the Mechanical Lockpick Set adds +2. An **electronic** lock or card reader is **Electronics / Security** — the Keycard Bypass Cloner adds +3. A lock **wired to a network** (a corporate door on the site AI) is **Computers / Hacking**, from a terminal or a network you have pinged. Or skip finesse: forcing a door, crate or panel is a **STR** check, and the Crowbar & Mini-Pry Set adds +3.
 
 ::table[skills]
 
@@ -253,6 +262,7 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 - **Dossier** — identity, class, background, debt (with its pressure and instalments), portrait, backstory and *Story so far* (5-10).
 - **Notes** — your field notes and a log of rolls, purchases and ability uses.
 - **Progress** — level, XP, and the talent trees (5-9).
+- **Map** — only while the GM has a map on the table: look, move, open doors, check line of sight and range (7-2 §5).
 
 
 ## 5-9. Advancement & Talents {#sec-5-9}

@@ -1,0 +1,114 @@
+/* Tactical maps (decision 64): the board, walls, doors and windows. Shared by the GM builder and the sheet. */
+.map-board { fill: var(--color-surface); }
+/* grid lines keep the same thickness on screen at every zoom */
+.map-grid { fill: none; stroke: var(--color-border); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.map-grid--major { stroke: var(--color-border-strong); }
+.map-edge { fill: none; stroke: var(--color-border-strong); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.map-gap { stroke: var(--color-surface); }
+.map-wall { stroke: var(--color-text); }
+.map-window { stroke: var(--color-info); }
+.map-door { stroke: var(--color-accent); }
+.map-door--open { opacity: 0.8; }
+.map-sel { stroke: var(--color-accent); opacity: 0.35; }
+.map-handle { fill: var(--color-surface); stroke: var(--color-accent); stroke-width: 5; }
+.map-preview { stroke: var(--color-accent); opacity: 0.6; stroke-linecap: round; pointer-events: none; }
+.map-preview--window { stroke: var(--color-info); }
+
+/* the map on the table (step 2): viewer, markers, drag ghost */
+.map-view { position: relative; display: flex; flex: 1; min-height: 0; }
+.map-view__svg { flex: 1; width: 100%; min-height: 0; display: block; touch-action: none; user-select: none; background: var(--color-surface-2); }
+.map-view__readout { position: absolute; top: var(--space-2); left: var(--space-2); margin: 0; padding: var(--space-1) var(--space-2); border-radius: var(--radius-md); background: var(--color-surface); border: var(--border-width) solid var(--color-accent); font-size: var(--text-sm); pointer-events: none; }
+.map-token__disc { stroke-width: 5; }
+.map-token--player .map-token__disc { fill: var(--color-info-soft); stroke: var(--color-info); }
+.map-token--enemy .map-token__disc { fill: var(--color-danger-soft); stroke: var(--color-danger); }
+.map-token--npc .map-token__disc { fill: var(--color-private-soft); stroke: var(--color-private); }
+.map-token--you .map-token__disc { fill: var(--color-info); }
+.map-token--you .map-token__label { fill: var(--color-surface); }
+.map-token__label { fill: var(--color-text); font-family: var(--font-display); letter-spacing: 0.02em; pointer-events: none; }
+.map-token__ring { fill: none; stroke: var(--color-accent); stroke-width: 6; }
+.map-token--selected .map-token__ring { stroke-dasharray: 18 10; }
+.map-token--down { opacity: 0.45; }
+.map-token--hidden { opacity: 0.35; }
+.map-ghost { fill: none; stroke: var(--color-accent); stroke-width: 6; stroke-dasharray: 16 10; }
+.map-ghost__path { stroke: var(--color-accent); opacity: 0.6; stroke-linecap: round; }
+.map-reach { fill: var(--color-accent-soft); }
+.map-ghost--out { stroke: var(--color-danger); }
+.map-ghost__path--out { stroke: var(--color-danger); stroke-dasharray: 20 14; }
+/* line of sight (step 4) */
+.map-los { stroke-linecap: round; pointer-events: none; }
+.map-los__target { fill: none; pointer-events: none; }
+line.map-los--clear, .map-los__target.map-los--clear { stroke: var(--color-success); }
+line.map-los--cover, .map-los__target.map-los--cover { stroke: var(--color-accent); }
+line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-danger); stroke-dasharray: 18 12; }
+.map-los-pill--clear, .map-range--in { color: var(--color-success); border-color: var(--color-success); background: var(--color-success-soft); }
+.map-los-pill--cover, .map-range--close { color: var(--color-accent); border-color: var(--color-accent); background: var(--color-accent-soft); }
+.map-los-pill--blocked, .map-range--far { color: var(--color-danger); border-color: var(--color-danger); background: var(--color-danger-soft); }
+/* props (decision 68): drawings use currentColor + the classes solid / detail */
+.map-prop { color: var(--color-text-muted); }
+.map-prop .solid { stroke: var(--color-text-muted); fill: var(--color-surface-3); }
+.map-prop .detail { stroke: var(--color-text-faint); }
+.map-prop--crate .solid { fill: var(--color-surface-2); }
+.map-prop--obstacle .solid { stroke: var(--color-text); fill: var(--color-surface-3); }
+.map-prop--obstacle .detail { stroke: var(--color-text-muted); }
+.map-prop--terrain .solid { stroke: var(--color-text-faint); fill: none; }
+.map-prop--terrain .detail { stroke: var(--color-border-strong); }
+.map-prop--light { color: var(--color-warning); }
+.map-prop--light .solid { stroke: var(--color-warning); fill: var(--color-warning-soft); }
+.map-prop--light .detail { stroke: var(--color-warning); }
+.map-prop--marker { color: var(--color-accent); }
+.map-prop--marker .solid { stroke: var(--color-accent); fill: var(--color-accent-soft); }
+.map-prop--marker .detail { stroke: var(--color-accent); }
+.map-prop--hidden { opacity: 0.4; }
+.map-prop__outline { fill: none; stroke: var(--color-text-faint); stroke-width: 3; stroke-dasharray: 8 6; }
+.map-prop__sel { fill: none; stroke: var(--color-accent); stroke-width: 5; stroke-dasharray: 14 8; }
+.map-prop-ghost { opacity: 0.55; pointer-events: none; }
+/* sensors (decision 69): lasers and motion red, audio blue, touch purple, cameras cyan; off = grey (GM screens only) */
+.map-laser, .map-sense--motion { stroke: var(--color-danger); }
+.map-laser__end { fill: var(--color-danger); }
+.map-sense { fill: none; pointer-events: none; }
+.map-sense--audio { stroke: var(--color-info); }
+.map-prop--tint-red { color: var(--color-danger); }
+.map-prop--tint-red .solid { stroke: var(--color-danger); fill: var(--color-danger-soft); }
+.map-prop--tint-red .detail { stroke: var(--color-danger); }
+.map-prop--tint-blue, .map-prop--tint-cyan { color: var(--color-info); }
+.map-prop--tint-blue .solid, .map-prop--tint-cyan .solid { stroke: var(--color-info); fill: var(--color-info-soft); }
+.map-prop--tint-blue .detail, .map-prop--tint-cyan .detail { stroke: var(--color-info); }
+.map-prop--tint-purple { color: var(--color-private); }
+.map-prop--tint-purple .solid { stroke: var(--color-private); fill: var(--color-private-soft); }
+.map-prop--tint-purple .detail { stroke: var(--color-private); }
+.map-prop--tint-green { color: var(--color-success); }
+.map-prop--tint-green .solid { stroke: var(--color-success); fill: var(--color-success-soft); }
+.map-prop--tint-green .detail { stroke: var(--color-success); }
+.map-prop--tint-yellow { color: var(--color-warning); }
+.map-prop--tint-yellow .solid { stroke: var(--color-warning); fill: var(--color-warning-soft); }
+.map-prop--tint-yellow .detail { stroke: var(--color-warning); }
+/* openable pieces (a wall safe): the drawing has open-only / closed-only groups */
+.map-prop .open-only, .map-prop--open .closed-only { display: none; }
+.map-prop--open .open-only { display: inline; }
+.map-prop--scene .solid { stroke: var(--color-text); fill: none; }
+.map-prop--fixture { color: var(--color-text-muted); }
+.map-prop--off { filter: grayscale(1); opacity: 0.55; }
+.map-laser--off { stroke: var(--color-text-faint); }
+.map-laser__end.map-laser--off { fill: var(--color-text-faint); }
+.map-laser--hidden { opacity: 0.45; }
+.map-preview--laser { stroke: var(--color-danger); }
+/* fog of war (decision 71): players get an opaque cover, the GM a shade to know what they see */
+.map-fog, .map-fog-dim { pointer-events: none; stroke: none; }
+.map-fog--player { fill: var(--color-surface-2); }
+.map-fog-dim--player { fill: var(--color-surface-2); opacity: 0.55; }
+.map-fog--gm { fill: var(--color-bg); opacity: 0.5; }
+.map-fog-dim--gm { fill: var(--color-bg); opacity: 0.2; }
+/* floor textures (decision 72): a faint tone under everything, no outline */
+.map-prop--floor { color: var(--color-text-faint); opacity: 0.6; }
+.map-prop--floor .solid { stroke: none; fill: var(--color-text-faint); }
+.map-prop--floor .detail { stroke: var(--color-text-faint); }
+.map-prop--level .solid { stroke: var(--color-text-muted); fill: var(--color-surface-2); }
+.map-prop--level .detail { stroke: var(--color-text-muted); }
+.map-door--locked { stroke: var(--color-danger); }
+.map-prop--zone { color: var(--color-private); opacity: 0.55; } /* darkness zones: GM screens only */
+.map-prop--zone .solid { stroke: none; fill: var(--color-bg); }
+.map-prop--zone .detail { stroke: var(--color-private); }
+.map-light-reach { fill: var(--color-warning-soft); stroke: var(--color-warning); pointer-events: none; }
+/* vision (decision 75): a heat signature seen only through thermal; a player whose torch is on (GM screens) */
+.map-token--thermal .map-token__disc { fill: var(--color-danger-soft); stroke: var(--color-warning); stroke-dasharray: 10 6; }
+.map-token--lit .map-token__disc { stroke: var(--color-warning); stroke-width: 9; }

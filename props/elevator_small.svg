@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Small elevator, 1 × 1: closed on three sides, doors at the front (bottom). -->
+  <rect class="solid" x="4" y="4" width="92" height="92" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M14 14 L86 86 M86 14 L14 86" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M30 96 L50 96 M50 96 L70 96" fill="none" stroke="currentColor" stroke-width="6"/>
+</svg>

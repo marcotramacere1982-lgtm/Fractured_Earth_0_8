@@ -5,7 +5,8 @@ import { RuleError } from './messages.js';
 import { roll } from './dice.js';
 
 // spent: what this round's actions were ({ kind, name? }), so the sheet can remind the player.
-export const newTurn = () => ({ inCombat: false, round: 1, used: 0, reserved: 0, spent: [] });
+// moveLeft: squares left from the last Move action this round (decision 73: one action, several short drags)
+export const newTurn = () => ({ inCombat: false, round: 1, used: 0, reserved: 0, spent: [], moveLeft: 0 });
 
 /** Actions available this round: ACT, or 1 while Stunned (manual 7-6). */
 export function allowance(act, conditions, actionsData) {
@@ -31,13 +32,13 @@ export function borrowAction(turn, max) {
   return { ...turn, reserved: turn.reserved + 1 };
 }
 
-export const startCombat = () => ({ inCombat: true, round: 1, used: 0, reserved: 0, spent: [] });
-export const endCombat = (turn) => ({ ...turn, inCombat: false, used: 0, reserved: 0, spent: [] });
+export const startCombat = () => ({ inCombat: true, round: 1, used: 0, reserved: 0, spent: [], moveLeft: 0 });
+export const endCombat = (turn) => ({ ...turn, inCombat: false, used: 0, reserved: 0, spent: [], moveLeft: 0 });
 
 /** Round end: unspent actions are lost; borrowed actions are already spent next round. */
 export function endRound(turn) {
   const borrowed = Array.from({ length: turn.reserved }, () => ({ kind: 'dodge', borrowed: true }));
-  return { ...turn, round: turn.round + 1, used: turn.reserved, reserved: 0, spent: borrowed };
+  return { ...turn, round: turn.round + 1, used: turn.reserved, reserved: 0, spent: borrowed, moveLeft: 0 }; // unused movement is lost too
 }
 
 /** Pulls the dice expression out of a weapon damage string ("1d6 (Non-Lethal)" → "1d6"). */

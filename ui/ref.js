@@ -11,6 +11,7 @@ let pop = null;
 let current = null;
 let pinned = false; // opened by a click (stays) vs by hover (closes when the pointer leaves)
 let explainer = () => null;
+let manual = { href: '#/manual/', newTab: false }; // where "Learn more" goes
 
 /** fn(key) → { title, html, anchor } | null for data-explain / data-hint elements. */
 export function registerExplainer(fn) { explainer = fn; }
@@ -49,7 +50,7 @@ function open(button, { hover = false } = {}) {
   pop.innerHTML = `
     <div class="ref-pop__title">${escape(c.title)}</div>
     ${c.html}
-    ${c.anchor ? `<a class="ref-pop__more" href="#/manual/${escape(c.anchor)}">${escape(t('ref.more'))} →</a>` : ''}`;
+    ${c.anchor ? `<a class="ref-pop__more" href="${manual.href}${escape(c.anchor)}"${manual.newTab ? ' target="_blank" rel="noopener"' : ''}>${escape(t('ref.more'))} →</a>` : ''}`;
   pop.hidden = false;
   // position under the button, kept inside the viewport (phones get a bottom sheet via CSS)
   const r = button.getBoundingClientRect();
@@ -60,9 +61,10 @@ function open(button, { hover = false } = {}) {
   pop.style.setProperty('--y', `${(below ? r.bottom + 8 : r.top - pop.offsetHeight - 8) + window.scrollY}px`);
 }
 
-/** Installs the shared popover and global listeners. */
-export function installRefs(refsData) {
+/** Installs the shared popover and global listeners. `opts.manual`: { href, newTab } for the "Learn more" link. */
+export function installRefs(refsData, opts = {}) {
   refs = refsData.refs;
+  if (opts.manual) manual = { ...manual, ...opts.manual };
   pop = document.createElement('div');
   pop.className = 'ref-pop';
   pop.setAttribute('role', 'dialog');

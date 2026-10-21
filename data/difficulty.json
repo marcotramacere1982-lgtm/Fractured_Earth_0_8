@@ -1,8 +1,11 @@
 {
-  "note": "Effective TN = skill/attribute TN - tier penalty. Roll d20 <= Effective TN to succeed. Natural 1 / 20 always add a narrative consequence (GM decides).",
+  "note": "Effective TN = skill/attribute TN - tier penalty. Roll d20 <= Effective TN to succeed. Natural 1 / 20 always add a narrative consequence (GM decides). Tiers below Routine have a negative penalty: they raise the TN (decision 78) — help from others, good tools, time, an inside contact; the GM picks the step, no extra rule.",
   "die": "1d20",
   "passiveOffset": -5,
   "tiers": [
+    { "id": -3, "name": "Very easy", "penalty": -6, "example": "A whole crew working together, the right gear and all the time needed: a roll only for what could still go wrong." },
+    { "id": -2, "name": "Easy", "penalty": -4, "example": "Two or three helping each other (a leg-up over a wall), good tools for the job, no pressure." },
+    { "id": -1, "name": "Favourable", "penalty": -2, "example": "Someone helps, a useful tool or a tip from a contact, a moment to prepare." },
     { "id": 0, "name": "Routine", "penalty": 0, "example": "Clear line of sight, stable footing, standard net access, low stress." },
     { "id": 1, "name": "Challenging", "penalty": 2, "example": "Partial cover, light rain or fog, basic civilian encryption, minor time pressure." },
     { "id": 2, "name": "Hard", "penalty": 4, "example": "Heavy rain, low light, commercial firewalls, firing while moving into cover." },

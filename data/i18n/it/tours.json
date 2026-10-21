@@ -9,7 +9,7 @@
         },
         "tabs": {
           "title": "Sei sezioni",
-          "text": "Gioco per lo scontro, Abilità per le prove, Equipaggiamento per soldi e mercato, Dossier per la tua storia e il debito, Note per tutto il resto, Progressi per XP e talenti."
+          "text": "Gioco per il combattimento, Abilità per le prove, Equipaggiamento per soldi e mercato, Dossier per la tua storia e il debito, Note per tutto il resto, Progressi per XP e talenti. Quando il GM mette una mappa sul tavolo compare anche la scheda Mappa — con un suo breve tour."
         },
         "weapons": {
           "title": "Prepara le armi",
@@ -25,7 +25,7 @@
         },
         "attack": {
           "title": "Attaccare: la finestra del tiro",
-          "text": "Attacco apre la finestra del tiro. Prima il d20 per colpire. Se colpisci procede un passo alla volta: danni, poi (Scavenger) Exploit, poi dove colpisce per un attacco ⌖ a una locazione. A ogni passo premi Tira, oppure scrivi quello che mostrano i tuoi dadi e premi Inserisci. Il totale arriva alla fine."
+          "text": "Attacca apre la finestra del tiro. Prima il d20 per colpire. Se colpisci prosegue passo per passo: danno, poi (Scavenger) Exploit, poi dove arriva il colpo per un attacco a una locazione ⌖. A ogni passo premi Tira, oppure scrivi quello che mostrano i tuoi dadi e premi Invio. Il totale arriva alla fine. Al buio, una riga Luce suggerisce il modificatore giusto — tu lo confermi."
         },
         "engine": {
           "title": "Il motore della tua classe",
@@ -33,7 +33,7 @@
         },
         "market": {
           "title": "Soldi e Mercato",
-          "text": "Compra in modo ufficiale con il Credit Score (tracciato) o per strada in contanti (non tracciato, con ricarico). Le armi arrivano con 2 caricatori di scorta (altri nella sezione Munizioni) e Ricarica ne usa uno. Gli Hacker hanno bisogno di un deck e gli Scavenger di un'ottica. Varie aggiunge oggetti di storia senza regole. Ogni riga dell'inventario ha ⇄ per vendere o dare a un giocatore, e 🗑 per buttare."
+          "text": "Compra in modo ufficiale con il Credit Score (tracciato) o per strada in contanti (non tracciato, con ricarico). Le armi arrivano con 2 caricatori di scorta (altri nella sezione Munizioni) e Ricarica ne usa uno. Gli Hacker hanno bisogno di un deck e gli Scavenger di un'ottica. Varie aggiunge oggetti di storia senza regole. Ogni riga dell'inventario ha ⇄ per vendere o dare a un giocatore, e 🗑 per buttare. Gli oggetti segnati Solo narrativo non hanno effetti sui dadi: decide il GM."
         },
         "story": {
           "title": "Il tuo Dossier",
@@ -46,6 +46,10 @@
         "health": {
           "title": "Salute e condizioni",
           "text": "Quando vieni colpito usa Subisci un colpo: scrivi i danni e, per un attacco a una locazione, dove ha colpito. La scheda toglie l'armatura, abbassa gli HP e aggiunge la ferita o la condizione. Qui ci sono anche Cura completa e Ripara armatura. Tocca una condizione per attivarla; i Potenziamenti (in verde) sono quelle positive che il GM può concedere."
+        },
+        "checks": {
+          "title": "Prove: la finestra del tiro",
+          "text": "Tocca un'abilità (o un attributo) per tirarla: d20, uguale o sotto il TN riesci. La finestra mostra la difficoltà del GM — compresi Favourable, Easy e Very easy quando qualcuno ti aiuta o le cose girano a tuo favore — gli strumenti che porti, gli oggetti in gioco (il +1 di un'iniezione, già contato) e, al buio, la Luce. Serrature: meccaniche → Sleight of Hand, elettroniche → Electronics, in rete → Hacking."
         }
       }
     },
@@ -121,7 +125,7 @@
         },
         "tells": {
           "title": "Tell sui nemici",
-          "text": "All'inizio del tuo turno piazza 1 Tell, o 2 se sei Unseen (copertura totale, nessun attacco nel round precedente). Massimo 3 per nemico. Tocca un nemico per renderlo il bersaglio delle abilità."
+          "text": "All'inizio del tuo turno piazza 1 Tell, o 2 se sei Unseen — copertura totale, oppure al buio (attiva Al buio), e nessun attacco nel round precedente. Massimo 3 per nemico. Tocca un nemico per farne il bersaglio delle abilità."
         },
         "exploit": {
           "title": "Exploit",
@@ -130,6 +134,35 @@
         "abilities": {
           "title": "Le abilità",
           "text": "Spendono i Tell del bersaglio: 1 per un piccolo vantaggio, 2 per uno grosso, 3 per il colpo finale. Close Study e Case the Room piazzano altri Tell."
+        }
+      }
+    },
+    "map": {
+      "name": "La mappa",
+      "steps": {
+        "view": {
+          "title": "La mappa sul tavolo",
+          "text": "Quello che la tua squadra può vedere. Trascina per guardarti intorno, pizzica o usa la rotella per lo zoom, Adatta per vederla tutta. Quadretti scuri: mai visti. Attenuati: visti prima, ora nessuno li vede. Porte e finestre lasciano passare la vista; le porte chiuse no."
+        },
+        "move": {
+          "title": "Muoversi",
+          "text": "Trascina il tuo segnalino. I quadretti evidenziati sono quelli che raggiungi; la linea mostra il percorso intorno ai muri. In combattimento, nel tuo turno, un'azione Move ti dà i tuoi quadretti per il round: muoviti a passi come vuoi, anche un quadretto alla volta. Questa riga ti dice cosa puoi fare adesso."
+        },
+        "tap": {
+          "title": "Tocca per controllare",
+          "text": "Tocca un segnalino: linea di vista (libera, probabile copertura, bloccata), distanza e quali delle tue armi arrivano. Tocca un pezzo per sapere cos'è. Tocca una porta accanto a te per aprirla o chiuderla — in combattimento è un'azione Interact; una porta chiusa a chiave non si muove."
+        },
+        "gear": {
+          "title": "Luce e visione",
+          "text": "La tua torcia illumina 4 quadretti per tutta la squadra — e mostra al nemico dove sei. Il visore notturno vede 6 quadretti al buio; una lente termica mostra le persone come tracce di calore, non la stanza; un bengala (Usa oggetto) illumina dove cade."
+        },
+        "legend": {
+          "title": "Chi c'è",
+          "text": "Tu (pieno), la tua squadra, i nemici con la loro lettera, le altre persone in viola. Un anello tratteggiato è una traccia termica: qualcuno al buio che solo la termica rileva."
+        },
+        "dark": {
+          "title": "Combattere al buio",
+          "text": "Al buio la finestra del tiro aggiunge una riga Luce: un bersaglio che vedi solo come calore −2, uno che non vedi −4; Stealth +2 se non illuminato, −4 se sei illuminato o hai la torcia accesa; Perception −2 se non hai visione notturna o termica. La scheda suggerisce, tu confermi."
         }
       }
     }

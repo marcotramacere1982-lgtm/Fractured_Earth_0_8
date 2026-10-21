@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Ceiling light, ½ × ½: a lamp with rays. -->
+  <circle class="solid" cx="25" cy="25" r="8" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="25" cy="25" r="3" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M25 4 L25 11 M25 39 L25 46 M4 25 L11 25 M39 25 L46 25 M10 10 L15 15 M35 35 L40 40 M40 10 L35 15 M10 40 L15 35" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>

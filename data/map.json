@@ -1,0 +1,34 @@
+{
+  "square": {"units": 100, "metres": 1.5},
+  "size": {"default": {"cols": 30, "rows": 20}, "min": 4, "max": 120},
+  "move": {"explore": 30, "note": "Out of combat a marker moves freely (no action), up to this many squares at a time, round walls."},
+  "npcRoles": [
+    {"id": "civilian", "name": "Civilian", "short": "C"},
+    {"id": "worker", "name": "Worker", "short": "W"},
+    {"id": "clerk", "name": "Clerk", "short": "CL"},
+    {"id": "courier", "name": "Courier", "short": "CO"},
+    {"id": "customer", "name": "Customer", "short": "CU"},
+    {"id": "janitor", "name": "Janitor", "short": "J"},
+    {"id": "technician", "name": "Technician", "short": "T"},
+    {"id": "engineer", "name": "Engineer", "short": "E"},
+    {"id": "medic", "name": "Medic", "short": "M"},
+    {"id": "executive", "name": "Executive", "short": "X"},
+    {"id": "assistant", "name": "Assistant", "short": "A"},
+    {"id": "security_guard", "name": "Security guard", "short": "SG"},
+    {"id": "watch_patrol", "name": "Watch patrol", "short": "WP"}
+  ],
+  "widths": [
+    {"id": "thin", "name": "Thin", "units": 6, "hint": "partition, fence, railing"},
+    {"id": "standard", "name": "Standard", "units": 12, "hint": "interior wall"},
+    {"id": "thick", "name": "Thick", "units": 24, "hint": "exterior, concrete, bunker"}
+  ],
+  "kinds": [
+    {"id": "wall", "name": "Wall", "blocksSight": "always", "blocksMove": "always"},
+    {"id": "door", "name": "Door", "blocksSight": "closed", "blocksMove": "closed"},
+    {"id": "window", "name": "Window", "blocksSight": "never", "blocksMove": "always"},
+    {"id": "laser", "name": "Laser line", "blocksSight": "never", "blocksMove": "never", "sensor": "beam", "hiddenByDefault": true}
+  ],
+  "light": {"darkSight": 1, "note": "Decision 74: in the dark a marker sees only lit squares (an on light covers squares within its radius that it can see) and the squares within darkSight of itself. Bright environment: lights don't matter, except where Darkness zones are laid."},
+  "darkness": {"attack": {"thermal": -2, "unseen": -4}, "stealth": {"unlit": 2, "lit": -4}, "perception": {"dark": -2}, "note": "Decision 76: TN modifiers the sheet suggests in the dark (the player confirms). Attack: a target seen only as a heat signature -2 (no called shots), one in the dark you cannot see -4. Stealth: +2 in an unlit square, -4 when lit or carrying a lit torch. Perception: -2 in the dark, cancelled by night vision or thermal."},
+  "sensor": {"reach": {"min": 1, "max": 20}, "note": "Sensors (decision 69): drawn only, no rules yet. Placed lasers and sensor props keep on (starting state) and tripped_<sense> / disconnected_<sense> flags for a later implementation. Off and the flags are GM-only."}
+}

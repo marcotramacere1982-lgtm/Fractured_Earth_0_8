@@ -17,7 +17,7 @@
           "tab": "play",
           "target": "tabs",
           "title": "Six tabs",
-          "text": "Play for the fight, Skills for checks, Gear for money and the market, Dossier for your story and debt, Notes for anything, Progress for XP and talents."
+          "text": "Play for the fight, Skills for checks, Gear for money and the market, Dossier for your story and debt, Notes for anything, Progress for XP and talents. When the GM puts a map on the table, a Map tab appears too — with its own short tour."
         },
         {
           "id": "health",
@@ -53,7 +53,7 @@
           "tab": "play",
           "target": "actions",
           "title": "Attacking: the roll window",
-          "text": "Attack opens the roll window. First the d20 to hit. On a hit it goes step by step: damage, then (Scavenger) Exploit, then where it lands for a ⌖ location attack. At every step press Roll, or type what your own dice show and press Enter. The total comes at the end."
+          "text": "Attack opens the roll window. First the d20 to hit. On a hit it goes step by step: damage, then (Scavenger) Exploit, then where it lands for a ⌖ location attack. At every step press Roll, or type what your own dice show and press Enter. The total comes at the end. In the dark, a Light row suggests the right modifier — you confirm it."
         },
         {
           "id": "engine",
@@ -63,11 +63,18 @@
           "text": "Your class resource and your equipped abilities (up to 3). An ability turns green when you can use it now; otherwise the sheet tells you what's missing. The Class tour button explains your class in a minute."
         },
         {
+          "id": "checks",
+          "tab": "skills",
+          "target": "skills",
+          "title": "Checks: the roll window",
+          "text": "Tap a skill (or an attribute) to roll it: d20, equal or under the TN succeeds. The window shows the GM's difficulty — including Favourable, Easy and Very easy when someone helps you or things go your way — the tools you carry, the items in play (a hypo's +1, already counted) and, in the dark, Light. Locks: mechanical → Sleight of Hand, electronic → Electronics, networked → Hacking."
+        },
+        {
           "id": "market",
           "tab": "gear",
           "target": "market",
           "title": "Money and the Market",
-          "text": "Buy officially with your Credit Score (traced) or on the street with cash (untraced, marked up). Guns come with 2 spare magazines — more in the Ammo tab — and Reload uses one. Hackers need a deck and Scavengers an optic. Misc adds story items with no rules. Each inventory row has ⇄ to sell or give it to a player, and 🗑 to drop it."
+          "text": "Buy officially with your Credit Score (traced) or on the street with cash (untraced, marked up). Guns come with 2 spare magazines — more in the Ammo tab — and Reload uses one. Hackers need a deck and Scavengers an optic. Misc adds story items with no rules. Each inventory row has ⇄ to sell or give it to a player, and 🗑 to drop it. Items marked Story only have no dice effect: the GM rules on them."
         },
         {
           "id": "story",
@@ -207,7 +214,7 @@
           "tab": "play",
           "target": "tells",
           "title": "Tells on enemies",
-          "text": "At the start of your turn place 1 Tell, or 2 if you're Unseen (full cover, no attack last round). Max 3 per enemy. Tap an enemy to make it your target for abilities."
+          "text": "At the start of your turn place 1 Tell, or 2 if you're Unseen — full cover, or in the dark (switch In the dark on), and no attack last round. Max 3 per enemy. Tap an enemy to make it your target for abilities."
         },
         {
           "id": "exploit",
@@ -222,6 +229,54 @@
           "target": "engine-abilities",
           "title": "Abilities",
           "text": "They spend the target's Tells: 1 for a small edge, 2 for a big one, 3 for the finisher. Close Study and Case the Room place more Tells."
+        }
+      ]
+    },
+    {
+      "id": "map",
+      "name": "The map",
+      "steps": [
+        {
+          "id": "view",
+          "tab": "map",
+          "target": "map-stage",
+          "title": "The map on the table",
+          "text": "What your crew can see. Drag to look around, pinch or use the mouse wheel to zoom, Fit to see it all. Dark squares: never seen. Dimmed: seen before, nobody sees them now. Doors and windows let sight through; closed doors don't."
+        },
+        {
+          "id": "move",
+          "tab": "map",
+          "target": "map-move",
+          "title": "Moving",
+          "text": "Drag your marker. Shaded squares are where you can reach; the line shows the route round walls. In combat, on your turn, one Move action gives you your squares for the round: step as you like, one square at a time if you want. This line tells you what you can do right now."
+        },
+        {
+          "id": "tap",
+          "tab": "map",
+          "target": "map-target",
+          "title": "Tap to check",
+          "text": "Tap a marker: line of sight (clear, cover likely, blocked), distance, and which of your weapons reach. Tap a piece to see what it is. Tap a door next to you to open or close it — in combat that's an Interact action; a locked one won't budge."
+        },
+        {
+          "id": "gear",
+          "tab": "map",
+          "target": "map-gear",
+          "optional": true,
+          "title": "Light and vision",
+          "text": "Your torch lights 4 squares for the whole crew — and shows the enemy where you are. Night-vision goggles see 6 squares in the dark; a thermal lens shows people as heat signatures, not the room; a flare (Use item) lights where it lands."
+        },
+        {
+          "id": "legend",
+          "tab": "map",
+          "target": "map-legend",
+          "title": "Who's there",
+          "text": "You (filled), your crew, hostiles by letter, other people in purple. A dashed ring is a heat signature: someone in the dark that only thermal picks up."
+        },
+        {
+          "id": "dark",
+          "tab": "map",
+          "title": "Fighting in the dark",
+          "text": "In the dark the roll window adds a Light row: a target you only see as heat −2, one you can't see −4; Stealth +2 unlit, −4 if you're lit or your torch is on; Perception −2 unless you have night vision or thermal. The sheet suggests, you confirm."
         }
       ]
     }

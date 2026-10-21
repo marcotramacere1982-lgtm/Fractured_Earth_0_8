@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Scattered rubble, 1 × 1 square of difficult ground. Several side by side make a field. -->
+  <rect class="detail" x="2" y="2" width="96" height="96" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 6"/>
+  <path class="solid" d="M14 20 L24 14 L30 24 L20 30 Z M58 12 L70 16 L66 28 L54 24 Z M78 50 L90 56 L84 68 L74 62 Z M26 62 L40 58 L42 72 L30 76 Z M54 78 L64 74 L68 86 L56 88 Z M44 40 L52 38 L54 46 L46 48 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+</svg>

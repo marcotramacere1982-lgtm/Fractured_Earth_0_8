@@ -17,6 +17,15 @@
     },
     "5": {
       "example": "Azioni complesse durante un System Hard Reboot, violare il core di una megacorp sotto il fuoco."
+    },
+    "-3": {
+      "example": "Una squadra intera che lavora insieme, l'attrezzatura giusta e tutto il tempo necessario: si tira solo per quello che può ancora andare storto."
+    },
+    "-2": {
+      "example": "Due o tre che si aiutano (una spinta per scavalcare un muro), buoni attrezzi, nessuna fretta."
+    },
+    "-1": {
+      "example": "Qualcuno che aiuta, un attrezzo utile o una dritta da un contatto, un momento per prepararsi."
     }
   },
   "cover": {

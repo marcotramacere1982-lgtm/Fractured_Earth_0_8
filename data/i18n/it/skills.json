@@ -63,7 +63,7 @@
       "desc": "Parkour, scavalcare ostacoli, sfuggire agli inseguimenti."
     },
     "sleight_of_hand": {
-      "desc": "Borseggiare, piazzare prove, piccoli trucchi di mano."
+      "desc": "Borseggiare, piazzare prove, scassinare serrature meccaniche, piccoli trucchi di mano."
     },
     "climb_physical": {
       "desc": "Scalare muri, forzare accessi, sforzo fisico."
@@ -75,10 +75,10 @@
       "desc": "Pilotare droni civili e di sorveglianza (non velivoli militari)."
     },
     "computers_hacking": {
-      "desc": "Accesso ai sistemi, manipolazione delle reti, tracce digitali."
+      "desc": "Accesso ai sistemi, manipolazione delle reti, tracce digitali, serrature in rete dal lato del sistema."
     },
     "electronics_security": {
-      "desc": "Aggirare serrature, disattivare sensori, cortocircuitare hardware."
+      "desc": "Serrature elettroniche e a badge, disattivare sensori e allarmi, cortocircuitare hardware."
     },
     "medicine_first_aid": {
       "desc": "Traumi sul campo, curare ferite, esami forensi."

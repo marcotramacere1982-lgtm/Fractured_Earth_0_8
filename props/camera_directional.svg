@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Wall camera, 0.4 × 0.4: the mount at the top goes on the wall, it looks down (the front). Turn it to aim. -->
+  <rect class="solid" x="14" y="3" width="12" height="5" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="12" y="9" width="16" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="20" cy="22" r="3" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M18 24 L5 38 M22 24 L35 38" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/>
+</svg>

@@ -1,0 +1,461 @@
+{
+  "enemies": {
+    "enemy.street_mugger": {
+      "desc": "Sbandato disperato di basso livello, armato di una lama arrugginita e senza alcun istinto di sopravvivenza.",
+      "behaviour": "Aggressivo e sconsiderato"
+    },
+    "enemy.junk_drone": {
+      "desc": "Un goffo drone domestico modificato, con un taser a scarica montato alla buona.",
+      "behaviour": "Imprevedibile, attacca a sciame"
+    },
+    "enemy.alley_pusher": {
+      "desc": "Spacciatore di basso livello protetto da una banda sgangherata di duri del quartiere.",
+      "behaviour": "Prudente e difensivo"
+    },
+    "enemy.tenement_enforcer": {
+      "desc": "Bruto massiccio che spreme i residenti per l'affitto degli Avalon-Collins Stables.",
+      "behaviour": "Brutale e diretto"
+    },
+    "enemy.syndicate_scrapper": {
+      "desc": "Teppista aggressivo con segni tribali e un tubo contundente.",
+      "behaviour": "Instancabile e rumoroso"
+    },
+    "enemy.ledger_zealot": {
+      "desc": "Teppista neo-religioso fanatico a guardia di un santuario-ATM digitale illuminato del quartiere.",
+      "behaviour": "Fanatico e irremovibile"
+    },
+    "enemy.street_splicer": {
+      "desc": "Smanettone fuori controllo che spara scintille irregolari da hardware fatto in casa.",
+      "behaviour": "Calcolatore, tiene le distanze"
+    },
+    "enemy.guard_recruit": {
+      "desc": "Guardia di sicurezza a basso costo e oberata, che si affida in tutto ai prompt della subnet locale.",
+      "behaviour": "Obbediente ed esitante"
+    },
+    "enemy.watch_patrolman": {
+      "desc": "Guardia standard di Centurion-Vanguard che pattuglia linee di trasporto e canyon urbani.",
+      "behaviour": "Disciplinato e metodico"
+    },
+    "enemy.watch_scout_drone": {
+      "desc": "Piccola unità aerea automatica che trasmette alla subnet aggiornamenti in diretta sulle minacce.",
+      "behaviour": "Sfuggente, ti segue"
+    },
+    "enemy.watch_riot_guard": {
+      "desc": "Guardia pesante di prima linea con scudo balistico e manganello elettrico.",
+      "behaviour": "Fa muro, difensivo"
+    },
+    "enemy.watch_sniper": {
+      "desc": "Specialista a contratto a lungo raggio che copre i varchi d'ingresso della zona grigia.",
+      "behaviour": "Paziente e letale"
+    },
+    "enemy.grid_enforcer": {
+      "desc": "Picchiatore aziendale dei servizi che protegge le dorsali in fibra ottica dai ladri di rame.",
+      "behaviour": "Aggressivo e territoriale"
+    },
+    "enemy.optic_drone": {
+      "desc": "Drone di servizio ronzante capace di sganciare lampi accecanti.",
+      "behaviour": "Tattico, acceca"
+    },
+    "enemy.syndicate_subnet_throttler": {
+      "desc": "Poliziotto dei dati aziendale che stende campi di interferenza sulla rete locale.",
+      "behaviour": "Calcolatore, mette fuori uso"
+    },
+    "enemy.trf_operator": {
+      "desc": "Ripulitore tattico d'élite di Obsidian Response, con respiratore sigillato e lenti AR.",
+      "behaviour": "Coordinato e implacabile"
+    },
+    "enemy.trf_breach_specialist": {
+      "desc": "Combattente tattico pesante armato di cariche cinetiche da sfondamento.",
+      "behaviour": "Aggressivo e risoluto"
+    },
+    "enemy.trf_recon_drone": {
+      "desc": "Unità militare sospesa e silenziosa che caccia in branchi coordinati da quattro.",
+      "behaviour": "Silenzioso, ti segue"
+    },
+    "enemy.trf_sniper": {
+      "desc": "Specialista di alto livello nel recupero di asset, con smorzatori di frequenza.",
+      "behaviour": "Calcolatore, copre dall'alto"
+    },
+    "enemy.trf_heavy_gunner": {
+      "desc": "Soldato aziendale corazzato che blocca le vie di fuga con fuoco cinetico pesante.",
+      "behaviour": "Fuoco di soppressione, implacabile"
+    },
+    "enemy.glitch_anarchist": {
+      "desc": "Sabotatore di strada sconsiderato che lancia cariche EMP fatte in casa.",
+      "behaviour": "Imprevedibile e distruttivo"
+    },
+    "enemy.barricade_drone": {
+      "desc": "Unità sospesa pesante che cala barriere antisommossa d'acciaio nei vicoli stretti.",
+      "behaviour": "Difensivo, sbarra la strada"
+    },
+    "enemy.neo_luddite_zealot": {
+      "desc": "Fanatico anti-tecnologia armato di pesanti mazze a bassa tecnologia.",
+      "behaviour": "Furioso e incessante"
+    },
+    "enemy.ashram_archer": {
+      "desc": "Cacciatore di montagna furtivo, con archi compound silenziosi e cavi a strappo.",
+      "behaviour": "Paziente, tende imboscate"
+    },
+    "enemy.ghost_chaser_scavenger": {
+      "desc": "Cultista visionario che fruga tra i server in cerca delle voci degli antenati.",
+      "behaviour": "Ossessivo e distratto"
+    },
+    "enemy.stalking_relay_drone": {
+      "desc": "Drone autonomo a rete metallica che si aggira vicino ai tralicci dell'alta tensione.",
+      "behaviour": "Furtivo e sfuggente"
+    },
+    "enemy.glass_walker_saboteur": {
+      "desc": "Operativo fuori controllo e sfuggente che mette a segno sabotaggi pesanti alle infrastrutture.",
+      "behaviour": "Sfuggente e metodico"
+    },
+    "enemy.autonomous_strike_unit": {
+      "desc": "Drone di sicurezza aziendale sperimentale che spara proiettili di soppressione letali.",
+      "behaviour": "Implacabile e automatico"
+    },
+    "enemy.terminal_clean_up_bot": {
+      "desc": "Pesante droide da manutenzione industriale riconvertito alla bonifica letale degli asset.",
+      "behaviour": "Inarrestabile e meccanico"
+    },
+    "enemy.sector_commander": {
+      "desc": "Direttore aziendale di alto grado che coordina le reti di risposta tattica.",
+      "behaviour": "Tattico e diretto"
+    }
+  },
+  "elites": {
+    "elite.kaelen_the_carver_vane": {
+      "desc": "Il braccio armato più temuto di uno strozzino della Grey Zone: con una sparachiodi industriale modificata e una lama ad arco riscuote debiti in organi.",
+      "behaviour": "Giustiziere implacabile che si lancia sugli Operatori isolati e scavalca le coperture.",
+      "talents": {
+        "debt_collector_s_focus": {
+          "desc": "+2 danni contro bersagli feriti (un braccio rotto o una gamba azzoppata) o Incapacitated."
+        }
+      }
+    },
+    "elite.centurion_shield_lead": {
+      "desc": "Caposquadra PMC di lunga esperienza, con un pesante scudo antisommossa e ottiche HUD collegate alla squadra.",
+      "behaviour": "Tiene i passaggi stretti in postura difensiva mentre dirige il fuoco preciso degli alleati.",
+      "talents": {
+        "phalanx_wall": {
+          "desc": "Dà +2 di armatura a tutti gli alleati adiacenti. Immune a Prone."
+        }
+      }
+    },
+    "elite.ghost_chaser_preacher_malachai": {
+      "desc": "Capo di un culto, folle, coperto di placche di rack per server, che trasmette statica acustica ad alta frequenza.",
+      "behaviour": "Fanatico imprevedibile che aggira le coperture per disturbare gli HUD degli Operatori.",
+      "talents": {
+        "acoustic_hum_generator": {
+          "desc": "Tutti gli Operatori entro 3 quadretti subiscono −2 TN alle abilità tecniche e agli attacchi a distanza, per il ritorno acustico."
+        }
+      }
+    },
+    "elite.obsidian_vanguard_trf_pointman": {
+      "desc": "Ripulitore aziendale pesantemente corazzato, mandato a chiudere le falle di sicurezza ad alto rischio.",
+      "behaviour": "Sfondatore coordinato che avanza sotto fuoco di copertura.",
+      "talents": {
+        "reactive_plating": {
+          "desc": "Placche ablative a strati che disperdono gli impatti. Solo narrativo: la protezione in più è già nella sua armatura (7)."
+        }
+      }
+    },
+    "elite.rogue_tech_splicer_nix": {
+      "desc": "Viene dalla manutenzione Euro-Grid; ora modifica hardware al mercato nero. Impianti cibernetici alle braccia.",
+      "behaviour": "Combatte a distanza, piazza trappole elettriche e mette fuori uso la cyberware degli Operatori."
+    },
+    "elite.ledger_reclamation_officer": {
+      "desc": "Specialista di audit aziendale dal sangue freddo, con l'autorità di pignorare beni sul posto.",
+      "behaviour": "Tiratore metodico che colpisce per primo l'Operatore con il Credit Score più alto, per far rispettare le regole.",
+      "talents": {
+        "algorithmic_target_lock": {
+          "desc": "+1 TN cumulativo agli attacchi consecutivi contro lo stesso bersaglio."
+        }
+      }
+    },
+    "elite.heavy_cargo_security_unit_apex_hsu": {
+      "desc": "Drone di sicurezza industriale quadrupede riconvertito, che spara raffiche di soppressione letali.",
+      "behaviour": "Inseguitore aggressivo che usa la sua mobilità per aggirare le coperture e prendere sul fianco i bersagli più fragili.",
+      "talents": {
+        "targeting_matrix": {
+          "desc": "Ignora la copertura parziale (+2 di armatura) quando attacca bersagli entro 4 quadretti."
+        }
+      }
+    },
+    "elite.syndicate_pit_boss_jax": {
+      "desc": "Lottatore da arena potenziato ciberneticamente, padrone di un giro di scommesse illegali nella Grey Zone.",
+      "behaviour": "Picchia senza ritegno in corpo a corpo e usa le prese per scompaginare la formazione.",
+      "talents": {
+        "pain_converter": {
+          "desc": "+1 danno a ogni colpo in corpo a corpo per ogni 10 HP che gli mancano dal massimo."
+        }
+      }
+    },
+    "elite.neo_luddite_elder_hunter": {
+      "desc": "Cacciatore veterano con un pesante arco composito e mimetica non connessa.",
+      "behaviour": "Resta nascosto in copertura totale e apre con colpi letali sui bersagli scoperti.",
+      "talents": {
+        "air_gapped_camouflage": {
+          "desc": "Non può essere rilevato né evidenziato dai Ping Sweep degli Hacker o dalle ottiche dei droni."
+        }
+      }
+    },
+    "elite.watch_sector_overseer": {
+      "desc": "Ufficiale di medio livello con un trench balistico da dirigente e comunicazioni tattiche di squadra.",
+      "behaviour": "Resta al sicuro in copertura totale, dirige le guardie di basso livello e le copre da cecchino.",
+      "talents": {
+        "tactical_rally": {
+          "desc": "Una volta per round, come reazione gratuita, una guardia di basso livello vicina appena abbattuta resta in piedi a 1 HP."
+        }
+      }
+    }
+  },
+  "people": {
+    "npc.silas_thorne": {
+      "goal": "Massimizzare le metriche di evasione ordini del settore e farsi promuovere a direttore logistico regionale.",
+      "traits": [
+        "Tutto ottimizzazione",
+        "Leccapiedi",
+        "Vive di metriche"
+      ]
+    },
+    "npc.sister_maeve": {
+      "goal": "Convertire gli inquilini dei blocchi degli slum in fedeli che pagano la decima con la mano biometrica verificata.",
+      "traits": [
+        "Zelante",
+        "Rigida",
+        "Bigotta"
+      ]
+    },
+    "npc.vance_vane": {
+      "goal": "Raggiungere la quota settimanale di segnalazioni di minaccia con il minimo sforzo fisico.",
+      "traits": [
+        "Senza illusioni",
+        "Senza energie",
+        "Tutto moduli e timbri"
+      ]
+    },
+    "npc.commander_kaelen_voss": {
+      "goal": "Bonificare del tutto le zone di Terminal Lockdown da minacce biologiche e digitali.",
+      "traits": [
+        "Impassibile",
+        "In sincrono",
+        "Letale"
+      ]
+    },
+    "npc.patch_alistair": {
+      "goal": "Procurarsi filo di rame non compromesso e componenti air-gapped funzionanti.",
+      "traits": [
+        "Diffidente",
+        "Mille risorse",
+        "Scorza dura"
+      ]
+    },
+    "npc.lyra_vance": {
+      "goal": "Tenere vive ombre acustiche a bassa frequenza negli snodi dei trasporti pubblici.",
+      "traits": [
+        "Voce musicale",
+        "Con i piedi per terra",
+        "Controcorrente"
+      ]
+    },
+    "npc.jaxson_cruz": {
+      "goal": "Mettere a segno un attacco coordinato e ben visibile di spoofing dei dati contro i caselli locali.",
+      "traits": [
+        "Instabile",
+        "Ribelle",
+        "Testa calda"
+      ]
+    },
+    "npc.dr_aris_thorne": {
+      "goal": "Redigere uno statuto municipale di 400 pagine, del tutto a norma, per una rinascita democratica come prima della guerra.",
+      "traits": [
+        "Vive nel passato",
+        "Pedante",
+        "Parla a fiumi"
+      ]
+    },
+    "npc.elder_gauri": {
+      "goal": "Cacciare dal perimetro della valle tutti gli estranei con modifiche cibernetiche.",
+      "traits": [
+        "Dogmi incrollabili",
+        "Vita austera",
+        "Intransigente"
+      ]
+    },
+    "npc.static_sora": {
+      "goal": "Estrarre da un traliccio dell'alta tensione una registrazione pulita della voce di un parente morto.",
+      "traits": [
+        "Idea fissa",
+        "Parla per enigmi",
+        "Reverente"
+      ]
+    },
+    "npc.cell_alpha_operative": {
+      "goal": "Mettere le mani su vulnerabilità zero-day non censurate prima che arrivino le patch aziendali.",
+      "traits": [
+        "Sfuggente",
+        "Calcolo freddo",
+        "Tutto metodo"
+      ]
+    },
+    "npc.marcus_sterling": {
+      "goal": "Strozzare la rete in modo mirato per soffocare i disordini che crescono nel settore 4.",
+      "traits": [
+        "Sangue freddo",
+        "Pragmatismo puro",
+        "Calcola tutto"
+      ]
+    },
+    "npc.tressa_dale": {
+      "goal": "Eliminare le inefficienze automatizzando il lavoro umano in reparto.",
+      "traits": [
+        "Mente analitica",
+        "Sangue freddo",
+        "Grande ambizione"
+      ]
+    },
+    "npc.brother_thomas": {
+      "goal": "Proteggere il santuario-ATM digitale illuminato del quartiere dai vandali del baratto di strada.",
+      "traits": [
+        "Devoto",
+        "Spietato",
+        "Rumoroso"
+      ]
+    },
+    "npc.guard_specialist_ricks": {
+      "goal": "Arrivare a fine turno senza farsi richiamare dall'IA della subnet.",
+      "traits": [
+        "Senza energie",
+        "Obbediente",
+        "Tira a campare"
+      ]
+    },
+    "npc.operative_nine": {
+      "goal": "Rintracciare ed eliminare gli splicer di dati nascosti nelle linee abbandonate della metro.",
+      "traits": [
+        "Parla poco",
+        "Precisione chirurgica",
+        "Implacabile"
+      ]
+    },
+    "npc.solder_gwen": {
+      "goal": "Mandare avanti una dispensa sotterranea segreta di acqua pulita e antibiotici non tracciati.",
+      "traits": [
+        "Protegge i suoi",
+        "Pragmatismo",
+        "Prudente"
+      ]
+    },
+    "npc.corin_blake": {
+      "goal": "Insegnare ai giovani sbandati di strada melodie acustiche contro la profilazione.",
+      "traits": [
+        "Anima d'artista",
+        "Paziente",
+        "Ribelle"
+      ]
+    },
+    "npc.vespera_frost": {
+      "goal": "Provocare un blackout totale della rete municipale con cariche coordinate che friggono l'hardware.",
+      "traits": [
+        "Nessun freno",
+        "Ama provocare",
+        "Sempre in moto"
+      ]
+    },
+    "npc.elena_rostova": {
+      "goal": "Assicurarsi una sala riunioni funzionante con una lavagna analogica non sorvegliata.",
+      "traits": [
+        "Mentalità accademica",
+        "Testa dura",
+        "Idealista"
+      ]
+    },
+    "npc.brother_kenji": {
+      "goal": "Distruggere tutti i ripetitori wireless nel raggio di sedici chilometri di foresta.",
+      "traits": [
+        "Fanatico",
+        "Solitario",
+        "Stoico"
+      ]
+    },
+    "npc.echo_ren": {
+      "goal": "Mappare i flussi di dati dei server abbandonati in cerca delle voci degli antenati.",
+      "traits": [
+        "Si muove nell'ombra",
+        "Sente voci",
+        "Concentrazione totale"
+      ]
+    },
+    "npc.cell_beta_operative": {
+      "goal": "Organizzare un grande blackout su un'arteria chiave della distribuzione logistica.",
+      "traits": [
+        "Senza volto",
+        "Vuole distruggere",
+        "Mente strategica"
+      ]
+    },
+    "npc.nadia_cole": {
+      "goal": "Ottimizzare la distribuzione globale della banda in fibra ottica, strozzando le subnet ribelli.",
+      "traits": [
+        "Efficiente",
+        "Distacco glaciale",
+        "Mente analitica"
+      ]
+    },
+    "npc.orson_vance": {
+      "goal": "Fare l'audit dei Credit Score dei caseggiati di basso livello per congelare i portafogli non in regola.",
+      "traits": [
+        "Nessuna pietà",
+        "Tutto moduli e timbri",
+        "Sangue freddo"
+      ]
+    },
+    "npc.nails_henderson": {
+      "goal": "Costruire cavi ombelicali a 40 pin su misura per modificare i droni offline.",
+      "traits": [
+        "Ingegno pratico",
+        "Tenace",
+        "Parla poco"
+      ]
+    },
+    "npc.lyanna_cross": {
+      "goal": "Fare soldi con le piccole infrazioni di sicurezza, incassando mazzette non ufficiali.",
+      "traits": [
+        "Si fa corrompere",
+        "Opportunista",
+        "Furbizia"
+      ]
+    },
+    "npc.deacon_vance": {
+      "goal": "Imporre una rigida obbedienza alla comunità con confessioni automatiche del Credit Score.",
+      "traits": [
+        "Fanatico",
+        "Autoritario",
+        "Intenso"
+      ]
+    },
+    "npc.rivet_miller": {
+      "goal": "Far passare dispositivi EMP non registrati oltre i droni automatici dei posti di blocco.",
+      "traits": [
+        "Audace",
+        "Grinta",
+        "Ribelle"
+      ]
+    },
+    "npc.cell_gamma_operative": {
+      "goal": "Diffondere malware a caso nei database dei pronto soccorso municipali.",
+      "traits": [
+        "Imprevedibile",
+        "Distacco",
+        "Nell'ombra"
+      ]
+    },
+    "npc.jayna_the_anchor": {
+      "goal": "Trovare crediti liquidi per pagare le multe municipali fraudolente sul laboratorio di famiglia, prima che l'arcologia aziendale se lo prenda.",
+      "traits": [
+        "Stoica",
+        "Iper-competente",
+        "Protettiva fino in fondo"
+      ]
+    }
+  }
+}

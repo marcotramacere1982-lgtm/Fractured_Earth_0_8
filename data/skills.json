@@ -174,7 +174,7 @@
         "DEX",
         "INT"
       ],
-      "desc": "Pickpocketing, planting evidence, subtle manual tricks."
+      "desc": "Pickpocketing, planting evidence, picking mechanical locks, subtle manual tricks."
     },
     {
       "id": "climb_physical",
@@ -214,7 +214,7 @@
         "INT",
         "MST"
       ],
-      "desc": "System access, network manipulation, digital footprints."
+      "desc": "System access, network manipulation, digital footprints, networked locks from the system side."
     },
     {
       "id": "electronics_security",
@@ -224,7 +224,7 @@
         "WIS",
         "DEX"
       ],
-      "desc": "Bypassing door locks, disabling sensors, hardware hotwiring."
+      "desc": "Electronic and keycard locks, disabling sensors and alarms, hardware hotwiring."
     },
     {
       "id": "medicine_first_aid",

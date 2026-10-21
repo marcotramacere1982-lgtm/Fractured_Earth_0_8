@@ -18,7 +18,7 @@ function baseDescribe(kind, e, data) {
   switch (kind) {
     case 'weapon': return `${e.type} · ${e.damage} · ${e.range.min}–${e.range.max}m${e.magSize ? ` · ${t('gear.mag')} ${e.magSize}` : ''}`;
     case 'armor': return `${e.type} · ${t('stat.armor')} +${e.maxHits} · ${t('gear.visibility')} ${e.visibility}/5`;
-    case 'item': return e.effect; // the effect says it all (the market groups by kind)
+    case 'item': return e.story ? `${t('gear.storyOnly')} · ${e.effect}` : e.effect; // story items: no dice effect, the GM rules on them (decision 77)
     case 'deck': return `RAM ${e.ram} · heat cap ${e.heatCap} · ${e.modSlots} mod slot · ${t('gear.battery')} ${e.battery.idle} idle / ${e.battery.usage} use`;
     case 'deckMod': return `+${e.amount} ${e.type === 'ram' ? 'RAM' : 'heat cap'}`;
     case 'ammo': return `${e.ammo} · ${t('gear.rounds', { n: e.magSize })}`;

@@ -53,6 +53,7 @@ export function spawn(template, label) {
     attacks: structuredClone(template.attacks ?? []),
     talents: structuredClone(template.talents ?? []),
     immune: [...(template.immune ?? [])], // conditions this enemy shrugs off (elites: "can't be knocked down"…)
+    vision: template.vision ?? 'none', // decision 76: none / night / thermal — darkness doesn't hide anyone from night vision or thermal
     injuries: { arm: 0, leg: 0 }, // broken arms / crippled legs (synthetic: jammed mounts are a condition)
     conditions: [],
     notes: '',

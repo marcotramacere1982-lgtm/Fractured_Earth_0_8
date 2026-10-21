@@ -50,6 +50,31 @@ Cover in this system does not make an Operator harder to hit by altering defense
 
 > When a piece of Partial or Full Cover absorbs a high-damage kinetic attack, it can degrade. A Tech Wizard can immediately target degraded or destroyed cover using their Scavenge & Survey or Deploy Improvised Cover abilities to gather immediate scrap materials or rebuild field barricades!
 
+### 4. Darkness
+
+Darkness never makes anyone harder to hit — cover does that, as armor. It changes how well you **aim, sneak and look**. Whether a place is dark comes from the map on the table (the environment, lights that are on, darkness zones, your own torch) or, with no map, from the GM's table-wide *Light* switch. The sheet suggests the right line in the check window; you confirm it.
+
+- **Attacks:** a target you see only as a heat signature (thermal) **−2 TN**, and no called shots or location attacks; a target in the dark you cannot see (you heard it, the GM tells you where) **−4 TN**; a target whose position you don't know can't be attacked.
+- **Stealth:** **+2** in an unlit square; **−4** when a light reaches you or your torch is on.
+- **Perception:** **−2** in the dark, unless you have night vision or thermal (their own tool bonuses still apply).
+- **Light gives you away:** a lit character gets no help from the dark — enemies shoot at them as in daylight.
+- **Gear:** night-vision goggles see unlit squares up to 6; thermal (lens or a Scavenger's Thermal optic) shows people, not the room; a torch lights 4 squares round you and everyone else; a flare lights 3 where it lands.
+- **Enemies see in the dark too:** some carry night vision or thermal (Obsidian's TRF squads do; a Watch patrolman rarely). Against them, the dark hides nothing — the GM knows which.
+- **Scavenger:** being in the dark (unlit, and the GM agrees the target can't see you) counts as **Unseen**, like full cover.
+
+### 5. The map on the table {#sec-7-2-map}
+
+When the GM puts a tactical map on the table, a **Map** tab appears on your sheet (with a dot) and stays while the map is on. It is the GM's map minus what your crew doesn't know. The map helps you picture the scene and saves arguments about distances; it is not a referee — the GM still has the last word. The first time you open it, the tab offers a one-minute tour; its **?** button replays it.
+
+- **Looking around.** Drag the map to pan, pinch or use the mouse wheel to zoom, *Fit* to see it all. One square is 1.5 m.
+- **Who's who.** Your marker is filled, with your initials; your crew's markers are outlined. Hostiles carry the same letters as the *Hostiles* list (7-1). Other people — workers, clerks, guards — are purple and go by role (*Worker 1*, marker W1) until you learn a name. A dashed ring is a **heat signature**: someone in the dark that only thermal picks up.
+- **What you see (fog of war).** You see what any marker of your crew can see *right now*: walls, closed doors and some pieces block sight; open doors and windows let it through. Squares nobody has seen are dark; squares seen before are dimmed — you remember the room, not who is in it now. Enemies and other people show only while one of you sees them. In a dark place you see only what a light reaches (ceiling lights, a torch, a flare) or what your gear shows (§4). The GM can also reveal squares by hand — a floor plan you bought, a camera feed you tapped.
+- **Moving.** Drag your marker. The shaded squares are where you can get to; the line shows the route round walls and closed doors. Out of combat moving costs nothing, as long as the GM lets players move (otherwise the line under the map says *The GM moves the markers*). In combat, on your turn, **one Move action gives you your squares (SQR) for the round**: step as you like, several short steps are still one action; going further takes a second Move action. Squares you don't use are lost at the end of the round. The *Move* button on the Play tab gives the same squares. Difficult ground costs 2 squares per square. Stairs and elevators have invisible sides: you step on at the ends, or through the doors; changing floor is table talk with the GM. The line beside the map always tells you what you can do right now.
+- **Doors.** Stand next to a door (beside it or diagonally) and tap it: *Open it* / *Close it*. In combat that is an **Interact action** on your turn. A locked door doesn't budge: the action is spent, you are told it's locked and the GM knows you tried. Then it's a job for the locks (5-3): Sleight of Hand, Electronics / Security, Computers / Hacking, or STR and a crowbar.
+- **Tap to check.** Tap a marker to see **line of sight** — *Clear line*, *Cover likely* (with the reason; the GM confirms half or full cover) or *Blocked* (a wall, a closed door, a piece in the way) — the **distance** in squares and metres, and which of your slotted weapons are **in range**, too far or too close. Tap a piece (a desk, a crate, a laser line) to see what it is and whether it blocks movement or sight. Tap empty ground to clear. All of this is information only: it never rolls dice or decides cover for you.
+- **Light and gear.** If you carry a Tactical Torch, the Map tab has its switch: it lights 4 squares round you for the whole crew — and shows the enemy exactly where you are. Night-vision goggles and thermal work on their own when you carry them. A flare (*Use item* on the Chemical Flare Sticks) drops a light on your square.
+- **What the map doesn't show.** Hidden sensors, alarm panels, which doors are locked, and anyone nobody can see. An empty corridor on the tablet is not an empty corridor.
+
 ## 7-3. Action Types {#sec-7-3}
 
 Combat in *The Fractured Century* operates on a flat, fluid action economy. The system intentionally eliminates complex action tiers—there are no "minor," "major," or "bonus" actions. Every action carries equal weight, allowing Operators to adapt their tactical response dynamically as threats escalate.
@@ -223,7 +248,7 @@ The sheet applies the zone bonuses automatically: gun Attack TN, damage rolls (s
 
 The Scavenger turns attention into damage. **Tells** sit on individual enemies (max 3 each, as many enemies as the optic can Track) and are spent on that enemy.
 
-- **Start of your turn:** place 1 Tell on an enemy you can see, or 2 if you are Unseen (full cover and no attack last round). The sheet reminds you how many are still to place.
+- **Start of your turn:** place 1 Tell on an enemy you can see, or 2 if you are Unseen (full cover, or in the dark — and no attack last round). The sheet reminds you how many are still to place.
 - **Attacking** (an attack, or *Called Shot* / *Kill Shot*) means you count as having attacked this round: next round you place only 1. *Vanish* (once per combat) slips you back into full cover and clears that.
 - **Exploit:** after an attack hits and the damage is in, the roll window asks which enemy you hit and how many of its Tells to spend: +1d4 each, rolled or typed, then those Tells are gone.
 - **Abilities** cost Tells on the target: 1 for a small edge (*Mark*, *Lift*, *Misdirect*, *Pin the Route*), 2 for a big one (*Jam*, *Called Shot*, *Strip*), 3 for the finisher (*Kill Shot*). Like every ability they roll your Class TN, and a failed roll still pays its cost.

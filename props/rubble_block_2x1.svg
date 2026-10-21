@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Rubble heap, 2 × 1: collapsed concrete, blocks movement and sight. -->
+  <path class="solid" d="M8 50 L30 12 L80 6 L120 16 L170 10 L194 44 L186 82 L130 94 L70 90 L22 86 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path class="detail" d="M80 6 L96 48 L130 94 M96 48 L22 86 M96 48 L170 10 M96 48 L186 82" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

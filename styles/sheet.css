@@ -316,3 +316,35 @@
 /* Market: group headings (weapon type, where armor is worn, what an item is for) */
 .market-group { margin: var(--space-3) 0 var(--space-1); font-family: var(--font-ui); font-size: var(--text-sm); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--color-accent); }
 .market-group:first-child { margin-top: 0; }
+
+/* Map tab (decision 64, step 2) */
+.tab--live::after { content: ''; display: inline-block; width: 0.5rem; height: 0.5rem; margin-left: var(--space-1); border-radius: 50%; background: var(--color-accent); vertical-align: middle; }
+/* the map keeps a fixed height that fits the screen; what goes with it sits beside it (decision 72: no scroll inside a scroll) */
+.map-card__body { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; border-top: var(--border-width) solid var(--color-border); }
+.map-card__stage { display: flex; height: clamp(18rem, calc(100dvh - var(--header-h) - 17rem), 52rem); }
+.map-card__side { display: flex; flex-direction: column; border-left: var(--border-width) solid var(--color-border); max-height: clamp(18rem, calc(100dvh - var(--header-h) - 17rem), 52rem); overflow-y: auto; }
+.map-card__side > :first-child { border-top: none; }
+@media (max-width: 900px) {
+  .map-card__body { grid-template-columns: 1fr; }
+  .map-card__stage { height: clamp(16rem, 55dvh, 34rem); }
+  .map-card__side { border-left: none; max-height: none; }
+}
+.map-legend { list-style: none; margin: 0; padding: var(--space-2) var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); border-top: var(--border-width) solid var(--color-border); }
+.map-legend__item { display: flex; align-items: center; gap: var(--space-2); }
+.map-legend__item.is-down { opacity: 0.5; }
+.map-legend__item.is-you { font-weight: 700; }
+.map-legend__dot { display: inline-grid; place-items: center; min-width: 1.9rem; height: 1.9rem; border-radius: 50%; font-family: var(--font-display); border: 2px solid var(--color-info); background: var(--color-info-soft); }
+.map-legend__dot--enemy { border-color: var(--color-danger); background: var(--color-danger-soft); }
+.map-card .hint { padding: var(--space-2) var(--space-4) var(--space-3); margin: 0; }
+.map-card__move { margin: 0; padding: var(--space-2) var(--space-4); border-top: var(--border-width) solid var(--color-border); color: var(--color-text-muted); }
+.map-card__move.is-go { color: var(--color-accent); font-weight: 600; }
+/* map target: line of sight + range (step 4) */
+.map-target { margin: 0; padding: var(--space-2) var(--space-4); border-top: var(--border-width) solid var(--color-border); display: flex; flex-direction: column; gap: var(--space-2); }
+.map-target__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.map-target__head .btn { margin-left: auto; }
+.map-target__why { margin: 0; }
+.map-target__weapons { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.map-target__weapons li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--space-2); align-items: center; }
+.map-legend__dot--npc { border-color: var(--color-private); background: var(--color-private-soft); }
+.map-card__gear { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-top: var(--border-width) solid var(--color-border); }
+.check-boosts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); margin: 0; }

@@ -3,7 +3,9 @@
   "title": "Fractured Earth — Manuale base",
   "parts": [
     "Il mondo",
-    "Le regole"
+    "Le regole",
+    "Il Game Master",
+    "La collezione"
   ],
   "chapters": {
     "ch-1": "La storia finora",
@@ -13,6 +15,9 @@
     "ch-5": "Il tuo personaggio",
     "ch-6": "Narrazione ed esplorazione",
     "ch-7": "Combattimento",
-    "ch-8": "Equipaggiamento e denaro"
+    "ch-8": "Equipaggiamento e denaro",
+    "ch-9": "Condurre il gioco",
+    "ch-10": "Nemici",
+    "ch-11": "Gente del 2045"
   }
 }

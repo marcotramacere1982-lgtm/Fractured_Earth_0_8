@@ -48,9 +48,11 @@ Per fare una prova, il giocatore tira un solo **d20** e confronta il risultato c
 
 ### La matrice della difficoltà globale
 
-Il GM non fa calcoli complicati al momento. Tutti i pericoli ambientali, i problemi di visibilità, gli impedimenti fisici e le difese nemiche vengono riassunti in un unico **livello di difficoltà globale** (da 0 a −10), sottratto direttamente dal valore base del giocatore:
+Il GM non fa calcoli complicati al momento. Tutti i pericoli ambientali, i problemi di visibilità, gli impedimenti fisici e le difese nemiche vengono riassunti in un unico **livello di difficoltà globale** (da +6 a −10), applicato direttamente al valore base del giocatore:
 
 ::table[difficulty]
+
+**Più facile del Routine.** Non tutte le scene giocano contro gli Operatori. Quando la situazione è dalla loro parte, il GM sposta la scala nell'altro senso: **Favourable +2, Easy +4, Very easy +6**. È così che funziona l'aiuto: non c'è una regola a parte. Due persone qualunque che si danno una spinta per scavalcare un muro è *Easy*; un compagno che tiene ferma la scala è *Favourable*; tutta la squadra che tira su una cassa per una rampa con l'attrezzatura giusta è *Very easy*. Attrezzi adatti, tempo in abbondanza o una dritta da un contatto contano allo stesso modo. Si sceglie un solo livello per tutta la situazione (non si sommano tra loro), e tira solo chi fa la prova. Il GM può impostarlo per tutto il tavolo, o semplicemente dire al giocatore quale livello scegliere nella finestra del tiro.
 
 ### Prove contrapposte
 

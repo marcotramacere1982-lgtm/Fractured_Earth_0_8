@@ -296,7 +296,7 @@
           "estimatePerRound": 1.25
         },
         "rules": {
-          "gain": "At the start of each of your turns, place 1 Tell on an enemy you can see within your optic's range; 2 if you are in full cover and did not attack last round (Unseen).",
+          "gain": "At the start of each of your turns, place 1 Tell on an enemy you can see within your optic's range; 2 if you are in full cover or in the dark and did not attack last round (Unseen).",
           "cap": "At most 3 Tells on one enemy, and only as many enemies hold your Tells as your optic can Track.",
           "lost": "Tells on an enemy are lost when it goes down, or at the end of a round in which you lost sight of it.",
           "exploit": "Exploit (always on): when you hit an enemy, spend any of its Tells for +1d4 damage each.",

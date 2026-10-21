@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Chair, ½ × ½. Backrest at the top (the back). -->
+  <rect class="solid" x="10" y="14" width="30" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+  <line class="solid" x1="9" y1="8" x2="41" y2="8" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+</svg>

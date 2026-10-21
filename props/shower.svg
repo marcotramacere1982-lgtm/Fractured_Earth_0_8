@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Shower, 1 × 1: tray, drain, head in the back corner. -->
+  <rect class="solid" x="4" y="4" width="92" height="92" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M4 4 L96 96 M96 4 L4 96" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 5"/>
+  <circle class="detail" cx="50" cy="50" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle class="detail" cx="14" cy="14" r="4" fill="currentColor" stroke="none"/>
+</svg>

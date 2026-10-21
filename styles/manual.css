@@ -62,6 +62,26 @@
 .md-badge { display: inline-block; padding: 0 var(--space-2); border-radius: 999px; border: var(--border-width) solid var(--color-border-strong); font-family: var(--font-mono); font-size: var(--text-xs); white-space: nowrap; }
 .md-badge--danger { color: var(--color-danger); border-color: var(--color-danger); }
 .md-missing { color: var(--color-danger); }
+.md-badge--info { color: var(--color-info); border-color: var(--color-info); }
+.md-badge--warn { color: var(--color-warning); border-color: var(--color-warning); }
+.md-badge--ok { color: var(--color-success); border-color: var(--color-success); }
+
+/* ---------- the collection: stat cards (decision 81) ---------- */
+.md-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: var(--space-3); margin: var(--space-4) 0; }
+.md-cards__group { margin-top: var(--space-5); }
+.md-card { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); font-size: var(--text-sm); line-height: 1.45; }
+.md-card--elite { border-color: var(--color-accent); }
+.md-card p { margin: 0; }
+.md-card__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+.md-card__name { font-family: var(--font-ui); font-size: var(--text-md); }
+.md-card__desc { color: var(--color-text-muted); font-style: italic; }
+.md-card__stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-1); margin: 0; }
+.md-card__stats div { padding: var(--space-1); border-radius: var(--radius-sm); background: var(--color-surface-2); text-align: center; }
+.md-card__stats dt { font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.md-card__stats dd { margin: 0; font-family: var(--font-mono); font-weight: 600; }
+.md-card__attacks { margin: 0; padding-left: var(--space-4); }
+.md-card__label { font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-right: var(--space-1); }
+.md-card__special { padding: var(--space-2); border-left: 3px solid var(--color-accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: var(--color-accent-soft); }
 
 /* ---------- rule tooltips ---------- */
 .info {

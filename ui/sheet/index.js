@@ -1,6 +1,6 @@
 // Character sheet view: #/sheet/<id>/<tab>
 
-import { html, render, delegate, cleanup } from '../dom.js';
+import { html, render, delegate, cleanup, signed } from '../dom.js';
 import { href, go } from '../router.js';
 import { toast } from '../shell.js';
 import { deriveSheet } from '../../state/character.js';
@@ -29,8 +29,12 @@ import { storyPrompt } from '../builder/prompts.js';
 import { soundOn, setSound } from '../sound.js';
 import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
+import { boostsFor } from './check-boosts.js';
+import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen } from './map-tab.js';
+import { carriesTorch, visionOf } from '../../rules/light.js';
+import { lightOptions, lightKind, squareLight } from '../../rules/darkness.js';
 
-const rollText = (r) => `d20 ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}`;
+const rollText = (r) => `d20 ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}`;
 
 const TABS = [
   { id: 'play', label: 'sheet.tab.play', view: playTab },
@@ -39,11 +43,13 @@ const TABS = [
   { id: 'dossier', label: 'sheet.tab.dossier', view: dossierTab },
   { id: 'notes', label: 'sheet.tab.notes', view: notesTab },
   { id: 'progress', label: 'sheet.tab.progress', view: progressTab },
+  { id: 'map', label: 'sheet.tab.map', view: mapTab }, // only while the GM has a map on the table (decision 64)
 ];
 
 export function sheetView({ data, store, main, table }, route) {
   const [id, tabId = 'play'] = route.params;
-  const tab = TABS.find((x) => x.id === tabId) ?? TABS[0];
+  const tableMap = () => (table?.state.joinedId === id ? table.state.map : null);
+  const tabs = () => TABS.filter((x) => x.id !== 'map' || tableMap());
   if (!store.get(id)) {
     render(main, html`<div class="card"><div class="empty"><div class="empty__title">${t('sheet.notFound')}</div><a class="btn" href="#/">${t('common.backToCharacters')}</a></div></div>`);
     return;
@@ -61,6 +67,8 @@ export function sheetView({ data, store, main, table }, route) {
   };
 
   const draw = () => {
+    if (mapBusy()) return; // a finger on the map: it redraws when the finger lifts
+    const tab = tabs().find((x) => x.id === tabId) ?? TABS[0];
     const c = character();
     const s = deriveSheet(c, data);
     // keep collapsible sections open across re-renders
@@ -74,17 +82,73 @@ export function sheetView({ data, store, main, table }, route) {
           <button class="btn btn--sm btn--ghost" data-action="tourSkip">${t('tour.offerNo')}</button></p>`}
         <div class="sheet-nav">
           <nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
-            ${TABS.map((x) => html`<a class="tab" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
+            ${tabs().map((x) => html`<a class="tab ${x.id === 'map' ? 'tab--live' : ''}" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
           </nav>
           <div class="cluster">
             ${crewBadge(table, data)}${soundButton(table)}<button class="btn btn--sm btn--ghost" data-action="tour" data-id="general" title="${t('tour.startHint')}" aria-label="${t('tour.startHint')}">?</button>${tableButton(table, id)}
             <button class="btn btn--sm" data-action="export" title="${t('sheet.exportHint')}">${t('common.export')}</button>
           </div>
         </div>
-        <div class="sheet-body">${tab.view(c, s, withUniques(data, c), { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available) })}</div>
+        <div class="sheet-body">${tab.view(c, s, withUniques(data, c), { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null })}</div>
       </div>`);
+    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved });
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
   };
+
+  /**
+   * Decision 64, step 3: may this player drag their marker now? In combat: their turn, an action left, up to
+   * their move; out of combat: freely (data.map.move.explore). null: not on the map or the GM moves markers.
+   */
+  const mapMove = () => {
+    const map = tableMap();
+    if (!map?.canMove || !map.tokens.some((tk) => tk.key === id)) return null;
+    const combat = tableCombat();
+    if (!combat?.active) return { max: data.map.move.explore, combat: false };
+    if (combat.current !== id) return { why: 'notTurn' };
+    const c = character();
+    const s = deriveSheet(c, data);
+    const turn = c.play.turn ?? newTurn();
+    const left = turn.moveLeft ?? 0; // squares left from this round's Move (decision 73)
+    const more = turnStatus(turn, s.combat.act.value, c.play.conditions, data.actions).left > 0 ? s.move : 0;
+    if (!left && !more) return { why: 'noActions' };
+    return { max: left + more, combat: true, left, move: s.move };
+  };
+  /** Doors (decision 73): may this player open / close a door next to them now? 'ok' | 'gm' | 'wait' | 'noActions' */
+  const doorUse = () => {
+    const map = tableMap();
+    if (!map?.canMove) return 'gm';
+    const combat = tableCombat();
+    if (!combat?.active) return 'ok';
+    if (combat.current !== id) return 'wait';
+    const c = character();
+    return turnStatus(c.play.turn ?? newTurn(), deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions).left > 0 ? 'ok' : 'noActions';
+  };
+  /** A move the sheet accepted: in combat it is a Move action (logged); then the GM console applies it. */
+  const mapMoved = (to, steps, inCombat) => {
+    if (inCombat) {
+      try {
+        store.update(id, (d) => { actions.mapMove(d, withUniques(data, d), { steps }); });
+      } catch (err) { toast(ruleText(err), 'danger'); return false; }
+    }
+    table.move(tableMap().id, to);
+    return true;
+  };
+
+  /**
+   * Decision 76: the light situation for a check. With a map on the table (fog on) your own square decides;
+   * otherwise the GM's table-wide Light switch. lit: a light reaches you, or your torch is on.
+   */
+  const darkCtx = () => {
+    const c = character();
+    const wd = withUniques(data, c);
+    const map = tableMap();
+    const me = map?.tokens.find((tk) => tk.key === id);
+    const square = map && 'light' in map && me ? squareLight(map, me) : null;
+    const dark = square ? square.dark : table?.state.joinedId === id && table.state.light === true;
+    const torch = Boolean(c.play.torch && carriesTorch(c, wd));
+    return { dark, lit: Boolean(square?.lit) || (dark && torch), vision: visionOf(c, wd), target: targetSeen(map, id) };
+  };
+  const lightFor = (kind) => { const l = kind ? lightOptions(kind, darkCtx(), data) : null; return l ? { ...l, kind } : null; };
 
   /** Runs a sheet action against the store; errors become toasts. */
   const run = (name, args = {}, opts = {}) => {
@@ -104,10 +168,10 @@ export function sheetView({ data, store, main, table }, route) {
       const a = data.attributes.attributes.find((x) => x.id === targetId);
       const v = s.attributes[targetId]; // with item boosts (decision 58)
       // attribute check: roll against the attribute value itself
-      return { name: t('check.attribute', { name: a.name }), tn: v, sub: `${a.id} ${v} (bonus ${bonus(v)})`, tools: toolsFor(c.play.inventory, data.items, { attr: targetId }) };
+      return { name: t('check.attribute', { name: a.name }), tn: v, sub: `${a.id} ${v} (bonus ${bonus(v)})`, tools: toolsFor(c.play.inventory, data.items, { attr: targetId }), boosts: boostsFor(c, data, { kind: 'attr', id: targetId }) };
     }
     const k = s.skills.find((x) => x.id === targetId);
-    return { name: k.name, tn: k.value, sub: k.stats.join(' + '), tools: toolsFor(c.play.inventory, data.items, { skill: targetId }) };
+    return { name: k.name, tn: k.value, sub: k.stats.join(' + '), tools: toolsFor(c.play.inventory, data.items, { skill: targetId }), boosts: boostsFor(c, data, { kind: 'skill', id: targetId }) };
   };
 
   const tableCombat = () => (table?.state.joinedId === id ? table.state.combat : null);
@@ -177,7 +241,7 @@ export function sheetView({ data, store, main, table }, route) {
       const penalty = aimed ? sh.locationPenalty : 0; // Marksman lowers it
       openCheck({ name: t(aimed ? 'attack.locatedTitle' : 'attack.title', { weapon: w.name }), tn: w.tn - penalty, sub: aimed ? `${nameOfSkill(w.skill)} · ${t('attack.locatedSub', { n: penalty })}` : nameOfSkill(w.skill) }, data,
         (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), located: aimed }),
-        { tier: tableTier(), once: true, tools: toolsFor(c.play.inventory, data.items, { skill: w.skill, attack: isRanged(w) ? 'gun' : null }),
+        { tier: tableTier(), once: true, tools: toolsFor(c.play.inventory, data.items, { skill: w.skill, attack: isRanged(w) ? 'gun' : null }), light: lightFor('attack'), boosts: boostsFor(c, data, { kind: 'weapon', slot }),
           after: (r) => (r.success ? '' : html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`),
           flow: weaponFlow({ c, sh, data, w, spec: { located: aimed }, exploit: true, combat: tableCombat(), onDone: (o) => run('attackDamage', o) }) });
     },
@@ -186,7 +250,7 @@ export function sheetView({ data, store, main, table }, route) {
       const sh = deriveSheet(c, data);
       const avoid = sh.skills.find((k) => k.id === 'avoid_reflexes');
       openCheck({ name: t('dodge.title'), tn: avoid.value, sub: `${avoid.name} · ${t('dodge.sub')}` }, data,
-        (r) => run('dodge', { success: r.success, rollText: rollText(r) }), { tier: tableTier(), once: true });
+        (r) => run('dodge', { success: r.success, rollText: rollText(r) }), { tier: tableTier(), once: true, boosts: boostsFor(c, data, { kind: 'skill', id: 'avoid_reflexes' }) });
     },
     act: ({ kind, detail }) => { const c = character(); if (actionAvailable(c, deriveSheet(c, data))) run('act', { kind, detail }); },
     /** Reload / swap (decision 56): a small choice — reload the weapon in hand, or swap to the other one. */
@@ -220,7 +284,10 @@ export function sheetView({ data, store, main, table }, route) {
     useItem: ({ id: itemId }) => {
       const c = character();
       if (!actionAvailable(c, deriveSheet(c, data))) return;
-      startUseItem({ character, data, run, onlyId: itemId ?? null });
+      startUseItem({ character, data, run, onlyId: itemId ?? null, onUsed: (item) => { // decision 75: a flare lands on the table map
+        const map = tableMap();
+        if (item.light?.drop && map?.tokens.some((tk) => tk.key === id)) table.flare(map.id);
+      } });
     },
     endEffect: ({ id: effectId }) => run('endEffect', { id: effectId }),
     storyUse: ({ id: itemId }) => { run('storyUse', { id: itemId }); toast(t('use.storyDone')); },
@@ -257,7 +324,7 @@ export function sheetView({ data, store, main, table }, route) {
       const tour = data.tours.tours.find((x) => x.id === tourId);
       if (tour) startTour(tour, { openTab: (tabId) => { if (location.hash !== href('sheet', id, tabId)) go('sheet', id, tabId); }, onClose: () => draw() });
     },
-    tourSkip: () => { markTourDone('general'); draw(); },
+    tourSkip: ({ id: tourId }) => { markTourDone(tourId ?? 'general'); draw(); },
     copyPrompt: async ({ target }) => {
       const el = document.getElementById(target);
       try { await navigator.clipboard.writeText(el.value); toast(t('builder.copied'), 'success'); } catch { el.select(); document.execCommand('copy'); toast(t('builder.copied')); }
@@ -274,13 +341,27 @@ export function sheetView({ data, store, main, table }, route) {
     combatStart: () => run('combatStart'),
     portraitClear: () => run('field', { path: 'portrait.dataUrl', value: '' }),
     export: () => exportCharacter(character()),
+    mapFit: () => mapFit(),
+    mapZoom: ({ dir }) => mapZoom(dir),
+    mapTarget: () => { clearTarget(); draw(); },
+    mapInfoClose: () => { clearTarget(); draw(); },
+    mapTorch: ({ on }) => run('torch', { on: on === '1' }),
+    inDark: ({ on }) => run('inDark', { on: on === '1' }),
+    mapDoor: ({ door, open }) => { // a door next to the player's marker: an Interact action in combat; the GM console checks the lock
+      if (tableCombat()?.active) {
+        try {
+          store.update(id, (d) => { actions.act(d, withUniques(data, d), { kind: 'interact', detail: `${open === '1' ? 'opens' : 'closes'} a door on the map` }); });
+        } catch (err) { toast(ruleText(err), 'danger'); return; }
+      }
+      table.door(tableMap().id, door, open === '1');
+    },
     joinTable: () => table.join(id),
     leaveTable: () => table.leave(),
     check: (d) => {
       const target = checkTarget(d);
       openCheck(target, data, (r) => store.update(id, (c) => {
-        log(c, `${target.name}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
-      }), { tier: tableTier(), tools: target.tools });
+        log(c, `${target.name}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
+      }), { tier: tableTier(), tools: target.tools, boosts: target.boosts, light: d.kind === 'skill' ? lightFor(lightKind(d.id)) : null });
     },
     shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, withUniques(data, character()), ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
       if (method === 'free') { run('add', { kind: k, id: itemId }); return t('shop.added'); }
@@ -346,7 +427,7 @@ function tableButton(table, id) {
 function tableBanner(table, id, data) {
   if (table?.state.joinedId !== id || table.state.difficulty == null) return '';
   const tier = data.difficulty.tiers.find((x) => x.id === table.state.difficulty);
-  return tier ? html`<p class="notice notice--warn">${t('table.difficulty')}: <strong>${tier.name} (−${tier.penalty})</strong> — ${t('table.difficultyNote')}</p>` : '';
+  return tier ? html`<p class="notice ${tier.penalty < 0 ? 'notice--ok' : 'notice--warn'}">${t('table.difficulty')}: <strong>${tier.name} (${signed(-tier.penalty)})</strong> — ${t('table.difficultyNote')}</p>` : '';
 }
 
 export { go };

@@ -48,9 +48,11 @@ To perform a check, the player rolls a single **d20** and compares the result di
 
 ### The Global Difficulty Matrix
 
-Game Masters do not calculate complex situational math on the fly. Instead, all environmental hazards, visibility issues, physical hindrances, and enemy defenses are abstracted into a single **Global Difficulty Tier** (ranging from 0 to -10), subtracted directly from the player's base metric:
+Game Masters do not calculate complex situational math on the fly. Instead, all environmental hazards, visibility issues, physical hindrances, and enemy defenses are abstracted into a single **Global Difficulty Tier** (from +6 down to −10), applied directly to the player's base metric:
 
 ::table[difficulty]
+
+**Easier than Routine.** Not every scene works against the Operators. When the situation is on their side, the GM moves the scale the other way: **Favourable +2, Easy +4, Very easy +6**. This is how help works — there is no separate rule for it. Two average people giving each other a leg-up over a wall is *Easy*; one teammate steadying the ladder is *Favourable*; the whole crew hauling a crate up a ramp with the right gear is *Very easy*. Good tools for the job, plenty of time, or a tip from a contact count the same way. Pick one step for the whole situation (they don't stack with each other), and only the person rolling makes the check. The GM can set it for the whole table, or simply tell the player which step to pick in the roll window.
 
 ### Contested Checks (Opposed Resolution)
 

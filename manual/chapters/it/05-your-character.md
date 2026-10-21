@@ -33,7 +33,7 @@ L'app è una scheda di carta intelligente: fa i conti, ti tiene le regole a un t
 - **Creazione** — crea un personaggio in circa cinque minuti. Ogni passo si spiega da solo; i tiri compaiono in un registro stile terminale; le scelte da fare appaiono al momento. La *Modalità avanzata* permette ai giocatori esperti di scrivere direttamente i valori o di scegliere eventi precisi (segnati `[MANUAL]` per il GM).
 - **Scheda del personaggio** — la tua scheda viva durante il gioco: HP, corpo, armi, motore di classe, abilità, equipaggiamento, note. Tutto si ricalcola nel momento in cui qualcosa cambia.
 - **Dadi veri benvenuti** — ogni finestra di tiro accetta il tiro dell'app o il tuo. Dopo un colpo a segno, la finestra procede un passo alla volta: danni, poi (Scavenger) Exploit, poi la locazione colpita di un attacco a una locazione. A ogni passo premi *Tira*, oppure scrivi quello che mostrano i tuoi dadi e premi *Inserisci i miei dadi*; il riepilogo arriva alla fine.
-- **Tour guidati** — il pulsante **?** in cima alla scheda te la mostra in circa due minuti: stato, armi, il tuo turno, la finestra del tiro, il motore della classe, il mercato e il Dossier. La scheda del motore ha un **Tour della classe** per la risorsa e le abilità della tua classe. Le schede nuove li propongono entrambi una volta.
+- **Tour guidati** — il pulsante **?** in cima alla scheda te la mostra in circa due minuti: stato, armi, il tuo turno, la finestra del tiro, il motore della classe, le prove, il mercato e il Dossier. La scheda del motore ha un **Tour della classe** per la risorsa e le abilità della tua classe, e la scheda Mappa ha un **Tour della mappa** (7-2 §5). Ognuno viene proposto una volta; i pulsanti **?** li ripetono.
 - **Manuale** — questo libro. Ogni ⓘ sulla scheda o durante la creazione apre una breve spiegazione con un link alla regola completa qui.
 - **Lingua** — il selettore EN / IT in alto cambia la lingua dell'app e del manuale. I termini di gioco restano in inglese, così tu e il GM usate le stesse parole.
 
@@ -62,6 +62,15 @@ Raramente tiri contro un attributo nudo. Ogni attributo ha un **bonus pari a met
 > **Esempio:** Thrown Objects usa DEX + INT. DEX 10 (bonus +5) e INT 12 (bonus +6) danno TN 11: devi fare 11 o meno su un d20.
 
 Siccome ogni attributo alimenta più abilità, trascurarne uno lascia punti ciechi in tutto l'albero. La scheda calcola tutte le abilità in tempo reale: tocca un'abilità per tirarla.
+
+**La finestra del tiro.** Si apre toccando un'abilità o un attributo. Dall'alto in basso:
+- **TN, difficoltà e Roll ≤** — il tuo TN, il livello di difficoltà (quello impostato dal GM per il tavolo è già scelto; rosso se più difficile, verde se più facile, 6-2) e il numero da fare.
+- **In gioco** — oggetti ed effetti già contati nel TN: uno stimolante preso, una droga, un'ottica. Non devi fare niente; ti spiega perché il numero è quello.
+- **Attrezzatura utile** — gli attrezzi che porti adatti a questa abilità (un set da scasso, un medkit). Spunta quello giusto; ne conta solo uno, e il GM può dire che qui non vale.
+- **Luce** — solo al buio (7-2 §4): la scheda sceglie la riga dalla mappa o dall'interruttore Luce del GM; cambiala se la scena dice altro.
+- **Il tiro** — premi *Tira d20*, oppure scrivi quello che mostra il tuo dado e premi *Risolvi*. Margini, mancati di poco e 1 / 20 naturali sono spiegati.
+
+> **Serrature: tre modi per passare una porta.** Una serratura **meccanica** (un lucchetto, la porta di un vecchio caseggiato) è **Sleight of Hand** — il Mechanical Lockpick Set dà +2. Una serratura **elettronica** o un lettore di badge è **Electronics / Security** — il Keycard Bypass Cloner dà +3. Una serratura **collegata a una rete** (una porta aziendale sull'IA del sito) è **Computers / Hacking**, da un terminale o da una rete che hai pingato. Oppure niente finezza: forzare una porta, una cassa o un pannello è una prova di **STR**, e il Crowbar & Mini-Pry Set dà +3.
 
 ::table[skills]
 
@@ -253,6 +262,7 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 - **Dossier** — identità, classe, trascorsi, debito (con pressione e rate), ritratto, storia e *La storia finora* (5-10).
 - **Note** — i tuoi appunti e il registro di tiri, acquisti e uso delle ability.
 - **Progressi** — livello, XP e gli alberi dei talenti (5-9).
+- **Mappa** — solo mentre il GM ha una mappa sul tavolo: guardare, muoversi, aprire porte, controllare linea di vista e portata (7-2 §5).
 
 
 ## 5-9. Avanzamento e talenti {#sec-5-9}

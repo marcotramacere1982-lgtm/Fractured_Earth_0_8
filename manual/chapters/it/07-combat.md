@@ -50,6 +50,31 @@ In questo sistema la copertura non rende un Operatore più difficile da colpire 
 
 > Quando un elemento di copertura parziale o totale assorbe un attacco cinetico molto potente, può degradarsi. Un Tech Wizard può subito prendere di mira la copertura danneggiata o distrutta con le ability Scavenge & Survey o Deploy Improvised Cover, per raccogliere rottami al volo o ricostruire barricate da campo!
 
+### 4. Il buio
+
+Il buio non rende nessuno più difficile da colpire — quello lo fa la copertura, come armatura. Cambia quanto bene **miri, ti nascondi e osservi**. Se un luogo è buio lo dice la mappa sul tavolo (l'ambiente, le luci accese, le zone d'oscurità, la tua torcia) oppure, senza mappa, l'interruttore *Luce* del GM per tutto il tavolo. La scheda suggerisce la riga giusta nella finestra della prova; tu la confermi.
+
+- **Attacchi:** un bersaglio che vedi solo come traccia termica **−2 TN**, e niente colpi mirati né attacchi a una locazione; un bersaglio al buio che non vedi (lo hai sentito, il GM ti dice dov'è) **−4 TN**; un bersaglio di cui non sai la posizione non si può attaccare.
+- **Stealth:** **+2** in un quadretto non illuminato; **−4** se una luce ti raggiunge o hai la torcia accesa.
+- **Perception:** **−2** al buio, a meno di avere visione notturna o termica (i loro bonus da strumento valgono comunque).
+- **La luce ti tradisce:** un personaggio illuminato non ha alcun aiuto dal buio — i nemici gli sparano come in pieno giorno.
+- **Attrezzatura:** il visore notturno vede i quadretti non illuminati fino a 6; la termica (lente o un'ottica Thermal dello Scavenger) mostra le persone, non la stanza; una torcia illumina 4 quadretti intorno a te e a tutti gli altri; un bengala illumina 3 quadretti dove cade.
+- **Anche i nemici vedono al buio:** alcuni hanno visione notturna o termica (le squadre TRF di Obsidian sì; un pattugliatore della Watch di rado). Contro di loro il buio non nasconde niente — il GM sa quali.
+- **Scavenger:** stare al buio (non illuminato, e il GM conferma che il bersaglio non ti vede) conta come **Unseen**, come la copertura totale.
+
+### 5. La mappa sul tavolo {#sec-7-2-map}
+
+Quando il GM mette una mappa tattica sul tavolo, sulla tua scheda compare la scheda **Mappa** (con un pallino) e resta finché la mappa è attiva. È la mappa del GM, meno quello che la tua squadra non sa. La mappa ti aiuta a immaginare la scena e risparmia discussioni sulle distanze; non è un arbitro — l'ultima parola resta al GM. La prima volta che la apri ti propone un tour di un minuto; il suo pulsante **?** lo ripete.
+
+- **Guardarsi intorno.** Trascina la mappa per spostarti, pizzica o usa la rotella per lo zoom, *Adatta* per vederla tutta. Un quadretto è 1,5 m.
+- **Chi è chi.** Il tuo segnalino è pieno, con le tue iniziali; quelli della squadra sono solo bordati. Gli ostili hanno le stesse lettere della lista *Hostiles* (7-1). Le altre persone — impiegati, addetti, guardie — sono viola e si chiamano per ruolo (*Worker 1*, segnalino W1) finché non scopri un nome. Un anello tratteggiato è una **traccia termica**: qualcuno al buio che solo la termica rileva.
+- **Cosa vedi (nebbia di guerra).** Vedi quello che un qualsiasi segnalino della tua squadra vede *adesso*: muri, porte chiuse e alcuni oggetti bloccano la vista; porte aperte e finestre la lasciano passare. I quadretti che nessuno ha visto sono scuri; quelli già visti sono attenuati — ricordi la stanza, non chi c'è dentro ora. Nemici e altre persone compaiono solo finché uno di voi li vede. In un posto buio vedi solo dove arriva una luce (luci a soffitto, una torcia, un bengala) o quello che mostra la tua attrezzatura (§4). Il GM può anche rivelare quadretti a mano — una planimetria comprata, una telecamera bucata.
+- **Muoversi.** Trascina il tuo segnalino. I quadretti ombreggiati sono quelli che puoi raggiungere; la linea mostra il percorso intorno a muri e porte chiuse. Fuori dal combattimento muoversi non costa nulla, se il GM lascia muovere i giocatori (altrimenti la riga accanto alla mappa dice *I segnalini li muove il GM.*). In combattimento, nel tuo turno, **un'azione di Movimento ti dà i tuoi quadretti (SQR) per il round**: muoviti come vuoi, più passi brevi restano una sola azione; andare oltre richiede una seconda azione di Movimento. I quadretti non usati si perdono a fine round. Il pulsante *Movimento* nella scheda Gioco dà gli stessi quadretti. Il terreno difficile costa 2 quadretti per quadretto. Scale e ascensori hanno lati invisibili: si sale dalle estremità o dalle porte; cambiare piano si decide a voce con il GM. La riga accanto alla mappa ti dice sempre cosa puoi fare in quel momento.
+- **Porte.** Mettiti accanto a una porta (di lato o in diagonale) e toccala: *Aprila* / *Chiudila*. In combattimento è un'**azione Interagisci** nel tuo turno. Una porta chiusa a chiave non si muove: l'azione è spesa, ti viene detto che è chiusa a chiave e il GM sa che ci hai provato. A quel punto è un lavoro da serrature (5-3): Sleight of Hand, Electronics / Security, Computers / Hacking, oppure STR e un piede di porco.
+- **Tocca per controllare.** Tocca un segnalino per vedere la **linea di vista** — *Linea libera*, *Probabile copertura* (con il motivo; il GM conferma copertura parziale o totale) o *Bloccata* (un muro, una porta chiusa, un oggetto in mezzo) — la **distanza** in quadretti e metri, e quali armi nei tuoi slot sono **a portata**, troppo lontane o troppo vicine. Tocca un oggetto (una scrivania, una cassa, un raggio laser) per sapere cos'è e se blocca il movimento o la vista. Tocca il terreno vuoto per annullare. È tutto solo informazione: non tira dadi e non decide la copertura al posto tuo.
+- **Luce e attrezzatura.** Se porti una Tactical Torch, la scheda Mappa ha il suo interruttore: illumina 4 quadretti intorno a te per tutta la squadra — e mostra al nemico esattamente dove sei. Visore notturno e termica funzionano da soli quando li porti. Un bengala (*Usa oggetto* sui Chemical Flare Sticks) fa cadere una luce sul tuo quadretto.
+- **Cosa la mappa non mostra.** Sensori nascosti, pannelli d'allarme, quali porte sono chiuse a chiave, e chiunque nessuno riesca a vedere. Un corridoio vuoto sul tablet non è un corridoio vuoto.
+
 ## 7-3. Tipi di azione {#sec-7-3}
 
 Il combattimento nel *Fractured Century* si basa su un'economia delle azioni piatta e fluida. Il sistema elimina volutamente i livelli complicati di azione: non esistono azioni "minori", "maggiori" o "bonus". Ogni azione ha lo stesso peso, così gli Operatori possono adattare la risposta tattica man mano che le minacce crescono.
@@ -223,7 +248,7 @@ La scheda applica i bonus di zona in automatico: la Attack TN delle armi da fuoc
 
 Lo Scavenger trasforma l'attenzione in danno. I **Tell** stanno sui singoli nemici (massimo 3 ciascuno, su tanti nemici quanti l'ottica può tracciare) e si spendono su quel nemico.
 
-- **Inizio del tuo turno:** piazza 1 Tell su un nemico che vedi, o 2 se sei Unseen (copertura totale e nessun attacco nel round precedente). La scheda ti ricorda quanti ne restano da piazzare.
+- **Inizio del tuo turno:** piazza 1 Tell su un nemico che vedi, o 2 se sei Unseen (copertura totale, oppure al buio — e nessun attacco nel round precedente). La scheda ti ricorda quanti ne restano da piazzare.
 - **Attaccare** (un attacco, o *Called Shot* / *Kill Shot*) significa che in questo round hai attaccato: il round dopo ne piazzi solo 1. *Vanish* (una volta per scontro) ti riporta in copertura totale e cancella questo effetto.
 - **Exploit:** dopo che un attacco va a segno e i danni sono inseriti, la finestra del tiro chiede quale nemico hai colpito e quanti dei suoi Tell spendere: +1d4 ciascuno, tirati o inseriti, poi quei Tell spariscono.
 - **Le abilità** costano Tell sul bersaglio: 1 per un piccolo vantaggio (*Mark*, *Lift*, *Misdirect*, *Pin the Route*), 2 per uno grosso (*Jam*, *Called Shot*, *Strip*), 3 per il colpo finale (*Kill Shot*). Come ogni abilità tirano la tua Class TN, e un tiro fallito paga comunque il costo.

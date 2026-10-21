@@ -6,6 +6,7 @@ import { t } from '../i18n/index.js';
 
 const JOINED = 'fe.table.joined';
 const TURN_CUE = 'fe.table.turnCue'; // last turn chimed (combat:round), so a reload or reconnect doesn't chime again
+const MAP_CUE = 'fe.table.mapCue'; // last table map announced, so a reconnect doesn't announce it again
 const SYNC_DELAY = 700;
 
 const setPath = (obj, path, value) => {
@@ -22,7 +23,9 @@ const setPath = (obj, path, value) => {
  */
 export function createTableLink(store, hooks) {
   // crew: the shared trust track; unity: the open Unity Check; myVotes: this sheet's ballot per check (decision 47)
-  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, myVotes: {} };
+  // map: the table map the GM is showing (decision 64), already filtered by the server-side public view
+  // light: the GM's table-wide switch, true = dark (decision 76)
+  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {} };
   const listeners = new Set();
   const handled = new Set(); // message ids already applied (the server re-sends until acknowledged)
   let source = null;
@@ -120,6 +123,18 @@ export function createTableLink(store, hooks) {
         state.unity = msg.closed ? null : msg;
         emit();
         break;
+      case 'light':
+        state.light = msg.dark === true;
+        emit();
+        break;
+      case 'map': {
+        state.map = msg.closed ? null : msg;
+        let last = null;
+        try { last = sessionStorage.getItem(MAP_CUE); if (state.map) sessionStorage.setItem(MAP_CUE, msg.id); } catch { /* private mode */ }
+        if (state.map && last !== msg.id) hooks.toast(t('map.toast', { name: msg.name }), 'success');
+        emit();
+        break;
+      }
       case 'request-sync':
         push();
         break;
@@ -154,6 +169,30 @@ export function createTableLink(store, hooks) {
     /** Characters at the table (to hand them items). [] when not at a table. */
     async players() {
       try { return (await (await fetch('/api/table/players', { cache: 'no-store' })).json()).players ?? []; } catch { return []; }
+    },
+    /** Asks to move this sheet's marker on the table map (decision 64, step 3); the GM console decides. */
+    async move(mapId, to) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/move', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, to }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** A flare was used (decision 75): the GM console drops a light on this sheet's marker. */
+    async flare(mapId) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/flare', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Asks to open or close a door next to this sheet's marker (decision 73); the GM console decides. */
+    async door(mapId, doorId, open) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/door', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, door: doorId, open }) });
+        return res.ok;
+      } catch { return false; }
     },
     /** Sends an item to another sheet. @returns true when the server took it. */
     async gift(to, item) {
@@ -216,6 +255,7 @@ export function createTableLink(store, hooks) {
       state.online = false;
       state.difficulty = null;
       state.combat = null;
+      state.map = null;
       try { sessionStorage.removeItem(JOINED); } catch { /* private mode */ }
       emit();
     },

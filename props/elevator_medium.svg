@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150">
+  <!-- Goods elevator, 2 × 1½: closed on three sides, wide doors at the front (bottom). -->
+  <rect class="solid" x="4" y="4" width="192" height="142" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M18 18 L182 132 M182 18 L18 132" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M40 146 L160 146" fill="none" stroke="currentColor" stroke-width="6"/>
+</svg>

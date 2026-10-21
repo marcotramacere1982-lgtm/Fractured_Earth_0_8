@@ -521,5 +521,15 @@
         "when": "calarsi lungo una corda"
       }
     }
+  },
+  "night_vision_goggles": {
+    "name": "Visore notturno",
+    "desc": "Visori ad amplificazione di luce: verde granuloso, ma vedi al buio.",
+    "effect": "Percezione / Allerta (PB) +2 · al buio; sulla mappa vedi i quadretti non illuminati fino a 6 di distanza",
+    "tool": {
+      "main": {
+        "when": "al buio"
+      }
+    }
   }
 }

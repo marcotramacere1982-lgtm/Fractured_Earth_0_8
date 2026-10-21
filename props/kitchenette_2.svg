@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Kitchenette, 2 × ½: fridge, sink, four-ring hob along the wall (top). -->
+  <rect class="solid" x="4" y="4" width="192" height="42" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="8" y="8" width="38" height="34" fill="none" stroke="currentColor" stroke-width="2"/><path class="detail" d="M14 25 L40 25" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="62" y="12" width="40" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle class="detail" cx="82" cy="16" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="130" cy="17" r="7" fill="none" stroke="currentColor" stroke-width="2"/><circle class="detail" cx="160" cy="17" r="7" fill="none" stroke="currentColor" stroke-width="2"/><circle class="detail" cx="130" cy="34" r="6" fill="none" stroke="currentColor" stroke-width="2"/><circle class="detail" cx="160" cy="34" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

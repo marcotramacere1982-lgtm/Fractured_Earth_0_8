@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- Ramp, 1 × 2: on at either end only; chevrons point up. -->
+  <rect class="solid" x="4" y="4" width="92" height="192" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M30 160 L50 140 L70 160 M30 110 L50 90 L70 110 M30 60 L50 40 L70 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
