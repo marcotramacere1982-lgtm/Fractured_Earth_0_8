@@ -163,6 +163,10 @@
         "dark": {
           "title": "Combattere al buio",
           "text": "Al buio la finestra del tiro aggiunge una riga Luce: un bersaglio che vedi solo come calore −2, uno che non vedi −4; Stealth +2 se non illuminato, −4 se sei illuminato o hai la torcia accesa; Perception −2 se non hai visione notturna o termica. La scheda suggerisce, tu confermi."
+        },
+        "marks": {
+          "title": "Indicalo",
+          "text": "✎ Segna ti permette di indicare qualcosa alla squadra, nel tuo colore: un mirino (qui), una freccia, un punto di domanda, o una linea che disegni tu. Tutto il tavolo lo vede; sparisce dopo due minuti, a meno che tu non lo tocchi e lo tenga. Lì scegli anche il tuo colore: lo prende anche il tuo segnalino."
         }
       }
     }

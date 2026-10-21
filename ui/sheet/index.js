@@ -31,6 +31,7 @@ import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 import { boostsFor } from './check-boosts.js';
 import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen } from './map-tab.js';
+import { markHandlers, myMarkColor } from './map-marks.js';
 import { carriesTorch, visionOf } from '../../rules/light.js';
 import { lightOptions, lightKind, squareLight } from '../../rules/darkness.js';
 
@@ -50,6 +51,8 @@ export function sheetView({ data, store, main, table }, route) {
   const [id, tabId = 'play'] = route.params;
   const tableMap = () => (table?.state.joinedId === id ? table.state.map : null);
   const tabs = () => TABS.filter((x) => x.id !== 'map' || tableMap());
+  const tableMarks = () => (table?.state.joinedId === id ? table.state.marks : null); // decision 82
+  const sendMark = (body) => (tableMap() ? table.mark(tableMap().id, body) : Promise.resolve(false));
   if (!store.get(id)) {
     render(main, html`<div class="card"><div class="empty"><div class="empty__title">${t('sheet.notFound')}</div><a class="btn" href="#/">${t('common.backToCharacters')}</a></div></div>`);
     return;
@@ -89,9 +92,9 @@ export function sheetView({ data, store, main, table }, route) {
             <button class="btn btn--sm" data-action="export" title="${t('sheet.exportHint')}">${t('common.export')}</button>
           </div>
         </div>
-        <div class="sheet-body">${tab.view(c, s, withUniques(data, c), { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null })}</div>
+        <div class="sheet-body">${tab.view(c, s, withUniques(data, c), { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()) })}</div>
       </div>`);
-    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved });
+    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark });
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
   };
 
@@ -346,6 +349,7 @@ export function sheetView({ data, store, main, table }, route) {
     mapTarget: () => { clearTarget(); draw(); },
     mapInfoClose: () => { clearTarget(); draw(); },
     mapTorch: ({ on }) => run('torch', { on: on === '1' }),
+    ...markHandlers({ draw, run, send: sendMark }),
     inDark: ({ on }) => run('inDark', { on: on === '1' }),
     mapDoor: ({ door, open }) => { // a door next to the player's marker: an Interact action in combat; the GM console checks the lock
       if (tableCombat()?.active) {

@@ -147,6 +147,7 @@ La scheda conta già quello che il giocatore porta con sé: gli attrezzi compaio
 - **Fog of war & light** — nebbia *On* oppure *Off — they see everything*; *Reveal all*, *Reset*, e *Edit squares* per rivelare un quadretto a mano (una planimetria comprata, una telecamera). *Bright* / *Dark* cambia l'ambiente dal vivo.
 - **Pezzi** — toccane uno per rivelarlo, nasconderlo di nuovo, accenderlo o spegnerlo (luci, sensori, laser), aprire o chiudere a chiave una porta, o toglierlo per questa sessione. La mappa salvata tiene il suo stato iniziale.
 - **NPCs** — scegli un ruolo (impiegato, addetto, guardia…) e *+ Add*: i giocatori vedono *Worker 1* finché non lo rinomini con un nome vero. Ogni PNG ha una nota privata per te.
+- **Marks** — i giocatori si indicano le cose nel proprio colore (un mirino, una freccia, un punto di domanda, una linea a mano libera, 7-2 §5); spariscono dopo due minuti, a meno che non vengano tenuti. Scegli uno strumento per disegnare i tuoi, in ambra ("lo senti arrivare da *qui*"); in modalità segni, un tocco su qualsiasi segno lo toglie; *Clear all* pulisce tutto. I segni non vengono mai salvati e non toccano le regole; spariscono quando la mappa lascia il tavolo.
 - **Take the map off the table** quando la scena finisce.
 
 > **Prima di tutto, divertirsi.** Se mappa e storia non vanno d'accordo, vince la storia: sposta il segnalino, apri la porta, rivela la stanza. Se un giocatore fa fatica a trascinare, muovi tu il suo segnalino. La mappa serve a chiudere le discussioni, non ad aprirle.

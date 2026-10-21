@@ -56,13 +56,14 @@ export function wallsSvg(map, data, { selected = null } = {}) {
 /**
  * Markers: a circle per character on its square with initials (players) or a letter (hostiles).
  * opts: you (this sheet's key), selected (GM), armed (GM, waiting to be placed — not drawn).
+ * tk.color: a player's chosen colour (decision 82), the same as their marks.
  */
 export function tokensSvg(tokens, data, { you = null, selected = null } = {}) {
   const U = data.map.square.units;
   return raw(tokens.map((tk) => {
     const cx = (tk.x + 0.5) * U;
     const cy = (tk.y + 0.5) * U;
-    const cls = ['map-token', `map-token--${tk.kind}`, tk.key === you && 'map-token--you', tk.current && 'map-token--current', tk.thermal && 'map-token--thermal', tk.lit && 'map-token--lit',
+    const cls = ['map-token', `map-token--${tk.kind}`, /^[a-z]+$/.test(tk.color ?? '') && `map-token--c-${tk.color}`, tk.key === you && 'map-token--you', tk.current && 'map-token--current', tk.thermal && 'map-token--thermal', tk.lit && 'map-token--lit',
       tk.down && 'map-token--down', tk.hidden && 'map-token--hidden', tk.key === selected && 'map-token--selected'].filter(Boolean).join(' ');
     return `<g class="${cls}">${tk.current || tk.key === selected ? `<circle class="map-token__ring" cx="${cx}" cy="${cy}" r="${U * 0.42}"/>` : ''}`
       + `<circle class="map-token__disc" cx="${cx}" cy="${cy}" r="${U * 0.32}"/>`

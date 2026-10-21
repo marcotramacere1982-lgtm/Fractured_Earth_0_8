@@ -99,6 +99,19 @@
   --color-scrim: rgba(0, 0, 0, 0.6);
   --color-unique: #c792ea; /* the GM's unique items (decision 61) */
   --color-unique-soft: rgba(199, 146, 234, 0.14);
+  /* players' colours on the table map, markers and marks (decision 82): clear of the map's red / purple / cyan / green / yellow / amber */
+  --color-mark-magenta: rgb(255, 110, 199);
+  --color-mark-magenta-soft: rgba(255, 110, 199, 0.2);
+  --color-mark-coral: rgb(255, 138, 92);
+  --color-mark-coral-soft: rgba(255, 138, 92, 0.2);
+  --color-mark-lime: rgb(184, 224, 74);
+  --color-mark-lime-soft: rgba(184, 224, 74, 0.2);
+  --color-mark-periwinkle: rgb(143, 155, 255);
+  --color-mark-periwinkle-soft: rgba(143, 155, 255, 0.2);
+  --color-mark-sand: rgb(217, 185, 140);
+  --color-mark-sand-soft: rgba(217, 185, 140, 0.2);
+  --color-mark-white: rgb(242, 244, 247);
+  --color-mark-white-soft: rgba(242, 244, 247, 0.2);
   --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
 
   color-scheme: dark;
@@ -130,6 +143,18 @@
   --color-private: #7b2fd0;
   --color-unique: #7b3fb0;
   --color-unique-soft: rgba(123, 63, 176, 0.12);
+  --color-mark-magenta: rgb(194, 24, 122);
+  --color-mark-magenta-soft: rgba(194, 24, 122, 0.14);
+  --color-mark-coral: rgb(212, 80, 30);
+  --color-mark-coral-soft: rgba(212, 80, 30, 0.14);
+  --color-mark-lime: rgb(91, 138, 0);
+  --color-mark-lime-soft: rgba(91, 138, 0, 0.14);
+  --color-mark-periwinkle: rgb(65, 80, 200);
+  --color-mark-periwinkle-soft: rgba(65, 80, 200, 0.14);
+  --color-mark-sand: rgb(138, 106, 58);
+  --color-mark-sand-soft: rgba(138, 106, 58, 0.14);
+  --color-mark-white: rgb(38, 50, 56);
+  --color-mark-white-soft: rgba(38, 50, 56, 0.14);
   --color-private-soft: rgba(123, 47, 208, 0.1);
   --color-terminal: #101418;
   --color-terminal-text: #f5f1e8;

@@ -8,6 +8,7 @@ import { boardSvg, wallsSvg, tokensSvg, propsSvg } from './render.js';
 import { loadProps } from './props.js';
 import { hitProp } from '../../rules/props.js';
 import { createCamera } from './camera.js';
+import { marksSvg, nextFade, markAt } from './marks.js';
 import { squareAt, onBoard, squaresBetween, doorAt, hitWall } from '../../rules/map.js';
 
 const DRAG_PX = 6;
@@ -16,14 +17,16 @@ const DOOR_PX = 16;
 /**
  * on: { moveToken(key, square), tapToken(key), tapProp(id), tapSquare(square), tapDoor(id), tapLaser(id), idle(), wantsSquare() → taps go to squares, readout(squares | null) → text,
  *       canDrag(key) → may this marker be dragged (default: all), reach(key) → Map "x,y" → steps to shade (optional),
- *       route(key, to) → the squares walked from its square to `to`, or null when it can't get there (optional) }
+ *       route(key, to) → the squares walked from its square to `to`, or null when it can't get there (optional),
+ *       marks (decision 82): markTool() → the tool being drawn with, or null (not marking); markColor() → the colour
+ *       of the preview; drawMark({ tool, points }); mayTouch(mark) → can this screen pin / remove it; tapMark(id) }
  * interactive: markers can be dragged (GM, or a player's own marker); otherwise only pan and zoom.
  */
 export function createMapViewer({ data, prefix, interactive = false, on = {} }) {
   const U = data.map.square.units;
   const node = document.createElement('div');
   node.className = 'map-view';
-  node.innerHTML = `<svg class="map-view__svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img"><g data-board></g><g data-props></g><g data-walls></g><g data-fog></g><g data-los></g><g data-tokens></g><g data-ghost></g></svg>
+  node.innerHTML = `<svg class="map-view__svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img"><g data-board></g><g data-props></g><g data-walls></g><g data-fog></g><g data-los></g><g data-tokens></g><g data-marks></g><g data-ghost></g></svg>
     <p class="map-view__readout mono" hidden></p>`;
   const svg = node.querySelector('svg');
   const board = node.querySelector('[data-board]');
@@ -33,6 +36,8 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   const losLayer = node.querySelector('[data-los]');
   const fogLayer = node.querySelector('[data-fog]');
   const ghost = node.querySelector('[data-ghost]');
+  const marksLayer = node.querySelector('[data-marks]');
+  let fadeTimer = null;
   const readout = node.querySelector('.map-view__readout');
   let state = null; // { key, map: { cols, rows, walls, props }, tokens, you, selected, selectedProp, sight: { from, to, result } | null }
   let boardKey = '';
@@ -59,7 +64,17 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     render(tokensLayer, tokensSvg(next.tokens, data, next));
     losLayer.innerHTML = next.sight ? sightSvg(next.sight) : '';
     fogLayer.innerHTML = next.fog ? fogSvg(next.map, next.fog) : '';
+    drawMarks();
     settle();
+  }
+  /** Marks (decision 82): state.marks = { list, skew, selected }; redrawn by itself when one starts to fade or goes. */
+  function drawMarks() {
+    clearTimeout(fadeTimer);
+    const m = state?.marks;
+    const colors = Object.fromEntries((state.tokens ?? []).filter((tk) => tk.color).map((tk) => [tk.key, tk.color]));
+    marksLayer.innerHTML = m ? marksSvg(m.list, data, { skew: m.skew, selected: m.selected, colors }) : '';
+    const wait = m ? nextFade(m.list, data.map.marks, Date.now(), m.skew) : null;
+    if (wait != null) fadeTimer = setTimeout(drawMarks, wait);
   }
   /** Fits the first time the element has a size (it may be updated before it is on screen). */
   function settle() {
@@ -126,6 +141,13 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 2) { gesture = { kind: 'pinch', ...cam.pinchStart(pointers) }; clearGhost(); return; }
     if (pointers.size > 2) return;
+    const tool = on.markTool?.();
+    if (tool) { // marking (decision 82): a tap on a mark you may touch selects it; anything else draws
+      const p = cam.toMap(e);
+      const hit = state.marks ? markAt(state.marks.list, p, (m) => on.mayTouch?.(m)) : null;
+      gesture = hit ? { kind: 'markTap', id: hit.id } : { kind: 'mark', tool, points: [p] };
+      return;
+    }
     const hit = interactive && on.moveToken ? tokenAt(cam.toMap(e)) : null;
     const tk = hit && (!on.canDrag || on.canDrag(hit.key)) ? hit : null;
     gesture = tk
@@ -138,6 +160,13 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     if (!g) return;
     if (g.kind === 'pinch') cam.pinchMove(g, pointers);
     else if (g.kind === 'pan') { if (cam.panMove(g, e) > DRAG_PX) g.moved = true; }
+    else if (g.kind === 'mark') {
+      const p = cam.toMap(e);
+      if (g.tool === 'line') g.points.push(p); else g.points = [g.points[0], p];
+      const color = on.markColor?.();
+      const preview = { id: '', by: color === 'gm' ? 'gm' : 'preview', color, tool: g.tool, points: g.tool === 'line' || g.tool === 'arrow' ? g.points : [p], t: Date.now(), pinned: true };
+      ghost.innerHTML = marksSvg([preview], data);
+    }
     else if (g.kind === 'token') {
       if (Math.hypot(e.clientX - g.sx, e.clientY - g.sy) > DRAG_PX) g.moved = true;
       const s = squareAt(cam.toMap(e));
@@ -151,7 +180,11 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     if (g?.kind === 'pinch') { if (!pointers.size) { gesture = null; on.idle?.(); } return; }
     gesture = null;
     clearGhost();
-    if (g && e.type !== 'pointercancel') {
+    if (g?.kind === 'mark' && e.type !== 'pointercancel') {
+      const end = cam.toMap(e);
+      on.drawMark?.({ tool: g.tool, points: g.tool === 'line' ? [...g.points, end] : g.tool === 'arrow' ? [g.points[0], end] : [end] });
+    } else if (g?.kind === 'markTap' && e.type !== 'pointercancel') on.tapMark?.(g.id);
+    if (g && e.type !== 'pointercancel' && g.kind !== 'mark' && g.kind !== 'markTap') {
       if (g.kind === 'token') {
         if (g.moved && (g.to.x !== g.from.x || g.to.y !== g.from.y)) on.moveToken?.(g.key, g.to);
         else if (!g.moved) on.tapToken?.(g.key);

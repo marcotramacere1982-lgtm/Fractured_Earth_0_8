@@ -9,6 +9,7 @@ import { toast } from '../shell.js';
 import { tourDone } from '../tour.js';
 import { info as ruleInfo } from '../ref.js';
 import { createMapViewer } from '../map/viewer.js';
+import { marksButton, marksPanel, markHooks, marking } from './map-marks.js';
 import { reachable, checkMove, routeTo, lineOfSight, rangeCheck, nextToDoor } from '../../rules/map.js';
 
 let viewer = null; // one per page: it keeps its zoom across the sheet's re-renders
@@ -98,15 +99,16 @@ function hint(map, move) {
 
 let mapCombat = false; // in a fight: opening a door costs an action (shown on its button)
 
-export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch = null }) {
+export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch = null, marks = null, myColor = null }) {
   mapCombat = Boolean(combat?.active);
   if (!map) return html`<div class="card"><div class="empty"><div class="empty__title">${t('map.none')}</div></div></div>`;
   const mine = map.tokens.find((x) => x.key === id);
   const band = (tk) => combat?.hostiles?.find((h) => h.key === tk.key)?.band;
   const canGo = mapMove && !mapMove.why;
-  return html`<section class="card map-card">
+  return html`<section class="card map-card ${marking() ? 'is-marking' : ''}">
     <header class="card__head"><h2 class="card__title">${map.name}${ruleInfo('map', t('sheet.tab.map'))}<small>${mine ? t('map.youAt', { col: mine.x + 1, row: mine.y + 1 }) : t('map.notPlaced')}</small></h2>
       <div class="cluster">
+        ${marksButton()}
         <button class="btn btn--sm btn--ghost" data-action="tour" data-id="map" title="${t('map.tourHint')}" aria-label="${t('map.tourHint')}">?</button>
         <button class="btn btn--sm" data-action="mapZoom" data-dir="out" aria-label="${t('map.zoomOut')}">−</button>
         <button class="btn btn--sm" data-action="mapFit">${t('map.fit')}</button>
@@ -118,12 +120,13 @@ export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch =
     <div class="map-card__body">
     <div class="map-card__stage" data-map-slot data-tour="map-stage"></div>
     <aside class="map-card__side">
+    ${marksPanel(map, data, id, marks, myColor)}
     <p class="map-card__move ${canGo ? 'is-go' : ''}" data-tour="map-move">${hint(map, mapMove)}</p>
     ${torch == null ? '' : html`<div class="map-card__gear" data-tour="map-gear"><button class="btn btn--sm ${torch ? 'btn--primary' : ''}" data-action="mapTorch" data-on="${torch ? '0' : '1'}" aria-pressed="${torch}">🔦 ${t(torch ? 'map.torch.on' : 'map.torch.off')}</button>
       <span class="muted st-small">${t('map.torch.hint')}</span></div>`}
     ${infoPanel(map, data, id, doorUse) ?? targetPanel(map, data, s, id)}
     <ul class="map-legend" data-tour="map-legend">${map.tokens.map((tk) => html`<li class="map-legend__item ${tk.key === id ? 'is-you' : ''} ${tk.down ? 'is-down' : ''}">
-      <span class="map-legend__dot map-legend__dot--${tk.kind}">${tk.label}</span>
+      <span class="map-legend__dot map-legend__dot--${tk.kind} ${tk.color ? `map-legend__dot--c-${tk.color}` : ''}">${tk.label}</span>
       <span>${tk.key === id ? t('map.you') : tk.name}${band(tk) ? html` <span class="muted">· ${t(`turn.band.${band(tk)}`)}</span>` : ''}${tk.current ? html` <span class="pill pill--accent">${t('map.acting')}</span>` : ''}</span></li>`)}</ul>
     <p class="hint">${t('map.hint.look')}</p>
     </aside>
@@ -133,9 +136,10 @@ export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch =
 
 /**
  * After the sheet renders: put the persistent map in its slot and show the current view.
- * opts: { onIdle(), move(): { max, combat } | { why } | null, onMove(to, steps, combat) → bool }
+ * opts: { onIdle(), move(): { max, combat } | { why } | null, onMove(to, steps, combat) → bool,
+ *         marks, myColor, onMark(body) → Promise<bool> (decision 82) }
  */
-export function attachMap(main, data, map, id, { onIdle, move, onMove }) {
+export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = null, myColor = null, onMark = async () => false }) {
   if (!map || !main.querySelector('[data-map-slot]')) return;
   viewer ??= createMapViewer({ data, prefix: 'sheet', interactive: true });
   if (pending && pending.base !== map) pending = null; // the GM answered (accepted or put it back)
@@ -161,8 +165,10 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove }) {
       if (onMove(to, check.steps, m.combat)) { pending = { base: map, to }; onIdle(); }
     },
   });
+  const hooks = markHooks({ map, data, id, marks, myColor, onIdle, send: onMark });
+  Object.assign(viewer.on, hooks.on);
   const sight = sightTo(map, data, id, tokens);
-  viewer.update({ key: map.id, map, tokens, you: id, fog: map.fog ? { mode: 'player', ...map.fog } : null, sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result } });
+  viewer.update({ key: map.id, map, tokens, you: id, fog: map.fog ? { mode: 'player', ...map.fog } : null, sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
   viewer.attach(main);
 }
 

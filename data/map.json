@@ -30,5 +30,8 @@
   ],
   "light": {"darkSight": 1, "note": "Decision 74: in the dark a marker sees only lit squares (an on light covers squares within its radius that it can see) and the squares within darkSight of itself. Bright environment: lights don't matter, except where Darkness zones are laid."},
   "darkness": {"attack": {"thermal": -2, "unseen": -4}, "stealth": {"unlit": 2, "lit": -4}, "perception": {"dark": -2}, "note": "Decision 76: TN modifiers the sheet suggests in the dark (the player confirms). Attack: a target seen only as a heat signature -2 (no called shots), one in the dark you cannot see -4. Stealth: +2 in an unlit square, -4 when lit or carrying a lit torch. Perception: -2 in the dark, cancelled by night vision or thermal."},
+  "marks": {"tools": ["crosshair", "arrow", "question", "line"], "fadeSeconds": 120, "stamps": 3, "lines": 1, "pins": 1, "maxPoints": 48, "minStep": 0.15,
+    "colors": ["magenta", "coral", "lime", "periwinkle", "sand", "white"],
+    "note": "Decision 82: marks on the table map, purely visual (no rules, no sound, never saved). Per author at most `stamps` stamps and `lines` freehand lines (a new one replaces the oldest), one pinned; unpinned marks fade after fadeSeconds. Player colours avoid the map's own meanings (red enemies, purple NPCs, cyan / blue / green / yellow prop tints, amber selection); the GM draws in amber."},
   "sensor": {"reach": {"min": 1, "max": 20}, "note": "Sensors (decision 69): drawn only, no rules yet. Placed lasers and sensor props keep on (starting state) and tripped_<sense> / disconnected_<sense> flags for a later implementation. Off and the flags are GM-only."}
 }

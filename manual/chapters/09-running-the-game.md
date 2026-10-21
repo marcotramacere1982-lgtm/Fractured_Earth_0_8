@@ -147,6 +147,7 @@ The sheet already counts what the player carries: tools appear as tick boxes (on
 - **Fog of war & light** — fog *On* or *Off — they see everything*; *Reveal all*, *Reset*, and *Edit squares* to reveal a square by hand (a floor plan they bought, a camera feed). *Bright* / *Dark* changes the environment live.
 - **Pieces** — tap one to reveal it, hide it again, switch it on or off (lights, sensors, lasers), open or lock a door, or take it off for this session. The saved map keeps its starting state.
 - **NPCs** — pick a role (worker, clerk, guard…) and *+ Add*: players see *Worker 1* until you rename it to a real name. Each NPC has a private note for you.
+- **Marks** — players point things out to each other in their colour (a crosshair, an arrow, a question mark, a freehand line, 7-2 §5); they fade after two minutes unless pinned. Pick a tool to draw your own, in amber ("you hear it from *here*"); in marking mode a tap on any mark removes it; *Clear all* wipes the board. Marks are never saved and never touch the rules; they go when the map comes off the table.
 - **Take the map off the table** when the scene ends.
 
 > **Keep it fun.** If the map and the story disagree, the story wins: move the marker, open the door, reveal the room. If a player struggles with dragging, move their marker for them. The map is there to end arguments, not to start them.

@@ -340,6 +340,10 @@ export const actions = {
     c.play.inDark = Boolean(on);
     log(c, on ? 'In the dark (Unseen for Tells)' : 'Out of the dark');
   },
+  /** Your colour on the table map, for your marker and your marks (decision 82): purely visual, not logged. */
+  mapColor(c, data, { color }) {
+    if (data.map.marks.colors.includes(color)) c.play.mapColor = color;
+  },
   /** The torch (decision 75): switched on, it lights the squares round your marker on the table map. */
   torch(c, _data, { on }) {
     c.play.torch = Boolean(on);

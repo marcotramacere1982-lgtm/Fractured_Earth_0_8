@@ -182,6 +182,7 @@ export function publicMap(live, people, data) {
     props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.reach ? { reach: p.reach } : {}), ...publicState(p, propDef(data, p.prop)) })),
     tokens: people.filter((p) => !p.hidden && live.tokens[p.key]).map((p) => ({
       key: p.key, kind: p.kind, label: p.label, name: p.name, x: live.tokens[p.key].x, y: live.tokens[p.key].y, down: Boolean(p.down), current: Boolean(p.current),
+      ...(p.kind === 'player' && p.color ? { color: p.color } : {}), // the player's chosen colour, also their marks' (decision 82)
     })),
   };
 }

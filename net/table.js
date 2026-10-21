@@ -25,7 +25,7 @@ export function createTableLink(store, hooks) {
   // crew: the shared trust track; unity: the open Unity Check; myVotes: this sheet's ballot per check (decision 47)
   // map: the table map the GM is showing (decision 64), already filtered by the server-side public view
   // light: the GM's table-wide switch, true = dark (decision 76)
-  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {} };
+  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {}, marks: null }; // marks: { map, list, skew } (decision 82; skew = this clock − the server's)
   const listeners = new Set();
   const handled = new Set(); // message ids already applied (the server re-sends until acknowledged)
   let source = null;
@@ -135,6 +135,10 @@ export function createTableLink(store, hooks) {
         emit();
         break;
       }
+      case 'marks':
+        state.marks = { map: msg.map, list: msg.list ?? [], skew: Date.now() - (msg.now ?? Date.now()) };
+        emit();
+        break;
       case 'request-sync':
         push();
         break;
@@ -183,6 +187,14 @@ export function createTableLink(store, hooks) {
       if (!state.joinedId) return false;
       try {
         const res = await fetch('/api/table/flare', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Marks on the table map (decision 82): draw one ({ mark }), remove your own ({ remove: id }) or pin it ({ pin: { id, on } }). */
+    async mark(mapId, body) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/mark', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, ...body }) });
         return res.ok;
       } catch { return false; }
     },
@@ -256,6 +268,7 @@ export function createTableLink(store, hooks) {
       state.difficulty = null;
       state.combat = null;
       state.map = null;
+      state.marks = null;
       try { sessionStorage.removeItem(JOINED); } catch { /* private mode */ }
       emit();
     },

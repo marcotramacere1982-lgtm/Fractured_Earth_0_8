@@ -112,3 +112,46 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 /* vision (decision 75): a heat signature seen only through thermal; a player whose torch is on (GM screens) */
 .map-token--thermal .map-token__disc { fill: var(--color-danger-soft); stroke: var(--color-warning); stroke-dasharray: 10 6; }
 .map-token--lit .map-token__disc { stroke: var(--color-warning); stroke-width: 9; }
+
+/* ---------- marks on the table map and players' colours (decision 82) ---------- */
+.map-mark { fill: none; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.map-mark__halo { stroke: var(--color-bg); opacity: 0.7; }
+.map-mark__ink { stroke: currentColor; }
+.map-mark__glyph { fill: currentColor; stroke: none; font-family: var(--font-display); }
+.map-mark__halo .map-mark__glyph { fill: none; stroke: var(--color-bg); }
+.map-mark__pin { fill: currentColor; stroke: var(--color-bg); stroke-width: 6; }
+.map-mark--fading { opacity: 0.45; }
+.map-mark--selected .map-mark__halo { stroke: var(--color-text); opacity: 0.9; }
+.map-mark--c-gm { color: var(--color-accent); }
+.map-mark--c-magenta, .mark-swatch--magenta { color: var(--color-mark-magenta); }
+.map-token--player.map-token--c-magenta .map-token__disc { stroke: var(--color-mark-magenta); fill: var(--color-mark-magenta-soft); }
+.map-token--you.map-token--c-magenta .map-token__disc { fill: var(--color-mark-magenta); }
+.map-legend__dot.map-legend__dot--c-magenta { border-color: var(--color-mark-magenta); background: var(--color-mark-magenta-soft); }
+.map-mark--c-coral, .mark-swatch--coral { color: var(--color-mark-coral); }
+.map-token--player.map-token--c-coral .map-token__disc { stroke: var(--color-mark-coral); fill: var(--color-mark-coral-soft); }
+.map-token--you.map-token--c-coral .map-token__disc { fill: var(--color-mark-coral); }
+.map-legend__dot.map-legend__dot--c-coral { border-color: var(--color-mark-coral); background: var(--color-mark-coral-soft); }
+.map-mark--c-lime, .mark-swatch--lime { color: var(--color-mark-lime); }
+.map-token--player.map-token--c-lime .map-token__disc { stroke: var(--color-mark-lime); fill: var(--color-mark-lime-soft); }
+.map-token--you.map-token--c-lime .map-token__disc { fill: var(--color-mark-lime); }
+.map-legend__dot.map-legend__dot--c-lime { border-color: var(--color-mark-lime); background: var(--color-mark-lime-soft); }
+.map-mark--c-periwinkle, .mark-swatch--periwinkle { color: var(--color-mark-periwinkle); }
+.map-token--player.map-token--c-periwinkle .map-token__disc { stroke: var(--color-mark-periwinkle); fill: var(--color-mark-periwinkle-soft); }
+.map-token--you.map-token--c-periwinkle .map-token__disc { fill: var(--color-mark-periwinkle); }
+.map-legend__dot.map-legend__dot--c-periwinkle { border-color: var(--color-mark-periwinkle); background: var(--color-mark-periwinkle-soft); }
+.map-mark--c-sand, .mark-swatch--sand { color: var(--color-mark-sand); }
+.map-token--player.map-token--c-sand .map-token__disc { stroke: var(--color-mark-sand); fill: var(--color-mark-sand-soft); }
+.map-token--you.map-token--c-sand .map-token__disc { fill: var(--color-mark-sand); }
+.map-legend__dot.map-legend__dot--c-sand { border-color: var(--color-mark-sand); background: var(--color-mark-sand-soft); }
+.map-mark--c-white, .mark-swatch--white { color: var(--color-mark-white); }
+.map-token--player.map-token--c-white .map-token__disc { stroke: var(--color-mark-white); fill: var(--color-mark-white-soft); }
+.map-token--you.map-token--c-white .map-token__disc { fill: var(--color-mark-white); }
+.map-legend__dot.map-legend__dot--c-white { border-color: var(--color-mark-white); background: var(--color-mark-white-soft); }
+.map-marks { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-top: var(--border-width) solid var(--color-border); background: var(--color-surface-2); }
+.map-marks__tools { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.map-marks__tools .btn { min-width: 2.75rem; min-height: 2.5rem; }
+.mark-swatches { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+.mark-swatch { width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 3px solid currentColor; background: currentColor; cursor: pointer; padding: 0; }
+.mark-swatch[aria-pressed='true'] { box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 5px var(--color-text); }
+.mark-swatch.is-taken { background: transparent; }
+.map-card.is-marking .map-card__stage { outline: 2px dashed var(--color-accent); outline-offset: -2px; }

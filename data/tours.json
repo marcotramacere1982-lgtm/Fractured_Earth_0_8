@@ -266,6 +266,13 @@
           "text": "Your torch lights 4 squares for the whole crew — and shows the enemy where you are. Night-vision goggles see 6 squares in the dark; a thermal lens shows people as heat signatures, not the room; a flare (Use item) lights where it lands."
         },
         {
+          "id": "marks",
+          "tab": "map",
+          "target": "map-marks",
+          "title": "Point it out",
+          "text": "✎ Mark lets you point at something for the crew, in your colour: a crosshair (here), an arrow, a question mark, or a line you draw. Everyone at the table sees it; it fades after two minutes unless you tap it and keep it. Pick your colour there too — your marker wears it."
+        },
+        {
           "id": "legend",
           "tab": "map",
           "target": "map-legend",

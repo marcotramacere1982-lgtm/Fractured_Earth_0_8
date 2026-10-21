@@ -158,7 +158,7 @@
     },
     "map": {
       "title": "La mappa",
-      "text": "Vedi quello che la squadra vede adesso; i quadretti attenuati sono ricordati. Trascina il segnalino per muoverti — in combattimento un'azione Move ti dà i quadretti del round. Tocca una porta accanto a te per aprirla (Interact), un segnalino per linea di vista e portata. Solo informazione: decide il GM."
+      "text": "Vedi quello che la squadra vede adesso; i quadretti attenuati sono ricordati. Trascina il segnalino per muoverti — in combattimento un'azione di Movimento ti dà i quadretti del round. Tocca una porta accanto a te per aprirla (Interagisci), un segnalino per linea di vista e portata. ✎ Segna indica qualcosa alla squadra. Solo informazione: decide il GM."
     },
     "darkness": {
       "title": "Il buio",
