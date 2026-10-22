@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Drain grate at the road edge, 1 × 1. -->
+  <rect class="solid" x="20" y="36" width="60" height="28" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M30 36 V64 M40 36 V64 M50 36 V64 M60 36 V64 M70 36 V64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

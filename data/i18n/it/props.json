@@ -314,6 +314,219 @@
     },
     "floor_pipes": {
       "name": "Tubi a terra"
+    },
+    "slum_floor_boards": {
+      "name": "Pavimento: assi marce"
+    },
+    "slum_floor_puddle": {
+      "name": "Pavimento: pozzanghera"
+    },
+    "slum_floor_debris": {
+      "name": "Pavimento: detriti"
+    },
+    "slum_floor_hole_1x1": {
+      "name": "Pavimento: rotto (buco)"
+    },
+    "slum_floor_hole_2x2": {
+      "name": "Pavimento: rotto (buco grande)"
+    },
+    "slum_floor_planks": {
+      "name": "Assi sopra un buco"
+    },
+    "slum_cables": {
+      "name": "Cavi penzolanti"
+    },
+    "slum_mattress": {
+      "name": "Materasso per terra"
+    },
+    "slum_pallet_bed": {
+      "name": "Letto di pallet"
+    },
+    "slum_crate_bunk": {
+      "name": "Branda di casse"
+    },
+    "slum_stove": {
+      "name": "Fornello di recupero"
+    },
+    "slum_jerrycans": {
+      "name": "Taniche"
+    },
+    "slum_wardrobe": {
+      "name": "Armadio di fortuna"
+    },
+    "slum_wardrobe_toppled": {
+      "name": "Armadio (rovesciato)"
+    },
+    "slum_crate_table": {
+      "name": "Tavolo di casse"
+    },
+    "slum_chair_broken": {
+      "name": "Sedia rotta"
+    },
+    "slum_boxes_1x1": {
+      "name": "Scatoloni"
+    },
+    "slum_boxes_2x1": {
+      "name": "Deposito di scatoloni"
+    },
+    "slum_trash_1x1": {
+      "name": "Mucchio di spazzatura"
+    },
+    "slum_trash_2x1": {
+      "name": "Mucchio di spazzatura (lungo)"
+    },
+    "slum_cart": {
+      "name": "Carrello della spesa"
+    },
+    "slum_scrap_pile": {
+      "name": "Mucchio di rottami"
+    },
+    "slum_sheet_wall": {
+      "name": "Lamiera ondulata"
+    },
+    "slum_tarp": {
+      "name": "Telo appeso"
+    },
+    "slum_leanto": {
+      "name": "Riparo di cartone"
+    },
+    "slum_power_tap": {
+      "name": "Allaccio abusivo"
+    },
+    "slum_fire_barrel": {
+      "name": "Barile acceso"
+    },
+    "street_tarmac": {
+      "name": "Strada: asfalto"
+    },
+    "street_tarmac_centre": {
+      "name": "Strada: linea di mezzeria"
+    },
+    "street_tarmac_edge": {
+      "name": "Strada: linea di margine"
+    },
+    "street_zebra": {
+      "name": "Strada: strisce pedonali"
+    },
+    "street_sidewalk": {
+      "name": "Marciapiede"
+    },
+    "street_curb": {
+      "name": "Marciapiede con cordolo"
+    },
+    "street_concrete": {
+      "name": "Pavimentazione in cemento"
+    },
+    "street_oil_stain": {
+      "name": "Pavimento: macchia d'olio"
+    },
+    "street_manhole": {
+      "name": "Tombino"
+    },
+    "street_drain": {
+      "name": "Griglia di scolo"
+    },
+    "street_pothole": {
+      "name": "Buca"
+    },
+    "street_lamp_post": {
+      "name": "Lampione"
+    },
+    "street_lamp_wall": {
+      "name": "Lampione a muro"
+    },
+    "street_stairs_1x2": {
+      "name": "Scale esterne 1×2"
+    },
+    "street_stairs_1x2_rail": {
+      "name": "Scale esterne 1×2 (ringhiere)"
+    },
+    "street_stairs_1x3": {
+      "name": "Scale esterne 1×3"
+    },
+    "street_stairs_1x3_rail": {
+      "name": "Scale esterne 1×3 (ringhiere)"
+    },
+    "street_stairs_2x3": {
+      "name": "Scale esterne 2×3"
+    },
+    "street_stairs_2x3_rail": {
+      "name": "Scale esterne 2×3 (ringhiere)"
+    },
+    "street_bin": {
+      "name": "Bidone carrellato"
+    },
+    "street_dumpster": {
+      "name": "Cassonetto"
+    },
+    "street_fence_chain": {
+      "name": "Recinzione a rete"
+    },
+    "street_fence_gate": {
+      "name": "Cancello a rete"
+    },
+    "street_wall_low": {
+      "name": "Muretto"
+    },
+    "street_wall_high": {
+      "name": "Muro alto"
+    },
+    "street_barrier": {
+      "name": "Barriera stradale in cemento"
+    },
+    "veh_small": {
+      "name": "Auto (piccola)"
+    },
+    "veh_sedan": {
+      "name": "Auto (berlina)"
+    },
+    "veh_suv": {
+      "name": "Auto (SUV)"
+    },
+    "veh_police": {
+      "name": "Auto della polizia"
+    },
+    "veh_van": {
+      "name": "Furgone"
+    },
+    "veh_flatbed": {
+      "name": "Camion (pianale)"
+    },
+    "veh_boxtruck": {
+      "name": "Camion (cassonato)"
+    },
+    "street_bus_shelter": {
+      "name": "Pensilina dell'autobus"
+    },
+    "street_bench": {
+      "name": "Panchina"
+    },
+    "street_bollard": {
+      "name": "Dissuasore"
+    },
+    "street_cone": {
+      "name": "Cono stradale"
+    },
+    "street_police_barrier": {
+      "name": "Transenna della polizia"
+    },
+    "street_hydrant": {
+      "name": "Idrante"
+    },
+    "street_meter": {
+      "name": "Parchimetro"
+    },
+    "street_atm": {
+      "name": "Bancomat / chiosco di pagamento"
+    },
+    "street_kiosk": {
+      "name": "Edicola"
+    },
+    "street_billboard": {
+      "name": "Palo pubblicitario AR"
+    },
+    "street_scooter": {
+      "name": "Scooter abbandonato"
     }
   }
 }

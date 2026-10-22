@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Rotten boards, 1 × 1: planks with gaps and a broken one. -->
+  <rect class="solid" x="0" y="0" width="100" height="100" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="detail" d="M0 25 H100 M0 50 H38 M52 50 H100 M0 75 H100 M30 0 V25 M70 25 V50 M20 50 V75 M60 75 V100 M38 44 L44 56 L52 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 15">
+  <!-- Chain-link fence, 1 square: posts at the ends, mesh between. Blocks people, not sight or bullets. -->
+  <path class="solid" d="M4 3 V12 M96 3 V12" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M4 7 H96" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 3 L16 12 M16 3 L24 12 M24 3 L32 12 M32 3 L40 12 M40 3 L48 12 M48 3 L56 12 M56 3 L64 12 M64 3 L72 12 M72 3 L80 12 M80 3 L88 12 M88 3 L96 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

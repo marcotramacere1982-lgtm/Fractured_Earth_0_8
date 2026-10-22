@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Makeshift wardrobe, 1 × ½: mismatched doors, one hanging off. Top = back. -->
+  <rect class="solid" x="4" y="4" width="92" height="42" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="solid" d="M4 6 H96" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 10 V46 M42 30 H46" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M54 46 L78 40 L74 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

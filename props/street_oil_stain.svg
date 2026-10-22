@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Oil stain, 1 × 1: a dark spill with a sheen ring. -->
+  <path class="solid" d="M22 50 C20 30 42 18 60 26 C80 30 86 52 76 68 C66 84 34 84 26 70 C22 64 22 58 22 50 Z" fill="currentColor" fill-opacity="0.5" stroke="none"/>
+  <path class="detail" d="M36 50 C38 40 52 36 60 42 C66 48 62 58 52 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

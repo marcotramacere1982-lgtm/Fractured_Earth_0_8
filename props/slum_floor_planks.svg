@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Planks over a hole, 1 × 1: three boards laid across a gap. -->
+  <rect class="solid" x="0" y="0" width="100" height="100" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="detail" d="M14 26 L30 18 L70 20 L86 30 L84 74 L70 82 L28 82 L14 72 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="6" y="30" width="88" height="12" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="6" y="46" width="88" height="12" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="6" y="62" width="88" height="12" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Trash pile, 2 × 1: bags, a broken chair, a wheel. -->
+  <path class="solid" d="M8 64 C6 34 34 18 56 28 C72 10 108 16 118 32 C140 16 180 24 188 50 C198 74 176 92 150 88 C120 96 60 94 30 88 C16 84 10 76 8 64 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="140" cy="60" r="12" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="140" cy="60" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M40 50 L62 70 M62 50 L40 70 M90 40 C100 34 112 44 104 54" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

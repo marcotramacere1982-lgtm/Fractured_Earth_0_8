@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Puddle, 1 × 1: a pool of standing water with ripples. -->
+  <rect class="solid" x="0" y="0" width="100" height="100" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="detail" d="M18 52 C18 30 44 22 62 28 C84 34 88 58 74 72 C58 86 26 80 18 52 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M40 48 C46 44 54 44 60 50 M46 60 C50 58 54 58 58 62" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

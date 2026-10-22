@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 15">
+  <!-- Tarp curtain, 1 square long: hangs from a line; blocks sight, not people. -->
+  <path class="detail" d="M2 3 H98" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M4 4 C14 12 22 12 30 6 C40 12 50 12 58 6 C68 12 78 12 86 6 L96 10" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

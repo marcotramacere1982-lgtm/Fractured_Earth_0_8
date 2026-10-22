@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 15">
+  <!-- Hacked power tap, ½ square: a junction box with clipped wires. Top = against the wall. -->
+  <rect class="solid" x="10" y="2" width="30" height="11" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M14 13 L8 15 M25 13 L25 15 M36 13 L44 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="25" cy="7" r="2" fill="currentColor" stroke="none"/>
+</svg>

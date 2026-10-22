@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Burning barrel, ½ × ½: an oil drum with a fire inside. -->
+  <circle class="solid" cx="25" cy="25" r="21" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="25" cy="25" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M25 14 C30 20 18 22 24 30 C28 34 34 28 30 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

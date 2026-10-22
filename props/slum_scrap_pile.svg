@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Scrap pile, 1 × 1: sheet metal, pipes and a tyre. -->
+  <path class="solid" d="M12 50 L30 14 L70 10 L90 40 L86 80 L50 92 L14 80 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="60" cy="58" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M22 40 L62 24 M30 70 L44 48 M68 30 L80 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

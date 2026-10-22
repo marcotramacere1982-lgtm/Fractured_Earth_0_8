@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Bus shelter, 2 × 1: glass back and sides (top = back), a bench inside, open at the front. -->
+  <path class="solid" d="M4 4 H196 M4 4 V80 M196 4 V80" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 10 H192" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="30" y="20" width="140" height="16" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M4 92 H196" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 6"/>
+</svg>

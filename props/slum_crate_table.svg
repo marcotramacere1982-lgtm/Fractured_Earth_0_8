@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Crate table, 1 × 1: a plank board on two crates. -->
+  <rect class="detail" x="8" y="8" width="36" height="84" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="56" y="8" width="36" height="84" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="solid" x="4" y="30" width="92" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M4 50 H96" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

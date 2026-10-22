@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Toppled wardrobe, 2 × ½: lying on its back, a door split. -->
+  <rect class="solid" x="4" y="4" width="192" height="42" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M100 4 V46 M24 12 L60 38 M60 12 L44 26 M150 14 L168 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M4 46 H196" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

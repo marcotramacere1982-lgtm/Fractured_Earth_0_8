@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- Pallet bed, 1 × 2: a mattress on two wooden pallets. Top = head end. -->
+  <rect class="solid" x="4" y="4" width="92" height="192" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M4 100 H96 M10 4 V196 M90 4 V196" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="16" y="14" width="68" height="172" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M24 30 H76" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

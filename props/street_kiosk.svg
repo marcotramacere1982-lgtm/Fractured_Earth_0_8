@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- News kiosk, 1 × 1: a booth with a shuttered window at the front (bottom). -->
+  <rect class="solid" x="4" y="4" width="92" height="92" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M4 70 H96 M14 78 H86 M14 86 H86" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 20 H80 V56 H20 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -104,6 +104,6 @@ export function propsSvg(props, data, { selected = null } = {}) {
     // a selected light shows how far it reaches (decision 74)
     const reachRing = p.id === selected && def.light?.radius ? `<circle class="map-light-reach" r="${(def.light.radius + 0.5) * U}" stroke-width="${U * 0.04}" stroke-dasharray="${U * 0.12} ${U * 0.1}"/>` : '';
     const frame = p.id === selected ? `<rect class="map-prop__sel" x="${-w / 2 - 8}" y="${-h / 2 - 8}" width="${w + 16}" height="${h + 16}"/>` : '';
-    return `<g class="map-prop map-prop--${def.category}${tint}${p.hidden ? ' map-prop--hidden' : ''}${p.on === false ? ' map-prop--off' : ''}${p.open ? ' map-prop--open' : ''}" transform="translate(${p.x * U} ${p.y * U}) rotate(${p.rot ?? 0})">${audio}${motion}${reachRing}${body}${frame}</g>`;
+    return `<g class="map-prop map-prop--${def.category}${tint}${p.hidden ? ' map-prop--hidden' : ''}${p.on === false ? ' map-prop--off' : ''}${p.open ? ' map-prop--open' : ''}${p.wrecked ? ' map-prop--wrecked' : ''}" transform="translate(${p.x * U} ${p.y * U}) rotate(${p.rot ?? 0})">${audio}${motion}${reachRing}${body}${frame}</g>`;
   }).join(''));
 }

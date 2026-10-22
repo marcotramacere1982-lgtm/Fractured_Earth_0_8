@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- Low wall, 1 square: waist-high blocks. Half cover. -->
+  <rect class="solid" x="3" y="4" width="94" height="17" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M35 4 V21 M68 4 V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

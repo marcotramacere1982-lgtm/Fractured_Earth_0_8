@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- AR billboard pole, ½ × ½: the pole and the projector head. -->
+  <circle class="solid" cx="25" cy="25" r="9" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M25 16 V4 M25 34 V46 M16 25 H4 M34 25 H46" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

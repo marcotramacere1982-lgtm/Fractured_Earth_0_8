@@ -87,6 +87,9 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 /* openable pieces (a wall safe): the drawing has open-only / closed-only groups */
 .map-prop .open-only, .map-prop--open .closed-only { display: none; }
 .map-prop--open .open-only { display: inline; }
+/* wreckable pieces (vehicles, decision 99): intact-only / wreck-only groups */
+.map-prop .wreck-only, .map-prop--wrecked .intact-only { display: none; }
+.map-prop--wrecked .wreck-only { display: inline; }
 .map-prop--scene .solid { stroke: var(--color-text); fill: none; }
 .map-prop--fixture { color: var(--color-text-muted); }
 .map-prop--off { filter: grayscale(1); opacity: 0.55; }

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300">
+  <!-- Outdoor stairs, 2 × 3: the arrow points up the stairs (on at the top and bottom ends). -->
+  <rect class="solid" x="4" y="4" width="192" height="292" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M6 25 H194 M6 50 H194 M6 75 H194 M6 100 H194 M6 125 H194 M6 150 H194 M6 175 H194 M6 200 H194 M6 225 H194 M6 250 H194 M6 275 H194" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 240 L92 230 M100 240 L108 230 M100 240 V60" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

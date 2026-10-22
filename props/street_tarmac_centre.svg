@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Tarmac with a dashed centre line running top to bottom (turn it for an east-west road). -->
+  <rect class="solid" x="0" y="0" width="100" height="100" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M50 6 V40 M50 60 V94" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

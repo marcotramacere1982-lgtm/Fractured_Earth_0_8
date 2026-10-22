@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- Mattress on the floor, 1 × 2: a stained mattress and a rolled blanket. Top = head end. -->
+  <rect class="solid" x="8" y="8" width="84" height="184" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M18 20 H82 M30 70 C40 64 52 76 62 70" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M14 132 C40 120 64 146 88 132 L88 150 C64 164 40 138 14 152 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

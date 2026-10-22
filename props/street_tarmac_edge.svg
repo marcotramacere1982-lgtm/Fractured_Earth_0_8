@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Tarmac with a solid edge line along the left side. -->
+  <rect class="solid" x="0" y="0" width="100" height="100" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M12 0 V100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

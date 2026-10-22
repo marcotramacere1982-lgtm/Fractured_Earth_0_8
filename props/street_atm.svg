@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- ATM, ½ × ½: screen and keypad face the front (bottom). -->
+  <rect class="solid" x="4" y="4" width="42" height="42" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="solid" d="M4 6 H46" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="12" y="14" width="26" height="12" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M14 34 H18 M23 34 H27 M32 34 H36 M14 40 H36" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

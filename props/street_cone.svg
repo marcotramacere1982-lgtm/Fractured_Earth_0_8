@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+  <!-- Traffic cone from above: base and tip. -->
+  <rect class="solid" x="3" y="3" width="24" height="24" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="detail" cx="15" cy="15" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="15" cy="15" r="2" fill="currentColor" stroke="none"/>
+</svg>

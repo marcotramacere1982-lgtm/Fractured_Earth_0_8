@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Dumpster, 2 × 1: closed lids, or open with trash inside. Top = back. -->
+  <rect class="solid" x="4" y="6" width="192" height="88" rx="4" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="solid" d="M4 8 H196" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><path class="detail" d="M100 8 V94 M20 70 H80 M120 70 H180" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M100 8 V94" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M20 30 C40 20 60 44 80 34 M120 40 C140 28 160 52 180 38 M30 70 L50 60 M140 74 L160 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

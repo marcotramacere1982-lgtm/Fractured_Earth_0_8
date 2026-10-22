@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 100">
+  <!-- Scooter, ½ × 1: rear wheel at the top, handlebar at the bottom. -->
+  <rect class="detail" x="14" y="4" width="22" height="22" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="solid" x="12" y="22" width="26" height="50" rx="8" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="14" y="74" width="22" height="22" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="solid" d="M4 80 H46" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Scrap stove, ½ × ½: a camping burner on a tin can. -->
+  <circle class="solid" cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="25" cy="25" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M25 10 V16 M25 34 V40 M10 25 H16 M34 25 H40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

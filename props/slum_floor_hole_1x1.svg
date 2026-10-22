@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Broken floor, 1 × 1: a jagged hole with hanging boards. -->
+  <rect class="solid" x="0" y="0" width="100" height="100" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="solid" d="M24 30 L40 20 L58 26 L76 22 L80 44 L72 62 L78 78 L56 80 L40 74 L22 78 L26 58 L18 44 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M30 40 L46 34 M60 36 L70 52 M34 66 L50 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

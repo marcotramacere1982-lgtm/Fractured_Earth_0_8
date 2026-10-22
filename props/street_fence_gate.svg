@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 15">
+  <!-- Chain-link gate, 1 square: closed across, or swung open. -->
+  <path class="solid" d="M4 3 V12 M96 3 V12" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><path class="detail" d="M6 7 H94" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M10 3 L18 12 M24 3 L32 12 M38 3 L46 12 M52 3 L60 12 M66 3 L74 12 M80 3 L88 12" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M6 7 L20 14" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M6 7 C30 7 60 7 94 7" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 5"/></g>
+</svg>

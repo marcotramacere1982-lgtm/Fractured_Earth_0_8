@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Broken floor, 2 × 2: a large collapse with joists showing. -->
+  <rect class="solid" x="0" y="0" width="200" height="200" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="solid" d="M40 50 L80 30 L120 44 L160 36 L172 80 L156 120 L170 160 L120 168 L84 156 L40 166 L48 120 L30 86 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M44 90 L168 90 M50 130 L160 130 M70 60 L90 74 M120 150 L136 136 M100 44 L104 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

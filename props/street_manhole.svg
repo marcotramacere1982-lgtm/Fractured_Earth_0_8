@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Manhole, 1 × 1: a round iron cover; open, the shaft below. -->
+  <g class="closed-only"><circle class="solid" cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="4"/><path class="detail" d="M28 40 H72 M24 50 H76 M28 60 H72" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><circle class="solid" cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="4"/><circle class="solid" cx="50" cy="50" r="22" fill="currentColor" fill-opacity="0.6" stroke="none"/><circle class="detail" cx="80" cy="80" r="14" fill="none" stroke="currentColor" stroke-width="2"/><path class="detail" d="M68 80 H92" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

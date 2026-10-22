@@ -3,7 +3,7 @@
 // GM map builder and, later, the sheet's map view. Every change returns a new map.
 
 import { normalizeZones } from './zones.js';
-import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges } from './props.js';
+import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
 
 export const MAP_SCHEMA = 1;
 const FREE_STEP = 0.05; // snap off: positions still round to 1/20 of a square
@@ -146,7 +146,8 @@ export function normalizeMap(raw, data) {
     const state = Object.fromEntries(Object.entries(propState(def)).map(([k, v]) => [k, typeof q[k] === 'boolean' ? q[k] : v]));
     const { min, max } = data.map.sensor.reach;
     const reach = Object.fromEntries(Object.entries(q.reach ?? {}).filter(([k, n]) => def.sensor?.reach?.[k] != null && Number.isFinite(n)).map(([k, n]) => [k, Math.max(min, Math.min(max, Math.round(n)))]));
-    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}) });
+    const text = (k, max) => (typeof q[k] === 'string' && q[k].trim() ? { [k]: q[k].trim().slice(0, max) } : {}); // GM label / note (decision 99)
+    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300) });
   }
   return { ...base, walls, props, zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
 }
@@ -264,7 +265,7 @@ function stepClear(a, b, blockers) {
 /** Everything that stops a step: walls, windows, closed doors, and props that block movement (decision 68). */
 const moveBlockers = (map, data) => [
   ...solidSegments(map).filter((w) => blocksMove(w, data)),
-  ...activeProps(map).filter((p) => propDef(data, p.prop)?.blocksMove).flatMap((p) => propEdges(p, data)),
+  ...activeProps(map).filter((p) => propBlocksMove(propDef(data, p.prop), p)).flatMap((p) => propEdges(p, data)),
   ...activeProps(map).flatMap((p) => blockedEdges(p, data)), // stairs and elevators: invisible side walls (decision 72)
   ...activeProps(map).flatMap((p) => shellEdges(p, data)), // walk-in containers: walls all round, the door while closed (decision 85)
 ];
@@ -368,7 +369,7 @@ const SHIFT = 0.01; // the trace is tested a hair to each side, so a room's corn
 
 /** Everything sight stops at: walls, closed doors, and pieces that block sight (hidden pieces don't count). */
 export const sightSegments = (map, data) => [...solidSegments(map).filter((w) => blocksSight(w, data)),
-  ...activeProps(map).filter((p) => propDef(data, p.prop)?.blocksSight).flatMap((p) => propEdges(p, data)),
+  ...activeProps(map).filter((p) => propBlocksSight(propDef(data, p.prop), p)).flatMap((p) => propEdges(p, data)),
   ...activeProps(map).flatMap((p) => shellEdges(p, data))]; // a closed container hides who is inside (decision 85)
 
 /** The blockers a line A→B meets, tested a hair to each side: [left, right]; both set = blocked (a corner counts). */

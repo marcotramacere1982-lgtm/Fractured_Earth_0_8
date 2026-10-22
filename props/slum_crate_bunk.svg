@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- Crate bunk, 1 × 2: a bedroll laid on a row of crates. -->
+  <rect class="solid" x="4" y="4" width="92" height="60" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="4" y="70" width="92" height="60" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="4" y="136" width="92" height="60" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M4 4 L96 64 M96 4 L4 64 M4 70 L96 130 M96 70 L4 130 M4 136 L96 196 M96 136 L4 196" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 20 H80 V180 H20 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

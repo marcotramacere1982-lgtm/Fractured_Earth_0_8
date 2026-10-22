@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Pothole, 1 × 1: broken asphalt around a hole. -->
+  <path class="solid" d="M30 40 L44 28 L66 32 L74 50 L64 70 L40 72 L26 58 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M18 30 L30 40 M74 50 L88 46 M40 72 L36 86" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

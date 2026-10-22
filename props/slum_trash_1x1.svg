@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Trash heap, 1 × 1: bin bags and loose junk. -->
+  <path class="solid" d="M10 60 C8 36 28 22 44 30 C52 14 80 18 84 40 C96 52 90 82 70 86 C52 94 20 90 10 60 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M40 32 L44 26 M66 22 L70 30 M28 60 C40 52 54 66 66 58 M50 74 L62 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

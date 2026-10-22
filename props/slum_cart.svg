@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Shopping cart, 1 × ½: wire basket full of belongings, handle at the right. -->
+  <path class="solid" d="M6 6 H80 L76 44 H10 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M6 18 H79 M6 30 H78 M26 6 L26 44 M46 6 L46 44 M64 6 L62 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M80 10 L94 6 M80 40 L94 44 M94 6 V44" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

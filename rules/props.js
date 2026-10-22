@@ -31,13 +31,21 @@ export function propState(def) {
     ...(sensesOf(def).length ? sensorState(sensesOf(def)) : powerOf(def) ? { on: true } : {}),
     ...Object.fromEntries((def?.flags ?? []).map((f) => [f, false])),
     ...(def?.openable ? { open: false } : {}),
+    ...(def?.wreckable ? { wrecked: false } : {}),
   };
 }
 
 /** The state players may see: lights' on / off and open / closed. Sensors' and the keypad's state stay with the GM. */
 export function publicState(p, def) {
-  return { ...(powerOf(def) === 'public' ? { on: p.on !== false } : {}), ...(def?.openable ? { open: Boolean(p.open) } : {}) };
+  return { ...(powerOf(def) === 'public' ? { on: p.on !== false } : {}), ...(def?.openable ? { open: Boolean(p.open) } : {}), ...(def?.wreckable ? { wrecked: Boolean(p.wrecked) } : {}) };
 }
+
+/** Decision 99: an open gate (openPasses) lets people — and sight — through; everything else as its record says. */
+export const propBlocksMove = (def, p) => Boolean(def?.blocksMove && !(def.openPasses && p.open));
+export const propBlocksSight = (def, p) => Boolean(def?.blocksSight && !(def.openPasses && p.open));
+
+/** A GM label and note on any placed piece (decision 99): never sent to players. */
+export const NOTE_MAX = { label: 40, note: 300 };
 /** Reach in squares of a placed sensor for a sense (motion: a line ahead, audio: a radius); null when it has none. */
 export const reachOf = (p, def, sense) => p.reach?.[sense] ?? def?.sensor?.reach?.[sense] ?? null;
 
