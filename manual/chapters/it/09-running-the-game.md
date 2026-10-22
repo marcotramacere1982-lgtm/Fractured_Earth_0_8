@@ -40,7 +40,7 @@ Quasi sempre il problema è la scena, non i dadi. L'incontro che hai preparato p
 
 **Come funziona.** Il tavolo dal vivo gira da un computer sul Wi-Fi della stanza. `npm run table` avvia il server e stampa due cose: l'**indirizzo** che i giocatori aprono sui tablet e la **chiave del GM**. Apri `/gm/` sul tuo portatile e inserisci la chiave. Non serve internet.
 
-I giocatori aprono l'indirizzo, caricano il personaggio e toccano **Unisciti al tavolo** nella scheda (Dossier). Da quel momento la loro scheda ti manda il suo stato dopo ogni azione e riceve i tuoi messaggi, la difficoltà, la luce, l'ordine di combattimento e la mappa.
+I giocatori aprono l'indirizzo, scelgono il proprio nome in **Al tavolo · Gioca come** nella pagina dei personaggi e aprono un personaggio: così si uniscono al tavolo con quello (funziona ancora anche **Unisciti al tavolo** nel Dossier). Ogni personaggio che creano, importano o aprono giocando come se stessi viene tenuto dal tavolo a loro nome, quindi li segue su qualsiasi tablet; quando due dispositivi hanno giocato lo stesso, vince il salvataggio più recente e la cronologia tiene il resto. **Admin → Players** elenca ogni giocatore e i suoi personaggi: rinomina, unisci due voci della stessa persona, sposta un personaggio al giocatore giusto, togli un nome vuoto. Da quel momento la loro scheda ti manda il suo stato dopo ogni azione e riceve i tuoi messaggi, la difficoltà, la luce, l'ordine di combattimento e la mappa.
 
 **Nella console — scheda Table.**
 
@@ -126,8 +126,9 @@ La scheda conta già quello che il giocatore porta con sé: gli attrezzi compaio
 
 - **Muri** in tre spessori, **porte** e **finestre** sulle linee della griglia; aggancio alla griglia attivabile. Una porta può partire aperta, chiusa o **chiusa a chiave** (la serratura non viene mai mostrata ai giocatori).
 - **Muri sfondabili** — seleziona un muro e scegli *Breakable*: un punto debole che la squadra può sfondare quando lo decidi tu. Lo vedi solo tu (tratteggio ambra); i giocatori vedono un muro normale finché non mostri le crepe dalla scheda Deploy (9-8).
-- **La libreria** — blocchi e pilastri di cemento pieni, mobili, casse, terminali, coperture, pavimenti, scale e ascensori, divisi in gruppi. Ogni pezzo dice il suo ingombro e cosa blocca; *Turn* lo ruota.
+- **La libreria** — blocchi e pilastri di cemento pieni, un set **Industrial** (banchi da lavoro, generatori, stampanti 3D, presse, taglierine, vasche chimiche, console, scaffali, nastri trasportatori bassi e alti, bracci robotici, silos, container), mobili, casse, terminali, coperture, pavimenti, scale e ascensori, divisi in gruppi. Ogni pezzo dice il suo ingombro e cosa blocca; *Turn* lo ruota.
 - **Place: One, Line o Area** — con un pezzo scelto, *Line* e *Area* lo copiano mentre trascini: uno accanto all'altro da dove parti (non si sovrappongono mai, qualunque sia l'aggancio), oppure uno ogni 1–4 quadretti (le luci a soffitto). I punti che hanno già quel pezzo vengono saltati, quindi ripassare su un'area non aggiunge niente; un pavimento può sostituire quello che c'è già.
+- **Container** — pareti tutt'intorno e porte sul davanti: i segnalini possono stare dentro, e a porte chiuse chi è fuori non vede dentro (infiltrazione, un prigioniero da liberare). Aprili o chiudili dalla scheda Deploy quando qualcuno prova le porte. I nastri bassi si scavalcano (terreno difficile); quelli alti no.
 - **Pezzi nascosti** (*Hidden (GM only)*) — bottino da trovare cercando, una trappola, una porta segreta: piazzati ora, rivelati in gioco.
 - **Sicurezza** — sensori, raggi laser e tastierini d'allarme, solo per il GM; luci accendibili e spegnibili; casseforti a muro che si aprono.
 - **Luce** — l'ambiente della mappa, *Bright* o *Dark*, e le **zone d'oscurità** per gli angoli bui di una mappa illuminata.

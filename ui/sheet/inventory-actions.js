@@ -1,7 +1,7 @@
 // Inventory actions (decision 55): custom items, trash, sell, gifts between players. Logs stay English and
 // explain every change to the GM's audit ("Dropped …", "Sold …", "Gave …", "Received …", "Added …").
 
-import { findGear, sellPrice, addItem, nextIsOfficial, magazineId } from '../../rules/economy.js';
+import { findGear, sellPrice, addItem, nextIsOfficial, magazineId, lifestyleSlot } from '../../rules/economy.js';
 import { RuleError } from '../../rules/messages.js';
 import { uid } from '../../state/id.js';
 import { log, spend, actions } from './actions.js';
@@ -34,11 +34,11 @@ export const inventoryActions = {
     if (!row) throw new RuleError('noItem', {}, 'Not in your inventory any more.');
     log(c, `Used ${itemName(row, data)} (story: the GM rules on it)`);
   },
-  /** Lifestyle (decision 62): picking one charges nothing; one per category, the new one replaces the old. */
+  /** Lifestyle (decisions 62, 86): picking one charges nothing; it replaces what shares its slot (housing: the old home; bills add up). */
   chooseLifestyle(c, data, { id }) {
     const e = data.lifestyle.entries.find((x) => x.id === id);
     if (!e) return;
-    const old = (c.play.lifestyle ?? []).map((x) => data.lifestyle.entries.find((y) => y.id === x)).filter((x) => x?.category === e.category && x.id !== id);
+    const old = (c.play.lifestyle ?? []).map((x) => data.lifestyle.entries.find((y) => y.id === x)).filter((x) => x && x.id !== id && lifestyleSlot(x, data) === lifestyleSlot(e, data));
     c.play.lifestyle = [...(c.play.lifestyle ?? []).filter((x) => !old.some((o) => o.id === x)), ...((c.play.lifestyle ?? []).includes(id) ? [] : [id])];
     log(c, `Lifestyle: ${e.name}${old.length ? ` (instead of ${old.map((o) => o.name).join(', ')})` : ''}`);
   },

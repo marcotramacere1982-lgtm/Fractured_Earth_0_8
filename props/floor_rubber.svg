@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Rubber floor mat, 1 × 1: a faint stud pattern. -->
+  <circle class="detail" cx="15" cy="15" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="15" cy="38" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="15" cy="61" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="15" cy="84" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="38" cy="15" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="38" cy="38" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="38" cy="61" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="38" cy="84" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="61" cy="15" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="61" cy="38" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="61" cy="61" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="61" cy="84" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="15" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="38" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="61" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="84" r="2" fill="currentColor" stroke="none"/>
+</svg>

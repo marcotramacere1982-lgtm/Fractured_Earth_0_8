@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Silo, 2 × 2: a round tank seen from above, hatch and ladder. -->
+  <circle class="solid" cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="100" cy="100" r="16" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M100 6 L100 30 M88 8 L88 30 M112 8 L112 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

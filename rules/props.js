@@ -144,6 +144,17 @@ export function blockedEdges(p, data) {
 }
 
 /**
+ * A walk-in piece's walls (decision 85: freight containers): `shell: { door: 'front' }` — every side blocks
+ * movement and sight like a wall, the door side only while the piece is closed. The inside is open floor.
+ */
+export function shellEdges(p, data) {
+  const shell = propDef(data, p.prop)?.shell;
+  if (!shell) return [];
+  const edges = propEdges(p, data);
+  return Object.entries(EDGE_INDEX).filter(([side]) => side !== shell.door || !p.open).map(([, i]) => edges[i]).filter(Boolean);
+}
+
+/**
  * Squares that are difficult ground (they cost 2 to enter, manual 7-2): a difficult prop covers at least a
  * third of the square (sampled on a 3 × 3 grid). Set of "x,y".
  */

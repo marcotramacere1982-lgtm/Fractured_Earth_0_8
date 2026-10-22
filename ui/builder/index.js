@@ -45,7 +45,7 @@ const setPath = (obj, path, value) => {
   o[keys[0]] = value;
 };
 
-export function builderView({ data, store, main, table }) {
+export function builderView({ data, store, main, table, library }) {
   let draft = loadDraft(data);
   setExplainSource(() => draft.character);
   let animateFrom = null; // index in the current log to start typing from (transient)
@@ -206,6 +206,7 @@ export function builderView({ data, store, main, table }) {
       const id = store.add(c);
       localStorage.removeItem(KEY);
       toast(t('builder.ready', { name: c.name }), 'success');
+      if (library?.state.player) library.keep(id).then(() => table.join(id)); // at a table: saved under your name (decision 87)
       go('sheet', id);
     },
   });

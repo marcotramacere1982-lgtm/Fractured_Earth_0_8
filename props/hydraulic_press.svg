@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Hydraulic press, 2 × 2: two columns, the ram plate, the bed. -->
+  <rect class="solid" x="6" y="6" width="188" height="188" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="14" y="14" width="36" height="36" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="150" y="14" width="36" height="36" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="14" y="150" width="36" height="36" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="150" y="150" width="36" height="36" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="56" y="56" width="88" height="88" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="100" cy="100" r="22" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

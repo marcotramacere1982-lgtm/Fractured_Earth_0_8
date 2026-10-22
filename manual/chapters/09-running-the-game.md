@@ -40,7 +40,7 @@ Most of the time the problem is the scene, not the dice. The encounter you built
 
 **How it works.** The live table runs from one computer on the room's Wi-Fi. `npm run table` starts the server and prints two things: the **address** players open on their tablets and the **GM key**. Open `/gm/` on your laptop and type the key. Nothing needs internet.
 
-Players open the address, load their character and tap **Join the table** on the sheet (Dossier). From then on their sheet sends its state to you after every action, and receives your messages, difficulty, light, combat order and map.
+Players open the address, pick their name under **At the table · Play as** on the characters page and open a character: that joins the table with it (the Dossier's **Join the table** still works too). Every character they create, import or open while playing as themselves is kept by the table under their name, so it follows them to any tablet; when two devices played the same one, the newest save wins and the history keeps the rest. **Admin → Players** lists every player and their characters: rename, merge two entries for the same person, move a character to the right player, remove an empty name. From then on their sheet sends its state to you after every action, and receives your messages, difficulty, light, combat order and map.
 
 **In the console — Table tab.**
 
@@ -126,8 +126,9 @@ The sheet already counts what the player carries: tools appear as tick boxes (on
 
 - **Walls** in three widths, **doors** and **windows** on the grid lines; snap on or off. A door can start open, closed or **locked** (locks are never shown to players).
 - **Breakable walls** — select a wall and tick *Breakable*: a weak spot the crew can break through on your call. Only you see it (dashed amber); players see an ordinary wall until you show its cracks on the Deploy tab (9-8).
-- **The library** — solid concrete blocks and pillars, furniture, crates, terminals, cover, floors, stairs and elevators, grouped. Each piece says its footprint and what it blocks; *Turn* rotates it.
+- **The library** — solid concrete blocks and pillars, an **Industrial** set (workbenches, generators, 3D printers, presses, cutters, chem baths, consoles, racks, conveyor belts low and high, robot arms, silos, freight containers), furniture, crates, terminals, cover, floors, stairs and elevators, grouped. Each piece says its footprint and what it blocks; *Turn* rotates it.
 - **Place: One, Line or Area** — with a piece picked, *Line* and *Area* copy it as you drag: side by side from where you start (they never overlap, whatever the snap), or one every 1–4 squares (ceiling lights). Spots that already hold the piece are skipped, so going over an area twice adds nothing; a floor texture can replace the floor already there.
+- **Freight containers** — walls all round and doors at the front: markers can stand inside, and with the doors shut nobody outside sees in (stealth, a prisoner to rescue). Open or close them from the Deploy tab when someone tries the doors. Low conveyor belts can be climbed over (difficult ground); high ones can't.
 - **Hidden pieces** (*Hidden (GM only)*) — loot found by searching, a trap, a secret door: placed now, revealed in play.
 - **Security** — sensors, laser lines and alarm keypads, GM-only; lights that can be on or off; wall safes that open.
 - **Light** — the map's environment, *Bright* or *Dark*, and **darkness zones** for unlit corners of a bright map.

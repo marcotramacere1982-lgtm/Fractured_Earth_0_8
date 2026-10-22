@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Pipes along the floor, 2 × ½: you step over them (difficult ground). -->
+  <path class="detail" d="M2 16 L198 16 M2 34 L198 34" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path class="detail" d="M50 8 L50 42 M150 8 L150 42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

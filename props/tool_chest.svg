@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Wheeled tool chest, 1 × ½: drawers seen from above, handle at the front. -->
+  <rect class="solid" x="4" y="4" width="92" height="38" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M4 16 L96 16 M4 28 L96 28 M30 46 L70 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle class="detail" cx="10" cy="44" r="2.5" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="90" cy="44" r="2.5" fill="currentColor" stroke="none"/>
+</svg>

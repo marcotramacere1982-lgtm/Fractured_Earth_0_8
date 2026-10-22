@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Robot arm, 2 × 2: a round base and its jointed arm; the dashed circle is its reach. -->
+  <circle class="detail" cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 8"/>
+  <circle class="solid" cx="100" cy="100" r="30" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="100" cy="100" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="solid" d="M100 100 L150 60 L170 110" fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/>
+  <circle class="detail" cx="150" cy="60" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M170 110 L182 118 M170 110 L178 98" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

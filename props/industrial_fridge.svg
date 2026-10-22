@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Industrial fridge, 2 × 1: two big doors at the front (closed-only), swung open (open-only). -->
+  <rect class="solid" x="4" y="4" width="192" height="88" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="solid" d="M4 6 L196 6" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+  <path class="detail" d="M24 20 L176 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g class="closed-only"><path class="detail" d="M100 4 L100 92 M90 70 L90 84 M110 70 L110 84" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g class="open-only"><path class="detail" d="M10 26 L190 26 M10 46 L190 46 M10 66 L190 66" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path class="detail" d="M4 92 L4 96 M196 92 L196 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>

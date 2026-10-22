@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <!-- Industrial 3D printer, 3 × 2: a tall cabinet with a build chamber, vents and a console at the front. -->
+  <rect class="solid" x="6" y="6" width="288" height="188" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="solid" d="M6 8 L294 8" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+  <rect class="detail" x="30" y="30" width="160" height="120" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M210 30 L270 30 M210 42 L270 42 M210 54 L270 54 M210 66 L270 66" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect class="detail" x="210" y="120" width="60" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M110 30 L110 150 M30 90 L190 90" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

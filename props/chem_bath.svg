@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Chemical bath, 2 × 1: a tank with a raised lip and the liquid inside, a drain at one end. -->
+  <rect class="solid" x="4" y="4" width="192" height="92" rx="4" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="16" y="16" width="168" height="68" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M30 40 Q50 32 70 40 T110 40 T150 40 M30 60 Q50 52 70 60 T110 60 T150 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle class="detail" cx="178" cy="50" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

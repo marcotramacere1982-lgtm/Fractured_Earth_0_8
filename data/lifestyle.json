@@ -1,15 +1,15 @@
 {
-  "note": "Recurring cost of living. Mostly flavour; paid monthly, normally through official channels (Credit Score), which is exactly how the system keeps people in debt. Prices are monthly, in Cr (Stables).",
+  "note": "Recurring cost of living. Mostly flavour; paid monthly, normally through official channels (Credit Score), which is exactly how the system keeps people in debt. Prices are monthly, in Cr (Stables). Categories pick \"one\" (a new entry replaces the old: housing, data plan, food) or \"many\" (they add up: bills, transport, fees); inside a \"many\" category, entries sharing a \"slot\" still replace each other (basic vs premium medical, plain vs ad-free streams). Decision 86.",
   "period": "month",
   "categories": [
-    { "id": "housing", "name": "Housing" },
-    { "id": "connectivity", "name": "Data & Phone" },
-    { "id": "utilities", "name": "Utilities & Bills" },
-    { "id": "food", "name": "Food" },
-    { "id": "transport", "name": "Transport" },
-    { "id": "health", "name": "Health" },
-    { "id": "entertainment", "name": "Entertainment" },
-    { "id": "compliance", "name": "Compliance & Fees" }
+    { "id": "housing", "name": "Housing", "pick": "one" },
+    { "id": "connectivity", "name": "Data & Phone", "pick": "one" },
+    { "id": "utilities", "name": "Utilities & Bills", "pick": "many" },
+    { "id": "food", "name": "Food", "pick": "one" },
+    { "id": "transport", "name": "Transport", "pick": "many" },
+    { "id": "health", "name": "Health", "pick": "many" },
+    { "id": "entertainment", "name": "Entertainment", "pick": "many" },
+    { "id": "compliance", "name": "Compliance & Fees", "pick": "many" }
   ],
   "entries": [
     { "id": "housing_capsule_bunk", "category": "housing", "tier": 1, "name": "Capsule Bunk", "desc": "Rented sleeping pod in a corporate-managed tenement, paid by the night in company scrip. Shared washrooms, lockers extra.", "cost": { "cr": 90 } },
@@ -36,12 +36,12 @@
     { "id": "transport_ride_share", "category": "transport", "tier": 2, "name": "Autonomous Ride Credits", "desc": "A monthly bundle of self-driving cab trips. Every trip logged.", "cost": { "cr": 150 } },
     { "id": "transport_vehicle_lease", "category": "transport", "tier": 3, "name": "Vehicle Lease", "desc": "Leased car with remote kill-switch held by the lender.", "cost": { "cr": 450 } },
 
-    { "id": "health_basic_medical", "category": "health", "tier": 1, "name": "Mandatory Medical Subscription", "desc": "Baseline coverage required by law. Covers neural-dampeners for the Clinical Static, little else.", "cost": { "cr": 60 } },
-    { "id": "health_premium_medical", "category": "health", "tier": 2, "name": "Premium Medical Plan", "desc": "Priority triage at corporate clinics and autodoc access.", "cost": { "cr": 300 } },
+    { "id": "health_basic_medical", "slot": "medical", "category": "health", "tier": 1, "name": "Mandatory Medical Subscription", "desc": "Baseline coverage required by law. Covers neural-dampeners for the Clinical Static, little else.", "cost": { "cr": 60 } },
+    { "id": "health_premium_medical", "slot": "medical", "category": "health", "tier": 2, "name": "Premium Medical Plan", "desc": "Priority triage at corporate clinics and autodoc access.", "cost": { "cr": 300 } },
     { "id": "health_neural_dampeners", "category": "health", "name": "Neural-Dampener Prescription", "desc": "Monthly supply of the pills that keep the Hum and the geometric night terrors quiet.", "cost": { "cr": 40 } },
 
-    { "id": "fun_stream_basic", "category": "entertainment", "name": "Feed Stream Bundle", "desc": "Ad-heavy streaming bundle, including live episodes of The Audit Room.", "cost": { "cr": 15 } },
-    { "id": "fun_stream_adfree", "category": "entertainment", "name": "Ad-Free Stream Bundle", "desc": "The same feeds without the ads. Also unlocks voting on The Audit Room.", "cost": { "cr": 45 } },
+    { "id": "fun_stream_basic", "slot": "streaming", "category": "entertainment", "name": "Feed Stream Bundle", "desc": "Ad-heavy streaming bundle, including live episodes of The Audit Room.", "cost": { "cr": 15 } },
+    { "id": "fun_stream_adfree", "slot": "streaming", "category": "entertainment", "name": "Ad-Free Stream Bundle", "desc": "The same feeds without the ads. Also unlocks voting on The Audit Room.", "cost": { "cr": 45 } },
     { "id": "fun_algcore_club", "category": "entertainment", "name": "Alg-Core Club Membership", "desc": "Entry to a De-Sync club where the noise jams the audio surveillance grid.", "cost": { "cr": 60 } },
 
     { "id": "fee_lens_frame_license", "category": "compliance", "name": "Lens-Frame Licence", "desc": "Annual licence for your smart glasses, billed monthly. Unlicensed frames are bricked remotely.", "cost": { "cr": 10 } },

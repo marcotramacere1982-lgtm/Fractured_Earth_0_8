@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Generator, 2 × 1: engine block, exhaust stack, control panel. On / off is GM-only. -->
+  <rect class="solid" x="4" y="8" width="192" height="84" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="150" cy="50" r="24" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="150" cy="50" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M20 22 L110 22 M20 36 L110 36 M20 50 L110 50 M20 64 L110 64 M20 78 L110 78" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect class="detail" x="176" y="14" width="14" height="14" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

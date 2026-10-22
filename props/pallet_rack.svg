@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <!-- Pallet rack, 3 × 1: three bays of stacked pallets between uprights. -->
+  <rect class="solid" x="4" y="4" width="292" height="92" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M100 4 L100 96 M200 4 L200 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect class="detail" x="14" y="14" width="76" height="72" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="114" y="14" width="76" height="72" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="214" y="14" width="76" height="72" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M14 50 L90 50 M114 50 L190 50 M214 50 L290 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

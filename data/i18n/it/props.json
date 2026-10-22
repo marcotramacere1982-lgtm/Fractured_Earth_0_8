@@ -206,6 +206,114 @@
     },
     "concrete_pillar": {
       "name": "Pilastro di cemento"
+    },
+    "workbench_2x1": {
+      "name": "Banco da lavoro con attrezzi"
+    },
+    "workbench_3x1": {
+      "name": "Banco da lavoro lungo"
+    },
+    "tool_chest": {
+      "name": "Carrello portattrezzi"
+    },
+    "toolbox": {
+      "name": "Cassetta degli attrezzi"
+    },
+    "generator": {
+      "name": "Generatore"
+    },
+    "printer_small": {
+      "name": "Stampante 3D (piccola)"
+    },
+    "printer_medium": {
+      "name": "Stampante 3D (media)"
+    },
+    "printer_industrial": {
+      "name": "Stampante 3D (industriale)"
+    },
+    "hydraulic_press": {
+      "name": "Pressa idraulica"
+    },
+    "metal_cutter": {
+      "name": "Taglierina per metalli"
+    },
+    "lathe": {
+      "name": "Tornio"
+    },
+    "chem_bath": {
+      "name": "Vasca chimica"
+    },
+    "industrial_fridge": {
+      "name": "Frigorifero industriale"
+    },
+    "console_screens": {
+      "name": "Console di controllo (schermi)"
+    },
+    "console_plain": {
+      "name": "Console di controllo"
+    },
+    "pallet_rack": {
+      "name": "Scaffale portapallet"
+    },
+    "parts_shelf": {
+      "name": "Scaffale ricambi"
+    },
+    "parts_pile_1x1": {
+      "name": "Mucchio di ricambi"
+    },
+    "parts_pile_2x1": {
+      "name": "Mucchio di ricambi (lungo)"
+    },
+    "conveyor_low": {
+      "name": "Nastro trasportatore (basso)"
+    },
+    "conveyor_high": {
+      "name": "Nastro trasportatore (alto)"
+    },
+    "conveyor_corner_low": {
+      "name": "Curva del nastro (bassa)"
+    },
+    "conveyor_corner_high": {
+      "name": "Curva del nastro (alta)"
+    },
+    "robot_arm": {
+      "name": "Braccio robotico"
+    },
+    "silo": {
+      "name": "Silo"
+    },
+    "container_2x4": {
+      "name": "Container (lungo)"
+    },
+    "container_2x2": {
+      "name": "Container (corto)"
+    },
+    "neon_strip": {
+      "name": "Neon a soffitto"
+    },
+    "fusebox_industrial": {
+      "name": "Quadro elettrico industriale"
+    },
+    "wall_fan": {
+      "name": "Ventola a muro"
+    },
+    "wall_pipes": {
+      "name": "Tubi a muro"
+    },
+    "floor_rubber": {
+      "name": "Pavimento: gomma"
+    },
+    "floor_vent": {
+      "name": "Grata di aerazione"
+    },
+    "cable_straight": {
+      "name": "Cavi a terra"
+    },
+    "cable_corner": {
+      "name": "Cavi a terra (curva)"
+    },
+    "floor_pipes": {
+      "name": "Tubi a terra"
     }
   }
 }

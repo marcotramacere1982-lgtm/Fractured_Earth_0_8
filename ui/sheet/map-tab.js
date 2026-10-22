@@ -42,7 +42,7 @@ function infoPanel(map, data, id, doorUse) {
   const p = info?.kind === 'prop' ? (map.props ?? []).find((x) => x.id === info.id) : null;
   const d = p && data.props.props.find((x) => x.id === p.prop);
   if (!d) return null;
-  const traits = [d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null,
+  const traits = [d.shell ? t('map.info.shell') : null, d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null,
     d.cover !== 'none' ? t(`map.cover.${d.cover}`) : null].filter(Boolean);
   return html`<section data-tour="map-target" class="map-target map-info"><div class="map-target__head"><strong>${d.name}</strong>
       <span class="pill">${t(`map.group.${d.category}`)}</span>

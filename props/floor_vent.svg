@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Floor vent, 1 × 1: a grille over a duct (a crawlspace, if the GM says so). -->
+  <rect class="solid" x="14" y="14" width="72" height="72" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M20 24 L80 24 M20 34 L80 34 M20 44 L80 44 M20 54 L80 54 M20 64 L80 64 M20 74 L80 74" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

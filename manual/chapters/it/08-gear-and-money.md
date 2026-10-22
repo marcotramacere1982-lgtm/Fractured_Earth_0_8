@@ -63,6 +63,6 @@ L'ottica determina **Portata**, **Track** e **modalità** dello Scavenger (5-6).
 
 ## 8-6. Stile di vita {#sec-8-6}
 
-Il costo mensile dell'esistere. Gli operatori partono dal fondo; salire è qualcosa che ci si guadagna. Scegli il tuo nella sezione Stile di vita del mercato con **Scegli**: non costa nulla, e una scelta per categoria sostituisce la precedente (un nuovo appartamento sostituisce il vecchio). La scheda mostra il mantenimento mensile in $ (o ≈ Credit Score se pagato ufficialmente); il resoconto di downtime del GM lo mostra per il tempo trascorso, e il tavolo lo sistema come preferisce. Per ora non ha altri effetti di gioco.
+Il costo mensile dell'esistere. Gli operatori partono dal fondo; salire è qualcosa che ci si guadagna. Scegli il tuo nella sezione Stile di vita del mercato con **Scegli**: non costa nulla. Alcune categorie tengono **una** sola scelta e una nuova la sostituisce — casa, piano dati, cibo: un nuovo appartamento sostituisce il vecchio. Altre **si sommano** — bollette, trasporti, tasse, un club — tranne quando due voci sono alternative tra loro (assicurazione medica base o premium, streaming con o senza pubblicità). Ogni riga del mercato dice quale (*si somma alle altre* / *sostituisce quella che hai*); ✕ ne toglie una. La scheda mostra il mantenimento mensile in $ (o ≈ Credit Score se pagato ufficialmente); il resoconto di downtime del GM lo mostra per il tempo trascorso, e il tavolo lo sistema come preferisce. Per ora non ha altri effetti di gioco.
 
 ::table[lifestyle]

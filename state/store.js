@@ -42,20 +42,32 @@ export function createStore({ data = null } = {}) {
     setActive(id) { activeId = id; safe.set(ACTIVE, id); emit({ type: 'active', id }); },
 
     add(character) {
+      character.savedAt = Date.now(); // the newest copy wins between devices (decision 87)
       characters[character.id] = character;
       persist();
       emit({ type: 'add', id: character.id });
       return character.id;
     },
 
-    /** fn receives a draft clone and may mutate it or return a new object. `silent` skips re-render. */
-    update(id, fn, { silent = false } = {}) {
+    /** fn receives a draft clone and may mutate it or return a new object. `silent` skips re-render; `keepTime` keeps the save time (a label fix must never make an old copy look newest). */
+    update(id, fn, { silent = false, keepTime = false } = {}) {
       const current = characters[id];
       if (!current) return;
       const draft = structuredClone(current);
+      const before = current.savedAt;
       characters[id] = fn(draft) ?? draft;
+      characters[id].savedAt = keepTime ? before : Date.now();
       persist();
       emit({ type: 'update', id, silent });
+    },
+
+    /** The table's copy of a character (decision 87: device swap): replaces this device's, id and save time kept. */
+    put(character) {
+      upgradeSave(character, data);
+      characters[character.id] = character;
+      persist();
+      emit({ type: 'add', id: character.id });
+      return character.id;
     },
 
     remove(id) {

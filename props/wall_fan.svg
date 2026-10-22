@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- Wall fan, 1 × ¼: a ducted fan housing on the wall. -->
+  <rect class="solid" x="3" y="3" width="94" height="19" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="50" cy="12.5" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M42 12.5 L58 12.5 M50 4.5 L50 20.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

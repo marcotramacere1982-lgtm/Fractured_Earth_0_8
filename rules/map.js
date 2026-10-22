@@ -3,7 +3,7 @@
 // GM map builder and, later, the sheet's map view. Every change returns a new map.
 
 import { normalizeZones } from './zones.js';
-import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges } from './props.js';
+import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges } from './props.js';
 
 export const MAP_SCHEMA = 1;
 const FREE_STEP = 0.05; // snap off: positions still round to 1/20 of a square
@@ -266,6 +266,7 @@ const moveBlockers = (map, data) => [
   ...solidSegments(map).filter((w) => blocksMove(w, data)),
   ...activeProps(map).filter((p) => propDef(data, p.prop)?.blocksMove).flatMap((p) => propEdges(p, data)),
   ...activeProps(map).flatMap((p) => blockedEdges(p, data)), // stairs and elevators: invisible side walls (decision 72)
+  ...activeProps(map).flatMap((p) => shellEdges(p, data)), // walk-in containers: walls all round, the door while closed (decision 85)
 ];
 
 /**
@@ -367,7 +368,8 @@ const SHIFT = 0.01; // the trace is tested a hair to each side, so a room's corn
 
 /** Everything sight stops at: walls, closed doors, and pieces that block sight (hidden pieces don't count). */
 export const sightSegments = (map, data) => [...solidSegments(map).filter((w) => blocksSight(w, data)),
-  ...activeProps(map).filter((p) => propDef(data, p.prop)?.blocksSight).flatMap((p) => propEdges(p, data))];
+  ...activeProps(map).filter((p) => propDef(data, p.prop)?.blocksSight).flatMap((p) => propEdges(p, data)),
+  ...activeProps(map).flatMap((p) => shellEdges(p, data))]; // a closed container hides who is inside (decision 85)
 
 /** The blockers a line A→B meets, tested a hair to each side: [left, right]; both set = blocked (a corner counts). */
 export function sightHits(A, B, segs) {

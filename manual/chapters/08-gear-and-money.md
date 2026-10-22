@@ -63,6 +63,6 @@ An optic sets the Scavenger's **Range**, **Track** and **mode** (5-6). Anyone ca
 
 ## 8-6. Lifestyle {#sec-8-6}
 
-The monthly cost of existing. Operators start at the bottom; moving up is something you earn. Pick yours in the market's Lifestyle tab with **Choose**: it charges nothing, and one choice per category replaces the previous (a new flat replaces the old one). The sheet shows the monthly upkeep in $ (or ≈ Credit Score if paid officially); the GM's downtime report shows it for the time that passed, and the table settles it however it likes. It has no other mechanical effect yet.
+The monthly cost of existing. Operators start at the bottom; moving up is something you earn. Pick yours in the market's Lifestyle tab with **Choose**: it charges nothing. Some categories hold **one** choice and a new one replaces it — housing, data plan, food: a new flat replaces the old one. Others **add up** — bills, transport, fees, a club — except where two entries are alternatives of each other (basic or premium medical, plain or ad-free streams). Each market row says which (*adds to the others* / *replaces the one you have*); ✕ removes one. The sheet shows the monthly upkeep in $ (or ≈ Credit Score if paid officially); the GM's downtime report shows it for the time that passed, and the table settles it however it likes. It has no other mechanical effect yet.
 
 ::table[lifestyle]

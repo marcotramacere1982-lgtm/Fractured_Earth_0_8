@@ -370,6 +370,7 @@ export function sheetView({ data, store, main, table }, route) {
     shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, withUniques(data, character()), ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
       if (method === 'free') { run('add', { kind: k, id: itemId }); return t('shop.added'); }
       if (method === 'choose') { run('chooseLifestyle', { id: itemId }); return t('shop.chosen'); }
+      if (method === 'drop') { run('dropLifestyle', { id: itemId }); return t('shop.dropped'); }
       if (method === 'custom') { store.update(id, (draft) => { actions.addCustom(draft, data, rest); }); return t('shop.added'); }
       let notice;
       store.update(id, (draft) => { notice = actions.buy(draft, data, { kind: k, id: itemId, method, multiplier }); });

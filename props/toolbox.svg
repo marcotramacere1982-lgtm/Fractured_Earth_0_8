@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Toolbox, ½ × ½: a small case with a handle. -->
+  <rect class="solid" x="6" y="12" width="38" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M16 12 L16 6 L34 6 L34 12 M6 26 L44 26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

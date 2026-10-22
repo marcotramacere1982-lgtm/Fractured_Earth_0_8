@@ -105,6 +105,16 @@ export function addItem(c, kind, id, n = 1, { official = false } = {}) {
   if (official) owned.official = (owned.official ?? 0) + n; // how many of these were bought officially
 }
 
+/**
+ * Lifestyle slots (decision 86): entries in the same slot replace each other. A "one" category is a single slot;
+ * in a "many" category each entry is its own slot unless it names a shared `slot` (basic vs premium medical).
+ */
+export function lifestyleSlot(entry, data) {
+  const cat = data.lifestyle.categories.find((x) => x.id === entry.category);
+  if (cat?.pick !== 'many') return `cat:${entry.category}`;
+  return entry.slot ? `slot:${entry.category}:${entry.slot}` : `entry:${entry.id}`;
+}
+
 /** Monthly cost of the character's lifestyle, both ways. */
 export function lifestyleUpkeep(lifestyleIds, data) {
   const entries = lifestyleIds.map((id) => findGear('lifestyle', id, data)).filter(Boolean);

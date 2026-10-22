@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- Industrial fusebox, 1 × ¼: top edge on the wall. On / off is GM-only (cut the power). -->
+  <rect class="solid" x="3" y="3" width="94" height="19" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M20 3 L20 22 M40 8 L40 18 M52 8 L52 18 M64 8 L64 18 M76 8 L76 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle class="detail" cx="11" cy="12.5" r="2" fill="currentColor" stroke="none"/>
+</svg>

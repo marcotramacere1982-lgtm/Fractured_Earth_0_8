@@ -47,6 +47,8 @@ The app is a smart paper sheet: it does the maths, keeps the rules one tap away 
 
 The GM can run the app from a laptop on the table's Wi-Fi: every tablet opens the same address and works even without internet. At the table the sheet plays a soft sound when your combat turn starts, when the GM sends you something and when you are hit; the 🔔 button in the sheet header switches it off on that device. (Browsers only allow sound after your first tap on the page.) Opening the files directly by double-click does not work — the app must be served from a computer (ask your GM).
 
+**Play as… — your characters on any device.** At the table, the characters page starts with **At the table · Play as**: pick your name (or *New player…* the first time). The list then shows only your characters (other players' on the same tablet fold behind a switch). Your characters at the table appear there, even ones made on another tablet — *Open here* copies one onto this device. Opening a character joins the table with it; characters you create or import while playing as yourself are saved to the table too, under your name. If two devices have played the same character, the newest save wins (the table keeps every earlier copy, so the GM can always go back); if it is open on another device right now, you're asked first. Without a table nothing changes: your sheets stay in this browser, and Export / Import work as always.
+
 ## 5-3. Attributes & Checks {#sec-5-3}
 
 Your Operator's physical, mental, and social capabilities are defined by eight Core Attributes. These drive every roll, skill check, and combat action you perform on the grid.

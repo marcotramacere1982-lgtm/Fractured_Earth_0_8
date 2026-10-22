@@ -14,6 +14,7 @@ import { installRefs } from './ui/ref.js';
 import { installExplain } from './ui/explain.js';
 import { builderView, resetBuilderDraft } from './ui/builder/index.js';
 import { createTableLink } from './net/table.js';
+import { createLibrary } from './net/library.js';
 import { installTransmissions } from './ui/transmissions.js';
 import { toast } from './ui/shell.js';
 import { log, actions } from './ui/sheet/actions.js';
@@ -44,9 +45,10 @@ async function boot() {
     gift: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.receiveItem(c, data, { msg }); }); return out; },
     backstory: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.applyBackstory(c, data, { msg }); }); return out; },
   });
-  const app = { data, store, main, table };
+  const library = createLibrary(table, store); // decision 87: who plays here, and their characters at the table
+  const app = { data, store, main, table, library };
   installTransmissions(store, table);
-  table.detect();
+  table.detect().then((found) => { if (found) library.refresh(); });
 
   const routes = {
     '': homeView,

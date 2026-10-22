@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- Pipe run along a wall, 2 × ¼: two pipes and their brackets. Line placement repeats it. -->
+  <path class="detail" d="M2 8 L198 8 M2 18 L198 18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path class="detail" d="M40 3 L40 22 M100 3 L100 22 M160 3 L160 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

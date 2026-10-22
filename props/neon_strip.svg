@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- Neon ceiling strip, 2 × ¼: an industrial tube light. Line placement every 3 squares lights a hangar. -->
+  <rect class="solid" x="4" y="4" width="192" height="17" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M14 12.5 L186 12.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

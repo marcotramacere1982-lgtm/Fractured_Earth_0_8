@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 400">
+  <!-- Freight container, 2 × 4: steel walls all round (block movement and sight), doors at the front; markers can stand inside. -->
+  <path class="solid" d="M4 396 L4 4 L196 4 L196 396" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round"/>
+  <path class="detail" d="M4 30 L14 30 M186 30 L196 30 M4 60 L14 60 M186 60 L196 60 M4 90 L14 90 M186 90 L196 90 M4 120 L14 120 M186 120 L196 120 M4 150 L14 150 M186 150 L196 150 M4 180 L14 180 M186 180 L196 180 M4 210 L14 210 M186 210 L196 210 M4 240 L14 240 M186 240 L196 240 M4 270 L14 270 M186 270 L196 270 M4 300 L14 300 M186 300 L196 300 M4 330 L14 330 M186 330 L196 330 M4 360 L14 360 M186 360 L196 360" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g class="closed-only"><path class="solid" d="M4 396 L196 396" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round"/><path class="detail" d="M100 386 L100 396" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g class="open-only"><path class="detail" d="M4 396 L-20 430 M196 396 L220 430" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>

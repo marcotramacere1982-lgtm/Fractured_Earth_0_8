@@ -4,7 +4,7 @@ import { html, render, delegate, cleanup, signed } from '../dom.js';
 import { segmented } from './parts.js';
 import { resolveCheck } from '../../rules/checks.js';
 import { roll, formatRoll, typedRoll } from '../../rules/dice.js';
-import { priceOptions, findGear, magazineId, creditScoreCost } from '../../rules/economy.js';
+import { priceOptions, findGear, magazineId, creditScoreCost, lifestyleSlot } from '../../rules/economy.js';
 import { catalog, describe, kindLabel } from './gear.js';
 import { marketGroups } from './market-groups.js';
 import { info } from '../ref.js';
@@ -184,6 +184,8 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
     const mag = findGear('ammo', magazineId(e.id), data);
     return mag ? ` · ${t('shop.spareMag', { cash: priceOptions(mag, 'ammo', data.economy, state.multiplier).cash.cash })}` : '';
   };
+  /** Lifestyle (decision 86): does this entry add to the others, or replace one? */
+  const addsUp = (e) => lifestyleSlot(e, data) === `entry:${e.id}`;
   const draw = () => {
     const c = character();
     const guns = new Set(c.play.inventory.filter((x) => x.kind === 'weapon').map((x) => x.id));
@@ -195,7 +197,7 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
       <header class="card__head"><h2 class="card__title">${free ? t('shop.addGear') : t('shop.market')}<small>${free ? t('shop.freeSub') : `${t('stat.cash')} $${c.play.cash} · CRS ${c.attributes.CRS}`}</small></h2>
         <button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
       <div class="dialog__body stack">
-        <div class="tabs" role="tablist">${kinds.map((k) => html`<button class="tab" role="tab" data-action="kind" data-value="${k}" aria-selected="${k === state.kind}">${kindLabel(k)}</button>`)}</div>
+        <div class="tabs tabs--wrap dialog__sticky" role="tablist">${kinds.map((k) => html`<button class="tab" role="tab" data-action="kind" data-value="${k}" aria-selected="${k === state.kind}">${kindLabel(k)}</button>`)}</div>
         <div class="cluster cluster--gap">
           <input class="input" type="search" placeholder="${t('common.search')}…" value="${state.query}" data-action="query" aria-label="${t('common.search')}">
           ${free || state.kind === 'lifestyle' ? '' : html`<div class="cluster"><span class="label">${t('shop.markup')}</span>${segmented('mult', [3, 5, 7, 10].map((m) => ({ value: m, label: `×${m}` })), state.multiplier)}</div>`}
@@ -208,10 +210,10 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
             return html`<div class="row row--wrap">
               <div class="row__main">
                 <div class="row__title">${e.name} ${fits(e) ? html`<span class="pill pill--success">${t('shop.fits')}</span>` : ''}${e.rarity ? html`<span class="pill ${['A', 'B'].includes(e.rarity) ? 'pill--danger' : ''}">${e.rarity}</span>` : ''}${e.provisional ? html` <span class="pill">${t('shop.provisional')}</span>` : ''}</div>
-                <div class="row__meta">${describe(state.kind, e, data)}${metaPrice(e)}</div>
+                <div class="row__meta">${describe(state.kind, e, data)}${metaPrice(e)}${state.kind === 'lifestyle' ? ` · ${t(addsUp(e) ? 'shop.addsUp' : 'shop.replaces')}` : ''}</div>
               </div>
               <div class="cluster">${state.kind === 'lifestyle' ? (c.play.lifestyle ?? []).includes(e.id)
-                ? html`<span class="pill pill--success">✓ ${t('shop.current')}</span>`
+                ? html`<span class="pill pill--success">✓ ${t('shop.current')}</span><button class="btn btn--sm btn--ghost" data-action="dropLife" data-id="${e.id}" aria-label="${t('common.remove')}: ${e.name}">✕</button>`
                 : html`<button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="choose">${t('shop.choose')}</button>`
               : free ? html`<button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="free">${t('common.add')}</button>` : html`
                 <button class="btn btn--sm" data-action="buy" data-id="${e.id}" data-method="official" ${p.official ? '' : 'disabled'} title="${p.official ? t('shop.officialHint') : t('shop.blackOnly')}">${p.official ? `${p.official.crs} CRS` : t('shop.noOfficial')}</button>
@@ -231,6 +233,7 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
         catch (err) { state.message = ruleText(err); }
         d.redraw();
       },
+      dropLife: ({ id }) => { try { state.message = `✓ ${onBuy({ kind: 'lifestyle', id, method: 'drop' })}`; } catch (err) { state.message = ruleText(err); } d.redraw(); },
       buy: ({ id, method }) => {
         try { state.message = `✓ ${onBuy({ kind: state.kind, id, method, multiplier: state.multiplier })}`; }
         catch (err) { state.message = ruleText(err); }
