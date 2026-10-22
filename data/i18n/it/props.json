@@ -527,6 +527,27 @@
     },
     "street_scooter": {
       "name": "Scooter abbandonato"
+    },
+    "street_tarmac_edge_corner": {
+      "name": "Strada: angolo linea di margine"
+    },
+    "street_tarmac_edge_curve": {
+      "name": "Strada: curva linea di margine"
+    },
+    "street_tarmac_centre_corner": {
+      "name": "Strada: curva linea di mezzeria"
+    },
+    "street_tarmac_stop": {
+      "name": "Strada: linea di arresto"
+    },
+    "street_curb_corner": {
+      "name": "Angolo del cordolo"
+    },
+    "street_curb_corner_round": {
+      "name": "Angolo del cordolo (arrotondato)"
+    },
+    "street_curb_inner": {
+      "name": "Angolo interno del cordolo"
     }
   }
 }

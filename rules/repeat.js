@@ -38,7 +38,7 @@ export function repeatSpots(data, prop, rot, from, to, { mode = 'area', spacing 
 
 /**
  * Places `prop` at every spot, skipping spots that already hold the same piece. replaceFloor: a floor texture
- * first removes the other floor textures whose centre lies under it. @returns { map, added }
+ * first removes the other floor textures whose centre lies under it (decals neither replace nor are replaced). @returns { map, added }
  */
 export function placeMany(map, data, prop, rot, spots, { replaceFloor = false } = {}) {
   const def = propDef(data, prop);
@@ -48,8 +48,8 @@ export function placeMany(map, data, prop, rot, spots, { replaceFloor = false } 
   let added = 0;
   for (const s of spots) {
     if ((next.props ?? []).some((p) => p.prop === prop && near(p.x, s.x) && near(p.y, s.y))) continue;
-    if (replaceFloor && def.category === 'floor') {
-      const under = (p) => propDef(data, p.prop)?.category === 'floor' && Math.abs(p.x - s.x) < size.w / 2 && Math.abs(p.y - s.y) < size.h / 2;
+    if (replaceFloor && def.category === 'floor' && !def.decal) { // decals (a drain, a stain) sit on the floor: they never replace it, nor get replaced
+      const under = (p) => { const d = propDef(data, p.prop); return d?.category === 'floor' && !d.decal && Math.abs(p.x - s.x) < size.w / 2 && Math.abs(p.y - s.y) < size.h / 2; };
       next = { ...next, props: next.props.filter((p) => !under(p)) };
     }
     next = addProp(next, data, { prop, x: s.x, y: s.y, rot });

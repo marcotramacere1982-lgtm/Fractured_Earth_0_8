@@ -11,6 +11,8 @@ export const propDef = (data, id) => data.props.props.find((p) => p.id === id) ?
 /** Ground pieces (floor textures, terrain, chalk outlines): drawn under everything, picked last by a tap. */
 export const GROUND = new Set(['floor', 'zone', 'terrain', 'scene']);
 export const isGround = (data, p) => GROUND.has(propDef(data, p.prop)?.category);
+/** A floor tile (tarmac, carpet…), not a decal on it (a drain, a stain): what the builder's floor lock protects. */
+export const isFloorTile = (data, p) => { const d = propDef(data, p.prop); return d?.category === 'floor' && !d.decal; };
 
 // ------------------------------------------------------------------ sensors (decision 69: drawn only, no rules yet)
 
@@ -136,7 +138,7 @@ export function insideProp(pt, p, data) {
  */
 export function hitProp(map, data, pt, { withHidden = true, ground = true, floors = true } = {}) {
   const under = [...(withHidden ? map.props ?? [] : activeProps(map))].reverse()
-    .filter((p) => insideProp(pt, p, data) && (floors || propDef(data, p.prop)?.category !== 'floor'));
+    .filter((p) => insideProp(pt, p, data) && (floors || !isFloorTile(data, p))); // floors: false skips floor tiles, never decals (decision 104)
   const top = under.filter((p) => !isGround(data, p));
   const low = under.filter((p) => isGround(data, p));
   const pick = ground === 'only' ? low[0] : ground ? top[0] ?? low[0] : top[0];

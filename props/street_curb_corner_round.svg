@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sidewalk on a rounded block corner: the curb curves from the front (bottom) round to the right side. -->
+  <path class="solid" d="M0 0 H84 V44 A40 40 0 0 1 44 84 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="solid" d="M84 0 H100 V100 H0 V84 H44 A40 40 0 0 0 84 44 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M0 42 H60 M42 0 V64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="butt"/>
+  <path class="detail" d="M0 84 H44 A40 40 0 0 0 84 44 V0" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="butt"/>
+  <path class="detail" d="M0 92 H44 A48 48 0 0 0 92 44 V0" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="butt"/>
+</svg>

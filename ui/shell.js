@@ -17,9 +17,10 @@ const NAV = [
   { name: 'manual', label: 'nav.manual', icon: 'manual' },
 ];
 
-const theme = () => document.documentElement.dataset.theme ?? 'dark';
+export const theme = () => document.documentElement.dataset.theme ?? 'dark';
 
-function toggleTheme() {
+/** Dark ↔ light, remembered per device (`fe.theme`), shared by the player app and the GM console (decision 103). */
+export function toggleTheme() {
   const next = theme() === 'light' ? 'dark' : 'light';
   document.documentElement.dataset.theme = next;
   try { localStorage.setItem('fe.theme', next); } catch { /* private mode */ }

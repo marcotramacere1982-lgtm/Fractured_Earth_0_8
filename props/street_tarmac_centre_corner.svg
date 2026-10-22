@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Tarmac with the dashed centre line bending from the bottom to the right side. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M50 100 A50 50 0 0 1 100 50" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="butt" stroke-dasharray="14 10"/>
+</svg>

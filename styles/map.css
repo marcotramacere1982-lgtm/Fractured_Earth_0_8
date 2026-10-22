@@ -7,6 +7,10 @@
 .map-gap { stroke: var(--color-surface); }
 .map-wall { stroke: var(--color-text); }
 .map-window { stroke: var(--color-info); }
+.map-glass { stroke: var(--color-info-soft); } /* decision 103: a glass wall */
+.map-glass-core { stroke: var(--color-info); }
+.map-glass--broken { stroke: var(--color-info); opacity: 0.5; }
+.map-preview--glass { stroke: var(--color-info); }
 .map-door { stroke: var(--color-accent); }
 .map-door--open { opacity: 0.8; }
 .map-sel { stroke: var(--color-accent); opacity: 0.35; }

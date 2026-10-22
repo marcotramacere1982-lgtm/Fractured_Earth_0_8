@@ -14,12 +14,12 @@ const mid = (w) => ({ x: (w.a.x + w.b.x) / 2, y: (w.a.y + w.b.y) / 2 });
 const zoneMid = (z) => ({ x: z.x + z.w / 2, y: z.y + z.h / 2 });
 const inside = (p, r) => p.x >= r.x0 && p.x <= r.x1 && p.y >= r.y0 && p.y <= r.y1;
 
-/** Everything whose middle lies inside the box (two corners in squares, any order). */
-export function pickGroup(map, a, b) {
+/** Everything whose middle lies inside the box (two corners in squares, any order). skipProp(p): leave that piece out (floor lock). */
+export function pickGroup(map, a, b, { skipProp = null } = {}) {
   const r = { x0: Math.min(a.x, b.x), y0: Math.min(a.y, b.y), x1: Math.max(a.x, b.x), y1: Math.max(a.y, b.y) };
   return {
     walls: map.walls.filter((w) => inside(mid(w), r)).map((w) => w.id),
-    props: (map.props ?? []).filter((p) => inside(p, r)).map((p) => p.id),
+    props: (map.props ?? []).filter((p) => inside(p, r) && !skipProp?.(p)).map((p) => p.id),
     zones: (map.zones ?? []).filter((z) => inside(zoneMid(z), r)).map((z) => z.id),
   };
 }

@@ -12,7 +12,8 @@ const round = (n, step) => Number((Math.round(n / step) * step).toFixed(2));
 const clampInt = (n, min, max) => Math.max(min, Math.min(max, Math.round(Number(n) || 0)));
 
 /** Snap on: the nearest square corner. Off: free, to 1/20 of a square. */
-export const snapPoint = ({ x, y }, snap) => ({ x: round(x, snap ? 1 : FREE_STEP), y: round(y, snap ? 1 : FREE_STEP) });
+/** snap: 1 (whole squares), 0.5 (half squares), 0 / false (free, 1/20); `true` = 1 (older callers). Decision 103. */
+export const snapPoint = ({ x, y }, snap) => { const s = snap === true ? 1 : Number(snap) || FREE_STEP; return { x: round(x, s), y: round(y, s) }; };
 
 export const samePoint = (a, b) => Math.abs(a.x - b.x) < 1e-6 && Math.abs(a.y - b.y) < 1e-6;
 
@@ -46,8 +47,9 @@ export function addWall(map, { a, b, kind = 'wall', width = 'standard', open = f
 const LASER_KEYS = Object.keys(laserState());
 /**
  * Breakable walls (decision 83): `breakable` (GM-only, set in the builder), `broken` (a breach: blocks nothing) and
- * `cracks` (the GM shows players it's weak). Only walls carry them.
+ * `cracks` (the GM shows players it's weak). Walls and glass walls carry them (decision 103).
  */
+const WEAKABLE = new Set(['wall', 'glass']);
 const WEAK_KEYS = ['breakable', 'broken', 'cracks'];
 
 export const removeWall = (map, id) => ({ ...clone(map), walls: map.walls.filter((w) => w.id !== id) });
@@ -62,7 +64,7 @@ export function setWall(map, id, fields) {
   if (w.kind === 'door') { w.open = !!w.open; w.locked = !!w.locked; } else { delete w.open; delete w.locked; } // locked: GM-only (decision 73)
   if (w.kind === 'laser' && !wasLaser) Object.assign(w, laserState(), fields.hidden != null ? { hidden: fields.hidden } : {});
   if (w.kind !== 'laser') for (const k of LASER_KEYS) delete w[k];
-  if (w.kind !== 'wall') for (const k of WEAK_KEYS) delete w[k];
+  if (!WEAKABLE.has(w.kind)) for (const k of WEAK_KEYS) delete w[k];
   for (const k of WEAK_KEYS) if (w[k] === false) delete w[k]; // kept only when true: old maps and files stay the same
   return next;
 }
@@ -130,7 +132,7 @@ export function normalizeMap(raw, data) {
     const b = pt(w?.b);
     if (!a || !b || samePoint(a, b) || !kinds.has(w.kind) || !widths.has(w.width)) continue;
     const laser = w.kind === 'laser' ? Object.fromEntries(Object.entries(laserState()).map(([k, v]) => [k, typeof w[k] === 'boolean' ? w[k] : v])) : {};
-    const weak = w.kind === 'wall' ? Object.fromEntries(WEAK_KEYS.filter((k) => w[k] === true).map((k) => [k, true])) : {};
+    const weak = WEAKABLE.has(w.kind) ? Object.fromEntries(WEAK_KEYS.filter((k) => w[k] === true).map((k) => [k, true])) : {};
     walls.push({ id: idFor(w.id), a, b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open === true, locked: w.locked === true } : {}), ...laser, ...weak });
   }
   // props (decision 68): known library pieces only, ids kept like walls

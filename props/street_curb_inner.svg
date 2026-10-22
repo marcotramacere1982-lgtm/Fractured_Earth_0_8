@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sidewalk where it turns inward: the road only touches the bottom-right corner, so the curb is a small L there. -->
+  <path class="solid" d="M0 0 H100 V84 H84 V100 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="solid" d="M84 84 H100 V100 H84 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M0 50 H100 M50 0 V100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="butt"/>
+  <path class="detail" d="M84 100 V84 H100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="butt"/>
+  <path class="detail" d="M92 100 V92 H100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="butt"/>
+</svg>

@@ -35,6 +35,12 @@ function segment(w, data) {
   // doors and windows cut the wall they are drawn over: a gap as wide as the thickest wall goes under them
   const gap = line('map-gap', Math.max(...data.map.widths.map((x) => x.units)) + 2);
   if (w.kind === 'window') return gap + line('map-wall', W) + line('map-window', W * 0.45);
+  if (w.kind === 'glass') { // a glass partition (decision 103): two pale lines; a breach like any weak wall
+    if (w.broken) return line('map-glass map-glass--broken', W * 0.6, 'butt', `stroke-dasharray="${U * 0.12} ${U * 0.1}"`);
+    return gap + line('map-glass', W) + line('map-glass-core', W * 0.35)
+      + (w.cracks ? line('map-wall-crack', W * 0.45, 'butt', `stroke-dasharray="${U * 0.05} ${U * 0.13}"`) : '')
+      + (w.breakable ? line('map-wall-weak', W * 0.3, 'butt', `stroke-dasharray="${U * 0.2} ${U * 0.1}"`) : '');
+  }
   if (w.kind === 'door') return gap + (w.open
     ? line('map-door map-door--open', W * 0.6, 'butt', `stroke-dasharray="${U * 0.15} ${U * 0.1}"`)
     : line(`map-door${w.locked ? ' map-door--locked' : ''}`, W * 0.8)); // locked: only on GM screens (players never get it)
@@ -85,7 +91,10 @@ export const tintOf = (def) => def.tint ?? (!sensesOf(def).length ? null : sense
 export function propsSvg(props, data, { selected = null } = {}) {
   const U = data.map.square.units;
   const cat = (p) => data.props.props.find((d) => d.id === p.prop)?.category;
-  const layer = (p) => (cat(p) === 'floor' ? 0 : cat(p) === 'zone' ? 1 : GROUND.has(cat(p)) ? 2 : 3); // floor textures, darkness zones, terrain and outlines, then the rest
+  const def = (p) => data.props.props.find((d) => d.id === p.prop);
+  // floor textures, then decals on them (drains, stains), darkness zones, terrain and outlines, pieces that tuck under
+  // furniture (chairs), then the rest — each layer keeps the order the pieces were placed in (decision 102)
+  const layer = (p) => (cat(p) === 'floor' ? (def(p)?.decal ? 0.5 : 0) : cat(p) === 'zone' ? 1 : GROUND.has(cat(p)) ? 2 : def(p)?.under ? 2.5 : 3);
   const ordered = [...(props ?? [])].sort((a, b) => layer(a) - layer(b));
   return raw(ordered.map((p) => {
     const def = data.props.props.find((d) => d.id === p.prop);
