@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- The corporate logo on the lobby wall (top): big brushed letters. -->
+  <path class="solid" d="M4 4 H196" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M60 10 L76 20 L92 10 L108 20 L124 10 L140 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

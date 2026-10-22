@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Corporate carpet, 1 × 1: a quiet repeating logo pattern. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="detail" d="M25 25 m-8 0 l8 -8 l8 8 l-8 8 Z M75 75 m-8 0 l8 -8 l8 8 l-8 8 Z M75 25 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M25 75 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

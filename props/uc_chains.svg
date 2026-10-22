@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Chains hanging from the ceiling, seen from above: links and hooks swaying. -->
+  <path class="detail" d="M24 10 V60 M50 4 V78 M76 16 V54" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <circle class="detail" cx="24" cy="64" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="50" cy="82" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="76" cy="58" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Rat nest: shredded paper and bones in a corner. -->
+  <path class="detail" d="M8 30 C12 14 34 8 42 22 C48 34 38 46 24 44 C14 42 6 38 8 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M18 26 L30 22 M22 34 L34 32 M16 30 L12 36" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="32" cy="16" r="2" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

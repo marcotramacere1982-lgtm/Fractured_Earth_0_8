@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 600">
+  <!-- Centre-pivot irrigation arm, 1 × 6: a long truss on wheeled towers, sprinklers hanging under it. You walk under it (place the pivot end at the top). -->
+  <circle class="solid" cx="50" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M50 52 V590" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M40 60 L60 90 M60 60 L40 90 M40 120 L60 150 M60 120 L40 150 M40 180 L60 210 M60 180 L40 210 M40 240 L60 270 M60 240 L40 270 M40 300 L60 330 M60 300 L40 330 M40 360 L60 390 M60 360 L40 390 M40 420 L60 450 M60 420 L40 450 M40 480 L60 510 M60 480 L40 510 M40 540 L60 570 M60 540 L40 570" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="solid" x="20" y="190" width="60" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="20" y="380" width="60" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="20" y="570" width="60" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M50 80 v8 M50 120 v8 M50 160 v8 M50 200 v8 M50 240 v8 M50 280 v8 M50 320 v8 M50 360 v8 M50 400 v8 M50 440 v8 M50 480 v8 M50 520 v8 M50 560 v8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="1 3"/>
+</svg>

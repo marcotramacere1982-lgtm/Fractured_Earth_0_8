@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- A glass-door drinks fridge, glowing (top = the wall). -->
+  <rect class="solid" x="4" y="4" width="92" height="42" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M50 4 V46" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M14 16 H42 M14 26 H42 M14 36 H42 M58 16 H86 M58 26 H86 M58 36 H86" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

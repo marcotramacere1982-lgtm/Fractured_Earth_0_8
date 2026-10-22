@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A palm seen from above: the trunk and its fronds. -->
+  <circle class="solid" cx="50" cy="50" r="10" fill="none" stroke="currentColor" stroke-width="5"/>
+  <path class="detail" d="M50 50 C40 30 20 22 6 26 M50 50 C66 30 82 22 96 30 M50 50 C70 60 86 76 92 94 M50 50 C34 64 22 80 10 92 M50 50 C50 30 50 14 46 4" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

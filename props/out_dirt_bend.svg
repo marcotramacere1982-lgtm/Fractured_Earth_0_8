@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dirt path bending from the bottom to the right side. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="solid" d="M28 100 C30 50 50 30 100 28 V72 C70 72 72 80 72 100 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 50">
+  <!-- Dock caisson gate, 4 × ½: the steel gate holding back the sea; open, it is floated aside. -->
+  <path class="solid" d="M4 6 V44 M396 6 V44" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><rect class="solid" x="10" y="8" width="380" height="34" rx="0" fill="none" stroke="currentColor" stroke-width="5"/><path class="detail" d="M60 8 V42 M120 8 V42 M180 8 V42 M240 8 V42 M300 8 V42 M350 8 V42" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M10 25 H390" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 8"/><rect class="detail" x="300" y="4" width="90" height="14" rx="0" fill="none" stroke="currentColor" stroke-width="3"/></g>
+</svg>

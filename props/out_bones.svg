@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Bleached bones in the sand: a ribcage and a skull. -->
+  <path class="detail" d="M30 50 H70 M36 40 C34 50 34 60 36 70 M46 38 C44 50 44 62 46 72 M56 38 C54 50 54 62 56 72 M66 40 C64 50 64 60 66 70" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="80" cy="30" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

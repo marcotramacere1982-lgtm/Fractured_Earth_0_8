@@ -548,6 +548,882 @@
     },
     "street_curb_inner": {
       "name": "Angolo interno del cordolo"
+    },
+    "sewer_channel": {
+      "name": "Canale di scolo (acqua)"
+    },
+    "sewer_sludge": {
+      "name": "Fanghiglia"
+    },
+    "sewer_walkway_edge": {
+      "name": "Camminamento (bordo)"
+    },
+    "sewer_walkway_corner": {
+      "name": "Camminamento (angolo)"
+    },
+    "sewer_brick_floor": {
+      "name": "Pavimento di mattoni bagnato"
+    },
+    "sewer_grating": {
+      "name": "Grata sul canale"
+    },
+    "sewer_pillar": {
+      "name": "Pilastro ad arco"
+    },
+    "sewer_debris_dam": {
+      "name": "Sbarramento di detriti"
+    },
+    "sewer_pipe": {
+      "name": "Tubo grande"
+    },
+    "sewer_sluice": {
+      "name": "Paratoia"
+    },
+    "sewer_ladder": {
+      "name": "Scala a pioli verso un tombino"
+    },
+    "sewer_hatch": {
+      "name": "Botola di servizio"
+    },
+    "sewer_catwalk": {
+      "name": "Passerella sul canale"
+    },
+    "sewer_valve": {
+      "name": "Volantino della valvola"
+    },
+    "sewer_pump": {
+      "name": "Stazione di pompaggio"
+    },
+    "sewer_outflow": {
+      "name": "Tubo di scarico"
+    },
+    "sewer_emergency_light": {
+      "name": "Lampada d'emergenza rossa"
+    },
+    "sewer_rat_nest": {
+      "name": "Nido di ratti"
+    },
+    "sewer_graffiti": {
+      "name": "Vecchia scritta"
+    },
+    "uc_rock_floor": {
+      "name": "Pavimento di roccia"
+    },
+    "uc_rock_rough": {
+      "name": "Pavimento di roccia accidentato"
+    },
+    "uc_boulder": {
+      "name": "Masso"
+    },
+    "uc_boulder_large": {
+      "name": "Masso (grande)"
+    },
+    "uc_rubble_slope": {
+      "name": "Pendio di detriti"
+    },
+    "uc_stalagmites": {
+      "name": "Gruppo di stalagmiti"
+    },
+    "uc_pool": {
+      "name": "Pozza sotterranea"
+    },
+    "uc_fungus": {
+      "name": "Funghi luminescenti"
+    },
+    "uc_platform_edge": {
+      "name": "Bordo del binario"
+    },
+    "uc_track": {
+      "name": "Binario"
+    },
+    "uc_track_curve": {
+      "name": "Binario (curva)"
+    },
+    "uc_buffer_stop": {
+      "name": "Respingente di fine binario"
+    },
+    "uc_third_rail_sign": {
+      "name": "Cartello terza rotaia"
+    },
+    "uc_metro_car": {
+      "name": "Vagone della metro abbandonato"
+    },
+    "uc_turnstiles": {
+      "name": "Fila di tornelli"
+    },
+    "uc_ticket_booth": {
+      "name": "Biglietteria"
+    },
+    "uc_tiled_pillar": {
+      "name": "Pilastro piastrellato"
+    },
+    "uc_platform_bench": {
+      "name": "Panchina del binario"
+    },
+    "uc_escalator": {
+      "name": "Scala mobile ferma"
+    },
+    "uc_station_map": {
+      "name": "Vecchia mappa della stazione"
+    },
+    "uc_collapsed_shelving": {
+      "name": "Scaffalature crollate"
+    },
+    "uc_rusted_tank": {
+      "name": "Serbatoio arrugginito"
+    },
+    "uc_broken_machine": {
+      "name": "Macchinario rotto"
+    },
+    "uc_chains": {
+      "name": "Catene appese"
+    },
+    "uc_skylight": {
+      "name": "Pozzo di luce"
+    },
+    "uc_junk_wall": {
+      "name": "Muro di rottami"
+    },
+    "uc_tent": {
+      "name": "Tenda"
+    },
+    "uc_cot": {
+      "name": "Branda"
+    },
+    "uc_campfire": {
+      "name": "Fuoco da campo"
+    },
+    "uc_lantern_string": {
+      "name": "Fila di lanterne"
+    },
+    "uc_hoard_pile": {
+      "name": "Mucchio di cianfrusaglie"
+    },
+    "uc_salvage_shelves": {
+      "name": "Scaffali di recuperi"
+    },
+    "uc_trade_table": {
+      "name": "Banco degli scambi"
+    },
+    "uc_old_vending": {
+      "name": "Distributore d'anteguerra"
+    },
+    "uc_old_screens": {
+      "name": "Pila di vecchi schermi"
+    },
+    "uc_payphone": {
+      "name": "Telefono pubblico"
+    },
+    "uc_newspapers": {
+      "name": "Pacchi di giornali"
+    },
+    "uc_statue": {
+      "name": "Statua spezzata"
+    },
+    "uc_shrine": {
+      "name": "Altarino delle reliquie"
+    },
+    "uc_mural": {
+      "name": "Murale sbiadito"
+    },
+    "uc_server_cabinet": {
+      "name": "Vecchio armadio server"
+    },
+    "tw_marble_floor": {
+      "name": "Pavimento: marmo"
+    },
+    "tw_stone_tile": {
+      "name": "Pavimento: pietra levigata"
+    },
+    "tw_reception": {
+      "name": "Banco della reception / sicurezza"
+    },
+    "tw_security_gates": {
+      "name": "Varchi di sicurezza"
+    },
+    "tw_scanner_arch": {
+      "name": "Portale scanner"
+    },
+    "tw_sofa_set": {
+      "name": "Divani della sala d'attesa"
+    },
+    "tw_planter": {
+      "name": "Fioriera dell'atrio"
+    },
+    "tw_logo_wall": {
+      "name": "Parete con il logo aziendale"
+    },
+    "tw_directory": {
+      "name": "Schermo delle indicazioni"
+    },
+    "tw_elevator_bank": {
+      "name": "Batteria di ascensori (3)"
+    },
+    "tw_freight_elevator": {
+      "name": "Montacarichi"
+    },
+    "tw_grand_stairs": {
+      "name": "Scalone"
+    },
+    "tw_stair_landing": {
+      "name": "Pianerottolo delle scale d'emergenza"
+    },
+    "tw_glass_railing": {
+      "name": "Parapetto di vetro"
+    },
+    "tw_atrium_void": {
+      "name": "Vuoto dell'atrio"
+    },
+    "tw_exec_desk": {
+      "name": "Scrivania direzionale"
+    },
+    "tw_exec_chair": {
+      "name": "Poltrona da ufficio in pelle"
+    },
+    "tw_boardroom": {
+      "name": "Tavolo della sala riunioni"
+    },
+    "tw_display_wall": {
+      "name": "Parete di schermi"
+    },
+    "tw_bar_cabinet": {
+      "name": "Mobile bar"
+    },
+    "tw_sculpture": {
+      "name": "Piedistallo con scultura"
+    },
+    "tw_corp_carpet": {
+      "name": "Pavimento: moquette aziendale"
+    },
+    "tw_safe_door": {
+      "name": "Porta della stanza blindata"
+    },
+    "tw_server_racks": {
+      "name": "Fila di rack server"
+    },
+    "tw_cooling_unit": {
+      "name": "Unità di raffreddamento"
+    },
+    "tw_cable_tray": {
+      "name": "Canalina per cavi (a terra)"
+    },
+    "tw_sprinkler": {
+      "name": "Sprinkler antincendio"
+    },
+    "tw_smoke_detector": {
+      "name": "Rilevatore di fumo"
+    },
+    "tw_janitor_cart": {
+      "name": "Carrello delle pulizie"
+    },
+    "tw_roof_gravel": {
+      "name": "Pavimento: ghiaia del tetto"
+    },
+    "tw_helipad": {
+      "name": "Eliporto"
+    },
+    "tw_hvac": {
+      "name": "Unità HVAC"
+    },
+    "tw_water_tank": {
+      "name": "Serbatoio dell'acqua"
+    },
+    "tw_antenna": {
+      "name": "Antenna"
+    },
+    "tw_parapet": {
+      "name": "Parapetto del tetto"
+    },
+    "tw_gondola": {
+      "name": "Navicella per pulire i vetri"
+    },
+    "tw_roof_hut": {
+      "name": "Casotto d'accesso al tetto"
+    },
+    "dk_quay": {
+      "name": "Banchina in cemento"
+    },
+    "dk_agv_lane": {
+      "name": "Corsia AGV"
+    },
+    "dk_agv_cross": {
+      "name": "Incrocio delle corsie AGV"
+    },
+    "dk_quay_edge": {
+      "name": "Bordo della banchina con parabordi"
+    },
+    "dk_bollard": {
+      "name": "Bitta d'ormeggio"
+    },
+    "dk_mooring_line": {
+      "name": "Cima d'ormeggio"
+    },
+    "dk_basin_floor": {
+      "name": "Fondo del bacino di carenaggio"
+    },
+    "dk_keel_blocks": {
+      "name": "Taccate di chiglia"
+    },
+    "dk_caisson": {
+      "name": "Porta a cassone del bacino"
+    },
+    "dk_scaffold": {
+      "name": "Torre di ponteggio"
+    },
+    "dk_hull_plates": {
+      "name": "Lamiere di scafo (pila)"
+    },
+    "dk_agv": {
+      "name": "Carrello AGV (vuoto)"
+    },
+    "dk_agv_loaded": {
+      "name": "Carrello AGV (carico)"
+    },
+    "dk_straddle": {
+      "name": "Carrello a cavaliere"
+    },
+    "dk_crane_leg": {
+      "name": "Gamba della gru di banchina"
+    },
+    "dk_crane_rail": {
+      "name": "Rotaia della gru"
+    },
+    "dk_freight_rail": {
+      "name": "Binari merci"
+    },
+    "dk_wagon": {
+      "name": "Carro portacontainer"
+    },
+    "dk_charging_pad": {
+      "name": "Piazzola di ricarica AGV"
+    },
+    "dk_welder": {
+      "name": "Braccio robotico saldatore"
+    },
+    "dk_drone_pad": {
+      "name": "Piazzola per droni"
+    },
+    "dk_control_kiosk": {
+      "name": "Cabina di controllo del porto"
+    },
+    "dk_drone_dock": {
+      "name": "Base dei droni di sicurezza"
+    },
+    "dk_stack_2": {
+      "name": "Pila di container (×2)"
+    },
+    "dk_stack_3": {
+      "name": "Pila di container (×3)"
+    },
+    "dk_reefer": {
+      "name": "Container frigorifero"
+    },
+    "dk_open_top": {
+      "name": "Container a cielo aperto"
+    },
+    "dk_lashing": {
+      "name": "Telaio di rizzaggio"
+    },
+    "sh_deck": {
+      "name": "Lamiera del ponte"
+    },
+    "sh_bulwark": {
+      "name": "Murata"
+    },
+    "sh_bulwark_corner": {
+      "name": "Angolo della murata"
+    },
+    "sh_bow": {
+      "name": "Prua (ponte)"
+    },
+    "sh_stern": {
+      "name": "Poppa (ponte)"
+    },
+    "sh_gangway": {
+      "name": "Passerella d'imbarco"
+    },
+    "sh_pilot_ladder": {
+      "name": "Biscaglina"
+    },
+    "sh_hatch_cover": {
+      "name": "Boccaporto"
+    },
+    "sh_sensor_mast": {
+      "name": "Albero dei sensori"
+    },
+    "sh_rotor_sail": {
+      "name": "Vela a rotore"
+    },
+    "sh_deck_crane": {
+      "name": "Basamento della gru di bordo"
+    },
+    "sh_windlass": {
+      "name": "Verricello dell'ancora"
+    },
+    "sh_anchor_chain": {
+      "name": "Catena dell'ancora"
+    },
+    "sh_lifeboat": {
+      "name": "Capsula di salvataggio autonoma"
+    },
+    "sh_cleat": {
+      "name": "Galloccia"
+    },
+    "sh_light_mast": {
+      "name": "Palo di illuminazione del ponte"
+    },
+    "sh_battery_bank": {
+      "name": "Banco di batterie"
+    },
+    "sh_engine_console": {
+      "name": "Console di controllo motori"
+    },
+    "sh_hold_grating": {
+      "name": "Grigliato della stiva"
+    },
+    "fo_terrazzo": {
+      "name": "Pavimento: terrazzo"
+    },
+    "fo_teller_counter": {
+      "name": "Sportello bancario"
+    },
+    "fo_queue_posts": {
+      "name": "Colonnine con cordone"
+    },
+    "fo_writing_desk": {
+      "name": "Tavolo per i moduli"
+    },
+    "fo_brass_lamp": {
+      "name": "Lampada a stelo in ottone"
+    },
+    "fo_vault_door": {
+      "name": "Porta del caveau"
+    },
+    "fo_deposit_wall": {
+      "name": "Parete delle cassette di sicurezza"
+    },
+    "fo_viewing_table": {
+      "name": "Tavolo per le cassette"
+    },
+    "fo_cash_cart": {
+      "name": "Carrello dei cassetti contanti"
+    },
+    "fo_manager_desk": {
+      "name": "Scrivania del direttore"
+    },
+    "fo_alarm_button": {
+      "name": "Pulsante d'allarme"
+    },
+    "fo_crs_pod": {
+      "name": "Cabina di valutazione del Credit Score"
+    },
+    "fo_bio_panel": {
+      "name": "Pannello biometrico del caveau"
+    },
+    "fo_scrip_window": {
+      "name": "Sportello di cambio scrip"
+    },
+    "fo_linoleum": {
+      "name": "Pavimento: linoleum consumato"
+    },
+    "fo_post_counter": {
+      "name": "Bancone dell'ufficio postale"
+    },
+    "fo_parcel_lockers": {
+      "name": "Armadietti per pacchi"
+    },
+    "fo_sorting_table": {
+      "name": "Tavolo di smistamento"
+    },
+    "fo_mail_cage": {
+      "name": "Carrello a gabbia per la posta"
+    },
+    "fo_parcel_stack": {
+      "name": "Pila di pacchi"
+    },
+    "fo_ticket_machine": {
+      "name": "Distributore di numeri"
+    },
+    "fo_waiting_bench": {
+      "name": "Panca d'attesa"
+    },
+    "fo_small_safe": {
+      "name": "Piccola cassaforte"
+    },
+    "fo_parcel_scanner": {
+      "name": "Scanner dei pacchi"
+    },
+    "fo_drone_hatch": {
+      "name": "Sportello di lancio dei droni"
+    },
+    "fo_booking_desk": {
+      "name": "Banco delle registrazioni"
+    },
+    "fo_evidence_locker": {
+      "name": "Armadietto delle prove"
+    },
+    "fo_cell_door": {
+      "name": "Porta della cella"
+    },
+    "fo_bunk_bed": {
+      "name": "Letto a castello"
+    },
+    "fo_cell_toilet": {
+      "name": "Wc in acciaio della cella"
+    },
+    "fo_holding_bench": {
+      "name": "Panca della cella di sicurezza"
+    },
+    "fo_tag_dock": {
+      "name": "Stazione di ricarica dei braccialetti"
+    },
+    "fo_self_report": {
+      "name": "Terminale di autodenuncia"
+    },
+    "fo_pawn_counter": {
+      "name": "Bancone espositore del banco dei pegni"
+    },
+    "fo_pawn_shelf": {
+      "name": "Scaffale ingombro"
+    },
+    "fo_window_grille": {
+      "name": "Grata della vetrina"
+    },
+    "fo_phone_table": {
+      "name": "Tavolo espositore di telefoni"
+    },
+    "fo_repair_bench": {
+      "name": "Banco riparazioni"
+    },
+    "fo_gun_rack": {
+      "name": "Rastrelliera per armi"
+    },
+    "fo_gun_counter": {
+      "name": "Bancone di vetro delle armi"
+    },
+    "fo_register": {
+      "name": "Registratore di cassa"
+    },
+    "fo_store_shelf": {
+      "name": "Fila di scaffali del negozio"
+    },
+    "fo_drinks_fridge": {
+      "name": "Frigo delle bibite"
+    },
+    "fo_checkout": {
+      "name": "Cassa del negozio"
+    },
+    "fo_clothes_rack": {
+      "name": "Stender di abiti"
+    },
+    "fo_changing_booth": {
+      "name": "Camerino"
+    },
+    "fo_shutter": {
+      "name": "Saracinesca"
+    },
+    "fo_shop_counter": {
+      "name": "Bancone con cassa"
+    },
+    "fo_cctv_dome": {
+      "name": "Telecamera a cupola"
+    },
+    "fo_dampener_vending": {
+      "name": "Distributore di neuro-smorzatori"
+    },
+    "fo_autoshop_gate": {
+      "name": "Varco a telecamera del negozio automatico"
+    },
+    "fo_cash_box": {
+      "name": "Cassetta dei contanti sotto il banco"
+    },
+    "fo_bio_safe": {
+      "name": "Cassaforte biometrica per armi"
+    },
+    "out_water_shallow": {
+      "name": "Acqua: bassa"
+    },
+    "out_water_deep": {
+      "name": "Acqua: profonda"
+    },
+    "out_shore": {
+      "name": "Riva (dritta)"
+    },
+    "out_shore_bend_in": {
+      "name": "Curva di riva (insenatura)"
+    },
+    "out_shore_bend_out": {
+      "name": "Curva di riva (punta)"
+    },
+    "out_shore_3": {
+      "name": "Riva 3×1 (insenatura)"
+    },
+    "out_shore_4": {
+      "name": "Riva 4×1 (lingua di sabbia)"
+    },
+    "out_shore_bay": {
+      "name": "Baia 2×2"
+    },
+    "out_shore_headland": {
+      "name": "Promontorio 2×2"
+    },
+    "out_cliff": {
+      "name": "Bordo di scogliera (dritto)"
+    },
+    "out_cliff_bend": {
+      "name": "Bordo di scogliera (curva)"
+    },
+    "out_cliff_3": {
+      "name": "Bordo di scogliera 3×1"
+    },
+    "out_grass": {
+      "name": "Erba"
+    },
+    "out_tall_grass": {
+      "name": "Erba alta"
+    },
+    "out_dirt_path": {
+      "name": "Sentiero sterrato"
+    },
+    "out_dirt_bend": {
+      "name": "Sentiero sterrato (curva)"
+    },
+    "out_rocks": {
+      "name": "Sassi"
+    },
+    "out_rock": {
+      "name": "Roccia grande"
+    },
+    "out_log": {
+      "name": "Tronco caduto"
+    },
+    "out_bush": {
+      "name": "Cespuglio"
+    },
+    "out_tree": {
+      "name": "Albero"
+    },
+    "out_canopy": {
+      "name": "Chioma"
+    },
+    "out_undergrowth": {
+      "name": "Sottobosco fitto"
+    },
+    "out_palm": {
+      "name": "Palma"
+    },
+    "out_vines": {
+      "name": "Liane"
+    },
+    "out_roots": {
+      "name": "Radici giganti"
+    },
+    "out_ruin_wall": {
+      "name": "Muro in rovina coperto di vegetazione"
+    },
+    "out_sand": {
+      "name": "Sabbia"
+    },
+    "out_dunes": {
+      "name": "Increspature delle dune"
+    },
+    "out_dry_riverbed": {
+      "name": "Letto di fiume secco"
+    },
+    "out_cactus": {
+      "name": "Cactus"
+    },
+    "out_scrub": {
+      "name": "Arbusti del deserto"
+    },
+    "out_rock_arch": {
+      "name": "Arco di roccia"
+    },
+    "out_bones": {
+      "name": "Ossa sbiancate"
+    },
+    "out_scree": {
+      "name": "Pendio di ghiaione"
+    },
+    "out_snow": {
+      "name": "Chiazza di neve"
+    },
+    "out_pine": {
+      "name": "Pino"
+    },
+    "out_rope_bridge": {
+      "name": "Ponte di corda"
+    },
+    "out_cracked_earth": {
+      "name": "Terra screpolata"
+    },
+    "out_toxic_puddle": {
+      "name": "Pozza tossica"
+    },
+    "out_crater": {
+      "name": "Cratere"
+    },
+    "out_dead_tree": {
+      "name": "Albero morto"
+    },
+    "out_barbed_wire": {
+      "name": "Filo spinato"
+    },
+    "out_warning_sign": {
+      "name": "Cartello di pericolo"
+    },
+    "out_scrap_heap": {
+      "name": "Mucchio di rottami"
+    },
+    "out_wheat": {
+      "name": "Campo di grano"
+    },
+    "out_stubble": {
+      "name": "Stoppie"
+    },
+    "out_harvester": {
+      "name": "Mietitrebbia autonoma"
+    },
+    "out_tractor": {
+      "name": "Trattore autonomo"
+    },
+    "out_pivot": {
+      "name": "Braccio d'irrigazione a perno"
+    },
+    "out_canal": {
+      "name": "Canale d'irrigazione"
+    },
+    "out_canal_bend": {
+      "name": "Canale d'irrigazione (curva)"
+    },
+    "out_seed_pad": {
+      "name": "Piazzola dei droni seminatori"
+    },
+    "out_hay_bale": {
+      "name": "Rotoballa di fieno"
+    },
+    "out_hay_stack": {
+      "name": "Cumulo di balle"
+    },
+    "out_fence": {
+      "name": "Staccionata"
+    },
+    "out_fence_gate": {
+      "name": "Cancello di legno"
+    },
+    "out_water_tower": {
+      "name": "Torre dell'acqua"
+    },
+    "out_pump": {
+      "name": "Stazione di pompaggio rurale"
+    },
+    "out_barn": {
+      "name": "Fienile"
+    },
+    "out_drone_crash": {
+      "name": "Drone precipitato"
+    },
+    "out_plane_crash": {
+      "name": "Relitto di un aereo leggero"
+    },
+    "out_wrecked_machine": {
+      "name": "Macchinario distrutto"
+    },
+    "out_hut_small": {
+      "name": "Capanna (piccola)"
+    },
+    "out_hut_large": {
+      "name": "Capanna (grande)"
+    },
+    "out_lean_to": {
+      "name": "Riparo di fortuna"
+    },
+    "gr_rail": {
+      "name": "Binario merci"
+    },
+    "gr_rail_curve": {
+      "name": "Binario merci (curva)"
+    },
+    "gr_rail_switch": {
+      "name": "Scambio ferroviario"
+    },
+    "gr_level_crossing": {
+      "name": "Passaggio a livello"
+    },
+    "gr_maglev": {
+      "name": "Monorotaia a levitazione"
+    },
+    "gr_maglev_pillar": {
+      "name": "Pilone della monorotaia"
+    },
+    "gr_loco": {
+      "name": "Locomotore autonomo"
+    },
+    "gr_flatcar": {
+      "name": "Pianale portacontainer"
+    },
+    "gr_tank_car": {
+      "name": "Carro cisterna"
+    },
+    "gr_hopper": {
+      "name": "Carro tramoggia"
+    },
+    "gr_maglev_pod": {
+      "name": "Capsula merci a levitazione"
+    },
+    "gr_loading_platform": {
+      "name": "Bordo della banchina di carico"
+    },
+    "gr_gantry": {
+      "name": "Portale di carico"
+    },
+    "gr_control_tower": {
+      "name": "Torre di controllo dello scalo"
+    },
+    "gr_signal": {
+      "name": "Segnale ferroviario"
+    },
+    "gr_relay_cabinet": {
+      "name": "Armadio dei relè"
+    },
+    "gr_silo_chute": {
+      "name": "Silo di carico con scivolo"
+    },
+    "gr_pipe": {
+      "name": "Oleodotto"
+    },
+    "gr_pipe_bend": {
+      "name": "Oleodotto (curva)"
+    },
+    "gr_pipe_tee": {
+      "name": "Oleodotto (raccordo a T)"
+    },
+    "gr_valve_station": {
+      "name": "Stazione delle valvole"
+    },
+    "gr_pump_station": {
+      "name": "Stazione di pompaggio"
+    },
+    "gr_pipe_marker": {
+      "name": "Paletto di segnalazione"
+    },
+    "gr_oil_leak": {
+      "name": "Perdita dell'oleodotto"
+    },
+    "gr_pylon": {
+      "name": "Traliccio"
+    },
+    "gr_substation": {
+      "name": "Cabina di trasformazione"
+    },
+    "gr_drone_hangar": {
+      "name": "Hangar dei droni di manutenzione"
+    },
+    "gr_checkpoint": {
+      "name": "Casotto di controllo isolato"
+    },
+    "gr_barrier_arm": {
+      "name": "Sbarra"
     }
   }
 }

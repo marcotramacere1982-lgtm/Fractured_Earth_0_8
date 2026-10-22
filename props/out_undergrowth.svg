@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dense jungle undergrowth, 1 × 1: leaves and ferns. Difficult; blocks sight. -->
+  <path class="detail" d="M10 30 C20 10 40 10 44 30 M50 20 C60 4 80 8 84 26 M14 70 C20 50 40 50 46 66 M56 64 C64 44 86 46 90 66 M30 96 C34 80 52 80 56 94" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M26 30 V50 M66 26 V46 M30 70 V88 M72 66 V86" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

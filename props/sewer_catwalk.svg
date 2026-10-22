@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Catwalk across the channel, 1 × 1 (chain them): grating floor, railings on both sides. -->
+  <rect class="detail" x="6" y="4" width="88" height="92" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M6 20 H94 M6 36 H94 M6 52 H94 M6 68 H94 M6 84 H94" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M6 2 V98 M94 2 V98" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

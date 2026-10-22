@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- Helipad marking, 4 × 4: the circle and the H. -->
+  <path class="solid" d="M0 0 H400 V400 H0 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <circle class="detail" cx="200" cy="200" r="170" fill="none" stroke="currentColor" stroke-width="6"/>
+  <path class="detail" d="M140 120 V280 M260 120 V280 M140 200 H260" fill="none" stroke="currentColor" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

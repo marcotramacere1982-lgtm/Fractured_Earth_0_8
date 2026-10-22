@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A dry riverbed, 1 × 1: cracked mud plates, top to bottom. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="detail" d="M20 0 V100 M80 0 V100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 30 L50 24 L80 34 M20 64 L46 70 L80 60 M50 24 L46 70" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

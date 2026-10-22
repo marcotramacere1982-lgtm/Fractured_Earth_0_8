@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Cargo rail on ballast, 1 × 1 (top to bottom). -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <path class="detail" d="M8 14 H92 M8 39 H92 M8 64 H92 M8 89 H92" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M28 0 V100 M72 0 V100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

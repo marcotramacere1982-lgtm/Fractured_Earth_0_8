@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- A rusted warning sign on a post: a skull, a radiation trefoil — the words long gone. -->
+  <path class="solid" d="M25 6 L44 40 H6 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="25" cy="30" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M25 40 V48" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

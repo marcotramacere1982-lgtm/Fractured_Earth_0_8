@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Tiled station pillar, 1 × 1: square, with a faded station name. -->
+  <rect class="solid" x="14" y="14" width="72" height="72" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M14 38 H86 M14 62 H86 M38 14 V86 M62 14 V86" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+  <!-- A pipeline marker post: "do not dig". -->
+  <circle class="solid" cx="12.5" cy="12.5" r="8" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="detail" cx="12.5" cy="12.5" r="3" fill="currentColor" stroke="none"/>
+</svg>

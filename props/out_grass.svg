@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Grass, 1 × 1: short tufts. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="detail" d="M18 30 l3 -8 l3 8 M60 22 l3 -8 l3 8 M40 60 l3 -8 l3 8 M78 70 l3 -8 l3 8 M20 84 l3 -8 l3 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

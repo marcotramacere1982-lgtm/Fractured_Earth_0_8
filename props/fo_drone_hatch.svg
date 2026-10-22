@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- Drone dispatch hatch in the wall (top): delivery drones launch and land here. -->
+  <path class="solid" d="M4 4 H96" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="solid" x="20" y="7" width="60" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M28 14 H72" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+</svg>

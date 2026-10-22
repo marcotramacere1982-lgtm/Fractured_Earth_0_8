@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A power pylon, 2 × 2: a lattice tower on four feet; you can walk between the legs. -->
+  <rect class="solid" x="10" y="10" width="26" height="26" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="164" y="10" width="26" height="26" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="10" y="164" width="26" height="26" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="164" y="164" width="26" height="26" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M36 36 L164 164 M164 36 L36 164 M36 100 H164 M100 36 V164" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 100 H36 M164 100 H200" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 6"/>
+</svg>

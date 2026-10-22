@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Snow, 1 × 1: knee-deep in places. Difficult ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.08" stroke="none"/>
+  <path class="detail" d="M10 30 C30 22 50 36 70 28 C80 24 90 30 96 26 M6 70 C26 62 46 76 66 68 C78 64 88 70 96 66" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="30" cy="50" r="1.5" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="70" cy="50" r="1.5" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="50" cy="86" r="1.5" fill="currentColor" stroke="none"/>
+</svg>

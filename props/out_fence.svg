@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 15">
+  <!-- Wooden fence, 1 square: two rails between posts. Blocks people, not sight. -->
+  <path class="solid" d="M4 2 V13 M96 2 V13 M50 2 V13" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M4 5 H96 M4 10 H96" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

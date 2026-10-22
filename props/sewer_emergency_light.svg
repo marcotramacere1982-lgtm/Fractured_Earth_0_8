@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 25">
+  <!-- Red emergency lamp in a cage, on the wall (top). -->
+  <path class="solid" d="M8 4 H42" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="solid" x="14" y="8" width="22" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M20 8 V21 M30 8 V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

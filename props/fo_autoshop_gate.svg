@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Unstaffed shop gate, 2 × ½: glass flaps and a camera that bills your face. -->
+  <rect class="solid" x="4" y="12" width="192" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="60" y="4" width="10" height="42" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="130" y="4" width="10" height="42" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="solid" cx="100" cy="25" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M70 25 H94 M106 25 H130" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 3"/>
+</svg>

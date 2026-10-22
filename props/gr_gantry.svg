@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200">
+  <!-- Overhead loading gantry, 6 × 2: a crane bridge on two legs at the ends, spanning the tracks; you walk under it. -->
+  <rect class="detail" x="6" y="6" width="588" height="188" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="solid" x="6" y="6" width="40" height="188" rx="4" fill="none" stroke="currentColor" stroke-width="5"/>
+  <rect class="solid" x="554" y="6" width="40" height="188" rx="4" fill="none" stroke="currentColor" stroke-width="5"/>
+  <path class="detail" d="M46 60 H554 M46 140 H554" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="solid" x="260" y="70" width="80" height="60" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M300 130 V170" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

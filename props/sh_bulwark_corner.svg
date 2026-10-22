@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Bulwark corner, 1 × 1: the edge turns along the back (top) and the left side. -->
+  <path class="detail" d="M8 100 V8 H100" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 50 H20 M50 8 V20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

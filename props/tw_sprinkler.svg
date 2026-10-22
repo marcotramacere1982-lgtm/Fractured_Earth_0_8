@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+  <!-- A ceiling fire sprinkler head. -->
+  <circle class="solid" cx="12.5" cy="12.5" r="8" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M12.5 4.5 V20.5 M4.5 12.5 H20.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

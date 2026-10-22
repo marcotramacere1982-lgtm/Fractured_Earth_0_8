@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Giant roots, 2 × 1: arching out of the ground. Difficult, half cover. -->
+  <path class="solid" d="M10 80 C40 20 70 20 100 60 C130 20 170 20 190 80" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M40 90 C60 50 80 50 100 80 C120 50 140 50 160 90" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

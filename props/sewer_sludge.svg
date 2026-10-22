@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sludge, 1 × 1: thick muck with bubbles. Difficult ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+  <path class="detail" d="M14 30 C24 22 40 36 30 44 C20 50 8 40 14 30 Z M58 18 C70 14 80 26 72 34 C64 40 52 28 58 18 Z M40 64 C54 56 72 70 62 82 C52 92 34 80 40 64 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="80" cy="66" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="22" cy="76" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="48" cy="40" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

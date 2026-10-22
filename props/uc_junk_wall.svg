@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Junk wall, 1 × ½: scrap metal, doors and car panels stacked into a barricade. -->
+  <path class="solid" d="M4 44 L8 10 L30 6 L34 20 L52 4 L70 12 L76 4 L96 10 L94 44 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M14 18 L28 40 M40 14 L44 42 M58 20 L80 36 M84 14 L86 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

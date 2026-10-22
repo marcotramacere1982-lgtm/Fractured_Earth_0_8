@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- Safe room door, 1 square: a thick armoured door with a wheel lock; open, it swings aside. -->
+  <path class="solid" d="M2 3 V22 M98 3 V22" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><rect class="solid" x="6" y="4" width="88" height="17" rx="0" fill="none" stroke="currentColor" stroke-width="4"/><circle class="detail" cx="50" cy="12.5" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path class="detail" d="M45 12.5 H55 M50 7.5 V17.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M6 12.5 H12" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M12 12.5 L30 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

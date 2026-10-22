@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Leather office chair: a high back at the top. -->
+  <rect class="solid" x="8" y="12" width="34" height="32" rx="8" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="solid" d="M8 10 H42" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M14 44 L10 48 M36 44 L40 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

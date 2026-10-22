@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- The bow of a ship, 4 × 3: the deck narrows to the stem (pointing up); the bulwark is drawn round it — the GM rules the pointed edge. -->
+  <path class="solid" d="M20 300 L20 140 C40 60 120 16 200 6 C280 16 360 60 380 140 L380 300 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <path class="detail" d="M20 300 L20 140 C40 60 120 16 200 6 C280 16 360 60 380 140 L380 300" fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="140" cy="160" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="260" cy="160" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M200 40 V120" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

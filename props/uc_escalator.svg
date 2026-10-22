@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 400">
+  <!-- Dead escalator, 1 × 4: frozen steps between two balustrades; on at the top or the bottom end. -->
+  <rect class="detail" x="8" y="4" width="84" height="392" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M14 24 H86 M14 42 H86 M14 60 H86 M14 78 H86 M14 96 H86 M14 114 H86 M14 132 H86 M14 150 H86 M14 168 H86 M14 186 H86 M14 204 H86 M14 222 H86 M14 240 H86 M14 258 H86 M14 276 H86 M14 294 H86 M14 312 H86 M14 330 H86 M14 348 H86 M14 366 H86 M14 384 H86" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M6 4 V396 M94 4 V396" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 340 V60 M42 72 L50 60 L58 72" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

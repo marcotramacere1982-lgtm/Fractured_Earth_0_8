@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Scree, 1 × 1: loose stones on a slope (higher at the top). Difficult ground. -->
+  <path class="detail" d="M12 16 L22 12 L20 22 Z M44 10 L56 14 L48 22 Z M74 18 L86 20 L78 30 Z M20 46 L32 44 L28 56 Z M56 44 L68 48 L60 58 Z M28 78 L40 76 L36 88 Z M66 74 L78 78 L70 88 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M92 14 V86 M86 78 L92 86 L98 78" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

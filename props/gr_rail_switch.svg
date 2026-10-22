@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A rail switch, 2 × 2: one line splits in two (entering at the bottom, leaving at the top left and top right squares). -->
+  <path class="solid" d="M0 0 H200 V200 H0 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <path class="detail" d="M28 200 V0 M72 200 V0" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M72 200 C80 120 120 60 128 0 M116 200 C122 140 160 70 172 0" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="60" y="150" width="24" height="14" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M8 180 H92 M8 150 H92 M8 120 H92" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

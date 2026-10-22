@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <!-- Curved reception desk, 3 × 1: staff behind (top), visitors in front (bottom); screens on the counter. -->
+  <path class="solid" d="M6 30 C60 96 240 96 294 30 L294 10 C240 74 60 74 6 10 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="80" y="30" width="30" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="190" y="30" width="30" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M140 40 H160" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

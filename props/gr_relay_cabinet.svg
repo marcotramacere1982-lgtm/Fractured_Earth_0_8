@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- A trackside relay cabinet: the box that tells the trains where to go. Hackable. -->
+  <rect class="solid" x="6" y="6" width="88" height="38" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M50 6 V44 M14 16 H40 M14 26 H40 M60 16 H86" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="80" cy="34" r="2.5" fill="currentColor" stroke="none"/>
+</svg>

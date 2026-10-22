@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A large rock, 1 × 1: solid, full cover. -->
+  <path class="solid" d="M14 52 C10 30 30 12 54 14 C78 16 92 36 86 60 C80 82 60 90 40 88 C22 86 16 70 14 52 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M38 30 L54 46 L48 66" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

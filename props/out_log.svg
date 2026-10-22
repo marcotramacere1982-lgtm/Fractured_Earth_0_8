@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- A fallen log, 2 × ½: bark, a broken branch, the cut end at the right. -->
+  <rect class="solid" x="6" y="8" width="188" height="34" rx="17" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M30 14 C60 20 90 12 120 18 M40 34 C80 30 110 38 150 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="176" cy="25" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="176" cy="25" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M60 8 L54 2" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

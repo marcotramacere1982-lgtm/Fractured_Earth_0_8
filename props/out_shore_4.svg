@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <!-- A long shore, 4 × 1, with a sand spit reaching into the water. The shoreline meets the edges only at the middle of a side, so every shore piece joins every other. -->
+  <path class="solid" d="M0 0 H400 V100 H0 Z" fill="currentColor" fill-opacity="0.2" stroke="none"/>
+  <path class="solid" d="M0 50 C40 56 70 44 110 50 C150 56 170 80 200 88 C230 92 250 70 270 56 C300 44 340 58 400 50 V100 H0 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M0 50 C40 56 70 44 110 50 C150 56 170 80 200 88 C230 92 250 70 270 56 C300 44 340 58 400 50" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 50 C40 56 70 44 110 50 C150 56 170 80 200 88 C230 92 250 70 270 56 C300 44 340 58 400 50" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" transform="translate(0 7)" stroke-dasharray="3 5"/>
+</svg>

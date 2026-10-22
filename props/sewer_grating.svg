@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A steel grating laid over the channel: you walk on it. Sits on the floor under it. -->
+  <rect class="detail" x="6" y="6" width="88" height="88" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M6 22 H94 M6 38 H94 M6 54 H94 M6 70 H94 M6 86 H94 M30 6 V94 M70 6 V94" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

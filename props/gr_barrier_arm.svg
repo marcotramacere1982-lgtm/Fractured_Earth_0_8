@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- A barrier arm across the road, 2 squares: down, or raised. -->
+  <circle class="solid" cx="10" cy="12.5" r="8" fill="none" stroke="currentColor" stroke-width="4"/>
+  <g class="closed-only"><path class="detail" d="M18 12.5 H196" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M40 12.5 H60 M100 12.5 H120 M160 12.5 H180" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M18 12.5 L40 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Rubble slope, 1 × 1: loose rock spilling down (higher at the top). Difficult ground. -->
+  <path class="detail" d="M10 14 L30 10 L28 26 Z M50 8 L66 14 L56 26 Z M20 44 L36 40 L34 54 Z M58 40 L76 44 L66 58 Z M14 74 L32 72 L26 88 Z M50 70 L72 72 L64 90 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M86 12 V88 M80 80 L86 88 L92 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300">
+  <!-- Gangway, 1 × 3: the boarding ramp from quay to deck, rails on both sides. -->
+  <rect class="detail" x="10" y="4" width="80" height="292" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M14 24 H86 M14 44 H86 M14 64 H86 M14 84 H86 M14 104 H86 M14 124 H86 M14 144 H86 M14 164 H86 M14 184 H86 M14 204 H86 M14 224 H86 M14 244 H86 M14 264 H86 M14 284 H86" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M8 4 V296 M92 4 V296" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

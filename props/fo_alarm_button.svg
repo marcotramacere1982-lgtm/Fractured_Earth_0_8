@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+  <!-- A silent alarm button under the counter. -->
+  <circle class="solid" cx="12.5" cy="12.5" r="9" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="detail" cx="12.5" cy="12.5" r="4" fill="currentColor" stroke="none"/>
+</svg>

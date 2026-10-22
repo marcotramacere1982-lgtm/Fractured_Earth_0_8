@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Drone landing pad, 2 × 2: a circle with a cross. -->
+  <path class="solid" d="M0 0 H200 V200 H0 Z" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <circle class="detail" cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M100 40 V160 M40 100 H160" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Tall grass, 1 × 1: waist-high; someone lying in it is hard to see. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="detail" d="M10 40 l6 -24 l6 24 M34 60 l6 -24 l6 24 M58 36 l6 -24 l6 24 M80 66 l6 -24 l6 24 M22 92 l6 -24 l6 24 M52 94 l6 -24 l6 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

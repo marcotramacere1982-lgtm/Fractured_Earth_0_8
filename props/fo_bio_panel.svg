@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 25">
+  <!-- Palm and retina reader beside the vault door (top = the wall). -->
+  <path class="solid" d="M6 4 H44" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="solid" x="10" y="7" width="30" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="detail" cx="19" cy="14" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M30 10 V18 M34 10 V18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

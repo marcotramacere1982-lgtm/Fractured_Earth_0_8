@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 400">
+  <!-- AGV carrier, 2 × 4: a driverless flat carrier, sensors at each end, no cab. -->
+  <rect class="solid" x="6" y="6" width="188" height="388" rx="16" fill="none" stroke="currentColor" stroke-width="5"/>
+  <rect class="detail" x="30" y="60" width="140" height="280" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="100" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="100" cy="376" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M20 30 H40 M160 30 H180 M20 370 H40 M160 370 H180" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

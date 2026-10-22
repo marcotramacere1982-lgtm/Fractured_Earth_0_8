@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Mooring bollard: a squat iron post with a flared head. -->
+  <circle class="solid" cx="25" cy="25" r="16" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="25" cy="25" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="25" cy="25" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Lashing frame: a rack of twistlocks and lashing rods. -->
+  <rect class="solid" x="6" y="8" width="88" height="34" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M20 8 V42 M40 8 V42 M60 8 V42 M80 8 V42" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M10 25 H90" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Stacked square bales, 2 × 1. -->
+  <rect class="solid" x="6" y="10" width="60" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="70" y="10" width="60" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="134" y="10" width="60" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="38" y="52" width="60" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="102" y="52" width="60" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+</svg>

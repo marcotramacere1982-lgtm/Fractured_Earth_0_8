@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Evidence locker: steel doors with tagged padlocks. -->
+  <rect class="solid" x="4" y="4" width="92" height="42" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M36 4 V46 M68 4 V46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="26" cy="28" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="58" cy="28" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="88" cy="28" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

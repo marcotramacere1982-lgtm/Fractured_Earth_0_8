@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Ticket booth, 2 × 1: a glass-fronted kiosk, the window at the front (bottom). -->
+  <rect class="solid" x="4" y="4" width="192" height="92" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M20 76 H180 M20 84 H180" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="70" y="22" width="60" height="30" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

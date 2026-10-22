@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Safe-deposit boxes, 2 × ½: rows of small numbered doors against the vault wall (top). -->
+  <rect class="solid" x="4" y="4" width="192" height="42" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M28 4 V46 M52 4 V46 M76 4 V46 M100 4 V46 M124 4 V46 M148 4 V46 M172 4 V46 M4 25 H196" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

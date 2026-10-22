@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A loading silo with a chute over the track, 2 × 2. -->
+  <circle class="solid" cx="80" cy="80" r="66" fill="none" stroke="currentColor" stroke-width="5"/>
+  <circle class="detail" cx="80" cy="80" r="40" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M130 130 L186 186" fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M146 146 L170 170" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

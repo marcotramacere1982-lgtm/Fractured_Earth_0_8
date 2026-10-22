@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 15">
+  <!-- Cell door, 1 square: steel bars. Blocks people, not sight; open, it slides aside. -->
+  <path class="solid" d="M2 2 V13 M98 2 V13" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><path class="detail" d="M6 7.5 H94" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M14 2 V13 M26 2 V13 M38 2 V13 M50 2 V13 M62 2 V13 M74 2 V13 M86 2 V13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M70 7.5 H94" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M74 2 V13 M86 2 V13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A small hut, 2 × 2: walk-in; corrugated roof seams, the door at the front (bottom) opens. -->
+  <rect class="solid" x="6" y="6" width="188" height="188" rx="0" fill="none" stroke="currentColor" stroke-width="5"/>
+  <path class="detail" d="M6 100 H194" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="8 6"/>
+  <rect class="detail" x="24" y="24" width="50" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <g class="closed-only"><path class="detail" d="M80 194 H120" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M80 194 H90" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M90 194 L112 176" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Outflow pipe in the wall (top), pouring into the channel below. -->
+  <path class="solid" d="M30 4 H70" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="solid" x="34" y="4" width="32" height="16" rx="6" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M40 22 C38 32 44 38 40 46 M50 22 C48 32 54 38 50 46 M60 22 C58 32 64 38 60 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

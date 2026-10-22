@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Underground pool, 1 × 1: still, deep, cold water. Difficult ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M20 40 C30 34 40 46 50 40 C60 34 70 46 80 40 M28 64 C38 58 48 70 58 64 C66 60 72 66 78 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

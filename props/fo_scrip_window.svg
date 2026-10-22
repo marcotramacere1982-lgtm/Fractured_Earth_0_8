@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- The scrip exchange window: a narrow slot under thick glass, rates on a small screen. -->
+  <rect class="solid" x="4" y="14" width="92" height="30" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M8 10 H92" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="36" y="2" width="28" height="8" rx="0" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <path class="detail" d="M30 34 H70" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

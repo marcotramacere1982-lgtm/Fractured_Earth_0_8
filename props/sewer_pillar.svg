@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Brick arch pillar, 1 × 1: solid; the arches spring from it. -->
+  <rect class="solid" x="10" y="10" width="80" height="80" rx="4" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M10 35 H90 M10 65 H90 M50 10 V35 M30 35 V65 M70 35 V65 M50 65 V90" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An art plinth with an abstract sculpture: a twisted steel loop. -->
+  <rect class="solid" x="16" y="16" width="68" height="68" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M34 60 C30 36 54 26 64 40 C74 54 52 70 44 56 C38 46 52 38 58 46" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

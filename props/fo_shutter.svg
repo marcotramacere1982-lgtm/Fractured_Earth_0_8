@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- Roll-down security shutter, 2 squares: down across the shopfront, or rolled up. -->
+  <path class="solid" d="M2 3 V22 M198 3 V22" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><rect class="solid" x="6" y="5" width="188" height="15" rx="0" fill="none" stroke="currentColor" stroke-width="3"/><path class="detail" d="M18 5 V20 M30 5 V20 M42 5 V20 M54 5 V20 M66 5 V20 M78 5 V20 M90 5 V20 M102 5 V20 M114 5 V20 M126 5 V20 M138 5 V20 M150 5 V20 M162 5 V20 M174 5 V20 M186 5 V20" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><rect class="detail" x="6" y="2" width="188" height="6" rx="0" fill="none" stroke="currentColor" stroke-width="2"/></g>
+</svg>

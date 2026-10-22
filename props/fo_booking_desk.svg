@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Police booking desk, 2 × 1: a high counter, a terminal and a fingerprint pad; officers behind (top). -->
+  <rect class="solid" x="4" y="30" width="192" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="30" y="42" width="40" height="18" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="130" cy="52" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M150 70 H180" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

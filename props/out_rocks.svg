@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Small rocks scattered, 1 × 1: watch your step. -->
+  <path class="detail" d="M14 22 L26 16 L30 28 L18 32 Z M58 14 L72 20 L64 32 Z M40 52 L56 46 L60 60 L44 64 Z M74 66 L88 64 L84 80 Z M16 72 L30 70 L28 84 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

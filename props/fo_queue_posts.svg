@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- Queue posts with a velvet rope, 2 squares. -->
+  <circle class="solid" cx="10" cy="12.5" r="6" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="solid" cx="100" cy="12.5" r="6" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="solid" cx="190" cy="12.5" r="6" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M16 12.5 C40 20 70 20 94 12.5 M106 12.5 C130 20 160 20 184 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

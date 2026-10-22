@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Irrigation canal bending from the bottom to the right side. Difficult ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.2" stroke="none"/>
+  <path class="solid" d="M26 100 C26 50 50 26 100 26 V74 C72 74 74 76 74 100 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M26 100 C26 50 50 26 100 26 M74 100 C74 86 86 74 100 74" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

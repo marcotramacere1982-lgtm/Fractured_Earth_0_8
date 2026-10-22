@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- An old metro map on the wall (top): lines and stations, half peeled off. -->
+  <path class="solid" d="M4 4 H96" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="12" y="7" width="76" height="14" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M18 18 L34 11 L52 16 L72 10 M30 12 L36 20 M60 12 L64 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

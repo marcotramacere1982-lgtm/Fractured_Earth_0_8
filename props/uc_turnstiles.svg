@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Turnstile row, 2 × ½: three gates between steel posts. -->
+  <rect class="solid" x="4" y="10" width="192" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M50 10 V40 M100 10 V40 M150 10 V40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="30" cy="25" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="75" cy="25" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="125" cy="25" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="170" cy="25" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

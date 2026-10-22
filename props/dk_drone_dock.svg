@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Security drone dock, 1 × 1: a charging cradle with a drone parked on it. -->
+  <rect class="solid" x="10" y="10" width="80" height="80" rx="6" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="solid" cx="50" cy="50" r="18" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="detail" cx="26" cy="26" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="74" cy="26" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="26" cy="74" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="74" cy="74" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M34 34 L42 42 M66 34 L58 42 M34 66 L42 58 M66 66 L58 58" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

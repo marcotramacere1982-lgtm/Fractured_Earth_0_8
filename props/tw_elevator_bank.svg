@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200">
+  <!-- Elevator bank, 6 × 2: three cars side by side; the doors on the front (bottom) open. -->
+  <rect class="solid" x="6" y="6" width="588" height="188" rx="0" fill="none" stroke="currentColor" stroke-width="5"/>
+  <path class="detail" d="M200 6 V194 M400 6 V194" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M60 40 H140 M260 40 H340 M460 40 H540" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><path class="detail" d="M60 194 H140 M260 194 H340 M460 194 H540" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M60 194 H80 M120 194 H140 M260 194 H280 M320 194 H340 M460 194 H480 M520 194 H540" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

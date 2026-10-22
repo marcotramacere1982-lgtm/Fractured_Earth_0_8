@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A maglev pillar: the concrete column under the guideway. -->
+  <rect class="solid" x="22" y="22" width="56" height="56" rx="6" fill="none" stroke="currentColor" stroke-width="5"/>
+  <path class="detail" d="M22 22 L78 78 M78 22 L22 78" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

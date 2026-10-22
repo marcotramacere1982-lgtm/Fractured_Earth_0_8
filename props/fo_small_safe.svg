@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- A small floor safe in the back room; open, the door swings aside. -->
+  <rect class="solid" x="6" y="6" width="38" height="38" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+  <g class="closed-only"><circle class="detail" cx="25" cy="25" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path class="detail" d="M25 18 V20 M25 30 V32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="solid" d="M10 10 H40 V40 H10 Z" fill="currentColor" fill-opacity="0.5" stroke="none"/><path class="detail" d="M44 44 L50 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

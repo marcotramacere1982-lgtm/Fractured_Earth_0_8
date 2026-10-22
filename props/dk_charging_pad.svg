@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- AGV charging pad, 2 × 2: an induction plate with a lightning mark; glows when live. -->
+  <rect class="solid" x="10" y="10" width="180" height="180" rx="8" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M110 40 L80 104 H120 L90 160" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Deep water, 1 × 1: over your head. Difficult ground; the GM rules swimming. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.7" stroke="none"/>
+  <path class="detail" d="M20 24 C24 20 32 28 36 24 M60 40 C64 36 72 44 76 40 M22 62 C26 58 34 66 38 62 M64 80 C68 76 76 84 80 80" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

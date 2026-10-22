@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Pipeline bend: from the left side to the bottom. -->
+  <path class="solid" d="M0 35 C40 35 65 60 65 100" fill="none" stroke="currentColor" stroke-width="30" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 35 C40 35 65 60 65 100" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 8"/>
+</svg>

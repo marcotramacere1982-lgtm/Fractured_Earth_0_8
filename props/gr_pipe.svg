@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- An above-ground pipeline, 1 × ½, on low saddles: you can't walk through it (climb over at the GM's call). -->
+  <rect class="solid" x="0" y="10" width="100" height="30" rx="15" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M50 6 V44" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 25 H100" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 8"/>
+</svg>

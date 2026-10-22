@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Boulder, 1 × 1: solid rock. -->
+  <path class="solid" d="M14 46 C10 24 30 8 52 10 C76 10 92 30 88 54 C86 78 66 92 44 90 C24 88 16 70 14 46 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M34 30 L48 44 L42 62 M60 26 L66 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

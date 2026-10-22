@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- An old server cabinet, door hanging open, racks gutted. -->
+  <rect class="solid" x="6" y="4" width="88" height="42" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M14 12 H86 M14 20 H86 M14 28 H60 M14 36 H86" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M94 46 L98 30" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <!-- Open-top container, 4 × 2: no roof, a tarp rolled back; you see in, climbing in or out is hard (open at the front end). -->
+  <rect class="solid" x="6" y="6" width="388" height="188" rx="0" fill="none" stroke="currentColor" stroke-width="5"/>
+  <path class="solid" d="M14 14 H386 V186 H14 Z" fill="currentColor" fill-opacity="0.15" stroke="none"/>
+  <path class="detail" d="M20 20 C40 30 40 50 20 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

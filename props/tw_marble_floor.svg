@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Marble lobby floor, 1 × 1: large slabs with faint veins. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.18" stroke="none"/>
+  <path class="detail" d="M0 100 H100 M100 0 V100" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M12 30 C30 22 44 40 60 30 C72 24 82 34 92 28 M20 70 C34 64 48 78 66 70" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

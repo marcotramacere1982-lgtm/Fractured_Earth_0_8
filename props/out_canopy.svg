@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <!-- A big tree canopy, 3 × 3: drawn under everything — markers stay visible. Put a Tree trunk in the middle. -->
+  <path class="detail" d="M150 10 C210 10 250 40 270 90 C300 140 290 210 240 250 C200 290 120 296 76 262 C30 230 6 170 20 116 C34 60 90 10 150 10 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 6"/>
+  <path class="detail" d="M110 80 C130 70 150 90 170 80 M90 170 C120 160 140 190 170 176 M190 120 C210 116 220 140 236 134" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

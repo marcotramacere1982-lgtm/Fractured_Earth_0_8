@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- A light-plane crash site, 4 × 4: the fuselage broken in two, a torn wing, a burnt furrow. The pieces give half cover. -->
+  <path class="solid" d="M40 360 C80 300 140 260 200 220 C260 180 320 120 370 40 L390 60 C340 140 280 200 220 240 C160 280 100 330 60 380 Z" fill="currentColor" fill-opacity="0.25" stroke="none"/>
+  <path class="solid" d="M170 120 L250 40 L276 66 L196 146 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M150 170 L120 230 L150 250 L184 190 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M200 190 L330 230 L322 256 L192 216 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M250 40 L270 20 M196 146 L210 170" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 300 L120 320 M300 320 L320 300 M80 200 L96 210" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A private viewing table: an opened deposit box on it. -->
+  <rect class="solid" x="10" y="16" width="80" height="68" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="32" y="36" width="36" height="26" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M32 36 L40 28 H76 L68 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- An overgrown ruined wall, 2 × ½: old stones under creepers. -->
+  <path class="solid" d="M4 44 V12 L30 8 L40 16 L70 6 L110 12 L140 4 L170 12 L196 8 V44 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M30 30 C50 20 70 40 90 26 C110 14 130 34 150 22 C166 12 180 28 190 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

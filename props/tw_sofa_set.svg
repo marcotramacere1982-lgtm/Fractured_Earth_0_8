@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Waiting area, 2 × 1: two sofas facing a low table. -->
+  <rect class="solid" x="6" y="6" width="70" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="124" y="6" width="70" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="70" y="50" width="60" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="solid" x="6" y="64" width="50" height="30" rx="8" fill="none" stroke="currentColor" stroke-width="3"/>
+</svg>

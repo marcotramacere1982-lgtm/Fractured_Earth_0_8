@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <!-- Cargo hatch cover, 4 × 2: steel panels over the hold; open, the panels fold back over the dark hold. -->
+  <g class="closed-only"><rect class="solid" x="8" y="8" width="384" height="184" rx="0" fill="none" stroke="currentColor" stroke-width="5"/><path class="detail" d="M104 8 V192 M200 8 V192 M296 8 V192" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M30 100 H70 M330 100 H370" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><rect class="solid" x="8" y="8" width="384" height="184" rx="0" fill="none" stroke="currentColor" stroke-width="5"/><path class="solid" d="M30 30 H370 V170 H30 Z" fill="currentColor" fill-opacity="0.6" stroke="none"/><rect class="detail" x="8" y="8" width="40" height="184" rx="0" fill="none" stroke="currentColor" stroke-width="3"/></g>
+</svg>

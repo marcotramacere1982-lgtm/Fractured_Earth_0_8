@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Cave rock floor, 1 × 1: uneven stone with seams. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <path class="detail" d="M0 34 C20 30 34 44 52 38 C70 32 82 46 100 40 M30 100 C34 80 26 66 40 56 M70 0 C66 14 74 24 68 34" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

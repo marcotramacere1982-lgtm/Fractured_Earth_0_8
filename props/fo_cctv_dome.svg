@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- A ceiling CCTV dome. -->
+  <circle class="solid" cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="detail" cx="20" cy="20" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="20" cy="20" r="2.5" fill="currentColor" stroke="none"/>
+</svg>

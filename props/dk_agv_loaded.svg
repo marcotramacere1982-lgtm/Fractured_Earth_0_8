@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 400">
+  <!-- AGV carrier with a container on it, 2 × 4. -->
+  <rect class="solid" x="6" y="6" width="188" height="388" rx="16" fill="none" stroke="currentColor" stroke-width="5"/>
+  <rect class="solid" x="16" y="40" width="168" height="320" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M36 44 V356 M56 44 V356 M76 44 V356 M96 44 V356 M116 44 V356 M136 44 V356 M156 44 V356 M176 44 V356" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="100" cy="22" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="100" cy="378" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

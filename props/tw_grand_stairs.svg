@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <!-- Grand staircase, 3 × 4: wide steps between glass balustrades; the arrow points up. -->
+  <rect class="detail" x="8" y="4" width="284" height="392" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M14 25 H286 M14 50 H286 M14 75 H286 M14 100 H286 M14 125 H286 M14 150 H286 M14 175 H286 M14 200 H286 M14 225 H286 M14 250 H286 M14 275 H286 M14 300 H286 M14 325 H286 M14 350 H286 M14 375 H286" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M6 4 V396 M294 4 V396" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M150 340 V70 M138 84 L150 70 L162 84" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A pine from above: a star of needle tiers round the trunk. -->
+  <path class="solid" d="M50 4 L60 30 L90 26 L68 48 L94 72 L62 70 L50 96 L38 70 L6 72 L32 48 L10 26 L40 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="solid" cx="50" cy="50" r="8" fill="none" stroke="currentColor" stroke-width="4"/>
+</svg>

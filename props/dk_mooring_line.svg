@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Mooring line across the quay, 1 × 1: a thick rope to trip over. Difficult ground. -->
+  <path class="detail" d="M0 40 C30 30 60 60 100 52" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 40 C30 30 60 60 100 52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 6"/>
+</svg>

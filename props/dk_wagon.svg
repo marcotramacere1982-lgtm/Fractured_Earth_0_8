@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 500">
+  <!-- Automated container wagon, 2 × 5: a flat wagon carrying one container, couplers at each end. -->
+  <rect class="solid" x="10" y="10" width="180" height="480" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="20" y="40" width="160" height="420" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M24 70 H176 M24 100 H176 M24 130 H176 M24 160 H176 M24 190 H176 M24 220 H176 M24 250 H176 M24 280 H176 M24 310 H176 M24 340 H176 M24 370 H176 M24 400 H176 M24 430 H176" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 0 V10 M100 490 V500" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Parcel lockers, 2 × ½: a bank of numbered doors and a keypad screen. -->
+  <rect class="solid" x="4" y="4" width="192" height="42" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M40 4 V46 M76 4 V46 M120 4 V46 M156 4 V46 M4 25 H196" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="84" y="10" width="28" height="16" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

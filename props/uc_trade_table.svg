@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Trade table, 1 × ½: goods laid out on a cloth, a cash tin. -->
+  <rect class="solid" x="4" y="6" width="92" height="38" rx="2" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="12" y="14" width="16" height="12" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="46" cy="22" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="64" y="14" width="22" height="20" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M14 36 H40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

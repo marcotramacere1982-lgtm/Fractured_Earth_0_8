@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A level crossing, 2 × 1: the rails cross a road; warning stripes at the edges. -->
+  <path class="solid" d="M0 0 H200 V100 H0 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M56 0 V100 M144 0 V100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 6 L12 0 M0 18 L24 0 M176 100 L200 88 M188 100 L200 94" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

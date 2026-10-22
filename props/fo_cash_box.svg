@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 25">
+  <!-- A tin cash box hidden under the counter: illegal cash. -->
+  <rect class="solid" x="6" y="4" width="38" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M20 4 V21 M6 12 H44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

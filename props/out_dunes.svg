@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dune ripples, 1 × 1: soft, sliding sand. Difficult ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="detail" d="M0 20 C25 10 50 30 100 18 M0 44 C30 34 60 54 100 42 M0 68 C25 58 55 78 100 66 M0 90 C30 82 60 98 100 88" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

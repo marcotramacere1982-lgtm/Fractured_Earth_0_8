@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- A convenience store shelf row, 2 × ½: packets, cans, bottles. -->
+  <rect class="solid" x="4" y="4" width="192" height="42" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="solid" d="M4 6 H196" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M17.2 17.5 v17.5 M35.6 17.5 v17.5 M54 17.5 v17.5 M72.4 17.5 v17.5 M90.8 17.5 v17.5 M109.2 17.5 v17.5 M127.6 17.5 v17.5 M146 17.5 v17.5 M164.4 17.5 v17.5 M182.8 17.5 v17.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

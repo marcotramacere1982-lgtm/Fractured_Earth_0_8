@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Scaffolding tower, 2 × 2: tube frame, boards, a ladder; you can climb through it. Difficult ground. -->
+  <rect class="solid" x="8" y="8" width="184" height="184" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M8 8 L192 192 M192 8 L8 192 M100 8 V192 M8 100 H192" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="130" y="20" width="40" height="60" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

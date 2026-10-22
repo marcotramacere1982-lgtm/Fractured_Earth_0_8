@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Antenna mast: a lattice tower with guy wires. -->
+  <rect class="solid" x="15" y="15" width="20" height="20" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M15 15 L35 35 M35 15 L15 35" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M15 15 L2 2 M35 15 L48 2 M15 35 L2 48 M35 35 L48 48" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

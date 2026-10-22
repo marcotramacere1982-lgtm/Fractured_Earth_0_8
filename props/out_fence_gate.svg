@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 15">
+  <!-- Wooden farm gate, 1 square: closed across, or swung open. -->
+  <path class="solid" d="M2 2 V13 M98 2 V13" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><path class="detail" d="M6 5 H94 M6 10 H94 M6 10 L94 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M6 7 L22 15" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

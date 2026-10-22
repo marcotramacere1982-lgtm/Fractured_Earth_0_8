@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- Self-report terminal: confess a minor offence, get a smaller Credit Score penalty. -->
+  <rect class="solid" x="8" y="8" width="34" height="34" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="detail" x="14" y="14" width="22" height="14" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M16 34 H34" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

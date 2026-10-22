@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A headland, 2 × 2: the coast enters and leaves at the middle of the upper squares; the land pushes out into the water. The shoreline meets the edges only at the middle of a side, so every shore piece joins every other. -->
+  <path class="solid" d="M0 0 H200 V200 H0 Z" fill="currentColor" fill-opacity="0.2" stroke="none"/>
+  <path class="solid" d="M0 50 C30 56 40 120 80 160 C110 186 140 170 160 120 C170 90 180 60 200 50 V200 H0 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M0 50 C30 56 40 120 80 160 C110 186 140 170 160 120 C170 90 180 60 200 50" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 50 C30 56 40 120 80 160 C110 186 140 170 160 120 C170 90 180 60 200 50" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" transform="translate(0 7)" stroke-dasharray="3 5"/>
+</svg>

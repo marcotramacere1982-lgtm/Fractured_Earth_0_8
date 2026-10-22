@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Dirt path, 1 × 1: running top to bottom between grass. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="solid" d="M28 0 C32 40 24 60 30 100 H72 C76 60 68 40 72 0 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+  <path class="detail" d="M44 20 l4 2 M54 60 l4 2 M42 82 l4 2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- A rolling clothes rack: hangers along a bar. -->
+  <path class="detail" d="M6 25 H94" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M12 12 L16 38 M22 12 L26 38 M32 12 L36 38 M42 12 L46 38 M52 12 L56 38 M62 12 L66 38 M72 12 L76 38 M82 12 L86 38" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="solid" cx="6" cy="25" r="4" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="solid" cx="94" cy="25" r="4" fill="none" stroke="currentColor" stroke-width="3"/>
+</svg>

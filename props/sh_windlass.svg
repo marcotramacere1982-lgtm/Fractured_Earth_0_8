@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Windlass, 1 × 1: the anchor winch, its drum wound with chain. -->
+  <rect class="solid" x="14" y="30" width="72" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="50" cy="50" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M14 50 H4 M86 50 H96" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- A heavy old cash register on the counter. -->
+  <rect class="solid" x="8" y="10" width="34" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M12 22 H38 M14 30 H18 M22 30 H26 M30 30 H34" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="16" y="12" width="18" height="6" rx="0" fill="none" stroke="currentColor" stroke-width="1.5"/>
+</svg>

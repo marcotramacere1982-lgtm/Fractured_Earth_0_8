@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Quay edge, 1 × 1: concrete with a rubber fender; the water is beyond the front (bottom). -->
+  <path class="solid" d="M0 0 H100 V72 H0 Z" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <path class="solid" d="M0 72 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M0 72 H100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="20" y="70" width="60" height="10" rx="4" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M10 90 C24 84 36 96 50 90 C64 84 76 96 90 90" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A patched tent, 2 × 2: ridge line, guy ropes, the flap at the front (bottom). -->
+  <path class="solid" d="M20 30 L100 14 L180 30 L180 170 L100 186 L20 170 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 14 V186" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 30 L4 14 M180 30 L196 14 M20 170 L4 186 M180 170 L196 186" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M80 186 L100 150 L120 186" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

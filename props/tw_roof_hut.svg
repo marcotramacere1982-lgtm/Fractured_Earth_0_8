@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Rooftop access hut, 2 × 2: the top of the stairwell; the door at the front (bottom) opens. -->
+  <rect class="solid" x="6" y="6" width="188" height="188" rx="0" fill="none" stroke="currentColor" stroke-width="5"/>
+  <path class="detail" d="M20 30 H120 M20 46 H120 M20 62 H120 M20 78 H120 M20 94 H120 M20 110 H120 M20 126 H120 M20 142 H120 M20 158 H120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M120 20 V180" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <g class="closed-only"><path class="detail" d="M130 194 H180" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M130 194 H140" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M140 194 L170 170" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- A cactus from above: ribs and spines. -->
+  <circle class="solid" cx="25" cy="25" r="14" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M25 11 V39 M11 25 H39 M15 15 L35 35 M35 15 L15 35" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

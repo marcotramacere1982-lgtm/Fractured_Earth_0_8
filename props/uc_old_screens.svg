@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A stack of old screens and terminals, cables trailing. -->
+  <rect class="solid" x="12" y="14" width="46" height="36" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="46" y="40" width="42" height="34" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="18" y="58" width="34" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M88 74 C94 84 84 92 92 98 M20 86 C14 92 10 96 4 96" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

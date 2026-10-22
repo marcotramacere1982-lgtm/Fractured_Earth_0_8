@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Shallow water, 1 × 1: knee-deep. Difficult ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M22 30 C26 26 34 34 38 30 M62 52 C66 48 74 56 78 52 M28 76 C32 72 40 80 44 76" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

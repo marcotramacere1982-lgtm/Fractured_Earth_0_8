@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A crater, 2 × 2: a scorched bowl, rubble at the rim. Difficult ground. -->
+  <circle class="solid" cx="100" cy="100" r="84" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle class="detail" cx="100" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="100" cy="100" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M24 60 L36 66 M170 70 L158 76 M60 176 L68 164 M150 168 L140 158" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

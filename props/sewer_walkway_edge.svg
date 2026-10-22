@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Concrete walkway along the channel: the ledge edge is the front (bottom) side. -->
+  <path class="solid" d="M0 0 H100 V80 H0 Z" fill="currentColor" fill-opacity="0.25" stroke="none"/>
+  <path class="solid" d="M0 80 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M0 80 H100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 40 H100 M50 0 V80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M10 92 C20 88 30 96 40 92 C50 88 60 96 70 92" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

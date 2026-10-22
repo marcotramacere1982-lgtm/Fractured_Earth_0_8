@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Big pipe, 2 × 1, running along the floor, with a flange in the middle. -->
+  <rect class="solid" x="4" y="14" width="192" height="72" rx="34" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M100 8 V92 M92 8 V92 M108 8 V92" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 36 H80 M120 36 H180" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A pipeline leak: a dark slick spreading on the ground. Difficult ground. Sits on the floor under it. -->
+  <path class="solid" d="M30 30 C50 18 80 26 86 50 C92 74 70 90 46 86 C24 82 12 60 30 30 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M40 46 C46 40 56 42 60 50" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

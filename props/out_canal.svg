@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Irrigation canal, 1 × 1: a concrete-lined ditch of water (top to bottom). Difficult ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.2" stroke="none"/>
+  <path class="solid" d="M26 0 H74 V100 H26 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M26 0 V100 M74 0 V100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M40 30 C44 26 48 34 52 30 M46 70 C50 66 54 74 58 70" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

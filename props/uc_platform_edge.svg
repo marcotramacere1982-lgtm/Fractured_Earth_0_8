@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Platform edge, 1 × 1: tiles, the yellow line and the tactile strip; the drop to the track is the front (bottom). -->
+  <path class="solid" d="M0 0 H100 V86 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="solid" d="M0 86 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M0 50 H100 M50 0 V50" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 66 H100" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 76 H14 M22 76 H28 M36 76 H42 M50 76 H56 M64 76 H70 M78 76 H84 M92 76 H98" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 86 H100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

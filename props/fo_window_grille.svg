@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- A steel grille over a shop window (top = the window). -->
+  <path class="solid" d="M4 4 H96" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M14 4 V22 M28 4 V22 M42 4 V22 M56 4 V22 M70 4 V22 M84 4 V22 M4 20 H96" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

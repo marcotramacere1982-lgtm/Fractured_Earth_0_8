@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sand, 1 × 1: fine, wind-marked. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.18" stroke="none"/>
+  <path class="detail" d="M10 30 C30 26 50 34 70 30 M24 64 C44 60 64 68 84 64" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

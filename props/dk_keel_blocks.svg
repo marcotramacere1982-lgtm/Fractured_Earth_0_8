@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- Keel blocks, 1 × 2: stacked timber and steel blocks a hull rests on. -->
+  <rect class="solid" x="14" y="8" width="72" height="50" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="14" y="76" width="72" height="50" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="solid" x="14" y="144" width="72" height="50" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M14 33 H86 M14 101 H86 M14 169 H86" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

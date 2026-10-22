@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Platform bench, 1 × ½: moulded seats, the back against the wall (top). -->
+  <rect class="solid" x="4" y="8" width="92" height="34" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="solid" d="M4 10 H96" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M34 14 V42 M66 14 V42" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sewer channel, 1 × 1: waist-deep water, slow ripples. Difficult ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.55" stroke="none"/>
+  <path class="detail" d="M8 26 C18 20 28 32 38 26 C48 20 58 32 68 26 C78 20 88 32 94 26 M8 56 C18 50 28 62 38 56 C48 50 58 62 68 56 C78 50 88 62 94 56 M8 84 C18 78 28 90 38 84 C48 78 58 90 68 84" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

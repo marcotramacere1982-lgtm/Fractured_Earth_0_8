@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- A shrine of relics against the wall (top): photographs, trinkets, candles. -->
+  <path class="solid" d="M4 6 H96" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="10" y="10" width="80" height="30" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail" x="18" y="14" width="14" height="12" rx="0" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <rect class="detail" x="70" y="14" width="14" height="12" rx="0" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle class="detail" cx="40" cy="34" r="2.5" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="52" cy="34" r="2.5" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="62" cy="34" r="2.5" fill="currentColor" stroke="none"/>
+</svg>

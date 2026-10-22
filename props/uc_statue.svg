@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A broken statue on its plinth: the torso fallen beside it. -->
+  <rect class="solid" x="20" y="20" width="50" height="50" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <circle class="detail" cx="45" cy="45" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="solid" d="M60 74 L92 62 L96 76 L66 90 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

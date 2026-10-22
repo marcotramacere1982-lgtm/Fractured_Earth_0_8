@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Debris dam across a channel, 1 × 1: planks, a trolley, rubbish caught in the flow. -->
+  <path class="solid" d="M6 60 L20 34 L44 40 L60 22 L82 30 L94 54 L80 76 L52 70 L30 82 L10 76 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M14 52 L86 46 M40 40 L48 70 M66 30 L70 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

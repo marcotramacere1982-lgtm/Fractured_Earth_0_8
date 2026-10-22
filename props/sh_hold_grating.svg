@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Cargo hold grating floor, 1 × 1. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <rect class="detail" x="6" y="6" width="88" height="88" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M6 26 H94 M6 46 H94 M6 66 H94 M6 86 H94 M30 6 V94 M70 6 V94" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

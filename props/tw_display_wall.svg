@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- Two big screens on the wall (top), charts glowing. -->
+  <path class="solid" d="M4 4 H196" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="solid" x="14" y="7" width="80" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="106" y="7" width="80" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M20 18 L36 12 L52 16 L70 10 L88 14 M112 18 H180" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Rooftop gravel, 1 × 1. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.3" stroke="none"/>
+  <circle class="detail" cx="14" cy="18" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="40" cy="12" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="70" cy="24" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="88" cy="10" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="24" cy="44" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="56" cy="40" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="82" cy="52" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="12" cy="74" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="44" cy="68" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="70" cy="84" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="30" cy="92" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="90" cy="88" r="2" fill="currentColor" stroke="none"/>
+</svg>

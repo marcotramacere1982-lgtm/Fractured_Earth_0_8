@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Cable tray across the floor, 1 × 1: bundled cables in a low channel. Difficult ground. -->
+  <path class="detail" d="M0 36 H100 M0 64 H100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 44 C20 40 40 50 60 44 C80 38 90 48 100 46 M0 52 C20 56 40 46 60 54 C80 60 90 50 100 54" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

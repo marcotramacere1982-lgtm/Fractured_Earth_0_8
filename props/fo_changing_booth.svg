@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A changing booth, 1 × 1: a curtain at the front (bottom), a mirror and a hook inside. -->
+  <rect class="solid" x="6" y="6" width="88" height="88" rx="0" fill="none" stroke="currentColor" stroke-width="4"/>
+  <rect class="detail" x="20" y="10" width="30" height="6" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="80" cy="20" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <g class="closed-only"><path class="detail" d="M10 94 C20 88 30 98 40 92 C50 86 60 98 70 92 C80 86 86 96 90 94" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="detail" d="M10 94 C14 90 18 96 22 92" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

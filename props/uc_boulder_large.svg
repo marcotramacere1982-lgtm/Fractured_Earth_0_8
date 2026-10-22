@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Large boulder, 2 × 2: a fallen block of the cave roof. -->
+  <path class="solid" d="M20 100 C14 56 52 18 104 16 C152 14 186 50 184 98 C182 148 146 184 98 184 C52 184 24 148 20 100 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M60 70 L96 96 L84 140 M120 50 L130 96 L164 118 M96 96 L130 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

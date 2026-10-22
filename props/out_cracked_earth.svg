@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Cracked earth, 1 × 1: baked, dead ground. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.28" stroke="none"/>
+  <path class="detail" d="M0 30 L30 36 L50 20 L74 30 L100 24 M30 36 L36 70 L20 100 M50 20 L60 54 L36 70 M60 54 L90 62 L100 80 M74 30 L90 62" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

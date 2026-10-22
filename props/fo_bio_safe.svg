@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- A biometric gun safe: the real weapons, keyed to their buyers. Opens on the right print. -->
+  <rect class="solid" x="4" y="4" width="92" height="42" rx="2" fill="none" stroke="currentColor" stroke-width="5"/>
+  <g class="closed-only"><circle class="detail" cx="70" cy="25" r="9" fill="none" stroke="currentColor" stroke-width="2"/><rect class="detail" x="16" y="14" width="30" height="22" rx="0" fill="none" stroke="currentColor" stroke-width="2"/><path class="detail" d="M22 20 H40 M22 28 H40" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="solid" d="M10 10 H90 V40 H10 Z" fill="currentColor" fill-opacity="0.5" stroke="none"/><path class="detail" d="M96 46 L100 30" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

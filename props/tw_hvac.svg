@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Rooftop HVAC unit, 2 × 2: two big fans in a steel housing. -->
+  <rect class="solid" x="6" y="6" width="188" height="188" rx="4" fill="none" stroke="currentColor" stroke-width="5"/>
+  <circle class="detail" cx="60" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="60" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="140" cy="100" r="40" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="140" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M20 30 H180 M20 170 H180" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

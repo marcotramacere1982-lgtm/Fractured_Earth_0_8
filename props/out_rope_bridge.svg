@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300">
+  <!-- A rope bridge, 1 × 3: planks between two ropes; on and off at the ends only. -->
+  <path class="detail" d="M18 14 H82 M18 28 H82 M18 42 H82 M18 56 H82 M18 70 H82 M18 84 H82 M18 98 H82 M18 112 H82 M18 126 H82 M18 140 H82 M18 154 H82 M18 168 H82 M18 182 H82 M18 196 H82 M18 210 H82 M18 224 H82 M18 238 H82 M18 252 H82 M18 266 H82 M18 280 H82 M18 294 H82" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M10 4 C14 150 14 150 10 296 M90 4 C86 150 86 150 90 296" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

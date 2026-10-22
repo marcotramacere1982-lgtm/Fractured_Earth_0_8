@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A stack of parcels waiting to be sorted. -->
+  <rect class="solid" x="10" y="10" width="46" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="44" y="30" width="46" height="40" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <rect class="solid" x="16" y="56" width="40" height="34" rx="0" fill="none" stroke="currentColor" stroke-width="3"/>
+  <path class="detail" d="M10 30 H56 M33 10 V50 M44 50 H90 M67 30 V70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Robot welder arm, 1 × 1: a jointed arm on a base, the torch head out front. -->
+  <circle class="solid" cx="30" cy="70" r="20" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M30 70 L56 40 L84 52" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="56" cy="40" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle class="detail" cx="84" cy="52" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M84 52 L92 62" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

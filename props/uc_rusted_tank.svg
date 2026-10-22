@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Rusted tank, 2 × 2: a big round tank on legs, patches of rust, a ladder up its side. -->
+  <circle class="solid" cx="100" cy="100" r="86" fill="none" stroke="currentColor" stroke-width="5"/>
+  <circle class="detail" cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M100 14 V40 M100 160 V186 M14 100 H40 M160 100 H186" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect class="detail" x="170" y="70" width="14" height="60" rx="0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M60 70 C70 64 80 76 74 84 M120 130 C130 124 138 136 130 142" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
