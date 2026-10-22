@@ -7,7 +7,7 @@ import { RuleError } from './messages.js';
 
 export function defaultResources(classId) {
   switch (classId) {
-    case 'soldier': return { tp: 0, stance: 'attack' };
+    case 'soldier': return { tp: 0, stance: 'ready' }; // decision 88: every fight starts Ready
     case 'hacker': return { ram: 0, heat: 0, bluescreen: false, stunned: false, sustained: [] };
     case 'techwiz': return { sync: 0, mode: 'mend', offline: 0, switched: false };
     case 'smuggler': return { pendulum: 0, used: [] }; // used: once-per-combat abilities spent
@@ -284,6 +284,24 @@ export function weaponHit(classId, r) {
   return classId === 'soldier' ? { ...r, tp: (r.tp ?? 0) + 1 } : r;
 }
 
+/** The Soldier's stance record (decision 88), or null for other classes; unknown stances read as Ready. */
+export function stanceOf(classId, r, classesData) {
+  if (classId !== 'soldier') return null;
+  const all = classesData.classes.find((c) => c.id === 'soldier').resources.stances;
+  return all.find((s) => s.id === r?.stance) ?? all.find((s) => s.default) ?? all[0];
+}
+
+/**
+ * After an action (decision 88): a normal attack, Aim or an ability keeps the stance (abilities set their own);
+ * anything else drops a Soldier back to Ready. Tactical Points stay. Returns the same object when nothing changes.
+ */
+export function stanceAfterAction(classId, r, kind, classesData) {
+  if (classId !== 'soldier') return r;
+  const res = classesData.classes.find((c) => c.id === 'soldier').resources;
+  const ready = res.stances.find((s) => s.default)?.id ?? 'ready';
+  return res.keepStance.includes(kind) || r.stance === ready ? r : { ...r, stance: ready };
+}
+
 /** Damage multiplier of the current Soldier stance (1 for every other class). */
 export function stanceMultiplier(classId, r, classesData) {
   if (classId !== 'soldier') return 1;
@@ -299,7 +317,7 @@ export function combatStart(classId, r, talents = {}, { cover = 0, classesData =
     const fresh = { ...newTells(), marks: r.marks ?? [] };
     return { ...fresh, toPlace: (classesData ? tellGain(fresh, cover, classesData) : 1) + (talents.startTells ?? 0) };
   }
-  if (classId === 'soldier') return { ...r, tp: talents.startTp ?? 0, stance: 'attack' };
+  if (classId === 'soldier') return { ...r, tp: talents.startTp ?? 0, stance: 'ready' };
   if (classId === 'techwiz') return { ...r, sync: Math.min(SYNC_MAX, talents.startSync ?? 0), offline: 0, switched: false };
   if (classId === 'smuggler') return { ...r, used: [] };
   return r;

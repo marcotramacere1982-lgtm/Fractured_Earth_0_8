@@ -2,8 +2,8 @@
 
 /** Max HP = 2 x CON + MST, plus flat modifiers from events. */
 export function maxHp(attributes, bodyData, hpMod = 0) {
-  const { con, mst } = bodyData.maxHp;
-  return Math.max(1, attributes.CON * con + attributes.MST * mst + hpMod);
+  const { con, mst, base = 0 } = bodyData.maxHp;
+  return Math.max(1, attributes.CON * con + attributes.MST * mst + base + hpMod);
 }
 
 /**

@@ -1,8 +1,9 @@
 {
   "maxHp": {
-    "note": "2 x CON + MST",
-    "con": 2,
-    "mst": 1
+    "note": "CON + MST + 10 (decision 93)",
+    "con": 1,
+    "mst": 1,
+    "base": 10
   },
   "locations": [
     {

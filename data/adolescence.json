@@ -30,9 +30,9 @@
       "roll": 4,
       "id": "weak_bone_structure",
       "name": "WEAK BONE STRUCTURE",
-      "text": "Subtract 5 from your maximum HP.",
+      "text": "Subtract 3 from your maximum HP.",
       "effects": {
-        "maxHp": -5
+        "maxHp": -3
       }
     },
     {
@@ -51,15 +51,13 @@
       "roll": 6,
       "id": "serious_crime_committed",
       "name": "SERIOUS CRIME COMMITTED",
-      "text": "Guilty or not you are sentenced for a serious crime for which you spend 1d6+3 years in a labor camp. Incarceration affects characteristics: +3 STR CON CHA, -1 DEX INT WIS.",
+      "text": "Guilty or not, you are sentenced for a serious crime and spend years in a labor camp. It hardens the body and dulls the rest: +1 STR and CON, −1 INT and CHA, −5 Credit Score, criminal record.",
       "effects": {
         "attributes": {
-          "STR": 3,
-          "DEX": -1,
-          "CON": 3,
+          "STR": 1,
+          "CON": 1,
           "INT": -1,
-          "WIS": -1,
-          "CHA": 3,
+          "CHA": -1,
           "CRS": -5
         },
         "criminalRecord": "add"
@@ -69,12 +67,11 @@
       "roll": 7,
       "id": "minor_crime_committed",
       "name": "MINOR CRIME COMMITTED",
-      "text": "You are found guilty of a minor crime resulting in 1d3 years in prison. Prison affects characteristics: +1 STR CHA, -1 CON.",
+      "text": "You are found guilty of a minor crime and spend 1d3 years in prison: +1 STR, −1 CON, −3 Credit Score, criminal record.",
       "effects": {
         "attributes": {
           "STR": 1,
           "CON": -1,
-          "CHA": 1,
           "CRS": -3
         },
         "criminalRecord": "add"
@@ -107,10 +104,11 @@
       "roll": 10,
       "id": "tragic_accident",
       "name": "TRAGIC ACCIDENT",
-      "text": "Both your parents died in a terrible accident and you were sent to an orphanage. Credit Score is lowered by 3.",
+      "text": "Both your parents died in a terrible accident and you were sent to an orphanage. −3 Credit Score; grief hardens you: +1 MST.",
       "effects": {
         "attributes": {
-          "CRS": -3
+          "CRS": -3,
+          "MST": 1
         }
       }
     },
@@ -118,122 +116,146 @@
       "roll": 11,
       "id": "isolated_upbringing",
       "name": "ISOLATED UPBRINGING",
-      "text": "Raised in a restrictive, sheltered household. You start your adult life socially awkward with a minor community stigma.",
+      "text": "Raised in a restrictive, sheltered household: more books than people. +1 INT, −1 CHA. The family pays your way into school: one entry roll for a Student career is waived.",
       "effects": {
-        "tag": "Sheltered Upbringing"
+        "attributes": {
+          "INT": 1,
+          "CHA": -1
+        },
+        "tag": "Sheltered Upbringing",
+        "waiveEntry": {
+          "careers": "student",
+          "uses": 1
+        }
       }
     },
     {
       "roll": 12,
       "id": "spoiled_heir",
       "name": "SPOILED HEIR",
-      "text": "Born into old money with heavy family strings attached. You carry an air of privilege that doesn't always translate to credit.",
+      "text": "Born into old money with heavy family strings attached. +3 Credit Score, −1 MST (nobody ever tested you). A family call opens a door: one entry roll is waived.",
       "effects": {
-        "tag": "Old Family Ties"
+        "attributes": {
+          "CRS": 3,
+          "MST": -1
+        },
+        "tag": "Old Family Ties",
+        "waiveEntry": {
+          "careers": "*",
+          "uses": 1
+        }
       }
     },
     {
       "roll": 13,
       "id": "military_heritage",
       "name": "MILITARY HERITAGE",
-      "text": "Spend two years in a military academy. Raise your INT to 7 if it is lower.",
+      "text": "Spend two years in a military academy: you get its credential.",
       "effects": {
-        "credential": "military_academy",
-        "minAttributes": {
-          "INT": 7
-        }
+        "credential": "military_academy"
       }
     },
     {
       "roll": 14,
       "id": "technical_talent",
       "name": "TECHNICAL TALENT",
-      "text": "Spend two years in a technical university. Raise your INT to 12 if it is lower.",
+      "text": "Spend two years in a technical university: you get its credential.",
       "effects": {
-        "credential": "technical_university",
-        "minAttributes": {
-          "INT": 12
-        }
+        "credential": "technical_university"
       }
     },
     {
       "roll": 15,
       "id": "business_family",
       "name": "BUSINESS FAMILY",
-      "text": "Attend a business school for two years. Raise your INT to 10 if it is lower.",
+      "text": "Attend a business school for two years: you get its credential.",
       "effects": {
-        "credential": "business_school",
-        "minAttributes": {
-          "INT": 10
-        }
+        "credential": "business_school"
       }
     },
     {
       "roll": 16,
       "id": "media_family",
       "name": "MEDIA FAMILY",
-      "text": "Enroll in a media college for two years. Raise your INT to 9 if it is lower.",
+      "text": "Enroll in a media college for two years: you get its credential.",
       "effects": {
-        "credential": "media_college",
-        "minAttributes": {
-          "INT": 9
-        }
+        "credential": "media_college"
       }
     },
     {
       "roll": 17,
       "id": "military_connections",
       "name": "MILITARY CONNECTIONS",
-      "text": "You have the right connections within the military and may ignore all officer requirements.",
+      "text": "You have the right connections within the military: you ignore all Officer requirements and never roll to enter or stay.",
       "effects": {
         "tag": "Military Connections",
-        "waives": [
-          "military_law_enforcement_officer"
-        ]
+        "waiveEntry": {
+          "careers": [
+            "military_law_enforcement_officer"
+          ],
+          "uses": "always",
+          "requirements": true
+        }
       }
     },
     {
       "roll": 18,
       "id": "apprentice_scientist",
       "name": "APPRENTICE SCIENTIST",
-      "text": "You may ignore requirements if you want to become a scientist.",
+      "text": "A lab took you in early: you ignore all Scientist requirements and never roll to enter or stay.",
       "effects": {
         "tag": "Scientist no requirements",
-        "waives": [
-          "science_construction_scientist"
-        ]
+        "waiveEntry": {
+          "careers": [
+            "science_construction_scientist"
+          ],
+          "uses": "always",
+          "requirements": true
+        }
       }
     },
     {
       "roll": 19,
       "id": "amateur_photographer_writer",
       "name": "AMATEUR PHOTOGRAPHER/WRITER",
-      "text": "You ignore all requirements if you want to become a reporter.",
+      "text": "Your work already gets published: you ignore all Reporter requirements and never roll to enter or stay.",
       "effects": {
         "tag": "Media no requirements",
-        "waives": [
-          "media_reporter"
-        ]
+        "waiveEntry": {
+          "careers": [
+            "media_reporter"
+          ],
+          "uses": "always",
+          "requirements": true
+        }
       }
     },
     {
       "roll": 20,
       "id": "business_sense",
       "name": "BUSINESS SENSE",
-      "text": "You ignore all requirements if you choose a background in administration/economy/law.",
+      "text": "You have a head for money and the people who move it: you ignore all Administration / Economy / Law requirements and never roll to enter or stay.",
       "effects": {
         "tag": "Admin no requirements",
-        "waives": [
-          "administration_economy_law"
-        ]
+        "waiveEntry": {
+          "careers": [
+            "administration_economy_law"
+          ],
+          "uses": "always",
+          "requirements": true
+        }
       }
     },
     {
       "roll": 21,
       "id": "restless_drifter",
       "name": "RESTLESS DRIFTER",
-      "text": "Spent your youth bouncing from sector to sector, never settling down long enough to put down deep roots.",
+      "text": "Spent your youth bouncing from sector to sector, never settling down long enough to put down roots, or finish a school year. +1 WIS, −1 INT.",
       "effects": {
+        "attributes": {
+          "WIS": 1,
+          "INT": -1
+        },
         "tag": "Nomadic Youth"
       }
     },
@@ -241,8 +263,12 @@
       "roll": 22,
       "id": "street_hustler",
       "name": "STREET HUSTLER",
-      "text": "Grew up learning survival tricks on the blocks, relying on street smarts rather than formal structure.",
+      "text": "Grew up learning survival tricks on the blocks, relying on street smarts rather than formal structure. +1 CHA, −1 INT.",
       "effects": {
+        "attributes": {
+          "CHA": 1,
+          "INT": -1
+        },
         "tag": "Street Smart Background"
       }
     },
@@ -261,10 +287,11 @@
       "roll": 24,
       "id": "natural_technician",
       "name": "NATURAL TECHNICIAN",
-      "text": "Innate grasp of hardware lock mechanics and electronic systems. Add +1 to INT.",
+      "text": "Innate grasp of hardware, lock mechanics and electronic systems; less time outdoors. +1 INT, −1 STR.",
       "effects": {
         "attributes": {
-          "INT": 1
+          "INT": 1,
+          "STR": -1
         }
       }
     },
@@ -283,10 +310,11 @@
       "roll": 26,
       "id": "weapons_fanatic",
       "name": "WEAPONS FANATIC",
-      "text": "Intuitive understanding of ballistics firearm mechanics and recoil control. Add +1 to DEX.",
+      "text": "Intuitive understanding of ballistics, firearm mechanics and recoil control; people find you a little odd. +1 DEX, −1 CHA.",
       "effects": {
         "attributes": {
-          "DEX": 1
+          "DEX": 1,
+          "CHA": -1
         }
       }
     },
@@ -294,11 +322,12 @@
       "roll": 27,
       "id": "martial_arts_training",
       "name": "MARTIAL ARTS TRAINING",
-      "text": "Formal combat training in close-quarters defense and hand-to-hand. Add +2 CHA and +1 STR.",
+      "text": "Formal training in close-quarters defense and hand-to-hand, instead of homework. +1 STR, +1 DEX, −1 INT.",
       "effects": {
         "attributes": {
           "STR": 1,
-          "CHA": 2
+          "DEX": 1,
+          "INT": -1
         }
       }
     },
@@ -328,10 +357,9 @@
       "roll": 30,
       "id": "strong_will",
       "name": "STRONG WILL",
-      "text": "Add +1 to WIS and +1 to MST.",
+      "text": "Nothing breaks you easily. +1 MST.",
       "effects": {
         "attributes": {
-          "WIS": 1,
           "MST": 1
         }
       }
@@ -340,10 +368,10 @@
       "roll": 31,
       "id": "charismatic_voice",
       "name": "CHARISMATIC VOICE",
-      "text": "Raise your CHA by 2.",
+      "text": "People listen when you talk. +1 CHA.",
       "effects": {
         "attributes": {
-          "CHA": 2
+          "CHA": 1
         }
       }
     },
@@ -351,10 +379,9 @@
       "roll": 32,
       "id": "good_body_control",
       "name": "GOOD BODY CONTROL",
-      "text": "Raise DEX by 1 and CON by 1.",
+      "text": "You know your body and keep it working. +1 CON.",
       "effects": {
         "attributes": {
-          "DEX": 1,
           "CON": 1
         }
       }
@@ -363,9 +390,13 @@
       "roll": 33,
       "id": "contact_within_a_megacorp",
       "name": "CONTACT WITHIN A MEGACORP",
-      "text": "Coordinate with your GM to establish a specific corporate contact for insider information or backchannel favors.",
+      "text": "Coordinate with your GM to establish a specific corporate contact for insider information or backchannel favors. The first favor: one entry roll is waived.",
       "effects": {
-        "tag": "Corporation contact"
+        "tag": "Corporation contact",
+        "waiveEntry": {
+          "careers": "*",
+          "uses": 1
+        }
       }
     },
     {
@@ -402,10 +433,10 @@
       "roll": 37,
       "id": "sole_heir_to_wealthy_aunt",
       "name": "SOLE HEIR TO WEALTHY AUNT",
-      "text": "Raise your Credit Score by 10.",
+      "text": "Your aunt left you everything she had. +6 Credit Score.",
       "effects": {
         "attributes": {
-          "CRS": 10
+          "CRS": 6
         }
       }
     },
@@ -413,14 +444,18 @@
       "roll": 38,
       "id": "gifted_student",
       "name": "GIFTED STUDENT",
-      "text": "Add +2 to INT or WIS.",
+      "text": "Add +1 to INT or WIS. A scholarship is waiting: one entry roll for a Student career is waived.",
       "effects": {
         "choice": {
-          "amount": 2,
+          "amount": 1,
           "of": [
             "INT",
             "WIS"
           ]
+        },
+        "waiveEntry": {
+          "careers": "student",
+          "uses": 1
         }
       }
     },
@@ -448,18 +483,15 @@
       "roll": 40,
       "id": "commando_training",
       "name": "COMMANDO TRAINING",
-      "text": "Elite-forces commando training. Add +2 to all base attributes +5 CHA and +2 Credit Score.",
+      "text": "Elite-forces commando training as a teenager: +1 STR, DEX and MST, +2 Credit Score, and the Military Academy credential.",
       "effects": {
         "attributes": {
-          "STR": 2,
-          "DEX": 2,
-          "CON": 2,
-          "INT": 2,
-          "WIS": 2,
-          "CHA": 5,
-          "MST": 2,
+          "STR": 1,
+          "DEX": 1,
+          "MST": 1,
           "CRS": 2
-        }
+        },
+        "credential": "military_academy"
       }
     }
   ]

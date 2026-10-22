@@ -6,7 +6,7 @@ import { limbs, movement, usableWeapons } from '../rules/injuries.js';
 import { emptyProgress, progressStatus, talentEffects } from '../rules/progress.js';
 import { emptyDowntime } from '../rules/downtime.js';
 import { findSubclass, classTN, deckCapacity, deckStatus } from '../rules/classes.js';
-import { zoneBonus, isRanged, opticStats } from '../rules/engines.js';
+import { zoneBonus, isRanged, opticStats, stanceOf } from '../rules/engines.js';
 import { lifestyleUpkeep, magazineId, addItem } from '../rules/economy.js';
 import { conditionMods, halvedMove } from '../rules/conditions.js';
 import { allowance } from '../rules/turn.js';
@@ -36,7 +36,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
     classId: null,
     subclassId: null,
     debtId: null,
-    narrative: { backstoryHtml: '', backstoryPrompt: '', portraitPrompt: '' },
+    narrative: { backstoryHtml: '', backstoryPrompt: '', portraitPrompt: '', look: {} }, // look: appearance & manner, flavour only (decision 94)
     portrait: { dataUrl: '', framing: { zoom: 100, panX: 50, panY: 50 } },
     play: {
       hp: null, // null = full
@@ -92,6 +92,7 @@ export function upgradeSave(c, data = null) {
   c.progress ??= emptyProgress();
   c.downtime ??= emptyDowntime();
   c.drive ??= { type: null, line: '' };
+  if (c.narrative) c.narrative.look ??= {};
   if (c.mods && 'locationHp' in c.mods) {
     c.mods.maxHp = (c.mods.maxHp ?? 0) + 3 * (c.mods.locationHp || 0);
     delete c.mods.locationHp;
@@ -133,16 +134,17 @@ export function deriveSheet(character, data) {
   const deck = data.decks.find((d) => d.id === character.play.deck) ?? null;
   const optic = character.classId === 'scavenger' ? data.optics.find((o) => o.id === character.play.optic) ?? null : null;
   const zone = zoneBonus(character.classId, character.play.resources, data.classes, fx);
+  const stanceTn = stanceOf(character.classId, character.play.resources, data.classes)?.attackTn ?? 0; // Soldier in Attack: +2 TN (decision 88)
   // the weapon in hand: the chosen slot, or the other one when that slot is empty
   const handSlot = character.play.slots[character.play.hand ?? 1] ? (character.play.hand ?? 1) : character.play.slots[1] ? 1 : character.play.slots[2] ? 2 : null;
   const weapons = usableWeapons([1, 2].map((slot) => {
       const w = weapon(character.play.slots[slot]);
       if (!w) return { slot, empty: true };
       const zoneTn = isRanged(w) ? zone.rangedTn : 0; // Smuggler Cold: steadier aim
-      const tn = weaponTN(w, skillsBase) + zoneTn + (w.tnBonus ?? 0); // a unique's own TN bonus
+      const tn = weaponTN(w, skillsBase) + zoneTn + stanceTn + (w.tnBonus ?? 0); // a unique's own TN bonus
       const rounds = character.play.ammo[slot] ?? 0;
       const spares = w.magSize ? character.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.id))?.qty ?? 0 : 0;
-      return { slot, ...w, tn: tn + cm.attackTn, base: cm.attackTn ? tn : undefined, zoneTn, rounds, spares, // Focused / Blinded; only a condition sets `base`, never a record field
+      return { slot, ...w, tn: tn + cm.attackTn, base: cm.attackTn ? tn : undefined, zoneTn, stanceTn, rounds, spares, // Focused / Blinded; only a condition sets `base`, never a record field
         burst: w.burst ?? 1, attacksLeft: w.magSize ? Math.ceil(rounds / (w.burst ?? 1)) : null, // automatic weapons fire 3-round bursts
         inHand: slot === handSlot };
     }), injured.arms);

@@ -202,6 +202,7 @@
 .text-info { color: var(--color-info); }
 .text-danger { color: var(--color-danger); }
 .text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
 
 /* ---------- avatar ---------- */
 .avatar { width: 3.5rem; height: 3.5rem; flex: none; border-radius: var(--radius-md); object-fit: cover; background: var(--color-surface-2); }
@@ -287,3 +288,15 @@
 /* Unique items from the GM's Forge (decision 61) */
 .pill--unique { color: var(--color-unique); border-color: var(--color-unique); background: var(--color-unique-soft); }
 .row--unique .row__title { color: var(--color-unique); }
+/* Appearance & manner (decision 94) */
+.look-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--space-2) var(--space-3); }
+/* Portrait framing (decision 96): the frame sizes, the image fills it; --px/--py/--pz/--pl come from the saved frame */
+.portrait-frame { display: block; overflow: hidden; }
+.portrait-frame__img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--px, 50%) var(--py, 50%);
+  transform: scale(var(--pz, 1)); transform-origin: var(--px, 50%) var(--py, 50%); filter: brightness(var(--pl, 1)); user-select: none; }
+[data-frame-drag] { cursor: grab; touch-action: none; }
+[data-frame-drag]:active { cursor: grabbing; }
+.frame-ctls { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: var(--space-2) var(--space-3); }
+.frame-ctl { display: grid; gap: var(--space-1); }
+.frame-ctl input { width: 100%; min-height: var(--touch); }
+

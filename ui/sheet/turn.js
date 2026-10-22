@@ -40,12 +40,13 @@ function spentList(spent) {
 }
 
 /** combat: the GM's combat state when this sheet is at the table and the GM runs the rounds. */
-export function turnCard(c, s, data, combat = null) {
+export function turnCard(c, s, data, combat = null, { tips = false } = {}) {
   const ts = turnStatus(c.play.turn ?? newTurn(), s.combat.act.value, c.play.conditions, data.actions);
   const gmRuns = Boolean(combat && ts.inCombat && c.play.turn?.tableCombat === combat.id);
   const pipsHtml = Array.from({ length: ts.max }, (_, i) => html`<span class="act-pip ${i < ts.used ? 'is-used' : ''}" aria-hidden="true"></span>`);
-  const weapons = s.weapons.filter((w) => !w.empty && (!ts.inCombat || w.inHand)); // in combat: only the weapon in hand
-  const otherWeapon = ts.inCombat ? s.weapons.find((w) => !w.empty && !w.inHand) : null;
+  const weapons = s.weapons.filter((w) => !w.empty && w.inHand); // decision 97: one Attack, the weapon in hand (aim at a location inside the roll window)
+  const otherWeapon = s.weapons.find((w) => !w.empty && !w.inHand);
+  const sub = (text) => (tips ? html`<span class="action-btn__sub">${text}</span>` : '');
   const noActions = ts.inCombat && ts.left === 0;
 
   const head = ts.inCombat
@@ -73,22 +74,21 @@ export function turnCard(c, s, data, combat = null) {
       ${weapons.length ? weapons.map((w) => {
         const off = noActions || w.usable === false;
         return html`
-        <button class="action-btn action-btn--attack" data-action="attackRoll" data-slot="${w.slot}" ${off ? raw('disabled') : ''} title="${w.usable === false ? t(`weapons.unusable.${w.why}`) : ''}">
-          <span class="action-btn__name">${t('turn.attack')}</span><span class="action-btn__sub">${w.name} · TN ${temp(w.base, w.tn)}${w.magSize ? ` · ${w.rounds}/${w.magSize}${w.burst > 1 ? ` · ${t('turn.attacksLeft', { n: w.attacksLeft })}` : ''}` : ''}</span></button>
-        <button class="action-btn action-btn--attack action-btn--located" data-action="attackRoll" data-slot="${w.slot}" data-located="1" ${off ? raw('disabled') : ''} title="${t('turn.locatedHint')}">
-          <span class="action-btn__name">⌖ ${t('turn.located')}</span><span class="action-btn__sub">${w.name} · TN ${w.tn - s.locationPenalty}</span></button>`;
+        <button class="action-btn action-btn--attack" data-action="attackRoll" data-slot="${w.slot}" ${off ? raw('disabled') : ''} title="${w.usable === false ? t(`weapons.unusable.${w.why}`) : t('turn.attackHint')}">
+          <span class="action-btn__name">${t('turn.attack')}</span><span class="action-btn__live">${w.name} · TN ${temp(w.base, w.tn)}${w.magSize ? ` · ${w.rounds}/${w.magSize}${w.burst > 1 ? ` · ${t('turn.attacksLeft', { n: w.attacksLeft })}` : ''}` : ''}</span>${sub(t('turn.attackHint'))}</button>`;
       })
         : html`<button class="action-btn" disabled><span class="action-btn__name">${t('turn.attack')}</span><span class="action-btn__sub">${t('turn.noWeapon')}</span></button>`}
       ${otherWeapon ? html`<button class="action-btn" data-action="hand" data-slot="${otherWeapon.slot}" ${noActions ? raw('disabled') : ''} title="${t('turn.swapHint')}">
-        <span class="action-btn__name">⇆ ${t('turn.swapTo', { weapon: otherWeapon.name })}</span><span class="action-btn__sub">${t('turn.swapSub')}</span></button>` : ''}
-      <button class="action-btn" data-action="act" data-kind="move" data-detail="up to ${s.move} squares" ${noActions ? raw('disabled') : ''}>
-        <span class="action-btn__name">${t('turn.move')}</span><span class="action-btn__sub">${s.move !== s.moveBase ? html`<span class="temp temp--down">${t('turn.squares', { n: s.move })}</span>` : t('turn.squares', { n: s.move })}</span></button>
+        <span class="action-btn__name">⇆ ${t('turn.swapTo', { weapon: otherWeapon.name })}</span>${sub(t('turn.swapSub'))}</button>` : ''}
+      <button class="action-btn" data-action="act" data-kind="move" data-detail="up to ${s.move} squares" ${noActions ? raw('disabled') : ''} title="${t('turn.moveHint')}">
+        <span class="action-btn__name">${t('turn.move')}</span><span class="action-btn__live">${s.move !== s.moveBase ? html`<span class="temp temp--down">${t('turn.squares', { n: s.move })}</span>` : t('turn.squares', { n: s.move })}</span></button>
       ${data.actions.actions.filter((a) => !['move', 'attack', 'ability'].includes(a.id)).map((a) => html`
         <button class="action-btn" data-action="${a.id === 'reload' ? 'reloadPick' : a.id === 'use_item' ? 'useItem' : 'act'}" data-kind="${a.id}" title="${a.desc}" ${noActions ? raw('disabled') : ''}>
-          <span class="action-btn__name">${t(`action.${a.id}`)}</span><span class="action-btn__sub">${a.desc.split('.')[0]}</span></button>`)}
+          <span class="action-btn__name">${t(`action.${a.id}`)}</span>${sub(a.desc.split('.')[0])}</button>`)}
       ${ts.inCombat ? html`<button class="action-btn action-btn--reaction" data-action="dodgeRoll" title="${data.actions.reactions[0].desc}">
-        <span class="action-btn__name">${t('dodge.title')}</span><span class="action-btn__sub">${t('turn.dodgeSub')} · Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value}</span></button>` : ''}
+        <span class="action-btn__name">${t('dodge.title')}</span><span class="action-btn__live">Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value}</span>${sub(t('turn.dodgeSub'))}</button>` : ''}
     </div>
-    <p class="hint">${t('turn.abilitiesHint', { tn: s.class ? ` (${s.class.tn})` : '' })}</p>`;
+    <div class="spread"><p class="hint">${t('turn.abilitiesHint', { tn: s.class ? ` (${s.class.tn})` : '' })}</p>
+      <button class="btn btn--sm btn--ghost" data-action="actionTips" aria-pressed="${tips}" title="${t('turn.tipsHint')}">? ${t(tips ? 'turn.tipsHide' : 'turn.tipsShow')}</button></div>`;
   return card(t('turn.title'), body, { ref: 'actions', tour: 'turn' });
 }

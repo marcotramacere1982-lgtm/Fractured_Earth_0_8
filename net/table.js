@@ -77,9 +77,10 @@ export function createTableLink(store, hooks) {
       case 'restore':
         store.update(id, (c) => {
           for (const [path, value] of Object.entries(msg.values ?? {})) setPath(c, path, value);
-          hooks.log(c, msg.owner ? `Player: ${msg.values?.player} (set by the GM)` : msg.undo ? `↶ Undo by the GM (${String(msg.undo).slice(0, 120)})` : `GM restored: ${Object.keys(msg.values ?? {}).join(', ')}`, msg.undo || msg.owner ? 'warn' : 'bad');
+          hooks.log(c, msg.portrait ? 'New portrait from the GM' : msg.owner ? `Player: ${msg.values?.player} (set by the GM)` : msg.undo ? `↶ Undo by the GM (${String(msg.undo).slice(0, 120)})` : `GM restored: ${Object.keys(msg.values ?? {}).join(', ')}`, msg.portrait ? 'info' : msg.undo || msg.owner ? 'warn' : 'bad');
         });
-        if (!msg.owner) hooks.toast(msg.undo ? t('table.undone') : t('table.restored'), msg.undo ? 'success' : 'danger'); // decision 87: a new owner is not an alarm
+        if (msg.portrait) hooks.toast(t('table.portrait'), 'success'); // decision 95: a gift, not an alarm
+        else if (!msg.owner) hooks.toast(msg.undo ? t('table.undone') : t('table.restored'), msg.undo ? 'success' : 'danger'); // decision 87: a new owner is not an alarm
         hooks.notify?.('message');
         break;
       case 'combat': {

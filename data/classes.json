@@ -31,24 +31,42 @@
         ],
         "stances": [
           {
+            "id": "ready",
+            "name": "Ready",
+            "dealt": 1,
+            "taken": 1,
+            "attackTn": 0,
+            "default": true
+          },
+          {
             "id": "defensive",
             "name": "Defensive",
             "dealt": 0.5,
-            "taken": 0.5
+            "taken": 0.5,
+            "attackTn": 0
           },
           {
             "id": "attack",
             "name": "Attack",
             "dealt": 1,
-            "taken": 1
+            "taken": 1,
+            "attackTn": 2
           },
           {
             "id": "onslaught",
             "name": "Onslaught",
             "dealt": 1.5,
-            "taken": 1.5
+            "taken": 1.5,
+            "attackTn": 0
           }
-        ]
+        ],
+        "keepStance": [
+          "attack",
+          "located",
+          "aim",
+          "ability"
+        ],
+        "stanceNote": "Decision 88: every combat starts in Ready (×1, no bonus). Only stance abilities change the stance; a normal attack (or Aim before one) keeps it; any other action (move, reload, swap, interact, use an item, a talent…) drops it to Ready — Tactical Points stay. The stance lasts through the enemies' turns and into your next turn until such an action. Attack: +2 TN on weapon attacks."
       },
       "maxEquippedAbilities": 3,
       "subclasses": [

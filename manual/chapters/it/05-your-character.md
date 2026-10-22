@@ -83,11 +83,11 @@ Sei valori tattici nascono dalla **somma grezza di due attributi**, cercata nell
 ::table[combat]
 
 - **Iniziativa** = metà DEX + metà WIS (ciascuna arrotondata per difetto) − 10. All'inizio del combattimento tira d20 + Iniziativa.
-- **HP massimi** = 2 × CON + MST.
+- **HP massimi** = CON + MST + 10.
 
 ### Salute, armatura e ferite {#sec-5-3-body}
 
-Hai **una sola riserva di HP** (2 × CON + MST) e **un solo valore di armatura**: la somma dell'armatura che indossi, più la copertura in combattimento. Ogni colpo sottrae la tua armatura dai danni; quello che resta toglie HP.
+Hai **una sola riserva di HP** (CON + MST + 10) e **un solo valore di armatura**: la somma dell'armatura che indossi, più la copertura in combattimento. Ogni colpo sottrae la tua armatura dai danni; quello che resta toglie HP.
 
 Il corpo conta quando qualcuno fa un **attacco a una locazione** (*location attack*, 7-5): ha −4 TN e tira dove colpisce. I danni meno l'armatura tolgono HP come sempre, e poi:
 
@@ -117,7 +117,10 @@ Gli eventi possono cambiare gli attributi, spostare di una riga un valore di com
 
 Dopo i 15 anni puoi finire subito in strada, oppure svolgere prima uno o più **periodi di carriera**. Le carriere sono facoltative.
 
-- **Ogni periodo:** +2 anni di età, le modifiche agli attributi e al Credit Score della carriera, **due eventi di carriera** (2d20), poi un controllo d'invecchiamento.
+- **Tiro di ingresso:** a ogni periodo tira **d20 ≤ il più alto tra INT e CHA, +4**. Ogni periodo già svolto di fila nella stessa carriera aggiunge **+1** (il capo ti conosce). Criminal e Wage Slave prendono tutti, senza tiro; alcuni eventi di vita lo annullano. **Se fallisci** passi quei due anni **disoccupato** (Drifter / Outcast), l'unico modo per finire in quella riga.
+- **Ogni periodo:** +2 anni di età, le modifiche agli attributi e al Credit Score della carriera, **due eventi di carriera** (2d20), poi un controllo d'invecchiamento. Una carriera ti rende migliore in una cosa e te ne costa un'altra: nessuna carriera dà entrambe le statistiche di una classe.
+- **Al verde:** se una carriera porta il tuo Credit Score sotto 0 sei **ricercato per insolvenza**: fedina penale sporca, e la tua fase di carriera finisce all'istante.
+- **Tetto del percorso di vita:** con eventi e carriere nessun attributo supera **18**.
 - **Requisiti:** attributi minimi, età massima, credenziali di studio, fedina pulita o un Credit Score minimo. La Creazione segna ognuno con ✓ o ✗. Alcuni eventi di vita annullano i requisiti.
 - **Tenta la sorte:** ogni periodo in più è più esperienza, più rischio e più età. Alcuni eventi chiudono la tua fase di carriera all'istante.
 
@@ -153,9 +156,12 @@ Conosci tutte le ability della tua sottoclasse, ma lo stress del combattimento l
 
 Il Soldier è la forza d'urto della squadra in prima linea, costruita sullo **Stance-Flow**: lo slancio si accumula in **Tactical Point (TP)** e si spende in colpi finali che ti spostano da una stance all'altra.
 
+- **Ready:** dove inizia ogni combattimento: danni inflitti e subiti normali, nessun bonus.
 - **Defensive:** ×0,5 ai danni inflitti e subiti. Per tenere la posizione o riprendersi.
-- **Attack:** la base: danni inflitti e subiti normali.
+- **Attack:** danni normali, e **+2 TN agli attacchi con le armi**.
 - **Onslaught:** ×1,5 ai danni inflitti e subiti. Alto rischio, alta ricompensa.
+
+**Il flusso.** Ogni combattimento inizia in **Ready**. Solo le ability di stance ti portano in un'altra stance. Un **attacco normale tiene la stance** (è a questo che serve: colpi a ×1,5 in Onslaught, a ×0,5 quando sei trincerato), e lo stesso vale per *Mirare* prima di un attacco. **Qualsiasi altra cosa ti riporta a Ready** — muoverti, ricaricare, cambiare arma, interagire, usare un oggetto o un talento — ma i tuoi **TP restano**. Una stance dura per tutto il turno dei nemici e nel tuo turno successivo, fino a una di quelle azioni: finisci il turno in Onslaught e ogni colpo che subisci nel frattempo vale ×1,5.
 
 I **TP** partono da **0 a ogni combattimento** e non hanno limite. Li accumuli combattendo: **ogni attacco normale a segno dà +1 TP**, *Brace & Dig In* dà +2 e *Steady Aim* +1. I colpi finali costano da 1 a 3 TP e cambiano la tua stance. La scheda applica la stance a ogni tiro di danni.
 
@@ -251,14 +257,15 @@ Gli ultimi passi della Creazione trasformano i tuoi tiri in una storia. Prepara 
 
 - **Prompt della storia** — incollalo in un assistente IA qualsiasi (o usalo come traccia per scrivere) e incolla qui il risultato. Contiene già l'ambientazione, i tuoi eventi, la carriera e il debito. Con l'app in italiano, chiede all'IA di scrivere la storia in italiano.
 - **Oppure chiedi al GM** — al tavolo dal vivo, *Invia al GM* (nella Creazione) o *Chiedi al GM di scriverla* (Dossier) passa lo stesso prompt al GM, che la fa scrivere, la legge e la invia alla tua scheda. Arriva nel Dossier; puoi sempre modificarla, o tornare alla tua versione precedente. Se hai già una storia, il pulsante chiede invece al GM di rifinirla.
-- **Prompt del ritratto** — per un generatore di immagini (entrambi i prompt restano nel Dossier, sotto *Prompt per la tua IA*). Aggiungi il tuo aspetto: genere, capelli, occhi, corporatura, abiti, segni particolari.
+- **Prompt del ritratto** — per un generatore di immagini (entrambi i prompt restano nel Dossier, sotto *Prompt per la tua IA*).
+- **Aspetto e modi** — genere, corporatura, capelli, occhi, segni particolari e atteggiamento, con parole tue. Finiscono in entrambi i prompt (quello che lasci vuoto, il prompt del ritratto ti chiede di aggiungerlo). Solo colore: nessuna regola li legge e il controllo delle modifiche del GM li ignora, quindi cambiali nel Dossier quando vuoi.
 
-Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automatico perché i salvataggi restino leggeri.
+Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automatico perché i salvataggi restino leggeri. *Inquadra la foto* (lì sotto) la ingrandisce, la sposta e la schiarisce — oppure trascina la foto — e la stessa inquadratura si vede ovunque, anche sullo schermo del GM.
 
 ## 5-8. La scheda del personaggio {#sec-5-8}
 
 - **Barra di stato** — sempre visibile: HP, armatura, iniziativa, azioni, Class TN, Credit Score, contanti e condizioni attive.
-- **Gioco** — armi (TN d'attacco, danni, munizioni, ricarica), il tuo motore di classe e le ability equipaggiate, salute, armatura, ferite e condizioni (con *Subisci un colpo*), copertura, valori di combattimento, e il pannello del turno (*Inizia combattimento*, *Fine round*).
+- **Gioco** — due righe nell'ordine di un turno: il pannello del turno (*Inizia combattimento*, *Fine round*, un solo *Attacca* per l'arma in mano, *?* mostra cosa fa ogni azione) accanto alle armi (TN d'attacco, danni, munizioni, ricarica); poi il tuo motore di classe, le ability equipaggiate e i talenti accanto a salute, armatura, ferite e condizioni (con *Subisci un colpo*) e copertura. Movimento, OFF, DEF e PER stanno nella seconda riga dell'intestazione, aggiornati dalle condizioni.
 - **Abilità** — attributi (modificabili per ferite, invecchiamento o decisioni del GM) e tutte le abilità. Tocca per tirare con la difficoltà del GM.
 - **Equipaggiamento** — contanti, inventario, il mercato e il tuo stile di vita.
 - **Dossier** — identità, classe, trascorsi, debito (con pressione e rate), ritratto, storia e *La storia finora* (5-10).

@@ -72,7 +72,7 @@ const RENDER = {
     const x = explainHp(c, data);
     return {
       title: t('explain.feeds.hp'),
-      html: calc(`${x.conX} × CON ${x.con} + ${x.mstX === 1 ? '' : `${x.mstX} × `}MST ${x.mst}${x.mod ? ` ${sign(x.mod)} (${e(t('explain.lifeEvents'))})` : ''}${x.talent ? ` ${sign(x.talent)} (${e(t('explain.talents'))})` : ''} = <strong>${x.value}</strong>`) + p(data.refs.refs.hp?.text),
+      html: calc(`${x.conX === 1 ? '' : `${x.conX} × `}CON ${x.con} + ${x.mstX === 1 ? '' : `${x.mstX} × `}MST ${x.mst}${x.base ? ` + ${x.base}` : ''}${x.mod ? ` ${sign(x.mod)} (${e(t('explain.lifeEvents'))})` : ''}${x.talent ? ` ${sign(x.talent)} (${e(t('explain.talents'))})` : ''} = <strong>${x.value}</strong>`) + p(data.refs.refs.hp?.text),
       anchor: data.refs.refs.hp?.anchor,
     };
   },

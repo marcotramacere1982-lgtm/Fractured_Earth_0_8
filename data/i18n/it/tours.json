@@ -5,7 +5,7 @@
       "steps": {
         "status": {
           "title": "Il tuo stato",
-          "text": "Nome, classe e i numeri che guardi più spesso, sempre in cima. Un valore in verde o in rosso è cambiato da una condizione (quello normale è piccolo accanto)."
+          "text": "Nome, classe e i numeri che guardi più spesso, sempre in alto; la seconda riga è Movimento, OFF, DEF e PER. Un valore in verde o rosso è cambiato da una condizione (quello normale è scritto piccolo accanto)."
         },
         "tabs": {
           "title": "Sei sezioni",
@@ -17,7 +17,7 @@
         },
         "turn": {
           "title": "Il tuo turno",
-          "text": "I pallini sono le tue azioni di questo round: ogni pulsante che premi ne spende una. Al tavolo il GM gestisce i round e la striscia mostra di chi è il turno; il tablet suona piano quando tocca a te."
+          "text": "I pallini sono le tue azioni di questo round: ogni pulsante che premi ne spende una. Al tavolo il GM gestisce i round e la striscia mostra di chi è il turno; il tablet suona piano quando tocca a te. Il pulsante ? mostra cosa fa ogni azione."
         },
         "hostiles": {
           "title": "Ostili",
@@ -25,7 +25,7 @@
         },
         "attack": {
           "title": "Attaccare: la finestra del tiro",
-          "text": "Attacca apre la finestra del tiro. Prima il d20 per colpire. Se colpisci prosegue passo per passo: danno, poi (Scavenger) Exploit, poi dove arriva il colpo per un attacco a una locazione ⌖. A ogni passo premi Tira, oppure scrivi quello che mostrano i tuoi dadi e premi Invio. Il totale arriva alla fine. Al buio, una riga Luce suggerisce il modificatore giusto — tu lo confermi."
+          "text": "Attacca apre la finestra del tiro per l'arma in mano. Scegli Corpo o ⌖ Parte del corpo sotto Bersaglio, poi il d20 per colpire. Se colpisci si va per passi: danni, poi (Scavenger) Exploit, poi dove arriva il colpo per un attacco mirato. A ogni passo premi Tira, o scrivi quello che hai tirato con i dadi veri."
         },
         "engine": {
           "title": "Il motore della tua classe",
@@ -61,11 +61,11 @@
         },
         "stance": {
           "title": "Postura",
-          "text": "Defensive: ×0,5 ai danni inflitti e subiti. Attack: normale. Onslaught: ×1,5 inflitti e subiti. La scheda applica la postura a ogni tiro di danni."
+          "text": "Ogni combattimento inizia in Ready. Defensive: ×0,5 ai danni inflitti e subiti. Attack: +2 TN agli attacchi con le armi. Onslaught: ×1,5 inflitti e subiti. Gli attacchi normali tengono la stance; muoversi, ricaricare o usare oggetti ti riporta a Ready — i TP restano."
         },
         "abilities": {
           "title": "Le mosse finali",
-          "text": "Le abilità costano TP e ti spostano fra le posture. Equipaggiane fino a 3; verde vuol dire pronta adesso. Usarla tira la tua Class TN e spende un'azione."
+          "text": "Le ability costano TP e ti spostano tra le stance: ogni carta mostra da dove parte e dove ti porta, e la stance in cui sei adesso è evidenziata. Equipaggiane fino a 3; verde vuol dire pronta. Usarla tira la tua Class TN e spende un'azione."
         }
       }
     },
@@ -77,11 +77,11 @@
         },
         "ram": {
           "title": "RAM e Heat",
-          "text": "Gli hack hanno bisogno di RAM libera. Gli hack sostenuti la tengono occupata finché non li rilasci (✕). Ogni hack aggiunge heat, −1 a ogni round. Heat al limite = Blue Screen: gli hack sostenuti crollano e il deck si blocca per un round."
+          "text": "La RAM va dal bianco al blu: le celle grigie sono bloccate dagli hack sustained (la linea rossa tratteggiata è dove inizia la RAM libera) — rilasciane uno con ✕ qui sotto. L'heat si riempie dal verde al rosso; al limite, Blue Screen: gli hack sustained crollano e il deck resta bloccato per un round. Il deck smaltisce heat ogni round. Per correggere un errore: ✎ Correggi a mano."
         },
         "abilities": {
           "title": "Gli hack",
-          "text": "Ogni carta mostra RAM e heat. Quasi tutti gli hack funzionano solo su bersagli cibernetici o sintetici: la lista Ostili mostra chi è cosa. Thermal Dump, Release Payload e Hard Reboot non richiedono tiri."
+          "text": "Ogni carta mostra il costo con le icone: il chip per la RAM che richiede (un lucchetto quando un hack sustained la tiene), il termometro per l'heat che aggiunge (verde quando lo smaltisce), e dove arriverebbe il tuo heat dopo — in rosso se vuol dire Blue Screen. La maggior parte degli hack tocca solo bersagli cybernetic o synthetic."
         }
       }
     },
@@ -89,15 +89,15 @@
       "steps": {
         "mode": {
           "title": "Mend o Surge",
-          "text": "Ogni abilità ha due facce: Mend (supporto) e Surge (attacco). La modalità sceglie quale scatta. Cambiarla è gratis, ma la Sync torna a 0."
+          "text": "Ogni ability ha due facce: ✚ Mend (supporto, verde) e ⚡ Surge (offesa, rossa). Il modo sceglie quale scatta — su ogni carta è illuminata la faccia che otterresti adesso. Cambiare è gratis, ma la Sync torna a 0: l'altro pulsante te lo ricorda."
         },
         "sync": {
           "title": "Field Sync",
-          "text": "Sync 0–3, da Cold a Resonant: +1 per ogni abilità usata, +1 a fine round se hai tenuto la modalità. Perdere HP costa 1. A Resonant puoi usare entrambe le facce insieme."
+          "text": "Gli anelli sono la tua Sync, da Cold a Resonant, e si riempiono verso l'esterno: +1 per ogni ability usata, +1 a fine round se hai tenuto il modo, −1 quando perdi HP. La riga accanto dice cosa farà la fine di questo round. A Resonant si accendono entrambi i simboli: un lancio Resonant fa scattare entrambe le facce."
         },
         "abilities": {
           "title": "Le abilità",
-          "text": "Le abilità più forti richiedono una Sync minima. Le mosse da Brownout spengono il rig fino alla fine del round successivo. Tieni il Tech Wizard al riparo."
+          "text": "I pallini su una carta sono la Sync che serve (●●○○ = Warm o più). Le mosse Brownout spengono l'apparato fino alla fine del prossimo round — gli anelli diventano grigi e tratteggiati. Tieni il tuo Tech Wizard al riparo."
         }
       }
     },
@@ -105,11 +105,11 @@
       "steps": {
         "pendulum": {
           "title": "Il Pendolo",
-          "text": "Da −4 a +4. Cold (sotto lo 0): +2 TN agli attacchi con armi da fuoco. Hot (sopra lo 0): +1 ai danni e +1 quadretto per movimento. La scheda li applica da sola."
+          "text": "Lo slider va da Cold −4 (blu) passando per Composure 0 (bianco) fino a Hot +4 (rosso); tocca una tacca per impostarlo. La zona in cui sei si accende con il suo bonus: Cold +2 TN agli attacchi con armi da fuoco, Hot +1 danno e +1 quadretto per movimento. La scheda li applica entrambi. Sotto, la riga di fine round ti dice se una ferita ti farà scivolare di +1 verso Hot."
         },
         "abilities": {
           "title": "Le abilità lo fanno oscillare",
-          "text": "Ogni abilità richiede un lato del pendolo e lo sposta quando la usi. Gli Smuggler feriti scivolano di +1 verso Hot a fine round."
+          "text": "Ogni carta mostra un piccolo pendolo: le caselle accese sono dove funziona, quella contornata è dove sei. La freccia è lo spostamento (◀ verso Cold, ▶ verso Hot, ⇥ lo fissa) e → mostra dove arriveresti usandola adesso."
         },
         "rhythm": {
           "title": "Il ritmo",
@@ -121,11 +121,11 @@
       "steps": {
         "optic": {
           "title": "La tua ottica",
-          "text": "Portata: quanto lontano puoi piazzare Tell. Track: quanti nemici tengono i tuoi Tell nello stesso momento. Comprane una in Equipaggiamento → Mercato → Ottiche; senza hai le lenti di base (portata 4, Track 1)."
+          "text": "La scheda della lente: il mirino è la tua portata in quadretti, i reticoli quanti nemici puoi tracciare insieme, e la modalità della tua ottica con la sua icona. Sotto, l'interruttore della luce: Illuminato o Al buio — quando la mappa dice che il tuo quadretto è buio ti propone di cambiare. Compra un'ottica in Equipaggiamento → Mercato → Ottiche; senza hai le lenti di base (portata 4, Track 1)."
         },
         "tells": {
           "title": "Tell sui nemici",
-          "text": "All'inizio del tuo turno piazza 1 Tell, o 2 se sei Unseen — copertura totale, oppure al buio (attiva Al buio), e nessun attacco nel round precedente. Massimo 3 per nemico. Tocca un nemico per farne il bersaglio delle abilità."
+          "text": "Ogni riga nemico mostra i suoi Tell come diamanti: tocca un diamante per impostarne quanti (tocca l'ultimo acceso per toglierlo). La lista sopra ti dice se sei Unseen (copertura totale o al buio, e nessun attacco nel round precedente): allora ne piazzi 2 a turno invece di 1. Massimo 3 per nemico. Il pulsante col reticolo rende un nemico il bersaglio delle abilità."
         },
         "exploit": {
           "title": "Exploit",

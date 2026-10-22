@@ -49,10 +49,10 @@ export function explainInitiative(character, data) {
 }
 
 export function explainHp(character, data) {
-  const { con, mst } = data.body.maxHp;
+  const { con, mst, base = 0 } = data.body.maxHp;
   const mod = character.mods?.maxHp ?? 0;
   const talent = fxOf(character, data).maxHp ?? 0; // Thick Skin
-  return { kind: 'hp', name: 'Max HP', con: character.attributes.CON, mst: character.attributes.MST, conX: con, mstX: mst, mod, talent, value: maxHp(character.attributes, data.body, mod) + talent };
+  return { kind: 'hp', name: 'Max HP', con: character.attributes.CON, mst: character.attributes.MST, conX: con, mstX: mst, base, mod, talent, value: maxHp(character.attributes, data.body, mod) + talent };
 }
 
 export function explainClassTN(character, data) {

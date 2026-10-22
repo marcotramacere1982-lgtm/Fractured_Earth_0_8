@@ -10,7 +10,7 @@
     },
     "weak_bone_structure": {
       "name": "OSSA FRAGILI",
-      "text": "Sottrai 5 dai tuoi HP massimi."
+      "text": "Sottrai 3 dai tuoi HP massimi."
     },
     "dimwitted": {
       "name": "TONTO",
@@ -18,11 +18,11 @@
     },
     "serious_crime_committed": {
       "name": "REATO GRAVE",
-      "text": "Colpevole o no, vieni condannato per un reato grave e passi 1d6+3 anni in un campo di lavoro. La prigionia cambia le tue caratteristiche: +3 STR CON CHA, −1 DEX INT WIS."
+      "text": "Colpevole o no, vieni condannato per un reato grave e passi anni in un campo di lavoro. Il corpo si indurisce, il resto si spegne: +1 STR e CON, −1 INT e CHA, −5 Credit Score, fedina penale sporca."
     },
     "minor_crime_committed": {
       "name": "REATO MINORE",
-      "text": "Vieni riconosciuto colpevole di un reato minore e passi 1d3 anni in prigione. La prigione cambia le tue caratteristiche: +1 STR CHA, −1 CON."
+      "text": "Vieni giudicato colpevole di un reato minore e passi 1d3 anni in prigione: +1 STR, −1 CON, −3 Credit Score, fedina penale sporca."
     },
     "criminal_record": {
       "name": "PRECEDENTI PENALI",
@@ -34,55 +34,55 @@
     },
     "tragic_accident": {
       "name": "INCIDENTE TRAGICO",
-      "text": "I tuoi genitori sono morti entrambi in un incidente terribile e sei finito in orfanotrofio. Il Credit Score scende di 3."
+      "text": "Entrambi i tuoi genitori sono morti in un terribile incidente e sei finito in orfanotrofio. −3 Credit Score; il lutto ti indurisce: +1 MST."
     },
     "isolated_upbringing": {
       "name": "INFANZIA ISOLATA",
-      "text": "Cresciuto in una famiglia chiusa e iperprotettiva. Inizi la vita adulta impacciato con gli altri e con un piccolo stigma nella comunità."
+      "text": "Cresciuto in una famiglia rigida e protettiva: più libri che persone. +1 INT, −1 CHA. La famiglia ti paga gli studi: un tiro di ingresso per una carriera da Student non serve."
     },
     "spoiled_heir": {
       "name": "EREDE VIZIATO",
-      "text": "Nato in una famiglia di vecchia ricchezza, con parecchi fili legati. Hai un'aria di privilegio che non sempre si traduce in credito."
+      "text": "Nato in una famiglia di soldi vecchi, con pesanti fili attaccati. +3 Credit Score, −1 MST (nessuno ti ha mai messo alla prova). Una telefonata di famiglia apre una porta: un tiro di ingresso non serve."
     },
     "military_heritage": {
       "name": "TRADIZIONE MILITARE",
-      "text": "Passi due anni in un'accademia militare. Porta la tua INT a 7 se è più bassa."
+      "text": "Passi due anni in un'accademia militare: ne ottieni la credenziale."
     },
     "technical_talent": {
       "name": "TALENTO TECNICO",
-      "text": "Passi due anni in un'università tecnica. Porta la tua INT a 12 se è più bassa."
+      "text": "Passi due anni in un'università tecnica: ne ottieni la credenziale."
     },
     "business_family": {
       "name": "FAMIGLIA D'AFFARI",
-      "text": "Frequenti una scuola di economia per due anni. Porta la tua INT a 10 se è più bassa."
+      "text": "Frequenti per due anni una business school: ne ottieni la credenziale."
     },
     "media_family": {
       "name": "FAMIGLIA DI MEDIA",
-      "text": "Ti iscrivi per due anni a una scuola di comunicazione. Porta la tua INT a 9 se è più bassa."
+      "text": "Ti iscrivi per due anni a un media college: ne ottieni la credenziale."
     },
     "military_connections": {
       "name": "AGGANCI MILITARI",
-      "text": "Hai le conoscenze giuste nell'esercito e puoi ignorare tutti i requisiti da ufficiale."
+      "text": "Hai le conoscenze giuste nell'esercito: ignori tutti i requisiti da Officer e non tiri mai per entrare o restare."
     },
     "apprentice_scientist": {
       "name": "APPRENDISTA SCIENZIATO",
-      "text": "Puoi ignorare i requisiti se vuoi diventare scienziato."
+      "text": "Un laboratorio ti ha preso presto con sé: ignori tutti i requisiti da Scientist e non tiri mai per entrare o restare."
     },
     "amateur_photographer_writer": {
       "name": "FOTOGRAFO/SCRITTORE DILETTANTE",
-      "text": "Ignori tutti i requisiti se vuoi diventare reporter."
+      "text": "I tuoi lavori vengono già pubblicati: ignori tutti i requisiti da Reporter e non tiri mai per entrare o restare."
     },
     "business_sense": {
       "name": "FIUTO PER GLI AFFARI",
-      "text": "Ignori tutti i requisiti se scegli un percorso in amministrazione, economia o legge."
+      "text": "Hai la testa per i soldi e per chi li muove: ignori tutti i requisiti di Amministrazione / Economia / Legge e non tiri mai per entrare o restare."
     },
     "restless_drifter": {
       "name": "VAGABONDO INQUIETO",
-      "text": "Hai passato la giovinezza saltando da un settore all'altro, senza mai fermarti abbastanza da mettere radici."
+      "text": "Hai passato la giovinezza saltando da un settore all'altro, senza mai fermarti abbastanza da mettere radici, o finire un anno di scuola. +1 WIS, −1 INT."
     },
     "street_hustler": {
       "name": "TRAFFICONE DI STRADA",
-      "text": "Sei cresciuto imparando i trucchi per sopravvivere nei blocchi, affidandoti alla furbizia più che alle regole."
+      "text": "Sei cresciuto imparando i trucchi per sopravvivere nei blocchi, contando sul fiuto di strada più che sulla scuola. +1 CHA, −1 INT."
     },
     "slick_speaker": {
       "name": "PARLANTINA SCIOLTA",
@@ -90,7 +90,7 @@
     },
     "natural_technician": {
       "name": "TECNICO NATO",
-      "text": "Capisci d'istinto serrature, meccanismi e sistemi elettronici. Aggiungi +1 a INT."
+      "text": "Un talento innato per hardware, serrature e sistemi elettronici; meno tempo all'aperto. +1 INT, −1 STR."
     },
     "slender_body": {
       "name": "FISICO SNELLO",
@@ -98,11 +98,11 @@
     },
     "weapons_fanatic": {
       "name": "FANATICO DELLE ARMI",
-      "text": "Capisci d'istinto la balistica, la meccanica delle armi e il controllo del rinculo. Aggiungi +1 a DEX."
+      "text": "Capisci d'istinto balistica, meccanica delle armi e controllo del rinculo; la gente ti trova un po' strano. +1 DEX, −1 CHA."
     },
     "martial_arts_training": {
       "name": "ARTI MARZIALI",
-      "text": "Addestramento formale alla difesa ravvicinata e al corpo a corpo. Aggiungi +2 CHA e +1 STR."
+      "text": "Allenamento serio nella difesa ravvicinata e nel corpo a corpo, al posto dei compiti. +1 STR, +1 DEX, −1 INT."
     },
     "anatomical_sixth_sense": {
       "name": "SESTO SENSO ANATOMICO",
@@ -114,19 +114,19 @@
     },
     "strong_will": {
       "name": "VOLONTÀ DI FERRO",
-      "text": "Aggiungi +1 a WIS e +1 a MST."
+      "text": "Niente ti spezza facilmente. +1 MST."
     },
     "charismatic_voice": {
       "name": "VOCE CARISMATICA",
-      "text": "Aumenta la tua CHA di 2."
+      "text": "Quando parli, la gente ascolta. +1 CHA."
     },
     "good_body_control": {
       "name": "CONTROLLO DEL CORPO",
-      "text": "Aumenta DEX di 1 e CON di 1."
+      "text": "Conosci il tuo corpo e lo tieni in forma. +1 CON."
     },
     "contact_within_a_megacorp": {
       "name": "UN CONTATTO IN UNA MEGACORP",
-      "text": "Con il GM definisci un contatto aziendale preciso, per informazioni riservate o favori sottobanco."
+      "text": "Concorda con il GM un contatto aziendale preciso, per informazioni riservate o favori sottobanco. Il primo favore: un tiro di ingresso non serve."
     },
     "lucky_stiff": {
       "name": "FORTUNA SFACCIATA",
@@ -142,11 +142,11 @@
     },
     "sole_heir_to_wealthy_aunt": {
       "name": "EREDE DI UNA ZIA RICCA",
-      "text": "Aumenta il tuo Credit Score di 10."
+      "text": "Tua zia ti ha lasciato tutto quello che aveva. +6 Credit Score."
     },
     "gifted_student": {
       "name": "STUDENTE DOTATO",
-      "text": "Aggiungi +2 a INT o WIS."
+      "text": "Aggiungi +1 a INT o WIS. Ti aspetta una borsa di studio: un tiro di ingresso per una carriera da Student non serve."
     },
     "gifted_body": {
       "name": "FISICO DOTATO",
@@ -154,7 +154,7 @@
     },
     "commando_training": {
       "name": "ADDESTRAMENTO DA COMMANDO",
-      "text": "Addestramento d'élite nei reparti speciali. Aggiungi +2 a tutti gli attributi base, +5 CHA e +2 Credit Score."
+      "text": "Addestramento da commando delle forze d'élite già da ragazzo: +1 STR, DEX e MST, +2 Credit Score e la credenziale della Military Academy."
     }
   }
 }

@@ -2,6 +2,18 @@
   "note": "Each committed term: +2 years, modifiers, 2 career events (2d20), aging check.",
   "termYears": 2,
   "eventsPerTerm": 2,
+  "entry": {
+    "note": "Decision 93. Each term: d20 <= the higher of INT and CHA + bonus, + stayBonus for every term already served in a row in the same career. Fail: the term is served as the fallback career. A requirement waiver also waives the roll. Careers with entryRoll false take anyone.",
+    "die": "1d20",
+    "stats": [
+      "INT",
+      "CHA"
+    ],
+    "bonus": 4,
+    "stayBonus": 1,
+    "fallback": "unemployed_drifter_outcast",
+    "crsBelowZero": "Credit Score pushed below 0: wanted for non-payment — criminal record, and the career phase ends."
+  },
   "credentials": [
     {
       "id": "military_academy",
@@ -36,7 +48,8 @@
       },
       "modifiers": {
         "STR": 1,
-        "CON": 1,
+        "MST": 1,
+        "INT": -1,
         "CRS": 2
       }
     },
@@ -52,9 +65,9 @@
         "credential": "military_academy"
       },
       "modifiers": {
-        "CON": 1,
         "INT": 1,
-        "CHA": 1,
+        "MST": 1,
+        "DEX": -1,
         "CRS": 3
       }
     },
@@ -72,8 +85,9 @@
       },
       "modifiers": {
         "DEX": 1,
-        "CHA": 1,
-        "CRS": 2
+        "MST": 1,
+        "CON": -1,
+        "CRS": 1
       }
     },
     {
@@ -88,8 +102,9 @@
         "credential": "media_college"
       },
       "modifiers": {
-        "INT": 1,
         "CHA": 1,
+        "MST": 1,
+        "STR": -1,
         "CRS": 3
       }
     },
@@ -107,8 +122,8 @@
       },
       "modifiers": {
         "STR": 1,
-        "CON": 1,
-        "DEX": 1,
+        "INT": 1,
+        "CHA": -1,
         "CRS": 1
       }
     },
@@ -126,10 +141,9 @@
         "credential": "technical_university"
       },
       "modifiers": {
-        "INT": 2,
-        "WIS": 1,
-        "CHA": -1,
+        "INT": 1,
         "MST": 1,
+        "STR": -1,
         "CRS": 5
       }
     },
@@ -146,10 +160,9 @@
         "cleanRecord": true
       },
       "modifiers": {
-        "CON": 1,
-        "DEX": 1,
-        "INT": 1,
-        "MST": 1,
+        "STR": 1,
+        "WIS": 1,
+        "CHA": -1,
         "CRS": 3
       }
     },
@@ -167,8 +180,9 @@
         "cleanRecord": true
       },
       "modifiers": {
-        "INT": 1,
         "WIS": 1,
+        "MST": 1,
+        "CON": -1,
         "CRS": 10
       }
     },
@@ -182,10 +196,12 @@
         "minStats": {}
       },
       "modifiers": {
+        "DEX": 1,
         "STR": 1,
-        "DEX": 2,
-        "MST": 1
-      }
+        "INT": -1,
+        "CRS": -2
+      },
+      "entryRoll": false
     },
     {
       "id": "student_military_academy",
@@ -201,7 +217,6 @@
         "minCRS": 4
       },
       "modifiers": {
-        "STR": 1,
         "CON": 1,
         "CRS": -2
       },
@@ -221,7 +236,6 @@
         "minCRS": 4
       },
       "modifiers": {
-        "INT": 1,
         "CHA": 1,
         "CRS": -2
       },
@@ -241,8 +255,7 @@
         "minCRS": 4
       },
       "modifiers": {
-        "INT": 1,
-        "CHA": 1,
+        "WIS": 1,
         "CRS": -2
       },
       "grantsCredential": "business_school"
@@ -261,7 +274,7 @@
         "minCRS": 4
       },
       "modifiers": {
-        "INT": 2,
+        "INT": 1,
         "CRS": -2
       },
       "grantsCredential": "technical_university"
@@ -276,8 +289,12 @@
         "minStats": {}
       },
       "modifiers": {
-        "CON": 1
-      }
+        "CON": 1,
+        "MST": 1,
+        "CHA": -1,
+        "CRS": 1
+      },
+      "entryRoll": false
     },
     {
       "id": "military_special_force",
@@ -296,11 +313,10 @@
         "credential": "military_academy"
       },
       "modifiers": {
-        "STR": 2,
-        "CON": 2,
+        "STR": 1,
         "DEX": 1,
-        "WIS": 1,
-        "MST": 2,
+        "MST": 1,
+        "CHA": -1,
         "CRS": 2
       }
     },
@@ -309,18 +325,18 @@
       "category": "Unemployed",
       "name": "Drifter / Outcast",
       "legacyIndex": 15,
-      "requirementsText": "None",
+      "requirementsText": "Only after a failed entry roll",
       "requirements": {
         "minStats": {}
       },
       "modifiers": {
-        "CON": 1,
-        "DEX": 1,
         "WIS": 1,
+        "CON": -1,
         "CHA": -1,
-        "MST": 1,
-        "CRS": -3
-      }
+        "CRS": -8
+      },
+      "entryRoll": false,
+      "fallbackOnly": true
     }
   ]
 }

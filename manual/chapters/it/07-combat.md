@@ -139,13 +139,17 @@ Il Soldier è un combattente di prima linea costruito intorno allo slancio e al 
 
 **Le stance:**
 
+- **Ready:** dove inizia ogni combattimento. ×1 ai danni inflitti e subiti, nessun bonus.
+
 - **Defensive:** ×0,5 ai danni inflitti e subiti. Ideale per assorbire il fuoco e tenere i punti chiave.
 
-- **Attack:** la base operativa (×1).
+- **Attack:** ×1 ai danni, e **+2 TN agli attacchi con le armi**: la mira ferma di chi si è impegnato a sparare.
 
 - **Onslaught:** ×1,5 ai danni inflitti e subiti. Un'esplosione offensiva ad alto rischio.
 
 - **Il ciclo delle risorse (TP):** i TP partono da **0 all'inizio di ogni combattimento** e non hanno limite. **Ogni attacco normale a segno dà +1 TP**: un Soldier che continua semplicemente a sparare arriva comunque a un colpo finale ogni round o due. *Brace & Dig In* dà +2, *Steady Aim* +1. I colpi finali costano da 1 a 3 TP e ti spostano da una stance all'altra.
+
+**Il flusso.** Ogni combattimento inizia in **Ready**. Solo le ability di stance ti portano in un'altra stance. Un **attacco normale tiene la stance** (è a questo che serve: colpi a ×1,5 in Onslaught, a ×0,5 quando sei trincerato), e lo stesso vale per *Mirare* prima di un attacco. **Qualsiasi altra cosa ti riporta a Ready** — muoverti, ricaricare, cambiare arma, interagire, usare un oggetto o un talento — ma i tuoi **TP restano**. Una stance dura per tutto il turno dei nemici e nel tuo turno successivo, fino a una di quelle azioni: finisci il turno in Onslaught e ogni colpo che subisci nel frattempo vale ×1,5.
 
 **Le sottoclassi:**
 
@@ -155,9 +159,9 @@ Il Soldier è un combattente di prima linea costruito intorno allo slancio e al 
 
 > **Esempio di combattimento: il Soldier (sottoclasse Grunt)**
 
-> *Round 1:* il Grunt apre con *Brace & Dig In* (+2 TP, Defensive, +2 armatura), poi un colpo normale a segno (+1 TP): 3 TP. *Dig In & Push* (1 TP) esce dalla copertura in **Attack** e spara: restano 2 TP.
+> *Round 1:* il Grunt parte in **Ready** e apre con *Brace & Dig In* (+2 TP, Defensive, +2 armatura), poi un colpo normale a segno (+1 TP, sempre in Defensive): 3 TP. *Dig In & Push* (1 TP) esce dalla copertura in **Attack** e spara: restano 2 TP.
 
-> *Round 2:* *Fix Bayonets / Charge* (2 TP) travolge una guardia d'élite: danni dell'arma +1d6, ×1,5 in **Onslaught**, e la guardia è Prone. Seguono due attacchi normali, entrambi a segno: 2 TP, pronto per un altro colpo finale. Ma ogni colpo che il Grunt subisce vale ×1,5 anche lui.
+> *Round 2:* *Fix Bayonets / Charge* (2 TP) travolge una guardia d'élite: danni dell'arma +1d6, ×1,5 in **Onslaught**, e la guardia è Prone. Seguono due attacchi normali, entrambi a segno: 2 TP, pronto per un altro colpo finale. Ma ogni colpo che il Grunt subisce vale ×1,5 anche lui, e resta così per tutto il turno dei nemici. Il *Round 3* inizia con uno spostamento al riparo: la stance torna a **Ready**, i 2 TP restano.
 
 ### 7-4-2. L'Hacker: allocazione della RAM e stress termico (Heat) {#sec-7-4-hacker}
 
@@ -291,7 +295,7 @@ Invece di mirare al centro del corpo, puoi dichiarare un **attacco a una locazio
 
 **Come si risolve:**
 
-- **Dichiara e tira per colpire:** un attacco a una locazione è un'azione di attacco a **−4 TN**. Non si può combinare con le ability di classe.
+- **Dichiara e tira per colpire:** un attacco a una locazione è un'azione di attacco a **−4 TN**. Non si può combinare con le ability di classe. Sulla scheda: premi **Attacca** e scegli **⌖ Parte del corpo** sotto *Bersaglio* nella finestra del tiro.
 
 - **Tira la locazione (d20):** se colpisci, tira un d20 sulla tabella qui sotto. Con **Mirare** (*Aim*, 1 azione in più spesa prima dell'attacco) puoi spostare quel d20 fino a ±5.
 

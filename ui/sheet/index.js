@@ -34,6 +34,7 @@ import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen } 
 import { markHandlers, myMarkColor } from './map-marks.js';
 import { carriesTorch, visionOf } from '../../rules/light.js';
 import { lightOptions, lightKind, squareLight } from '../../rules/darkness.js';
+import { frameOf } from '../portrait.js';
 
 const rollText = (r) => `d20 ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}`;
 
@@ -69,6 +70,9 @@ export function sheetView({ data, store, main, table }, route) {
     return true;
   };
 
+  // decision 97: the action buttons show names + the live number; descriptions on demand, remembered per device
+  const TIPS = 'fe.sheet.actionTips';
+  const tipsOn = () => { try { return localStorage.getItem(TIPS) === '1'; } catch { return false; } };
   const draw = () => {
     if (mapBusy()) return; // a finger on the map: it redraws when the finger lifts
     const tab = tabs().find((x) => x.id === tabId) ?? TABS[0];
@@ -92,7 +96,7 @@ export function sheetView({ data, store, main, table }, route) {
             <button class="btn btn--sm" data-action="export" title="${t('sheet.exportHint')}">${t('common.export')}</button>
           </div>
         </div>
-        <div class="sheet-body">${tab.view(c, s, withUniques(data, c), { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()) })}</div>
+        <div class="sheet-body">${tab.view(c, s, withUniques(data, c), { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: tab.id === 'play' && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()) })}</div>
       </div>`);
     if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark });
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
@@ -233,6 +237,7 @@ export function sheetView({ data, store, main, table }, route) {
         (r) => run('useRolled', { id: abilityId, success: r.success, rollText: rollText(r), resonant: Boolean(resonant) }),
         { tier: tableTier(), once: true, flow: abilityFlow(c, sh, ability), after: (r) => (!r.success && data.classes.abilityRoll.onFailure === 'spend' ? html`<p class="hint">${t('check.abilityFailed')}</p>` : '') });
     },
+    actionTips: () => { try { localStorage.setItem(TIPS, tipsOn() ? '0' : '1'); } catch { /* private mode: stays as is */ } draw(); },
     attackRoll: ({ slot, located }) => {
       const c = character();
       const sh = deriveSheet(c, data);
@@ -240,13 +245,15 @@ export function sheetView({ data, store, main, table }, route) {
       if (!w || w.empty || !actionAvailable(c, sh)) return;
       if (w.usable === false) { toast(t(`weapons.unusable.${w.why}`), 'danger'); return; }
       if (w.magSize && w.rounds <= 0) { toast(t('attack.empty', { weapon: w.name }), 'danger'); return; }
-      const aimed = Boolean(located);
-      const penalty = aimed ? sh.locationPenalty : 0; // Marksman lowers it
-      openCheck({ name: t(aimed ? 'attack.locatedTitle' : 'attack.title', { weapon: w.name }), tn: w.tn - penalty, sub: aimed ? `${nameOfSkill(w.skill)} · ${t('attack.locatedSub', { n: penalty })}` : nameOfSkill(w.skill) }, data,
-        (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), located: aimed }),
-        { tier: tableTier(), once: true, tools: toolsFor(c.play.inventory, data.items, { skill: w.skill, attack: isRanged(w) ? 'gun' : null }), light: lightFor('attack'), boosts: boostsFor(c, data, { kind: 'weapon', slot }),
+      // decision 97: one Attack button; where to aim (body, or ⌖ a location at −N TN) is chosen in the roll window
+      const spec = { located: Boolean(located) };
+      const aim = { pick: spec.located ? 'located' : 'body', onPick: (id) => { spec.located = id === 'located'; },
+        options: [{ id: 'body', tn: 0, label: t('attack.aimBody') }, { id: 'located', tn: -sh.locationPenalty, label: `⌖ ${t('turn.located')}`, hint: t('turn.locatedHint') }] }; // Marksman lowers the penalty
+      openCheck({ name: t('attack.title', { weapon: w.name }), tn: w.tn, sub: nameOfSkill(w.skill) }, data,
+        (r) => run('attack', { slot, hit: r.success, rollText: rollText(r), located: spec.located }),
+        { tier: tableTier(), once: true, aim, tools: toolsFor(c.play.inventory, data.items, { skill: w.skill, attack: isRanged(w) ? 'gun' : null }), light: lightFor('attack'), boosts: boostsFor(c, data, { kind: 'weapon', slot }),
           after: (r) => (r.success ? '' : html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`),
-          flow: weaponFlow({ c, sh, data, w, spec: { located: aimed }, exploit: true, combat: tableCombat(), onDone: (o) => run('attackDamage', o) }) });
+          flow: weaponFlow({ c, sh, data, w, spec, exploit: true, combat: tableCombat(), onDone: (o) => run('attackDamage', o) }) });
     },
     dodgeRoll: () => {
       const c = character();
@@ -337,18 +344,25 @@ export function sheetView({ data, store, main, table }, route) {
     setRes: (d) => run('setRes', d),
     techMode: (d) => run('techMode', d),
     tell: ({ key, delta }) => run('tell', { key, delta, combat: table?.state.joinedId === id ? table.state.combat : null }),
+    tellSet: ({ key, n }) => { // decision 90: tap a diamond to set that many Tells; tap the last one lit to take it off
+      const have = character().play.resources?.tells?.[key] ?? 0;
+      const want = Number(n) === have ? have - 1 : Number(n);
+      if (want !== have) run('tell', { key, delta: want - have, combat: table?.state.joinedId === id ? table.state.combat : null });
+    },
     tellTarget: ({ key }) => run('tellTarget', { key }),
     markRemove: ({ key }) => run('markRemove', { key }),
     deckMod: (d) => run('deckMod', d),
     roundEnd: () => run('roundEnd'),
     combatStart: () => run('combatStart'),
-    portraitClear: () => run('field', { path: 'portrait.dataUrl', value: '' }),
+    portraitClear: () => { run('field', { path: 'portrait.dataUrl', value: '' }); run('field', { path: 'portrait.frame', value: null }); },
+    portraitReset: () => run('field', { path: 'portrait.frame', value: null }),
     export: () => exportCharacter(character()),
     mapFit: () => mapFit(),
     mapZoom: ({ dir }) => mapZoom(dir),
     mapTarget: () => { clearTarget(); draw(); },
     mapInfoClose: () => { clearTarget(); draw(); },
     mapTorch: ({ on }) => run('torch', { on: on === '1' }),
+    fixStance: ({ value }) => run('fixStance', { value }), // decision 88: a hand correction, logged
     ...markHandlers({ draw, run, send: sendMark }),
     inDark: ({ on }) => run('inDark', { on: on === '1' }),
     mapDoor: ({ door, open }) => { // a door next to the player's marker: an Interact action in combat; the GM console checks the lock
@@ -378,7 +392,36 @@ export function sheetView({ data, store, main, table }, route) {
     }),
   });
 
+  // decision 96: portrait framing — the sliders preview live and save on release; dragging the photo moves it
+  const framePreview = (el, key, value) => {
+    const frame = el.closest('.portrait')?.querySelector('.portrait-frame');
+    if (frame) frame.style.setProperty({ x: '--px', y: '--py', zoom: '--pz', light: '--pl' }[key], key === 'x' || key === 'y' ? `${value}%` : String(value));
+  };
+  const saveFrame = (patch) => run('field', { path: 'portrait.frame', value: { ...frameOf(character().portrait), ...patch } });
+  const onFrameDown = (e) => {
+    const frame = e.target.closest('[data-frame-drag]');
+    if (!frame || !main.contains(frame)) return;
+    e.preventDefault();
+    frame.setPointerCapture?.(e.pointerId);
+    const start = frameOf(character().portrait);
+    const box = frame.getBoundingClientRect();
+    const x0 = e.clientX; const y0 = e.clientY;
+    let now = { x: start.x, y: start.y };
+    const move = (ev) => {
+      // dragging right shows more of the left side: the focus point moves the other way, slower when zoomed in
+      now = { x: Math.min(100, Math.max(0, start.x - ((ev.clientX - x0) / box.width) * 100 / start.zoom)), y: Math.min(100, Math.max(0, start.y - ((ev.clientY - y0) / box.height) * 100 / start.zoom)) };
+      frame.style.setProperty('--px', `${now.x}%`); frame.style.setProperty('--py', `${now.y}%`);
+    };
+    const up = () => {
+      frame.removeEventListener('pointermove', move); frame.removeEventListener('pointerup', up); frame.removeEventListener('pointercancel', up);
+      if (now.x !== start.x || now.y !== start.y) saveFrame({ x: Math.round(now.x), y: Math.round(now.y) });
+    };
+    frame.addEventListener('pointermove', move); frame.addEventListener('pointerup', up); frame.addEventListener('pointercancel', up);
+  };
+  main.addEventListener('pointerdown', onFrameDown);
+
   const offChange = delegate(main, 'change', {
+    portraitFrame: ({ key }, e) => saveFrame({ [key]: Number(e.target.value) }),
     slot: (d, e) => run('slot', { slot: d.slot, value: e.target.value }),
     deck: (_, e) => run('deck', { value: e.target.value }),
     optic: (_, e) => run('optic', { value: e.target.value }),
@@ -389,13 +432,14 @@ export function sheetView({ data, store, main, table }, route) {
     async portrait(_, e) {
       const file = e.target.files[0];
       if (!file) return;
-      try { run('field', { path: 'portrait.dataUrl', value: await shrinkImage(file) }); }
+      try { run('field', { path: 'portrait.dataUrl', value: await shrinkImage(file) }); run('field', { path: 'portrait.frame', value: null }); } // a new photo starts unframed
       catch { toast(t('dossier.badImage'), 'danger'); }
     },
   });
 
   // typing in notes must not re-render (keeps focus and cursor)
   const offInput = delegate(main, 'input', {
+    portraitFrame: ({ key }, e) => framePreview(e.target, key, e.target.value),
     notes: (_, e) => store.update(id, (c) => { c.play.notes = e.target.value; }, { silent: true }),
   });
 
@@ -403,7 +447,7 @@ export function sheetView({ data, store, main, table }, route) {
   const offTable = table?.subscribe(() => draw());
 
   draw();
-  return cleanup(offClick, offChange, offInput, unsubscribe, offTable);
+  return cleanup(offClick, offChange, offInput, unsubscribe, offTable, () => main.removeEventListener('pointerdown', onFrameDown));
 }
 
 /** Join / leave the GM's live table (only shown when the app is served by the table server). */

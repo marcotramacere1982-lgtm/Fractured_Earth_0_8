@@ -10,7 +10,7 @@
           "tab": "play",
           "target": "status",
           "title": "Your status",
-          "text": "Name, class and the numbers you check most, always at the top. A value in green or red is changed by a condition (the normal one is shown small beside it)."
+          "text": "Name, class and the numbers you check most, always at the top; the second line is Move, OFF, DEF and PER. A value in green or red is changed by a condition (the normal one is shown small beside it)."
         },
         {
           "id": "tabs",
@@ -38,7 +38,7 @@
           "tab": "play",
           "target": "turn",
           "title": "Your turn",
-          "text": "The dots are your actions this round: every button you press spends one. At the table the GM runs the rounds and the strip shows whose turn it is — your tablet chimes softly when it's yours."
+          "text": "The dots are your actions this round: every button you press spends one. At the table the GM runs the rounds and the strip shows whose turn it is — your tablet chimes softly when it's yours. The ? button shows what each action does."
         },
         {
           "id": "hostiles",
@@ -53,7 +53,7 @@
           "tab": "play",
           "target": "actions",
           "title": "Attacking: the roll window",
-          "text": "Attack opens the roll window. First the d20 to hit. On a hit it goes step by step: damage, then (Scavenger) Exploit, then where it lands for a ⌖ location attack. At every step press Roll, or type what your own dice show and press Enter. The total comes at the end. In the dark, a Light row suggests the right modifier — you confirm it."
+          "text": "Attack opens the roll window for the weapon in hand. Choose Body or ⌖ Location under Target, then the d20 to hit. On a hit it goes step by step: damage, then (Scavenger) Exploit, then where it lands for a location attack. At every step press Roll, or type what you rolled with real dice."
         },
         {
           "id": "engine",
@@ -107,14 +107,14 @@
           "tab": "play",
           "target": "engine-resource",
           "title": "Stance",
-          "text": "Defensive: ×0.5 damage dealt and taken. Attack: normal. Onslaught: ×1.5 dealt and taken. The sheet applies your stance to every damage roll."
+          "text": "Every fight starts Ready. Defensive: ×0.5 damage dealt and taken. Attack: +2 TN on weapon attacks. Onslaught: ×1.5 dealt and taken. Normal attacks keep your stance; moving, reloading or using items drop you back to Ready — your TP stay."
         },
         {
           "id": "abilities",
           "tab": "play",
           "target": "engine-abilities",
           "title": "Finishers",
-          "text": "Abilities cost TP and move you between stances. Equip up to 3; green means ready now. Use rolls your Class TN and spends an action."
+          "text": "Abilities cost TP and move you between stances: each card shows where it starts and where it takes you, and the stance you're in now is lit. Equip up to 3; green means ready now. Use rolls your Class TN and spends an action."
         }
       ]
     },
@@ -134,14 +134,14 @@
           "tab": "play",
           "target": "engine-resource",
           "title": "RAM and Heat",
-          "text": "Hacks need free RAM. Sustained hacks keep theirs locked until you release them (✕). Every hack adds heat, −1 each round. Heat at the cap = Blue Screen: sustained hacks crash and the deck is locked for a round."
+          "text": "RAM runs white to blue: grey cells are locked by sustained hacks (the red dotted line is where free RAM starts) — release one with ✕ below. Heat fills green to red; at the cap, Blue Screen: sustained hacks crash and the deck is locked for a round. The deck vents heat each round. Fix a mistake with ✎ Correct by hand."
         },
         {
           "id": "abilities",
           "tab": "play",
           "target": "engine-abilities",
           "title": "Hacks",
-          "text": "Each card shows its RAM and heat. Most hacks only touch cybernetic or synthetic targets — the Hostiles list shows which is which. Thermal Dump, Release Payload and Hard Reboot need no roll."
+          "text": "Each card shows its cost as icons: the chip for RAM it needs (a padlock when a sustained hack keeps it), the thermometer for heat it adds (green when it vents), and where your heat would be after it — red if that means Blue Screen. Most hacks only touch cybernetic or synthetic targets."
         }
       ]
     },
@@ -154,21 +154,21 @@
           "tab": "play",
           "target": "engine-resource",
           "title": "Mend or Surge",
-          "text": "Every ability has two faces: Mend (support) and Surge (offense). Your mode picks which one fires. Switching is free, but Sync drops to 0."
+          "text": "Every ability has two faces: ✚ Mend (support, green) and ⚡ Surge (offense, red). Your mode picks which one fires — the face you'd get now is lit on each card. Switching is free, but Sync drops to 0: the other button tells you so."
         },
         {
           "id": "sync",
           "tab": "play",
           "target": "engine-resource",
           "title": "Field Sync",
-          "text": "Sync 0–3, Cold to Resonant: +1 for each ability used, +1 at round end if you held your mode. Losing HP costs 1. At Resonant you can fire both faces at once."
+          "text": "The rings are your Sync, Cold to Resonant, filling outward: +1 for each ability used, +1 at round end if you held your mode, −1 when you lose HP. The line beside them says what the end of this round will do. At Resonant both glyphs light up: a Resonant cast fires both faces."
         },
         {
           "id": "abilities",
           "tab": "play",
           "target": "engine-abilities",
           "title": "Abilities",
-          "text": "Stronger abilities need a minimum Sync. Brownout moves take the rig offline until the end of next round. Keep your Tech Wizard behind cover."
+          "text": "The dots on a card are the Sync it needs (●●○○ = Warm or better). Brownout moves take the rig offline until the end of next round — the rings go grey and dashed. Keep your Tech Wizard behind cover."
         }
       ]
     },
@@ -181,14 +181,14 @@
           "tab": "play",
           "target": "engine-resource",
           "title": "The Pendulum",
-          "text": "From −4 to +4. Cold (below 0): +2 TN on gun attacks. Hot (above 0): +1 damage and +1 square per move. The sheet applies both for you."
+          "text": "The slider runs from Cold −4 (blue) through Composure 0 (white) to Hot +4 (red); tap a stop to set it. The zone you're in lights up with its bonus: Cold +2 TN on gun attacks, Hot +1 damage and +1 square per move. The sheet applies both. Below, the round-end line says whether a wound will drift you +1 toward Hot."
         },
         {
           "id": "abilities",
           "tab": "play",
           "target": "engine-abilities",
           "title": "Abilities swing it",
-          "text": "Each ability needs a side of the pendulum and shifts it when used. Wounded Smugglers drift +1 toward Hot at the end of each round."
+          "text": "Each card shows a small pendulum: the lit cells are where it works, the outlined one is where you are. The arrow is the swing (◀ toward Cold, ▶ toward Hot, ⇥ sets it) and → shows where you'd land if you used it now."
         },
         {
           "id": "rhythm",
@@ -207,14 +207,14 @@
           "tab": "play",
           "target": "engine-item",
           "title": "Your optic",
-          "text": "Range: how far away you can place Tells. Track: how many enemies hold your Tells at once. Buy one in Gear → Market → Optics; without one you have bare lenses (range 4, Track 1)."
+          "text": "The lens card: the scope is your range in squares, the reticles how many enemies you can track at once, and your optic mode with its icon. Below it, the light switch: Lit or In the dark — when the map says your square is dark it offers to switch. Buy an optic in Gear → Market → Optics; without one you have bare lenses (range 4, Track 1)."
         },
         {
           "id": "tells",
           "tab": "play",
           "target": "tells",
           "title": "Tells on enemies",
-          "text": "At the start of your turn place 1 Tell, or 2 if you're Unseen — full cover, or in the dark (switch In the dark on), and no attack last round. Max 3 per enemy. Tap an enemy to make it your target for abilities."
+          "text": "Each enemy row shows its Tells as diamonds: tap a diamond to set that many (tap the last lit one to take it off). The checklist above tells you if you are Unseen (full cover or in the dark, and no attack last round): then you place 2 a turn instead of 1. Max 3 per enemy. The reticle button makes an enemy your target for abilities."
         },
         {
           "id": "exploit",

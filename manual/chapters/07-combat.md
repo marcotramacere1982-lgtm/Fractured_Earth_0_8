@@ -139,13 +139,17 @@ The Soldier is a front-line combatant built around momentum and positioning. Eve
 
 **Stance Types:**
 
+- **Ready:** where every combat starts. ×1 damage dealt and taken, no bonus.
+
 - **Defensive Stance:** ×0.5 damage dealt and taken. Ideal for absorbing fire and holding choke points.
 
-- **Attack Stance:** the operational baseline (×1).
+- **Attack Stance:** ×1 damage, and **+2 TN on weapon attacks**: the steady aim of a committed shooter.
 
 - **Onslaught Stance:** ×1.5 damage dealt and taken. High-risk offensive burst.
 
 - **The Resource Loop (TP):** TP start at **0 at the beginning of every combat** and have no cap. **Every normal attack that hits gives +1 TP** — a Soldier who just keeps shooting still reaches a finisher every round or two. *Brace & Dig In* gives +2, *Steady Aim* +1. Finishers cost 1–3 TP and move you between stances.
+
+**The flow.** Every fight starts in **Ready**. Only stance abilities move you to another stance. A **normal attack keeps your stance** (that is what a stance is for: shots at ×1.5 in Onslaught, ×0.5 when dug in), and so does *Aim* before one. **Anything else drops you back to Ready** — moving, reloading, swapping weapons, interacting, using an item or a talent — but your **TP stay**. A stance lasts through the enemies' turns and into your next turn until one of those actions: end a turn in Onslaught and every hit you take before then is ×1.5.
 
 **Subclass Mechanics:**
 
@@ -155,9 +159,9 @@ The Soldier is a front-line combatant built around momentum and positioning. Eve
 
 > **Combat Scenario Example: The Soldier (Grunt Subclass)**
 
-> *Round 1:* The Grunt opens with *Brace & Dig In* (+2 TP, Defensive, +2 armor), then a normal shot that hits (+1 TP): 3 TP. *Dig In & Push* (1 TP) breaks cover into **Attack** and fires: 2 TP left.
+> *Round 1:* The Grunt starts in **Ready** and opens with *Brace & Dig In* (+2 TP, Defensive, +2 armor), then a normal shot that hits (+1 TP, still Defensive): 3 TP. *Dig In & Push* (1 TP) breaks cover into **Attack** and fires: 2 TP left.
 
-> *Round 2:* *Fix Bayonets / Charge* (2 TP) slams into an elite guard: weapon damage +1d6, ×1.5 in **Onslaught**, and the guard is Prone. Two normal attacks follow, both hit: 2 TP, ready for another finisher — but every hit the Grunt takes is ×1.5 too.
+> *Round 2:* *Fix Bayonets / Charge* (2 TP) slams into an elite guard: weapon damage +1d6, ×1.5 in **Onslaught**, and the guard is Prone. Two normal attacks follow, both hit: 2 TP, ready for another finisher — but every hit the Grunt takes is ×1.5 too, and it stays that way through the enemies' turn. *Round 3* opens with a move to cover: the stance drops to **Ready**, the 2 TP stay.
 
 ### 7-4-2. The Hacker: RAM Allocation & Thermal Strain (Heat) {#sec-7-4-hacker}
 
@@ -291,7 +295,7 @@ Instead of aiming at centre mass, you can declare a **location attack** before y
 
 **Resolution Flow:**
 
-- **Declare and roll to hit:** a location attack is an attack action at **−4 TN**. It cannot be combined with class abilities.
+- **Declare and roll to hit:** a location attack is an attack action at **−4 TN**. It cannot be combined with class abilities. On the sheet: press **Attack** and pick **⌖ Location** under *Target* in the roll window.
 
 - **Roll the location (d20):** on a hit, roll a d20 on the table below. With **Aim** (1 extra action spent before the attack) you may shift that d20 by up to ±5.
 

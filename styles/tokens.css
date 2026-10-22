@@ -111,6 +111,7 @@
   --color-mark-sand: rgb(217, 185, 140);
   --color-mark-sand-soft: rgba(217, 185, 140, 0.2);
   --color-mark-white: rgb(242, 244, 247);
+  --color-calm-white: #eef1f5;   /* the white end of the Smuggler pendulum and the Hacker RAM bar */
   --color-mark-white-soft: rgba(242, 244, 247, 0.2);
   --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
 
@@ -154,6 +155,7 @@
   --color-mark-sand: rgb(138, 106, 58);
   --color-mark-sand-soft: rgba(138, 106, 58, 0.14);
   --color-mark-white: rgb(38, 50, 56);
+  --color-calm-white: #ffffff;
   --color-mark-white-soft: rgba(38, 50, 56, 0.14);
   --color-private-soft: rgba(123, 47, 208, 0.1);
   --color-terminal: #101418;

@@ -84,12 +84,12 @@
   },
   "painkiller_hypo": {
     "effectType": "Potenziamento",
-    "effect": "+2 CON per 5 round (+4 HP massimi e +4 HP subito)",
+    "effect": "+2 CON per 5 round (+2 HP massimi e +2 HP subito)",
     "desc": "Iniezione di oppioide sintetico che attutisce il dolore lancinante.",
     "use": {
       "options": {
         "boost": {
-          "text": "+2 CON per 5 round (+4 HP massimi e +4 HP subito)"
+          "text": "+2 CON per 5 round (+2 HP massimi e +2 HP subito)"
         }
       }
     }

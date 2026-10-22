@@ -180,7 +180,7 @@
     "name": "Painkiller Hypo",
     "desc": "Synthetic opioid hypo that dulls excruciating pain.",
     "effectType": "Stat Buff",
-    "effect": "+2 CON for 5 rounds (+4 max HP and +4 HP now)",
+    "effect": "+2 CON for 5 rounds (+2 max HP and +2 HP now)",
     "skillBonus": "None",
     "rarity": "E",
     "cost": {
@@ -197,7 +197,7 @@
             },
             "rounds": 5
           },
-          "text": "+2 CON for 5 rounds (+4 max HP and +4 HP now)"
+          "text": "+2 CON for 5 rounds (+2 max HP and +2 HP now)"
         }
       ]
     }

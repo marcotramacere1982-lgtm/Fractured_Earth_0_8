@@ -31,7 +31,14 @@ export function describeEffects(fx, data) {
   if (fx.credential) parts.push(`${t('fx.credential')}: ${nameOf(data.careers.credentials, fx.credential)}`);
   if (fx.tag) parts.push(`${t('fx.notable')}: ${fx.tag}`);
   if (fx.waives) parts.push(fx.waives.includes('*') ? t('fx.waiveAll') : t('fx.waive', { careers: fx.waives.map((id) => nameOf(data.careers.careers, id)).join(', ') }));
+  if (fx.waiveEntry) {
+    const w = fx.waiveEntry; const list = Array.isArray(w.careers) ? w.careers.map((id) => nameOf(data.careers.careers, id)).join(', ') : t(`fx.entryTarget.${w.careers === '*' ? 'any' : w.careers}`);
+    parts.push(t(w.uses === 'always' ? 'fx.entryAlways' : 'fx.entryOnce', { careers: list }));
+  }
+  if (fx.fallbackStudent) parts.push(t('fx.fallbackStudent'));
+  if (fx.nextTermFallback) parts.push(t('fx.nextTermFallback'));
   if (fx.ageDice) parts.push(t('fx.years', { n: fx.ageDice }));
+  if (fx.years) parts.push(t('fx.years', { n: fx.years }));
   if (fx.endsCareer) parts.push(t('fx.endsCareer'));
   return e(parts.join(' · ') || '—');
 }

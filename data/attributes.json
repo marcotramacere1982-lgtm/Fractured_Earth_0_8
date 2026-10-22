@@ -50,7 +50,8 @@
       "start": 20,
       "max": 20,
       "note": "Lowering CRS at creation refunds points; it can never be raised above 20 at creation."
-    }
+    },
+    "lifePathMax": 18
   },
   "play": {
     "min": 0,

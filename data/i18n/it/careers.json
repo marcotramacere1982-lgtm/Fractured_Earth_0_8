@@ -62,7 +62,7 @@
     },
     "unemployed_drifter_outcast": {
       "category": "Disoccupato",
-      "requirementsText": "Nessuno"
+      "requirementsText": "Solo dopo un tiro di ingresso fallito"
     }
   }
 }

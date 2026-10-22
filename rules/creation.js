@@ -37,15 +37,15 @@ export function findEvent(eventsData, rollTotal) {
 
 /**
  * Applies an event's effects. `choices` resolves `choice` effects, e.g. { INT: 2 }.
- * Attributes never drop below `floor` during creation; CRS is clamped to [0, 100].
+ * Attributes never drop below `floor` during creation nor rise above `cap` (the life-path cap); CRS is clamped to [0, 100].
  */
-export function applyEvent(character, event, { choices = null, floor = 6, rng = Math.random } = {}) {
+export function applyEvent(character, event, { choices = null, floor = 6, cap = Infinity, rng = Math.random } = {}) {
   const c = clone(character);
   const fx = event.effects ?? {};
   const log = [];
   const set = (k, v, why) => {
     const before = c.attributes[k];
-    const after = k === 'CRS' ? Math.max(0, Math.min(100, v)) : Math.max(floor, v);
+    const after = k === 'CRS' ? Math.max(0, Math.min(100, v)) : Math.max(floor, Math.min(cap, v)); // life path cap (decision 93)
     c.attributes[k] = after;
     if (after !== before) log.push(message('attrChange', { attr: k, from: before, to: after }, `${k} ${before} → ${after}${why ? ` (${why})` : ''}`));
   };
@@ -70,6 +70,21 @@ export function applyEvent(character, event, { choices = null, floor = 6, rng = 
   if (fx.credential && !c.credentials.includes(fx.credential)) { c.credentials.push(fx.credential); log.push(message('credential', { name: fx.credential }, `Credential: ${fx.credential}`)); }
   if (fx.tag && !c.tags.includes(fx.tag)) { c.tags.push(fx.tag); log.push(message('tag', { tag: fx.tag }, `Tag: ${fx.tag}`)); }
   if (fx.waives) { c.waivers.push(...fx.waives.filter((w) => !c.waivers.includes(w))); log.push(message('waived', {}, 'Career requirements waived')); }
+  // decision 93: entry-roll waivers live in `waivers` as strings — entry:<target> once, entry!:<target> for good,
+  // req!:<career> requirements for good; target = a career id, "student" or "*"; "current" = the career being served
+  if (fx.waiveEntry) {
+    const { careers, uses, requirements } = fx.waiveEntry;
+    const current = c.history.careers.at(-1)?.careerId;
+    const targets = (Array.isArray(careers) ? careers : [careers]).map((x) => (x === 'current' ? current : x)).filter(Boolean);
+    for (const x of targets) {
+      c.waivers.push(`${uses === 'always' ? 'entry!' : 'entry'}:${x}`);
+      if (requirements) c.waivers.push(`req!:${x}`);
+    }
+    if (targets.length) log.push(uses === 'always' ? message('entryWaiverAlways', {}, 'No entry roll for good there') : message('entryWaiverOnce', {}, 'One entry roll waived'));
+  }
+  if (fx.fallbackStudent && !c.waivers.includes('fallback:student')) c.waivers.push('fallback:student');
+  if (fx.nextTermFallback && !c.waivers.includes('forced:fallback')) { c.waivers.push('forced:fallback'); log.push(message('forcedFallback', {}, 'Next two years: unemployed')); }
+  if (fx.years) { c.age += fx.years; log.push(message('years', { n: fx.years, dice: String(fx.years) }, `+${fx.years} years`)); }
   if (fx.ageDice) {
     const r = roll(fx.ageDice, rng);
     c.age += r.total;
@@ -99,19 +114,60 @@ export function careerChecks(character, career, careersData) {
   }
   if (req.anyCredential) checks.push({ code: 'anyEducation', label: 'Any higher education', met: character.credentials.length > 0 });
   if (req.cleanRecord) checks.push({ code: 'cleanRecord', label: 'No criminal record', met: !character.criminalRecord });
-  const waived = character.waivers.includes('*') || character.waivers.includes(career.id);
+  const waived = character.waivers.includes('*') || character.waivers.includes(career.id) || character.waivers.includes(`req!:${career.id}`);
   return { checks, waived, eligible: waived || checks.every((c) => c.met) };
 }
 
-/** Applies a career term (age, modifiers, credential) without the events. */
-export function applyCareerTerm(character, career, careersData) {
+/** Terms already served in a row in this career, counting back from the last one. */
+export function termsInARow(character, careerId) {
+  let n = 0;
+  for (const h of [...character.history.careers].reverse()) { if (h.careerId !== careerId) break; n++; }
+  return n;
+}
+
+/**
+ * The entry roll for a term (decision 93): d20 <= the higher of INT and CHA + bonus, + stayBonus per term already
+ * served in a row here. null when no roll is needed (open careers, a waiver).
+ */
+/** The waiver that skips this career's entry roll, if any (decision 93). */
+export function entryWaiverFor(character, career) {
+  const keys = [career.id, '*', ...(career.category === 'Student' ? ['student'] : [])];
+  if (character.waivers.includes('*') || character.waivers.includes(career.id)) return character.waivers.includes(career.id) ? career.id : '*';
+  for (const k of keys) for (const p of ['entry!', 'entry']) if (character.waivers.includes(`${p}:${k}`)) return `${p}:${k}`;
+  return null;
+}
+
+export function entryTarget(character, career, careersData) {
+  const rule = careersData.entry;
+  if (!rule || career.entryRoll === false) return null;
+  if (entryWaiverFor(character, career)) return null;
+  const stat = rule.stats.reduce((best, k) => (character.attributes[k] > character.attributes[best] ? k : best), rule.stats[0]);
+  const stay = termsInARow(character, career.id) * rule.stayBonus;
+  const tn = character.attributes[stat] + rule.bonus + stay;
+  return { die: rule.die, stat, base: character.attributes[stat], bonus: rule.bonus, stay, tn, chance: Math.max(0, Math.min(100, tn * 5)) };
+}
+
+/**
+ * Applies a career term (age, modifiers, credential) without the events. opts.cap: the life-path attribute cap.
+ * Credit Score pushed below 0 (decision 93): wanted for non-payment — criminal record, and the career phase ends.
+ * opts.tried: the career the entry roll failed for (the term is then this fallback career).
+ */
+export function applyCareerTerm(character, career, careersData, { cap = Infinity, tried = null, forced = false } = {}) {
   const c = clone(character);
   const log = [];
   c.age += careersData.termYears;
   log.push(message('age', { from: character.age, to: c.age }, `Age ${character.age} → ${c.age}`));
   for (const [k, v] of Object.entries(career.modifiers)) {
     const before = c.attributes[k];
-    c.attributes[k] = k === 'CRS' ? Math.max(0, Math.min(100, before + v)) : before + v;
+    if (k === 'CRS' && before + v < 0) {
+      c.attributes.CRS = 0;
+      log.push(message('attrChange', { attr: k, from: before, to: 0 }, `${k} ${before} → 0`));
+      if (!c.criminalRecord) { c.criminalRecord = true; log.push(message('wanted', {}, 'Wanted for non-payment: criminal record')); }
+      if (!c.tags.includes('Wanted for non-payment')) c.tags.push('Wanted for non-payment');
+      if (!c.tags.includes('Career ended')) c.tags.push('Career ended');
+      continue;
+    }
+    c.attributes[k] = k === 'CRS' ? Math.min(100, before + v) : Math.max(1, Math.min(cap, before + v));
     log.push(message('attrChange', { attr: k, from: before, to: c.attributes[k] }, `${k} ${before} → ${c.attributes[k]}`));
   }
   if (career.grantsCredential && !c.credentials.includes(career.grantsCredential)) {
@@ -120,7 +176,7 @@ export function applyCareerTerm(character, career, careersData) {
   }
   // a used waiver for this specific career (or a one-shot "*") is consumed
   c.waivers = c.waivers.filter((w) => w !== career.id && w !== '*');
-  c.history.careers.push({ careerId: career.id, events: [] });
+  c.history.careers.push({ careerId: career.id, ...(tried ? { tried } : {}), ...(forced ? { forced: true } : {}), events: [] });
   return { character: c, log };
 }
 

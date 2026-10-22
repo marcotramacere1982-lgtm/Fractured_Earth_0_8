@@ -3,7 +3,7 @@
 // and `pending` are events that need a player choice before they can be applied.
 
 import { roll } from './dice.js';
-import { findEvent, applyEvent, careerChecks, applyCareerTerm, applyAging } from './creation.js';
+import { findEvent, applyEvent, careerChecks, applyCareerTerm, applyAging, entryTarget, entryWaiverFor } from './creation.js';
 import { findSubclass } from './classes.js';
 
 // ------------------------------------------------------------------ quiz
@@ -46,15 +46,15 @@ export function resolveEvent(character, eventsData, data, { rng = Math.random, p
     entries.push(line('warn', `Choose +${event.effects.choice.amount} among ${event.effects.choice.of.join(' / ')}.`, 'chooseAmong', { n: event.effects.choice.amount, of: event.effects.choice.of.join(' / ') }));
     return { character, entries, pending: [event], record: { roll: event.roll, eventId: event.id } };
   }
-  const res = applyEvent(character, event, { rng });
+  const res = applyEvent(character, event, { rng, cap: data.attributes?.creation?.lifePathMax ?? Infinity });
   res.log.forEach((m) => entries.push(fromMessage('mod', m)));
   if (!res.log.length) entries.push(line('dim', 'No mechanical effect.', 'noEffect'));
   return { character: res.character, entries, pending: [], record: { roll: event.roll, eventId: event.id } };
 }
 
 /** Applies a previously pending choice event. */
-export function resolveChoice(character, event, choices) {
-  const res = applyEvent(character, event, { choices });
+export function resolveChoice(character, event, choices, data = null) {
+  const res = applyEvent(character, event, { choices, cap: data?.attributes?.creation?.lifePathMax ?? Infinity });
   return { character: res.character, entries: [line('mod', 'Choice applied:', 'choiceApplied'), ...res.log.map((m) => fromMessage('mod', m))] };
 }
 
@@ -82,21 +82,47 @@ export function runAdolescence(character, data, { rng = Math.random, picks = nul
 export const careerClosed = (character) => character.tags.includes('Career ended');
 
 /**
- * One full career term: requirements → term (+2 years, modifiers) → events → aging.
- * opts: { rng, picks: [{roll}, {roll}], ignoreRequirements }
+ * One full career term: requirements → entry roll (decision 93; a failure serves the term as the fallback career)
+ * → term (+2 years, modifiers) → events → aging.
+ * opts: { rng, picks: [{roll}, {roll}], ignoreRequirements (also skips the entry roll), forced (a term the life path imposes: Fired) }
  */
-export function runCareerTerm(character, career, data, { rng = Math.random, picks = null, ignoreRequirements = false } = {}) {
+export function runCareerTerm(character, career, data, { rng = Math.random, picks = null, ignoreRequirements = false, forced = false } = {}) {
   const entries = [line('sys', `> CAREER.EXE — ${career.category}${career.name !== 'Standard' ? ` / ${career.name}` : ''}`)];
   const { eligible, checks } = careerChecks(character, career, data.careers);
-  if (!eligible && !ignoreRequirements) {
+  if (!eligible && !ignoreRequirements && !forced) {
     const missing = checks.filter((x) => !x.met);
     return { character, entries: [...entries, line('bad', `Requirements not met: ${missing.map((x) => x.label).join(', ')}`, 'reqNotMet', { list: missing })], pending: [], ok: false };
   }
-  if (!eligible) entries.push(line('warn', '[MANUAL] Requirements ignored.', 'reqIgnored'));
+  if (career.fallbackOnly && !ignoreRequirements && !forced) return { character, entries: [...entries, line('bad', 'Only after a failed entry roll.', 'fallbackOnly')], pending: [], ok: false };
+  if (!eligible && !forced) entries.push(line('warn', '[MANUAL] Requirements ignored.', 'reqIgnored'));
 
-  const term = applyCareerTerm(character, career, data.careers);
+  let served = career; let tried = null;
+  let start = character;
+  const entry = ignoreRequirements || forced ? null : entryTarget(character, career, data.careers);
+  const waiver = entry || forced ? null : entryWaiverFor(character, career);
+  if (waiver?.startsWith('entry:')) start = { ...character, waivers: character.waivers.filter((w, i) => i !== character.waivers.indexOf(waiver)) }; // a one-shot entry waiver is used up
+  if (entry) {
+    const r = roll(entry.die, rng);
+    const pass = r.total <= entry.tn;
+    entries.push(line('roll', `Entry roll ${entry.die} ≤ ${entry.tn} (${entry.stat} ${entry.base} +${entry.bonus}${entry.stay ? ` +${entry.stay} stay` : ''}): ${r.total}`, 'entryRoll', { die: entry.die, tn: entry.tn, stat: entry.stat, base: entry.base, bonus: entry.bonus, stay: entry.stay ? ` +${entry.stay}` : '', total: r.total }));
+    if (!pass) {
+      tried = career.id;
+      if (character.waivers.includes('fallback:student')) { // Unemployment Program: study instead of the street, once
+        served = studentFor(career, data.careers);
+        start = { ...character, waivers: character.waivers.filter((w) => w !== 'fallback:student') };
+        entries.push(line('warn', `Rejected — the program sends you to ${served.name} instead.`, 'studentInstead', { career: served.name }));
+      } else {
+        served = data.careers.careers.find((k) => k.id === data.careers.entry.fallback);
+        entries.push(line('bad', `Rejected: you serve these two years as ${served.name}.`, 'entryFailed', { career: served.name }));
+      }
+    } else entries.push(line('mod', 'Accepted.', 'entryPassed'));
+  } else if (!ignoreRequirements && !forced && data.careers.entry && career.entryRoll !== false) entries.push(line('dim', 'Entry roll waived.', 'entryWaived'));
+  if (forced) entries.push(line('bad', `No choice: two years as ${career.name}.`, 'forcedTerm', { career: career.name }));
+
+  const term = applyCareerTerm(start, served, data.careers, { cap: data.attributes?.creation?.lifePathMax ?? Infinity, tried, forced });
   let c = term.character;
-  term.log.forEach((m) => entries.push(fromMessage('mod', m)));
+  term.log.forEach((m) => entries.push(fromMessage(m.code === 'wanted' ? 'bad' : 'mod', m)));
+  if (c.tags.includes('Career ended') && !character.tags.includes('Career ended')) entries.push(line('bad', 'Career phase over: you hit the streets now.', 'careerOver'));
 
   const pending = [];
   const termIdx = c.history.careers.length - 1;
@@ -122,7 +148,19 @@ export function runCareerTerm(character, career, data, { rng = Math.random, pick
   if (!aging.log.length) entries.push(line('dim', 'No aging effects.', 'noAging'));
   if (aging.deathCheck) entries.push(line('bad', 'DEATH CHECK required at this age — ask the GM.', 'deathCheck'));
   entries.push(line('sys', '> Term complete.', 'termDone'));
-  return { character: c, entries, pending, ok: true };
+  if (c.waivers.includes('forced:fallback') && !careerClosed(c)) { // Fired: an Unemployed term follows at once
+    const fallback = data.careers.careers.find((k) => k.id === data.careers.entry.fallback);
+    const next = runCareerTerm({ ...c, waivers: c.waivers.filter((w) => w !== 'forced:fallback') }, fallback, data, { rng, forced: true });
+    return { character: next.character, entries: [...entries, ...next.entries], pending: [...pending, ...next.pending], ok: true, rejected: Boolean(tried) };
+  }
+  return { character: c, entries, pending, ok: true, rejected: Boolean(tried) };
+}
+
+/** Unemployment Program: the Student career that grants what `career` needs (Technical University otherwise). */
+function studentFor(career, careersData) {
+  const need = career.requirements?.credential;
+  return careersData.careers.find((k) => need && k.grantsCredential === need)
+    ?? careersData.careers.find((k) => k.id === 'student_technical_university');
 }
 
 // ------------------------------------------------------------------ class recommendation helpers

@@ -83,11 +83,11 @@ Six tactical values come from the **raw sum of two attributes**, looked up in th
 ::table[combat]
 
 - **Initiative** = half DEX + half WIS (rounded down each) − 10. Roll d20 + Initiative at the start of combat.
-- **Max HP** = 2 × CON + MST.
+- **Max HP** = CON + MST + 10.
 
 ### Health, armor and injuries {#sec-5-3-body}
 
-You have **one pool of HP** (2 × CON + MST) and **one armor value**: the sum of the armor you wear, plus cover in a fight. Every hit subtracts your armor from the damage; what is left comes off your HP.
+You have **one pool of HP** (CON + MST + 10) and **one armor value**: the sum of the armor you wear, plus cover in a fight. Every hit subtracts your armor from the damage; what is left comes off your HP.
 
 Your body matters when someone makes a **location attack** (7-5): they take −4 TN and roll where it lands. Damage minus armor comes off HP as usual, and then:
 
@@ -117,7 +117,10 @@ Events can change attributes, shift a combat value one row, change your maximum 
 
 After 15 you can go straight to the streets, or serve one or more **career terms** first. Careers are optional.
 
-- **Each term:** +2 years of age, the career's attribute and Credit Score changes, **two career events** (2d20), then an aging check.
+- **Entry roll:** each term, roll **d20 ≤ your higher of INT and CHA, +4**. Every term you have already served in a row in the same career adds **+1** (the boss knows you). Criminal and Wage Slave take anyone, no roll; some life events waive it. **Fail** and you spend those two years **unemployed** (Drifter / Outcast), the only way into that row.
+- **Each term:** +2 years of age, the career's attribute and Credit Score changes, **two career events** (2d20), then an aging check. A career makes you better at one thing and costs you another: no career gives both stats of a class.
+- **Broke:** if a career pushes your Credit Score below 0 you are **wanted for non-payment**: a criminal record, and your career phase ends on the spot.
+- **Life-path cap:** no attribute goes above **18** from events and careers.
 - **Requirements:** minimum attributes, maximum age, education credentials, a clean record or a minimum Credit Score. The builder marks each one ✓ or ✗. Some life events waive requirements.
 - **Push your luck:** every extra term is more experience, more risk, and more age. Some events end your career phase on the spot.
 
@@ -153,9 +156,12 @@ You know every ability of your subclass, but combat stress limits how many you c
 
 The Soldier is the team's front-line powerhouse, built on **Stance-Flow**: momentum is banked as **Tactical Points (TP)** and spent on finishers that move you between stances.
 
+- **Ready:** where every fight starts — normal damage dealt and taken, no bonus.
 - **Defensive:** ×0.5 damage dealt and taken. Hold ground or recover.
-- **Attack:** the baseline — normal damage dealt and taken.
+- **Attack:** normal damage, and **+2 TN on weapon attacks**.
 - **Onslaught:** ×1.5 damage dealt and taken. High risk, high reward.
+
+**The flow.** Every fight starts in **Ready**. Only stance abilities move you to another stance. A **normal attack keeps your stance** (that is what a stance is for: shots at ×1.5 in Onslaught, ×0.5 when dug in), and so does *Aim* before one. **Anything else drops you back to Ready** — moving, reloading, swapping weapons, interacting, using an item or a talent — but your **TP stay**. A stance lasts through the enemies' turns and into your next turn until one of those actions: end a turn in Onslaught and every hit you take before then is ×1.5.
 
 **TP** start at **0 every combat** and have no cap. You build them by fighting: **every normal attack that hits gives +1 TP**, *Brace & Dig In* gives +2 and *Steady Aim* +1. Finishers cost 1–3 TP and shift your stance. The sheet applies your stance to every damage roll.
 
@@ -251,14 +257,15 @@ The builder's last steps turn your rolls into a story. It compiles two prompts f
 
 - **Backstory prompt** — paste it into any AI assistant (or use it as a writing guide) and paste the result back. It already contains the setting, your events, career and debt. With the app in Italian, it asks the AI to write the story in Italian.
 - **Or ask the GM** — at the live table, *Send to the GM* (in the builder) or *Ask the GM to write it* (Dossier) hands the same prompt to the GM, who has it written, reads it and sends it to your sheet. It lands on the Dossier; you can still edit it, or go back to your previous version. With a backstory already written, the button asks the GM to polish it instead.
-- **Portrait prompt** — for an image generator (both prompts stay on the Dossier, under *Prompts for your own AI*). Add your own look: gender, hair, eyes, build, clothing, marks.
+- **Portrait prompt** — for an image generator (both prompts stay on the Dossier, under *Prompts for your own AI*).
+- **Appearance & manner** — gender, build, hair, eyes, marks and attitude, in your own words. They flow into both prompts (whatever you leave blank, the portrait prompt asks you to add). Pure flavour: no rule reads them and the GM's change check ignores them, so edit them on the Dossier whenever you like.
 
-Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so saves stay small.
+Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so saves stay small. *Frame the photo* (under it) zooms, moves and brightens it — or drag the photo — and the same framing shows everywhere, the GM's screen too.
 
 ## 5-8. The Character Sheet {#sec-5-8}
 
 - **Status bar** — always visible: HP, armor, initiative, actions, Class TN, Credit Score, cash and active conditions.
-- **Play** — weapons (attack TN, damage, ammo, reload), your class engine and equipped abilities, health, armor, injuries and conditions (with *Take a hit*), cover, combat values, and the Turn panel (*Start combat*, *End round*).
+- **Play** — two rows in the order of a turn: the Turn panel (*Start combat*, *End round*, one *Attack* for the weapon in hand, *?* shows what each action does) beside your weapons (attack TN, damage, ammo, reload); then your class engine, equipped abilities and talents beside health, armor, injuries and conditions (with *Take a hit*) and cover. Move, OFF, DEF and PER sit on the header's second line, changed live by conditions.
 - **Skills** — attributes (adjustable for injuries, aging or GM rulings) and every skill. Tap to roll with the GM's difficulty.
 - **Gear** — cash, inventory, the market, and your lifestyle.
 - **Dossier** — identity, class, background, debt (with its pressure and instalments), portrait, backstory and *Story so far* (5-10).

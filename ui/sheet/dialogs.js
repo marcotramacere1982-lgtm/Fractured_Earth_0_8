@@ -41,12 +41,14 @@ export function openDialog(draw, handlers) {
  * light (decision 76): { kind, options: [{ id, tn }], pick } from rules/darkness.js → lightOptions — a Light row
  * with the suggested option chosen; the player can change it.
  */
-export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [], light = null, boosts = [] } = {}) {
+/** aim (decision 97): { options: [{ id, tn, label }], pick, onPick(id) } — Body / ⌖ Location for an attack. */
+export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [], light = null, boosts = [], aim = null } = {}) {
   const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false,
-    tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null };
+    tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null, aim: aim?.pick ?? null };
+  const aimOpt = () => aim?.options.find((o) => o.id === state.aim) ?? null;
   const tool = () => tools.find((x) => x.id === state.tool) ?? null;
   const lightOpt = () => light?.options.find((o) => o.id === state.light) ?? null;
-  const tn = () => target.tn + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0);
+  const tn = () => target.tn + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0) + (aimOpt()?.tn ?? 0);
   const flowOn = () => Boolean(flow && state.result?.success);
   const step = () => (flowOn() ? flow.next(state.answers) : null);
   const finish = () => { if (flowOn() && !step() && !state.finished) { state.finished = true; flow.complete(state.answers); } };
@@ -115,6 +117,9 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
             <input type="checkbox" data-action="tool" data-id="${x.id}" ${state.tool === x.id ? 'checked' : ''} ${once && state.result ? 'disabled' : ''}>
             <span><strong>${x.name} +${x.tn}</strong> <span class="muted">· ${x.when}</span></span></label>`)}</div>
           <p class="hint">${t('tools.hint')}</p></div>` : ''}
+        ${aim ? html`<div class="stack stack--tight"><span class="label">${t('attack.aim')}${info('location-attack', t('attack.aim'))}</span>
+          <div class="segmented" role="group" aria-label="${t('attack.aim')}">${aim.options.map((o) => html`<button class="segmented__opt" data-action="aim" data-id="${o.id}" aria-pressed="${state.aim === o.id}" ${once && state.result ? 'disabled' : ''}>${o.label}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
+          ${aimOpt()?.hint ? html`<p class="hint">${aimOpt().hint}</p>` : ''}</div>` : ''}
         ${light ? html`<div class="stack stack--tight"><span class="label">${t('light.title')}${info('darkness', t('light.title'))}</span>
           <div class="segmented" role="group" aria-label="${t('light.title')}">${light.options.map((o) => html`<button class="segmented__opt" data-action="light" data-id="${o.id}" aria-pressed="${state.light === o.id}" ${once && state.result ? 'disabled' : ''}>${t(`light.${light.kind}.${o.id}`)}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
           <p class="hint">${t('light.suggested', { option: t(`light.${light.kind}.${light.pick}`) })}</p></div>` : ''}
@@ -143,6 +148,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       enter: () => { const v = Number(state.manual); if (v >= 1 && v <= 20) resolve(v); },
       tool: ({ id }) => { if (once && state.result) return; state.tool = state.tool === id ? null : id; state.result = null; d.redraw(); },
       light: ({ id }) => { if (once && state.result) return; state.light = id; state.result = null; d.redraw(); },
+      aim: ({ id }) => { if (once && state.result) return; state.aim = id; aim.onPick?.(id); state.result = null; d.redraw(); },
       flowChoose: ({ value }) => answer(value),
       flowRoll: () => diceAnswer(false),
       flowEnter: () => diceAnswer(true),

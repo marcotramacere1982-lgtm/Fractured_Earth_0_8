@@ -7,8 +7,27 @@ import { debtPressure, timelineCard } from './timeline.js';
 import { driveEditor } from './drive.js';
 import { t } from '../../i18n/index.js';
 import { storyPrompt, portraitPrompt } from '../builder/prompts.js';
+import { lookFields } from '../look.js';
+import { portraitImg, frameOf, isFramed, FRAME } from '../portrait.js';
+import { explain } from '../explain.js';
 
 /** ctx.atTable: served by the GM's table server, so the backstory can be asked from the GM (decision 50). */
+/** Decision 96: zoom, position and brightness; drag the photo to move it. */
+function frameControls(portrait) {
+  const f = frameOf(portrait);
+  const range = (k, step, label) => html`<label class="frame-ctl"><span class="label">${label}</span>
+    <input type="range" min="${FRAME[k][0]}" max="${FRAME[k][1]}" step="${step}" value="${f[k]}" data-action="portraitFrame" data-key="${k}"></label>`;
+  return html`<details class="details" data-keep="portrait-frame"><summary>${t('dossier.frame')}</summary>
+    <div class="frame-ctls">
+      ${range('zoom', 0.05, t('dossier.frameZoom'))}
+      ${range('x', 1, t('dossier.frameX'))}
+      ${range('y', 1, t('dossier.frameY'))}
+      ${range('light', 0.05, t('dossier.frameLight'))}
+    </div>
+    <div class="spread"><span class="hint">${t('dossier.frameHint')}</span>${isFramed(portrait) ? html`<button class="btn btn--sm btn--ghost" data-action="portraitReset">${t('dossier.frameReset')}</button>` : ''}</div>
+  </details>`;
+}
+
 export function dossierTab(c, s, data, ctx = {}) {
   const subOptions = data.classes.classes.map((cls) => html`
     <optgroup label="${cls.name}">${cls.subclasses.map((sub) => html`
@@ -23,16 +42,18 @@ export function dossierTab(c, s, data, ctx = {}) {
         <select class="select" data-action="subclass"><option value="">— ${t('common.choose')} —</option>${subOptions}</select></label>
       <label class="field"><span class="label">${t('common.age')}</span><input class="input input--num" type="number" value="${c.age}" data-action="field" data-path="age" data-number="1"></label>
     </div>
+    <p class="muted"><span class="label">${t('stat.travel')}${explain('combat', 'met', t('stat.travel'))}</span> ${t('stat.travelValue', { n: s.combat.met.value })}</p>
     ${sub ? html`<p class="hint">${sub.desc}</p>` : ''}
     ${driveEditor(c, data, 'sheet')}`);
 
   const portrait = card(t('dossier.visual'), html`
     <div class="portrait">
-      ${c.portrait.dataUrl ? html`<img class="portrait__img" src="${c.portrait.dataUrl}" alt="${c.name}">` : html`<div class="portrait__empty">${t('dossier.noFeed')}</div>`}
+      ${c.portrait.dataUrl ? portraitImg(c.portrait, 'portrait__img', c.name, 'data-frame-drag="1"') : html`<div class="portrait__empty">${t('dossier.noFeed')}</div>`}
       <div class="cluster">
         <label class="btn btn--sm">${t('dossier.upload')}<input type="file" accept="image/*" class="visually-hidden" data-action="portrait"></label>
         ${c.portrait.dataUrl ? html`<button class="btn btn--sm btn--ghost" data-action="portraitClear">${t('common.remove')}</button>` : ''}
       </div>
+      ${c.portrait.dataUrl ? frameControls(c.portrait) : ''}
       <p class="hint">${t('dossier.imageHint')}</p>
     </div>`);
 
@@ -84,7 +105,7 @@ export function dossierTab(c, s, data, ctx = {}) {
     <div class="sheet-grid sheet-grid--dossier">
       <div class="stack dossier__info">${identity}${background}${motivator}</div>
       <div class="stack dossier__story">${story}${timelineCard(c)}</div>
-      <div class="stack dossier__photo">${portrait}</div>
+      <div class="stack dossier__photo">${portrait}${card(t('look.title'), lookFields(c.narrative.look ?? {}), { tour: 'look' })}</div>
     </div>`;
 }
 

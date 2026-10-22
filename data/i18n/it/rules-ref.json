@@ -30,7 +30,7 @@
     },
     "hp": {
       "title": "Punti ferita (HP)",
-      "text": "HP massimi = 2 × CON + MST. A 0 HP sei incapacitato e ogni round tiri una prova di morte su CON; arrivare a −CON significa morte immediata."
+      "text": "HP massimi = CON + MST + 10. A 0 HP sei incapacitato e ogni round tiri una prova di morte su CON; arrivare a −CON significa morte immediata."
     },
     "body": {
       "title": "Salute, armatura e ferite",
@@ -70,7 +70,7 @@
     },
     "soldier": {
       "title": "Soldier · Stance-Flow",
-      "text": "I TP partono da 0 a ogni combattimento. Ogni attacco normale a segno dà +1 TP; Brace & Dig In +2, Steady Aim +1. I colpi finali spendono TP e cambiano stance. Defensive ×0,5, Attack ×1, Onslaught ×1,5 ai danni in entrambe le direzioni."
+      "text": "Ogni combattimento inizia in Ready. I TP partono da 0; ogni attacco normale a segno dà +1 TP. Le ability di stance spendono TP e ti spostano: Defensive ×0,5, Attack +2 TN, Onslaught ×1,5 ai danni in entrambi i sensi. Gli attacchi normali tengono la stance; muoversi, ricaricare o usare oggetti riporta a Ready (i TP restano)."
     },
     "hacker": {
       "title": "Hacker · RAM e Heat",

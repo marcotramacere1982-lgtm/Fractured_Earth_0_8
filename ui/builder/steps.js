@@ -4,8 +4,10 @@ import { html, raw, signed } from '../dom.js';
 import { driveEditor } from '../sheet/drive.js';
 import { counter, nameOf } from '../sheet/parts.js';
 import { bonus } from '../../rules/stats.js';
-import { pointsRemaining, canAdjust, careerChecks } from '../../rules/creation.js';
+import { pointsRemaining, canAdjust, careerChecks, entryTarget } from '../../rules/creation.js';
 import { scoreQuiz, careerClosed, recommendationLabel } from '../../rules/builder.js';
+import { lookFields } from '../look.js';
+import { portraitImg } from '../portrait.js';
 import { findSubclass, classTN } from '../../rules/classes.js';
 import { deriveSheet } from '../../state/character.js';
 import { storyPrompt, portraitPrompt } from './prompts.js';
@@ -180,11 +182,18 @@ export const STEPS = [
           <div class="b-careers">
             ${data.careers.careers.map((k) => {
               const { eligible, checks, waived } = careerChecks(c, k, data.careers);
+              if (k.fallbackOnly) return html`<div class="b-career is-blocked b-career--fallback">
+                <span class="b-career__cat">${k.category}</span>
+                <span class="b-career__name">${k.name}</span>
+                <span class="b-career__mods mono">${Object.entries(k.modifiers).map(([a, v]) => `${a} ${signed(v)}`).join(' · ')}</span>
+                <span class="b-career__req text-danger">${t('builder.fallbackOnly')}</span></div>`;
+              const entry = entryTarget(c, k, data.careers);
               return html`<button class="b-career ${eligible ? '' : 'is-blocked'}" data-action="pickCareer" data-id="${k.id}" aria-pressed="${draft.careerId === k.id}">
                 <span class="b-career__cat">${k.category}</span>
                 <span class="b-career__name">${k.name === 'Standard' ? k.category : k.name}</span>
                 <span class="b-career__mods mono">${Object.entries(k.modifiers).map(([a, v]) => `${a} ${signed(v)}`).join(' · ')}</span>
                 <span class="b-career__req">${checks.length ? checks.map((x) => html`<span class="${x.met || waived ? 'text-success' : 'text-danger'}">${x.met || waived ? '✓' : '✗'} ${ruleText(x)}</span>`) : html`<span class="text-success">✓ ${t('builder.noReqs')}</span>`}</span>
+                <span class="b-career__entry mono ${entry && entry.chance < 60 ? 'text-warning' : ''}">${entry ? t('builder.entryOdds', { tn: entry.tn, pct: entry.chance, stat: entry.stat }) + (entry.stay ? ` · ${t('builder.entryStay', { n: entry.stay })}` : '') : k.entryRoll === false ? t('builder.entryOpen') : t('builder.entryWaived')}</span>
               </button>`;
             })}
           </div>
@@ -258,18 +267,20 @@ export const STEPS = [
         ${ctx.atTable ? html`<div class="notice b-story__gm">
           ${c.narrative.backstoryRequest ? t('builder.sentToGm') : html`<span>${t('builder.gmOffer')}</span> <button class="btn btn--sm btn--primary" data-action="sendStory">${t('builder.sendToGm')}</button>`}
         </div>` : ''}
+        <details class="details b-look" data-keep="look" open><summary>${t('look.title')}</summary>${lookFields(c.narrative.look ?? {}, 'builder')}</details>
         <div class="b-story">
           <div class="stack">
             <div class="spread"><span class="label">${t('builder.storyPrompt')}</span><button class="btn btn--sm" data-action="copy" data-target="p-story">${t('common.copy')}</button></div>
             <textarea class="textarea mono b-prompt" id="p-story" readonly>${storyPrompt(c, data)}</textarea>
             <div class="spread"><span class="label">${t('builder.portraitPrompt')}</span><button class="btn btn--sm" data-action="copy" data-target="p-portrait">${t('common.copy')}</button></div>
             <textarea class="textarea mono b-prompt b-prompt--short" id="p-portrait" readonly>${portraitPrompt(c, data)}</textarea>
+            ${ctx.atTable ? html`<p class="hint">${t('builder.portraitByGm')}</p>` : ''}
           </div>
           <div class="stack">
             <label class="field"><span class="label">${t('builder.pasteStory')}</span>
               <textarea class="textarea" data-field="narrative.backstoryHtml" placeholder="${t('builder.pastePlaceholder')}">${c.narrative.backstoryHtml}</textarea></label>
             <div class="cluster">
-              ${c.portrait.dataUrl ? html`<img class="avatar" src="${c.portrait.dataUrl}" alt="">` : ''}
+              ${portraitImg(c.portrait, 'avatar')}
               <label class="btn btn--sm">${t('builder.uploadPortrait')}<input type="file" accept="image/*" class="visually-hidden" data-action="portrait"></label>
             </div>
           </div>

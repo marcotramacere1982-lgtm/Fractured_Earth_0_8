@@ -86,6 +86,7 @@ The sheet already counts what the player carries: tools appear as tick boxes (on
 
 - **Who's best at…** — every skill side by side for the characters playing now, the best TN highlighted. When nobody knows who should try, you do.
 - **Per character** — debt anchor, notable traits, credentials, life path and backstory. These are your hooks: a contact from their career, a creditor from their debt, a place from their youth.
+- **Look and portrait** — the player's *Appearance & manner* sits under the photo (read only: it is theirs). **📷 Change** sends a new portrait straight to that sheet (it waits if the player is offline). At the bottom, *Prompts* holds the portrait and backstory prompts with a Copy button: players without an image AI can leave the picture to you. Each card shows name, class, HP, Drive and strongest skills; everything else folds (appearance, anchors, life path, backstory, prompts) and stays as you left it.
 
 > **Keep it fun.** Give each player a moment where *their* character is the right one for the job. The Explore tab makes it easy to see who hasn't had one yet.
 
@@ -222,7 +223,7 @@ The sheet already counts what the player carries: tools appear as tick boxes (on
 
 **In the console.**
 
-- **↶ Undo…** on a player's card — *Last action*, *This round*, *Whole combat*, or back to before any line of their log. The sheet returns to the snapshot taken just before; rolls stay in the log. Every undo is listed in the **Undo log** (Table tab), with a count on each card, so the table can see it was fair.
+- **↶** (Undo) on a player's card — *Last action*, *This round*, *Whole combat*, or back to before any line of their log. The sheet returns to the snapshot taken just before; rolls stay in the log. Every undo is listed in the **Undo log** (Table tab), with a count on each card, so the table can see it was fair.
 - **↶ Undo** on the combat tracker for your own changes, announced to the table (9-6).
 - **Admin tab** — characters, missions and session logs on disk. *Archive* moves a finished character or mission out of the way; *Restore* brings it back; *Inspect* reads it. Nothing is ever deleted, and every action asks first.
 

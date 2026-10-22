@@ -86,6 +86,7 @@ La scheda conta già quello che il giocatore porta con sé: gli attrezzi compaio
 
 - **Who's best at…** — tutte le abilità affiancate per i personaggi che stanno giocando, con il TN migliore evidenziato. Quando nessuno sa chi dovrebbe provarci, lo sai tu.
 - **Per personaggio** — il debito, i tratti notevoli, le credenziali, il percorso di vita e la storia. Sono i tuoi agganci: un contatto della carriera, un creditore del debito, un luogo della giovinezza.
+- **Aspetto e ritratto** — l'*Aspetto e modi* del giocatore sta sotto la foto (sola lettura: è roba sua). **📷 Change** manda un nuovo ritratto direttamente a quella scheda (se il giocatore è offline, aspetta). In fondo, *Prompts* contiene i prompt del ritratto e della storia con un pulsante Copy: chi non ha un'IA per le immagini può lasciare la foto a te. Ogni scheda mostra nome, classe, HP, Drive e abilità migliori; tutto il resto si ripiega (aspetto, agganci, percorso di vita, storia, prompt) e resta come l'hai lasciato.
 
 > **Prima di tutto, divertirsi.** Dai a ogni giocatore un momento in cui il *suo* personaggio è quello giusto per il lavoro. La scheda Explore ti fa vedere subito chi non l'ha ancora avuto.
 
@@ -222,7 +223,7 @@ La scheda conta già quello che il giocatore porta con sé: gli attrezzi compaio
 
 **Nella console.**
 
-- **↶ Undo…** sulla scheda di un giocatore — *Last action*, *This round*, *Whole combat*, oppure indietro fino a prima di una qualsiasi riga del suo registro. La scheda torna all'istantanea presa subito prima; i tiri restano nel registro. Ogni annullamento finisce nell'**Undo log** (scheda Table), con un conteggio su ogni scheda, così il tavolo vede che è stato giusto.
+- **↶** (Undo) sulla scheda di un giocatore — *Last action*, *This round*, *Whole combat*, oppure indietro fino a prima di una qualsiasi riga del suo registro. La scheda torna all'istantanea presa subito prima; i tiri restano nel registro. Ogni annullamento finisce nell'**Undo log** (scheda Table), con un conteggio su ogni scheda, così il tavolo vede che è stato giusto.
 - **↶ Undo** nel tracker del combattimento per le tue modifiche, annunciato al tavolo (9-6).
 - **Scheda Admin** — personaggi, missioni e registri di sessione sul disco. *Archive* mette da parte un personaggio o una missione finiti; *Restore* li riporta; *Inspect* li legge. Non si cancella mai niente, e ogni azione chiede conferma.
 

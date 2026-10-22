@@ -9,13 +9,14 @@ import { carriedProtections } from '../../rules/tools.js';
 import { info } from '../ref.js';
 import { explain, hint } from '../explain.js';
 import { t, tn } from '../../i18n/index.js';
+import { portraitImg } from '../portrait.js';
 
 export function statusBar(c, s, data) {
   const hpKind = s.hp.current <= 0 ? 'danger' : s.hp.current <= s.hp.max / 3 ? 'danger' : 'success';
   return html`
     <div class="sheet-status" data-tour="status">
       <div class="sheet-status__id">
-        ${c.portrait.dataUrl ? html`<img class="avatar avatar--sm" src="${c.portrait.dataUrl}" alt="">` : ''}
+        ${portraitImg(c.portrait, 'avatar avatar--sm')}
         <div>
           <div class="sheet-status__name">${c.name || t('common.unnamed')}</div>
           <div class="sheet-status__class">${s.class ? `${s.class.name} · ${s.class.subclass.name}` : t('sheet.noClass')}</div>
@@ -31,8 +32,10 @@ export function statusBar(c, s, data) {
         <div class="stat"><span class="label">${t('stat.init')}${explain('initiative', '', t('explain.feeds.initiative'))}</span><span class="stat__value">${signed(s.initiative)}</span></div>
         <div class="stat"><span class="label">${t('stat.actions')}${explain('combat', 'act', t('stat.actions'))}</span><span class="stat__value">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></div>
         ${s.class ? html`<div class="stat"><span class="label">Class TN${explain('class-tn', '', 'Class TN')}</span><span class="stat__value stat__value--accent">${s.class.tn}</span></div>` : ''}
-        <div class="stat"><span class="label">CRS${info('credit-score', 'Credit Score')}</span><span class="stat__value">${c.attributes.CRS}</span></div>
-        <div class="stat"><span class="label">${t('stat.cash')}</span><span class="stat__value stat__value--success">$${c.play.cash}</span></div>
+      </div>
+      <div class="sheet-status__combat" data-tour="combat-line">
+        <span class="chip-stat" ${hint('combat', 'sqr')}><span class="label">${t('stat.move')}${explain('combat', 'sqr', t('stat.move'))}</span><span class="chip-stat__v">${temp(s.moveBase, s.move)}</span><span class="chip-stat__u">${t('stat.squares')}</span></span>
+        ${['off', 'def', 'per'].map((id) => html`<span class="chip-stat" ${hint('combat', id)}><span class="label">${id.toUpperCase()}${explain('combat', id, data.combat.derived.find((d) => d.id === id)?.name ?? id)}</span><span class="chip-stat__v">${temp(s.combat[id].base, s.combat[id].value, id === 'off' ? signed : (x) => x)}</span></span>`)}
       </div>
       ${s.effects.length ? html`<div class="cluster">${s.effects.map((e) => html`<span class="pill pill--success effect-pill">${e.name} · ${e.roundsLeft == null ? t('use.scene') : tn('use.rounds', e.roundsLeft)}
         <button class="effect-pill__end" data-action="endEffect" data-id="${e.id}" aria-label="${t('use.end', { name: e.name })}" title="${t('use.end', { name: e.name })}">✕</button></span>`)}</div>` : ''}
@@ -147,7 +150,7 @@ function weaponsCard(c, s, data) {
             ${w.note ? html`<p class="weapon__note">◆ ${w.note}</p>` : ''}
             <div class="weapon__stats">
               <button class="stat stat--button" data-action="check" data-kind="skill" data-id="${w.skill}" title="${t('weapons.rollAttack')}">
-                <span class="label">${t('weapons.attackTn')}</span><span class="stat__value stat__value--accent">${temp(w.base, w.tn)}</span><span class="stat__sub">${w.zoneTn ? html`<span class="text-info">+${w.zoneTn} Cold</span> · ` : ''}${nameOf(data.skills.skills, w.skill)}</span>
+                <span class="label">${t('weapons.attackTn')}</span><span class="stat__value stat__value--accent">${temp(w.base, w.tn)}</span><span class="stat__sub">${w.zoneTn ? html`<span class="text-info">+${w.zoneTn} Cold</span> · ` : ''}${w.stanceTn ? html`<span class="text-danger">+${w.stanceTn} Attack</span> · ` : ''}${nameOf(data.skills.skills, w.skill)}</span>
               </button>
               <div class="stat"><span class="label">${t('attack.damage')}</span><span class="stat__value">${w.damage}</span><span class="stat__sub">+ OFF ${temp(s.combat.off.base, s.combat.off.value, signed)}${s.conditionMods.meleeDamage && !(w.range?.max > 1) ? ` +${s.conditionMods.meleeDamage}` : ''}</span></div>
               <div class="stat"><span class="label">${t('weapons.range')}</span><span class="stat__value">${w.range.max}m</span><span class="stat__sub">min ${w.range.min}m</span></div>
@@ -169,26 +172,18 @@ function weaponsCard(c, s, data) {
   return card(t('weapons.title'), body, { ref: 'weapon-tn', tour: 'weapons' });
 }
 
-function combatCard(s, data) {
-  const body = html`
-    <div class="derived-grid">
-      ${data.combat.derived.map((d) => html`
-        <div class="stat" ${hint('combat', d.id)}>
-          <span class="label">${d.name}${explain('combat', d.id, d.name)}</span>
-          <span class="stat__value">${temp(s.combat[d.id].base, s.combat[d.id].value, d.id === 'off' ? signed : (x) => x)}</span>
-          <span class="stat__sub">${d.stats.join('+')} ${s.combat[d.id].sum}</span>
-        </div>`)}
-      <div class="stat" ${hint('initiative')}><span class="label">${t('explain.feeds.initiative')}${explain('initiative', '', t('explain.feeds.initiative'))}</span><span class="stat__value">${signed(s.initiative)}</span><span class="stat__sub">${t('combat.initRoll')}</span></div>
-    </div>
-    <p class="hint">${t('combat.footer', { off: signed(s.combat.off.value) })}</p>`;
-  return card(t('combat.title'), body, { ref: 'combat-values' });
-}
-
+/**
+ * Decision 97: two rows in the order of a turn — what can I do / with what (Turn | Weapons), then my engine / my
+ * state (class engine + talents | health & conditions). Phones stack them. The combat values live in the header.
+ */
 export function playTab(c, s, data, ctx = {}) {
   return html`
-    ${turnCard(c, s, data, ctx.combat)}
     <div class="sheet-grid sheet-grid--play">
-      <div class="stack">${weaponsCard(c, s, data)}${engineCard(c, s, data, ctx.combat)}${talentsCard(c, s, data)}</div>
-      <div class="stack">${healthCard(c, s, data)}${combatCard(s, data)}</div>
+      <div class="stack">${turnCard(c, s, data, ctx.combat, { tips: ctx.actionTips })}</div>
+      <div class="stack">${weaponsCard(c, s, data)}</div>
+    </div>
+    <div class="sheet-grid sheet-grid--play">
+      <div class="stack">${engineCard(c, s, data, ctx.combat, { mapDark: ctx.mapDark ?? null })}${talentsCard(c, s, data)}</div>
+      <div class="stack">${healthCard(c, s, data)}</div>
     </div>`;
 }

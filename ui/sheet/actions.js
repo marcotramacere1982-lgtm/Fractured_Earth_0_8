@@ -1,7 +1,7 @@
 // Sheet actions: each takes the draft character (+ data, args) and mutates it.
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
-import { canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells } from '../../rules/engines.js';
+import { canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
 import { buy, magazineId, addItem } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
 import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance } from '../../rules/turn.js';
@@ -19,7 +19,10 @@ export function spend(c, data, what) {
   if (!turn.inCombat) return '';
   const max = allowance(deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions);
   c.play.turn = spendAction(turn, max, what);
-  return `R${turn.round} · ${c.play.turn.used}/${max} · `;
+  const before = c.play.resources?.stance;
+  if (c.classId === 'soldier' && c.play.resources) c.play.resources = stanceAfterAction(c.classId, c.play.resources, what.kind, data.classes); // decision 88
+  const dropped = before && c.play.resources?.stance !== before ? 'Stance → Ready · ' : '';
+  return `R${turn.round} · ${c.play.turn.used}/${max} · ${dropped}`;
 }
 
 const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
@@ -238,6 +241,13 @@ export const actions = {
     ensureResources(c);
     c.play.resources[key] = /^-?\d+$/.test(value) ? Number(value) : value;
   },
+  /** A Soldier's stance set by hand (decision 88): a correction, so it goes in the log for the GM. */
+  fixStance(c, data, { value }) {
+    ensureResources(c);
+    const name = stanceOf('soldier', { stance: value }, data.classes)?.name ?? value;
+    c.play.resources.stance = value;
+    log(c, `Stance corrected by hand → ${name}`, 'warn');
+  },
   deck(c, _d, { value }) { c.play.deck = value || null; },
   optic(c, _d, { value }) { c.play.optic = value || null; },
 
@@ -423,7 +433,7 @@ export const actions = {
   field(c, _d, { path, value }) {
     const keys = path.split('.');
     let o = c;
-    while (keys.length > 1) o = o[keys.shift()];
+    while (keys.length > 1) o = o[keys.shift()] ??= {}; // narrative.look on an older save
     o[keys[0]] = value;
   },
   subclass(c, data, { value }) {

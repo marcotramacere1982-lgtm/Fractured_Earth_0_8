@@ -7,6 +7,7 @@ import { exportCharacter } from '../state/store.js';
 import { createCharacter, deriveSheet } from '../state/character.js';
 import { findSubclass } from '../rules/classes.js';
 import { t } from '../i18n/index.js';
+import { portraitImg } from './portrait.js';
 
 export function homeView({ data, store, main, table, library }) {
   const playing = () => Boolean(library?.available() && library.state.player);
@@ -136,7 +137,7 @@ function characterCard(c, data, library = null) {
     <article class="card">
       <a class="card__body op-card__link" href="${href('sheet', c.id)}">
         ${c.portrait.dataUrl
-          ? html`<img class="avatar" src="${c.portrait.dataUrl}" alt="">`
+          ? portraitImg(c.portrait, 'avatar')
           : html`<span class="avatar avatar--icon">${raw(classIcon)}</span>`}
         <div class="stack stack--tight">
           <strong class="card__title">${c.name || t('common.unnamed')}</strong>

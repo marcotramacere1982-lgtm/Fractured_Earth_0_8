@@ -9,7 +9,7 @@ import { info } from '../ref.js';
 import { createCharacter } from '../../state/character.js';
 import { setExplainSource } from '../explain.js';
 import { t, getLang } from '../../i18n/index.js';
-import { storyPrompt } from './prompts.js';
+import { storyPrompt, portraitPrompt } from './prompts.js';
 import { shrinkImage } from '../../state/store.js';
 import { runAdolescence, runCareerTerm, resolveChoice } from '../../rules/builder.js';
 
@@ -156,7 +156,7 @@ export function builderView({ data, store, main, table, library }) {
     },
     choose: ({ index, attr }) => commit((d) => {
       const ev = d.pending[Number(index)];
-      const r = resolveChoice(d.character, ev, { [attr]: ev.effects.choice.amount });
+      const r = resolveChoice(d.character, ev, { [attr]: ev.effects.choice.amount }, data);
       d.character = r.character;
       d.pending.splice(Number(index), 1);
       pushLog(logKey() ?? 'career', r.entries);
@@ -216,6 +216,11 @@ export function builderView({ data, store, main, table, library }) {
     const f = e.target.closest('[data-field]');
     if (!f) return;
     commit((d) => setPath(d.character, f.dataset.field, f.value), { redraw: false });
+    if (f.dataset.field.startsWith('narrative.look.')) { // the prompts below follow what the player types (decision 94)
+      const story = main.querySelector('#p-story'); const portrait = main.querySelector('#p-portrait');
+      if (story) story.value = storyPrompt(draft.character, data);
+      if (portrait) portrait.value = portraitPrompt(draft.character, data);
+    }
     refreshNav();
   };
   main.addEventListener('input', onInput);
