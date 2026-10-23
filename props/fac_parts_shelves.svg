@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Boxes of parts, half of them mislabelled. -->
+  <path class="solid" d="M4 4 H196 V46 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M52 4 V46 M100 4 V46 M148 4 V46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M12 14 H42 V36 H12 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M60 14 H90 V36 H60 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M108 14 H138 V36 H108 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M156 14 H186 V36 H156 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

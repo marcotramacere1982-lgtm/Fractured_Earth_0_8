@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A metro entrance: stairs going down under a glass canopy. -->
+  <path class="solid" d="M30 24 H70 V80 H30 Z" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+  <path class="detail" d="M34 32 H66 M34 40 H66 M34 48 H66 M34 56 H66 M34 64 H66 M34 72 H66" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M72 22 A8 8 0 1 0 88 22 A8 8 0 1 0 72 22 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M80 30 V44" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A rack of battery modules. A power source (wire it). -->
+  <path class="solid" d="M4 8 H196 V92 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M12 18 H36 V82 H12 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M42 18 H66 V82 H42 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M72 18 H96 V82 H72 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M102 18 H126 V82 H102 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M132 18 H156 V82 H132 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M162 18 H186 V82 H162 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M18 26 H30 M24 20 V32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M48 26 H60 M54 20 V32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M78 26 H90 M84 20 V32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M108 26 H120 M114 20 V32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M138 26 H150 M144 20 V32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M168 26 H180 M174 20 V32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A pedestrian street top to bottom: paving and planters. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="detail" d="M8 10 H92 M8 30 H92 M8 50 H92 M8 70 H92 M8 90 H92" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M12 50 A6 6 0 1 0 24 50 A6 6 0 1 0 12 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M76 50 A6 6 0 1 0 88 50 A6 6 0 1 0 76 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

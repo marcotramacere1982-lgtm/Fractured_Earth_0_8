@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- Drone batteries charging in rows. Top edge on the wall. -->
+  <path class="solid" d="M3 3 H197 V22 H3 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M16 8 L12 14 H20 L16 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M40 8 L36 14 H44 L40 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M64 8 L60 14 H68 L64 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M88 8 L84 14 H92 L88 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M112 8 L108 14 H116 L112 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M136 8 L132 14 H140 L136 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M160 8 L156 14 H164 L160 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M184 8 L180 14 H188 L184 20" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

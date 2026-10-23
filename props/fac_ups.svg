@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Uninterruptible power: batteries that carry the room when the mains goes. A power source (wire it). -->
+  <path class="solid" d="M4 4 H96 V96 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M16 16 H84 V40 H16 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M30 56 H70 M30 68 H70 M30 80 H70" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 20 L44 30 H56 L50 38" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

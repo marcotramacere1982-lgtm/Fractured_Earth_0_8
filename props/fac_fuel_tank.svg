@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A diesel tank in a bund: a ladder, a gauge, a smell. -->
+  <path class="detail" d="M6 6 H194 V194 H6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M26 100 A74 74 0 1 0 174 100 A74 74 0 1 0 26 100 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M50 100 A50 50 0 1 0 150 100 A50 50 0 1 0 50 100 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 26 V60" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="140" cy="70" r="4" fill="currentColor" stroke="none"/>
+</svg>

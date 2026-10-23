@@ -4,6 +4,7 @@
 
 import { normalizeZones } from './zones.js';
 import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
+import { normalizeWires, FAIL_MODES } from './power.js';
 
 export const MAP_SCHEMA = 1;
 const FREE_STEP = 0.05; // snap off: positions still round to 1/20 of a square
@@ -41,10 +42,13 @@ const laserState = (hidden = true) => ({ hidden, ...sensorState(['beam']) });
 export function addWall(map, { a, b, kind = 'wall', width = 'standard', open = false }) {
   if (samePoint(a, b)) return map;
   const next = clone(map);
-  next.walls.push({ id: nextWallId(map), a: { ...a }, b: { ...b }, kind, width, ...(kind === 'door' ? { open: !!open, locked: false } : {}), ...(kind === 'laser' ? laserState() : {}) });
+  next.walls.push({ id: nextWallId(map), a: { ...a }, b: { ...b }, kind, width, ...(kind === 'door' ? { open: !!open, locked: false } : {}), ...(kind === 'laser' ? laserState() : {}), ...(kind.startsWith('link_') ? { hidden: false, cut: false } : {}) });
   return next;
 }
 const LASER_KEYS = Object.keys(laserState());
+/** Links (decision 119): schematic connections between nodes — people, goods, power, data, water / fuel. They block
+ * nothing; each can be hidden (a secret route) and cut (sabotaged, blockaded). */
+export const isLink = (w) => typeof w?.kind === 'string' && w.kind.startsWith('link_');
 /**
  * Breakable walls (decision 83): `breakable` (GM-only, set in the builder), `broken` (a breach: blocks nothing) and
  * `cracks` (the GM shows players it's weak). Walls and glass walls carry them (decision 103).
@@ -62,8 +66,10 @@ export function setWall(map, id, fields) {
   const wasLaser = w.kind === 'laser';
   Object.assign(w, fields);
   if (w.kind === 'door') { w.open = !!w.open; w.locked = !!w.locked; } else { delete w.open; delete w.locked; } // locked: GM-only (decision 73)
+  if (w.kind === 'door' && w.powered) w.fail = FAIL_MODES.includes(w.fail) ? w.fail : 'secure'; else { delete w.powered; delete w.fail; } // electric doors (decision 127)
   if (w.kind === 'laser' && !wasLaser) Object.assign(w, laserState(), fields.hidden != null ? { hidden: fields.hidden } : {});
-  if (w.kind !== 'laser') for (const k of LASER_KEYS) delete w[k];
+  if (w.kind !== 'laser') for (const k of LASER_KEYS) if (!(isLink(w) && k === 'hidden')) delete w[k]; // links keep `hidden`
+  if (isLink(w)) { w.hidden = Boolean(w.hidden); w.cut = Boolean(w.cut); } else delete w.cut;
   if (!WEAKABLE.has(w.kind)) for (const k of WEAK_KEYS) delete w[k];
   for (const k of WEAK_KEYS) if (w[k] === false) delete w[k]; // kept only when true: old maps and files stay the same
   return next;
@@ -89,7 +95,7 @@ export function distanceToWall(p, w) {
 
 /** The segment nearest to p within `tolerance` squares (doors and windows win ties over the wall they sit on). */
 export function hitWall(map, p, tolerance) {
-  const rank = { laser: 0, door: 0, window: 1, wall: 2 };
+  const rank = { laser: 0, door: 0, window: 1, wall: 2, link_people: 0, link_goods: 0, link_power: 0, link_data: 0, link_water: 0 };
   let best = null;
   for (const w of map.walls) {
     const d = distanceToWall(p, w);
@@ -133,7 +139,9 @@ export function normalizeMap(raw, data) {
     if (!a || !b || samePoint(a, b) || !kinds.has(w.kind) || !widths.has(w.width)) continue;
     const laser = w.kind === 'laser' ? Object.fromEntries(Object.entries(laserState()).map(([k, v]) => [k, typeof w[k] === 'boolean' ? w[k] : v])) : {};
     const weak = WEAKABLE.has(w.kind) ? Object.fromEntries(WEAK_KEYS.filter((k) => w[k] === true).map((k) => [k, true])) : {};
-    walls.push({ id: idFor(w.id), a, b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open === true, locked: w.locked === true } : {}), ...laser, ...weak });
+    const link = isLink(w) ? { hidden: w.hidden === true, cut: w.cut === true } : {};
+    const electric = w.kind === 'door' && w.powered === true ? { powered: true, fail: FAIL_MODES.includes(w.fail) ? w.fail : 'secure' } : {}; // decision 127
+    walls.push({ id: idFor(w.id), a, b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open === true, locked: w.locked === true } : {}), ...electric, ...laser, ...weak, ...link });
   }
   // props (decision 68): known library pieces only, ids kept like walls
   const props = [];
@@ -149,9 +157,10 @@ export function normalizeMap(raw, data) {
     const { min, max } = data.map.sensor.reach;
     const reach = Object.fromEntries(Object.entries(q.reach ?? {}).filter(([k, n]) => def.sensor?.reach?.[k] != null && Number.isFinite(n)).map(([k, n]) => [k, Math.max(min, Math.min(max, Math.round(n)))]));
     const text = (k, max) => (typeof q[k] === 'string' && q[k].trim() ? { [k]: q[k].trim().slice(0, max) } : {}); // GM label / note (decision 99)
-    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300) });
+    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}) });
   }
-  return { ...base, walls, props, zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
+  const wires = normalizeWires(raw.wires, { walls, props }, data); // decision 127: GM-only power wiring
+  return { ...base, walls, props, ...(wires.length ? { wires } : {}), zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
 }
 
 /** Counts by kind, for the builder's summary. */
@@ -188,11 +197,11 @@ export const tokenLabel = (name) => String(name ?? '').trim().split(/\s+/).filte
 export function publicMap(live, people, data) {
   const m = live.map;
   return {
-    type: 'map', id: live.id, name: m.name, cols: m.cols, rows: m.rows, canMove: live.playersMove !== false,
+    type: 'map', id: live.id, ...(live.mapId ? { mapId: live.mapId } : {}), name: m.name, cols: m.cols, rows: m.rows, canMove: live.playersMove !== false,
     // hidden lasers and props stay with the GM; so do on / off and the sensor flags (players never know if a sensor is live)
     walls: m.walls.filter((w) => !w.hidden).map((w) => ({ id: w.id, a: w.a, b: w.b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open } : {}),
-      ...(w.broken ? { broken: true } : {}), ...(w.cracks ? { cracks: true } : {}) })), // a weak wall's `breakable` never leaves the GM (decision 83)
-    props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.reach ? { reach: p.reach } : {}), ...publicState(p, propDef(data, p.prop)) })),
+      ...(w.broken ? { broken: true } : {}), ...(w.cracks ? { cracks: true } : {}), ...(isLink(w) && w.cut ? { cut: true } : {}) })), // a weak wall's `breakable` never leaves the GM (decision 83)
+    props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.reach ? { reach: p.reach } : {}), ...(p.caption ? { caption: p.caption } : {}), ...(p.height != null ? { height: p.height } : {}), ...publicState(p, propDef(data, p.prop)) })), // a caption travels; label and note never do
     tokens: people.filter((p) => !p.hidden && live.tokens[p.key]).map((p) => ({
       key: p.key, kind: p.kind, label: p.label, name: p.name, x: live.tokens[p.key].x, y: live.tokens[p.key].y, down: Boolean(p.down), current: Boolean(p.current),
       ...(p.kind === 'player' && p.color ? { color: p.color } : {}), // the player's chosen colour, also their marks' (decision 82)
@@ -229,7 +238,7 @@ const centre = (s) => ({ x: s.x + 0.5, y: s.y + 0.5 });
  */
 export function solidSegments(map) {
   const standing = map.walls.filter((w) => !w.broken); // a broken-through wall is a gap (decision 83)
-  const openings = standing.filter((w) => w.kind !== 'wall');
+  const openings = standing.filter((w) => w.kind !== 'wall' && !isLink(w)); // links block nothing and never cut a wall
   const out = [...openings];
   for (const w of standing.filter((x) => x.kind === 'wall')) {
     const dx = w.b.x - w.a.x;

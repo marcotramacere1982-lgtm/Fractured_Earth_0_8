@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Flat land, schematic. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+</svg>

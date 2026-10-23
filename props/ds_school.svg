@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A school: an L of classrooms and a playground with a court. -->
+  <path class="solid" d="M8 8 H192 V70 H70 V192 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M14 39 H186 M39 70 V186" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M88 88 H186 V186 H88 Z M137 88 V186" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M123 137 A14 14 0 1 0 151 137 A14 14 0 1 0 123 137 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

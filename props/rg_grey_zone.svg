@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A Grey Zone settlement: unmonitored. Give it a caption (its name) so players read it once revealed. -->
+  <path class="solid" d="M29 6 H71 L94 29 V71 L71 94 H29 L6 71 V29 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path class="detail" d="M30 66 L50 36 L70 66 Z M44 66 V54 H56 V66" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

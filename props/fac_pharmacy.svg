@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An automated pharmacy: fingerprint, prescription code, a pill drawer. Locked tight. -->
+  <path class="solid" d="M6 6 H94 V94 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M18 16 H82 V46 H18 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M18 58 H82 M18 70 H82 M18 82 H82" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M44 31 A6 6 0 1 0 56 31 A6 6 0 1 0 44 31 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

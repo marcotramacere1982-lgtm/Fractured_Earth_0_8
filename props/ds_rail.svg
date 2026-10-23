@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A rail line across the district, top to bottom. -->
+  <path class="solid" d="M18 0 H82 V100 H18 Z" fill="currentColor" fill-opacity="0.25" stroke="none"/>
+  <path class="detail" d="M24 6 H76 M24 18.5 H76 M24 31 H76 M24 43.5 H76 M24 56 H76 M24 68.5 H76 M24 81 H76 M24 93.5 H76" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M38 0 V100 M62 0 V100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

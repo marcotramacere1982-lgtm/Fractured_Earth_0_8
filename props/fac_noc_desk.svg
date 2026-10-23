@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A network operations desk: four screens, a headset, cold coffee. -->
+  <path class="solid" d="M4 30 H196 V90 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M14 10 H52 V24 H14 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M60 10 H98 V24 H60 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M106 10 H144 V24 H106 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M152 10 H190 V24 H152 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M60 70 H90 M110 70 H140" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M94 76 A6 6 0 1 0 106 76 A6 6 0 1 0 94 76 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

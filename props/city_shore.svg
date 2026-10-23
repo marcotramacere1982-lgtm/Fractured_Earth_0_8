@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Land (top) meets water (bottom) along an embankment. City scale: a square is a district. Height: open (0/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path d="M0 50 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+  <path class="detail" d="M0 50 H100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 60 70 C66 66 72 74 78 70" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

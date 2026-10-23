@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- A big screen: maps, mugshots, objectives. Top edge on the wall. -->
+  <path class="solid" d="M3 3 H197 V22 H3 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M30 12 L60 8 L90 16 L130 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M146 12 A4 4 0 1 0 154 12 A4 4 0 1 0 146 12 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

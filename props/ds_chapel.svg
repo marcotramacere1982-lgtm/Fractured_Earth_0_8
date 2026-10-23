@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A small chapel with a square bell tower. -->
+  <path class="solid" d="M32 86 V36 A18 18 0 0 1 68 36 V86 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M12 62 H32 V86 H12 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M12 62 L32 86 M32 62 L12 86" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 40 V64 M41 49 H59" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

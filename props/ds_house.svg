@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A detached house with a garden, a tree and a drive. -->
+  <path class="detail" d="M6 6 H94 V94 H6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 4"/>
+  <path class="solid" d="M16 18 H68 V56 H16 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M16 18 L35 37 L16 56 M35 37 H49 M68 18 L49 37 L68 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M67 76 A9 9 0 1 0 85 76 A9 9 0 1 0 67 76 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="76" cy="76" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M78 56 V94 M90 56 V94" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

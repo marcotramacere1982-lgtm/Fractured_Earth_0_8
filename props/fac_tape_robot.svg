@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Cold storage: a robot shuffles tapes nobody has read in years. -->
+  <path class="solid" d="M4 6 H196 V94 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M20 14 V86 M32 14 V86 M44 14 V86 M56 14 V86 M68 14 V86 M80 14 V86 M92 14 V86 M104 14 V86 M116 14 V86 M128 14 V86 M140 14 V86 M152 14 V86 M164 14 V86 M176 14 V86 M188 14 V86" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M90 30 H110 V70 H90 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M100 6 V30 M100 70 V94" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

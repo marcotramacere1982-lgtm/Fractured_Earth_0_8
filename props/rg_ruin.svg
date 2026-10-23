@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A ruin: what is left of a place. Give it a caption (its name) so players read it once revealed. -->
+  <path class="solid" d="M29 6 H71 L94 29 V71 L71 94 H29 L6 71 V29 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path class="detail" d="M30 72 V44 H42 V56 M54 72 V36 H66 V60" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 3"/>
+</svg>

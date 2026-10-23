@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Triage: a nurse, a screen, a queue number. -->
+  <path class="solid" d="M6 60 H194 V92 H6 Z M6 60 C40 30 160 30 194 60" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M70 30 H100 V48 H70 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M120 70 H170" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An industrial node: water treatment. Give it a caption (its name) so players read it once revealed. -->
+  <path class="solid" d="M29 6 H71 L94 29 V71 L71 94 H29 L6 71 V29 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path class="detail" d="M50 26 C40 42 34 52 34 60 C34 70 42 76 50 76 C58 76 66 70 66 60 C66 52 60 42 50 26 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 25">
+  <!-- Plywood room-clearing walls: they stop sight, not bullets. -->
+  <path class="solid" d="M2 6 H98 V19 H2 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M30 6 V19 M64 6 V19" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

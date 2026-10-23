@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 150">
+  <!-- A trolley stretcher on wheels. -->
+  <path class="solid" d="M8 6 H42 V144 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M8 30 H42" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="12" cy="12" r="3" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="12" cy="138" r="3" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="38" cy="12" r="3" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="38" cy="138" r="3" fill="currentColor" stroke="none"/>
+</svg>

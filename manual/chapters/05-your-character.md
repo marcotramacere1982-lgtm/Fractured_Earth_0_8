@@ -269,9 +269,9 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 - **Skills** — attributes (adjustable for injuries, aging or GM rulings) and every skill. Tap to roll with the GM's difficulty.
 - **Gear** — cash, inventory, the market, and your lifestyle.
 - **Dossier** — identity, class, background, debt (with its pressure and instalments), portrait, backstory and *Story so far* (5-10).
-- **Notes** — your field notes and a log of rolls, purchases and ability uses.
+- **Notes & maps** — your field notes, **Maps we've seen** (every map that was on the table, as far as your crew saw it, 7-2 §5) and a log of rolls, purchases and ability uses.
 - **Progress** — level, XP, and the talent trees (5-9).
-- **Map** — only while the GM has a map on the table: look, move, open doors, check line of sight and range (7-2 §5).
+- **Active map** — only while the GM has a map on the table: look, move, open doors, check line of sight and range (7-2 §5).
 
 
 ## 5-9. Advancement & Talents {#sec-5-9}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A rail line (top to bottom) crossing a street (left to right). -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.18" stroke="none"/>
+  <path class="solid" d="M0 14 H100 V86 H0 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M0 14 H100 M0 86 H100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M38 0 V100 M62 0 V100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M24 10 L32 2 M76 90 L68 98" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

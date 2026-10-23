@@ -181,3 +181,51 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 .mark-swatch[aria-pressed='true'] { box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 5px var(--color-text); }
 .mark-swatch.is-taken { background: transparent; }
 .map-card.is-marking .map-card__stage { outline: 2px dashed var(--color-accent); outline-offset: -2px; }
+/* hold the mouse wheel to pan (decision 116) */
+.is-grabbing { cursor: grabbing; }
+.is-grab { cursor: grab; } /* Space held: ready to pan (decision 117) */
+.is-grab.is-grabbing { cursor: grabbing; }
+/* Links (decision 119): kind = colour + dash; cut = red dashes over it; hidden = GM screens only, faint */
+.map-link { fill: none; }
+.map-link--people { stroke: var(--color-text); }
+.map-link--goods { stroke: var(--color-accent); }
+.map-link--power { stroke: var(--color-warning); }
+.map-link--data { stroke: var(--color-info); }
+.map-link--water { stroke: var(--color-info); opacity: 0.55; }
+.map-link-core { stroke: var(--color-surface); }
+.map-link-cut { stroke: var(--color-danger); }
+.map-link--hidden { opacity: 0.35; }
+.map-preview--link { stroke: var(--color-accent); stroke-dasharray: 6 6; }
+
+
+/* Skyline view (decision 123): solid roofs and walls (roofs light, the two walls you see darker); a district's colour on its edges */
+.sky .sky-top { fill: var(--color-sky-top); }
+.sky .sky-l { fill: var(--color-sky-left); }
+.sky .sky-r { fill: var(--color-sky-right); }
+.sky polygon { stroke: var(--color-border-strong); stroke-width: 1; stroke-linejoin: round; }
+.sky-box--red polygon { stroke: var(--color-danger); }
+.sky-box--blue polygon, .sky-box--cyan polygon { stroke: var(--color-info); }
+.sky-box--purple polygon { stroke: var(--color-private); }
+.sky-box--green polygon { stroke: var(--color-success); }
+.sky-box--yellow polygon { stroke: var(--color-warning); }
+.sky .sky-box--frame polygon { fill: none; stroke-dasharray: 3 2; }
+.sky-box--hidden { opacity: 0.4; }
+.sky-pin { stroke: var(--color-text); stroke-width: 2; }
+.sky-pin__foot { fill: var(--color-text); opacity: 0.35; }
+
+/* decision 124: what a click in Select / Erase would take */
+.map-hover { stroke: var(--color-accent); opacity: 0.35; stroke-linecap: round; pointer-events: none; }
+.map-hover--erase { stroke: var(--color-danger); }
+
+/* decision 127: power wires, GM screens only — coloured by source, dashed red where cut */
+.map-wire { fill: none; stroke-linecap: round; opacity: 0.85; pointer-events: none; }
+.map-wire--c0 { stroke: var(--color-warning); }
+.map-wire--c1 { stroke: var(--color-info); }
+.map-wire--c2 { stroke: var(--color-success); }
+.map-wire--c3 { stroke: var(--color-private); }
+.map-wire--c4 { stroke: var(--color-accent); }
+.map-wire--cnone { stroke: var(--color-text-faint); stroke-dasharray: 6 6; }
+.map-wire--cut { stroke: var(--color-danger); stroke-dasharray: 10 8; }
+.map-wire__tag { fill: var(--color-text); font-family: var(--font-mono); font-weight: 600; paint-order: stroke; stroke: var(--color-bg); stroke-width: 4px; pointer-events: none; }
+.map-wire__tag--missing { fill: var(--color-danger); }
+.map-wire__armed { fill: none; stroke: var(--color-accent); stroke-dasharray: 6 4; pointer-events: none; }

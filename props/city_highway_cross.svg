@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Two highways crossing, with loop ramps. City scale: a square is a district. -->
+  <path class="detail" d="M50 0 V100 M0 50 H100" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.35"/>
+  <path class="detail" d="M50 0 V100 M0 50 H100" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 4"/>
+  <path class="detail" d="M18 30 A12 12 0 1 0 42 30 A12 12 0 1 0 18 30 ZM58 70 A12 12 0 1 0 82 70 A12 12 0 1 0 58 70 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

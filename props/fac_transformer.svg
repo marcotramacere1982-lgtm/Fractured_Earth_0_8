@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A transformer behind its fence: steps the power down, hums. It passes power on (a breaker: trip it). -->
+  <path class="detail" d="M4 4 H196 V196 H4 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M40 40 H160 V160 H40 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M60 40 V160 M80 40 V160 M100 40 V160 M120 40 V160 M140 40 V160" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M52 24 A8 8 0 1 0 68 24 A8 8 0 1 0 52 24 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M92 24 A8 8 0 1 0 108 24 A8 8 0 1 0 92 24 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M132 24 A8 8 0 1 0 148 24 A8 8 0 1 0 132 24 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+</svg>

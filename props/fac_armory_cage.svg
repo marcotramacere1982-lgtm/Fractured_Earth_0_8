@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A wire-mesh armory: racks, ammo crates, a sign-out book. The mesh stops people, not sight. -->
+  <path class="detail" d="M4 4 H196 V196 H4 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M28 4 V196 M52 4 V196 M76 4 V196 M100 4 V196 M124 4 V196 M148 4 V196 M172 4 V196" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="2 4"/>
+  <path class="solid" d="M20 20 H90 V40 H20 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M110 140 H180 V180 H110 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M120 150 L170 170 M170 150 L120 170" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

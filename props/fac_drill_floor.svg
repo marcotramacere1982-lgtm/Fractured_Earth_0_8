@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Drill yard tarmac with painted marks. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+  <path class="detail" d="M20 50 H80 M50 20 V80" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

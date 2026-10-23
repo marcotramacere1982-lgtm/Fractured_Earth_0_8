@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A rail yard: tracks fanning out, sheds, a turntable. City scale: a square is a district. Height: low (1/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="detail" d="M0 14 C30 14 40 35.6 100 35.6 M0 23 C30 23 40 39.2 100 39.2 M0 32 C30 32 40 42.8 100 42.8 M0 41 C30 41 40 46.4 100 46.4 M0 50 C30 50 40 50.0 100 50.0 M0 59 C30 59 40 53.6 100 53.6 M0 68 C30 68 40 57.2 100 57.2 M0 77 C30 77 40 60.8 100 60.8 M0 86 C30 86 40 64.4 100 64.4" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M6 84 H46 V96 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M75 16 A9 9 0 1 0 93 16 A9 9 0 1 0 75 16 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M75 16 H93" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 15">
+  <!-- Breaker panel, ½ × 0.15: top edge on the wall. The flat or office's fuses: trip it and its circuits go dark (decision 127). -->
+  <rect class="solid" x="2" y="2" width="46" height="11" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <path class="detail" d="M14 5 V10 M20 5 V10 M26 5 V10 M32 5 V10 M38 5 V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <path class="detail" d="M7 4.5 L5 8 H8 L6 11" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- A soldier's footlocker: a padlock, a name stencilled on. -->
+  <path class="solid" d="M6 6 H94 V44 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M6 20 H94" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M44 26 H56 V36 H44 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+</svg>

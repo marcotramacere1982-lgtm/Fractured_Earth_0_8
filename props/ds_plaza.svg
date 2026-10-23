@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Plaza paving: a square to walk across. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="detail" d="M25 0 V100 M50 0 V100 M75 0 V100 M0 25 H100 M0 50 H100 M0 75 H100" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

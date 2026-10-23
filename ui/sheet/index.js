@@ -30,7 +30,9 @@ import { soundOn, setSound } from '../sound.js';
 import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 import { boostsFor } from './check-boosts.js';
-import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen } from './map-tab.js';
+import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky } from './map-tab.js';
+import { attachMemory, memoryBusy, toggleMemory, memoryFit, memoryZoom, toggleMemorySky } from './map-memories.js';
+import { forgetMap, noteMap } from '../../rules/map-memory.js';
 import { markHandlers, myMarkColor } from './map-marks.js';
 import { carriesTorch, visionOf } from '../../rules/light.js';
 import { lightOptions, lightKind, squareLight } from '../../rules/darkness.js';
@@ -74,7 +76,7 @@ export function sheetView({ data, store, main, table }, route) {
   const TIPS = 'fe.sheet.actionTips';
   const tipsOn = () => { try { return localStorage.getItem(TIPS) === '1'; } catch { return false; } };
   const draw = () => {
-    if (mapBusy()) return; // a finger on the map: it redraws when the finger lifts
+    if (mapBusy() || memoryBusy()) return; // a finger on the map: it redraws when the finger lifts
     const tab = tabs().find((x) => x.id === tabId) ?? TABS[0];
     const c = character();
     const s = deriveSheet(c, data);
@@ -99,6 +101,7 @@ export function sheetView({ data, store, main, table }, route) {
         <div class="sheet-body">${tab.view(c, s, withUniques(data, c), { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: tab.id === 'play' && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()) })}</div>
       </div>`);
     if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark });
+    if (tab.id === 'notes') attachMemory(main, data, c, draw); // decision 122
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
   };
 
@@ -358,6 +361,15 @@ export function sheetView({ data, store, main, table }, route) {
     portraitReset: () => run('field', { path: 'portrait.frame', value: null }),
     export: () => exportCharacter(character()),
     mapFit: () => mapFit(),
+    mapSkyline: () => { toggleSky(); draw(); }, // decision 123
+    memSkyline: () => { toggleMemorySky(); draw(); },
+    memOpen: ({ key }) => { toggleMemory(key); draw(); }, // decision 122: maps we've seen
+    memFit: () => memoryFit(),
+    memZoom: ({ dir }) => memoryZoom(dir),
+    memForget: ({ key }) => {
+      const m = (character().play.mapMemories ?? []).find((x) => x.key === key);
+      if (m && confirm(t('memory.forgetConfirm', { name: m.name }))) store.update(id, (c) => { c.play.mapMemories = forgetMap(c.play.mapMemories, key); });
+    },
     mapZoom: ({ dir }) => mapZoom(dir),
     mapTarget: () => { clearTarget(); draw(); },
     mapInfoClose: () => { clearTarget(); draw(); },
@@ -429,6 +441,7 @@ export function sheetView({ data, store, main, table }, route) {
     subclass: (_, e) => run('subclass', { value: e.target.value }),
     cash: (_, e) => run('cash', { value: e.target.value }),
     field: (d, e) => run('field', { path: d.path, value: d.number ? Number(e.target.value) : e.target.value }),
+    memNote: ({ key }, e) => store.update(id, (c) => { c.play.mapMemories = noteMap(c.play.mapMemories, key, e.target.value); }),
     async portrait(_, e) {
       const file = e.target.files[0];
       if (!file) return;

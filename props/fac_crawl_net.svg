@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A net pegged low over mud: under it on your belly. -->
+  <path class="detail" d="M6 6 H194 V194 H6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M6 30 H194 M6 54 H194 M6 78 H194 M6 102 H194 M6 126 H194 M6 150 H194 M6 174 H194 M30 6 V194 M54 6 V194 M78 6 V194 M102 6 V194 M126 6 V194 M150 6 V194 M174 6 V194" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

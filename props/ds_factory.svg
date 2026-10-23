@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <!-- A factory: sheds, two chimneys, a fenced yard. -->
+  <path class="solid" d="M8 8 H200 V112 H104 V192 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M28 8 V112 M48 8 V112 M68 8 V112 M88 8 V112 M108 8 V112 M128 8 V112 M148 8 V112 M168 8 V112 M188 8 V112" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 128 H104" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M225 54 A13 13 0 1 0 251 54 A13 13 0 1 0 225 54 Z" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+  <path class="solid" d="M257 54 A13 13 0 1 0 283 54 A13 13 0 1 0 257 54 Z" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+  <path class="detail" d="M200 8 H292 V192 H104" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+  <path class="detail" d="M140 140 H180 V166 H140 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

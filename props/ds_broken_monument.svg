@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A toppled monument: a cracked plinth, the pieces where they fell. -->
+  <path class="detail" d="M20 20 H80 V80 H20 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+  <path class="solid" d="M30 34 L52 30 L56 50 L34 54 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M58 58 L76 62 L70 80 L54 74 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M28 64 L40 62 L42 74 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+</svg>

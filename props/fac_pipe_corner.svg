@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Pipes bending from the bottom to the right side. -->
+  <path class="detail" d="M34 100 V66 A32 32 0 0 1 66 34 H100" fill="none" stroke="currentColor" stroke-width="14" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.6"/>
+  <path class="detail" d="M66 100 V80 A14 14 0 0 1 80 66 H100" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.6"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A row of five terraced houses, small back gardens. -->
+  <path class="solid" d="M8 12 H192 V64 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M44.8 12 V64 M81.6 12 V64 M118.4 12 V64 M155.2 12 V64 M8 38 H192" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M30.1 18 H36.1 V24 H30.1 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M66.9 18 H72.9 V24 H66.9 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M103.7 18 H109.7 V24 H103.7 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M140.5 18 H146.5 V24 H140.5 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><path class="detail" d="M177.3 18 H183.3 V24 H177.3 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M44.8 64 V94 M81.6 64 V94 M118.4 64 V94 M155.2 64 V94 M8 94 H192" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 4"/>
+</svg>

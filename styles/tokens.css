@@ -113,12 +113,18 @@
   --color-mark-white: rgb(242, 244, 247);
   --color-calm-white: #eef1f5;   /* the white end of the Smuggler pendulum and the Hacker RAM bar */
   --color-mark-white-soft: rgba(242, 244, 247, 0.2);
+  --color-sky-top: #353c47;       /* skyline view (decision 123): roofs, and the two walls you see */
+  --color-sky-left: #1b1f25;
+  --color-sky-right: #262c35;
   --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
 
   color-scheme: dark;
 }
 
 :root[data-theme='light'] {
+  --color-sky-top: #ffffff;
+  --color-sky-left: #c3c9d1;
+  --color-sky-right: #dbe0e6;
   --color-bg: #eef0f2;
   --color-surface: #ffffff;
   --color-surface-2: #f5f6f8;

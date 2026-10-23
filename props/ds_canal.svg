@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A canal top to bottom, stone quays on both sides. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.15" stroke="none"/>
+  <path class="solid" d="M18 0 H82 V100 H18 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M18 0 V100 M82 0 V100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M32 30 C38 26 44 34 50 30 M48 70 C54 66 60 74 66 70" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

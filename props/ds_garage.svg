@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A multi-storey car park with a spiral ramp. -->
+  <path class="solid" d="M8 8 H192 V192 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M30 8 V48 M30 152 V192 M52 8 V48 M52 152 V192 M74 8 V48 M74 152 V192 M96 8 V48 M96 152 V192 M118 8 V48 M118 152 V192 M140 8 V48 M140 152 V192 M162 8 V48 M162 152 V192 M184 8 V48 M184 152 V192" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M70 100 A30 30 0 1 0 130 100 A30 30 0 1 0 70 100 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M84 100 A16 16 0 1 0 116 100 A16 16 0 1 0 84 100 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 70 V84" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

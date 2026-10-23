@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <!-- An arcology: a stepped pyramid city in one building, gardens on the terraces, an atrium at the top. -->
+  <path class="solid" d="M10 10 H290 V290 H10 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M50 50 H250 V250 H50 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M90 90 H210 V210 H90 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M122 122 H178 V178 H122 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M136 150 A14 14 0 1 0 164 150 A14 14 0 1 0 136 150 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M10 10 L122 122 M290 10 L178 122 M290 290 L178 178 M10 290 L122 178" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M25 150 A5 5 0 1 0 35 150 A5 5 0 1 0 25 150 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="30" cy="150" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M265 150 A5 5 0 1 0 275 150 A5 5 0 1 0 265 150 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="270" cy="150" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M145 30 A5 5 0 1 0 155 30 A5 5 0 1 0 145 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="150" cy="30" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M145 270 A5 5 0 1 0 155 270 A5 5 0 1 0 145 270 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="150" cy="270" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M65 110 A5 5 0 1 0 75 110 A5 5 0 1 0 65 110 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="70" cy="110" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M225 190 A5 5 0 1 0 235 190 A5 5 0 1 0 225 190 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="230" cy="190" r="1.6" fill="currentColor" stroke="none"/>
+</svg>

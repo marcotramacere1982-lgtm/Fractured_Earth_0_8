@@ -9,8 +9,20 @@ const FREE_STEP = 0.05;
 
 export const propDef = (data, id) => data.props.props.find((p) => p.id === id) ?? null;
 /** Ground pieces (floor textures, terrain, chalk outlines): drawn under everything, picked last by a tap. */
-export const GROUND = new Set(['floor', 'zone', 'terrain', 'scene']);
+export const GROUND = new Set(['floor', 'zone', 'terrain', 'scene', 'city']); // city tiles too: links and walls on them stay clickable (decision 124)
 export const isGround = (data, p) => GROUND.has(propDef(data, p.prop)?.category);
+/**
+ * A piece's tags (decision 115): the type tags in its record, then the ones worked out from what it does —
+ * light, sensor, walk-in, opens, switchable, difficult, full-cover, blocks-sight, hidden. Never typed by hand.
+ */
+export function tagsOf(def) {
+  if (!def) return [];
+  const auto = [def.light && 'light', sensesOf(def).length && 'sensor', def.shell && 'walk-in', def.openable && 'opens',
+    (def.power || sensesOf(def).length) && 'switchable', def.difficult && 'difficult', def.cover === 'full' && 'full-cover',
+    def.blocksSight && 'blocks-sight', def.hiddenByDefault && 'hidden'].filter(Boolean);
+  return [...(def.tags ?? []), ...auto];
+}
+
 /** A floor tile (tarmac, carpet…), not a decal on it (a drain, a stain): what the builder's floor lock protects. */
 export const isFloorTile = (data, p) => { const d = propDef(data, p.prop); return d?.category === 'floor' && !d.decal; };
 
@@ -47,7 +59,7 @@ export const propBlocksMove = (def, p) => Boolean(def?.blocksMove && !(def.openP
 export const propBlocksSight = (def, p) => Boolean(def?.blocksSight && !(def.openPasses && p.open));
 
 /** A GM label and note on any placed piece (decision 99): never sent to players. */
-export const NOTE_MAX = { label: 40, note: 300 };
+export const NOTE_MAX = { label: 40, note: 300, caption: 60 }; // caption: what players read once the piece is revealed (decision 118)
 /** Reach in squares of a placed sensor for a sense (motion: a line ahead, audio: a radius); null when it has none. */
 export const reachOf = (p, def, sense) => p.reach?.[sense] ?? def?.sensor?.reach?.[sense] ?? null;
 

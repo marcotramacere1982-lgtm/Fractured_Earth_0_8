@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A river top to bottom between embankments; city on both banks. City scale: a square is a district. Height: open (0/4), for the skyline view to come. -->
+  <path d="M30 0 H70 V100 H30 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+  <path class="detail" d="M30 0 V100 M70 0 V100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

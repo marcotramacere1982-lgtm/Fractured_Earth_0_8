@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A Watch fortress: a walled compound, towers at the corners, a landing field. City scale: a square is a district. Height: high (3/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="solid" d="M10 10 H90 V90 H10 Z M20 20 V80 H80 V20 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill-rule="evenodd"/>
+  <path class="solid" d="M3 10 A7 7 0 1 0 17 10 A7 7 0 1 0 3 10 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M83 10 A7 7 0 1 0 97 10 A7 7 0 1 0 83 10 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M3 90 A7 7 0 1 0 17 90 A7 7 0 1 0 3 90 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M83 90 A7 7 0 1 0 97 90 A7 7 0 1 0 83 90 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M30 30 H54 V70 H30 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M59 50 A9 9 0 1 0 77 50 A9 9 0 1 0 59 50 Z M64 45 V55 M72 45 V55 M64 50 H72" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

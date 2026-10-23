@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Six shops side by side, awnings over the sidewalk. -->
+  <path class="solid" d="M8 8 H192 V68 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M38.7 8 V68 M69.3 8 V68 M100 8 V68 M130.7 8 V68 M161.3 8 V68" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M12 68 V82 M23.3 68 V82 M34.7 68 V82 M42.7 68 V82 M54 68 V82 M65.3 68 V82 M73.3 68 V82 M84.7 68 V82 M96 68 V82 M104 68 V82 M115.3 68 V82 M126.7 68 V82 M134.7 68 V82 M146 68 V82 M157.3 68 V82 M165.3 68 V82 M176.7 68 V82 M188 68 V82" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 82 H192" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Four detached houses with gardens and hedges. -->
+  <path class="detail" d="M100 6 V194 M6 100 H194 M6 6 H194 V194 H6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 4"/>
+  <path class="solid" d="M20 24 H76 V64 H20 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M20 24 L40 44 L20 64 M40 44 H56 M76 24 L56 44 L76 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M124 20 H168 V76 H124 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M124 20 L146 42 L168 20 M146 42 V54 M124 76 L146 54 L168 76" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M24 128 H68 V180 H24 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M24 128 L46 150 L68 128 M46 150 V158 M24 180 L46 158 L68 180" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M120 132 H180 V172 H120 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M120 132 L140 152 L120 172 M140 152 H160 M180 132 L160 152 L180 172" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M77 80 A7 7 0 1 0 91 80 A7 7 0 1 0 77 80 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="84" cy="80" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M171 86 A7 7 0 1 0 185 86 A7 7 0 1 0 171 86 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="178" cy="86" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M77 186 A7 7 0 1 0 91 186 A7 7 0 1 0 77 186 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="84" cy="186" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M153 184 A7 7 0 1 0 167 184 A7 7 0 1 0 153 184 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="160" cy="184" r="1.6" fill="currentColor" stroke="none"/>
+</svg>

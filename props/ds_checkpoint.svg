@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A checkpoint across a street: barriers, a booth, a scanner arch. You pass where they let you. -->
+  <path class="solid" d="M74 34 H94 V66 H74 Z" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+  <path class="detail" d="M6 26 H70 M6 74 H70" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="8 6"/>
+  <path class="detail" d="M30 34 V66 M46 34 V66" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M6 40 H20 V46 H6 ZM6 54 H20 V60 H6 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

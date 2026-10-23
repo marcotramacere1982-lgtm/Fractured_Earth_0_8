@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A ruined district: shells of blocks, rubble, nobody official. City scale: a square is a district. Height: low (1/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="detail" d="M8 8 H30 V30 H8 Z M40 8 H62 V30 H40 Z M70 12 H92 V34 H70 Z M8 42 H30 V64 H8 Z M70 46 H92 V68 H70 Z M10 74 H32 V96 H10 Z M44 72 H66 V94 H44 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+  <path class="solid" d="M42 40 L60 38 L64 58 L46 62 Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+  <path class="solid" d="M4.1 12.9 l4.2 0.4 l-0.7 4.2 l-4.2 -0.8 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M23.4 69.7 l3.4 0.5 l0.3 3.4 l-3.4 -0.7 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M50.1 42.4 l4.2 1 l-0.8 4.2 l-4.2 -1 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M85.7 38.5 l3.6 -0.3 l-0.3 3.6 l-3.6 0.9 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M21.5 22.1 l4.8 0.1 l0.9 4.8 l-4.8 0.7 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M34.3 20.9 l5.5 1 l-0.9 5.5 l-5.5 0.5 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M79.4 60.3 l3.7 0.6 l0.5 3.7 l-3.7 -0.6 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M59.4 22.3 l3.1 -0.3 l-0.3 3.1 l-3.1 -0.2 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M59.9 76.6 l5.9 1 l1 5.9 l-5.9 0.6 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M30 18.5 l4.9 0.1 l0.3 4.9 l-4.9 -0.8 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M20 84 l4.8 0.4 l-0.8 4.8 l-4.8 -0.2 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M83.1 60.1 l6 -0.6 l-0.1 6 l-6 0.6 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M42.1 72.4 l4.7 -0.8 l-0.8 4.7 l-4.7 1 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M13.5 20.1 l4 0.4 l0.7 4 l-4 -0 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M46.8 72.4 l3.8 -0.3 l0.2 3.8 l-3.8 0.3 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+  <path class="solid" d="M6.4 12.9 l3.4 0.5 l0.4 3.4 l-3.4 0.9 Z" fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round"/>
+</svg>

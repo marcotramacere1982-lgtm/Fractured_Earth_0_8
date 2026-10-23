@@ -64,7 +64,7 @@ Darkness never makes anyone harder to hit — cover does that, as armor. It chan
 
 ### 5. The map on the table {#sec-7-2-map}
 
-When the GM puts a tactical map on the table, a **Map** tab appears on your sheet (with a dot) and stays while the map is on. It is the GM's map minus what your crew doesn't know. The map helps you picture the scene and saves arguments about distances; it is not a referee — the GM still has the last word. The first time you open it, the tab offers a one-minute tour; its **?** button replays it.
+When the GM puts a tactical map on the table, an **Active map** tab appears on your sheet (with a dot) and stays while the map is on. It is the GM's map minus what your crew doesn't know. The map helps you picture the scene and saves arguments about distances; it is not a referee — the GM still has the last word. The first time you open it, the tab offers a one-minute tour; its **?** button replays it.
 
 - **Looking around.** Drag the map to pan, pinch or use the mouse wheel to zoom, *Fit* to see it all. One square is 1.5 m.
 - **Who's who.** Your marker is filled, with your initials; your crew's markers are outlined. Hostiles carry the same letters as the *Hostiles* list (7-1). Other people — workers, clerks, guards — are purple and go by role (*Worker 1*, marker W1) until you learn a name. A dashed ring is a **heat signature**: someone in the dark that only thermal picks up.
@@ -75,6 +75,8 @@ When the GM puts a tactical map on the table, a **Map** tab appears on your shee
 - **Light and gear.** If you carry a Tactical Torch, the Map tab has its switch: it lights 4 squares round you for the whole crew — and shows the enemy exactly where you are. Night-vision goggles and thermal work on their own when you carry them. A flare (*Use item* on the Chemical Flare Sticks) drops a light on your square.
 - **Pointing things out.** *✎ Mark* switches the map to marking: drop a **⊕ crosshair** (here), an **➜ arrow** (drag from tail to tip), a **? question mark** (what's this?), or draw a **line** with your finger — a route, a circle round something. Everyone at the table sees it, in your colour; it fades after two minutes unless you tap it and choose *Keep it* (one each). You hold up to three stamps and one line: a new one replaces your oldest. While marking, two fingers still move the map; *Done marking* goes back. Marks are only talk — they change nothing in the rules and aren't saved. In the same panel you **choose your colour**: your marker wears it too, so the crew knows whose mark is whose.
 - **What the map doesn't show.** Hidden sensors, alarm panels, which doors are locked, and anyone nobody can see. An empty corridor on the tablet is not an empty corridor.
+- **Afterwards.** Your sheet remembers every map it saw, as far as your crew saw it: the pieces and their captions, doors as you left them, and the people you met — with their names, where you last saw them. *Notes & maps → Maps we've seen*: open one to look around, add a line of your own, or forget it. Only the 15 most recent stay. If you weren't at the table that night, you don't have it.
+- **Skyline.** On a city map the Active map (and the same map in *Maps we've seen*) has a **Skyline** switch: the city seen at an angle, buildings rising from every district. Look around and tap a district for its name; switch back to **Top-down** to move, check sight or mark.
 
 ## 7-3. Action Types {#sec-7-3}
 

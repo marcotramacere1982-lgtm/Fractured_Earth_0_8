@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Lake, schematic. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+  <path class="solid" d="M20 50 C18 30 40 18 60 24 C82 30 86 56 72 72 C56 88 26 80 20 50 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M38 48 C44 44 50 52 56 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

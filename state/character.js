@@ -42,6 +42,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       hp: null, // null = full
       cash: 0,
       notes: '',
+      mapMemories: [], // decision 122: maps this character saw on the table (rules/map-memory.js)
       inventory: [], // { kind: 'weapon'|'armor'|'item'|'deck', id, qty }
       deck: null, // active hacker deck id
       deckMods: [], // installed deck mod ids

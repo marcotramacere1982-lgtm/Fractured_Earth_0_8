@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A warehouse under a sawtooth roof. -->
+  <path class="solid" d="M8 12 H192 V88 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M28 12 V88 M28 12 L38 22 M48 12 V88 M48 12 L58 22 M68 12 V88 M68 12 L78 22 M88 12 V88 M88 12 L98 22 M108 12 V88 M108 12 L118 22 M128 12 V88 M128 12 L138 22 M148 12 V88 M148 12 L158 22 M168 12 V88 M168 12 L178 22 M188 12 V88 M188 12 L198 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

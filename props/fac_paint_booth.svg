@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300">
+  <!-- A sealed paint booth with filters: step in (it hides who is inside), the door at the front. -->
+  <path class="solid" d="M6 6 H194 V294 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path class="detail" d="M20 30 H180 M20 50 H180 M20 70 H180" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 270 H180" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

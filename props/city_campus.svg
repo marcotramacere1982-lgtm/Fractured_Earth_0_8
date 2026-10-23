@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A campus: a cross-shaped hospital with a helipad, faculty buildings round lawns. City scale: a square is a district. Height: mid (2/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="solid" d="M18 6 H32 V18 H44 V32 H32 V44 H18 V32 H6 V18 H18 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M20 25 A5 5 0 1 0 30 25 A5 5 0 1 0 20 25 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M56 10 H76 V22 H56 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M56 30 H76 V42 H56 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M10 58 H30 V70 H10 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M10 80 H30 V92 H10 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M44 72 A22 16 0 1 0 88 72 A22 16 0 1 0 44 72 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="66" cy="72" r="2.5" fill="currentColor" stroke="none"/>
+</svg>

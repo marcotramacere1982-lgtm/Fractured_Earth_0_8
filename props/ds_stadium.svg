@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <!-- A stadium: the stands round a pitch. -->
+  <path class="solid" d="M10 100 A140 92 0 1 0 290 100 A140 92 0 1 0 10 100 Z M50 100 A100 62 0 1 0 250 100 A100 62 0 1 0 50 100 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round" fill-rule="evenodd"/>
+  <path class="detail" d="M30 100 A120 77 0 1 0 270 100 A120 77 0 1 0 30 100 Z" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 4"/>
+  <path class="detail" d="M88 64 H212 V136 H88 Z M150 64 V136" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M136 100 A14 14 0 1 0 164 100 A14 14 0 1 0 136 100 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

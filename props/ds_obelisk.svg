@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An obelisk: a base and a tall shaft with a pointed tip. -->
+  <path class="detail" d="M26 26 H74 V74 H26 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M38 38 H62 V62 H38 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M38 38 L62 62 M62 38 L38 62" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M62 62 L84 84" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.4"/>
+</svg>

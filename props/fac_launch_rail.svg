@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300">
+  <!-- Delivery drones queue here and leave through the roof hatch, one every few seconds. -->
+  <path class="detail" d="M20 6 H80 V294 H20 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 6 V294" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 8"/>
+  <path class="detail" d="M38 60 A12 12 0 1 0 62 60 A12 12 0 1 0 38 60 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M38 150 A12 12 0 1 0 62 150 A12 12 0 1 0 38 150 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M38 240 A12 12 0 1 0 62 240 A12 12 0 1 0 38 240 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

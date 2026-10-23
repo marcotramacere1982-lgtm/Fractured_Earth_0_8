@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 25">
+  <!-- The plant drawn on the wall in lights. Top edge on the wall. -->
+  <path class="solid" d="M3 3 H297 V22 H3 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M20 13 H90 V8 H160 M160 13 H240 V18 H280" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="90" cy="8" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="160" cy="13" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="240" cy="18" r="2" fill="currentColor" stroke="none"/>
+</svg>

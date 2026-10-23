@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An alley top to bottom with a branch to the right. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.1" stroke="none"/>
+  <path class="solid" d="M32 0 H68 V32 H100 V68 H68 V100 H32 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <path class="detail" d="M32 0 V100 M68 0 V32 H100 M68 100 V68 H100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="44" cy="18" r="2.2" fill="currentColor" stroke="none"/>
+</svg>

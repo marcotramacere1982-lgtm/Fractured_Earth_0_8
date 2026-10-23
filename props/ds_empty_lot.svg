@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An empty lot: rubble and weeds where a building used to be. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+  <path class="detail" d="M20 24 L30 18 L36 28 Z M60 60 L72 54 L76 68 L64 70 Z M30 70 L38 66 L40 76 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M70 22 l-3 -8 M70 22 l3 -8 M70 22 v-9 M18 52 l-3 -8 M18 52 l3 -8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M4 4 H96 V96 H4 Z" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 6"/>
+</svg>

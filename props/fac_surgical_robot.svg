@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Four slender arms over the table, a surgeon in another room. -->
+  <path class="solid" d="M38 50 A12 12 0 1 0 62 50 A12 12 0 1 0 38 50 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M50 38 L30 14 M62 50 L88 34 M50 62 L70 88 M38 50 L12 66" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="30" cy="14" r="3" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="88" cy="34" r="3" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="70" cy="88" r="3" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="12" cy="66" r="3" fill="currentColor" stroke="none"/>
+</svg>

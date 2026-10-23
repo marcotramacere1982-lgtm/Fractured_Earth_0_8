@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A stadium, two arenas and their parking. City scale: a square is a district. Height: mid (2/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="solid" d="M8 40 A32 24 0 1 0 72 40 A32 24 0 1 0 8 40 Z M20 40 A20 13 0 1 0 60 40 A20 13 0 1 0 20 40 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill-rule="evenodd"/>
+  <path class="detail" d="M28 32 H52 V48 H28 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M74 22 A10 10 0 1 0 94 22 A10 10 0 1 0 74 22 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M74 52 A10 10 0 1 0 94 52 A10 10 0 1 0 74 52 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M8 74 V94 M14 74 V94 M20 74 V94 M26 74 V94 M32 74 V94 M38 74 V94 M44 74 V94 M50 74 V94 M56 74 V94 M62 74 V94 M68 74 V94 M74 74 V94 M80 74 V94 M86 74 V94 M92 74 V94" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

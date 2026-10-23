@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Forest, schematic: small trees. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+  <path class="detail" d="M22 40 L30 24 L38 40 Z M30 40 V46 M60 32 L68 16 L76 32 Z M68 32 V38 M40 74 L48 58 L56 74 Z M48 74 V80 M74 80 L80 66 L86 80 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

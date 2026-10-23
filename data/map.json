@@ -17,6 +17,11 @@
   },
   "npcRoles": [
     {
+      "id": "group",
+      "name": "Group",
+      "short": "G"
+    },
+    {
       "id": "civilian",
       "name": "Civilian",
       "short": "C"
@@ -134,6 +139,46 @@
       "blocksMove": "never",
       "sensor": "beam",
       "hiddenByDefault": true
+    },
+    {
+      "id": "link_people",
+      "name": "Link: people",
+      "blocksSight": "never",
+      "blocksMove": "never",
+      "link": true,
+      "hint": "transit — rail, maglev, highways"
+    },
+    {
+      "id": "link_goods",
+      "name": "Link: goods",
+      "blocksSight": "never",
+      "blocksMove": "never",
+      "link": true,
+      "hint": "freight lines, autonomous convoys"
+    },
+    {
+      "id": "link_power",
+      "name": "Link: power",
+      "blocksSight": "never",
+      "blocksMove": "never",
+      "link": true,
+      "hint": "the grid between plants and cities"
+    },
+    {
+      "id": "link_data",
+      "name": "Link: data",
+      "blocksSight": "never",
+      "blocksMove": "never",
+      "link": true,
+      "hint": "network trunks and relays"
+    },
+    {
+      "id": "link_water",
+      "name": "Link: water / fuel",
+      "blocksSight": "never",
+      "blocksMove": "never",
+      "link": true,
+      "hint": "pipelines, aqueducts"
     }
   ],
   "light": {

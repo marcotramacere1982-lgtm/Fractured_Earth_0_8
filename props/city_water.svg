@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Sea, bay or lake. City scale: a square is a district. Height: open (0/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+  <path class="detail" d="M20 30 C26 26 32 34 38 30 M60 70 C66 66 72 74 78 70" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A big distribution shed: loading bays and trucks waiting. -->
+  <path class="solid" d="M8 8 H192 V148 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M8 78 H192" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M22 148 H44 V162 H22 ZM66 148 H88 V162 H66 ZM110 148 H132 V162 H110 ZM154 148 H176 V162 H154 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M26 166 H40 V192 H26 ZM114 166 H128 V192 H114 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

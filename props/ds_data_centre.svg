@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A data centre: a windowless box under rows of cooling fans. -->
+  <path class="solid" d="M8 12 H192 V88 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M23 34 A7 7 0 1 0 37 34 A7 7 0 1 0 23 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M23 66 A7 7 0 1 0 37 66 A7 7 0 1 0 23 66 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M44 34 A7 7 0 1 0 58 34 A7 7 0 1 0 44 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M44 66 A7 7 0 1 0 58 66 A7 7 0 1 0 44 66 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M65 34 A7 7 0 1 0 79 34 A7 7 0 1 0 65 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M65 66 A7 7 0 1 0 79 66 A7 7 0 1 0 65 66 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M86 34 A7 7 0 1 0 100 34 A7 7 0 1 0 86 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M86 66 A7 7 0 1 0 100 66 A7 7 0 1 0 86 66 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M107 34 A7 7 0 1 0 121 34 A7 7 0 1 0 107 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M107 66 A7 7 0 1 0 121 66 A7 7 0 1 0 107 66 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M128 34 A7 7 0 1 0 142 34 A7 7 0 1 0 128 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M128 66 A7 7 0 1 0 142 66 A7 7 0 1 0 128 66 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M149 34 A7 7 0 1 0 163 34 A7 7 0 1 0 149 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M149 66 A7 7 0 1 0 163 66 A7 7 0 1 0 149 66 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M170 34 A7 7 0 1 0 184 34 A7 7 0 1 0 170 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M170 66 A7 7 0 1 0 184 66 A7 7 0 1 0 170 66 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

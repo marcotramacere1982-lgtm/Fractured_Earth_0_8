@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <!-- The control room desk: knobs, alarms, a red phone. -->
+  <path class="solid" d="M10 86 L30 20 H270 L290 86 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M50 30 V60 M80 30 V60 M110 30 V60 M140 30 V60 M170 30 V60 M200 30 V60 M230 30 V60" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="60" cy="72" r="2.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="85" cy="72" r="2.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="110" cy="72" r="2.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="135" cy="72" r="2.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="160" cy="72" r="2.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="185" cy="72" r="2.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="210" cy="72" r="2.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="235" cy="72" r="2.4" fill="currentColor" stroke="none"/>
+  <path class="solid" d="M140 60 H160 V74 H140 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+</svg>

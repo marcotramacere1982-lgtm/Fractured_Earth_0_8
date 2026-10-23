@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Mountains, schematic: a few peaks. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+  <path class="detail" d="M14 64 L30 34 L46 64 M44 50 L58 26 L74 50 M56 82 L70 58 L86 82" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

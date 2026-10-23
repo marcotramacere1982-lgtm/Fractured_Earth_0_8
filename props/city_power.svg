@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A power station: cooling towers and the switchyard. City scale: a square is a district. Height: mid (2/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="solid" d="M8 30 A20 20 0 1 0 48 30 A20 20 0 1 0 8 30 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M15 30 A13 13 0 1 0 41 30 A13 13 0 1 0 15 30 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M8 74 A20 20 0 1 0 48 74 A20 20 0 1 0 8 74 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M15 74 A13 13 0 1 0 41 74 A13 13 0 1 0 15 74 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M58 10 H94 V50 H58 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M60 58 V94 M68 58 V94 M76 58 V94 M84 58 V94 M92 58 V94 M58 66 H94 M58 86 H94" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

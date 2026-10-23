@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- River bend, schematic: from the middle of the bottom side to the middle of the right side. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+  <path class="detail" d="M50 100 C46 60 70 50 100 50" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 100 C46 60 70 50 100 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 6"/>
+</svg>

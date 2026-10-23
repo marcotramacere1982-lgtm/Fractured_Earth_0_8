@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- A row of switchgear cabinets: breakers you can trip (wire it). -->
+  <path class="solid" d="M4 4 H96 V196 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M4 68 H96 M4 132 H96" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 16 H60 V44 H20 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 80 H60 V108 H20 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 144 H60 V172 H20 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="78" cy="30" r="3" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="78" cy="94" r="3" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="78" cy="158" r="3" fill="currentColor" stroke="none"/>
+</svg>

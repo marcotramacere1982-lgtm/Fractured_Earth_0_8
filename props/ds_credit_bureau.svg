@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A credit and debt bureau: where scores are set and instalments collected; a queue rail by the door. -->
+  <path class="solid" d="M8 10 H158 V90 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M30 50 A20 20 0 1 0 70 50 A20 20 0 1 0 30 50 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 38 V62 M44 44 H56 M44 56 H56" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M88 34 H146 M88 50 H146 M88 66 H130" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M164 20 H192 M164 36 H192 M164 52 H192 M164 68 H192" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A drone port: landing pads on the roof of a depot. -->
+  <path class="solid" d="M10 10 H90 V90 H10 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M17 50 A15 15 0 1 0 47 50 A15 15 0 1 0 17 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M53 50 A15 15 0 1 0 83 50 A15 15 0 1 0 53 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M26 50 H38 M32 44 V56 M62 50 H74 M68 44 V56" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

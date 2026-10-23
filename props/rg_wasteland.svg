@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Wasteland, schematic: crosses. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+  <path class="detail" d="M20 22 l8 8 m0 -8 l-8 8 M62 30 l8 8 m0 -8 l-8 8 M34 62 l8 8 m0 -8 l-8 8 M72 70 l8 8 m0 -8 l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

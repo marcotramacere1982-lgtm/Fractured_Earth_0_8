@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A covered market hall under a barrel roof. -->
+  <path class="solid" d="M8 16 H192 V84 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M31 16 C25 40 25 60 31 84 M54 16 C48 40 48 60 54 84 M77 16 C71 40 71 60 77 84 M100 16 C94 40 94 60 100 84 M123 16 C117 40 117 60 123 84 M146 16 C140 40 140 60 146 84 M169 16 C163 40 163 60 169 84 M8 50 H192" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

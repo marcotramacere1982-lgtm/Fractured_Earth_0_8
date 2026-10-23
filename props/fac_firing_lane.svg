@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300">
+  <!-- A shooting lane: a bench at the bottom, a target at the top. -->
+  <path class="detail" d="M6 0 V300 M94 0 V300" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M10 260 H90 V290 H10 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M50 20 V60 M36 30 H64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M40 34 A10 10 0 1 0 60 34 A10 10 0 1 0 40 34 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

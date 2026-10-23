@@ -6,9 +6,11 @@
 
 import { sightSegments, sightHits, onBoard, squareAt } from './map.js';
 import { lightTest, lightState } from './light.js';
+import { activeProps, propDef, propBlocksSight, propCorners, insideProp, propEdges, shellEdges } from './props.js';
 
 const key = (s) => `${s.x},${s.y}`;
 let memo = { key: '', value: null };
+let pieceMemo = { key: '', value: null };
 
 /** Squares any of the eyes can see now (each eye sees its own square), light permitting (decision 74). Set of "x,y". */
 export function visibleSquares(map, data, eyes) {
@@ -32,6 +34,58 @@ export function visibleSquares(map, data, eyes) {
     }
   }
   memo = { key: k, value: out };
+  return out;
+}
+
+/**
+ * Pieces seen by their faces. A square counts as seen when a line reaches its centre, but a piece that blocks
+ * sight (a container stack, a loaded carrier), a piece you can hide in (a reefer) or a thin wall on a square's edge
+ * stands in the way of every line to the squares under it — so it never showed. A piece is seen when an eye can
+ * see any part of it (its middle, the middles of its sides, its corners), tested without its own edges.
+ * Returns { see, remember }: squares under solid blockers (nobody can stand there: seen now), and squares to
+ * remember only — under a piece you can hide in (who is inside stays hidden) and the square of a seen piece.
+ */
+export function piecesSeen(map, data, eyes, visible) {
+  const k = JSON.stringify([map.cols, map.rows, map.ambient ?? 'bright', map.walls, map.props ?? [], eyes]);
+  if (pieceMemo.key === k) return pieceMemo.value;
+  const segs = sightSegments(map, data);
+  const light = lightTest(map, data, segs, eyes);
+  const see = new Set();
+  const remember = new Set();
+  const on = eyes.filter((e) => onBoard(map, e));
+  // the same blockers as sightSegments, each tagged with the piece it belongs to, so one piece can be left out
+  const walls = sightSegments({ ...map, props: [] }, data);
+  const owned = activeProps(map).flatMap((p) => [...(propBlocksSight(propDef(data, p.prop), p) ? propEdges(p, data) : []), ...shellEdges(p, data)].map((w) => ({ ...w, owner: p.id })));
+  for (const p of activeProps(map)) {
+    const def = propDef(data, p.prop);
+    if (!def || visible.has(key(squareAt(p)))) continue;
+    const own = propBlocksSight(def, p) || def.shell; // its own edges are among the blockers
+    const others = own ? [...walls, ...owned.filter((w) => w.owner !== p.id)] : segs;
+    const c = propCorners(p, data);
+    const mid = { x: c.reduce((n, q) => n + q.x, 0) / c.length, y: c.reduce((n, q) => n + q.y, 0) / c.length };
+    const inward = (q) => ({ x: q.x + (mid.x - q.x) * 0.1, y: q.y + (mid.y - q.y) * 0.1 });
+    const points = [mid, ...c.map(inward), ...c.map((q, i) => inward({ x: (q.x + c[(i + 1) % c.length].x) / 2, y: (q.y + c[(i + 1) % c.length].y) / 2 }))];
+    const sees = (e, pt) => onBoard(map, { x: Math.floor(pt.x), y: Math.floor(pt.y) }) && light(e, Math.floor(pt.x), Math.floor(pt.y))
+      && !sightHits({ x: e.x + 0.5, y: e.y + 0.5 }, pt, others).every(Boolean);
+    if (!on.some((e) => points.some((pt) => sees(e, pt)))) continue;
+    const under = squaresUnder(p, data).filter((s) => onBoard(map, s));
+    if (propBlocksSight(def, p) && !def.shell) under.forEach((s) => see.add(key(s)));
+    else under.forEach((s) => remember.add(key(s)));
+    if (onBoard(map, squareAt(p))) remember.add(key(squareAt(p)));
+  }
+  pieceMemo = { key: k, value: { see, remember } };
+  return pieceMemo.value;
+}
+
+/** The squares whose centre lies inside a piece. */
+function squaresUnder(p, data) {
+  const c = propCorners(p, data);
+  const out = [];
+  for (let x = Math.floor(Math.min(...c.map((q) => q.x))); x < Math.ceil(Math.max(...c.map((q) => q.x))); x++) {
+    for (let y = Math.floor(Math.min(...c.map((q) => q.y))); y < Math.ceil(Math.max(...c.map((q) => q.y))); y++) {
+      if (insideProp({ x: x + 0.5, y: y + 0.5 }, p, data)) out.push({ x, y });
+    }
+  }
   return out;
 }
 
@@ -97,8 +151,11 @@ export function thermalSquares(map, data, eyes) {
 
 /** What has been seen so far: the remembered squares plus what the players see now. */
 export function seenNow(live, people, data) {
-  const visible = visibleSquares(live.map, data, eyesOf(live, people));
-  return { visible, seen: new Set([...(live.fog?.seen ?? []), ...visible]) };
+  const eyes = eyesOf(live, people);
+  const squares = visibleSquares(live.map, data, eyes);
+  const pieces = piecesSeen(live.map, data, eyes, squares);
+  const visible = new Set([...squares, ...pieces.see]);
+  return { visible, seen: new Set([...(live.fog?.seen ?? []), ...visible, ...pieces.remember]) };
 }
 
 /**

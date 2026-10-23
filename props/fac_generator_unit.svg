@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A generator: a power source (wire it to a breaker or a transformer). -->
+  <path class="solid" d="M6 6 H194 V194 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M24 100 A46 46 0 1 0 116 100 A46 46 0 1 0 24 100 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M70 60 L60 96 H80 L70 140" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M130 30 H180 M130 46 H180 M130 62 H180 M130 78 H180 M130 94 H180 M130 110 H180 M130 126 H180 M130 142 H180 M130 158 H180 M130 174 H180" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

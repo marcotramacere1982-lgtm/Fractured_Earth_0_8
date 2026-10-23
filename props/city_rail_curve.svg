@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A rail line bending from the bottom to the right side. City scale: a square is a district. -->
+  <path class="detail" d="M50 100 A50 50 0 0 1 100 50" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 100 A50 50 0 0 1 100 50" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="1 4" stroke-opacity="0.6"/>
+</svg>

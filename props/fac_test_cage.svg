@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <!-- A netted cage where new drones fly their first minutes. The net stops people, not sight. -->
+  <path class="detail" d="M6 6 H294 V294 H6 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M54 6 V294 M102 6 V294 M150 6 V294 M198 6 V294 M246 6 V294 M6 54 H294 M6 102 H294 M6 150 H294 M6 198 H294 M6 246 H294" fill="none" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 5"/>
+  <path class="detail" d="M130 150 A20 20 0 1 0 170 150 A20 20 0 1 0 130 150 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M130 130 L170 170 M170 130 L130 170" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

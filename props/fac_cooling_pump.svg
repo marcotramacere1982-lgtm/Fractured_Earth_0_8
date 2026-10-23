@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A cooling water pump. -->
+  <path class="solid" d="M20 50 A30 30 0 1 0 80 50 A30 30 0 1 0 20 50 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M38 50 A12 12 0 1 0 62 50 A12 12 0 1 0 38 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 50 H20 M80 50 H100" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

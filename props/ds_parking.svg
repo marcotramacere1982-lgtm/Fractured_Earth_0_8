@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- An open parking lot: two rows of bays and an aisle. -->
+  <path class="solid" d="M6 6 H194 V94 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M10 8 V34 M10 66 V92 M32 8 V34 M32 66 V92 M54 8 V34 M54 66 V92 M76 8 V34 M76 66 V92 M98 8 V34 M98 66 V92 M120 8 V34 M120 66 V92 M142 8 V34 M142 66 V92 M164 8 V34 M164 66 V92 M186 8 V34 M186 66 V92" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M40 50 H70 M62 44 L70 50 L62 56 M160 50 H130 M138 44 L130 50 L138 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

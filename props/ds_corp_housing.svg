@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Corporate housing: a clean tower in a fenced garden, a pool on the roof. -->
+  <path class="detail" d="M6 6 H194 V194 H6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="8 5"/>
+  <path class="solid" d="M44 30 H156 A14 14 0 0 1 170 44 V156 A14 14 0 0 1 156 170 H44 A14 14 0 0 1 30 156 V44 A14 14 0 0 1 44 30 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M64 60 H136 V90 H64 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M64 120 H136 M64 140 H136" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M12 18 A6 6 0 1 0 24 18 A6 6 0 1 0 12 18 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="18" cy="18" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M176 182 A6 6 0 1 0 188 182 A6 6 0 1 0 176 182 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="182" cy="182" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M176 18 A6 6 0 1 0 188 18 A6 6 0 1 0 176 18 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="182" cy="18" r="1.6" fill="currentColor" stroke="none"/>
+</svg>

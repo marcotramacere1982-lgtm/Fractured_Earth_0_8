@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A highway top to bottom with a branch to the right and its ramps. City scale: a square is a district. -->
+  <path class="detail" d="M50 0 V100 M50 50 H100" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.35"/>
+  <path class="detail" d="M50 0 V100 M50 50 H100" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 4"/>
+  <path class="detail" d="M50 30 C62 30 70 40 70 50 M50 70 C62 70 70 60 70 50" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

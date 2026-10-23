@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- An airport: a runway, taxiways, terminals. City scale: a square is a district. Height: low (1/4), for the skyline view to come. -->
+  <path d="M0 0 H200 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="solid" d="M10 30 H190 V48 H10 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M20 39 H180" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="8 6"/>
+  <path class="detail" d="M30 48 V62 H170 V48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M60 66 H140 V88 H60 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M80 66 V58 M100 66 V58 M120 66 V58" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

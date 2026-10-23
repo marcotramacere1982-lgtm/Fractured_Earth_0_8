@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- The network core: patch fields and fibre, where a Hacker wants to be. -->
+  <path class="solid" d="M4 4 H96 V96 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M14 20 H86 M14 34 H86 M14 48 H86 M14 62 H86 M14 76 H86" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M20 20 C40 30 30 48 60 48 M30 34 C50 40 60 62 80 62" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="84" cy="12" r="2" fill="currentColor" stroke="none"/>
+</svg>

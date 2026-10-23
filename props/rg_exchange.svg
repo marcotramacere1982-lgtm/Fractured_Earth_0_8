@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A freight exchange node: where goods change lines. Give it a caption (its name) so players read it once revealed. -->
+  <path class="solid" d="M29 6 H71 L94 29 V71 L71 94 H29 L6 71 V29 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path class="detail" d="M30 40 H70 M62 32 L70 40 L62 48 M70 62 H30 M38 54 L30 62 L38 70" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

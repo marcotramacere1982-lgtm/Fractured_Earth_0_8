@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Pipes along the floor, top to bottom: step over them. -->
+  <path class="detail" d="M34 0 V100" fill="none" stroke="currentColor" stroke-width="14" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.6"/>
+  <path class="detail" d="M66 0 V100" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.6"/>
+  <path class="detail" d="M24 30 H44 M58 70 H74" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

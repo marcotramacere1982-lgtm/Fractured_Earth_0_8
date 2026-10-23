@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A folding crane to pull an engine. -->
+  <path class="detail" d="M14 90 H86 M20 90 L50 20 L86 60 M50 20 V90" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M80 66 A6 6 0 1 0 92 66 A6 6 0 1 0 80 66 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+</svg>

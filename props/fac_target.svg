@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 25">
+  <!-- A target that flips up, takes hits, flips down. -->
+  <path class="solid" d="M4 4 H46 V21 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M20 12 A5 5 0 1 0 30 12 A5 5 0 1 0 20 12 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

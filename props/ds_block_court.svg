@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A city block of flats round an inner courtyard. -->
+  <path class="solid" d="M8 8 H192 V192 H8 Z M62 62 V138 H138 V62 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round" fill-rule="evenodd"/>
+  <path class="detail" d="M8 8 L62 62 M192 8 L138 62 M192 192 L138 138 M8 192 L62 138 M35 35 H165 V165 H35 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M88 100 A12 12 0 1 0 112 100 A12 12 0 1 0 88 100 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="100" cy="100" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M92 10 H108 V20 H92 ZM92 180 H108 V190 H92 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

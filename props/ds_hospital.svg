@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A hospital: a cross-shaped building, a helipad on the roof. -->
+  <path class="solid" d="M70 8 H130 V70 H192 V130 H130 V192 H70 V130 H8 V70 H70 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M76 100 A24 24 0 1 0 124 100 A24 24 0 1 0 76 100 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M91 89 V111 M109 89 V111 M91 100 H109" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M30 100 H52 M41 89 V111 M148 100 H170 M159 89 V111" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A river bending from the bottom to the right side. City scale: a square is a district. Height: open (0/4), for the skyline view to come. -->
+  <path d="M30 100 V70 A40 40 0 0 1 70 30 H100 V70 H70 V100 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+  <path class="detail" d="M30 100 V70 A40 40 0 0 1 70 30 H100 M70 100 V70 H100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

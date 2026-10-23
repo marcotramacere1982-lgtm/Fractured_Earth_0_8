@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A formal garden: straight paths, clipped hedges, a fountain in the middle. -->
+  <path class="solid" d="M6 6 H194 V194 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M6 100 H194 M100 6 V194 M6 6 L194 194 M194 6 L6 194" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M30 30 H76 V76 H30 ZM124 30 H170 V76 H124 ZM30 124 H76 V170 H30 ZM124 124 H170 V170 H124 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <path class="detail" d="M82 100 A18 18 0 1 0 118 100 A18 18 0 1 0 82 100 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M94 100 A6 6 0 1 0 106 100 A6 6 0 1 0 94 100 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

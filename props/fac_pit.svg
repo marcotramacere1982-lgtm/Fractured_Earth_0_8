@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300">
+  <!-- A pit under a car: steps at the end. Climbing in and out is slow. -->
+  <path class="solid" d="M20 10 H80 V290 H20 Z" fill="currentColor" fill-opacity="0.5" stroke="none"/>
+  <path class="detail" d="M20 10 H80 V290 H20 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M24 250 H76 M24 264 H76 M24 278 H76" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

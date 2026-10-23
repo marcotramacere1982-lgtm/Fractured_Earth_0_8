@@ -32,6 +32,18 @@ function segment(w, data) {
     return line(`map-laser${state}`, U * 0.07, 'round', `stroke-dasharray="0.1 ${U * 0.16}"`)
       + [w.a, w.b].map((q) => `<circle class="map-laser__end${state}" cx="${q.x * U}" cy="${q.y * U}" r="${U * 0.07}"/>`).join('');
   }
+  if (w.kind.startsWith('link_')) { // decision 119: kind = colour + dash; a fixed sideways offset per kind keeps parallel links apart
+    const kind = w.kind.slice(5);
+    const off = { people: 0, goods: 1, power: -1, data: 2, water: -2 }[kind] ?? 0;
+    const len = Math.hypot(w.b.x - w.a.x, w.b.y - w.a.y) || 1;
+    const nx = (-(w.b.y - w.a.y) / len) * off * U * 0.09; const ny = ((w.b.x - w.a.x) / len) * off * U * 0.09;
+    const ends = `x1="${w.a.x * U + nx}" y1="${w.a.y * U + ny}" x2="${w.b.x * U + nx}" y2="${w.b.y * U + ny}"`;
+    const dash = { people: '', goods: `stroke-dasharray="${U * 0.22} ${U * 0.12}"`, power: `stroke-dasharray="${U * 0.03} ${U * 0.1}"`, data: `stroke-dasharray="${U * 0.22} ${U * 0.08} ${U * 0.04} ${U * 0.08}"`, water: '' }[kind] ?? '';
+    const cls = `map-link map-link--${kind}${w.hidden ? ' map-link--hidden' : ''}`;
+    return (kind === 'water' ? `<line class="${cls}" ${ends} stroke-width="${U * 0.13}" stroke-linecap="round"/><line class="map-link-core" ${ends} stroke-width="${U * 0.05}" stroke-linecap="round"/>`
+      : `<line class="${cls}" ${ends} stroke-width="${U * 0.07}" stroke-linecap="round" ${dash}/>`)
+      + (w.cut ? `<line class="map-link-cut" ${ends} stroke-width="${U * 0.12}" stroke-dasharray="${U * 0.1} ${U * 0.14}"/>` : '');
+  }
   // doors and windows cut the wall they are drawn over: a gap as wide as the thickest wall goes under them
   const gap = line('map-gap', Math.max(...data.map.widths.map((x) => x.units)) + 2);
   if (w.kind === 'window') return gap + line('map-wall', W) + line('map-window', W * 0.45);
@@ -50,10 +62,11 @@ function segment(w, data) {
     + (w.breakable ? line('map-wall-weak', W * 0.3, 'butt', `stroke-dasharray="${U * 0.2} ${U * 0.1}"`) : ''); // GM screens only
 }
 
+
 /** Every segment, walls first; the selected one gets a highlight and its two end handles. */
 export function wallsSvg(map, data, { selected = null } = {}) {
   const U = data.map.square.units;
-  const sorted = [...map.walls].sort((a, b) => ORDER[a.kind] - ORDER[b.kind]);
+  const sorted = map.walls.filter((w) => !w.kind.startsWith('link_')).sort((a, b) => ORDER[a.kind] - ORDER[b.kind]); // links: drawn by propsSvg, on the ground
   const sel = map.walls.find((w) => w.id === selected);
   const W = sel ? (data.map.widths.find((x) => x.id === sel.width)?.units ?? 0) : 0;
   return html`${raw(sorted.map((w) => segment(w, data)).join(''))}
@@ -88,15 +101,19 @@ const SENSE_TINT = { motion: 'red', audio: 'blue', touch: 'purple', video: 'cyan
 /** A piece's colour: its own `tint`, else its sense (one sense) or cyan (video / several); null: the category's. */
 export const tintOf = (def) => def.tint ?? (!sensesOf(def).length ? null : sensesOf(def).length === 1 ? SENSE_TINT[sensesOf(def)[0]] : 'cyan');
 
-export function propsSvg(props, data, { selected = null } = {}) {
+/** `links`: the map's walls; its links (decision 119) are drawn on the ground pieces and under the rest, so they run
+ *  over terrain and city tiles and into a node instead of over it. */
+export function propsSvg(props, data, { selected = null, links = null } = {}) {
   const U = data.map.square.units;
   const cat = (p) => data.props.props.find((d) => d.id === p.prop)?.category;
   const def = (p) => data.props.props.find((d) => d.id === p.prop);
-  // floor textures, then decals on them (drains, stains), darkness zones, terrain and outlines, pieces that tuck under
-  // furniture (chairs), then the rest — each layer keeps the order the pieces were placed in (decision 102)
-  const layer = (p) => (cat(p) === 'floor' ? (def(p)?.decal ? 0.5 : 0) : cat(p) === 'zone' ? 1 : GROUND.has(cat(p)) ? 2 : def(p)?.under ? 2.5 : 3);
+  // floor textures, city tiles (decision 121), decals on them (drains, stains, highways), links, darkness zones, terrain
+  // and outlines, pieces that tuck under furniture (chairs), then the rest — each layer keeps the placing order (decision 102)
+  const layer = (p) => (cat(p) === 'floor' ? (def(p)?.decal ? 0.5 : 0) : cat(p) === 'city' ? (def(p)?.decal ? 0.5 : 0.25) : cat(p) === 'zone' ? 1 : GROUND.has(cat(p)) ? 2 : def(p)?.under ? 2.5 : 3);
   const ordered = [...(props ?? [])].sort((a, b) => layer(a) - layer(b));
-  return raw(ordered.map((p) => {
+  const linkMarkup = (links ?? []).filter((w) => w.kind.startsWith('link_')).map((w) => segment(w, data)).join('');
+  const at = ordered.findIndex((p) => layer(p) >= 1);
+  const parts = ordered.map((p) => {
     const def = data.props.props.find((d) => d.id === p.prop);
     if (!def) return '';
     const w = def.size.w * U;
@@ -114,5 +131,7 @@ export function propsSvg(props, data, { selected = null } = {}) {
     const reachRing = p.id === selected && def.light?.radius ? `<circle class="map-light-reach" r="${(def.light.radius + 0.5) * U}" stroke-width="${U * 0.04}" stroke-dasharray="${U * 0.12} ${U * 0.1}"/>` : '';
     const frame = p.id === selected ? `<rect class="map-prop__sel" x="${-w / 2 - 8}" y="${-h / 2 - 8}" width="${w + 16}" height="${h + 16}"/>` : '';
     return `<g class="map-prop map-prop--${def.category}${tint}${p.hidden ? ' map-prop--hidden' : ''}${p.on === false ? ' map-prop--off' : ''}${p.open ? ' map-prop--open' : ''}${p.wrecked ? ' map-prop--wrecked' : ''}" transform="translate(${p.x * U} ${p.y * U}) rotate(${p.rot ?? 0})">${audio}${motion}${reachRing}${body}${frame}</g>`;
-  }).join(''));
+  });
+  parts.splice(at < 0 ? parts.length : at, 0, linkMarkup);
+  return raw(parts.join(''));
 }

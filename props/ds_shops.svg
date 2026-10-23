@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Three small shops, awnings over the sidewalk. -->
+  <path class="solid" d="M8 8 H92 V68 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M36 8 V68 M64 8 V68" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M12 68 V82 M22 68 V82 M32 68 V82 M40 68 V82 M50 68 V82 M60 68 V82 M68 68 V82 M78 68 V82 M88 68 V82" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 82 H92" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

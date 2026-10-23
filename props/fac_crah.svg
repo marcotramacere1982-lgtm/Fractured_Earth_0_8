@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A computer-room air handler: big fans, cold air under the floor. -->
+  <path class="solid" d="M4 6 H196 V94 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M22 50 A28 28 0 1 0 78 50 A28 28 0 1 0 22 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M42 50 A8 8 0 1 0 58 50 A8 8 0 1 0 42 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M122 50 A28 28 0 1 0 178 50 A28 28 0 1 0 122 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M142 50 A8 8 0 1 0 158 50 A8 8 0 1 0 142 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 22 V78 M22 50 H78 M150 22 V78 M122 50 H178" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

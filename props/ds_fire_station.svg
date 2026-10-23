@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- A fire station: three engine bays opening on the street. -->
+  <path class="solid" d="M8 8 H192 V70 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M100 56 C88 50 90 36 100 22 C104 32 112 36 110 46 C109 54 104 57 100 56 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M150 30 H178 M150 44 H178" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M22 70 H56 V94 H22 ZM83 70 H117 V94 H83 ZM144 70 H178 V94 H144 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+</svg>

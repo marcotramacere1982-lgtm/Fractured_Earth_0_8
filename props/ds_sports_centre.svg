@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A sports centre: the hall and two outdoor courts. -->
+  <path class="solid" d="M8 8 H192 V92 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M36 8 C28 36 28 64 36 92 M64 8 C56 36 56 64 64 92 M92 8 C84 36 84 64 92 92 M120 8 C112 36 112 64 120 92 M148 8 C140 36 140 64 148 92 M176 8 C168 36 168 64 176 92" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M14 106 H94 V192 H14 Z M14 149 H94" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M42 149 A12 12 0 1 0 66 149 A12 12 0 1 0 42 149 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M106 106 H186 V192 H106 Z M106 149 H186" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

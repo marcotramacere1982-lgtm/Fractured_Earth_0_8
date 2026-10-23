@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A city park: woods, lawns, a lake. City scale: a square is a district. Height: open (0/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="detail" d="M40 60 A22 15 0 1 0 84 60 A22 15 0 1 0 40 60 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M10 14 A4 4 0 1 0 18 14 A4 4 0 1 0 10 14 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M22 20 A4 4 0 1 0 30 20 A4 4 0 1 0 22 20 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M10 32 A4 4 0 1 0 18 32 A4 4 0 1 0 10 32 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M36 12 A4 4 0 1 0 44 12 A4 4 0 1 0 36 12 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M56 18 A4 4 0 1 0 64 18 A4 4 0 1 0 56 18 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M80 14 A4 4 0 1 0 88 14 A4 4 0 1 0 80 14 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M84 34 A4 4 0 1 0 92 34 A4 4 0 1 0 84 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 60 A4 4 0 1 0 16 60 A4 4 0 1 0 8 60 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M16 80 A4 4 0 1 0 24 80 A4 4 0 1 0 16 80 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M36 86 A4 4 0 1 0 44 86 A4 4 0 1 0 36 86 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M80 86 A4 4 0 1 0 88 86 A4 4 0 1 0 80 86 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 46 C20 40 34 50 50 40 C66 30 80 34 100 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

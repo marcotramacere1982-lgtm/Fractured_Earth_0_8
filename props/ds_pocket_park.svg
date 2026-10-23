@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A pocket park: a path, three trees, a bench. -->
+  <path class="solid" d="M6 6 H94 V94 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M6 94 L94 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M19 30 A9 9 0 1 0 37 30 A9 9 0 1 0 19 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="28" cy="30" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M63 70 A9 9 0 1 0 81 70 A9 9 0 1 0 63 70 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="72" cy="70" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M23 74 A7 7 0 1 0 37 74 A7 7 0 1 0 23 74 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="30" cy="74" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M60 22 H80" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

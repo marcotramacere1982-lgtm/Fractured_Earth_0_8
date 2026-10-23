@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- A delivery drone resting on its legs. -->
+  <path class="detail" d="M16 25 A9 9 0 1 0 34 25 A9 9 0 1 0 16 25 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M10 10 L40 40 M40 10 L10 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M4 10 A6 6 0 1 0 16 10 A6 6 0 1 0 4 10 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M4 40 A6 6 0 1 0 16 40 A6 6 0 1 0 4 40 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M34 10 A6 6 0 1 0 46 10 A6 6 0 1 0 34 10 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M34 40 A6 6 0 1 0 46 40 A6 6 0 1 0 34 40 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

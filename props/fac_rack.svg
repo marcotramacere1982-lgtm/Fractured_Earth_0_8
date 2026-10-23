@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- One server rack, front to the right. -->
+  <path class="solid" d="M4 4 H96 V96 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M10 12 H90 M10 21 H90 M10 30 H90 M10 39 H90 M10 48 H90 M10 57 H90 M10 66 H90 M10 75 H90 M10 84 H90 M10 93 H90" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="84" cy="16" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="34" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="52" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="70" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="88" r="1.6" fill="currentColor" stroke="none"/>
+</svg>

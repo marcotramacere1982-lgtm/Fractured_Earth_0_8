@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An industrial node: a refinery. Give it a caption (its name) so players read it once revealed. -->
+  <path class="solid" d="M29 6 H71 L94 29 V71 L71 94 H29 L6 71 V29 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path class="detail" d="M36 74 V40 M50 74 V30 M64 74 V46 M30 74 H70 M50 30 C46 24 54 22 50 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

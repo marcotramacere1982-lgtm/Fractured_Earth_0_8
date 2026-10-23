@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A cross-shaped tenement tower; antennas and dishes on the roof. -->
+  <path class="solid" d="M8 68 H68 V8 H132 V68 H192 V132 H132 V192 H68 V132 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M68 68 H132 V132 H68 Z M8 100 H68 M132 100 H192 M100 8 V68 M100 132 V192" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M86 86 L96 96 M114 86 L104 96 M90 114 L100 104" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M109 116 A7 7 0 1 0 123 116 A7 7 0 1 0 109 116 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

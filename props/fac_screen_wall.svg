@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- A wall of screens: maps, graphs, alerts. Top edge on the wall. -->
+  <path class="solid" d="M3 3 H197 V22 H3 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M35 3 V22 M67 3 V22 M99 3 V22 M131 3 V22 M163 3 V22 M195 3 V22" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

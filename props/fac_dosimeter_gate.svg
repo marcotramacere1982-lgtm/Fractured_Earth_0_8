@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A radiation portal: everyone walks through, it beeps or it does not. -->
+  <path class="solid" d="M8 10 H22 V90 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M78 10 H92 V90 H78 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M22 20 H78 M22 80 H78" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 4"/>
+  <circle class="detail" cx="15" cy="18" r="3" fill="currentColor" stroke="none"/>
+</svg>

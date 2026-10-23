@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A park: winding paths, trees, a pond. -->
+  <path class="solid" d="M6 6 H194 V194 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M6 150 C60 140 80 70 120 60 C150 52 170 30 194 20 M100 194 C104 150 110 100 120 60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M124 140 A26 18 0 1 0 176 140 A26 18 0 1 0 124 140 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M140 140 C145 136 150 144 155 140" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M21 30 A9 9 0 1 0 39 30 A9 9 0 1 0 21 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="30" cy="30" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M51 50 A9 9 0 1 0 69 50 A9 9 0 1 0 51 50 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="60" cy="50" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M21 90 A9 9 0 1 0 39 90 A9 9 0 1 0 21 90 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="30" cy="90" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M141 90 A9 9 0 1 0 159 90 A9 9 0 1 0 141 90 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="150" cy="90" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M167 70 A9 9 0 1 0 185 70 A9 9 0 1 0 167 70 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="176" cy="70" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M51 180 A9 9 0 1 0 69 180 A9 9 0 1 0 51 180 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="60" cy="180" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M31 120 A9 9 0 1 0 49 120 A9 9 0 1 0 31 120 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="40" cy="120" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M81 30 A9 9 0 1 0 99 30 A9 9 0 1 0 81 30 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="90" cy="30" r="1.6" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M167 180 A9 9 0 1 0 185 180 A9 9 0 1 0 167 180 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle class="detail" cx="176" cy="180" r="1.6" fill="currentColor" stroke="none"/>
+</svg>

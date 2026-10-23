@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A lifted floor tile: a hole full of cables you can crawl along. -->
+  <g class="closed-only"><path class="solid" d="M6 6 H94 V94 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path class="detail" d="M20 20 L30 30 M80 80 L70 70" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+  <g class="open-only"><path class="solid" d="M6 6 H94 V94 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path class="detail" d="M14 30 C40 20 60 50 86 40 M14 60 C40 50 60 80 86 70 M14 45 H86" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

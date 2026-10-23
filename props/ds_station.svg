@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <!-- A train station: the concourse, and the train shed over the tracks; the tracks leave at both ends (left and right), like the rail line turned a quarter. -->
+  <path class="solid" d="M90 8 H210 V92 H90 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M100 50 C130 20 170 20 200 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M8 98 H292 V192 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M28 98 V192 M48 98 V192 M68 98 V192 M88 98 V192 M108 98 V192 M128 98 V192 M148 98 V192 M168 98 V192 M188 98 V192 M208 98 V192 M228 98 V192 M248 98 V192 M268 98 V192 M288 98 V192 M8 145 H292" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M0 138 H8 M0 162 H8 M292 138 H300 M292 162 H300" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A recycling yard: scrap mountains, a crane, a shed, a fence. -->
+  <path class="detail" d="M6 6 H194 V194 H6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+  <path class="solid" d="M20 30 L60 18 L92 40 L80 80 L30 76 Z" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+  <path class="solid" d="M110 100 L160 92 L186 130 L150 170 L104 150 Z" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+  <path class="solid" d="M24 120 L60 112 L70 150 L32 172 Z" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+  <path class="solid" d="M130 16 H182 V56 H130 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M96 110 L150 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M91 110 A5 5 0 1 0 101 110 A5 5 0 1 0 91 110 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

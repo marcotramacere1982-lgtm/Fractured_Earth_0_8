@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A narrow alley between buildings, top to bottom. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.1" stroke="none"/>
+  <path class="solid" d="M32 0 H68 V100 H32 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <path class="detail" d="M32 0 V100 M68 0 V100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="44" cy="30" r="2.2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="58" cy="72" r="2.2" fill="currentColor" stroke="none"/>
+  <path class="detail" d="M60 44 H66 V54 H60 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

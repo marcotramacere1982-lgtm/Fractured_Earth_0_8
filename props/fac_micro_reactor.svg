@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A sealed small reactor in its pit: twenty years of heat in a box. A power source. -->
+  <path class="solid" d="M8 100 A92 92 0 1 0 192 100 A92 92 0 1 0 8 100 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M40 100 A60 60 0 1 0 160 100 A60 60 0 1 0 40 100 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M70 100 A30 30 0 1 0 130 100 A30 30 0 1 0 70 100 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 70 L86 46 A28 28 0 0 1 114 46 Z M126 115 L150 120 A28 28 0 0 1 136 146 Z M74 115 L64 146 A28 28 0 0 1 50 120 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

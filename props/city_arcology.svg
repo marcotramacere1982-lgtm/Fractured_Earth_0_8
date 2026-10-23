@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- An arcology: a city in one stepped building, seen from far away. City scale: a square is a district. Height: towers (4/4), for the skyline view to come. -->
+  <path d="M0 0 H200 V200 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="solid" d="M14 14 H186 V186 H14 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M40 40 H160 V160 H40 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M66 66 H134 V134 H66 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M88 88 H112 V112 H88 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M14 14 L88 88 M186 14 L112 88 M186 186 L112 112 M14 186 L88 112" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

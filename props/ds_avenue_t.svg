@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- An avenue running top to bottom, another leaving to the right. -->
+  <path class="solid" d="M0 0 H200 V200 H0 Z" fill="currentColor" fill-opacity="0.18" stroke="none"/>
+  <path class="solid" d="M14 0 H186 V14 H200 V186 H186 V200 H14 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M14 0 V200 M186 0 V14 H200 M186 200 V186 H200" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 0 V200" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.5"/>
+  <path class="detail" d="M170 22 H182 M170 34 H182 M170 46 H182 M170 58 H182 M170 70 H182 M170 82 H182 M170 94 H182 M170 106 H182 M170 118 H182 M170 130 H182 M170 142 H182 M170 154 H182 M170 166 H182 M170 178 H182" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

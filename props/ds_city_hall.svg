@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <!-- City hall: two courtyards, a dome, a columned front with steps. -->
+  <path class="solid" d="M10 10 H290 V176 H10 Z M46 44 H120 V142 H46 Z M180 44 H254 V142 H180 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round" fill-rule="evenodd"/>
+  <path class="solid" d="M120 93 A30 30 0 1 0 180 93 A30 30 0 1 0 120 93 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M150 63 V123 M120 93 H180 M129 72 L171 114 M171 72 L129 114" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M142 93 A8 8 0 1 0 158 93 A8 8 0 1 0 142 93 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M104 176 H196 V190 H104 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M110 190 V196 M122 190 V196 M134 190 V196 M146 190 V196 M158 190 V196 M170 190 V196 M182 190 V196 M194 190 V196" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

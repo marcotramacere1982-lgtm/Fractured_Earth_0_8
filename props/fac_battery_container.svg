@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 400">
+  <!-- A shipping container full of batteries: grid storage. A power source. -->
+  <path class="solid" d="M4 4 H196 V396 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M4 50 H196 M4 100 H196 M4 150 H196 M4 200 H196 M4 250 H196 M4 300 H196 M4 350 H196" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 180 L88 204 H112 L100 228" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

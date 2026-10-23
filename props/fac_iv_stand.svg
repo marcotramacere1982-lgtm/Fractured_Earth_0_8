@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- A drip stand on wheels. -->
+  <path class="detail" d="M7 25 A18 18 0 1 0 43 25 A18 18 0 1 0 7 25 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M25 7 V43 M7 25 H43" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M19 25 A6 6 0 1 0 31 25 A6 6 0 1 0 19 25 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+</svg>

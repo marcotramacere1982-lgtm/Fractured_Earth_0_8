@@ -160,6 +160,10 @@
       "title": "La mappa",
       "text": "Vedi quello che la squadra vede adesso; i quadretti attenuati sono ricordati. Trascina il segnalino per muoverti — in combattimento un'azione di Movimento ti dà i quadretti del round. Tocca una porta accanto a te per aprirla (Interagisci), un segnalino per linea di vista e portata. ✎ Segna indica qualcosa alla squadra. Solo informazione: decide il GM."
     },
+    "mapMemory": {
+      "title": "Mappe che abbiamo visto",
+      "text": "Ogni mappa che è stata sul tavolo, per quanto la tua squadra l'ha vista: pezzi, didascalie, porte come le avete lasciate, persone con il loro nome dove le avete viste l'ultima volta. Solo sulla tua scheda; chi non c'era non ce l'ha."
+    },
     "darkness": {
       "title": "Il buio",
       "text": "Al buio: un bersaglio visto solo come traccia termica −2 (niente colpi mirati), uno che non vedi −4; Stealth +2 non illuminato, −4 illuminato o con la torcia accesa; Perception −2 senza visione notturna o termica. La scheda suggerisce, tu confermi."

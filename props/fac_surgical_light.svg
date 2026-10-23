@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Twin surgical lamps on arms: no shadows. -->
+  <path class="solid" d="M10 40 A22 22 0 1 0 54 40 A22 22 0 1 0 10 40 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M52 62 A18 18 0 1 0 88 62 A18 18 0 1 0 52 62 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M24 40 A8 8 0 1 0 40 40 A8 8 0 1 0 24 40 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M64 62 A6 6 0 1 0 76 62 A6 6 0 1 0 64 62 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 10 V20 M32 18 L50 20 L70 44" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

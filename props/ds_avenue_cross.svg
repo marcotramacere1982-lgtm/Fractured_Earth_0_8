@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Two avenues crossing, with zebra crossings on every side. -->
+  <path class="solid" d="M0 0 H200 V200 H0 Z" fill="currentColor" fill-opacity="0.18" stroke="none"/>
+  <path class="solid" d="M14 0 H186 V14 H200 V186 H186 V200 H14 V186 H0 V14 H14 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M14 0 V14 H0 M186 0 V14 H200 M186 200 V186 H200 M14 200 V186 H0" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M22 18 V30 M34 18 V30 M46 18 V30 M58 18 V30 M70 18 V30 M82 18 V30 M94 18 V30 M106 18 V30 M118 18 V30 M130 18 V30 M142 18 V30 M154 18 V30 M166 18 V30 M178 18 V30 M22 170 V182 M34 170 V182 M46 170 V182 M58 170 V182 M70 170 V182 M82 170 V182 M94 170 V182 M106 170 V182 M118 170 V182 M130 170 V182 M142 170 V182 M154 170 V182 M166 170 V182 M178 170 V182" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M18 22 H30 M18 34 H30 M18 46 H30 M18 58 H30 M18 70 H30 M18 82 H30 M18 94 H30 M18 106 H30 M18 118 H30 M18 130 H30 M18 142 H30 M18 154 H30 M18 166 H30 M18 178 H30 M170 22 H182 M170 34 H182 M170 46 H182 M170 58 H182 M170 70 H182 M170 82 H182 M170 94 H182 M170 106 H182 M170 118 H182 M170 130 H182 M170 142 H182 M170 154 H182 M170 166 H182 M170 178 H182" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

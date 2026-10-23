@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A large city, 2 × 2. Give it a caption so players read its name. -->
+  <path class="solid" d="M58 6 H142 L194 58 V142 L142 194 H58 L6 142 V58 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+  <path class="detail" d="M58 40 H142 L160 58 V142 L142 160 H58 L40 142 V58 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M58 72 H142 L128 58 V142 L142 128 H58 L72 142 V58 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <circle class="detail" cx="100" cy="100" r="9" fill="currentColor" stroke="none"/>
+</svg>

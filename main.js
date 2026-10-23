@@ -18,6 +18,7 @@ import { createLibrary } from './net/library.js';
 import { installTransmissions } from './ui/transmissions.js';
 import { toast } from './ui/shell.js';
 import { log, actions } from './ui/sheet/actions.js';
+import { rememberMap } from './rules/map-memory.js';
 
 const header = document.getElementById('app-header');
 const main = document.getElementById('app-main');
@@ -42,6 +43,11 @@ async function boot() {
     progress: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyProgress(c, data, { msg }); }); return out; },
     downtime: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyDowntime(c, data, { msg }); }); return out; },
     notify: cue,
+    map: (id, msg) => { // decision 122: map memories; quiet, the table's own redraw shows them
+      const c = store.get(id);
+      const next = c && rememberMap(c.play.mapMemories, msg, Date.now());
+      if (next && next.length && next !== c.play.mapMemories) store.update(id, (d) => { d.play.mapMemories = next; }, { silent: true });
+    },
     gift: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.receiveItem(c, data, { msg }); }); return out; },
     backstory: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.applyBackstory(c, data, { msg }); }); return out; },
   });

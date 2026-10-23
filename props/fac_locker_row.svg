@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <!-- Grey lockers, a few dented. -->
+  <path class="solid" d="M4 4 H196 V46 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M36 4 V46 M68 4 V46 M100 4 V46 M132 4 V46 M164 4 V46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="28" cy="25" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="60" cy="25" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="92" cy="25" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="124" cy="25" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="156" cy="25" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="188" cy="25" r="2" fill="currentColor" stroke="none"/>
+</svg>

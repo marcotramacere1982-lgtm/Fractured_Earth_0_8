@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A small office tower: two steps, an antenna. -->
+  <path class="solid" d="M12 12 H88 V88 H12 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M28 28 H72 V72 H28 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <circle class="detail" cx="50" cy="50" r="3" fill="currentColor" stroke="none"/>
+</svg>

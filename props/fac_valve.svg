@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A valve wheel on a pipe, top to bottom: open, shut, or jammed. -->
+  <path class="detail" d="M50 0 V100" fill="none" stroke="currentColor" stroke-width="16" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.6"/>
+  <path class="solid" d="M28 50 A22 22 0 1 0 72 50 A22 22 0 1 0 28 50 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M28 50 H72 M50 28 V72 M34 34 L66 66 M66 34 L34 66" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

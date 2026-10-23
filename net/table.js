@@ -130,6 +130,7 @@ export function createTableLink(store, hooks) {
         break;
       case 'map': {
         state.map = msg.closed ? null : msg;
+        if (id && state.map) hooks.map?.(id, msg); // decision 122: the sheet remembers what it saw
         let last = null;
         try { last = sessionStorage.getItem(MAP_CUE); if (state.map) sessionStorage.setItem(MAP_CUE, msg.id); } catch { /* private mode */ }
         if (state.map && last !== msg.id) hooks.toast(t('map.toast', { name: msg.name }), 'success');

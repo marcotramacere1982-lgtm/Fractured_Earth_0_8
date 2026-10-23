@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Suburbs: houses along curving streets. City scale: a square is a district. Height: low (1/4), for the skyline view to come. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path class="detail" d="M0 10 C30 4 70 16 100 10" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M6.2 15.5 H12.2 V20.5 H6.2 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M17.6 15.9 H23.6 V20.9 H17.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M28.5 15.8 H34.5 V20.8 H28.5 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M38.1 14.9 H44.1 V19.9 H38.1 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M50.9 15.3 H56.9 V20.3 H50.9 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M61.8 14.2 H67.8 V19.2 H61.8 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M71.9 14.5 H77.9 V19.5 H71.9 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M83.1 15.1 H89.1 V20.1 H83.1 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M93 14.4 H99 V19.4 H93 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="detail" d="M0 34 C30 28 70 40 100 34" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M5.6 39.8 H11.6 V44.8 H5.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M17.5 38.3 H23.5 V43.3 H17.5 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M28.6 38.3 H34.6 V43.3 H28.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M39.2 38.3 H45.2 V43.3 H39.2 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M49 39.7 H55 V44.7 H49 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M60.4 38.4 H66.4 V43.4 H60.4 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M73 39.7 H79 V44.7 H73 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M82.6 39.9 H88.6 V44.9 H82.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M94.1 39.4 H100.1 V44.4 H94.1 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="detail" d="M0 58 C30 52 70 64 100 58" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M5.4 63.9 H11.4 V68.9 H5.4 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M17.4 63.9 H23.4 V68.9 H17.4 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M28.8 62.6 H34.8 V67.6 H28.8 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M38.7 62.3 H44.7 V67.3 H38.7 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M49.3 62.1 H55.3 V67.1 H49.3 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M60.6 63.2 H66.6 V68.2 H60.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M71 63.4 H77 V68.4 H71 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M82.7 62.6 H88.7 V67.6 H82.7 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M94.6 63 H100.6 V68 H94.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="detail" d="M0 82 C30 76 70 88 100 82" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M5.6 87 H11.6 V92 H5.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M17.4 86.1 H23.4 V91.1 H17.4 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M29 86 H35 V91 H29 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M39.5 87.7 H45.5 V92.7 H39.5 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M49 87.6 H55 V92.6 H49 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M60.7 87.2 H66.7 V92.2 H60.7 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M71 86.1 H77 V91.1 H71 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M82.4 87.9 H88.4 V92.9 H82.4 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M93.4 87.5 H99.4 V92.5 H93.4 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+</svg>

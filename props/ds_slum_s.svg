@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A patch of shacks. -->
+  <path class="solid" d="M6.5 6.6 L23.3 3.6 L27.1 20.5 L4.7 24.2 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M9 13.8 H22.4" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M6.7 32.3 L29 35.8 L28.5 52 L6.9 48.6 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M9 42.4 H25.4" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M3.7 63.8 L25.8 63.1 L27.8 78.1 L8.1 76.5 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M9 69.5 H22.9" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M35.9 4 L50.6 4.6 L54.8 27 L34.6 26.4 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M37 16.7 H49.4" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M34.4 34.4 L53.9 34.9 L54 51.3 L36.5 50.4 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M37 41.8 H48.9" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M62.3 7.1 L84.2 7.7 L86 26 L59.8 28.8 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M65 16.5 H82.6" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M61.6 32.3 L75.9 35.3 L78.7 51.7 L62.6 51.7 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M65 44 H73.9" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M64.4 62 L81.8 61 L77.2 83.3 L59.7 81.3 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M65 72.4 H76.3" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- An avenue (top to bottom) with an opening on the right for a street to join it. -->
+  <path class="solid" d="M0 0 H200 V100 H0 Z" fill="currentColor" fill-opacity="0.18" stroke="none"/>
+  <path class="solid" d="M14 0 H186 V14 H200 V86 H186 V100 H14 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M14 0 V100 M186 0 V14 H200 M186 100 V86 H200" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M100 0 V100" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.5"/>
+  <path class="detail" d="M57 0 V100 M143 0 V100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 10" stroke-dashoffset="-5"/>
+</svg>

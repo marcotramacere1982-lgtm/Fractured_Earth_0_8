@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- A hospital bed, head at the top: rails, a call button. -->
+  <path class="solid" d="M10 8 H90 V192 H10 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="solid" d="M20 16 H80 V50 H20 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M10 60 V160 M90 60 V160" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M24 80 H76 M24 100 H76" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="84" cy="30" r="3" fill="currentColor" stroke="none"/>
+</svg>

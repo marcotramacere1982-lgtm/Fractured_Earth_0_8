@@ -9,10 +9,13 @@ import { toast } from '../shell.js';
 import { tourDone } from '../tour.js';
 import { info as ruleInfo } from '../ref.js';
 import { createMapViewer } from '../map/viewer.js';
+import { createSkylineViewer, hasSkyline, tileAt } from '../map/skyline.js';
 import { marksButton, marksPanel, markHooks, marking } from './map-marks.js';
 import { reachable, checkMove, routeTo, lineOfSight, rangeCheck, nextToDoor } from '../../rules/map.js';
 
 let viewer = null; // one per page: it keeps its zoom across the sheet's re-renders
+let skyView = null; // decision 123: the skyline, look only
+let sky = false;
 let pending = null; // { base: the map message it was sent from, to } — shown until the next map message
 let target = null; // the marker tapped to check line of sight and range (step 4)
 let info = null; // { kind: 'prop' | 'laser', id } — a piece tapped to see what it is (decision 70)
@@ -44,10 +47,19 @@ function infoPanel(map, data, id, doorUse) {
   if (!d) return null;
   const traits = [d.shell ? t('map.info.shell') : null, d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null,
     d.cover !== 'none' ? t(`map.cover.${d.cover}`) : null].filter(Boolean);
-  return html`<section data-tour="map-target" class="map-target map-info"><div class="map-target__head"><strong>${d.name}</strong>
+  return html`<section data-tour="map-target" class="map-target map-info"><div class="map-target__head"><strong>${p.caption || d.name}</strong>
       <span class="pill">${t(`map.group.${d.category}`)}</span>
       <button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button></div>
+    ${p.caption ? html`<p class="muted st-small">${d.name}</p>` : ''}
     <p class="muted map-target__why">${traits.length ? traits.join(' · ') : t('map.info.nothing')}</p></section>`;
+}
+
+/** Decision 119: which link kinds this map shows, and which are cut. */
+function linkLegend(map) {
+  const kinds = [...new Set(map.walls.filter((w) => w.kind.startsWith('link_')).map((w) => w.kind.slice(5)))];
+  if (!kinds.length) return '';
+  const cut = map.walls.some((w) => w.kind.startsWith('link_') && w.cut);
+  return html`<ul class="map-links">${kinds.map((k) => html`<li><span class="map-links__swatch map-links__swatch--${k}"></span>${t(`map.link.${k}`)}</li>`)}${cut ? html`<li><span class="map-links__swatch map-links__swatch--cut"></span>${t('map.link.cut')}</li>` : ''}</ul>`;
 }
 
 /** Line of sight and distance from your marker to the tapped one, or null. tokens: as shown (pending move applied). */
@@ -99,6 +111,11 @@ function hint(map, move) {
 
 let mapCombat = false; // in a fight: opening a door costs an action (shown on its button)
 
+/** Decision 123: the Top-down / Skyline switch, on maps with city tiles only. */
+export const skyButton = (map, data, action, on = sky) => (hasSkyline(map, data)
+  ? html`<button class="btn btn--sm ${on ? 'btn--primary' : ''}" data-action="${action}" aria-pressed="${on}">${t(on ? 'map.sky.off' : 'map.sky.on')}</button>` : '');
+const skyNow = (map, data) => sky && hasSkyline(map, data);
+
 export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch = null, marks = null, myColor = null }) {
   mapCombat = Boolean(combat?.active);
   if (!map) return html`<div class="card"><div class="empty"><div class="empty__title">${t('map.none')}</div></div></div>`;
@@ -113,6 +130,7 @@ export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch =
         <button class="btn btn--sm" data-action="mapZoom" data-dir="out" aria-label="${t('map.zoomOut')}">−</button>
         <button class="btn btn--sm" data-action="mapFit">${t('map.fit')}</button>
         <button class="btn btn--sm" data-action="mapZoom" data-dir="in" aria-label="${t('map.zoomIn')}">+</button>
+        ${skyButton(map, data, 'mapSkyline')}
       </div></header>
     ${tourDone('map') ? '' : html`<p class="notice tour-offer map-card__offer"><span>${t('map.tourOffer')}</span>
       <button class="btn btn--sm btn--primary" data-action="tour" data-id="map">${t('tour.offerStart')}</button>
@@ -121,13 +139,14 @@ export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch =
     <div class="map-card__stage" data-map-slot data-tour="map-stage"></div>
     <aside class="map-card__side">
     ${marksPanel(map, data, id, marks, myColor)}
-    <p class="map-card__move ${canGo ? 'is-go' : ''}" data-tour="map-move">${hint(map, mapMove)}</p>
+    <p class="map-card__move ${canGo && !skyNow(map, data) ? 'is-go' : ''}" data-tour="map-move">${skyNow(map, data) ? t('map.sky.hint') : hint(map, mapMove)}</p>
     ${torch == null ? '' : html`<div class="map-card__gear" data-tour="map-gear"><button class="btn btn--sm ${torch ? 'btn--primary' : ''}" data-action="mapTorch" data-on="${torch ? '0' : '1'}" aria-pressed="${torch}">🔦 ${t(torch ? 'map.torch.on' : 'map.torch.off')}</button>
       <span class="muted st-small">${t('map.torch.hint')}</span></div>`}
     ${infoPanel(map, data, id, doorUse) ?? targetPanel(map, data, s, id)}
     <ul class="map-legend" data-tour="map-legend">${map.tokens.map((tk) => html`<li class="map-legend__item ${tk.key === id ? 'is-you' : ''} ${tk.down ? 'is-down' : ''}">
       <span class="map-legend__dot map-legend__dot--${tk.kind} ${tk.color ? `map-legend__dot--c-${tk.color}` : ''}">${tk.label}</span>
       <span>${tk.key === id ? t('map.you') : tk.name}${band(tk) ? html` <span class="muted">· ${t(`turn.band.${band(tk)}`)}</span>` : ''}${tk.current ? html` <span class="pill pill--accent">${t('map.acting')}</span>` : ''}</span></li>`)}</ul>
+    ${linkLegend(map)}
     <p class="hint">${t('map.hint.look')}</p>
     </aside>
     </div>
@@ -141,6 +160,14 @@ export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch =
  */
 export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = null, myColor = null, onMark = async () => false }) {
   if (!map || !main.querySelector('[data-map-slot]')) return;
+  if (skyNow(map, data)) { // look only: a tap shows the district under it
+    skyView ??= createSkylineViewer({ data, prefix: 'sheetsky' });
+    skyView.on.idle = onIdle;
+    skyView.on.tapSquare = (sq) => { const pid = tileAt(map, data, sq); target = null; info = pid && info?.id !== pid ? { kind: 'prop', id: pid } : null; onIdle(); };
+    skyView.update({ key: map.id, map, tokens: map.tokens, fog: map.fog ? { mode: 'player', ...map.fog } : null });
+    skyView.attach(main);
+    return;
+  }
   viewer ??= createMapViewer({ data, prefix: 'sheet', interactive: true });
   if (pending && pending.base !== map) pending = null; // the GM answered (accepted or put it back)
   const tokens = shown(map, id);
@@ -172,12 +199,13 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   viewer.attach(main);
 }
 
-export const mapBusy = () => Boolean(viewer?.isBusy());
+export const mapBusy = () => Boolean(viewer?.isBusy() || skyView?.isBusy());
+export const toggleSky = () => { sky = !sky; info = null; target = null; };
 export const clearTarget = () => { target = null; info = null; };
 /** Decision 76: what the map shows of the marker you tapped — 'thermal' (a heat signature only), 'seen', or null. */
 export const targetSeen = (map, id) => {
   const tk = target && target !== id ? map?.tokens.find((x) => x.key === target) : null;
   return tk ? (tk.thermal ? 'thermal' : 'seen') : null;
 };
-export const mapFit = () => viewer?.fit();
-export const mapZoom = (dir) => viewer?.zoom(dir);
+export const mapFit = () => (sky && skyView ? skyView : viewer)?.fit();
+export const mapZoom = (dir) => (sky && skyView ? skyView : viewer)?.zoom(dir);

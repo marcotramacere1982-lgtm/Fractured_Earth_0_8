@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <!-- A power plant: two cooling towers, the turbine hall, a stack. -->
+  <path class="solid" d="M13 52 A42 42 0 1 0 97 52 A42 42 0 1 0 13 52 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M25 52 A30 30 0 1 0 85 52 A30 30 0 1 0 25 52 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M13 148 A42 42 0 1 0 97 148 A42 42 0 1 0 13 148 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M25 148 A30 30 0 1 0 85 148 A30 30 0 1 0 25 148 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M118 30 H290 V170 H118 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M118 100 H290 M175 30 V170 M232 30 V170" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M258 50 A10 10 0 1 0 278 50 A10 10 0 1 0 258 50 Z" fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+  <path class="detail" d="M100 52 H118 M100 148 H118" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

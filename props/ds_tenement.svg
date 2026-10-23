@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <!-- A tenement megablock: thousands of flats round narrow light wells, water tanks on the roof. -->
+  <path class="solid" d="M8 8 H292 V192 H8 Z M40 40 H80 V70 H40 Z M40 130 H80 V160 H40 Z M130 40 H170 V70 H130 Z M130 130 H170 V160 H130 Z M220 40 H260 V70 H220 Z M220 130 H260 V160 H220 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round" fill-rule="evenodd"/>
+  <path class="detail" d="M8 100 H292 M100 8 V192 M190 8 V192" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M104 25 A6 6 0 1 0 116 25 A6 6 0 1 0 104 25 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M194 175 A6 6 0 1 0 206 175 A6 6 0 1 0 194 175 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M274 25 A6 6 0 1 0 286 25 A6 6 0 1 0 274 25 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

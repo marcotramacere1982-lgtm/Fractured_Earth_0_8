@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Desert, schematic: scattered dots. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.1" stroke="none"/>
+  <circle class="detail" cx="18" cy="22" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="46" cy="16" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="78" cy="26" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="30" cy="48" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="62" cy="44" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="86" cy="58" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="14" cy="76" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="48" cy="72" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="74" cy="86" r="1.6" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="36" cy="92" r="1.6" fill="currentColor" stroke="none"/>
+</svg>

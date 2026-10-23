@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A monument: a stepped plinth and a memorial block. -->
+  <path class="detail" d="M14 14 H86 V86 H14 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M26 26 H74 V74 H26 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M38 38 H62 V62 H38 Z M26 26 L38 38 M74 26 L62 38 M74 74 L62 62 M26 74 L38 62" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

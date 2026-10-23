@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- A church: a cross-shaped plan, the apse at the top, the bell tower over the door. -->
+  <path class="solid" d="M38 34 A12 12 0 0 1 62 34 V72 H92 V102 H62 V188 H38 V102 H8 V72 H38 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M50 24 V160 M8 87 H92" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M40 162 H60 V184 H40 Z M40 162 L60 184 M60 162 L40 184" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M34 194 H66" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

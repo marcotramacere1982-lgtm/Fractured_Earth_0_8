@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- A low wall of sandbags. -->
+  <path class="solid" d="M4 30 C4 18 30 18 30 30 C30 18 56 18 56 30 C56 18 82 18 82 30 C82 18 96 18 96 30 V44 H4 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M4 30 H96" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

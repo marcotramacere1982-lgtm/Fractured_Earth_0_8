@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A two-lane street with sidewalks, running top to bottom. District scale: a square is a plot of 10–15 m. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.18" stroke="none"/>
+  <path class="solid" d="M14 0 H86 V100 H14 Z" fill="currentColor" fill-opacity="0.45" stroke="none"/>
+  <path class="detail" d="M14 0 V100 M86 0 V100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 0 V100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="10 10" stroke-dashoffset="-5"/>
+</svg>

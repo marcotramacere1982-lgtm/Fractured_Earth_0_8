@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200">
+  <!-- An air shower between two doors: gowned, blasted, through. You can step in. -->
+  <path class="solid" d="M6 4 H94 V196 H6 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M6 60 H94 M6 140 H94" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="30" cy="80" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="30" cy="100" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="30" cy="120" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="50" cy="80" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="50" cy="100" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="50" cy="120" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="70" cy="80" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="70" cy="100" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="70" cy="120" r="2" fill="currentColor" stroke="none"/>
+</svg>

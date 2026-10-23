@@ -518,4 +518,20 @@
 .hk-after.is-crash { color: var(--color-danger); border-color: var(--color-danger); font-weight: 700; }
 .hk-rules { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--space-1) var(--space-3); font-size: var(--text-sm); color: var(--color-text-muted); }
 .hk-rules li { display: flex; align-items: center; gap: var(--space-2); }
+/* the map's link legend (decision 119) */
+.map-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); font-size: var(--text-sm); }
+.map-links li { display: inline-flex; align-items: center; gap: var(--space-1); }
+.map-links__swatch { display: inline-block; width: 1.6rem; border-top: calc(var(--border-width) * 3) solid var(--color-text); }
+.map-links__swatch--goods { border-top-style: dashed; border-color: var(--color-accent); }
+.map-links__swatch--power { border-top-style: dotted; border-color: var(--color-warning); }
+.map-links__swatch--data { border-top-style: dashed; border-color: var(--color-info); }
+.map-links__swatch--water { border-top: calc(var(--border-width) * 3) double var(--color-info); }
+.map-links__swatch--cut { border-top-style: dashed; border-color: var(--color-danger); }
 
+
+/* Notes & maps: maps we've seen (decision 122) */
+.memory-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.memory-list__item { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.memory-list__note { flex-basis: 100%; color: var(--color-text-muted); }
+.memory-open { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-3); }
+.memory-open__stage { display: flex; height: clamp(16rem, 50dvh, 34rem); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }

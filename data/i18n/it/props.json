@@ -1424,6 +1424,732 @@
     },
     "gr_barrier_arm": {
       "name": "Sbarra"
+    },
+    "rg_flat": {
+      "name": "Regione: pianura"
+    },
+    "rg_mountains": {
+      "name": "Regione: montagne"
+    },
+    "rg_hills": {
+      "name": "Regione: colline"
+    },
+    "rg_forest": {
+      "name": "Regione: foresta"
+    },
+    "rg_desert": {
+      "name": "Regione: deserto"
+    },
+    "rg_wasteland": {
+      "name": "Regione: terre desolate"
+    },
+    "rg_sea": {
+      "name": "Regione: mare"
+    },
+    "rg_lake": {
+      "name": "Regione: lago"
+    },
+    "rg_river": {
+      "name": "Regione: fiume"
+    },
+    "rg_river_bend": {
+      "name": "Regione: ansa del fiume"
+    },
+    "rg_city_s": {
+      "name": "Città (piccola)"
+    },
+    "rg_city_m": {
+      "name": "Città (media)"
+    },
+    "rg_city_l": {
+      "name": "Città (grande)"
+    },
+    "rg_grid_node": {
+      "name": "Nodo della rete elettrica"
+    },
+    "rg_exchange": {
+      "name": "Nodo di interscambio"
+    },
+    "rg_port": {
+      "name": "Porto"
+    },
+    "rg_airport": {
+      "name": "Aeroporto"
+    },
+    "rg_water_plant": {
+      "name": "Impianto di trattamento delle acque"
+    },
+    "rg_reactor": {
+      "name": "Reattore"
+    },
+    "rg_refinery": {
+      "name": "Raffineria"
+    },
+    "rg_data_relay": {
+      "name": "Ripetitore dati / server farm"
+    },
+    "rg_enclave": {
+      "name": "Enclave aziendale"
+    },
+    "rg_grey_zone": {
+      "name": "Insediamento della Grey Zone"
+    },
+    "rg_checkpoint": {
+      "name": "Posto di blocco / confine"
+    },
+    "rg_watch_base": {
+      "name": "Base della Watch"
+    },
+    "rg_farms": {
+      "name": "Gruppo di fattorie"
+    },
+    "rg_mine": {
+      "name": "Miniera / estrazione"
+    },
+    "rg_ruin": {
+      "name": "Rovina"
+    },
+    "rg_unknown": {
+      "name": "Luogo sconosciuto"
+    },
+    "ds_street": {
+      "name": "Strada"
+    },
+    "ds_street_corner": {
+      "name": "Strada: curva"
+    },
+    "ds_street_t": {
+      "name": "Strada: incrocio a T"
+    },
+    "ds_street_cross": {
+      "name": "Strada: incrocio"
+    },
+    "ds_street_end": {
+      "name": "Strada: vicolo cieco"
+    },
+    "ds_avenue": {
+      "name": "Viale"
+    },
+    "ds_avenue_side": {
+      "name": "Viale: traversa"
+    },
+    "ds_avenue_cross": {
+      "name": "Viale: incrocio"
+    },
+    "ds_avenue_t": {
+      "name": "Viale: incrocio a T"
+    },
+    "ds_avenue_corner": {
+      "name": "Viale: curva"
+    },
+    "ds_alley": {
+      "name": "Vicolo"
+    },
+    "ds_alley_corner": {
+      "name": "Vicolo: curva"
+    },
+    "ds_alley_t": {
+      "name": "Vicolo: incrocio a T"
+    },
+    "ds_alley_end": {
+      "name": "Vicolo: senza uscita"
+    },
+    "ds_plaza": {
+      "name": "Pavimentazione di piazza"
+    },
+    "ds_pedestrian": {
+      "name": "Strada pedonale"
+    },
+    "ds_rail": {
+      "name": "Linea ferroviaria"
+    },
+    "ds_rail_crossing": {
+      "name": "Passaggio a livello"
+    },
+    "ds_canal": {
+      "name": "Canale"
+    },
+    "ds_bridge": {
+      "name": "Ponte"
+    },
+    "ds_empty_lot": {
+      "name": "Lotto abbandonato"
+    },
+    "ds_block_court": {
+      "name": "Condominio (con cortile)"
+    },
+    "ds_block_u": {
+      "name": "Condominio (a U)"
+    },
+    "ds_block_slab": {
+      "name": "Palazzina in linea"
+    },
+    "ds_tenement": {
+      "name": "Megablocco popolare"
+    },
+    "ds_tenement_tower": {
+      "name": "Torre popolare"
+    },
+    "ds_row_houses": {
+      "name": "Case a schiera"
+    },
+    "ds_row_houses_s": {
+      "name": "Case a schiera (corte)"
+    },
+    "ds_houses": {
+      "name": "Villette"
+    },
+    "ds_house": {
+      "name": "Villetta"
+    },
+    "ds_slum": {
+      "name": "Baraccopoli"
+    },
+    "ds_slum_s": {
+      "name": "Baraccopoli (piccola)"
+    },
+    "ds_slum_strip": {
+      "name": "Baraccopoli (striscia)"
+    },
+    "ds_corp_housing": {
+      "name": "Residenza aziendale"
+    },
+    "ds_city_hall": {
+      "name": "Municipio / amministrazione"
+    },
+    "ds_school": {
+      "name": "Scuola"
+    },
+    "ds_hospital": {
+      "name": "Ospedale"
+    },
+    "ds_clinic": {
+      "name": "Ambulatorio"
+    },
+    "ds_credit_bureau": {
+      "name": "Ufficio crediti e debiti"
+    },
+    "ds_precinct": {
+      "name": "Distretto della Watch"
+    },
+    "ds_fire_station": {
+      "name": "Caserma dei vigili del fuoco"
+    },
+    "ds_checkpoint": {
+      "name": "Posto di blocco"
+    },
+    "ds_tower_s": {
+      "name": "Torre per uffici (piccola)"
+    },
+    "ds_tower_m": {
+      "name": "Grattacielo (a gradoni)"
+    },
+    "ds_tower_round": {
+      "name": "Grattacielo (rotondo)"
+    },
+    "ds_arcology": {
+      "name": "Arcologia"
+    },
+    "ds_office": {
+      "name": "Edificio per uffici"
+    },
+    "ds_data_centre": {
+      "name": "Data center"
+    },
+    "ds_power_plant": {
+      "name": "Centrale elettrica"
+    },
+    "ds_water_plant": {
+      "name": "Impianto di trattamento delle acque"
+    },
+    "ds_warehouse": {
+      "name": "Magazzino"
+    },
+    "ds_warehouse_big": {
+      "name": "Capannone logistico"
+    },
+    "ds_factory": {
+      "name": "Fabbrica"
+    },
+    "ds_recycling": {
+      "name": "Centro di riciclaggio"
+    },
+    "ds_church": {
+      "name": "Chiesa"
+    },
+    "ds_chapel": {
+      "name": "Cappella"
+    },
+    "ds_market_hall": {
+      "name": "Mercato coperto"
+    },
+    "ds_street_market": {
+      "name": "Mercato di strada"
+    },
+    "ds_ration_depot": {
+      "name": "Deposito razioni"
+    },
+    "ds_shops": {
+      "name": "Negozi"
+    },
+    "ds_shops_row": {
+      "name": "Fila di negozi"
+    },
+    "ds_bar": {
+      "name": "Bar / locale"
+    },
+    "ds_station": {
+      "name": "Stazione ferroviaria"
+    },
+    "ds_metro": {
+      "name": "Ingresso della metro"
+    },
+    "ds_parking": {
+      "name": "Parcheggio"
+    },
+    "ds_garage": {
+      "name": "Autosilo"
+    },
+    "ds_drone_port": {
+      "name": "Porto per droni"
+    },
+    "ds_park": {
+      "name": "Parco"
+    },
+    "ds_park_formal": {
+      "name": "Giardino all'italiana"
+    },
+    "ds_pocket_park": {
+      "name": "Giardinetto"
+    },
+    "ds_stadium": {
+      "name": "Stadio"
+    },
+    "ds_sports_centre": {
+      "name": "Centro sportivo"
+    },
+    "ds_cemetery": {
+      "name": "Cimitero"
+    },
+    "ds_monument": {
+      "name": "Monumento"
+    },
+    "ds_statue": {
+      "name": "Statua"
+    },
+    "ds_column": {
+      "name": "Colonna"
+    },
+    "ds_obelisk": {
+      "name": "Obelisco"
+    },
+    "ds_fountain": {
+      "name": "Fontana"
+    },
+    "ds_ar_tower": {
+      "name": "Torre pubblicitaria AR"
+    },
+    "ds_broken_monument": {
+      "name": "Monumento abbattuto"
+    },
+    "city_downtown": {
+      "name": "Centro (cuore aziendale)"
+    },
+    "city_downtown_b": {
+      "name": "Centro (torri miste)"
+    },
+    "city_business": {
+      "name": "Quartiere degli affari"
+    },
+    "city_arcology": {
+      "name": "Arcologia"
+    },
+    "city_dense": {
+      "name": "Edilizia densa"
+    },
+    "city_tenements": {
+      "name": "Cintura dei casermoni"
+    },
+    "city_residential": {
+      "name": "Quartiere residenziale"
+    },
+    "city_suburb": {
+      "name": "Periferia residenziale"
+    },
+    "city_old_town": {
+      "name": "Centro storico"
+    },
+    "city_slum": {
+      "name": "Distesa di baracche"
+    },
+    "city_grey_zone": {
+      "name": "Grey Zone"
+    },
+    "city_market": {
+      "name": "Quartiere del bazar"
+    },
+    "city_industrial": {
+      "name": "Cintura industriale"
+    },
+    "city_heavy_industry": {
+      "name": "Industria pesante"
+    },
+    "city_power": {
+      "name": "Centrale elettrica"
+    },
+    "city_construction": {
+      "name": "Cantiere"
+    },
+    "city_civic": {
+      "name": "Centro civico"
+    },
+    "city_campus": {
+      "name": "Campus ospedaliero e universitario"
+    },
+    "city_watch": {
+      "name": "Fortezza della Watch"
+    },
+    "city_rail_yard": {
+      "name": "Scalo ferroviario"
+    },
+    "city_airport": {
+      "name": "Aeroporto"
+    },
+    "city_port": {
+      "name": "Porto"
+    },
+    "city_park": {
+      "name": "Parco cittadino"
+    },
+    "city_stadium": {
+      "name": "Stadio e palazzetti"
+    },
+    "city_cemetery": {
+      "name": "Necropoli"
+    },
+    "city_ruins": {
+      "name": "Quartiere in rovina"
+    },
+    "city_water": {
+      "name": "Acqua"
+    },
+    "city_shore": {
+      "name": "Riva"
+    },
+    "city_shore_corner": {
+      "name": "Riva: angolo"
+    },
+    "city_river": {
+      "name": "Fiume"
+    },
+    "city_river_bend": {
+      "name": "Fiume: ansa"
+    },
+    "city_highway": {
+      "name": "Autostrada"
+    },
+    "city_highway_curve": {
+      "name": "Autostrada: curva"
+    },
+    "city_highway_t": {
+      "name": "Autostrada: svincolo"
+    },
+    "city_highway_cross": {
+      "name": "Autostrada: interscambio"
+    },
+    "city_rail": {
+      "name": "Ferrovia"
+    },
+    "city_rail_curve": {
+      "name": "Ferrovia: curva"
+    },
+    "city_maglev": {
+      "name": "Linea maglev"
+    },
+    "city_wall": {
+      "name": "Muro di cordone"
+    },
+    "breaker_panel": {
+      "name": "Quadro elettrico"
+    },
+    "fac_rack_row": {
+      "name": "Rack di server (fila)"
+    },
+    "fac_rack": {
+      "name": "Rack di server"
+    },
+    "fac_core_switch": {
+      "name": "Armadio di rete"
+    },
+    "fac_crah": {
+      "name": "Unità di raffreddamento"
+    },
+    "fac_raised_floor": {
+      "name": "Pavimento: piastrella flottante"
+    },
+    "fac_floor_hatch": {
+      "name": "Botola del pavimento flottante"
+    },
+    "fac_cable_tray": {
+      "name": "Passerella portacavi"
+    },
+    "fac_noc_desk": {
+      "name": "Postazione operativa (NOC)"
+    },
+    "fac_screen_wall": {
+      "name": "Parete di schermi"
+    },
+    "fac_ups": {
+      "name": "Armadio UPS"
+    },
+    "fac_battery_rack": {
+      "name": "Banco batterie"
+    },
+    "fac_suppression": {
+      "name": "Bombole antincendio"
+    },
+    "fac_tape_robot": {
+      "name": "Robot della nastroteca"
+    },
+    "fac_mantrap": {
+      "name": "Bussola di sicurezza"
+    },
+    "fac_turbine": {
+      "name": "Turbina"
+    },
+    "fac_generator_unit": {
+      "name": "Gruppo elettrogeno"
+    },
+    "fac_micro_reactor": {
+      "name": "Modulo micro-reattore"
+    },
+    "fac_transformer": {
+      "name": "Trasformatore"
+    },
+    "fac_switchgear": {
+      "name": "Quadri di media tensione"
+    },
+    "fac_control_console": {
+      "name": "Console della sala controllo"
+    },
+    "fac_mimic_panel": {
+      "name": "Quadro sinottico"
+    },
+    "fac_cooling_pump": {
+      "name": "Pompa di raffreddamento"
+    },
+    "fac_pipe": {
+      "name": "Tubazione"
+    },
+    "fac_pipe_corner": {
+      "name": "Tubazione (curva)"
+    },
+    "fac_valve": {
+      "name": "Valvola"
+    },
+    "fac_fuel_tank": {
+      "name": "Serbatoio di carburante"
+    },
+    "fac_shield_block": {
+      "name": "Blocco schermante"
+    },
+    "fac_dosimeter_gate": {
+      "name": "Varco dosimetrico"
+    },
+    "fac_hazard_locker": {
+      "name": "Armadietto tute NBC"
+    },
+    "fac_battery_container": {
+      "name": "Container di batterie"
+    },
+    "fac_hospital_bed": {
+      "name": "Letto d'ospedale"
+    },
+    "fac_curtain": {
+      "name": "Tenda divisoria"
+    },
+    "fac_vitals": {
+      "name": "Monitor parametri vitali"
+    },
+    "fac_iv_stand": {
+      "name": "Asta per flebo"
+    },
+    "fac_or_table": {
+      "name": "Tavolo operatorio"
+    },
+    "fac_surgical_light": {
+      "name": "Lampada scialitica"
+    },
+    "fac_anaesthesia": {
+      "name": "Macchina per anestesia"
+    },
+    "fac_surgical_robot": {
+      "name": "Robot chirurgico"
+    },
+    "fac_crash_cart": {
+      "name": "Carrello d'emergenza"
+    },
+    "fac_pharmacy": {
+      "name": "Distributore di farmaci"
+    },
+    "fac_waiting_chairs": {
+      "name": "Sedie d'attesa"
+    },
+    "fac_triage_desk": {
+      "name": "Banco del triage"
+    },
+    "fac_gurney": {
+      "name": "Barella"
+    },
+    "fac_morgue": {
+      "name": "Celle mortuarie"
+    },
+    "fac_biohazard_bin": {
+      "name": "Contenitore rifiuti sanitari"
+    },
+    "fac_decon_shower": {
+      "name": "Doccia di decontaminazione"
+    },
+    "fac_scanner": {
+      "name": "Scanner medico (TC)"
+    },
+    "fac_med_drone_dock": {
+      "name": "Base dei droni medici"
+    },
+    "fac_car_lift": {
+      "name": "Ponte sollevatore"
+    },
+    "fac_pit": {
+      "name": "Fossa d'ispezione"
+    },
+    "fac_tyres": {
+      "name": "Pila di pneumatici"
+    },
+    "fac_tool_wall": {
+      "name": "Parete degli attrezzi"
+    },
+    "fac_vice_bench": {
+      "name": "Banco con morsa"
+    },
+    "fac_engine_hoist": {
+      "name": "Gru per motori"
+    },
+    "fac_parts_shelves": {
+      "name": "Scaffali dei ricambi"
+    },
+    "fac_ev_charger": {
+      "name": "Colonnina di ricarica"
+    },
+    "fac_battery_swap": {
+      "name": "Stazione di cambio batteria"
+    },
+    "fac_diag_trolley": {
+      "name": "Carrello diagnostico"
+    },
+    "fac_oil_drums": {
+      "name": "Fusti d'olio"
+    },
+    "fac_paint_booth": {
+      "name": "Cabina di verniciatura"
+    },
+    "fac_car_stands": {
+      "name": "Auto sui cavalletti"
+    },
+    "fac_compressor": {
+      "name": "Compressore"
+    },
+    "fac_welding_screen": {
+      "name": "Schermo per saldatura"
+    },
+    "fac_drone_bench": {
+      "name": "Banco riparazione droni"
+    },
+    "fac_robot_cell": {
+      "name": "Cella robotizzata"
+    },
+    "fac_gantry": {
+      "name": "Portale di movimentazione"
+    },
+    "fac_print_farm": {
+      "name": "Batteria di stampanti 3D"
+    },
+    "fac_test_cage": {
+      "name": "Gabbia di prova per droni"
+    },
+    "fac_drone_rack": {
+      "name": "Rastrelliera per droni"
+    },
+    "fac_drone_crate": {
+      "name": "Cassa per droni"
+    },
+    "fac_charging_wall": {
+      "name": "Parete di ricarica"
+    },
+    "fac_qa_station": {
+      "name": "Postazione controllo qualità"
+    },
+    "fac_parts_bins": {
+      "name": "Contenitori dei componenti"
+    },
+    "fac_cleanroom_lock": {
+      "name": "Sas della camera bianca"
+    },
+    "fac_line_podium": {
+      "name": "Postazione del capolinea"
+    },
+    "fac_launch_rail": {
+      "name": "Rampa di lancio droni"
+    },
+    "fac_drone": {
+      "name": "Drone (a terra)"
+    },
+    "fac_footlocker": {
+      "name": "Baule"
+    },
+    "fac_weapon_rack": {
+      "name": "Rastrelliera per armi"
+    },
+    "fac_armory_cage": {
+      "name": "Gabbia dell'armeria"
+    },
+    "fac_firing_lane": {
+      "name": "Linea di tiro"
+    },
+    "fac_target": {
+      "name": "Bersaglio a scomparsa"
+    },
+    "fac_sandbags": {
+      "name": "Muro di sacchi di sabbia"
+    },
+    "fac_climb_wall": {
+      "name": "Parete d'arrampicata"
+    },
+    "fac_crawl_net": {
+      "name": "Rete per strisciare"
+    },
+    "fac_tyre_run": {
+      "name": "Percorso a pneumatici"
+    },
+    "fac_kill_house_wall": {
+      "name": "Parete della kill house"
+    },
+    "fac_drill_floor": {
+      "name": "Pavimento: piazzale d'armi"
+    },
+    "fac_mess_table": {
+      "name": "Tavolo della mensa"
+    },
+    "fac_briefing_screen": {
+      "name": "Schermo per briefing"
+    },
+    "fac_locker_row": {
+      "name": "Fila di armadietti"
+    },
+    "fac_dummy": {
+      "name": "Manichino d'addestramento"
+    },
+    "fac_sim_pod": {
+      "name": "Capsula di simulazione"
     }
   }
 }

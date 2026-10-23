@@ -1,4 +1,4 @@
-// Dossier tab (identity, class, background, debt, portrait) and Notes tab (notes + action log).
+// Dossier tab (identity, class, background, debt, portrait) and Notes & maps tab (notes, maps we've seen, action log).
 
 import { html, raw } from '../dom.js';
 import { card, nameOf } from './parts.js';
@@ -10,6 +10,7 @@ import { storyPrompt, portraitPrompt } from '../builder/prompts.js';
 import { lookFields } from '../look.js';
 import { portraitImg, frameOf, isFramed, FRAME } from '../portrait.js';
 import { explain } from '../explain.js';
+import { memoriesCard } from './map-memories.js';
 
 /** ctx.atTable: served by the GM's table server, so the backstory can be asked from the GM (decision 50). */
 /** Decision 96: zoom, position and brightness; drag the photo to move it. */
@@ -109,12 +110,13 @@ export function dossierTab(c, s, data, ctx = {}) {
     </div>`;
 }
 
-export function notesTab(c) {
+export function notesTab(c, _s, data) {
   const logRows = (c.play.log ?? []).map((l) => html`<div class="log__row log__row--${l.kind}"><span class="mono muted">${new Date(l.t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span><span>${l.text}</span></div>`);
   return html`
     <div class="sheet-grid">
       ${card(t('notes.title'), html`<textarea class="textarea textarea--tall" data-action="notes" placeholder="${t('notes.placeholder')}">${c.play.notes}</textarea>
         <p class="hint">${t('notes.saved')}</p>`)}
+      ${memoriesCard(c, data)}
       ${card(t('notes.log'), logRows.length ? html`<div class="log">${logRows}</div>` : html`<p class="muted">${t('notes.logEmpty')}</p>`)}
     </div>`;
 }

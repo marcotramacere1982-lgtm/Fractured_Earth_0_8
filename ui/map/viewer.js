@@ -14,7 +14,7 @@ import { zoneAt } from '../../rules/zones.js';
 import { squareAt, onBoard, squaresBetween, doorAt, hitWall } from '../../rules/map.js';
 
 const DRAG_PX = 6;
-const DOOR_PX = 16;
+const DOOR_PX = 22; // decision 124: was 16 — doors, lasers and links are thin
 
 /**
  * on: { moveToken(key, square), tapToken(key), tapProp(id), tapSquare(square), tapDoor(id), tapLaser(id), idle(), wantsSquare() → taps go to squares, readout(squares | null) → text,
@@ -60,10 +60,11 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
       render(board, boardSvg(next.map, data, prefix));
       render(wallsLayer, wallsSvg(next.map, data));
     }
-    const pk = JSON.stringify([next.map.props ?? [], next.selectedProp ?? null]);
+    const links = (next.map.walls ?? []).filter((w) => w.kind.startsWith('link_')); // drawn with the pieces (decision 119)
+    const pk = JSON.stringify([next.map.props ?? [], next.selectedProp ?? null, links]);
     if (pk !== propsKey) {
       propsKey = pk;
-      render(propsLayer, propsSvg(next.map.props, data, { selected: next.selectedProp }));
+      render(propsLayer, propsSvg(next.map.props, data, { selected: next.selectedProp, links }));
     }
     zonesLayer.innerHTML = next.map.zones?.length ? zonesSvg(next.map.zones, data, { selected: next.selectedZone }) : ''; // GM only: players' maps carry no zones
     render(tokensLayer, tokensSvg(next.tokens, data, next));
@@ -142,6 +143,7 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
 
   function onDown(e) {
     if (!state) return;
+    if (e.button === 1) { e.preventDefault(); svg.setPointerCapture(e.pointerId); gesture = { kind: 'pan', ...cam.panStart(e), middle: true }; svg.classList.add('is-grabbing'); return; } // hold the wheel to pan (decision 116)
     svg.setPointerCapture(e.pointerId);
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 2) { gesture = { kind: 'pinch', ...cam.pinchStart(pointers) }; clearGhost(); return; }
@@ -182,6 +184,8 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   function onUp(e) {
     pointers.delete(e.pointerId);
     const g = gesture;
+    svg.classList.remove('is-grabbing');
+    if (g?.middle) { gesture = null; on.idle?.(); return; } // a wheel-press pan never counts as a tap
     if (g?.kind === 'pinch') { if (!pointers.size) { gesture = null; on.idle?.(); } return; }
     gesture = null;
     clearGhost();
@@ -201,11 +205,13 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
         // markers, then furniture, then doors and lasers, then the floor under it all
         const prop = !tk && on.tapProp ? hitProp(state.map, data, p, { ground: false }) : null;
         const door = on.tapDoor ? doorAt(state.map, p, cam.pxToSq(DOOR_PX)) : null;
-        const laser = !tk && !prop && !door && on.tapLaser ? hitWall({ ...state.map, walls: state.map.walls.filter((w) => w.kind === 'laser') }, p, cam.pxToSq(DOOR_PX)) : null;
+        const doorOnLine = !tk && on.tapDoor ? doorAt(state.map, p, cam.pxToSq(8)) : null; // right on a door: the door, even under a sign or a desk
+        const laser = !tk && !prop && !door && on.tapLaser ? hitWall({ ...state.map, walls: state.map.walls.filter((w) => w.kind === 'laser' || w.kind.startsWith('link_')) }, p, cam.pxToSq(DOOR_PX)) : null;
         const weak = !tk && !prop && !door && !laser && on.tapWall ? hitWall({ ...state.map, walls: state.map.walls.filter((w) => w.breakable || w.broken) }, p, cam.pxToSq(DOOR_PX)) : null; // GM: breakable walls (decision 83)
         // terrain and outlines last; floor textures never (on the table they are only looks)
         const ground = !tk && !prop && !door && !laser && on.tapProp ? hitProp(state.map, data, p, { ground: 'only', floors: false }) : null;
         if (tk) on.tapToken(tk.key);
+        else if (doorOnLine) on.tapDoor(doorOnLine);
         else if (prop) on.tapProp(prop);
         else if (door) on.tapDoor(door);
         else if (laser) on.tapLaser(laser);
@@ -219,6 +225,9 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   }
 
   svg.addEventListener('pointerdown', onDown);
+  const noAutoscroll = (e) => { if (e.button === 1) e.preventDefault(); }; // keep the browser's middle-click autoscroll off the map
+  svg.addEventListener('mousedown', noAutoscroll);
+  svg.addEventListener('auxclick', noAutoscroll);
   svg.addEventListener('pointermove', onMove);
   svg.addEventListener('pointerup', onUp);
   svg.addEventListener('pointercancel', onUp);

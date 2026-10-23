@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Raised floor, perforated: cold air and cables below. -->
+  <path class="solid" d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.22" stroke="none"/>
+  <path class="detail" d="M0 50 H100 M50 0 V100" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="15" cy="15" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="15" cy="25" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="15" cy="35" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="15" cy="65" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="15" cy="75" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="15" cy="85" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="25" cy="15" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="25" cy="25" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="25" cy="35" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="25" cy="65" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="25" cy="75" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="25" cy="85" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="35" cy="15" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="35" cy="25" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="35" cy="35" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="35" cy="65" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="35" cy="75" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="35" cy="85" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="65" cy="15" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="65" cy="25" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="65" cy="35" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="65" cy="65" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="65" cy="75" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="65" cy="85" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="75" cy="15" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="75" cy="25" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="75" cy="35" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="75" cy="65" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="75" cy="75" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="75" cy="85" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="85" cy="15" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="85" cy="25" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="85" cy="35" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="85" cy="65" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="85" cy="75" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="85" cy="85" r="1.4" fill="currentColor" stroke="none"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- A padded dummy on a post. -->
+  <path class="solid" d="M11 25 A14 14 0 1 0 39 25 A14 14 0 1 0 11 25 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M19 25 A6 6 0 1 0 31 25 A6 6 0 1 0 19 25 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

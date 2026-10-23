@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A cordon wall top to bottom: the line between a district and the next, guarded. City scale: a square is a district. -->
+  <path class="detail" d="M50 0 V100" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M44 10 H56 M44 30 H56 M44 50 H56 M44 70 H56 M44 90 H56" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- An office block: a glass roof grid and an atrium. -->
+  <path class="solid" d="M8 12 H192 V88 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M31 12 V88 M54 12 V88 M77 12 V88 M100 12 V88 M123 12 V88 M146 12 V88 M169 12 V88 M8 50 H192" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M77 30 H123 V70 H77 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

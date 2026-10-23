@@ -269,9 +269,9 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 - **Abilità** — attributi (modificabili per ferite, invecchiamento o decisioni del GM) e tutte le abilità. Tocca per tirare con la difficoltà del GM.
 - **Equipaggiamento** — contanti, inventario, il mercato e il tuo stile di vita.
 - **Dossier** — identità, classe, trascorsi, debito (con pressione e rate), ritratto, storia e *La storia finora* (5-10).
-- **Note** — i tuoi appunti e il registro di tiri, acquisti e uso delle ability.
+- **Note e mappe** — i tuoi appunti, **Mappe che abbiamo visto** (ogni mappa che è stata sul tavolo, per quanto la tua squadra l'ha vista, 7-2 §5) e il registro di tiri, acquisti e uso delle ability.
 - **Progressi** — livello, XP e gli alberi dei talenti (5-9).
-- **Mappa** — solo mentre il GM ha una mappa sul tavolo: guardare, muoversi, aprire porte, controllare linea di vista e portata (7-2 §5).
+- **Mappa attiva** — solo mentre il GM ha una mappa sul tavolo: guardare, muoversi, aprire porte, controllare linea di vista e portata (7-2 §5).
 
 
 ## 5-9. Avanzamento e talenti {#sec-5-9}

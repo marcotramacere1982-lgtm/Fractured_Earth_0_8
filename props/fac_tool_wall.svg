@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25">
+  <!-- A pegboard of tools, outlines where the missing ones go. Top edge on the wall. -->
+  <path class="solid" d="M3 3 H197 V22 H3 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M20 8 V18 M34 8 L40 18 M60 13 H80 M100 8 V18 M120 8 C130 12 130 16 120 18 M150 13 H175" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

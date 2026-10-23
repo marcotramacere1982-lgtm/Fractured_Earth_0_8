@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 400">
+  <!-- A steam turbine: a long hot casing and a roar. -->
+  <path class="solid" d="M10 6 H190 V394 H10 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M10 80 H190 M10 160 H190 M10 240 H190 M10 320 H190" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M60 120 A40 40 0 1 0 140 120 A40 40 0 1 0 60 120 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="solid" d="M50 280 A50 50 0 1 0 150 280 A50 50 0 1 0 50 280 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <path class="detail" d="M100 6 V394" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 6"/>
+</svg>

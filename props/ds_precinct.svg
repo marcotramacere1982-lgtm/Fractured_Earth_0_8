@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A Watch precinct: the station, a helipad, a fenced yard of patrol cars. -->
+  <path class="solid" d="M8 8 H192 V128 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M70 42 L78 60 L98 60 L82 72 L88 92 L70 80 L52 92 L58 72 L42 60 L62 60 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M124 68 A26 26 0 1 0 176 68 A26 26 0 1 0 124 68 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M141 57 V79 M159 57 V79 M141 68 H159" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M8 136 H192 V192 H8 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+  <path class="detail" d="M24 150 H40 V178 H24 ZM52 150 H68 V178 H52 ZM80 150 H96 V178 H80 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

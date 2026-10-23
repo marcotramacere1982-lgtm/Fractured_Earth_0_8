@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- A U-shaped block of flats, open on one side. -->
+  <path class="solid" d="M8 8 H192 V192 H140 V60 H60 V192 H8 Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+  <path class="detail" d="M34 186 V34 H166 V186" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M26 100 H42 V112 H26 ZM158 100 H174 V112 H158 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle class="detail" cx="100" cy="150" r="2" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="84" cy="172" r="2" fill="currentColor" stroke="none"/>
+</svg>

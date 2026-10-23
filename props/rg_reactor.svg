@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An industrial node: a reactor. Give it a caption (its name) so players read it once revealed. -->
+  <path class="solid" d="M29 6 H71 L94 29 V71 L71 94 H29 L6 71 V29 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <circle class="detail" cx="50" cy="50" r="6" fill="none" stroke="currentColor" stroke-width="3"/><path class="detail" d="M50 42 L42 28 A24 24 0 0 1 58 28 Z M57 54 L72 56 A24 24 0 0 1 64 70 Z M43 54 L36 70 A24 24 0 0 1 28 56 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
