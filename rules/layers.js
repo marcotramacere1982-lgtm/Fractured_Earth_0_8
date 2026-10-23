@@ -10,6 +10,7 @@ export const LAYERS = [
   { id: 'pieces', name: 'Pieces' },
   { id: 'power', name: 'Lights & power' },
   { id: 'sensors', name: 'Sensors & lasers' },
+  { id: 'network', name: 'Network' },
   { id: 'links', name: 'Links' },
   { id: 'zones', name: 'Zones' },
 ];
@@ -18,8 +19,9 @@ export const LAYER_STATES = ['show', 'dim', 'hide'];
 /** A piece's layer, from its library record. */
 export function propLayer(def) {
   if (!def) return 'pieces';
+  if (['uplink', 'router', 'ap', 'repeater'].includes(def.net)) return 'network'; // decision 129
   if (sensesOf(def).length || def.category === 'sensor' || def.category === 'security') return 'sensors';
-  if (def.light || def.category === 'light' || def.power) return 'power';
+  if (def.light || def.category === 'light' || def.circuit) return 'power'; // decision 136: powered desks and machines stay with the pieces
   if (def.category === 'zone') return 'zones'; // darkness tiles and the like
   if (GROUND.has(def.category)) return 'floors'; // floors, terrain, outlines, city tiles
   return 'pieces';

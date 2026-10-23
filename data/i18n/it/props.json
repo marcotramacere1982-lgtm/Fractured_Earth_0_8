@@ -2150,6 +2150,18 @@
     },
     "fac_sim_pod": {
       "name": "Capsula di simulazione"
+    },
+    "net_uplink": {
+      "name": "Punto di accesso alla rete"
+    },
+    "net_router": {
+      "name": "Router"
+    },
+    "wifi_ap": {
+      "name": "Access point Wi-Fi"
+    },
+    "wifi_repeater": {
+      "name": "Ripetitore Wi-Fi"
     }
   }
 }

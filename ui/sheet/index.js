@@ -30,7 +30,7 @@ import { soundOn, setSound } from '../sound.js';
 import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 import { boostsFor } from './check-boosts.js';
-import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky } from './map-tab.js';
+import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky, toggleSide, openSide } from './map-tab.js';
 import { attachMemory, memoryBusy, toggleMemory, memoryFit, memoryZoom, toggleMemorySky } from './map-memories.js';
 import { forgetMap, noteMap } from '../../rules/map-memory.js';
 import { markHandlers, myMarkColor } from './map-marks.js';
@@ -73,6 +73,9 @@ export function sheetView({ data, store, main, table }, route) {
   };
 
   // decision 97: the action buttons show names + the live number; descriptions on demand, remembered per device
+  // decision 134: on the Active map the status bar is one slim row unless opened (remembered per device)
+  const STATUS = 'fe.sheet.mapStatusOpen';
+  const statusOpen = () => { try { return localStorage.getItem(STATUS) === '1'; } catch { return false; } };
   const TIPS = 'fe.sheet.actionTips';
   const tipsOn = () => { try { return localStorage.getItem(TIPS) === '1'; } catch { return false; } };
   const draw = () => {
@@ -84,7 +87,7 @@ export function sheetView({ data, store, main, table }, route) {
     const open = new Set([...main.querySelectorAll('details[data-keep][open]')].map((d) => d.dataset.keep));
     render(main, html`
       <div class="sheet">
-        ${statusBar(c, s, data)}
+        ${statusBar(c, s, data, { compact: tab.id === 'map' && !statusOpen() })}${tab.id === 'map' && statusOpen() ? html`<button class="btn btn--sm btn--ghost sheet-status__less" data-action="statusOpen">${t('status.collapse')}</button>` : ''}
         ${tableBanner(table, id, data)}
         ${tourDone('general') ? '' : html`<p class="notice tour-offer"><span>${t('tour.offer')}</span>
           <button class="btn btn--sm btn--primary" data-action="tour" data-id="general">${t('tour.offerStart')}</button>
@@ -335,8 +338,11 @@ export function sheetView({ data, store, main, table }, route) {
     /** Decision 53: guided tours (general, or class.<id>) — they switch tabs as they go. */
     tour: ({ id: tourId }) => {
       const tour = data.tours.tours.find((x) => x.id === tourId);
+      if (tourId === 'map') openSide(); // the tour points at the side panel
       if (tour) startTour(tour, { openTab: (tabId) => { if (location.hash !== href('sheet', id, tabId)) go('sheet', id, tabId); }, onClose: () => draw() });
     },
+    statusOpen: () => { try { localStorage.setItem(STATUS, statusOpen() ? '0' : '1'); } catch { /* private mode */ } draw(); },
+    mapSide: () => { toggleSide(); draw(); }, // decision 134
     tourSkip: ({ id: tourId }) => { markTourDone(tourId ?? 'general'); draw(); },
     copyPrompt: async ({ target }) => {
       const el = document.getElementById(target);

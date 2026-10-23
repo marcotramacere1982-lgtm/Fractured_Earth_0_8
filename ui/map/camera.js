@@ -14,14 +14,15 @@ export function createCamera(svg, { units: U, size }) {
     view = v;
     svg.setAttribute('viewBox', `${v.x} ${v.y} ${v.w} ${v.h}`);
   }
-  /** The whole map with one square of margin. */
-  function fit() {
+  /** The whole map with one square of margin — or a box of it ({ x, y, w, h } in squares, decision 133). */
+  function fit(box = null) {
     const { cols, rows } = size();
-    const bw = (cols + 2) * U;
-    const bh = (rows + 2) * U;
+    const b = box ?? { x: 0, y: 0, w: cols, h: rows };
+    const bw = (b.w + 2) * U;
+    const bh = (b.h + 2) * U;
     const a = aspect();
     const w = bh / bw > a ? bh / a : bw;
-    set({ x: (cols * U - w) / 2, y: (rows * U - w * a) / 2, w, h: w * a });
+    set({ x: (b.x + b.w / 2) * U - w / 2, y: (b.y + b.h / 2) * U - (w * a) / 2, w, h: w * a });
   }
   /** Keeps the centre and zoom when the element changes shape (first time: fit). */
   function keepAspect() {

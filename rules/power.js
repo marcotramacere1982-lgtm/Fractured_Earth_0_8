@@ -18,12 +18,14 @@ export function circuitRole(def) {
   return def.power || def.light || sensesOf(def).length ? 'load' : null;
 }
 
-/** Keeps a wire only between two things that can carry power, from a feeder; drops repeats. */
+const powerWires = (list) => (list ?? []).filter((w) => w.net !== 'data'); // data links (decision 129) share map.wires
+
+/** Keeps a power wire only between two things that can carry power, from a feeder; drops repeats (data links are left out). */
 export function normalizeWires(raw, map, data) {
   const ends = endsOf(map, data);
   const seen = new Set();
   const out = [];
-  for (const w of (Array.isArray(raw) ? raw : []).slice(0, 3000)) {
+  for (const w of powerWires(Array.isArray(raw) ? raw : []).slice(0, 3000)) {
     const from = ends.get(w?.from);
     const to = ends.get(w?.to);
     if (!from || !to || w.from === w.to || !FEEDERS.includes(from) || seen.has(`${w.from}>${w.to}`)) continue;
@@ -56,13 +58,11 @@ const nextWireId = (map) => {
 export function addWire(map, data, from, to) {
   const ends = endsOf(map, data);
   if (from === to || !FEEDERS.includes(ends.get(from)) || !ends.get(to)) return map;
-  if ((map.wires ?? []).some((w) => w.from === from && w.to === to)) return map;
+  if (powerWires(map.wires).some((w) => w.from === from && w.to === to)) return map;
   return { ...map, wires: [...(map.wires ?? []), { id: nextWireId(map), from, to }] };
 }
 export const removeWire = (map, id) => ({ ...map, wires: (map.wires ?? []).filter((w) => w.id !== id) });
 export const setWireCut = (map, id, cut) => ({ ...map, wires: (map.wires ?? []).map((w) => (w.id !== id ? w : cut ? { ...w, cut: true } : (({ cut: _, ...rest }) => rest)(w))) });
-/** Wires that lost an end (a piece removed, a door no longer electric) go too. */
-export const pruneWires = (map, data) => ({ ...map, wires: normalizeWires(map.wires, map, data) });
 
 /**
  * Who has power now. @returns { fed: Set of ids reached from a live source, wired: Set of ids with a wire in,
@@ -72,8 +72,8 @@ export function powerState(map, data) {
   const props = new Map(activeProps(map).map((p) => [p.id, p]));
   const role = (id) => (props.has(id) ? circuitRole(propDef(data, props.get(id).prop)) : map.walls.some((w) => w.id === id && w.kind === 'door' && w.powered) ? 'door' : null);
   const on = (id) => { const p = props.get(id); return p ? p.on !== false && !p.wrecked : true; };
-  const wires = (map.wires ?? []).filter((w) => !w.cut);
-  const wired = new Set((map.wires ?? []).map((w) => w.to));
+  const wires = powerWires(map.wires).filter((w) => !w.cut);
+  const wired = new Set(powerWires(map.wires).map((w) => w.to));
   const fed = new Set();
   const via = new Map();
   const queue = [];
@@ -101,7 +101,7 @@ const battery = (p, def) => Boolean(p.battery ?? def?.battery);
  * without power lock or unlock by their fail mode. The GM's own switches stay as they are underneath.
  */
 export function applyPower(map, data) {
-  if (!map.wires?.length) return map;
+  if (!powerWires(map.wires).length) return map;
   const { fed, wired } = powerState(map, data);
   const props = map.props.map((p) => {
     const def = propDef(data, p.prop);
@@ -141,13 +141,18 @@ export function circuitTags(map, data) {
   return tags;
 }
 
-/** Loads, switches and sockets with no wire in, once the map has any wiring (the builder's "!" check): they can pass on or use
- *  no power. Sources and breakers start a circuit by themselves. */
+/** What the builder's "!" check flags once the map has any wiring: lights, security devices, switches, sockets and electric
+ *  doors with no wire in (decision 137: powered desks and machines stay quietly manual). Sources and breakers start a circuit. */
 export function unwired(map, data) {
-  if (!map.wires?.length) return [];
-  const into = new Set(map.wires.map((w) => w.to));
+  if (!powerWires(map.wires).length) return [];
+  const into = new Set(powerWires(map.wires).map((w) => w.to));
   const out = [];
-  for (const p of map.props ?? []) { const r = circuitRole(propDef(data, p.prop)); if ((r === 'load' || r === 'switch' || r === 'outlet') && !into.has(p.id)) out.push(p.id); }
+  for (const p of map.props ?? []) {
+    const def = propDef(data, p.prop);
+    const r = circuitRole(def);
+    const matters = r === 'switch' || r === 'outlet' || (r === 'load' && (def.light || def.category === 'light' || def.battery || sensesOf(def).length || def.category === 'sensor' || def.category === 'security'));
+    if (matters && !into.has(p.id)) out.push(p.id);
+  }
   for (const w of map.walls ?? []) if (w.kind === 'door' && w.powered && !into.has(w.id)) out.push(w.id);
   return out;
 }

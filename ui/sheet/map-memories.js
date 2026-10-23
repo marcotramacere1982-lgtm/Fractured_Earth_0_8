@@ -5,7 +5,7 @@
 import { html } from '../dom.js';
 import { t } from '../../i18n/index.js';
 import { card } from './parts.js';
-import { createMapViewer } from '../map/viewer.js';
+import { createMapViewer, focusBox } from '../map/viewer.js';
 import { createSkylineViewer, tileAt } from '../map/skyline.js';
 import { skyButton } from './map-tab.js';
 import { memoryView, MEMORY_NOTE_MAX } from '../../rules/map-memory.js';
@@ -76,7 +76,7 @@ export function attachMemory(main, data, c, onIdle) {
     tapProp(id) { picked = picked?.id === id ? null : { kind: 'prop', id }; onIdle(); },
     tapSquare() { if (picked) { picked = null; onIdle(); } },
   });
-  viewer.update({ ...memoryView(m), key: `memory:${m.key}` });
+  viewer.update({ ...memoryView(m), focus: focusBox(memoryView(m).map, m.seen, m.npcs), key: `memory:${m.key}` });
   viewer.attach(main);
 }
 

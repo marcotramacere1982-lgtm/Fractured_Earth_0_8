@@ -11,8 +11,9 @@ import { explain, hint } from '../explain.js';
 import { t, tn } from '../../i18n/index.js';
 import { portraitImg } from '../portrait.js';
 
-export function statusBar(c, s, data) {
+export function statusBar(c, s, data, { compact = false } = {}) {
   const hpKind = s.hp.current <= 0 ? 'danger' : s.hp.current <= s.hp.max / 3 ? 'danger' : 'success';
+  if (compact) return compactStatus(c, s, data, hpKind);
   return html`
     <div class="sheet-status" data-tour="status">
       <div class="sheet-status__id">
@@ -44,6 +45,24 @@ export function statusBar(c, s, data) {
         return html`<span class="pill pill--danger">${data.conditions.find((k) => k.limb === loc?.bp)?.name} · ${loc?.name}</span>`;
       })}</div>` : ''}
     </div>`;
+}
+
+/**
+ * Decision 134: the status bar as one slim row, on the Active map tab — what a fight needs at a glance (HP with − / +,
+ * armor, initiative, actions, move, conditions); ▾ opens the full bar (remembered on the device).
+ */
+function compactStatus(c, s, data, hpKind) {
+  const conds = [...c.play.conditions.map((id) => nameOf(data.conditions, id)), ...s.injured.locations.map((id) => data.body.locations.find((l) => l.id === id)?.name)].filter(Boolean);
+  return html`<div class="sheet-status sheet-status--compact" data-tour="status">
+    ${portraitImg(c.portrait, 'avatar avatar--xs')}<strong class="sheet-status__name sheet-status__name--sm">${c.name || t('common.unnamed')}</strong>
+    <div class="sheet-status__hp">${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span>${meter(s.hp.current, s.hp.max, hpKind)}</div>
+    <span class="chip-stat"><span class="label">${t('stat.armor')}</span><span class="chip-stat__v stat__value--info">${temp(s.armor.general - s.armor.condition, s.armor.general)}</span></span>
+    <span class="chip-stat"><span class="label">${t('stat.init')}</span><span class="chip-stat__v">${signed(s.initiative)}</span></span>
+    <span class="chip-stat"><span class="label">${t('stat.actions')}</span><span class="chip-stat__v">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></span>
+    <span class="chip-stat"><span class="label">${t('stat.move')}</span><span class="chip-stat__v">${temp(s.moveBase, s.move)}</span><span class="chip-stat__u">${t('stat.squares')}</span></span>
+    ${conds.length ? html`<span class="pill pill--danger" title="${conds.join(' · ')}">${conds.length === 1 ? conds[0] : tn('status.conditions', conds.length)}</span>` : ''}
+    <button class="btn btn--sm btn--ghost sheet-status__more" data-action="statusOpen" title="${t('status.expand')}" aria-label="${t('status.expand')}">▾</button>
+  </div>`;
 }
 
 function deathNotice(c, s) {

@@ -6,7 +6,7 @@
 import { render } from '../dom.js';
 import { boardSvg, wallsSvg, tokensSvg, propsSvg } from './render.js';
 import { loadProps } from './props.js';
-import { hitProp } from '../../rules/props.js';
+import { hitProp, smallPropNear } from '../../rules/props.js';
 import { createCamera } from './camera.js';
 import { marksSvg, nextFade, markAt } from './marks.js';
 import { zonesSvg } from './zones.js';
@@ -14,7 +14,8 @@ import { zoneAt } from '../../rules/zones.js';
 import { squareAt, onBoard, squaresBetween, doorAt, hitWall } from '../../rules/map.js';
 
 const DRAG_PX = 6;
-const DOOR_PX = 22; // decision 124: was 16 — doors, lasers and links are thin
+const DOOR_PX = 22;
+const SMALL_PX = 14; // decision 135: how near a tap must be to a small piece (a switch, a socket) to take it // decision 124: was 16 — doors, lasers and links are thin
 
 /**
  * on: { moveToken(key, square), tapToken(key), tapProp(id), tapSquare(square), tapDoor(id), tapLaser(id), idle(), wantsSquare() → taps go to squares, readout(squares | null) → text,
@@ -47,6 +48,7 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   let boardKey = '';
   let propsKey = '';
   let fitted = false;
+  let framed = 'all'; // decision 133: Fit frames the focus (what was explored), again the whole map, and back
   let gesture = null;
   const pointers = new Map();
   const cam = createCamera(svg, { units: U, size: () => state?.map ?? { cols: 10, rows: 10 } });
@@ -82,10 +84,10 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     const wait = m ? nextFade(m.list, data.map.marks, Date.now(), m.skew) : null;
     if (wait != null) fadeTimer = setTimeout(drawMarks, wait);
   }
-  /** Fits the first time the element has a size (it may be updated before it is on screen). */
+  /** Fits the first time the element has a size (it may be updated before it is on screen): to the focus when there is one. */
   function settle() {
     if (!state || !cam.rect().width) return;
-    if (!fitted) { cam.fit(); fitted = true; } else cam.keepAspect();
+    if (!fitted) { cam.fit(state.focus ?? null); fitted = true; framed = state.focus ? 'focus' : 'all'; } else cam.keepAspect();
   }
   new ResizeObserver(settle).observe(svg);
   // the prop drawings arrive once; until then props show as outlines
@@ -202,6 +204,8 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
       } else if (g.kind === 'pan' && !g.moved && interactive) {
         const p = cam.toMap(e);
         const tk = on.tapToken ? tokenAt(p) : null;
+        // decision 135: small pieces first when the tap is on one, and within reach when nothing else is hit
+        const small = !tk && on.tapProp ? smallPropNear(state.map, data, p, cam.pxToSq(SMALL_PX)) : null;
         // markers, then furniture, then doors and lasers, then the floor under it all
         const prop = !tk && on.tapProp ? hitProp(state.map, data, p, { ground: false }) : null;
         const door = on.tapDoor ? doorAt(state.map, p, cam.pxToSq(DOOR_PX)) : null;
@@ -211,7 +215,9 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
         // terrain and outlines last; floor textures never (on the table they are only looks)
         const ground = !tk && !prop && !door && !laser && on.tapProp ? hitProp(state.map, data, p, { ground: 'only', floors: false }) : null;
         if (tk) on.tapToken(tk.key);
+        else if (small?.on) on.tapProp(small.id);
         else if (doorOnLine) on.tapDoor(doorOnLine);
+        else if (small) on.tapProp(small.id);
         else if (prop) on.tapProp(prop);
         else if (door) on.tapDoor(door);
         else if (laser) on.tapLaser(laser);
@@ -241,5 +247,25 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     settle();
   }
 
-  return { node, update, attach, on, isBusy: () => pointers.size > 0, fit: () => cam.fit(), zoom: (dir) => cam.zoomStep(dir) };
+  return { node, update, attach, on, isBusy: () => pointers.size > 0, fit: () => { const f = state?.focus; if (f && framed !== 'focus') { cam.fit(f); framed = 'focus'; } else { cam.fit(); framed = 'all'; } }, zoom: (dir) => cam.zoomStep(dir) };
+}
+
+/**
+ * Decision 133: the part of a map worth framing — every square seen and every marker, a square of margin, at least
+ * 8 × 6 squares, inside the map. null when there's nothing to frame (no fog: the whole map is known).
+ */
+export function focusBox(map, seen, tokens = []) {
+  const pts = [...(seen ?? []).map((k) => k.split(',').map(Number)), ...tokens.map((tk) => [tk.x, tk.y])];
+  if (!seen || !pts.length) return null;
+  let x0 = Math.min(...pts.map((p) => p[0])) - 1;
+  let y0 = Math.min(...pts.map((p) => p[1])) - 1;
+  let x1 = Math.max(...pts.map((p) => p[0])) + 2;
+  let y1 = Math.max(...pts.map((p) => p[1])) + 2;
+  const grow = (a, b, min, max) => { const need = min - (b - a); return need > 0 ? [a - need / 2, b + need / 2] : [a, b]; };
+  [x0, x1] = grow(x0, x1, 8);
+  [y0, y1] = grow(y0, y1, 6);
+  const slide = (a, b, max) => (a < 0 ? [0, Math.min(max, b - a)] : b > max ? [Math.max(0, a - (b - max)), max] : [a, b]); // near an edge: slide inside, keep the size
+  [x0, x1] = slide(x0, x1, map.cols);
+  [y0, y1] = slide(y0, y1, map.rows);
+  return x1 - x0 >= map.cols - 1 && y1 - y0 >= map.rows - 1 ? null : { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
 }

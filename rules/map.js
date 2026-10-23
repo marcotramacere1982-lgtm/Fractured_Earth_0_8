@@ -4,7 +4,8 @@
 
 import { normalizeZones } from './zones.js';
 import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
-import { normalizeWires, FAIL_MODES } from './power.js';
+import { FAIL_MODES } from './power.js';
+import { normalizeAllWires } from './network.js';
 
 export const MAP_SCHEMA = 1;
 const FREE_STEP = 0.05; // snap off: positions still round to 1/20 of a square
@@ -159,7 +160,7 @@ export function normalizeMap(raw, data) {
     const text = (k, max) => (typeof q[k] === 'string' && q[k].trim() ? { [k]: q[k].trim().slice(0, max) } : {}); // GM label / note (decision 99)
     props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}) });
   }
-  const wires = normalizeWires(raw.wires, { walls, props }, data); // decision 127: GM-only power wiring
+  const wires = normalizeAllWires(raw.wires, { walls, props }, data); // decisions 127, 129: GM-only power wiring and data links
   return { ...base, walls, props, ...(wires.length ? { wires } : {}), zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
 }
 

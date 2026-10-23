@@ -8,7 +8,7 @@ import { t } from '../../i18n/index.js';
 import { toast } from '../shell.js';
 import { tourDone } from '../tour.js';
 import { info as ruleInfo } from '../ref.js';
-import { createMapViewer } from '../map/viewer.js';
+import { createMapViewer, focusBox } from '../map/viewer.js';
 import { createSkylineViewer, hasSkyline, tileAt } from '../map/skyline.js';
 import { marksButton, marksPanel, markHooks, marking } from './map-marks.js';
 import { reachable, checkMove, routeTo, lineOfSight, rangeCheck, nextToDoor } from '../../rules/map.js';
@@ -16,6 +16,11 @@ import { reachable, checkMove, routeTo, lineOfSight, rangeCheck, nextToDoor } fr
 let viewer = null; // one per page: it keeps its zoom across the sheet's re-renders
 let skyView = null; // decision 123: the skyline, look only
 let sky = false;
+// decision 134: the side panel folds away (remembered per device); folded, what matters floats over the map
+const SIDE = 'fe.map.sideFolded';
+let folded = (() => { try { return localStorage.getItem(SIDE) !== '0'; } catch { return true; } })();
+export function toggleSide() { folded = !folded; try { localStorage.setItem(SIDE, folded ? '1' : '0'); } catch { /* private mode */ } }
+export function openSide() { if (folded) toggleSide(); }
 let pending = null; // { base: the map message it was sent from, to } — shown until the next map message
 let target = null; // the marker tapped to check line of sight and range (step 4)
 let info = null; // { kind: 'prop' | 'laser', id } — a piece tapped to see what it is (decision 70)
@@ -116,6 +121,20 @@ export const skyButton = (map, data, action, on = sky) => (hasSkyline(map, data)
   ? html`<button class="btn btn--sm ${on ? 'btn--primary' : ''}" data-action="${action}" aria-pressed="${on}">${t(on ? 'map.sky.off' : 'map.sky.on')}</button>` : '');
 const skyNow = (map, data) => sky && hasSkyline(map, data);
 
+/** The map with the side panel folded: the map takes the width; a tapped marker or piece, the marking tools and the
+ *  torch float over its corner; what you can do now sits in a small chip. */
+function foldedBody(map, data, s, id, { canGo, mapMove, doorUse, torch, marks, myColor }) {
+  const panel = infoPanel(map, data, id, doorUse) ?? (target ? targetPanel(map, data, s, id) : null);
+  const tools = marksPanel(map, data, id, marks, myColor);
+  const gear = torch == null ? '' : html`<div class="map-card__gear"><button class="btn btn--sm ${torch ? 'btn--primary' : ''}" data-action="mapTorch" data-on="${torch ? '0' : '1'}" aria-pressed="${torch}">🔦 ${t(torch ? 'map.torch.on' : 'map.torch.off')}</button></div>`;
+  const float = panel || tools || gear;
+  return html`<div class="map-card__body map-card__body--folded">
+    <div class="map-card__stage" data-map-slot data-tour="map-stage"></div>
+    ${float ? html`<aside class="map-card__float">${tools}${gear}${panel ?? ''}</aside>` : ''}
+    <p class="map-card__chip ${canGo && !skyNow(map, data) ? 'is-go' : ''}" data-tour="map-move">${skyNow(map, data) ? t('map.sky.hint') : hint(map, mapMove)}</p>
+  </div>`;
+}
+
 export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch = null, marks = null, myColor = null }) {
   mapCombat = Boolean(combat?.active);
   if (!map) return html`<div class="card"><div class="empty"><div class="empty__title">${t('map.none')}</div></div></div>`;
@@ -131,11 +150,12 @@ export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch =
         <button class="btn btn--sm" data-action="mapFit">${t('map.fit')}</button>
         <button class="btn btn--sm" data-action="mapZoom" data-dir="in" aria-label="${t('map.zoomIn')}">+</button>
         ${skyButton(map, data, 'mapSkyline')}
+        <button class="btn btn--sm ${folded ? '' : 'btn--primary'}" data-action="mapSide" aria-pressed="${!folded}" title="${t(folded ? 'map.side.open' : 'map.side.fold')}">${folded ? '◂ ' : '▸ '}${t('map.side.label')}</button>
       </div></header>
     ${tourDone('map') ? '' : html`<p class="notice tour-offer map-card__offer"><span>${t('map.tourOffer')}</span>
       <button class="btn btn--sm btn--primary" data-action="tour" data-id="map">${t('tour.offerStart')}</button>
       <button class="btn btn--sm btn--ghost" data-action="tourSkip" data-id="map">${t('tour.offerNo')}</button></p>`}
-    <div class="map-card__body">
+    ${folded ? foldedBody(map, data, s, id, { canGo, mapMove, doorUse, torch, marks, myColor }) : html`<div class="map-card__body">
     <div class="map-card__stage" data-map-slot data-tour="map-stage"></div>
     <aside class="map-card__side">
     ${marksPanel(map, data, id, marks, myColor)}
@@ -149,7 +169,7 @@ export function mapTab(_c, s, data, { map, id, combat, mapMove, doorUse, torch =
     ${linkLegend(map)}
     <p class="hint">${t('map.hint.look')}</p>
     </aside>
-    </div>
+    </div>`}
   </section>`;
 }
 
@@ -165,6 +185,7 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
     skyView.on.idle = onIdle;
     skyView.on.tapSquare = (sq) => { const pid = tileAt(map, data, sq); target = null; info = pid && info?.id !== pid ? { kind: 'prop', id: pid } : null; onIdle(); };
     skyView.update({ key: map.id, map, tokens: map.tokens, fog: map.fog ? { mode: 'player', ...map.fog } : null });
+    keepFitted(main);
     skyView.attach(main);
     return;
   }
@@ -195,8 +216,29 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   const hooks = markHooks({ map, data, id, marks, myColor, onIdle, send: onMark });
   Object.assign(viewer.on, hooks.on);
   const sight = sightTo(map, data, id, tokens);
-  viewer.update({ key: map.id, map, tokens, you: id, fog: map.fog ? { mode: 'player', ...map.fog } : null, sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
+  viewer.update({ key: map.id, map, tokens, you: id, fog: map.fog ? { mode: 'player', ...map.fog } : null, focus: focusBox(map, map.fog?.seen, tokens), sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
+  keepFitted(main); // before attaching, so the viewer fits the final size
   viewer.attach(main);
+}
+
+/**
+ * Decision 131: the map and its side panel end at the bottom of the window, whatever sits above them (status bar,
+ * banners, the tour offer), so the page itself never scrolls on the map tab — only a long side panel does.
+ * Measured, not guessed: on every attach and when the window changes size. Phones keep the stacked layout.
+ */
+function fitToWindow(main) {
+  const body = main.querySelector('.map-card__body');
+  if (!body) return;
+  const top = body.getBoundingClientRect().top + window.scrollY;
+  const free = Math.floor(window.innerHeight - top - 20); // the page's bottom padding
+  body.style.setProperty('--map-fit', `${Math.max(288, free)}px`);
+}
+let fitting = null;
+function keepFitted(main) {
+  fitToWindow(main);
+  if (fitting) return;
+  fitting = () => { if (main.querySelector('.map-card__body')) { fitToWindow(main); viewer?.fit(); } };
+  window.addEventListener('resize', fitting);
 }
 
 export const mapBusy = () => Boolean(viewer?.isBusy() || skyView?.isBusy());

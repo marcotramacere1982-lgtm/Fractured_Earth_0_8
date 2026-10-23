@@ -325,8 +325,9 @@
 .tab--live::after { content: ''; display: inline-block; width: 0.5rem; height: 0.5rem; margin-left: var(--space-1); border-radius: 50%; background: var(--color-accent); vertical-align: middle; }
 /* the map keeps a fixed height that fits the screen; what goes with it sits beside it (decision 72: no scroll inside a scroll) */
 .map-card__body { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; border-top: var(--border-width) solid var(--color-border); }
-.map-card__stage { display: flex; height: clamp(18rem, calc(100dvh - var(--header-h) - 17rem), 52rem); }
-.map-card__side { display: flex; flex-direction: column; border-left: var(--border-width) solid var(--color-border); max-height: clamp(18rem, calc(100dvh - var(--header-h) - 17rem), 52rem); overflow-y: auto; }
+/* decision 131: --map-fit is measured (map-tab.js): map and side end at the bottom of the window, the page doesn't scroll */
+.map-card__stage { display: flex; height: var(--map-fit, clamp(18rem, calc(100dvh - var(--header-h) - 17rem), 52rem)); }
+.map-card__side { display: flex; flex-direction: column; border-left: var(--border-width) solid var(--color-border); max-height: var(--map-fit, clamp(18rem, calc(100dvh - var(--header-h) - 17rem), 52rem)); overflow-y: auto; }
 .map-card__side > :first-child { border-top: none; }
 @media (max-width: 900px) {
   .map-card__body { grid-template-columns: 1fr; }
@@ -535,3 +536,19 @@
 .memory-list__note { flex-basis: 100%; color: var(--color-text-muted); }
 .memory-open { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-3); }
 .memory-open__stage { display: flex; height: clamp(16rem, 50dvh, 34rem); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+
+/* decision 134: more room for the Active map — a slim status row, a side panel that folds */
+.sheet-status--compact { flex-wrap: nowrap; gap: var(--space-3); padding: var(--space-2) var(--space-3); overflow-x: auto; }
+.sheet-status--compact > * { flex: none; }
+.sheet-status__name--sm { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: 0.03em; white-space: nowrap; }
+.sheet-status__hp { display: flex; align-items: center; gap: var(--space-2); }
+.sheet-status__hp .meter { width: 4rem; }
+.sheet-status__more { margin-left: auto; }
+.sheet-status__less { align-self: flex-end; }
+.avatar--xs { width: 2rem; height: 2rem; }
+.map-card__body { position: relative; }
+.map-card__body--folded { grid-template-columns: minmax(0, 1fr); }
+.map-card__float { position: absolute; top: var(--space-2); right: var(--space-2); z-index: 5; width: min(20rem, 60%); max-height: calc(100% - var(--space-4)); overflow-y: auto; background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); }
+.map-card__float > :first-child { border-top: none; }
+.map-card__chip { position: absolute; left: var(--space-2); bottom: var(--space-2); z-index: 4; max-width: min(28rem, 70%); margin: 0; padding: var(--space-1) var(--space-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text-muted); font-size: var(--text-sm); pointer-events: none; }
+.map-card__chip.is-go { color: var(--color-accent); border-color: var(--color-accent); font-weight: 600; }

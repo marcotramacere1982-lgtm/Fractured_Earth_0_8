@@ -157,6 +157,28 @@ export function hitProp(map, data, pt, { withHidden = true, ground = true, floor
   return pick?.id ?? null;
 }
 
+/**
+ * Decision 135: small pieces (a wall switch, a socket, a keypad, a camera) are hard to hit. The small piece nearest to
+ * the point within `tolerance` squares — 0 when the point is on it; the smaller one when two are as near.
+ * small: no side longer than `max` squares. Ground pieces never count.
+ */
+export function smallPropNear(map, data, pt, tolerance, { withHidden = true, max = 0.5 } = {}) {
+  let best = null;
+  for (const p of withHidden ? map.props ?? [] : activeProps(map)) {
+    const def = propDef(data, p.prop);
+    if (!def || isGround(data, p) || Math.max(def.size.w, def.size.h) > max) continue;
+    const a = (-normRot(p.rot) * Math.PI) / 180;
+    const dx = pt.x - p.x;
+    const dy = pt.y - p.y;
+    const lx = Math.abs(dx * Math.cos(a) - dy * Math.sin(a)) - def.size.w / 2;
+    const ly = Math.abs(dx * Math.sin(a) + dy * Math.cos(a)) - def.size.h / 2;
+    const d = Math.hypot(Math.max(lx, 0), Math.max(ly, 0));
+    const area = def.size.w * def.size.h;
+    if (d <= tolerance && (!best || d < best.d - 1e-9 || (Math.abs(d - best.d) <= 1e-9 && area < best.area))) best = { id: p.id, d, area };
+  }
+  return best ? { id: best.id, on: best.d === 0 } : null;
+}
+
 const EDGE_INDEX = { back: 0, right: 1, front: 2, left: 3 };
 /** The sides of a piece nobody crosses (stairs: the long sides; elevators: all but the doors), as segments. */
 export function blockedEdges(p, data) {
