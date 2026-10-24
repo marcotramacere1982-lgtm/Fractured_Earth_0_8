@@ -137,5 +137,23 @@
       "+1 armatura contro ogni colpo."
     ],
     "clear": "Finché il GM non lo termina (di solito alla fine della scena)."
+  },
+  "masked": {
+    "targets": "Operators che indossano un ID Scramble Kit",
+    "effects": [
+      "Nessuna identificazione visiva possibile: telecamere, testimoni e riconoscimento facciale non sanno chi sei.",
+      "Guanti: non lasci impronte né DNA.",
+      "Ma sei chiaramente mascherato: chiunque ti veda ti tratta da ostile."
+    ],
+    "clear": "Togli il kit (Equipaggiamento)."
+  },
+  "unreadable": {
+    "targets": "Operators che indossano un ID Scramble Kit potenziato",
+    "effects": [
+      "Nessuna identificazione possibile: le scansioni visive, termiche, dell’andatura e della struttura ossea sono inaffidabili.",
+      "Guanti: non lasci impronte né DNA.",
+      "Allerta monitoraggio: la sicurezza automatica ti segnala appena ti vede — aspettati allarmi."
+    ],
+    "clear": "Togli il kit (Equipaggiamento)."
   }
 }

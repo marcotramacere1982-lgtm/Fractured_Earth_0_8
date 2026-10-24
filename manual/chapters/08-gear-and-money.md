@@ -27,6 +27,8 @@ Armor **cracks** by 1 when it stops a location attack completely, or when an eff
 
 ::table[armor]
 
+**ID Scramble Kits** are not armor: a balaclava, gloves and a shell layer for heists and entries, worn in the full-body slot with no protection, sold for street cash only. Putting one on gives its condition, taking it off ends it. The basic kit makes you **Masked** (no visual ID, no prints or DNA — but obviously masked, so treated as hostile on sight); the enhanced kit makes you **Unreadable** (visual, thermal and gait scans fail too — but automated security flags you on sight: a monitoring alert). The GM sees the condition on your card.
+
 ## 8-4. Items & Tools {#sec-8-4}
 
 **Using items.** Consumables — kits, stims, antidotes, grenades — have a **Use** button in the inventory, and *Use item* on the Turn card (**1 action** in combat, free outside). Pick the item and, if it offers a choice, what it does; medical items work **on you** or **on an ally next to you** (the window shows the result, e.g. "heal 7", and they enter it on their own sheet). Heals are rolled by the app or typed from your dice. **Timed effects** (+2 DEX for 3 rounds…) show as a green pill on the status bar, count down at each round end and raise every number built on them; strong stims end in a **crash** (Slowed for a round). Items sold in packs ("×5") give that many. Smoke, EMP, darts and the like change the battlefield: the sheet spends the action and logs the effect, the GM applies it.

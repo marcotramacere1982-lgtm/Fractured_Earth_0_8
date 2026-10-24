@@ -271,5 +271,37 @@
     "cost": {
       "cr": 50
     }
+  },
+  {
+    "id": "id_scramble_kit",
+    "name": "ID Scramble Kit",
+    "type": "suit",
+    "rarity": "E",
+    "material": "Plain balaclava, thin gloves, a loose shell layer",
+    "visibility": 3,
+    "maxHits": 0,
+    "cost": {
+      "cr": 30,
+      "scoreOverride": null
+    },
+    "grants": [
+      "masked"
+    ]
+  },
+  {
+    "id": "id_scramble_kit_enhanced",
+    "name": "ID Scramble Kit (Enhanced)",
+    "type": "suit",
+    "rarity": "C",
+    "material": "Balaclava and gloves with thermal-diffusing, gait-breaking cloth inserts",
+    "visibility": 3,
+    "maxHits": 0,
+    "cost": {
+      "cr": 120,
+      "scoreOverride": null
+    },
+    "grants": [
+      "unreadable"
+    ]
   }
 ]

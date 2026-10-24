@@ -1,5 +1,8 @@
 // Health and armor. Body locations have no HP or armor of their own (decision 42): see rules/injuries.js.
 
+/** Decision 142: the conditions the worn armor brings with it (an ID Scramble Kit: Masked), in order, once each. */
+export const wornGrants = (worn, armorData) => [...new Set((worn ?? []).flatMap((id) => armorData.find((a) => a.id === id)?.grants ?? []))];
+
 /** Max HP = 2 x CON + MST, plus flat modifiers from events. */
 export function maxHp(attributes, bodyData, hpMod = 0) {
   const { con, mst, base = 0 } = bodyData.maxHp;

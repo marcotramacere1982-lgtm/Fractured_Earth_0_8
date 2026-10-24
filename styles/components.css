@@ -90,6 +90,7 @@
 .pill--info { color: var(--color-info); border-color: var(--color-info); background: var(--color-info-soft); }
 .pill--danger { color: var(--color-danger); border-color: var(--color-danger); background: var(--color-danger-soft); }
 .pill--success { color: var(--color-success); border-color: var(--color-success); background: var(--color-success-soft); }
+.pill--warning { color: var(--color-warning); border-color: var(--color-warning); background: var(--color-warning-soft); } /* decision 142: mixed conditions (Masked) */
 /* What hacks can touch: an enemy's organic / cybernetic / synthetic tag. */
 .tag--synthetic { border-color: var(--color-info); color: var(--color-info); }
 .tag--cybernetic { border-color: var(--color-private); color: var(--color-private); }

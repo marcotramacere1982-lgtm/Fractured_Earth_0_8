@@ -209,5 +209,29 @@
     "mods": {
       "armor": 1
     }
+  },
+  {
+    "id": "masked",
+    "name": "Masked",
+    "targets": "Operators wearing an ID Scramble Kit",
+    "mixed": true,
+    "effects": [
+      "No visual ID possible: cameras, witnesses and face recognition cannot tell who you are.",
+      "Gloves: no fingerprints or DNA left behind.",
+      "But you are obviously masked: anyone who sees you treats you as hostile."
+    ],
+    "clear": "Take the kit off (Gear)."
+  },
+  {
+    "id": "unreadable",
+    "name": "Unreadable",
+    "targets": "Operators wearing an enhanced ID Scramble Kit",
+    "mixed": true,
+    "effects": [
+      "No ID possible: visual, thermal, gait and bone-structure scans are unreliable.",
+      "Gloves: no fingerprints or DNA left behind.",
+      "Monitoring alert: automated security flags you on sight — expect alarms."
+    ],
+    "clear": "Take the kit off (Gear)."
   }
 ]

@@ -12,6 +12,7 @@ import { downtimeActions } from './downtime-actions.js';
 import { storyActions } from './story-actions.js';
 import { inventoryActions } from './inventory-actions.js';
 import { itemActions, tickItemEffects, endItemEffects } from './item-actions.js';
+import { wornGrants } from '../../rules/body.js';
 
 /** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
 export function spend(c, data, what) {
@@ -66,10 +67,23 @@ const injuryName = (data, locId) => {
   return `${data.conditions.find((k) => k.limb === loc?.bp)?.name ?? 'Injury'} (${loc?.name ?? locId})`;
 };
 
+/**
+ * Decision 142: armor that brings a condition (an ID Scramble Kit: Masked) adds it when put on and takes it away when
+ * taken off — unless something else still worn brings it too. Flavour the GM sees on the player's card.
+ */
+function syncWornConditions(c, data, before) {
+  const was = wornGrants(before, data.armor);
+  const now = wornGrants(c.play.worn, data.armor);
+  for (const id of now) if (!was.includes(id) && !c.play.conditions.includes(id)) { c.play.conditions.push(id); log(c, `${data.conditions.find((k) => k.id === id)?.name ?? id} (kit on)`); }
+  for (const id of was) if (!now.includes(id) && c.play.conditions.includes(id)) { c.play.conditions = c.play.conditions.filter((x) => x !== id); log(c, `${data.conditions.find((k) => k.id === id)?.name ?? id} ended (kit off)`); }
+}
+
 /** Armor you acquire is put on straight away (take it off in Gear if you only carry it). */
-function autoWear(c, id) {
+function autoWear(c, id, data) {
+  const before = [...c.play.worn];
   if (!c.play.worn.includes(id)) c.play.worn.push(id);
   resetArmorMarks(c);
+  if (data) syncWornConditions(c, data, before);
 }
 
 export function log(c, text, kind = 'info') {
@@ -180,9 +194,11 @@ export const actions = {
   },
 
   // ---------------- inventory
-  wear(c, _d, { id }) {
+  wear(c, data, { id }) {
+    const before = [...c.play.worn];
     c.play.worn = c.play.worn.includes(id) ? c.play.worn.filter((x) => x !== id) : [...c.play.worn, id];
     resetArmorMarks(c);
+    syncWornConditions(c, data, before);
   },
   qty(c, _d, { kind, id, delta }) {
     const row = c.play.inventory.find((x) => x.kind === kind && x.id === id);
@@ -191,7 +207,7 @@ export const actions = {
     if ((row.official ?? 0) > Math.max(0, row.qty)) row.official = Math.max(0, row.qty); // street units leave first
     if (row.qty <= 0) {
       c.play.inventory = c.play.inventory.filter((x) => x !== row);
-      if (kind === 'armor') { c.play.worn = c.play.worn.filter((x) => x !== id); resetArmorMarks(c); }
+      if (kind === 'armor') { const before = [...c.play.worn]; c.play.worn = c.play.worn.filter((x) => x !== id); resetArmorMarks(c); syncWornConditions(c, _d, before); }
       if (kind === 'weapon') for (const s of [1, 2]) if (c.play.slots[s] === id) c.play.slots[s] = null;
       if (kind === 'deck' && c.play.deck === id) c.play.deck = null;
       if (kind === 'deckMod') c.play.deckMods = c.play.deckMods.filter((x) => x !== id);
@@ -200,13 +216,13 @@ export const actions = {
   },
   add(c, data, { kind, id }) {
     addItem(c, kind, id, kind === 'item' ? data.items.find((i) => i.id === id)?.pack ?? 1 : 1); // packs: ×5 gives 5
-    if (kind === 'armor') autoWear(c, id);
+    if (kind === 'armor') autoWear(c, id, data);
     if (kind === 'weapon' && data.weapons.find((w) => w.id === id)?.magSize) addItem(c, 'ammo', magazineId(id), data.economy.magazine.startSpares); // guns come with spares
   },
   buy(c, data, { kind, id, method, multiplier }) {
     const res = buy(c, { kind, id }, method, data, { multiplier: Number(multiplier), discount: deriveSheet(c, data).talents.cashDiscount ?? 0 });
     Object.assign(c, res.character);
-    if (kind === 'armor') autoWear(c, id);
+    if (kind === 'armor') autoWear(c, id, data);
     log(c, res.log, method === 'official' ? 'warn' : 'info');
     return res.notice;
   },

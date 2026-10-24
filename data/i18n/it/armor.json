@@ -82,5 +82,13 @@
   "security_shin_guards": {
     "type": "schinieri",
     "material": "Plastica rigida stampata e schiuma"
+  },
+  "id_scramble_kit": {
+    "type": "tuta",
+    "material": "Passamontagna semplice, guanti sottili, uno strato esterno largo"
+  },
+  "id_scramble_kit_enhanced": {
+    "type": "tuta",
+    "material": "Passamontagna e guanti con inserti in tessuto che disperdono il calore e alterano l’andatura"
   }
 }

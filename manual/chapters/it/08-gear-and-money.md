@@ -27,6 +27,8 @@ L'armatura **si incrina** di 1 quando ferma del tutto un attacco a una locazione
 
 ::table[armor]
 
+Gli **ID Scramble Kit** non sono armature: passamontagna, guanti e uno strato esterno per colpi e infiltrazioni, indossati nello spazio per il corpo intero senza protezione, venduti solo per contanti in strada. Indossarne uno dà la sua condizione, toglierlo la fa finire. Il kit base ti rende **Masked** (nessuna identificazione visiva, niente impronte né DNA — ma sei chiaramente mascherato, quindi chi ti vede ti tratta da ostile); quello potenziato ti rende **Unreadable** (falliscono anche le scansioni termiche e dell'andatura — ma la sicurezza automatica ti segnala appena ti vede: allerta monitoraggio). Il GM vede la condizione sulla tua scheda.
+
 ## 8-4. Oggetti e attrezzi {#sec-8-4}
 
 **Usare gli oggetti.** I consumabili (kit, stimolanti, antidoti, granate) hanno un pulsante **Usa** nell'inventario, e *Usa oggetto* nella scheda Turno (**1 azione** in combattimento, gratis fuori). Scegli l'oggetto e, se offre una scelta, cosa fa; gli oggetti medici funzionano **su di te** o **su un alleato accanto a te** (la finestra mostra il risultato, es. "cura 7", e lui lo inserisce sulla sua scheda). Le cure le tira l'app o le scrivi dai tuoi dadi. Gli **effetti a tempo** (+2 DEX per 3 round…) compaiono come una pillola verde nella barra di stato, scalano a ogni fine round e alzano tutti i numeri che ne dipendono; gli stimolanti forti finiscono con un **crollo** (Slowed per un round). Gli oggetti venduti in confezioni ("×5") ne danno altrettanti. Fumo, EMP, dardi e simili cambiano il campo di battaglia: la scheda spende l'azione e registra l'effetto, lo applica il GM.

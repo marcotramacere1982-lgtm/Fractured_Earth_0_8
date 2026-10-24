@@ -40,7 +40,7 @@ export function statusBar(c, s, data, { compact = false } = {}) {
       </div>
       ${s.effects.length ? html`<div class="cluster">${s.effects.map((e) => html`<span class="pill pill--success effect-pill">${e.name} · ${e.roundsLeft == null ? t('use.scene') : tn('use.rounds', e.roundsLeft)}
         <button class="effect-pill__end" data-action="endEffect" data-id="${e.id}" aria-label="${t('use.end', { name: e.name })}" title="${t('use.end', { name: e.name })}">✕</button></span>`)}</div>` : ''}
-      ${c.play.conditions.length || s.injured.locations.length ? html`<div class="cluster">${c.play.conditions.map((id) => html`<span class="pill ${data.conditions.find((k) => k.id === id)?.positive ? 'pill--success' : 'pill--danger'}">${nameOf(data.conditions, id)}</span>`)}${s.injured.locations.map((id) => {
+      ${c.play.conditions.length || s.injured.locations.length ? html`<div class="cluster">${c.play.conditions.map((id) => html`<span class="pill ${data.conditions.find((k) => k.id === id)?.positive ? 'pill--success' : data.conditions.find((k) => k.id === id)?.mixed ? 'pill--warning' : 'pill--danger'}">${nameOf(data.conditions, id)}</span>`)}${s.injured.locations.map((id) => {
         const loc = data.body.locations.find((l) => l.id === id);
         return html`<span class="pill pill--danger">${data.conditions.find((k) => k.limb === loc?.bp)?.name} · ${loc?.name}</span>`;
       })}</div>` : ''}

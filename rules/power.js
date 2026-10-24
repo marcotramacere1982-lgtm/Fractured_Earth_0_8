@@ -77,8 +77,9 @@ export function powerState(map, data) {
   const fed = new Set();
   const via = new Map();
   const queue = [];
-  // points of origin: sources, and breakers nothing is wired into (the mains, off the map)
-  const origin = (id) => role(id) === 'source' || (role(id) === 'breaker' && !wired.has(id));
+  // points of origin: sources, and breakers nothing is wired into (the mains, off the map) — never a power box (decision 140)
+  const sub = (id) => Boolean(propDef(data, props.get(id)?.prop)?.subboard);
+  const origin = (id) => role(id) === 'source' || (role(id) === 'breaker' && !wired.has(id) && !sub(id));
   for (const [id] of props) if (origin(id) && on(id)) { fed.add(id); via.set(id, id); queue.push(id); }
   while (queue.length) {
     const id = queue.shift();
@@ -131,17 +132,21 @@ export function powerChanges(before, after, data) {
   return out;
 }
 
-/** Short tags for the builder and Deploy: S1… sources, F1… breakers, SW1… switches, O1… sockets, D1… electric doors. */
+/** Short tags for the builder and Deploy: S1… sources, F1… breakers, PB1… power boxes, SW1… switches, O1… sockets, D1… electric doors. */
 export function circuitTags(map, data) {
-  const n = { source: 0, breaker: 0, switch: 0, outlet: 0, door: 0 };
-  const pre = { source: 'S', breaker: 'F', switch: 'SW', outlet: 'O', door: 'D' };
+  const n = { source: 0, breaker: 0, sub: 0, switch: 0, outlet: 0, door: 0 };
+  const pre = { source: 'S', breaker: 'F', sub: 'PB', switch: 'SW', outlet: 'O', door: 'D' };
   const tags = new Map();
-  for (const p of map.props ?? []) { const r = circuitRole(propDef(data, p.prop)); if (FEEDERS.includes(r)) tags.set(p.id, `${pre[r]}${++n[r]}`); }
+  for (const p of map.props ?? []) {
+    const def = propDef(data, p.prop);
+    const r = circuitRole(def) === 'breaker' && def.subboard ? 'sub' : circuitRole(def);
+    if (FEEDERS.includes(r) || r === 'sub') tags.set(p.id, `${pre[r]}${++n[r]}`);
+  }
   for (const w of map.walls ?? []) if (w.kind === 'door' && w.powered) tags.set(w.id, `D${++n.door}`);
   return tags;
 }
 
-/** What the builder's "!" check flags once the map has any wiring: lights, security devices, switches, sockets and electric
+/** What the builder's "!" check flags once the map has any wiring: lights, security devices, power boxes, switches, sockets and electric
  *  doors with no wire in (decision 137: powered desks and machines stay quietly manual). Sources and breakers start a circuit. */
 export function unwired(map, data) {
   if (!powerWires(map.wires).length) return [];
@@ -150,7 +155,7 @@ export function unwired(map, data) {
   for (const p of map.props ?? []) {
     const def = propDef(data, p.prop);
     const r = circuitRole(def);
-    const matters = r === 'switch' || r === 'outlet' || (r === 'load' && (def.light || def.category === 'light' || def.battery || sensesOf(def).length || def.category === 'sensor' || def.category === 'security'));
+    const matters = r === 'switch' || r === 'outlet' || (r === 'breaker' && def.subboard) || (r === 'load' && (def.light || def.category === 'light' || def.battery || sensesOf(def).length || def.category === 'sensor' || def.category === 'security'));
     if (matters && !into.has(p.id)) out.push(p.id);
   }
   for (const w of map.walls ?? []) if (w.kind === 'door' && w.powered && !into.has(w.id)) out.push(w.id);
