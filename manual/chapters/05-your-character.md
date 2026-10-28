@@ -101,7 +101,7 @@ Normal attacks never crack armor. Broken arms and crippled legs stay until treat
 At creation every attribute starts at **6** and you have **20 points** to spend. No attribute may go above **14** at this stage (life events and careers can push it higher later). Credit Score starts at **20**: you can lower it to gain points, but you can never raise it above 20 during creation.
 
 - **Avoid min-maxing.** A 6 CON operator collapses under minimal damage; a 6 WIS operator is constantly blindsided. Balanced builds survive longer.
-- **Not sure?** Take the playstyle quiz in the builder. It suggests a class and a ready-made attribute spread.
+- **Not sure?** Take the playstyle quiz in the builder: six questions, one at a time (tap a number to go back to one). It suggests a class and a ready-made attribute spread. From then on an **Aiming for** bar follows you through attributes, youth, careers and class: the class you're building towards (change it any time), the two stats it rolls on and its Class TN right now. Those two stats are marked on the attributes step, and the class step marks the subclasses with the best TN. On the last step you can take a **starter kit** for your subclass — three abilities and cheap gear (a lousy gun, very little armor), free — or none. On the sheet, the engine card's *Suggested loadouts* swap in a kit's abilities at any time (the gear stays as it is).
 
 ## 5-4. Youth: Adolescence Events {#sec-5-4}
 
@@ -121,7 +121,7 @@ After 15 you can go straight to the streets, or serve one or more **career terms
 - **Each term:** +2 years of age, the career's attribute and Credit Score changes, **two career events** (2d20), then an aging check. A career makes you better at one thing and costs you another: no career gives both stats of a class.
 - **Broke:** if a career pushes your Credit Score below 0 you are **wanted for non-payment**: a criminal record, and your career phase ends on the spot.
 - **Life-path cap:** no attribute goes above **18** from events and careers.
-- **Requirements:** minimum attributes, maximum age, education credentials, a clean record or a minimum Credit Score. The builder marks each one ✓ or ✗. Some life events waive requirements.
+- **Requirements:** minimum attributes, maximum age, education credentials, a clean record or a minimum Credit Score. The builder marks each one ✓ or ✗, and marks with ▲ / ▼ a career that raises or lowers one of the two stats your class rolls on. Some life events waive requirements.
 - **Push your luck:** every extra term is more experience, more risk, and more age. Some events end your career phase on the spot.
 
 ::table[careers]
@@ -175,11 +175,11 @@ The Soldier is the team's front-line powerhouse, built on **Stance-Flow**: momen
 The Hacker fights through information warfare, balancing **RAM** against **Heat**. Both limits come from the **deck** you carry — better decks and hardware mods mean more RAM and a higher heat cap.
 
 - **Instant hacks** need free RAM while they run and add heat.
-- **Sustained hacks** keep their RAM locked until you release them: tap ✕ on one in the deck panel, or use *Release Payload* to end them all.
+- **Sustained hacks** keep their RAM locked until you release them: tap ✕ on one in the deck panel, or *Release all* to end them all (free; a Logic Bomb detonates).
 - **Heat** builds with every hack and drops by 1 at the end of each round. If it reaches the deck's cap, the deck **Blue Screens**: every sustained hack crashes (their RAM is freed), the deck is locked for the next round, then it reboots at cap − 3. *Thermal Dump* vents 3 heat; *System Hard Reboot* clears everything but keeps the deck offline for the rest of this round and the next.
 - **Range:** a device in sight, or within 10 squares on a network you have pinged.
 - **What you can touch:** enemies are **organic**, **cybernetic** or **synthetic**. Most hacks only work on cybernetic or synthetic targets; organic ones are reached through the gear around them (doors, turrets, comms). The GM tells you which is which.
-- *Thermal Dump*, *Release Payload* and *System Hard Reboot* need no roll; they still take an action.
+- *Thermal Dump* and *System Hard Reboot* are housekeeping: they never take a slot and need no roll; they still take an action.
 
 - **Scammer (INT / CHA):** social engineering, credential spoofing, distraction and cheap sustained debuffs.
 - **Master (INT / WIS):** heavy system destruction, network control and high-heat anti-tech payloads.
@@ -192,9 +192,9 @@ The Tech Wizard is a battlefield architect and field medic who tunes a rig to th
 
 - **Two modes.** **Mend** (support: mend cracked armor, heal, raise cover, buff) or **Surge** (offense: crack armor, shock, traps, turrets). Every ability has a Mend face and a Surge face; your mode picks which one fires.
 - **Sync 0–3:** *Cold → Warm → Tuned → Resonant*. +1 each time you use an ability, and +1 at the end of a round in which you did not switch mode.
-- **Switching** mode is free at the start of your turn, but Sync drops to 0.
+- **Switching** mode is free at the start of your turn, but Sync drops to 0. **Opening choice:** in a fight, until your first action, picking your mode is setting up, not a switch — Sync isn't reset and you still get the round's +1.
 - **Thresholds:** stronger abilities need a minimum Sync.
-- **Resonant cast:** at Sync 3 you may fire an ability with **both faces at once** — the cover shelters your friend *and* the shrapnel hits the enemy. Sync then drops to 0 (you keep your mode).
+- **Resonant burst:** at Sync 3 you may fire an ability with **both faces at once** — the cover shelters your friend *and* the shrapnel hits the enemy. Sync then drops to 0 (you keep your mode).
 - **Brownout:** the heaviest moves (*Structural Collapse*) drop Sync to 0 and take the rig offline — no abilities — until the end of the next round.
 - **Disruption:** losing HP costs 1 Sync. Keep your Tech Wizard behind cover.
 - Every combat starts at Cold.
@@ -256,7 +256,7 @@ At the live table your Tells sit on the GM's **Hostiles** list (by letter), and 
 The builder's last steps turn your rolls into a story. It compiles two prompts from everything you rolled:
 
 - **Backstory prompt** — paste it into any AI assistant (or use it as a writing guide) and paste the result back. It already contains the setting, your events, career and debt. With the app in Italian, it asks the AI to write the story in Italian.
-- **Or ask the GM** — at the live table, *Send to the GM* (in the builder) or *Ask the GM to write it* (Dossier) hands the same prompt to the GM, who has it written, reads it and sends it to your sheet. It lands on the Dossier; you can still edit it, or go back to your previous version. With a backstory already written, the button asks the GM to polish it instead.
+- **Or ask the GM** — at the live table, the builder's Story step asks first: *Yes — send it to the GM* (after you fill in your look), or *No thanks* to see the prompts and do it yourself; or *Ask the GM to write it* (Dossier) hands the same prompt to the GM, who has it written, reads it and sends it to your sheet. It lands on the Dossier; you can still edit it, or go back to your previous version. With a backstory already written, the button asks the GM to polish it instead.
 - **Portrait prompt** — for an image generator (both prompts stay on the Dossier, under *Prompts for your own AI*).
 - **Appearance & manner** — gender, build, hair, eyes, marks and attitude, in your own words. They flow into both prompts (whatever you leave blank, the portrait prompt asks you to add). Pure flavour: no rule reads them and the GM's change check ignores them, so edit them on the Dossier whenever you like.
 
@@ -265,8 +265,9 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 ## 5-8. The Character Sheet {#sec-5-8}
 
 - **Status bar** — always visible: HP, armor, initiative, actions, Class TN, Credit Score, cash and active conditions.
-- **Play** — two rows in the order of a turn: the Turn panel (*Start combat*, *End round*, one *Attack* for the weapon in hand, *?* shows what each action does) beside your weapons (attack TN, damage, ammo, reload); then your class engine, equipped abilities and talents beside health, armor, injuries and conditions (with *Take a hit*) and cover. Move, OFF, DEF and PER sit on the header's second line, changed live by conditions.
-- **Skills** — attributes (adjustable for injuries, aging or GM rulings) and every skill. Tap to roll with the GM's difficulty.
+- **Setup** — two rows in the order of a turn: the Turn panel (*Start combat*, *End round*, one *Attack* for the weapon in hand, *?* shows what each action does) beside your weapons (attack TN, damage, ammo, reload); then your class engine, equipped abilities and talents beside health, armor, injuries and conditions (with *Take a hit*) and cover. Move, OFF, DEF and PER sit on the header's second line, changed live by conditions.
+  Scroll down for every skill (type in *Find a skill* to filter by name, stat or group) and the attributes (adjustable for injuries, aging or GM rulings). Tap to roll with the GM's difficulty. When the GM asks for a roll, a card waits at the top (and in the Tactical View): *Roll* opens the same window and the result goes to the GM.
+- **Tactical** — first while the GM has a map on the table: the fight on one screen (7-2 §5).
 - **Gear** — cash, inventory, the market, and your lifestyle.
 - **Dossier** — identity, class, background, debt (with its pressure and instalments), portrait, backstory and *Story so far* (5-10).
 - **Notes & maps** — your field notes, **Maps we've seen** (every map that was on the table, as far as your crew saw it, 7-2 §5) and a log of rolls, purchases and ability uses.
@@ -306,7 +307,7 @@ Talents are mostly **passive edges**. Each costs **1 talent point**.
 - **Trees:** three general trees for everyone (*Survival*, *Street*, *Tactics*) and one tree for your class, with branches for each subclass.
 - **Tiers:** tier 1 any time; **tier 2** from level 3, after a tier-1 talent of the same tree; **tier 3** from level 5, after a tier-2 talent of the same tree. At most **two tier-3 talents**.
 - Some need a minimum attribute (e.g. *Iron Jaw* needs CON 12).
-- **Automatic** talents are applied by the sheet (HP, initiative, armor, class engines…). **At the table** talents are short rules you and the GM apply; once-per-round / combat / mission talents get a *Use* button on the Play tab.
+- **Automatic** talents are applied by the sheet (HP, initiative, armor, class engines…). **At the table** talents are short rules you and the GM apply; once-per-round / combat / mission talents get a *Use* button on the Setup tab.
 - The GM may also **gift** a talent as a story reward — free, and without prerequisites.
 
 The Progress tab shows every tree, what you can take now, and why the rest is locked.

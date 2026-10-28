@@ -2,7 +2,7 @@
 
 import { RuleError, message } from './messages.js';
 
-export const CATALOGS = { weapon: 'weapons', armor: 'armor', item: 'items', deck: 'decks', deckMod: 'deckMods', optic: 'optics', lifestyle: 'lifestyle' };
+export const CATALOGS = { weapon: 'weapons', armor: 'armor', item: 'items', deck: 'decks', deckMod: 'deckMods', drone: 'drones', droneMod: 'droneMods', weaponMod: 'weaponMods', optic: 'optics', lifestyle: 'lifestyle' };
 
 /** Spare magazines (decision 55): one entry per gun with a magazine, priced from the gun. id 'mag.<weapon id>'. */
 const magCache = new WeakMap();

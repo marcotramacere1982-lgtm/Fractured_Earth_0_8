@@ -51,3 +51,12 @@ export function formatRoll({ expr, rolls, mod, total, typed = false }) {
   const modText = mod ? ` ${mod > 0 ? '+' : '−'} ${Math.abs(mod)}` : '';
   return `${expr}: [${rolls.join(', ')}]${modText} = ${total}`;
 }
+
+/** A dice expression with a flat bonus added: addFlat('1d6+1', 2) → '1d6+3'; addFlat('2d6', 0) → '2d6'. */
+export function addFlat(expr, bonus) {
+  if (!bonus) return expr;
+  const m = /^(\d+d\d+)([+-]\d+)?$/.exec(expr);
+  if (!m) return `${expr}+${bonus}`;
+  const n = Number(m[2] ?? 0) + bonus;
+  return n ? `${m[1]}${n > 0 ? '+' : ''}${n}` : m[1];
+}

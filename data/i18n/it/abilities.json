@@ -32,11 +32,44 @@
     },
     "reckless_execution": {
       "desc": "Svuoti il caricatore a bruciapelo: tira due volte i danni dell'arma (in mischia: due colpi). Servono almeno 3 colpi carichi."
+    },
+    "shift_stance": {
+      "desc": "Ti sposti di un passo tra Defensive e Attack senza un'ability. Niente TP; sei Unsteady (−2 TN agli attacchi) fino a fine round."
+    },
+    "field_strip": {
+      "desc": "Fuori dal combattimento: togli Jammed e ricarichi entrambe le armi dai caricatori di scorta."
+    },
+    "cover_me": {
+      "desc": "Reazione, quando un alleato in vista viene attaccato: è Covered — attacchi contro di lui a −2 TN fino a fine round. Si paga come la Schivata."
+    },
+    "hard_stare": {
+      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Interrogation / Intimidation."
+    },
+    "human_shield": {
+      "desc": "Fino al tuo prossimo turno, gli attacchi a un alleato accanto colpiscono te (li prende la tua armatura)."
+    },
+    "shoulder_charge": {
+      "desc": "Ti muovi fino a 2 quadretti contro un nemico adiacente e lo mandi Prone (nessun danno). Genera 1 TP; finisci in Attack."
+    },
+    "breach_and_clear": {
+      "desc": "Attraverso una porta chiusa o un muro debole con la forza bruta. Rumoroso: chi è vicino lo sente."
+    },
+    "second_wind": {
+      "desc": "In Onslaught: ti curi di 1d6 + il bonus di CON e ti scrolli di dosso Stunned."
+    },
+    "battle_plan": {
+      "desc": "Una volta per missione, fuori dal combattimento: lo pianifichi con la squadra. All'inizio del prossimo combattimento ogni alleato ha +2 all'iniziativa, e tu parti con 2 TP."
+    },
+    "rally": {
+      "desc": "Gli alleati in vista si scrollano di dosso Suppressed o Stunned e hanno +1 TN al prossimo tiro."
+    },
+    "flank_order": {
+      "desc": "Un alleato si muove fino ai suoi quadretti e ha +2 TN al prossimo attacco contro il tuo bersaglio in questo round."
     }
   },
   "hacker": {
     "ping_sweep": {
-      "desc": "Mappi la rete locale: riveli unità e dispositivi nascosti entro 10 quadretti, anche attraverso i muri. Fino a fine round gli alleati ottengono +2 TN contro i bersagli rivelati."
+      "desc": "Chiedi alle reti intorno a te chi c'è: ogni nodo e dispositivo entro 10 quadretti, anche attraverso i muri, elencato per rete — mai dove si trova. Funziona anche fuori dal combattimento. Le reti lo sentono (Trace). Fino a fine round gli alleati ottengono +2 TN contro i dispositivi nominati dalla scansione."
     },
     "credentials_spoof": {
       "desc": "Falsifichi un ID ad alto livello di accesso per te e un alleato: i sistemi sintetici (torrette, droni, porte) vi ignorano, e le guardie organiche vi considerano autorizzati. Termina se uno di voi attacca."
@@ -57,9 +90,6 @@
     "overclock_pulse": {
       "desc": "Spingi il deck oltre i limiti di sicurezza: il tuo prossimo hack istantaneo di questo round colpisce due bersagli, o lo stesso bersaglio due volte."
     },
-    "release_payload": {
-      "desc": "Termini tutti i tuoi hack sostenuti e liberi la loro RAM. Per terminarne uno solo, tocca la sua ✕ nel pannello del deck. Nessun tiro."
-    },
     "system_hard_reboot": {
       "desc": "Riavvio d’emergenza: azzeri RAM e heat, ma il deck resta offline per il resto di questo round e per il prossimo. Nessun tiro."
     },
@@ -68,6 +98,39 @@
     },
     "false_flag_broadcast": {
       "desc": "Simuli un allarme di fuoco amico: un nemico cibernetico o sintetico passa il suo prossimo turno ad attaccare l’alleato più vicino."
+    },
+    "door_control": {
+      "desc": "Apri, chiudi o blocca una porta in rete o elettrica che vedi, o una su una rete che hai pingato."
+    },
+    "comms_jam": {
+      "desc": "Le radio nemiche entro 6 quadretti tacciono: non possono chiamare aiuto, e il loro prossimo attacco è a −2 TN. Funziona sulle persone, tramite la loro attrezzatura."
+    },
+    "firewall": {
+      "desc": "Avvolgi nel tuo firewall il cyberware di un alleato — o il drone del Tech Wizard: gli hack contro di lui falliscono finché regge."
+    },
+    "phish": {
+      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Deception o Persuasion, attraverso uno schermo."
+    },
+    "bodycam_hijack": {
+      "desc": "Vedi attraverso la bodycam o gli occhiali smart di una guardia: il GM ti dice cosa vede, e gli alleati hanno +2 TN contro quella guardia (Marked)."
+    },
+    "spoofed_orders": {
+      "desc": "Qualcuno con una radio riceve ordini falsi: nel suo prossimo turno si muove dove dici tu (fino ai suoi quadretti) invece di attaccare."
+    },
+    "camera_loop": {
+      "desc": "Una rete di telecamere mostra un loop vuoto finché regge — in combattimento o fuori."
+    },
+    "clean_logs": {
+      "desc": "Una volta per missione, fuori dal combattimento: ripulisci i log di una rete — la sua Trace scende di 2."
+    },
+    "backdoor": {
+      "desc": "Fuori dal combattimento: lasci un accesso in una rete che hai pingato. Il tuo prossimo ping lì non aggiunge Trace, e gli hack sui suoi dispositivi hanno +2 TN in questa missione."
+    },
+    "cascade": {
+      "desc": "Mandi offline un router o un access point che hai pingato: tutto quello che c'è dietro si spegne."
+    },
+    "smartgun_lockout": {
+      "desc": "Un'arma collegata si blocca e non può sparare finché regge — su un cyborg, un drone, o chiunque abbia una smartgun."
     }
   },
   "techwiz": {
@@ -104,12 +167,56 @@
       "surge": "Iniezione corrosiva a distanza di mischia: il bersaglio è Poisoned / Corroded."
     },
     "deploy_sentry_turret": {
-      "mend": "Un drone barriera dà copertura parziale (+2) agli alleati in un'area 2×2 dietro di sé.",
-      "surge": "Una torretta (HP 8, armatura 1) spara al nemico più vicino a ogni fine round: TN 10, 1d6."
+      "mend": "Il tuo drone si mette in volo come barriera: copertura parziale (+2) agli alleati in un'area 2×2 dietro di sé.",
+      "surge": "Il tuo drone atterra come torretta (HP {hp}, armatura {armor}) e spara al nemico più vicino a ogni fine round: TN 10, {damage}."
     },
     "structural_collapse": {
       "mend": "Puntelli la struttura: i pilastri danno a tutta la squadra copertura totale (+4) finché non vengono distrutti.",
       "surge": "Fai crollare il soffitto su un'area 3×3: 3d6, la copertura lì viene distrutta, i bersagli sono Prone."
+    },
+    "recalibrate": {
+      "desc": "Regoli il rig: +1 Sync, nessun tiro. In combattimento costa un'azione, e in questo round non puoi cambiare modalità."
+    },
+    "patch_the_drone": {
+      "desc": "Fuori dal combattimento: ripari il tuo drone distrutto. Nessun tiro."
+    },
+    "jury_rig": {
+      "mend": "Un dispositivo, una console, un veicolo o una porta guasti funzionano — per un solo uso.",
+      "surge": "Saboti un dispositivo, una console, un veicolo o una porta: si guasta nel momento peggiore."
+    },
+    "spotlight": {
+      "mend": "Illumini a giorno un'area 3×3 fino alla fine della scena.",
+      "surge": "Un lampo accecante: i nemici in un'area 2×2 sono Blinded."
+    },
+    "triage": {
+      "mend": "Un alleato adiacente si cura di 1d6 e perde Poisoned.",
+      "surge": "Una dose di adrenalina: un alleato adiacente è Fired Up."
+    },
+    "reinforce_armor": {
+      "mend": "Imbulloni piastre su un alleato adiacente: +2 armatura fino alla fine del prossimo round (Braced).",
+      "surge": "Strappi la placcatura a un nemico adiacente: è Exposed."
+    },
+    "mobile_workshop": {
+      "mend": "L'arma di un alleato adiacente: Jammed tolto e ricaricata gratis.",
+      "surge": "L'arma di un nemico adiacente si inceppa."
+    },
+    "steady_hands": {
+      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Medicine / First Aid."
+    },
+    "remote_pilot": {
+      "mend": "Fai volare il drone fino a {reach} quadretti avanti: il GM rivela cosa vede.",
+      "surge": "Lanci il drone sul nemico: 2d6 a tutti in un'area 3×3. Il tuo drone è distrutto."
+    },
+    "emp_burst": {
+      "mend": "Schermi l'attrezzatura della squadra: gli alleati non possono essere Jammed o Disconnected in questo round.",
+      "surge": "Un impulso elettromagnetico: i nemici cibernetici e sintetici in un'area 3×3 sono Disconnected."
+    },
+    "rig_trap": {
+      "mend": "Un allarme a filo su un quadretto: sai subito quando qualcuno lo attraversa.",
+      "surge": "Una trappola elettrica su un quadretto: il primo nemico che passa subisce 2d6 ed è Stunned."
+    },
+    "calibrate": {
+      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Mechanics o Electronics."
     }
   },
   "smuggler": {
@@ -142,6 +249,42 @@
     },
     "call_in_favor": {
       "desc": "All'aperto o in una zona non schermata, una volta per combattimento. All'inizio del prossimo round, scegli: un colpo di cecchino (3d6 a un bersaglio, ignorando l'armatura) o un razzo (2d6 a tutti in un'area 3×3)."
+    },
+    "breathe": {
+      "desc": "Ti calmi o lasci salire la tensione: sposti il pendolo di 1, più freddo o più caldo. Nessun tiro; in combattimento costa un'azione."
+    },
+    "palm_it": {
+      "desc": "Fuori dal combattimento: nascondi addosso un oggetto o un'arma a una perquisizione. Uno scanner lo decide il GM."
+    },
+    "slip_it_over": {
+      "desc": "Passi un oggetto o un caricatore a un alleato entro 2 quadretti (Regala oggetto): può usarlo in questo round."
+    },
+    "duck_and_weave": {
+      "desc": "Reazione, quando vieni attaccato: sei Evasive — attacchi contro di te a −2 TN fino a fine round. Si paga come la Schivata."
+    },
+    "fast_talk": {
+      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Persuasion o Deception, per una bugia o un affare."
+    },
+    "quick_draw": {
+      "desc": "Prima della tua prima azione in un combattimento: spari con l'arma pronta a +2 TN (danni dell'arma, 1 colpo)."
+    },
+    "price_tag": {
+      "desc": "Fuori dal combattimento: sai quanto vale una cosa e chi la comprerebbe. La prossima offerta del riciclatore per te è migliore."
+    },
+    "double_tap": {
+      "desc": "Due colpi su un bersaglio: danni dell'arma, poi un secondo attacco a −2 TN (2 colpi)."
+    },
+    "know_a_guy": {
+      "desc": "Una volta per missione, fuori dal combattimento: un contatto si fa vivo — informazioni, un veicolo, attrezzatura a prezzo di costo o una porta aperta. Il GM dice cosa."
+    },
+    "cover_story": {
+      "desc": "Fuori dal combattimento: documenti e una storia per la squadra. Ogni alleato (e tu) ha +2 alla prossima prova di Deception o Persuasion contro i funzionari."
+    },
+    "exit_plan": {
+      "desc": "Indichi la via d'uscita: gli alleati che si muovono in questo round hanno +1 quadretto e ignorano il terreno difficile."
+    },
+    "bought_eyes": {
+      "desc": "Un informatore pagato ti avvisa: un nemico nascosto viene rivelato, e gli alleati hanno +2 TN contro di lui in questo round."
     }
   },
   "scavenger": {
@@ -177,6 +320,45 @@
     },
     "vanish": {
       "desc": "Sparisci dalla vista: ti muovi fino ai tuoi quadretti in copertura totale senza provocare attacchi. Conti come se non avessi attaccato in questo round, quindi inizi il prossimo Unseen."
+    },
+    "scan": {
+      "desc": "Ti sporgi e guardi: +1 Tell sul tuo bersaglio, nessun tiro. In combattimento costa un'azione, e ti sei mostrato — niente Unseen nel prossimo round."
+    },
+    "scrounge": {
+      "desc": "Fuori dal combattimento, una volta per scena: perquisisci una stanza o un corpo — un oggetto piccolo, o un caricatore di scorta per un'arma che porti. Il GM dice cosa."
+    },
+    "read_the_room": {
+      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Perception / Awareness o Forensics / Investigation."
+    },
+    "spotter": {
+      "desc": "Indichi il punto debole: il prossimo attacco di un alleato sul tuo bersaglio può essere un attacco localizzato senza la penalità di −4."
+    },
+    "lead_the_way": {
+      "desc": "Fuori dal combattimento: la squadra segue il tuo percorso — tutti hanno +2 alla prossima prova di Stealth."
+    },
+    "pickpocket": {
+      "desc": "Fuori dal combattimento: sfili qualcosa a qualcuno che non ti sta combattendo, senza farti notare — la tua Class TN contro la sua Awareness."
+    },
+    "dirty_trick": {
+      "desc": "Polvere negli occhi: il bersaglio adiacente è Blinded fino al suo prossimo turno."
+    },
+    "sidestep": {
+      "desc": "Reazione, quando il tuo bersaglio adiacente ti attacca: lo vedi arrivare — Sidestepping, attacchi contro di te a −4 TN fino a fine round. Si paga come la Schivata."
+    },
+    "plant_a_bug": {
+      "desc": "Fuori dal combattimento: piazzi un localizzatore su qualcuno vicino a te. Più tardi sai dov'è andato."
+    },
+    "flush_out": {
+      "desc": "Un colpo che stana il bersaglio dalla copertura: esce allo scoperto, o resta ed è Exposed."
+    },
+    "long_look": {
+      "desc": "Fuori dal combattimento: studi un posto da lontano con l'ottica. Il GM rivela numero di guardie, ronde e orari."
+    },
+    "track": {
+      "desc": "Fuori dal combattimento: segui le tracce di qualcuno — impronte, segni, una porta socchiusa, una telecamera che l'ha visto."
+    },
+    "overwatch_spotter": {
+      "desc": "Tieni d'occhio il bersaglio: fino al tuo prossimo turno, la prima volta che si muove, ogni alleato ha +2 TN contro di lui."
     }
   }
 }

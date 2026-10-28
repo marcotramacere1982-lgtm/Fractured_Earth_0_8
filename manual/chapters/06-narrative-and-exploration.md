@@ -130,13 +130,15 @@ When a confrontation is inevitable—such as guards approaching a heavy door, an
 
 Depending on the time granted by the GM, Operators can execute critical setups across physical and digital space:
 
-- **Digital & Network Prep:** A Hacker uses *Ping Sweep* to scan local subnets, reveal hidden turrets, or pre-load a *Keylogger Injection* before enemies enter line of sight.
+- **Digital & Network Prep:** A Hacker uses *Ping Sweep* to scan local subnets (what hangs on them, never where — 7-4), name the turrets on them, or pre-load a *Keylogger Injection* before enemies enter line of sight.
 
 - **Spatial & Cover Setup:** A Soldier or Smuggler uses an action to move into **Full Cover**, take up a **Defensive Stance**, or pre-activate *Brace & Dig In*.
 
 - **Environmental Rigging:** A Tech Wizard spends prep actions to deploy *Improvised Cover*, survey structural failure points (*Scavenge & Survey*), or rig nearby wiring (*Rig Power Conduit*).
 
 - **Positioning & Ambush:** Stealthy Operators use prep actions to fade into dark corners, establishing **Partial / Full Cover** bonuses or preparing reaction triggers.
+
+- **A toy drone:** anyone can carry a *Micro-Drone Recon Cam* — a palm-sized camera that flies for a few minutes. Out of a fight only (you either act or fly it): *Fly* on its Gear row, pick **Recon** (fly ahead and look — the GM tells you what it sees) or **Decoy** (draw eyes and ears away), and roll **Drones / Remote Craft**. Success: there and back. Failure: noticed, or it saw little — but it comes back. Failure by 5 or more: spotted and shot down, gone. Then its battery is flat: *Recharge* when the scene changes. Inside a guarded site the nearest network notices something in the air (+1 Trace, 7-4).
 
 ### Surprise & Alarms
 

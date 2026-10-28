@@ -57,8 +57,9 @@ export function smugglerMeta(a, r, data, ctx = {}) {
   const usable = a.requires == null || (a.requires > 0 ? p >= a.requires : p <= a.requires);
   let land = null; // where you'd land if you used it now; only shown when the pendulum allows it
   if (usable) try { land = useAbility('smuggler', a, r, ctx).pendulum; } catch { land = null; }
+  const still = !('set' in a.shift) && !a.shift.delta; // decision 174: no swing (Fast Talk, Know a Guy…), no swing chips
   return html`<span class="pill pend-need" title="${t('engine.pendNeeds', { need })}">${needStrip(a, p)}${need}</span>
-    <span class="pill pend-swing pend-swing--${dir}" title="${t(dir === 'set' ? 'engine.pendSwingSet' : 'engine.pendSwing', { n: signed(shift) })}">${arrow}</span>
-    ${land != null ? html`<span class="pill pend-land pend-land--${side(land)}">${t('engine.pendLand', { n: signed(land) })}</span>` : ''}
+    ${still ? '' : html`<span class="pill pend-swing pend-swing--${dir}" title="${t(dir === 'set' ? 'engine.pendSwingSet' : 'engine.pendSwing', { n: signed(shift) })}">${arrow}</span>`}
+    ${land != null && !still ? html`<span class="pill pend-land pend-land--${side(land)}">${t('engine.pendLand', { n: signed(land) })}</span>` : ''}
     ${a.oncePerCombat ? html`<span class="pill pill--accent">${t('engine.oncePerCombat')}</span>` : ''}`;
 }

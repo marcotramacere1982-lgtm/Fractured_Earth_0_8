@@ -101,7 +101,7 @@ Gli attacchi normali non incrinano mai l'armatura. Braccia rotte e gambe azzoppa
 Alla creazione ogni attributo parte da **6** e hai **20 punti** da spendere. In questa fase nessun attributo può superare **14** (eventi di vita e carriere potranno spingerlo più in alto). Il Credit Score parte da **20**: puoi abbassarlo per guadagnare punti, ma durante la creazione non puoi mai portarlo sopra 20.
 
 - **Evita il min-maxing.** Un operatore con CON 6 crolla al minimo danno; uno con WIS 6 viene preso alla sprovvista di continuo. I personaggi equilibrati sopravvivono più a lungo.
-- **Non sei sicuro?** Fai il quiz sullo stile di gioco nella Creazione. Ti suggerisce una classe e una distribuzione di attributi già pronta.
+- **Non sei sicuro?** Fai il quiz sullo stile di gioco nella Creazione: sei domande, una alla volta (tocca un numero per tornare a una). Ti suggerisce una classe e una distribuzione di attributi già pronta. Da lì una barra **Punti a** ti segue in attributi, giovinezza, carriere e classe: la classe verso cui costruisci (la cambi quando vuoi), le due statistiche su cui tira e la sua Class TN in quel momento. Quelle due statistiche sono segnate al passo degli attributi, e il passo della classe segna le sottoclassi con la TN migliore. All'ultimo passo puoi prendere un **kit di partenza** per la tua sottoclasse — tre ability e attrezzatura economica (un'arma scadente, pochissima armatura), gratis — oppure nessuno. Sulla scheda, i *Loadout suggeriti* del motore di classe mettono in un attimo le ability di un kit (l'attrezzatura resta com'è).
 
 ## 5-4. Giovinezza: gli eventi dell'adolescenza {#sec-5-4}
 
@@ -121,7 +121,7 @@ Dopo i 15 anni puoi finire subito in strada, oppure svolgere prima uno o più **
 - **Ogni periodo:** +2 anni di età, le modifiche agli attributi e al Credit Score della carriera, **due eventi di carriera** (2d20), poi un controllo d'invecchiamento. Una carriera ti rende migliore in una cosa e te ne costa un'altra: nessuna carriera dà entrambe le statistiche di una classe.
 - **Al verde:** se una carriera porta il tuo Credit Score sotto 0 sei **ricercato per insolvenza**: fedina penale sporca, e la tua fase di carriera finisce all'istante.
 - **Tetto del percorso di vita:** con eventi e carriere nessun attributo supera **18**.
-- **Requisiti:** attributi minimi, età massima, credenziali di studio, fedina pulita o un Credit Score minimo. La Creazione segna ognuno con ✓ o ✗. Alcuni eventi di vita annullano i requisiti.
+- **Requisiti:** attributi minimi, età massima, credenziali di studio, fedina pulita o un Credit Score minimo. La Creazione segna ognuno con ✓ o ✗, e segna con ▲ / ▼ una carriera che alza o abbassa una delle due statistiche su cui tira la tua classe. Alcuni eventi di vita annullano i requisiti.
 - **Tenta la sorte:** ogni periodo in più è più esperienza, più rischio e più età. Alcuni eventi chiudono la tua fase di carriera all'istante.
 
 ::table[careers]
@@ -175,11 +175,11 @@ I **TP** partono da **0 a ogni combattimento** e non hanno limite. Li accumuli c
 L'Hacker combatte con la guerra dell'informazione, bilanciando **RAM** e **Heat**. Entrambi i limiti dipendono dal **deck** che porti: deck migliori e mod hardware significano più RAM e un heat cap più alto.
 
 - Gli **hack istantanei** richiedono RAM libera mentre girano e aggiungono heat.
-- Gli **hack sostenuti** tengono bloccata la loro RAM finché non li rilasci: tocca la ✕ di uno nel pannello del deck, oppure usa *Release Payload* per terminarli tutti.
+- Gli **hack sostenuti** tengono bloccata la loro RAM finché non li rilasci: tocca la ✕ di uno nel pannello del deck, oppure *Rilascia tutto* per terminarli tutti (gratis; una Logic Bomb esplode).
 - L'**heat** sale a ogni hack e scende di 1 alla fine di ogni round. Se raggiunge il limite del deck, il deck va in **Blue Screen**: tutti gli hack sostenuti crollano (la loro RAM si libera), il deck resta bloccato per il round successivo, poi si riavvia a cap − 3. *Thermal Dump* smaltisce 3 heat; *System Hard Reboot* azzera tutto ma lascia il deck offline per il resto di questo round e per il prossimo.
 - **Portata (range):** un dispositivo in vista, o entro 10 quadretti su una rete che hai pingato.
 - **Cosa puoi toccare:** i nemici sono **organici** (organic), **cibernetici** (cybernetic) o **sintetici** (synthetic). Quasi tutti gli hack funzionano solo su bersagli cibernetici o sintetici; quelli organici si raggiungono attraverso l'equipaggiamento che li circonda (porte, torrette, comunicazioni). Il GM ti dice chi è cosa.
-- *Thermal Dump*, *Release Payload* e *System Hard Reboot* non richiedono tiri; costano comunque un'azione.
+- *Thermal Dump* e *System Hard Reboot* sono manutenzione: non occupano mai uno slot e non richiedono tiri; costano comunque un'azione.
 
 - **Scammer (INT / CHA):** ingegneria sociale, credenziali falsificate, distrazione e debuff sostenuti a basso costo.
 - **Master (INT / WIS):** distruzione pesante dei sistemi, controllo delle reti e payload anti-tech ad alto heat.
@@ -192,9 +192,9 @@ Il Tech Wizard è un architetto del campo di battaglia e un medico da campo che 
 
 - **Due modalità.** **Mend** (supporto: riparare l'armatura incrinata, curare, alzare coperture, potenziare) o **Surge** (offensiva: incrinare armature, shock, trappole, torrette). Ogni ability ha una faccia Mend e una Surge; la modalità sceglie quale scatta.
 - **Sync 0–3:** *Cold → Warm → Tuned → Resonant*. +1 ogni volta che usi un'ability, e +1 alla fine di un round in cui non hai cambiato modalità.
-- **Cambiare** modalità è gratis all'inizio del tuo turno, ma il Sync torna a 0.
+- **Cambiare** modalità è gratis all'inizio del tuo turno, ma il Sync torna a 0. **Scelta d'apertura:** in uno scontro, fino alla tua prima azione, scegliere la modalità è prepararsi, non cambiare — il Sync non si azzera e il +1 del round arriva lo stesso.
 - **Soglie:** le ability più forti richiedono un Sync minimo.
-- **Resonant cast:** a Sync 3 puoi far scattare un'ability con **entrambe le facce insieme**: la copertura ripara il tuo amico *e* le schegge colpiscono il nemico. Poi il Sync torna a 0 (la modalità resta).
+- **Resonant burst:** a Sync 3 puoi far scattare un'ability con **entrambe le facce insieme**: la copertura ripara il tuo amico *e* le schegge colpiscono il nemico. Poi il Sync torna a 0 (la modalità resta).
 - **Brownout:** le mosse più pesanti (*Structural Collapse*) azzerano il Sync e mandano il rig offline — niente ability — fino alla fine del round successivo.
 - **Disturbo:** perdere HP costa 1 Sync. Tieni il tuo Tech Wizard al riparo.
 - Ogni combattimento inizia a Cold.
@@ -256,7 +256,7 @@ Al tavolo dal vivo i tuoi Tell stanno sulla lista **Ostili** del GM (per lettera
 Gli ultimi passi della Creazione trasformano i tuoi tiri in una storia. Prepara due prompt con tutto quello che hai tirato:
 
 - **Prompt della storia** — incollalo in un assistente IA qualsiasi (o usalo come traccia per scrivere) e incolla qui il risultato. Contiene già l'ambientazione, i tuoi eventi, la carriera e il debito. Con l'app in italiano, chiede all'IA di scrivere la storia in italiano.
-- **Oppure chiedi al GM** — al tavolo dal vivo, *Invia al GM* (nella Creazione) o *Chiedi al GM di scriverla* (Dossier) passa lo stesso prompt al GM, che la fa scrivere, la legge e la invia alla tua scheda. Arriva nel Dossier; puoi sempre modificarla, o tornare alla tua versione precedente. Se hai già una storia, il pulsante chiede invece al GM di rifinirla.
+- **Oppure chiedi al GM** — al tavolo dal vivo, il passo Storia della Creazione chiede per prima cosa: *Sì — mandalo al GM* (dopo aver compilato l'aspetto), oppure *No grazie* per vedere i prompt e fare da solo; o *Chiedi al GM di scriverla* (Dossier) passa lo stesso prompt al GM, che la fa scrivere, la legge e la invia alla tua scheda. Arriva nel Dossier; puoi sempre modificarla, o tornare alla tua versione precedente. Se hai già una storia, il pulsante chiede invece al GM di rifinirla.
 - **Prompt del ritratto** — per un generatore di immagini (entrambi i prompt restano nel Dossier, sotto *Prompt per la tua IA*).
 - **Aspetto e modi** — genere, corporatura, capelli, occhi, segni particolari e atteggiamento, con parole tue. Finiscono in entrambi i prompt (quello che lasci vuoto, il prompt del ritratto ti chiede di aggiungerlo). Solo colore: nessuna regola li legge e il controllo delle modifiche del GM li ignora, quindi cambiali nel Dossier quando vuoi.
 
@@ -265,8 +265,9 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 ## 5-8. La scheda del personaggio {#sec-5-8}
 
 - **Barra di stato** — sempre visibile: HP, armatura, iniziativa, azioni, Class TN, Credit Score, contanti e condizioni attive.
-- **Gioco** — due righe nell'ordine di un turno: il pannello del turno (*Inizia combattimento*, *Fine round*, un solo *Attacca* per l'arma in mano, *?* mostra cosa fa ogni azione) accanto alle armi (TN d'attacco, danni, munizioni, ricarica); poi il tuo motore di classe, le ability equipaggiate e i talenti accanto a salute, armatura, ferite e condizioni (con *Subisci un colpo*) e copertura. Movimento, OFF, DEF e PER stanno nella seconda riga dell'intestazione, aggiornati dalle condizioni.
-- **Abilità** — attributi (modificabili per ferite, invecchiamento o decisioni del GM) e tutte le abilità. Tocca per tirare con la difficoltà del GM.
+- **Preparazione** — due righe nell'ordine di un turno: il pannello del turno (*Inizia combattimento*, *Fine round*, un solo *Attacca* per l'arma in mano, *?* mostra cosa fa ogni azione) accanto alle armi (TN d'attacco, danni, munizioni, ricarica); poi il tuo motore di classe, le ability equipaggiate e i talenti accanto a salute, armatura, ferite e condizioni (con *Subisci un colpo*) e copertura. Movimento, OFF, DEF e PER stanno nella seconda riga dell'intestazione, aggiornati dalle condizioni.
+  Scorri in basso per tutte le abilità (scrivi in *Cerca un'abilità* per filtrare per nome, statistica o gruppo) e gli attributi (modificabili per ferite, invecchiamento o decisioni del GM). Tocca per tirare con la difficoltà del GM. Quando il GM chiede un tiro, in cima compare una carta (anche nella vista Tattica): *Tira* apre la stessa finestra e il risultato va al GM.
+- **Tattica** — per prima finché il GM ha una mappa sul tavolo: lo scontro in una schermata (7-2 §5).
 - **Equipaggiamento** — contanti, inventario, il mercato e il tuo stile di vita.
 - **Dossier** — identità, classe, trascorsi, debito (con pressione e rate), ritratto, storia e *La storia finora* (5-10).
 - **Note e mappe** — i tuoi appunti, **Mappe che abbiamo visto** (ogni mappa che è stata sul tavolo, per quanto la tua squadra l'ha vista, 7-2 §5) e il registro di tiri, acquisti e uso delle ability.

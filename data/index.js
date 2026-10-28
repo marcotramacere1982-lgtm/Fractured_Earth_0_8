@@ -10,6 +10,7 @@ export const DATA_FILES = {
   classes: 'classes.json',
   abilities: 'abilities.json',
   quiz: 'quiz.json',
+  builder: 'builder.json', // decision 169: the builder's optional pictures
   careers: 'careers.json',
   adolescence: 'adolescence.json',
   careerEvents: 'career-events.json',
@@ -20,6 +21,10 @@ export const DATA_FILES = {
   items: 'items.json',
   decks: 'decks.json',
   deckMods: 'deck-mods.json',
+  weaponMods: 'weapon-mods.json', // decision 173
+  kits: 'kits.json', // decision 183: starter kits
+  drones: 'drones.json', // decision 172: the Tech Wizard's drone
+  droneMods: 'drone-mods.json',
   optics: 'optics.json',
   economy: 'economy.json',
   lifestyle: 'lifestyle.json',

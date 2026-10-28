@@ -6,7 +6,7 @@
 
 import { sightSegments, sightHits, onBoard, squareAt } from './map.js';
 import { lightTest, lightState } from './light.js';
-import { activeProps, propDef, propBlocksSight, propCorners, insideProp, propEdges, shellEdges } from './props.js';
+import { activeProps, propDef, propBlocksSight, propCorners, insideProp, propEdges, shellEdges, squaresUnder } from './props.js';
 
 const key = (s) => `${s.x},${s.y}`;
 let memo = { key: '', value: null };
@@ -14,7 +14,7 @@ let pieceMemo = { key: '', value: null };
 
 /** Squares any of the eyes can see now (each eye sees its own square), light permitting (decision 74). Set of "x,y". */
 export function visibleSquares(map, data, eyes) {
-  const k = JSON.stringify([map.cols, map.rows, map.ambient ?? 'bright', map.walls, map.props ?? [], eyes]);
+  const k = JSON.stringify([map.cols, map.rows, map.ambient ?? 'bright', map.walls, map.props ?? [], map.floors ?? [], eyes]); // floors stop sight too (decision 184)
   if (memo.key === k) return memo.value;
   const segs = sightSegments(map, data);
   const light = lightTest(map, data, segs, eyes);
@@ -46,7 +46,7 @@ export function visibleSquares(map, data, eyes) {
  * remember only — under a piece you can hide in (who is inside stays hidden) and the square of a seen piece.
  */
 export function piecesSeen(map, data, eyes, visible) {
-  const k = JSON.stringify([map.cols, map.rows, map.ambient ?? 'bright', map.walls, map.props ?? [], eyes]);
+  const k = JSON.stringify([map.cols, map.rows, map.ambient ?? 'bright', map.walls, map.props ?? [], map.floors ?? [], eyes]); // floors stop sight too (decision 184)
   if (pieceMemo.key === k) return pieceMemo.value;
   const segs = sightSegments(map, data);
   const light = lightTest(map, data, segs, eyes);
@@ -77,17 +77,6 @@ export function piecesSeen(map, data, eyes, visible) {
   return pieceMemo.value;
 }
 
-/** The squares whose centre lies inside a piece. */
-function squaresUnder(p, data) {
-  const c = propCorners(p, data);
-  const out = [];
-  for (let x = Math.floor(Math.min(...c.map((q) => q.x))); x < Math.ceil(Math.max(...c.map((q) => q.x))); x++) {
-    for (let y = Math.floor(Math.min(...c.map((q) => q.y))); y < Math.ceil(Math.max(...c.map((q) => q.y))); y++) {
-      if (insideProp({ x: x + 0.5, y: y + 0.5 }, p, data)) out.push({ x, y });
-    }
-  }
-  return out;
-}
 
 /**
  * The stretches of each wall, door, window or laser that border a seen square (walls are cut in half-square

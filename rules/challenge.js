@@ -23,9 +23,8 @@ export function damageStats(text) {
 export function playerProfile(character, sheet, data) {
   const bonus = sheet.combat.off.value + (sheet.zone?.damage ?? 0);
   const mult = stanceMultiplier(character.classId, character.play.resources, data.classes);
-  const weapons = sheet.weapons.filter((w) => !w.empty && w.usable !== false);
-  const fists = data.weapons.find((w) => w.id === 'unarmed_fists');
-  const list = weapons.length ? weapons : fists && sheet.injured.arms < 2 ? [{ ...fists, tn: sheet.skills.find((k) => k.id === fists.skill)?.value ?? 0 }] : [];
+  const usable = sheet.weapons.filter((w) => !w.empty && w.usable !== false);
+  const list = usable.some((w) => !w.unarmed) ? usable.filter((w) => !w.unarmed) : usable; // fists only when nothing better (decision 147: an empty slot is your fists)
   const attacks = list.map((w) => {
     const d = damageStats(w.damage);
     return d ? { name: w.name, tn: w.tn, avg: Math.max(0, (d.avg + bonus) * mult), max: Math.max(0, (d.max + bonus) * mult) } : null;

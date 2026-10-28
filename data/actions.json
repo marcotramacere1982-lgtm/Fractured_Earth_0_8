@@ -5,76 +5,88 @@
       "id": "move",
       "name": "Move",
       "desc": "Move up to your SQR in squares (1 square = 1.5 m). Difficult terrain costs double. Moving into cover: set your cover.",
-      "roll": null
+      "roll": null,
+      "icon": "act_move"
     },
     {
       "id": "attack",
       "name": "Attack",
       "desc": "Roll your weapon's attack TN. On a hit roll damage + Offensive Bonus; the target subtracts armor.",
-      "roll": "weapon"
+      "roll": "weapon",
+      "icon": "reticle"
     },
     {
       "id": "ability",
       "name": "Use ability",
       "desc": "Roll your Class TN to land one of your ready abilities.",
-      "roll": "class"
+      "roll": "class",
+      "icon": "class_tn"
     },
     {
       "id": "reload",
       "name": "Reload / swap",
       "desc": "Load a spare magazine into the weapon in hand (the old one is discarded), or swap to your other weapon: only the weapon in hand can attack.",
-      "roll": null
+      "roll": null,
+      "icon": "act_reload"
     },
     {
       "id": "interact",
       "name": "Interact",
       "desc": "Open a door, use a console, grab or pass an item to an adjacent ally.",
-      "roll": null
+      "roll": null,
+      "icon": "act_interact"
     },
     {
       "id": "aim",
       "name": "Aim",
       "desc": "Your next location attack can shift the hit-location roll by up to ±5.",
-      "roll": null
+      "roll": null,
+      "icon": "scope"
     },
     {
       "id": "disengage",
       "name": "Escape / disengage",
       "desc": "Step away from melee without provoking an opportunity attack.",
-      "roll": null
+      "roll": null,
+      "icon": "act_escape"
     },
     {
       "id": "overwatch",
       "name": "Overwatch",
       "desc": "Hold a line: free shot at the first enemy that crosses it before your next turn.",
-      "roll": null
+      "roll": null,
+      "icon": "act_overwatch"
     },
     {
       "id": "use_item",
       "name": "Use item",
       "desc": "Use a consumable: a heal, a stim, an antidote, a grenade.",
-      "roll": null
+      "roll": null,
+      "icon": "act_item"
     },
     {
       "id": "first_aid",
       "name": "First aid",
       "desc": "Stabilise or patch up an adjacent ally (Medicine / First Aid, or a med-kit).",
-      "roll": null
+      "roll": null,
+      "icon": "medicine_first_aid"
     },
     {
       "id": "other",
       "name": "Other",
       "desc": "Anything else — the GM decides the roll and how many actions it takes.",
-      "roll": null
+      "roll": null,
+      "icon": "act_other"
     }
   ],
   "reactions": [
     {
       "id": "dodge",
       "name": "Dodge (proactive defense)",
-      "desc": "When attacked outside your turn: spend 1 action from NEXT round and roll Avoid / Reflexes.",
+      "desc": "When attacked outside your turn: spend 1 action — this round's if you have one left, otherwise next round's — and roll Avoid / Reflexes.",
       "roll": "skill:avoid_reflexes",
-      "fromNextRound": true
+      "fromNextRound": true,
+      "icon": "avoid_reflexes"
     }
   ],
   "stunnedActions": 1

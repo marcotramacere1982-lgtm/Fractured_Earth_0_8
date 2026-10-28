@@ -1,76 +1,395 @@
 {
   "note": "Short rule explanations for the ⓘ tooltips. 'anchor' is a heading id in app/manual/chapters (checked by tests).",
   "refs": {
-    "attributes": { "title": "Attributes", "text": "Eight core attributes. Each has a bonus equal to half its value (rounded down); skills add two bonuses together.", "anchor": "sec-5-3" },
-    "skill-check": { "title": "Skill checks", "text": "Skill TN = bonus of attribute A + bonus of attribute B. Roll a d20: equal or lower succeeds. The GM may subtract a difficulty penalty.", "anchor": "sec-5-3-skills" },
-    "passive": { "title": "Passive score", "text": "TN − 5. When you are not actively looking, the GM compares hidden threats against this value without asking for a roll.", "anchor": "sec-6-2" },
-    "difficulty": { "title": "Difficulty tiers", "text": "The GM sums up the situation as one tier: Routine 0, Challenging −2, Hard −4, Severe −6, Extreme −8, Nightmare −10, subtracted from your TN.", "anchor": "sec-6-2" },
-    "combat-values": { "title": "Combat values", "text": "Movement, offense, actions, defense and perception come from the raw sum of two attributes looked up in the combat table. Some life events shift a value one row.", "anchor": "sec-5-3-combat" },
-    "initiative": { "title": "Initiative", "text": "Half DEX + half WIS − 10. At the start of combat everyone rolls d20 + Initiative; the order stays fixed. You may Delay to act last in the round.", "anchor": "sec-7-1" },
-    "actions": { "title": "Actions per round", "text": "Every combat action costs 1 action: move, attack, ability, reload, interact. You may repeat the same action. Unspent actions are lost at the end of your turn.", "anchor": "sec-7-3" },
-    "hostiles": { "title": "Hostiles", "text": "The enemies the GM has revealed, by letter (the same letter the GM uses at the table). You see what anyone could see: the name the GM gives them, organic or synthetic, a wound band (Unhurt, Hurt, Bloodied at half HP or less, Down) and visible conditions. Never HP, armor or initiative.", "anchor": "sec-7-1" },
-    "hp": { "title": "Hit points", "text": "Max HP = CON + MST + 10. At 0 HP you are incapacitated and roll CON death saves each round; reaching −CON is instant death.", "anchor": "sec-7-7" },
-    "body": { "title": "Health, armor and injuries", "text": "One HP pool and one armor value. Body locations only matter for location attacks: damage through the armor adds a condition (broken arm, crippled leg, prone, slowed, stunned); armor that stops it all cracks by 1.", "anchor": "sec-5-3-body" },
-    "hit-location": { "title": "Location attack", "text": "−4 TN, then d20: 1–4 leg (Crippled leg), 5–8 arm (Broken arm), 9–13 abdomen (Prone), 14–18 chest (Slowed), 19–20 head (Stunned; Incapacitated at half HP or less). Aim (+1 action) shifts the d20 ±5.", "anchor": "sec-7-5" },
-    "location-attack": { "title": "Location attack", "text": "−4 TN, then d20: 1–4 leg (Crippled leg), 5–8 arm (Broken arm), 9–13 abdomen (Prone), 14–18 chest (Slowed), 19–20 head (Stunned; Incapacitated at half HP or less). Aim (+1 action) shifts the d20 ±5.", "anchor": "sec-7-5-location" },
-    "map": { "title": "The map", "text": "You see what your crew sees now; dimmed squares are remembered. Drag your marker to move — in combat one Move action gives your squares for the round. Tap a door next to you to open it (Interact), tap a marker for line of sight and range. ✎ Mark points something out to the crew. Information only: the GM decides.", "anchor": "sec-7-2-map" },
-    "mapMemory": { "title": "Maps we've seen", "text": "Every map that was on the table, as far as your crew saw it: pieces, captions, doors as you left them, people with their names where you last saw them. Only on your sheet; anyone who wasn't there doesn't have it.", "anchor": "sec-7-2-map" },
-    "gm.table": { "title": "The live table", "text": "Players join from their sheet; each card shows their state. Messages wait until the sheet shows them. Sit out keeps a character out of fights.", "anchor": "sec-9-2" },
-    "gm.audit": { "title": "Unexplained changes", "text": "Foundation changes (attributes, CRS, cash, inventory, XP…) the sheet's log doesn't explain. Usually a mistake: ask, then Accept or Revert. Every snapshot is kept.", "anchor": "sec-9-3" },
-    "gm.difficulty": { "title": "Table difficulty", "text": "One step for the whole situation, pre-picked in every roll window. Easier steps (+2/+4/+6) are how help, time and good tools work. Off when the scene changes.", "anchor": "sec-9-4" },
-    "gm.light": { "title": "Light", "text": "Bright / Dark for checks when no map is on the table. With a map, each player's own square decides.", "anchor": "sec-9-4" },
-    "gm.notebook": { "title": "Roll & note", "text": "Your dice and notes, outside the rules: secret rolls, NPC checks, random tables. ⚡ Event… offers 30 stall events with suggested checks: pick one, roll, log the outcome. Nothing reaches the sheets.", "anchor": "sec-9-4" },
-    "gm.explore": { "title": "Explore", "text": "Who's best at each skill, plus every character's hooks: debt, traits, credentials, life path, backstory, look. Copy their portrait prompt and send them the picture (📷). Give everyone a moment.", "anchor": "sec-9-5" },
-    "gm.combat": { "title": "Running a fight", "text": "d20 + INIT once; Done / Delay / Next turn; End round runs every sheet's round end. Enemy hits: roll here, Send hit, the sheet applies armor.", "anchor": "sec-9-6" },
-    "gm.enemies": { "title": "Enemies", "text": "Organic, cybernetic or synthetic; armor comes off every hit; ⌖ is the location-attack TN (−4). Regulars rely on numbers and behaviour, elites have a Special. Most break when Bloodied.", "anchor": "sec-10-1" },
-    "gm.challenge": { "title": "Challenge meter", "text": "An estimate from damage per round, armor and HP: no abilities, cover or tactics. The rating at the start sets danger XP (Hard +1, Deadly +2).", "anchor": "sec-9-6" },
-    "gm.undo": { "title": "Undo", "text": "Players ask, you decide: last action, round, combat or any log line. Every undo is listed here so the table sees it was fair. For mistakes, not bad luck.", "anchor": "sec-9-14" },
-    "gm.crew": { "title": "Crew & Unity", "text": "0–10, start 5: whether the crew acts together, never whether it was right. Unity Check: secret votes, the actor decides, you record it.", "anchor": "sec-9-10" },
-    "gm.maps": { "title": "Map builder", "text": "1 square = 1.5 m. Walls, doors (locked never shows to players), windows, library pieces, hidden pieces, security, lights, darkness zones.", "anchor": "sec-9-7" },
-    "gm.securityBoard": { "title": "Security board", "text": "What the security room sees right now: every network node and security device — reporting, offline (and where it was cut), fooled (false data), no power, or not networked, with how long. Tap one to take it offline or tamper with it.", "anchor": "sec-9-8" },
-    "gm.deploy": { "title": "The map on the table", "text": "Players see what their crew sees and drag their own marker. Tap pieces to reveal, hide or switch them. The map informs; you decide.", "anchor": "sec-9-8" },
-    "gm.fog": { "title": "Fog of war & light", "text": "Players see what any of their markers sees now, and remember the rest dimmed. Edit squares reveals by hand (a floor plan, a camera).", "anchor": "sec-9-8" },
-    "gm.blocks": { "title": "Groups & blocks", "text": "Group tool: drag a box to select walls, props and zones together; drag inside it to move them, or turn, copy, delete. Save a group as a block (a motel room) and drop it again from the Blocks list: dropped pieces are independent.", "anchor": "sec-9-7" },
-    "gm.repeat": { "title": "Repeat placement", "text": "Line or Area: drag and the piece is copied at its own size from where you start, side by side (or every 1–4 squares). Spots that already hold it are skipped; a floor can replace the floor under it.", "anchor": "sec-9-7" },
-    "gm.properties": { "title": "Properties", "text": "The selected wall, door, piece, zone or group — or the tool's options. What you set here is how it starts when the map goes on the table: a door locked, a light off, a weak wall already broken. The Deploy tab changes it live; the saved map keeps the start.", "anchor": "sec-9-7" },
-    "gm.players": { "title": "Players", "text": "Every character the table holds, by player. Players pick their name on the tablet (Play as…) and their characters follow them to any device. You rename, merge two entries for the same person, or move a character to the right player.", "anchor": "sec-9-2" },
-    "gm.zones": { "title": "Event zones", "text": "GM-only rectangles: Entry, Trigger (numbered T1, T2…), Exit, Note — each with a label and a note. Reminders only: no rule reads them and players never see them. Tap one on the Deploy tab to read its note.", "anchor": "sec-9-7" },
-    "gm.marks": { "title": "Marks", "text": "Players point things out in their colour: crosshair, arrow, question mark, a line. Purely visual, never saved; they fade after 2 minutes unless pinned. You draw in amber and can remove any mark.", "anchor": "sec-9-8" },
-    "gm.npcs": { "title": "NPCs on the map", "text": "Pick a role and Add: players see Worker 1 until you rename it. Each NPC has a private note.", "anchor": "sec-9-8" },
-    "gm.story": { "title": "Missions & session log", "text": "Objectives, chapters, NPCs, threats, session log, handouts and AI prompts. Saved on your computer, never published.", "anchor": "sec-9-9" },
-    "gm.factions": { "title": "Factions", "text": "−3 Hostile … +3 Patron, moved by 1 with a reason, inside a floor and ceiling you set. GM only; carried in the AI prompts.", "anchor": "sec-9-9" },
-    "gm.xp": { "title": "Mission XP", "text": "Primary 3, secondary 1, failed 1; Hard +1, Deadly +2; Spotlight +1 (1–2 per session). 10 XP a level. Award once per mission.", "anchor": "sec-9-11" },
-    "gm.downtime": { "title": "Downtime", "text": "Time passes, injuries heal, pressure +1. One story event each (suggested with a confidence %), shown as choices, never applied.", "anchor": "sec-9-12" },
-    "gm.forge": { "title": "Forge", "text": "A one-off item for the player who found it: base item, new numbers, bonuses while in use, a note. A small bonus with a story beats a big one.", "anchor": "sec-9-13" },
-    "gm.backstories": { "title": "Backstories", "text": "Requests from players wait here. Add a note, run /backstories in Claude Code, read, edit and send.", "anchor": "sec-9-13" },
-    "gm.archive": { "title": "Archive", "text": "Finished characters, missions and session logs move to local/archive/. Restore brings them back; nothing is deleted.", "anchor": "sec-9-14" },
-    "darkness": { "title": "Darkness", "text": "In the dark: a target you see only as a heat signature −2 (no called shots), one you can't see −4; Stealth +2 unlit, −4 lit or with a torch on; Perception −2 unless you have night vision or thermal. The sheet suggests, you confirm.", "anchor": "sec-7-2" },
-    "cover": { "title": "Cover", "text": "Cover is armor: partial +2, full +4, added to every hit. It never cracks. Flanked targets lose it.", "anchor": "sec-7-2" },
-    "armor": { "title": "Armor", "text": "Sum of the worn pieces plus cover, subtracted from every hit. It cracks by 1 only when it stops a location attack completely (or an effect strips it); Repair armor mends the cracks. Cover never cracks.", "anchor": "sec-8-3" },
-    "conditions": { "title": "Conditions", "text": "Location attacks add Broken arm, Crippled leg, Prone, Slowed, Stunned or Incapacitated; abilities and hazards add the rest. Limb injuries stay until treated (First aid, Trauma Patch, downtime).", "anchor": "sec-7-6" },
-    "progress": { "title": "Level & XP", "text": "XP from mission objectives, dangerous fights and the GM's Spotlight. 10 XP = 1 level: a talent point every level, +1 attribute on even levels, +1 ability slot at 3, 6, 9. Spend it when the GM opens level-up.", "anchor": "sec-5-9" },
-    "talents": { "title": "Talents", "text": "Passive edges bought with talent points. Automatic ones are applied by the sheet; the others are table rules. Once-per talents have a Use button.", "anchor": "sec-5-9-talents" },
-    "downtime": { "title": "Downtime", "text": "Between missions: HP and armor come back (injuries too, if long enough), upkeep is shown to settle at the table, and each player gets a story event. Debt pressure rises by 1 each downtime; an instalment lowers it.", "anchor": "sec-5-10" },
-    "crew": { "title": "Crew & Unity", "text": "One shared track 0–10. It measures whether the crew acts together, never whether the act was good: committed intent +1, overriding a crew that objected −1. Tight 7+: a crew favour per mission. Fractured 3 or less: no help in combat.", "anchor": "sec-6-6-unity" },
-    "drive": { "title": "Drive", "text": "Justice or Ambition, plus your own line: how your character naturally behaves. Never scored or judged; acting on it at a cost may earn Spotlight XP.", "anchor": "sec-6-6-drives" },
-    "round-end": { "title": "End of round", "text": "Death saves, then class engines: hacker decks vent 1 heat (or reboot after a Blue Screen), Tech Wizards who held their mode gain +1 Sync (a Brownout counts down), wounded Smugglers drift +1.", "anchor": "sec-7-8" },
-    "class-tn": { "title": "Class TN", "text": "The average of your subclass's two main attributes, rounded. Roll d20 equal or lower to land a class ability that needs a roll.", "anchor": "sec-5-6" },
-    "brain-fog": { "title": "Equipped vs ready", "text": "Equip up to your brain-fog limit (3 at start) and swap between combats. An equipped ability is ready only when your class engine allows it.", "anchor": "sec-5-6-equip" },
-    "soldier": { "title": "Soldier · Stance-Flow", "text": "Every fight starts Ready. TP start at 0; every normal attack that hits gives +1 TP. Stance abilities spend TP and move you: Defensive ×0.5, Attack +2 TN, Onslaught ×1.5 damage both ways. Normal attacks keep the stance; moving, reloading or items drop it to Ready (TP stay).", "anchor": "sec-5-6-soldier" },
-    "hacker": { "title": "Hacker · RAM & Heat", "text": "Your deck sets RAM and the heat cap. Sustained hacks lock RAM until released. Heat at the cap = Blue Screen: sustained hacks crash, locked a round, then reboot at cap − 3. Range: a device in sight, or 10 squares on a pinged network. Most hacks only touch cybernetic or synthetic targets.", "anchor": "sec-5-6-hacker" },
-    "techwiz": { "title": "Tech Wizard · Field Sync", "text": "Mend (support) or Surge (offense). +1 Sync per ability and per round you hold your mode; switching resets Sync. Abilities need a Sync level. At Resonant (3) a Resonant cast fires both faces, then Sync 0. Structural Collapse causes a Brownout. Location hits cost 1 Sync.", "anchor": "sec-5-6-techwiz" },
-    "smuggler": { "title": "Smuggler · Pendulum", "text": "From Cold −4 to Hot +4. Each ability needs a side and swings the pendulum. Cold: +2 TN on gun attacks. Hot: +1 damage and +1 square. Wounded Smugglers drift +1 per round.", "anchor": "sec-5-6-smuggler" },
-    "scavenger": { "title": "Scavenger · Tells", "text": "Tells sit on enemies: 1 per turn (2 when Unseen: full cover, no attack last round), max 3 each, on as many enemies as your optic Tracks. Abilities spend the target's Tells; Exploit adds +1d4 per Tell to your next hit. Lost when the enemy goes down or you lose sight of it.", "anchor": "sec-5-6-scavenger" },
-    "optic": { "title": "Optic", "text": "Range: squares within which you place Tells. Track: how many enemies hold your Tells at once. Mode: one perk (Thermal, Motion, Long-glass, Pattern). Without one: bare AR lenses, range 4, Track 1.", "anchor": "sec-5-6-scavenger" },
-    "deck": { "title": "Hacker decks", "text": "The deck sets RAM and heat cap; mod slots take RAM expansions or cooling upgrades. Battery has no rule yet.", "anchor": "sec-8-5" },
-    "weapon-tn": { "title": "Attacking with a weapon", "text": "Attack TN is the matching skill (pistol → Handguns, SMG/rifle → Automatic Firearms, sniper → Long Guns, blades/batons → Melee). Damage adds your Offensive Bonus; armor is subtracted.", "anchor": "sec-8-2" },
-    "credit-score": { "title": "Credit Score", "text": "Not money: your debt allowance and standing. Official purchases lower it; it is also rolled for bribes, tolls and corporate access.", "anchor": "sec-6-5" },
-    "market": { "title": "Buying", "text": "Official: pay in Credit Score (traced, cheap only for everyday goods). Street: listed price ×3–×10 in cash, no trace. Rarity A–B is street only.", "anchor": "sec-8-1" },
-    "lifestyle": { "title": "Lifestyle", "text": "Monthly costs of living. Tracked only for now; moving up is a later 'getting rich' arc.", "anchor": "sec-8-6" },
-    "point-buy": { "title": "Spending points", "text": "Every attribute starts at 6; spend 20 points, max 14 each. Lowering Credit Score (start 20) gives points but makes life harder.", "anchor": "sec-5-3-buy" },
-    "adolescence": { "title": "Youth events", "text": "Three 2d20 rolls up to age 15. Middle results are common, extremes rare. Events change attributes, record, credentials and future career options.", "anchor": "sec-5-4" },
-    "careers": { "title": "Careers", "text": "Optional terms: +2 years, attribute changes, two events and an aging check each. Requirements are checked for you; some events waive them or end the career phase.", "anchor": "sec-5-5" },
-    "aging": { "title": "Aging", "text": "From 27, each term applies the modifiers of your age bracket; some brackets cap attributes. From 45 the GM asks for a death check.", "anchor": "sec-5-5-aging" },
-    "debt": { "title": "Special debt", "text": "Why you take dangerous jobs. Every debt is equally hard; the GM uses the threat to create pressure between missions.", "anchor": "sec-5-5-debt" }
+    "attributes": {
+      "title": "Attributes",
+      "text": "Eight core attributes. Each has a bonus equal to half its value (rounded down); skills add two bonuses together.",
+      "anchor": "sec-5-3"
+    },
+    "skill-check": {
+      "title": "Skill checks",
+      "text": "Skill TN = bonus of attribute A + bonus of attribute B. Roll a d20: equal or lower succeeds. The GM may subtract a difficulty penalty.",
+      "anchor": "sec-5-3-skills"
+    },
+    "passive": {
+      "title": "Passive score",
+      "text": "TN − 5. When you are not actively looking, the GM compares hidden threats against this value without asking for a roll.",
+      "anchor": "sec-6-2"
+    },
+    "difficulty": {
+      "title": "Difficulty tiers",
+      "text": "The GM sums up the situation as one tier: Routine 0, Challenging −2, Hard −4, Severe −6, Extreme −8, Nightmare −10, subtracted from your TN.",
+      "anchor": "sec-6-2"
+    },
+    "combat-values": {
+      "title": "Combat values",
+      "text": "Movement, offense, actions, defense and perception come from the raw sum of two attributes looked up in the combat table. Some life events shift a value one row.",
+      "anchor": "sec-5-3-combat"
+    },
+    "initiative": {
+      "title": "Initiative",
+      "text": "Half DEX + half WIS − 10. At the start of combat everyone rolls d20 + Initiative; the order stays fixed. You may Delay to act last in the round.",
+      "anchor": "sec-7-1"
+    },
+    "actions": {
+      "title": "Actions per round",
+      "text": "Every combat action costs 1 action: move, attack, ability, reload, interact. You may repeat the same action. Unspent actions are lost at the end of your turn.",
+      "anchor": "sec-7-3"
+    },
+    "hostiles": {
+      "title": "Hostiles",
+      "text": "The enemies the GM has revealed, by letter (the same letter the GM uses at the table). You see what anyone could see: the name the GM gives them, organic or synthetic, a wound band (Unhurt, Hurt, Bloodied at half HP or less, Down) and visible conditions. A portrait when the GM has one (tap: full picture); elites in orange; allies apart, by name, in green. Never HP, armor or initiative.",
+      "anchor": "sec-7-1"
+    },
+    "hp": {
+      "title": "Hit points",
+      "text": "Max HP = CON + MST + 10. At 0 HP you are incapacitated and roll CON death saves each round; reaching −CON is instant death.",
+      "anchor": "sec-7-7"
+    },
+    "body": {
+      "title": "Health, armor and injuries",
+      "text": "One HP pool and one armor value. Body locations only matter for location attacks: damage through the armor adds a condition (broken arm, crippled leg, prone, slowed, stunned); armor that stops it all cracks by 1.",
+      "anchor": "sec-5-3-body"
+    },
+    "hit-location": {
+      "title": "Location attack",
+      "text": "−4 TN, then d20: 1–4 leg (Crippled leg), 5–8 arm (Broken arm), 9–13 abdomen (Prone), 14–18 chest (Slowed), 19–20 head (Stunned; Incapacitated at half HP or less). Aim (+1 action) shifts the d20 ±5.",
+      "anchor": "sec-7-5"
+    },
+    "location-attack": {
+      "title": "Location attack",
+      "text": "−4 TN, then d20: 1–4 leg (Crippled leg), 5–8 arm (Broken arm), 9–13 abdomen (Prone), 14–18 chest (Slowed), 19–20 head (Stunned; Incapacitated at half HP or less). Aim (+1 action) shifts the d20 ±5.",
+      "anchor": "sec-7-5-location"
+    },
+    "map": {
+      "title": "The map",
+      "text": "You see what your crew sees now; dimmed squares are remembered. Drag your marker to move — in combat one Move action gives your squares for the round. Tap a door next to you to open it (Interact), tap a marker for line of sight and range. ✎ Mark points something out to the crew. Information only: the GM decides.",
+      "anchor": "sec-7-2-map"
+    },
+    "mapMemory": {
+      "title": "Maps we've seen",
+      "text": "Every map that was on the table, as far as your crew saw it: pieces, captions, doors as you left them, people with their names where you last saw them. Only on your sheet; anyone who wasn't there doesn't have it.",
+      "anchor": "sec-7-2-map"
+    },
+    "gm.table": {
+      "title": "The live table",
+      "text": "Players join from their sheet; each card shows their state. Messages wait until the sheet shows them. Sit out keeps a character out of fights.",
+      "anchor": "sec-9-2"
+    },
+    "gm.audit": {
+      "title": "Unexplained changes",
+      "text": "Foundation changes (attributes, CRS, cash, inventory, XP…) the sheet's log doesn't explain. Usually a mistake: ask, then Accept or Revert. Every snapshot is kept.",
+      "anchor": "sec-9-3"
+    },
+    "gm.difficulty": {
+      "title": "Table difficulty",
+      "text": "One step for the whole situation, pre-picked in every roll window. Easier steps (+2/+4/+6) are how help, time and good tools work. Off when the scene changes.",
+      "anchor": "sec-9-4"
+    },
+    "gm.light": {
+      "title": "Light",
+      "text": "Bright / Dark for checks when no map is on the table. With a map, each player's own square decides.",
+      "anchor": "sec-9-4"
+    },
+    "gm.notebook": {
+      "title": "Roll & note",
+      "text": "Your dice and notes, outside the rules: secret rolls, NPC checks, random tables. ⚡ Event… offers 30 stall events with suggested checks: pick one, roll, log the outcome. Nothing reaches the sheets.",
+      "anchor": "sec-9-4"
+    },
+    "gm.askRoll": {
+      "title": "Ask for a roll",
+      "text": "Pick a skill or attribute (or tap a row in Who's best at…), tick one player or a group, Ask. Each sheet gets a card; the result comes back here. Your table difficulty applies.",
+      "anchor": "sec-9-5"
+    },
+    "gm.explore": {
+      "title": "Explore",
+      "text": "Who's best at each skill, plus every character's hooks: debt, traits, credentials, life path, backstory, look. Copy their portrait prompt and send them the picture (📷). Give everyone a moment.",
+      "anchor": "sec-9-5"
+    },
+    "gm.combat": {
+      "title": "Running a fight",
+      "text": "d20 + INIT once; Done / Delay / Next turn; End round runs every sheet's round end. Enemy hits: roll here, Send hit, the sheet applies armor.",
+      "anchor": "sec-9-6"
+    },
+    "gm.enemies": {
+      "title": "Enemies",
+      "text": "Organic, cybernetic or synthetic; armor comes off every hit; ⌖ is the location-attack TN (−4). Regulars rely on numbers and behaviour, elites have a Special. Most break when Bloodied.",
+      "anchor": "sec-10-1"
+    },
+    "gm.challenge": {
+      "title": "Challenge meter",
+      "text": "An estimate from damage per round, armor and HP: no abilities, cover or tactics. The rating at the start sets danger XP (Hard +1, Deadly +2).",
+      "anchor": "sec-9-6"
+    },
+    "gm.undo": {
+      "title": "Undo",
+      "text": "Players ask, you decide: last action, round, combat or any log line. Every undo is listed here so the table sees it was fair. For mistakes, not bad luck.",
+      "anchor": "sec-9-14"
+    },
+    "gm.crew": {
+      "title": "Crew & Unity",
+      "text": "0–10, start 5: whether the crew acts together, never whether it was right. Unity Check: secret votes, the actor decides, you record it.",
+      "anchor": "sec-9-10"
+    },
+    "gm.maps": {
+      "title": "Map builder",
+      "text": "1 square = 1.5 m. Walls, doors (locked never shows to players), windows, library pieces, hidden pieces, security, lights, darkness zones.",
+      "anchor": "sec-9-7"
+    },
+    "washer": {
+      "title": "The washer",
+      "text": "A fixer turns cash into Credit Score (fake salaries) or Credit Score into cash (borrowing against your score), at the rate and commission the GM sets. Credit Score stays between 0 and its cap.",
+      "anchor": "sec-8-washer"
+    },
+    "stash": {
+      "title": "Your stash",
+      "text": "Somewhere safe to leave gear and cash: a locker, a mattress, a friend. What is stashed is not on you: it can't be lost, taken or used until you go back for it. Not during a fight.",
+      "anchor": "sec-8-stash"
+    },
+    "crewStash": {
+      "title": "Crew stashes",
+      "text": "Stashes the whole crew shares, kept by the table: anyone can put things in or take them out, and everyone sees who did what. The GM sets them up, and can lock one (you see it, you can't reach it) or raid it.",
+      "anchor": "sec-8-stash"
+    },
+    "gm.stashes": {
+      "title": "Crew stashes",
+      "text": "Shared stashes the table keeps: create, rename, lock (players see it but can't touch it), raid (everything in it is gone, written in its history) or remove (kept on disk). Every move is in its history.",
+      "anchor": "sec-9-13"
+    },
+    "gm.securityBoard": {
+      "title": "Security board",
+      "text": "What the security room sees right now: every network node and security device — reporting, offline (and where it was cut), fooled (false data), no power, or not networked, with how long. Tap one to take it offline or tamper with it.",
+      "anchor": "sec-9-8"
+    },
+    "gm.deploy": {
+      "title": "The map on the table",
+      "text": "Players see what their crew sees and drag their own marker. Tap pieces to reveal, hide or switch them. The map informs; you decide.",
+      "anchor": "sec-9-8"
+    },
+    "gm.fog": {
+      "title": "Fog of war & light",
+      "text": "Players see what any of their markers sees now, and remember the rest dimmed. Edit squares reveals by hand (a floor plan, a camera).",
+      "anchor": "sec-9-8"
+    },
+    "gm.blocks": {
+      "title": "Groups & blocks",
+      "text": "Group tool: drag a box to select walls, props and zones together; drag inside it to move them, or turn, copy, delete. Save a group as a block (a motel room) and drop it again from the Blocks list: dropped pieces are independent.",
+      "anchor": "sec-9-7"
+    },
+    "gm.repeat": {
+      "title": "Repeat placement",
+      "text": "Line or Area: drag and the piece is copied at its own size from where you start, side by side (or every 1–4 squares). Spots that already hold it are skipped; a floor can replace the floor under it.",
+      "anchor": "sec-9-7"
+    },
+    "gm.properties": {
+      "title": "Properties",
+      "text": "The selected wall, door, piece, zone or group — or the tool's options. What you set here is how it starts when the map goes on the table: a door locked, a light off, a weak wall already broken. The Deploy tab changes it live; the saved map keeps the start.",
+      "anchor": "sec-9-7"
+    },
+    "gm.players": {
+      "title": "Players",
+      "text": "Every character the table holds, by player. Players pick their name on the tablet (Play as…) and their characters follow them to any device. You rename, merge two entries for the same person, or move a character to the right player.",
+      "anchor": "sec-9-2"
+    },
+    "gm.zones": {
+      "title": "Event zones",
+      "text": "GM-only rectangles: Entry, Trigger (numbered T1, T2…), Exit, Note — each with a label and a note. Reminders only: no rule reads them and players never see them. Tap one on the Deploy tab to read its note.",
+      "anchor": "sec-9-7"
+    },
+    "gm.marks": {
+      "title": "Marks",
+      "text": "Players point things out in their colour: crosshair, arrow, question mark, a line. Purely visual, never saved; they fade after 2 minutes unless pinned. You draw in amber and can remove any mark.",
+      "anchor": "sec-9-8"
+    },
+    "gm.npcs": {
+      "title": "NPCs on the map",
+      "text": "Pick a role and Add: players see Worker 1 until you rename it. Each NPC has a private note.",
+      "anchor": "sec-9-8"
+    },
+    "gm.story": {
+      "title": "Missions & session log",
+      "text": "Objectives, chapters, NPCs, threats, session log, handouts and AI prompts. Saved on your computer, never published.",
+      "anchor": "sec-9-9"
+    },
+    "gm.factions": {
+      "title": "Factions",
+      "text": "−3 Hostile … +3 Patron, moved by 1 with a reason, inside a floor and ceiling you set. GM only; carried in the AI prompts.",
+      "anchor": "sec-9-9"
+    },
+    "gm.xp": {
+      "title": "Mission XP",
+      "text": "Primary 3, secondary 1, failed 1; Hard +1, Deadly +2; Spotlight +1 (1–2 per session). 10 XP a level. Award once per mission.",
+      "anchor": "sec-9-11"
+    },
+    "gm.downtime": {
+      "title": "Downtime",
+      "text": "Time passes, injuries heal, pressure +1. One story event each (suggested with a confidence %), shown as choices, never applied.",
+      "anchor": "sec-9-12"
+    },
+    "gm.forge": {
+      "title": "Forge",
+      "text": "A one-off item for the player who found it: base item, new numbers, bonuses while in use, a note. A small bonus with a story beats a big one.",
+      "anchor": "sec-9-13"
+    },
+    "gm.backstories": {
+      "title": "Backstories",
+      "text": "Requests from players wait here. Add a note, run /backstories in Claude Code, read, edit and send.",
+      "anchor": "sec-9-13"
+    },
+    "gm.archive": {
+      "title": "Archive",
+      "text": "Finished characters, missions and session logs move to local/archive/. Restore brings them back; nothing is deleted.",
+      "anchor": "sec-9-14"
+    },
+    "darkness": {
+      "title": "Darkness",
+      "text": "In the dark: a target you see only as a heat signature −2 (no called shots), one you can't see −4; Stealth +2 unlit, −4 lit or with a torch on; Perception −2 unless you have night vision or thermal. The sheet suggests, you confirm.",
+      "anchor": "sec-7-2"
+    },
+    "cover": {
+      "title": "Cover",
+      "text": "Cover is armor: partial +2, full +4, added to every hit. It never cracks. Flanked targets lose it.",
+      "anchor": "sec-7-2"
+    },
+    "armor": {
+      "title": "Armor",
+      "text": "Sum of the worn pieces plus cover, subtracted from every hit. It cracks by 1 only when it stops a location attack completely (or an effect strips it); Repair armor mends the cracks. Cover never cracks.",
+      "anchor": "sec-8-3"
+    },
+    "conditions": {
+      "title": "Conditions",
+      "text": "Location attacks add Broken arm, Crippled leg, Prone, Slowed, Stunned or Incapacitated; abilities and hazards add the rest. Limb injuries stay until treated (First aid, Trauma Patch, downtime).",
+      "anchor": "sec-7-6"
+    },
+    "progress": {
+      "title": "Level & XP",
+      "text": "XP from mission objectives, dangerous fights and the GM's Spotlight. 10 XP = 1 level: a talent point every level, +1 attribute on even levels, +1 ability slot at 3, 6, 9. Spend it when the GM opens level-up.",
+      "anchor": "sec-5-9"
+    },
+    "talents": {
+      "title": "Talents",
+      "text": "Passive edges bought with talent points. Automatic ones are applied by the sheet; the others are table rules. Once-per talents have a Use button.",
+      "anchor": "sec-5-9-talents"
+    },
+    "downtime": {
+      "title": "Downtime",
+      "text": "Between missions: HP and armor come back (injuries too, if long enough), upkeep is shown to settle at the table, and each player gets a story event. Debt pressure rises by 1 each downtime; an instalment lowers it.",
+      "anchor": "sec-5-10"
+    },
+    "crew": {
+      "title": "Crew & Unity",
+      "text": "One shared track 0–10. It measures whether the crew acts together, never whether the act was good: committed intent +1, overriding a crew that objected −1. Tight 7+: a crew favour per mission. Fractured 3 or less: no help in combat.",
+      "anchor": "sec-6-6-unity"
+    },
+    "drive": {
+      "title": "Drive",
+      "text": "Justice or Ambition, plus your own line: how your character naturally behaves. Never scored or judged; acting on it at a cost may earn Spotlight XP.",
+      "anchor": "sec-6-6-drives"
+    },
+    "round-end": {
+      "title": "End of round",
+      "text": "Death saves, then class engines: hacker decks vent 1 heat (or reboot after a Blue Screen), Tech Wizards who held their mode gain +1 Sync (a Brownout counts down), wounded Smugglers drift +1.",
+      "anchor": "sec-7-8"
+    },
+    "class-tn": {
+      "title": "Class TN",
+      "text": "The average of your subclass's two main attributes, rounded. Roll d20 equal or lower to land a class ability that needs a roll.",
+      "anchor": "sec-5-6"
+    },
+    "brain-fog": {
+      "title": "Equipped vs ready",
+      "text": "Equip up to your brain-fog limit (3 at start) and swap between combats. An equipped ability is ready only when your class engine allows it.",
+      "anchor": "sec-5-6-equip"
+    },
+    "soldier": {
+      "title": "Soldier · Stance-Flow",
+      "text": "Every fight starts Ready. TP start at 0; every normal attack that hits gives +1 TP. Stance abilities spend TP and move you: Defensive ×0.5, Attack +2 TN, Onslaught ×1.5 damage both ways. Normal attacks keep the stance; moving, reloading or items drop it to Ready (TP stay).",
+      "anchor": "sec-5-6-soldier"
+    },
+    "hacker": {
+      "title": "Hacker · RAM & Heat",
+      "text": "Your deck sets RAM and the heat cap. Sustained hacks lock RAM until released. Heat at the cap = Blue Screen: sustained hacks crash, locked a round, then reboot at cap − 3. Range: a device in sight, or 10 squares on a pinged network. Most hacks only touch cybernetic or synthetic targets.",
+      "anchor": "sec-5-6-hacker"
+    },
+    "techwiz": {
+      "title": "Tech Wizard · Field Sync",
+      "text": "Mend (support) or Surge (offense). +1 Sync per ability and per round you hold your mode; switching resets Sync. Abilities need a Sync level. At Resonant (3) a Resonant burst fires both faces, then Sync 0. Structural Collapse causes a Brownout. Location hits cost 1 Sync.",
+      "anchor": "sec-5-6-techwiz"
+    },
+    "smuggler": {
+      "title": "Smuggler · Pendulum",
+      "text": "From Cold −4 to Hot +4. Each ability needs a side and swings the pendulum. Cold: +2 TN on gun attacks. Hot: +1 damage and +1 square. Wounded Smugglers drift +1 per round.",
+      "anchor": "sec-5-6-smuggler"
+    },
+    "scavenger": {
+      "title": "Scavenger · Tells",
+      "text": "Tells sit on enemies: 1 per turn (2 when Unseen: full cover, no attack last round), max 3 each, on as many enemies as your optic Tracks. Abilities spend the target's Tells; Exploit adds +1d4 per Tell to your next hit. Lost when the enemy goes down or you lose sight of it.",
+      "anchor": "sec-5-6-scavenger"
+    },
+    "optic": {
+      "title": "Optic",
+      "text": "Range: squares within which you place Tells. Track: how many enemies hold your Tells at once. Mode: one perk (Thermal, Motion, Long-glass, Pattern). Without one: bare AR lenses, range 4, Track 1.",
+      "anchor": "sec-5-6-scavenger"
+    },
+    "deck": {
+      "title": "Hacker decks",
+      "text": "The deck sets RAM and heat cap; mod slots take RAM expansions or cooling upgrades. Battery has no rule yet.",
+      "anchor": "sec-8-5"
+    },
+    "weapon-tn": {
+      "title": "Attacking with a weapon",
+      "text": "Attack TN is the matching skill (pistol → Handguns, SMG/rifle → Automatic Firearms, sniper → Long Guns, blades/batons → Melee). Damage adds your Offensive Bonus; armor is subtracted.",
+      "anchor": "sec-8-2"
+    },
+    "credit-score": {
+      "title": "Credit Score",
+      "text": "Not money: your debt allowance and standing. Official purchases lower it; it is also rolled for bribes, tolls and corporate access.",
+      "anchor": "sec-6-5"
+    },
+    "market": {
+      "title": "Buying",
+      "text": "Official: pay in Credit Score (traced, cheap only for everyday goods). Street: listed price ×3–×10 in cash, no trace. Rarity A–B is street only.",
+      "anchor": "sec-8-1"
+    },
+    "lifestyle": {
+      "title": "Lifestyle",
+      "text": "Monthly costs of living. Tracked only for now; moving up is a later 'getting rich' arc.",
+      "anchor": "sec-8-6"
+    },
+    "point-buy": {
+      "title": "Spending points",
+      "text": "Every attribute starts at 6; spend 20 points, max 14 each. Lowering Credit Score (start 20) gives points but makes life harder.",
+      "anchor": "sec-5-3-buy"
+    },
+    "adolescence": {
+      "title": "Youth events",
+      "text": "Three 2d20 rolls up to age 15. Middle results are common, extremes rare. Events change attributes, record, credentials and future career options.",
+      "anchor": "sec-5-4"
+    },
+    "careers": {
+      "title": "Careers",
+      "text": "Optional terms: +2 years, attribute changes, two events and an aging check each. Requirements are checked for you; some events waive them or end the career phase.",
+      "anchor": "sec-5-5"
+    },
+    "aging": {
+      "title": "Aging",
+      "text": "From 27, each term applies the modifiers of your age bracket; some brackets cap attributes. From 45 the GM asks for a death check.",
+      "anchor": "sec-5-5-aging"
+    },
+    "debt": {
+      "title": "Special debt",
+      "text": "Why you take dangerous jobs. Every debt is equally hard; the GM uses the threat to create pressure between missions.",
+      "anchor": "sec-5-5-debt"
+    },
+    "drone": {
+      "title": "Tech Wizard drone",
+      "text": "An item: it never takes a turn. Its numbers feed the barrier and the sentry turret, and Healing Surge, Field Maintenance and Rig Power Conduit reach through it. Wrecked: half reach, half damage.",
+      "anchor": "sec-8-5-drones"
+    },
+    "housekeeping": {
+      "title": "Housekeeping",
+      "text": "Small class chores, always at hand: they never take a slot (brain fog). No Class TN roll; in a fight each costs an action. At most two per class.",
+      "anchor": "sec-7-4"
+    }
   }
 }

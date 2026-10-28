@@ -4,7 +4,7 @@
 
 /** Fields grouped by how they may legitimately change. */
 const WATCHED = [
-  { path: 'attributes', label: 'Attribute', explain: [/^Level-up: [A-Z]+ \+1/, /Clean Slate/] }, // GM rulings, aging, level-up raises
+  { path: 'attributes', label: 'Attribute', explain: [/^Level-up: [A-Z]+ \+1/, /Clean Slate/, /^Washer: /] }, // the washer moves CRS (decision 143) // GM rulings, aging, level-up raises
   { path: 'rowOffsets', label: 'Combat row', explain: [] },
   { path: 'mods', label: 'Body modifier', explain: [] },
   { path: 'age', label: 'Age', explain: [] },
@@ -13,8 +13,10 @@ const WATCHED = [
   { path: 'tags', label: 'Notable', explain: [] },
   { path: 'subclassId', label: 'Subclass', explain: [] },
   { path: 'play.maxAbilities', label: 'Brain fog limit', explain: [] },
-  { path: 'play.cash', label: 'Cash', explain: [/^Bought .* on the street/, /^Debt instalment paid/, /^Sold /] },
-  { path: 'play.inventory', label: 'Inventory', explain: [/^Bought /, /^Dropped /, /^Sold /, /^Gave /, /^Received /, /^Added /, /(^|· )Reload /, /(^|· )Used /] },
+  { path: 'play.cash', label: 'Cash', explain: [/^Bought .* on the street/, /^Debt instalment paid/, /^Sold /, /^Washer: /, /^Stash: /, /^Crew stash /] },
+  { path: 'play.inventory', label: 'Inventory', explain: [/^Bought /, /^Dropped /, /^Sold /, /^Gave /, /^Received /, /^Added /, /(^|· )Reload /, /(^|· )Used /, /^Stash: /, /^Crew stash /, /^Fists: /, /^Drone: /, /^Mod: /, /^Starter kit: /] }, // a toy drone shot down (decision 171)
+  { path: 'play.stash.cash', label: 'Stash cash', explain: [/^Stash: /] }, // decision 144
+  { path: 'play.stash.items', label: 'Stash', explain: [/^Stash: /] },
   { path: 'play.lifestyle', label: 'Lifestyle', explain: [/^Bought /, /^Lifestyle: /] },
   // advancement (decision 44): XP and gifts come from the GM; talents and raises only while level-up is open
   { path: 'progress.xp', label: 'XP', explain: [/^XP [+−-]/] },
@@ -62,7 +64,7 @@ export function auditChanges(prev, next) {
       // a field the accepted baseline never had: an app update added it, not the player — adopt it quietly
       if (from === undefined) continue;
       let reason = fresh.find((t) => w.explain.some((re) => re.test(t))) ?? null;
-      if (path === 'attributes.CRS' && to < from) reason = fresh.find((t) => /^Bought .* officially/.test(t)) ?? null;
+      if (path === 'attributes.CRS' && to < from) reason = fresh.find((t) => /^Bought .* officially/.test(t) || /^Washer: cashed out/.test(t)) ?? null;
       changes.push({ path, label: w.label + (path.includes('.') && w.path !== path ? ` ${path.split('.').pop()}` : ''), from, to, explained: Boolean(reason), reason });
     }
   }

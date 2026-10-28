@@ -1,7 +1,8 @@
 // Status bar + Play tab (health, body, weapons, conditions, combat values, class engine).
 
 import { html, raw, signed } from '../dom.js';
-import { counter, meter, card, segmented, nameOf, temp } from './parts.js';
+import { skillsTab } from './skills.js';
+import { counter, meter, card, segmented, nameOf, temp, icon } from './parts.js';
 import { engineCard } from './engine.js';
 import { talentsCard } from './progress.js';
 import { turnCard } from './turn.js';
@@ -10,10 +11,13 @@ import { info } from '../ref.js';
 import { explain, hint } from '../explain.js';
 import { t, tn } from '../../i18n/index.js';
 import { portraitImg } from '../portrait.js';
+import { initiativeCard } from './initiative.js';
+import { rollAskCard } from './roll-ask.js';
+import { hitsCard, boonsCard } from './hits.js';
 
-export function statusBar(c, s, data, { compact = false } = {}) {
+export function statusBar(c, s, data, { compact = false, all = false } = {}) {
   const hpKind = s.hp.current <= 0 ? 'danger' : s.hp.current <= s.hp.max / 3 ? 'danger' : 'success';
-  if (compact) return compactStatus(c, s, data, hpKind);
+  if (compact) return compactStatus(c, s, data, hpKind, { all });
   return html`
     <div class="sheet-status" data-tour="status">
       <div class="sheet-status__id">
@@ -51,17 +55,19 @@ export function statusBar(c, s, data, { compact = false } = {}) {
  * Decision 134: the status bar as one slim row, on the Active map tab — what a fight needs at a glance (HP with − / +,
  * armor, initiative, actions, move, conditions); ▾ opens the full bar (remembered on the device).
  */
-function compactStatus(c, s, data, hpKind) {
+function compactStatus(c, s, data, hpKind, { all = false } = {}) {
   const conds = [...c.play.conditions.map((id) => nameOf(data.conditions, id)), ...s.injured.locations.map((id) => data.body.locations.find((l) => l.id === id)?.name)].filter(Boolean);
   return html`<div class="sheet-status sheet-status--compact" data-tour="status">
     ${portraitImg(c.portrait, 'avatar avatar--xs')}<strong class="sheet-status__name sheet-status__name--sm">${c.name || t('common.unnamed')}</strong>
-    <div class="sheet-status__hp">${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span>${meter(s.hp.current, s.hp.max, hpKind)}</div>
-    <span class="chip-stat"><span class="label">${t('stat.armor')}</span><span class="chip-stat__v stat__value--info">${temp(s.armor.general - s.armor.condition, s.armor.general)}</span></span>
-    <span class="chip-stat"><span class="label">${t('stat.init')}</span><span class="chip-stat__v">${signed(s.initiative)}</span></span>
-    <span class="chip-stat"><span class="label">${t('stat.actions')}</span><span class="chip-stat__v">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></span>
-    <span class="chip-stat"><span class="label">${t('stat.move')}</span><span class="chip-stat__v">${temp(s.moveBase, s.move)}</span><span class="chip-stat__u">${t('stat.squares')}</span></span>
+    <div class="sheet-status__hp">${icon(data, 'hp', 'ico--hp')}${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span>${meter(s.hp.current, s.hp.max, hpKind)}</div>
+    <span class="chip-stat"><span class="label">${icon(data, 'armor')}${t('stat.armor')}</span><span class="chip-stat__v stat__value--info">${temp(s.armor.general - s.armor.condition, s.armor.general)}</span></span>
+    <span class="chip-stat"><span class="label">${icon(data, 'ini')}${t('stat.init')}</span><span class="chip-stat__v">${signed(s.initiative)}</span></span>
+    <span class="chip-stat"><span class="label">${icon(data, 'act')}${t('stat.actions')}</span><span class="chip-stat__v">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></span>
+    <span class="chip-stat"><span class="label">${icon(data, 'sqr')}${t('stat.move')}</span><span class="chip-stat__v">${temp(s.moveBase, s.move)}</span><span class="chip-stat__u">${t('stat.squares')}</span></span>
+    ${all ? html`${['off', 'def', 'per'].map((id) => html`<span class="chip-stat"><span class="label">${icon(data, id)}${id.toUpperCase()}${explain('combat', id, data.combat.derived.find((d) => d.id === id)?.name ?? id)}</span><span class="chip-stat__v">${temp(s.combat[id].base, s.combat[id].value, id === 'off' ? signed : (x) => x)}</span></span>`)}
+      ${s.class ? html`<span class="chip-stat"><span class="label">${icon(data, data.icons[c.classId] ? c.classId : 'class_tn')}Class TN</span><span class="chip-stat__v stat__value--accent">${s.class.tn}</span></span>` : ''}` : ''}
     ${conds.length ? html`<span class="pill pill--danger" title="${conds.join(' · ')}">${conds.length === 1 ? conds[0] : tn('status.conditions', conds.length)}</span>` : ''}
-    <button class="btn btn--sm btn--ghost sheet-status__more" data-action="statusOpen" title="${t('status.expand')}" aria-label="${t('status.expand')}">▾</button>
+    ${all ? '' : html`<button class="btn btn--sm btn--ghost sheet-status__more" data-action="statusOpen" title="${t('status.expand')}" aria-label="${t('status.expand')}">▾</button>`}
   </div>`;
 }
 
@@ -87,10 +93,48 @@ export function locationRule(data) {
   return { rows, head: t('body.headSevere', { stunned: cond(inj.head.condition), severe: cond(inj.head.severe) }) };
 }
 
-function healthCard(c, s, data) {
-  const conds = data.conditions.filter((k) => !k.enemyOnly && !k.positive);
+/** Decision 162: conditions and boosts (names only unless on, or with the tips switch) — the Health card and the Tactical View. */
+/** bare (decision 163, the Tactical View): icons only while the tips are off — name and effect in each tile's tooltip. */
+export function conditionsGrid(c, s, data, { tips = false, bare = false } = {}) {
+  const conds = data.conditions.filter((k) => !k.enemyOnly && !k.positive && !k.transient); // transient: set by the sheet (Unsteady), shown only while on you
   const boosts = data.conditions.filter((k) => k.positive);
   const sides = (bp) => data.body.locations.filter((l) => l.bp === bp);
+  const icons = bare && !tips;
+  const grid = `cond-grid ${tips ? '' : 'cond-grid--compact'} ${icons ? 'cond-grid--bare' : ''}`;
+  const name = (text) => html`<span class="cond__label">${text}</span>`;
+  const side = (l) => (icons ? t(l.id.startsWith('r') ? 'body.sideR' : 'body.sideL') : l.name);
+  return html`
+    <div class="spread"><h3 class="label cond-group">${t('body.conditions')}</h3>
+      <button class="btn btn--sm btn--ghost" data-action="actionTips" aria-pressed="${tips}" title="${t('turn.tipsHint')}">? ${t(tips ? 'turn.tipsHide' : 'turn.tipsShow')}</button></div>
+    <div class="${grid}">
+      ${conds.map((k) => {
+        if (k.limb) {
+          const hurt = sides(k.limb).filter((l) => s.injured.locations.includes(l.id));
+          return html`<div class="cond cond--limb ${hurt.length ? 'cond--on' : ''}" title="${k.name} — ${k.effects.join(' ')} ${k.clear ?? ''}">
+            <span class="cond__name">${icon(data, k.icon)}${name(k.name)}${hurt.length === 2 ? ' ×2' : ''}</span>
+            ${(hurt.length && !icons) || tips ? html`<span class="cond__fx">${hurt.length === 2 ? k.effects[1] : k.effects[0]}</span>` : ''}
+            <span class="cluster">${sides(k.limb).map((l) => html`<button class="btn btn--sm ${s.injured.locations.includes(l.id) ? 'btn--danger' : ''}" data-action="injury" data-loc="${l.id}" aria-pressed="${s.injured.locations.includes(l.id)}" title="${l.name} — ${k.clear}" aria-label="${l.name}">${side(l)}</button>`)}</span>
+          </div>`;
+        }
+        const on = c.play.conditions.includes(k.id);
+        return html`<button class="cond ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${k.name} — ${k.effects.join(' ')} ${k.clear ?? ''}">
+          <span class="cond__name">${icon(data, k.icon)}${name(k.name)}</span>
+          ${(on && !icons) || tips ? html`<span class="cond__fx">${k.effects[0]}</span>` : ''}
+        </button>`;
+      })}
+    </div>
+    ${carriedProtections(c.play.inventory, data.items).map((pr) => html`<p class="notice notice--ok"><strong>${pr.name}:</strong> ${pr.text}</p>`)}
+    <h3 class="label cond-group">${t('body.boosts')}</h3>
+    <div class="${grid}">${boosts.map((k) => {
+      const on = c.play.conditions.includes(k.id);
+      return html`<button class="cond cond--boost ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${k.name} — ${k.effects.join(' ')} ${k.clear ?? ''}">
+        <span class="cond__name">${icon(data, k.icon)}${name(k.name)}</span>${(on && !icons) || tips ? html`<span class="cond__fx">${k.effects[0]}</span>` : ''}</button>`;
+    })}</div>
+`;
+}
+
+/** tips (decision 156): the same switch as the Turn card — off, a condition shows its name only (its effect when it's on you). */
+function healthCard(c, s, data, { tips = false } = {}) {
   const rule = locationRule(data);
   const body = html`
     ${deathNotice(c, s)}
@@ -121,32 +165,9 @@ function healthCard(c, s, data) {
       </select>
       <button class="btn btn--sm btn--danger" data-action="takeHit">${t('hit.apply')}</button>
     </form>
-    <div class="cond-grid">
-      ${conds.map((k) => {
-        if (k.limb) {
-          const hurt = sides(k.limb).filter((l) => s.injured.locations.includes(l.id));
-          return html`<div class="cond ${hurt.length ? 'cond--on' : ''}">
-            <span class="cond__name">${k.name}${hurt.length === 2 ? ' ×2' : ''}</span>
-            <span class="cond__fx">${hurt.length === 2 ? k.effects[1] : k.effects[0]}</span>
-            <span class="cluster">${sides(k.limb).map((l) => html`<button class="btn btn--sm ${s.injured.locations.includes(l.id) ? 'btn--danger' : ''}" data-action="injury" data-loc="${l.id}" aria-pressed="${s.injured.locations.includes(l.id)}" title="${k.clear}">${l.name}</button>`)}</span>
-          </div>`;
-        }
-        const on = c.play.conditions.includes(k.id);
-        return html`<button class="cond ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${k.clear ?? ''}">
-          <span class="cond__name">${k.name}</span>
-          <span class="cond__fx">${k.effects[0]}</span>
-        </button>`;
-      })}
-    </div>
-    ${carriedProtections(c.play.inventory, data.items).map((pr) => html`<p class="notice notice--ok"><strong>${pr.name}:</strong> ${pr.text}</p>`)}
-    <h3 class="label cond-group">${t('body.boosts')}</h3>
-    <div class="cond-grid">${boosts.map((k) => {
-      const on = c.play.conditions.includes(k.id);
-      return html`<button class="cond cond--boost ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${k.clear ?? ''}">
-        <span class="cond__name">${k.name}</span><span class="cond__fx">${k.effects[0]}</span></button>`;
-    })}</div>
-    <p class="hint">${t('body.boostsHint')}</p>
-    <p class="hint">${t('body.locationRule', { n: data.body.locationAttack.tnPenalty })} ${rule.rows.join(' · ')}. ${t('body.crackRule')}</p>
+    ${conditionsGrid(c, s, data, { tips })}
+    ${tips ? html`<p class="hint">${t('body.boostsHint')}</p>
+    <p class="hint">${t('body.locationRule', { n: data.body.locationAttack.tnPenalty })} ${rule.rows.join(' · ')}. ${t('body.crackRule')}</p>` : ''}
     <p class="hint">${t('body.wearing')}: ${c.play.worn.length ? c.play.worn.map((id) => nameOf(data.armor, id)).join(', ') : t('body.nothing')} — ${t('body.wearingNote')}</p>`;
   return card(t('body.title'), body, { sub: t('body.sub'), ref: 'conditions', tour: 'health' });
 }
@@ -185,24 +206,26 @@ function weaponsCard(c, s, data) {
                 ${w.burst > 1 ? html`<span class="pill">${t('weapons.burst', { n: w.burst, left: w.attacksLeft })}</span>` : ''}</div>
             </div>` : ''}
             ${w.usable === false ? html`<p class="notice notice--warn">${t(`weapons.unusable.${w.why}`)}</p>` : ''}
-            <div class="cluster"><span class="pill">${w.type}</span>${w.hands === 2 ? html`<span class="pill">${t('weapons.twoHanded')}</span>` : ''}<span class="pill">${t('weapons.reliability')} ${w.reliability}/10</span><span class="pill">${w.rarity}</span></div>`}
+            ${w.unarmed ? html`<p class="hint">${owned.length ? t('weapons.fistsHint') : t('weapons.none')}</p>` : html`<div class="cluster"><span class="pill">${w.type}</span>${w.hands === 2 ? html`<span class="pill">${t('weapons.twoHanded')}</span>` : ''}<span class="pill">${t('weapons.reliability')} ${w.reliability}/10</span><span class="pill">${w.rarity}</span></div>`}`}
         </div>`)}
     </div>`;
   return card(t('weapons.title'), body, { ref: 'weapon-tn', tour: 'weapons' });
 }
 
 /**
- * Decision 97: two rows in the order of a turn — what can I do / with what (Turn | Weapons), then my engine / my
- * state (class engine + talents | health & conditions). Phones stack them. The combat values live in the header.
+ * Decision 97: two rows — what can I do (Turn | class engine + talents, used every turn), then with what / my state
+ * (Weapons, for equipping and reloading | health & conditions; decision 157 swapped engine and weapons). Phones stack them.
  */
 export function playTab(c, s, data, ctx = {}) {
   return html`
+    ${initiativeCard(c, s, data)}${rollAskCard(c, s, data)}${hitsCard(c, s, data)}${boonsCard(c, data)}
     <div class="sheet-grid sheet-grid--play">
       <div class="stack">${turnCard(c, s, data, ctx.combat, { tips: ctx.actionTips })}</div>
-      <div class="stack">${weaponsCard(c, s, data)}</div>
+      <div class="stack">${engineCard(c, s, data, ctx.combat, { mapDark: ctx.mapDark ?? null })}${talentsCard(c, s, data)}</div>
     </div>
     <div class="sheet-grid sheet-grid--play">
-      <div class="stack">${engineCard(c, s, data, ctx.combat, { mapDark: ctx.mapDark ?? null })}${talentsCard(c, s, data)}</div>
-      <div class="stack">${healthCard(c, s, data)}</div>
-    </div>`;
+      <div class="stack">${weaponsCard(c, s, data)}</div>
+      <div class="stack">${healthCard(c, s, data, { tips: ctx.actionTips })}</div>
+    </div>
+    ${skillsTab(c, s, data)}`; // decision 164: Play and Skills are one Setup tab — scroll down for skills and attributes
 }

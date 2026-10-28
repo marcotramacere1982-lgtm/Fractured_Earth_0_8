@@ -21,6 +21,20 @@ export function scoreQuiz(answers, quizData) {
     .sort((a, b) => b.score - a.score || a.key.localeCompare(b.key));
 }
 
+/** Decision 169: what a career's attribute changes do to the two stats a class rolls on. stats: ['DEX', 'INT'] */
+export function careerFit(career, stats) {
+  const mods = Object.entries(career.modifiers ?? {}).filter(([a]) => stats.includes(a));
+  return { plus: mods.filter(([, v]) => v > 0).map(([a]) => a), minus: mods.filter(([, v]) => v < 0).map(([a]) => a) };
+}
+
+/** The next question to show after answering question `at`: the first unanswered one after it, then before it; all done → length. */
+export function nextQuestion(questions, answers, at) {
+  const open = (i) => !answers[questions[i].id];
+  for (let i = at + 1; i < questions.length; i += 1) if (open(i)) return i;
+  for (let i = 0; i <= at && i < questions.length; i += 1) if (open(i)) return i;
+  return questions.length;
+}
+
 // ------------------------------------------------------------------ log entries
 
 /** A console line: English text (tests, fallback) plus an optional code + vars the screen translates. */

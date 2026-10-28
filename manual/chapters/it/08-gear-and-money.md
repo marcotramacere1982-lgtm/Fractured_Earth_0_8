@@ -13,11 +13,27 @@ La **rarità** va da **F** (roba di tutti i giorni) ad **A** (prototipo). I due 
 
 ::table[economy]
 
+### Il tuo nascondiglio {#sec-8-stash}
+
+Non serve portarsi tutto addosso. Scheda Equipaggiamento → **Nascondigli** (colonna di destra, ogni nascondiglio chiuso su una riga finché non lo tocchi): dai un nome al posto (un armadietto al deposito degli autobus, una piastrella smossa sotto il lavello) e 📦 su un oggetto ne mette uno lì; i contanti entrano ed escono per importo. Quello che è nascosto non è addosso a te: non si perde, non si trova in una perquisizione, non te lo prendono e non lo usi finché non torni a prenderlo — cioè, al tavolo, finché il GM non è d'accordo che tu possa arrivarci. Irraggiungibile durante uno scontro. Lo vedete solo tu e il GM; ogni spostamento finisce nel registro.
+
+**Nascondigli della crew.** Al tavolo il GM può allestire nascondigli condivisi da tutta la crew — il furgone, un box, un punto di scambio. Compaiono nella scheda Equipaggiamento di tutti: chiunque può mettere dentro (📦 chiede quale nascondiglio) o prendere, e lo storico del nascondiglio mostra chi ha fatto cosa. Il punto è la fiducia. Il GM può **chiuderne** uno (lo vedi, non ci arrivi: è sorvegliato, o il furgone è sotto sequestro) o **saccheggiarlo** (tutto quello che c'è dentro sparisce).
+
+### Il riciclatore {#sec-8-washer}
+
+Alcuni faccendieri spostano il denaro fra i due mondi. **Ripulire** trasforma i contanti in Credit Score: uno stipendio falso, un contratto falso, e il punteggio sale. **Monetizzare** fa il contrario: prendi in prestito sul tuo punteggio ed esci con contanti non tracciati, e il punteggio scende. Il faccendiere fissa un tasso (contanti per punto di Credit Score) e trattiene una commissione; l'offerta la fa il GM, compare in Equipaggiamento, e scegli quanti punti prendere — la scheda mostra il totale prima che tu accetti. Così il Credit Score non supera mai il suo massimo né scende sotto 0. Ogni accordo finisce nel registro: anche i libri di un faccendiere lasciano tracce.
+
 ## 8-2. Armi {#sec-8-2}
 
 Ogni arma attacca con un'abilità: coltelli, manganelli e storditori usano **Melee / CQC**, le pistole **Handguns**, SMG e fucili d'assalto **Automatic Firearms**, i fucili di precisione **Long Guns / Shotguns**, i pugni **Brawling**. Ai danni si aggiunge il tuo Bonus offensivo.
 
 ::table[weapons]
+
+### Mod per armi {#sec-8-2-mods}
+
+Le armi accettano piccole migliorie negli **slot mod** in base alla rarità: F ed E 1, D e C 2, B 3, A 4 (pugni e storditore nessuno). **Una mod per tipo su ogni arma.** Mischia: un *Balanced Hilt* (+1 TN) e uno *Sharpened Edge* (+1 danni). Armi da fuoco: un *Custom Grip* (+1 TN), un *Heavy Barrel* (+1 danni), *Improved Sights* (+25% gittata massima) e un *Extended Magazine* (+50%, almeno un colpo in più). Chiunque può comprarle; **le monta e le smonta un Soldier o un Tech Wizard**, fuori dal combattimento, gratis — *🔧* sulla riga dell'arma in Equipaggiamento. Un'arma modificata diventa un oggetto a sé (segnata *Modificata*): le sue mod restano con lei quando la vendi, la scambi, la metti nella scorta o la regali, e usa ancora i caricatori dell'arma di serie. Togliendo l'ultima mod torna un'arma di serie. I prezzi sono provvisori.
+
+::table[weapon-mods]
 
 ## 8-3. Armature {#sec-8-3}
 
@@ -44,6 +60,14 @@ Il deck determina la **RAM** e l'**heat cap** dell'Hacker. Gli slot mod accolgon
 ::table[decks]
 
 ::table[deck-mods]
+
+### Droni del Tech Wizard {#sec-8-5-drones}
+
+Il drone del Tech Wizard è un oggetto, si compra e si modifica come un deck — e ogni Tech Wizard parte con uno **Scrap Drone** gratuito, il suo progetto personale. Non ha mai un turno: il Tech Wizard spende azioni nelle ability che lo usano. I suoi numeri entrano in quelle: la barriera di *Deploy Sentry* dell'Engineer è il drone in volo, la torretta è il drone che atterra (con i suoi HP, armatura e danni). E dà **portata**: *Healing Surge*, *Field Maintenance* e *Rig Power Conduit*, di solito accanto a te, funzionano fino alla portata del drone. Gli slot mod accettano un collegamento più lungo (portata), un telaio (HP), una placcatura (armatura), un payload (danni della torretta) o un emettitore di scudo (armatura per gli alleati dietro la barriera). Quando viene abbattuto, segnalo **Distrutto** sul motore: non si spegne mai, ma lavora a metà portata e metà danni finché *Restock & Repair* o il tempo tra una missione e l'altra non lo sistemano. Tutti i valori sono provvisori.
+
+::table[drones]
+
+::table[drone-mods]
 
 ### Ottiche da Scavenger {#sec-8-5-optics}
 

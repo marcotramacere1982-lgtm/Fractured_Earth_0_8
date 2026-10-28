@@ -142,6 +142,12 @@ const TABLES = {
     ]), 'md-table--dense'),
   'deck-mods': (d) => table(['Mod', 'Type', 'Adds', 'Rarity', 'List $', 'CRS'],
     d.deckMods.mods.map((m) => [`<strong>${e(m.name)}</strong>`, e(nameOf(d.deckMods.types, m.type)), `+${m.amount} ${m.type === 'ram' ? 'RAM' : 'heat cap'}`, rarity(m.rarity), m.cost.cr, crs(m, 'deckMod', d)])),
+  'weapon-mods': (d) => table(['Mod', 'For', 'Adds', 'Rarity', 'List $', 'CRS'], // decision 173
+    d.weaponMods.mods.map((m) => { const ty = d.weaponMods.types.find((x) => x.id === m.type); return [`<strong>${e(m.name)}</strong>`, ty.for === 'melee' ? 'Melee' : 'Firearms', { tn: `+${m.amount} TN`, damage: `+${m.amount} damage`, range: `+${m.amount}% max range`, mag: `+${m.amount}% magazine (at least +1)` }[ty.adds], rarity(m.rarity), m.cost.cr, crs(m, 'weaponMod', d)]; })),
+  drones: (d) => table(['Drone', 'Reach', 'HP', 'Armor', 'Turret', 'Mod slots', 'Visibility', 'Rarity', 'List $', 'CRS'], // decision 172
+    [...d.drones].sort((a, b) => a.cost.cr - b.cost.cr).map((k) => [`<strong>${e(k.name)}</strong><br><span class="muted">${e(k.desc)}</span>`, k.reach, k.hp, k.armor, e(k.damage), k.modSlots, `${k.visibility}/5`, rarity(k.rarity), k.cost.cr || '—', k.cost.cr ? crs(k, 'drone', d) : '—']), 'md-table--dense'),
+  'drone-mods': (d) => table(['Mod', 'Type', 'Adds', 'Rarity', 'List $', 'CRS'],
+    d.droneMods.mods.map((m) => [`<strong>${e(m.name)}</strong>`, e(nameOf(d.droneMods.types, m.type)), `+${m.amount} ${e(d.droneMods.types.find((x) => x.id === m.type)?.adds ?? '')}`, rarity(m.rarity), m.cost.cr, crs(m, 'droneMod', d)])),
   enemies: (d) => cards(d.collection.enemies.map((x) => fighterCard(x, d)).join('')),
   elites: (d) => cards(d.collection.elites.map((x) => fighterCard(x, d)).join('')),
   people: (d) => [...new Set(d.collection.people.map((p) => p.faction))].map((f) => `<h4 class="md-cards__group">${e(f)}</h4>${cards(d.collection.people.filter((p) => p.faction === f).map(personCard).join(''))}`).join(''),

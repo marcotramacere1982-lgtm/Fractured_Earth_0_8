@@ -21,6 +21,7 @@ const cap = (s) => s[0].toUpperCase() + s.slice(1);
 export function resetUses(c, data, scope) {
   ensure(c);
   for (const t of data.talents) if (t.use === scope) delete c.play.talentUses[t.id];
+  if (scope === 'mission') c.play.abilityUses = {}; // decision 174: once-per-mission abilities come back
 }
 
 /** One-off effects of taking a talent (Clean Slate). */
@@ -113,6 +114,11 @@ export const progressActions = {
       c.downtime ??= { pressure: 0, timeline: [], seen: [] };
       c.downtime.pressure = Math.max(0, Math.min(data.downtime.debt.max, msg.debtPressure));
       log(c, `Debt pressure set by the GM: ${c.downtime.pressure}`, 'warn');
+    }
+    if (msg.refill && c.play.turn?.inCombat) { // decision 160: the GM gives back this round's actions (and clears borrowed ones)
+      c.play.turn = { ...c.play.turn, used: 0, reserved: 0, spent: [] };
+      log(c, `The GM refilled your actions (round ${c.play.turn.round})`, 'ok');
+      out.refill = true;
     }
     if (msg.mission) resetUses(c, data, 'mission');
     out.levelUp = progressStatus(c, data).level > before;

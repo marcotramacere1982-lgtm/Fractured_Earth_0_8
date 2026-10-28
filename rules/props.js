@@ -132,6 +132,18 @@ export function propEdges(p, data) {
 }
 
 /** Is the point inside the prop's footprint? (edges count) */
+/** The squares whose centre lies inside a piece. */
+export function squaresUnder(p, data) {
+  const c = propCorners(p, data);
+  const out = [];
+  for (let x = Math.floor(Math.min(...c.map((q) => q.x))); x < Math.ceil(Math.max(...c.map((q) => q.x))); x++) {
+    for (let y = Math.floor(Math.min(...c.map((q) => q.y))); y < Math.ceil(Math.max(...c.map((q) => q.y))); y++) {
+      if (insideProp({ x: x + 0.5, y: y + 0.5 }, p, data)) out.push({ x, y });
+    }
+  }
+  return out;
+}
+
 export function insideProp(pt, p, data) {
   const def = propDef(data, p.prop);
   if (!def) return false;

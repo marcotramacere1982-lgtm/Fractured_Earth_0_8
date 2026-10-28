@@ -78,7 +78,7 @@
     },
     "techwiz": {
       "title": "Tech Wizard · Field Sync",
-      "text": "Mend (supporto) o Surge (offensiva). +1 Sync per ogni ability e per ogni round in cui mantieni la modalità; cambiare modalità azzera il Sync. Le ability richiedono un livello di Sync. A Resonant (3) un Resonant cast fa scattare entrambe le facce, poi Sync 0. Structural Collapse provoca un Brownout. I colpi alle locazioni costano 1 Sync."
+      "text": "Mend (supporto) o Surge (offensiva). +1 Sync per ogni ability e per ogni round in cui mantieni la modalità; cambiare modalità azzera il Sync. Le ability richiedono un livello di Sync. A Resonant (3) un Resonant burst fa scattare entrambe le facce, poi Sync 0. Structural Collapse provoca un Brownout. I colpi alle locazioni costano 1 Sync."
     },
     "smuggler": {
       "title": "Smuggler · Pendulum",
@@ -146,7 +146,7 @@
     },
     "hostiles": {
       "title": "Ostili",
-      "text": "I nemici che il GM ha rivelato, con una lettera (la stessa che il GM usa al tavolo). Vedi quello che vedrebbe chiunque: il nome che gli dà il GM, organico o sintetico, una fascia di ferite (Illeso, Ferito, Grave a metà HP o meno, A terra) e le condizioni visibili. Mai HP, armatura o iniziativa."
+      "text": "I nemici che il GM ha rivelato, con una lettera (la stessa che il GM usa al tavolo). Vedi quello che vedrebbe chiunque: il nome che gli dà il GM, organico o sintetico, una fascia di ferite (Illeso, Ferito, Grave a metà HP o meno, A terra) e le condizioni visibili. Un ritratto quando il GM ce l'ha (toccalo: immagine intera); le Elite in arancione; gli alleati a parte, per nome, in verde. Mai HP, armatura o iniziativa."
     },
     "scavenger": {
       "title": "Scavenger · Tell",
@@ -164,9 +164,29 @@
       "title": "Mappe che abbiamo visto",
       "text": "Ogni mappa che è stata sul tavolo, per quanto la tua squadra l'ha vista: pezzi, didascalie, porte come le avete lasciate, persone con il loro nome dove le avete viste l'ultima volta. Solo sulla tua scheda; chi non c'era non ce l'ha."
     },
+    "crewStash": {
+      "title": "Nascondigli della crew",
+      "text": "Nascondigli che tutta la crew condivide, custoditi dal tavolo: chiunque può mettere dentro o prendere, e tutti vedono chi ha fatto cosa. Li allestisce il GM, che può chiuderne uno (lo vedi, non ci arrivi) o saccheggiarlo."
+    },
+    "stash": {
+      "title": "Il tuo nascondiglio",
+      "text": "Un posto sicuro dove lasciare equipaggiamento e contanti: un armadietto, un materasso, un amico. Quello che è nascosto non è addosso a te: non si perde, non te lo prendono e non lo usi finché non torni a prenderlo. Non durante uno scontro."
+    },
+    "washer": {
+      "title": "Il riciclatore",
+      "text": "Un faccendiere trasforma i contanti in Credit Score (stipendi falsi) o il Credit Score in contanti (prestiti sul tuo punteggio), al tasso e con la commissione decisi dal GM. Il Credit Score resta tra 0 e il suo massimo."
+    },
     "darkness": {
       "title": "Il buio",
       "text": "Al buio: un bersaglio visto solo come traccia termica −2 (niente colpi mirati), uno che non vedi −4; Stealth +2 non illuminato, −4 illuminato o con la torcia accesa; Perception −2 senza visione notturna o termica. La scheda suggerisce, tu confermi."
+    },
+    "drone": {
+      "title": "Drone del Tech Wizard",
+      "text": "Un oggetto: non ha mai un turno. I suoi numeri alimentano barriera e torretta, e Healing Surge, Field Maintenance e Rig Power Conduit arrivano lontano tramite lui. Distrutto: metà portata, metà danni."
+    },
+    "housekeeping": {
+      "title": "Manutenzione",
+      "text": "Piccole incombenze di classe, sempre a portata di mano: non occupano mai uno slot (brain fog). Nessun tiro di Class TN; in combattimento ognuna costa un'azione. Al massimo due per classe."
     }
   }
 }

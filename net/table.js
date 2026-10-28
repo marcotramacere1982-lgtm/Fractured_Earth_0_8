@@ -25,7 +25,7 @@ export function createTableLink(store, hooks) {
   // crew: the shared trust track; unity: the open Unity Check; myVotes: this sheet's ballot per check (decision 47)
   // map: the table map the GM is showing (decision 64), already filtered by the server-side public view
   // light: the GM's table-wide switch, true = dark (decision 76)
-  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {}, marks: null }; // marks: { map, list, skew } (decision 82; skew = this clock − the server's)
+  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {}, marks: null, stashes: [] }; // marks: { map, list, skew } (decision 82; skew = this clock − the server's)
   const listeners = new Set();
   const handled = new Set(); // message ids already applied (the server re-sends until acknowledged)
   let source = null;
@@ -102,6 +102,7 @@ export function createTableLink(store, hooks) {
         else if (out?.xp) hooks.toast(t('progress.xpToast', { n: out.xp }), 'success');
         if (out?.gift) hooks.toast(t('progress.giftToast', { name: out.gift }), 'success');
         if (out?.open) hooks.toast(t('progress.openToast'), 'success');
+        if (out?.refill) hooks.toast(t('progress.refillToast'), 'success');
         if (out) hooks.notify?.('message');
         break;
       }
@@ -110,11 +111,36 @@ export function createTableLink(store, hooks) {
         if (name) { hooks.toast(t('trade.received', { item: name, from: msg.fromName ?? '' }), 'success'); hooks.notify?.('message'); }
         break;
       }
+      case 'boon': // an ally's ability for you: Apply on the Play tab (decision 155)
+        if (id && hooks.boon?.(id, msg)) { hooks.toast(t('boon.toast', { from: msg.fromName ?? '', ability: msg.ability ?? '' }), 'success'); hooks.notify?.('message'); }
+        break;
+      case 'hit': // an enemy hit you: Apply or Dodge on the Play tab (decision 154)
+        if (id && hooks.hit?.(id, msg)) { hooks.toast(t('hit.toast', { from: msg.from ?? '' }), 'danger'); hooks.notify?.('hit'); }
+        break;
+      case 'ask': // the GM asks for a skill or attribute roll (decision 165)
+        if (id && hooks.ask?.(id, msg)) { hooks.toast(t('ask.toast'), 'success'); hooks.notify?.('message'); }
+        break;
+      case 'scene': // the GM starts a new scene (decision 180)
+        if (id && hooks.scene?.(id, msg)) hooks.toast(t('scene.toast'), 'success');
+        break;
+      case 'ping': // what your ping found, from the GM's console (decision 170)
+        if (id && hooks.ping?.(id, msg)) { hooks.toast(t(msg.wipe ? 'ping.wiped' : msg.ok ? 'ping.toast' : 'ping.nothing'), msg.ok || msg.wipe ? 'success' : 'danger'); hooks.notify?.('message'); }
+        break;
+      case 'initiative': // the GM asks for your initiative roll (decision 148)
+        if (id && hooks.initiative?.(id, msg)) { hooks.toast(t('init.toast'), 'success'); hooks.notify?.('message'); }
+        break;
+      case 'deal': // a fixer's offer from the GM (decision 143)
+        if (id && hooks.deal?.(id, msg)) { hooks.toast(t('washer.toast'), 'success'); hooks.notify?.('message'); }
+        break;
       case 'backstory': // written by the GM's Claude (decision 50)
         if (id && hooks.backstory?.(id, msg)) { hooks.toast(t('table.backstoryToast'), 'success'); hooks.notify?.('message'); }
         break;
       case 'downtime': // the GM's downtime report (decision 46)
         if (id && hooks.downtime?.(id, msg)) { hooks.toast(t('downtime.toast'), 'success'); hooks.notify?.('message'); }
+        break;
+      case 'stashes': // the crew's shared stashes (decision 145)
+        state.stashes = Array.isArray(msg.list) ? msg.list : [];
+        emit();
         break;
       case 'crew':
         state.crew = { value: msg.value, band: msg.band };
@@ -141,6 +167,10 @@ export function createTableLink(store, hooks) {
         state.marks = { map: msg.map, list: msg.list ?? [], skew: Date.now() - (msg.now ?? Date.now()) };
         emit();
         break;
+      case 'leave': // decision 160: the same player took a seat with another character
+        hooks.toast(t('table.steppedAside', { name: msg.by ?? '' }), 'danger');
+        link.leave();
+        break;
       case 'request-sync':
         push();
         break;
@@ -157,7 +187,7 @@ export function createTableLink(store, hooks) {
     source.onmessage = (e) => { try { onMessage(JSON.parse(e.data)); } catch { /* ignore malformed */ } };
   }
 
-  return {
+  const link = {
     state,
     subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); },
 
@@ -208,6 +238,81 @@ export function createTableLink(store, hooks) {
         return res.ok;
       } catch { return false; }
     },
+    /**
+     * A crew stash (decision 145): { op: put | take | putCash | takeCash, stash, unit | kind + id, label, amount }.
+     * @returns the server's answer ({ ok, unit?, amount?, stash?, why? }); why 'offline' when it can't be reached.
+     */
+    async stash(op) {
+      if (!state.joinedId) return { ok: false, why: 'offline' };
+      try {
+        const res = await fetch('/api/table/stash', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...op, character: state.joinedId }) }); // op.id is the item's
+        return await res.json();
+      } catch { return { ok: false, why: 'offline' }; }
+    },
+    /** Decision 155: an ability's card for another player (a heal, Braced, a free action…). @returns true when sent. */
+    async boon(to, boon) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/boon', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ from: state.joinedId, to, boon }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 154: what happened to a hit the GM sent (applied / dodged / dodge failed) — told to the GM. */
+    async hitResult(hit, status, detail = '') {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/hit-result', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, hit, status, detail }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 153: an attack on an enemy this sheet picked — the GM applies or dismisses it. @returns true when sent. */
+    async report(body) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/report', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, character: state.joinedId }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 149: a private note to the GM. @returns true when the server took it. */
+    async whisper(text) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/whisper', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, text }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 148: the die rolled for the GM's ask; the GM console puts it in the combat setup. @returns true when sent. */
+    async initiative(ask, roll) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/initiative', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, ask, roll }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 170: a ping went out (rolled on the sheet); the GM's console answers with a durable `ping`. */
+    async ping(mapId, { success, margin }) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/ping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, success: Boolean(success), margin: Number(margin) || 0 }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 171: a toy drone flew — the GM gets a line (and Trace +1 on the live map). */
+    async drone(mapId, { purpose, outcome, margin }) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/drone', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, purpose, outcome, margin: Number(margin) || 0 }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 165: the answer to the GM's ask — what was rolled, against what. @returns true when sent. */
+    async rollResult(r) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/roll', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, ...r }) });
+        return res.ok;
+      } catch { return false; }
+    },
     /** Sends an item to another sheet. @returns true when the server took it. */
     async gift(to, item) {
       try {
@@ -244,8 +349,24 @@ export function createTableLink(store, hooks) {
       return state.available;
     },
 
-    join(id) {
+    /**
+     * Decision 160: one character per player. If this player already has another character at the table (another tab
+     * or device), hooks.oneAtATime({ player, here, there }) asks; yes sends that one off the table, no stays out.
+     */
+    async join(id) {
       if (!state.available || !store.get(id)) return;
+      try {
+        const mine = store.get(id).player ?? '';
+        const { player, others = [] } = await (await fetch(`/api/table/peers?id=${encodeURIComponent(id)}&player=${encodeURIComponent(mine)}`, { cache: 'no-store' })).json();
+        if (others.length) {
+          const ok = await (hooks.oneAtATime?.({ player, here: store.get(id).name || 'Unnamed', there: others.map((o) => o.name) }) ?? true);
+          if (!ok) return;
+          for (const o of others) await fetch('/api/table/step-aside', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, other: o.id, player: mine, name: store.get(id).name ?? '' }) }).catch(() => {});
+        }
+      } catch { /* an older server, or not yet synced: join as before */ }
+      this.connect(id);
+    },
+    connect(id) {
       state.joinedId = id;
       try { sessionStorage.setItem(JOINED, id); } catch { /* private mode */ }
       connect(id);
@@ -275,4 +396,5 @@ export function createTableLink(store, hooks) {
       emit();
     },
   };
+  return link;
 }

@@ -380,13 +380,8 @@
   },
   "micro_drone_recon_cam": {
     "effectType": "Utilità",
-    "effect": "Perception / Awareness (PB) +3 · esplorare dall'alto",
-    "desc": "Quadricottero tascabile per esplorazioni aeree a corto raggio.",
-    "tool": {
-      "main": {
-        "when": "esplorare dall'alto"
-      }
-    }
+    "effect": "Fai volare (fuori dal combattimento): ricognizione o diversivo · Drones / Remote Craft · fallisci di 5+ e lo perdi · un volo, poi ricarica",
+    "desc": "Quadricottero giocattolo tascabile con telecamera: pochi minuti di volo, facile da notare e da abbattere."
   },
   "emp_pulse_grenade": {
     "effectType": "Utilità / Combattimento",

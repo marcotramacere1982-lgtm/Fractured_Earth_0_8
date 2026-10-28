@@ -21,6 +21,9 @@ export function meter(value, max, kind = '') {
 }
 
 /** tour: a [data-tour] mark the guided tours can point at. */
+/** Decision 163: an icon from data/icons.json (line art, currentColor); '' when there is none. Decorative: the label beside it speaks. */
+export const icon = (data, id, cls = '') => (id && data.icons?.[id] ? html`<span class="ico ${cls}" aria-hidden="true">${raw(data.icons[id])}</span>` : '');
+
 export function card(title, body, { sub = '', actions = '', flush = false, id = '', ref = '', tour = '' } = {}) {
   return html`
     <section class="card" ${id ? raw(`id="${id}"`) : ''} ${tour ? raw(`data-tour="${tour}"`) : ''}>

@@ -3,6 +3,8 @@
 
 import { findGear, sellPrice, addItem, nextIsOfficial, magazineId, lifestyleSlot } from '../../rules/economy.js';
 import { RuleError } from '../../rules/messages.js';
+import { flightOutcome, checkFlight } from '../../rules/drone.js';
+import { checkInstall, moddedWeapon, INSTALLERS } from '../../rules/weapon-mods.js';
 import { uid } from '../../state/id.js';
 import { log, spend, actions } from './actions.js';
 
@@ -42,6 +44,59 @@ export const inventoryActions = {
     c.play.lifestyle = [...(c.play.lifestyle ?? []).filter((x) => !old.some((o) => o.id === x)), ...((c.play.lifestyle ?? []).includes(id) ? [] : [id])];
     log(c, `Lifestyle: ${e.name}${old.length ? ` (instead of ${old.map((o) => o.name).join(', ')})` : ''}`);
   },
+  /**
+   * Decision 173: a mod onto a weapon. A stock weapon gives up one copy to a modded record of its own (new id; the slot
+   * that held it follows); a modded or Forge weapon changes in place. @returns the weapon's id after.
+   */
+  installMod(c, data, { weaponId, modId }) {
+    const row = rowOf(c, 'weapon', weaponId);
+    const mod = findGear('weaponMod', modId, data);
+    if (!row || !mod || !rowOf(c, 'weaponMod', modId)) throw new RuleError('noItem', {}, 'Not in your inventory any more.');
+    const stock = row.unique ? row.unique.stock ?? row.unique : findGear('weapon', weaponId, data);
+    const installed = row.unique?.mods ?? [];
+    checkInstall(c, stock, installed, mod, data.weaponMods);
+    takeOne(c, data, 'weaponMod', modId);
+    const next = [...installed, modId];
+    log(c, `Mod: ${mod.name} on ${stock.name}`);
+    if (row.unique) { row.unique = { ...moddedWeapon(stock, next, data.weaponMods), stock, ...(row.unique.moddedFrom ? { moddedFrom: row.unique.moddedFrom } : {}) }; return weaponId; }
+    const held = [1, 2].find((s) => c.play.slots[s] === weaponId);
+    const loaded = held ? c.play.ammo[held] : 0;
+    const id = `u.m-${uid()}`;
+    actions.qty(c, data, { kind: 'weapon', id: weaponId, delta: -1 });
+    c.play.inventory.push({ kind: 'weapon', id, qty: 1, unique: { ...moddedWeapon(stock, next, data.weaponMods), stock, moddedFrom: weaponId } });
+    if (held) { c.play.slots[held] = id; c.play.ammo[held] = loaded; }
+    return id;
+  },
+  /** Decision 173: a mod off, back to the inventory; the last one off turns a modded copy back into a stock weapon. @returns the weapon's id after. */
+  removeMod(c, data, { weaponId, modId }) {
+    const row = rowOf(c, 'weapon', weaponId);
+    const mod = findGear('weaponMod', modId, data);
+    if (!row?.unique?.mods?.includes(modId)) throw new RuleError('noItem', {}, 'Not in your inventory any more.');
+    if (!INSTALLERS.includes(c.classId)) throw new RuleError('modWho', {}, 'Only a Soldier or a Tech Wizard installs weapon mods.');
+    if (c.play.turn?.inCombat) throw new RuleError('modCombat', {}, 'Not in a fight: mods go on between scenes.');
+    const { stock, moddedFrom } = row.unique;
+    const next = row.unique.mods.filter((x) => x !== modId);
+    addItem(c, 'weaponMod', modId, 1);
+    log(c, `Mod: ${mod?.name ?? modId} off ${stock.name}`);
+    if (next.length) { row.unique = { ...moddedWeapon(stock, next, data.weaponMods), stock, ...(moddedFrom ? { moddedFrom } : {}) }; return weaponId; }
+    if (!moddedFrom) { row.unique = stock; return weaponId; } // a Forge weapon, as it was
+    c.play.inventory = c.play.inventory.filter((x) => x !== row);
+    addItem(c, 'weapon', moddedFrom, 1);
+    for (const s of [1, 2]) if (c.play.slots[s] === weaponId) c.play.slots[s] = moddedFrom;
+    return moddedFrom;
+  },
+  /** Decision 171: one flight of a toy drone — logged; a loss takes it from the inventory. @returns the outcome. */
+  droneFlight(c, data, { id, purpose, success, margin, rollText }) {
+    const e = findGear('item', id, data);
+    if (!e?.drone || !rowOf(c, 'item', id)) throw new RuleError('noItem', {}, 'Not in your inventory any more.');
+    checkFlight(c);
+    const outcome = flightOutcome({ success, margin }, e.drone);
+    c.play.droneFlat = true;
+    log(c, `Drone (${purpose}): ${rollText} → ${{ ok: 'there and back', noticed: 'noticed, came back', lost: 'shot down' }[outcome]}`, outcome === 'ok' ? 'ok' : 'bad');
+    if (outcome === 'lost') { takeOne(c, data, 'item', id); log(c, `Drone: ${e.name} lost`, 'bad'); }
+    return outcome;
+  },
+  droneCharge(c) { c.play.droneFlat = false; log(c, 'Drone: recharged'); },
   trash(c, data, { kind, id }) {
     const row = takeOne(c, data, kind, id);
     log(c, `Dropped ${itemName(row, data)}`);

@@ -1,6 +1,6 @@
 // Native <dialog>s: skill/attribute checks and the market.
 
-import { html, render, delegate, cleanup, signed } from '../dom.js';
+import { html, raw, render, delegate, cleanup, signed } from '../dom.js';
 import { segmented } from './parts.js';
 import { resolveCheck } from '../../rules/checks.js';
 import { roll, formatRoll, typedRoll } from '../../rules/dice.js';
@@ -11,11 +11,17 @@ import { info } from '../ref.js';
 import { t } from '../../i18n/index.js';
 import { ruleText } from '../rule-text.js';
 
-export function openDialog(draw, handlers) {
+export function openDialog(draw, handlers, { wide = false } = {}) {
   const dlg = document.createElement('dialog');
-  dlg.className = 'dialog';
+  dlg.className = wide ? 'dialog dialog--wide' : 'dialog';
   document.body.append(dlg);
-  const redraw = () => render(dlg, draw());
+  // decision 160: a redraw keeps the window's scroll (the market jumped to the top after every purchase)
+  const redraw = () => {
+    const top = dlg.querySelector('.dialog__body')?.scrollTop ?? 0;
+    render(dlg, draw());
+    const body = dlg.querySelector('.dialog__body');
+    if (body && top) body.scrollTop = top;
+  };
   const off = cleanup(
     delegate(dlg, 'click', { close: () => dlg.close(), ...handlers.click }),
     delegate(dlg, 'input', handlers.input ?? {}),
@@ -25,7 +31,7 @@ export function openDialog(draw, handlers) {
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }); // backdrop
   redraw();
   dlg.showModal();
-  return { redraw, close: () => dlg.close() };
+  return { redraw, close: () => dlg.close(), toTop: () => { const b = dlg.querySelector('.dialog__body'); if (b) b.scrollTop = 0; } };
 }
 
 /**
@@ -42,13 +48,15 @@ export function openDialog(draw, handlers) {
  * with the suggested option chosen; the player can change it.
  */
 /** aim (decision 97): { options: [{ id, tn, label }], pick, onPick(id) } — Body / ⌖ Location for an attack. */
-export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [], light = null, boosts = [], aim = null } = {}) {
+/** foe (decision 153): { options: [{ id, label }], pick, onPick(id) } — which enemy an attack goes at (told to the GM). */
+export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [], light = null, boosts = [], aim = null, notice = '', foe = null } = {}) {
   const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false,
-    tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null, aim: aim?.pick ?? null };
+    tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null, aim: aim?.pick ?? null, foe: foe?.pick ?? '' };
   const aimOpt = () => aim?.options.find((o) => o.id === state.aim) ?? null;
   const tool = () => tools.find((x) => x.id === state.tool) ?? null;
   const lightOpt = () => light?.options.find((o) => o.id === state.light) ?? null;
-  const tn = () => target.tn + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0) + (aimOpt()?.tn ?? 0);
+  const foeOpt = () => foe?.options.find((o) => o.id === (state.foe ?? '')) ?? null;
+  const tn = () => target.tn + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0) + (aimOpt()?.tn ?? 0) + (foeOpt()?.tn ?? 0); // foe: its conditions (decision 158)
   const flowOn = () => Boolean(flow && state.result?.success);
   const step = () => (flowOn() ? flow.next(state.answers) : null);
   const finish = () => { if (flowOn() && !step() && !state.finished) { state.finished = true; flow.complete(state.answers); } };
@@ -99,12 +107,16 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       d.redraw();
     }
   };
+  /** Decision 156: once rolled, the setup folds into one line — the flow below needs the room. */
+  const summaryLine = () => [foe ? foe.options.find((o) => o.id === (state.foe ?? ''))?.label : '', aimOpt()?.label, tool()?.name, light ? t(`light.${light.kind}.${state.light}`) : '',
+    tiers.find((x) => x.id === state.tier)?.name].filter(Boolean).join(' · ');
   const draw = () => {
     const tier = tiers.find((x) => x.id === state.tier);
     const r = state.result;
     return html`
       <header class="card__head"><h2 class="card__title">${target.name}<small>${target.sub ?? ''}</small></h2><button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
       <div class="dialog__body stack">
+        ${notice ? html`<p class="notice notice--ok">${notice}</p>` : ''}
         <div class="cluster cluster--gap">
           <div class="stat"><span class="label">TN</span><span class="stat__value">${tn()}</span>${tool() ? html`<span class="stat__sub text-success">+${tool().tn} ${tool().name}</span>` : ''}</div>
           <div class="stat"><span class="label">${t('check.difficulty')}</span><span class="stat__value ${tier.penalty > 0 ? 'stat__value--danger' : tier.penalty < 0 ? 'text-success' : ''}">${signed(-tier.penalty)}</span></div>
@@ -112,20 +124,22 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
         </div>
         ${boosts.length ? html`<p class="check-boosts"><span class="label">${t('check.inPlay')}</span> ${boosts.map((b) => html`<span class="pill ${b.delta > 0 ? 'pill--success' : 'pill--danger'}">${b.name} ${b.delta > 0 ? '+' : '−'}${Math.abs(b.delta)}</span>`)}
           <span class="hint">${t('check.inPlayHint')}</span></p>` : ''}
+        ${once && r ? html`<p class="check-summary muted">${summaryLine()}</p>` : html`<div class="check-setup">
+        ${foe ? html`<div class="stack stack--tight check-setup__wide"><span class="label">${t('attack.foe')}</span>
+          <div class="foe-chips" role="group" aria-label="${t('attack.foe')}">${foe.options.map((o) => html`<button class="foe-chip" data-action="foePick" data-id="${o.id}" aria-pressed="${(state.foe ?? '') === o.id}">
+            ${o.img ? html`<img src="${o.img}" alt="" loading="lazy">` : o.letter ? html`<span class="foe-chip__letter">${o.letter}</span>` : ''}<span>${o.label}</span></button>`)}</div></div>` : ''}
+        ${aim ? html`<div class="stack stack--tight ${state.aim === 'located' && aim.table ? 'check-setup__wide' : ''}"><span class="label">${t('attack.aim')}${info('location-attack', t('attack.aim'))}</span>
+          <div class="segmented" role="group" aria-label="${t('attack.aim')}">${aim.options.map((o) => html`<button class="segmented__opt" data-action="aim" data-id="${o.id}" aria-pressed="${state.aim === o.id}">${o.label}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
+          ${state.aim === 'located' && aim.table ? aim.table(state.foe) : aimOpt()?.hint ? html`<p class="hint">${aimOpt().hint}</p>` : ''}</div>` : ''}
         ${tools.length ? html`<div class="stack stack--tight"><span class="label">${t('tools.title')}</span>
-          <div class="tool-list">${tools.map((x) => html`<label class="tool ${state.tool === x.id ? 'is-on' : ''}">
-            <input type="checkbox" data-action="tool" data-id="${x.id}" ${state.tool === x.id ? 'checked' : ''} ${once && state.result ? 'disabled' : ''}>
-            <span><strong>${x.name} +${x.tn}</strong> <span class="muted">· ${x.when}</span></span></label>`)}</div>
-          <p class="hint">${t('tools.hint')}</p></div>` : ''}
-        ${aim ? html`<div class="stack stack--tight"><span class="label">${t('attack.aim')}${info('location-attack', t('attack.aim'))}</span>
-          <div class="segmented" role="group" aria-label="${t('attack.aim')}">${aim.options.map((o) => html`<button class="segmented__opt" data-action="aim" data-id="${o.id}" aria-pressed="${state.aim === o.id}" ${once && state.result ? 'disabled' : ''}>${o.label}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
-          ${aimOpt()?.hint ? html`<p class="hint">${aimOpt().hint}</p>` : ''}</div>` : ''}
+          <div class="tool-list">${tools.map((x) => html`<label class="tool ${state.tool === x.id ? 'is-on' : ''}" title="${t('tools.hint')}">
+            <input type="checkbox" data-action="tool" data-id="${x.id}" ${state.tool === x.id ? 'checked' : ''}>
+            <span><strong>${x.name} +${x.tn}</strong> <span class="muted">· ${x.when}</span></span></label>`)}</div></div>` : ''}
         ${light ? html`<div class="stack stack--tight"><span class="label">${t('light.title')}${info('darkness', t('light.title'))}</span>
-          <div class="segmented" role="group" aria-label="${t('light.title')}">${light.options.map((o) => html`<button class="segmented__opt" data-action="light" data-id="${o.id}" aria-pressed="${state.light === o.id}" ${once && state.result ? 'disabled' : ''}>${t(`light.${light.kind}.${o.id}`)}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
-          <p class="hint">${t('light.suggested', { option: t(`light.${light.kind}.${light.pick}`) })}</p></div>` : ''}
-        <div class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
-          ${segmented('tier', tiers.map((x) => ({ value: x.id, label: `${x.name}` })), state.tier)}
-          <p class="hint">${tier.example}</p></div>
+          <div class="segmented" role="group" aria-label="${t('light.title')}">${light.options.map((o) => html`<button class="segmented__opt" data-action="light" data-id="${o.id}" aria-pressed="${state.light === o.id}" title="${t('light.suggested', { option: t(`light.${light.kind}.${light.pick}`) })}">${t(`light.${light.kind}.${o.id}`)}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div></div>` : ''}
+        <label class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
+          <select class="select" data-action="tierPick" aria-label="${t('table.difficulty')}" title="${tier.example}">${tiers.map((x) => html`<option value="${x.id}" ${x.id === state.tier ? raw('selected') : ''}>${x.name}${x.penalty ? ` (${signed(-x.penalty)})` : ''}</option>`)}</select></label>
+        </div>`}
         ${once && r ? '' : html`<div class="cluster">
           <button class="btn btn--primary" data-action="roll">${t('check.roll')}</button>
           <span class="muted">${t('check.physical')}</span>
@@ -148,16 +162,20 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       enter: () => { const v = Number(state.manual); if (v >= 1 && v <= 20) resolve(v); },
       tool: ({ id }) => { if (once && state.result) return; state.tool = state.tool === id ? null : id; state.result = null; d.redraw(); },
       light: ({ id }) => { if (once && state.result) return; state.light = id; state.result = null; d.redraw(); },
+      foePick: ({ id }) => { if (once && state.result) return; state.foe = id; foe.onPick?.(id); state.result = null; d.redraw(); }, // decision 153
       aim: ({ id }) => { if (once && state.result) return; state.aim = id; aim.onPick?.(id); state.result = null; d.redraw(); },
       flowChoose: ({ value }) => answer(value),
       flowRoll: () => diceAnswer(false),
       flowEnter: () => diceAnswer(true),
     },
+    change: {
+      tierPick: (_, e) => { if (once && state.result) return; state.tier = Number(e.target.value); state.result = null; d.redraw(); }, // decision 156: one dropdown
+    },
     input: {
       manual: (_, e) => { state.manual = e.target.value; },
       flowTyped: ({ key }, e) => { state.typed[key] = e.target.value; },
     },
-  });
+  }, { wide: Boolean(foe || aim || tools.length || light) });
 }
 
 /** A small choice (Reload / swap…): choices [{ value, label, why }] — a choice with a `why` shows disabled with it. */
@@ -174,7 +192,7 @@ export function openChoice(title, choices, onPick) {
 /** Market dialog. free = add without paying (GM-granted gear). onBuy({kind,id,method,multiplier}) may throw. */
 export function openShop({ kind = 'weapon', free = false }, character, data, onBuy) {
   const state = { kind, query: '', multiplier: data.economy.cash.defaultMultiplier, message: '', custom: { name: '', note: '', qty: 1 } };
-  const kinds = free ? ['weapon', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'optic', 'custom'] : ['weapon', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'optic', 'lifestyle', 'custom'];
+  const kinds = free ? ['weapon', 'weaponMod', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'drone', 'droneMod', 'optic', 'custom'] : ['weapon', 'weaponMod', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'drone', 'droneMod', 'optic', 'lifestyle', 'custom'];
   /** + Custom (decision 55): a misc item with no price and no rules. */
   const customForm = () => html`<div class="stack">
     <p class="hint">${t('shop.customHint')}</p>
@@ -194,6 +212,10 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
   const addsUp = (e) => lifestyleSlot(e, data) === `entry:${e.id}`;
   const draw = () => {
     const c = character();
+    // decision 160: what this class needs in action (★) and what it can't use — buying stays open to everyone
+    const cls = data.classes.classes.find((k) => k.id === c.classId) ?? null;
+    const need = (k) => Boolean(cls?.market?.need.includes(k));
+    const skip = (k) => Boolean(cls?.market?.skip.includes(k));
     const guns = new Set(c.play.inventory.filter((x) => x.kind === 'weapon').map((x) => x.id));
     const fits = (e) => state.kind === 'ammo' && guns.has(e.weaponId);
     const list = state.kind === 'custom' ? [] : catalog(state.kind, data)
@@ -203,7 +225,8 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
       <header class="card__head"><h2 class="card__title">${free ? t('shop.addGear') : t('shop.market')}<small>${free ? t('shop.freeSub') : `${t('stat.cash')} $${c.play.cash} · CRS ${c.attributes.CRS}`}</small></h2>
         <button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
       <div class="dialog__body stack">
-        <div class="tabs tabs--wrap dialog__sticky" role="tablist">${kinds.map((k) => html`<button class="tab" role="tab" data-action="kind" data-value="${k}" aria-selected="${k === state.kind}">${kindLabel(k)}</button>`)}</div>
+        <div class="tabs tabs--wrap dialog__sticky" role="tablist">${kinds.map((k) => html`<button class="tab ${need(k) ? 'tab--need' : skip(k) ? 'tab--skip' : ''}" role="tab" data-action="kind" data-value="${k}" aria-selected="${k === state.kind}" title="${need(k) ? t('shop.needHint', { cls: cls?.name ?? '' }) : skip(k) ? t('shop.skipHint', { cls: cls?.name ?? '' }) : ''}">${need(k) ? '★ ' : ''}${kindLabel(k)}</button>`)}</div>
+        ${need(state.kind) ? html`<p class="notice notice--ok">★ ${t('shop.needHint', { cls: cls.name })}</p>` : skip(state.kind) ? html`<p class="notice">${t('shop.skipHint', { cls: cls.name })}</p>` : ''}
         <div class="cluster cluster--gap">
           <input class="input" type="search" placeholder="${t('common.search')}…" value="${state.query}" data-action="query" aria-label="${t('common.search')}">
           ${free || state.kind === 'lifestyle' ? '' : html`<div class="cluster"><span class="label">${t('shop.markup')}</span>${segmented('mult', [3, 5, 7, 10].map((m) => ({ value: m, label: `×${m}` })), state.multiplier)}</div>`}
@@ -232,7 +255,7 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
   };
   const d = openDialog(draw, {
     click: {
-      kind: ({ value }) => { state.kind = value; state.message = ''; d.redraw(); },
+      kind: ({ value }) => { state.kind = value; state.message = ''; d.redraw(); d.toTop(); }, // a new list starts at the top
       mult: ({ value }) => { state.multiplier = Number(value); d.redraw(); },
       addCustom: () => {
         try { state.message = `✓ ${onBuy({ kind: 'custom', method: 'custom', ...state.custom })}`; state.custom = { name: '', note: '', qty: 1 }; }

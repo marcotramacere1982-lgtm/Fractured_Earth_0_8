@@ -51,5 +51,16 @@
     "fraction": 0.5,
     "officialFraction": 0.25,
     "note": "Selling gives half the list price in cash; gear bought officially (registered) only a quarter — resale is allowed, but corporate planned obsolescence makes it worth little (decision 57). Street-bought units are sold first. Custom items: the player types the amount."
+  },
+  "washer": {
+    "note": "A fixer turns cash into Credit Score (fake salaries) or Credit Score into cash (borrowing against your score). The GM makes each offer; these are the form's starting values (decision 143).",
+    "wash": {
+      "rate": 500
+    },
+    "cashout": {
+      "rate": 250
+    },
+    "commission": 20,
+    "max": 3
   }
 }

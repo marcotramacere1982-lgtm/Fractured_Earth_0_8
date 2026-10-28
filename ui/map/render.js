@@ -18,7 +18,9 @@ export function boardSvg(map, data, prefix = 'map') {
     <rect class="map-board" width="${map.cols * U}" height="${map.rows * U}"/>
     <rect fill="url(#${prefix}-sq)" width="${map.cols * U}" height="${map.rows * U}"/>
     <rect fill="url(#${prefix}-five)" width="${map.cols * U}" height="${map.rows * U}"/>
-    <rect class="map-edge" width="${map.cols * U}" height="${map.rows * U}"/>`;
+    <rect class="map-edge" width="${map.cols * U}" height="${map.rows * U}"/>
+    ${(map.floors ?? []).map((f) => html`<rect class="map-floor" x="${f.x * U}" y="${f.y * U}" width="${f.w * U}" height="${f.h * U}"/>
+      <text class="map-floor__name" x="${f.x * U + U * 0.2}" y="${f.y * U + U * 0.45}">${f.name}</text>`)}`; // decision 184
 }
 
 /** One wall, door or window: built from numbers and fixed class names only, so safe as raw markup. */

@@ -12,9 +12,12 @@ import { conditionMods, halvedMove } from '../rules/conditions.js';
 import { allowance } from '../rules/turn.js';
 import { effectTotals } from '../rules/items.js';
 import { withUniques, uniqueBonuses } from '../rules/uniques.js';
+import { emptyStash } from '../rules/stash.js';
 import { uid } from './id.js';
+import { droneProfile, STARTER_DRONE } from '../rules/field-drone.js';
 
 export const SCHEMA_VERSION = 1;
+const FISTS = 'unarmed_fists'; // decision 147: the natural attack (weapons.json, natural: true)
 
 export function createCharacter(data, { player = '', name = '' } = {}) {
   const { creation } = data.attributes;
@@ -43,11 +46,19 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       cash: 0,
       notes: '',
       mapMemories: [], // decision 122: maps this character saw on the table (rules/map-memory.js)
+      offers: [], // decision 143: a fixer's offers waiting for an answer (rules/washer.js)
+      hits: [], // decision 154: hits the GM sent, waiting for Apply or Dodge
+      boons: [], // decision 155: cards from allies' abilities (heal, Braced, a free action…), waiting for Apply
+      stash: emptyStash(), // decision 144: the personal stash { name, cash, items } (rules/stash.js)
       inventory: [], // { kind: 'weapon'|'armor'|'item'|'deck', id, qty }
       deck: null, // active hacker deck id
       deckMods: [], // installed deck mod ids
       optic: null, // active Scavenger optic id
+      drone: null, // decision 172: the Tech Wizard's drone id
+      droneMods: [], // installed drone mod ids
+      droneWrecked: false, // wrecked: half reach, half damage until repaired
       sparesGranted: true, // decision 55: guns bought from now on come with spare magazines
+      naturalFists: true, // decision 147: fists aren't an item; an empty slot is your fists
       lifestyle: [], // lifestyle entry ids (rent tier, plans, bills)
       worn: [], // armor ids currently worn
       slots: { 1: null, 2: null }, // weapon ids
@@ -83,6 +94,29 @@ export function upgradeSave(c, data = null) {
     }
     c.play.sparesGranted = true;
   }
+  if (c.play.naturalFists !== true) { // decision 147: fists stop being an item — the bought ones go, an empty slot is your fists
+    const had = c.play.inventory.some((x) => x.kind === 'weapon' && x.id === FISTS);
+    c.play.inventory = c.play.inventory.filter((x) => !(x.kind === 'weapon' && x.id === FISTS));
+    for (const s of [1, 2]) if (c.play.slots?.[s] === FISTS) c.play.slots[s] = null;
+    const hand = c.play.hand ?? 1;
+    const other = hand === 1 ? 2 : 1;
+    if (c.play.slots && !c.play.slots[hand] && c.play.slots[other]) c.play.hand = other; // keep holding the weapon you had
+    if (had) (c.play.log ??= []).unshift({ t: Date.now(), kind: 'info', text: 'Fists: no longer an item — an empty weapon slot is your fists' });
+    c.play.naturalFists = true;
+  }
+  if (data?.drones && c.classId === 'techwiz' && c.play.droneGranted !== true) { // decision 172: every Tech Wizard's personal project, once
+    if (!c.play.inventory.some((x) => x.kind === 'drone')) {
+      addItem(c, 'drone', STARTER_DRONE, 1);
+      (c.play.log ??= []).unshift({ t: Date.now(), kind: 'info', text: 'Drone: Scrap Drone — your personal project' });
+    }
+    c.play.drone ??= c.play.inventory.find((x) => x.kind === 'drone')?.id ?? null;
+    c.play.droneGranted = true;
+  }
+  c.play.droneMods ??= [];
+  if (data?.abilities && c.classId && Array.isArray(c.play.abilities)) { // decision 176: gone (Release Payload) or housekeeping — out of the slots
+    const list = data.abilities[c.classId] ?? [];
+    c.play.abilities = c.play.abilities.filter((id) => list.some((a) => a.id === id && !a.housekeeping));
+  }
   if ('locations' in c.play) delete c.play.locations;
   c.play.armorDamage ??= 0;
   c.play.injuries ??= [];
@@ -90,6 +124,8 @@ export function upgradeSave(c, data = null) {
   c.play.optic ??= null;
   c.play.hand ??= 1;
   c.play.effects ??= [];
+  c.play.offers ??= [];
+  c.play.stash ??= emptyStash();
   c.progress ??= emptyProgress();
   c.downtime ??= emptyDowntime();
   c.drive ??= { type: null, line: '' };
@@ -136,15 +172,16 @@ export function deriveSheet(character, data) {
   const optic = character.classId === 'scavenger' ? data.optics.find((o) => o.id === character.play.optic) ?? null : null;
   const zone = zoneBonus(character.classId, character.play.resources, data.classes, fx);
   const stanceTn = stanceOf(character.classId, character.play.resources, data.classes)?.attackTn ?? 0; // Soldier in Attack: +2 TN (decision 88)
-  // the weapon in hand: the chosen slot, or the other one when that slot is empty
-  const handSlot = character.play.slots[character.play.hand ?? 1] ? (character.play.hand ?? 1) : character.play.slots[1] ? 1 : character.play.slots[2] ? 2 : null;
+  // the weapon in hand: the chosen slot — an empty slot is your fists (decision 147)
+  const handSlot = Number(character.play.hand ?? 1);
+  const fists = data.weapons.find((w) => w.natural);
   const weapons = usableWeapons([1, 2].map((slot) => {
-      const w = weapon(character.play.slots[slot]);
+      const w = weapon(character.play.slots[slot]) ?? (fists ? { ...fists, unarmed: true } : null);
       if (!w) return { slot, empty: true };
       const zoneTn = isRanged(w) ? zone.rangedTn : 0; // Smuggler Cold: steadier aim
       const tn = weaponTN(w, skillsBase) + zoneTn + stanceTn + (w.tnBonus ?? 0); // a unique's own TN bonus
       const rounds = character.play.ammo[slot] ?? 0;
-      const spares = w.magSize ? character.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.id))?.qty ?? 0 : 0;
+      const spares = w.magSize ? character.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.moddedFrom ?? w.id))?.qty ?? 0 : 0; // a modded copy loads its stock magazines (decision 173)
       return { slot, ...w, tn: tn + cm.attackTn, base: cm.attackTn ? tn : undefined, zoneTn, stanceTn, rounds, spares, // Focused / Blinded; only a condition sets `base`, never a record field
         burst: w.burst ?? 1, attacksLeft: w.magSize ? Math.ceil(rounds / (w.burst ?? 1)) : null, // automatic weapons fire 3-round bursts
         inHand: slot === handSlot };
@@ -163,6 +200,8 @@ export function deriveSheet(character, data) {
       return { ...deck, capacity, status: deckStatus(capacity, character.play.resources) };
     })() : null,
     optic: character.classId === 'scavenger' ? { item: optic, ...opticStats(optic, data.classes) } : null, // Scavenger: range, track, mode
+    drone: character.classId === 'techwiz' && data.drones // decision 172: what the Tech Wizard's drone gives now
+      ? droneProfile(data.drones.find((d) => d.id === character.play.drone) ?? null, character.play.droneMods ?? [], data.droneMods, { wrecked: character.play.droneWrecked }) : null,
     lifestyle: (() => {
       const upkeep = lifestyleUpkeep(character.play.lifestyle ?? [], data);
       const tierOf = (cat) => upkeep.entries.find((x) => x.category === cat)?.tier ?? null;

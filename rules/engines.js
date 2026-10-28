@@ -96,20 +96,31 @@ function techCheck(a, r) {
   if (r.sync < a.minSync) return { ok: false, code: 'needSync', vars: { level: SYNC_LEVELS[a.minSync] }, reason: `Needs Sync ${SYNC_LEVELS[a.minSync]}` };
   return { ok: true, reason: null };
 }
-/** ctx.resonant: a Resonant cast (both faces) — only at Sync 3, and it spends it all. */
+/** ctx.resonant: a Resonant burst (both faces) — only at Sync 3, and it spends it all. */
 function techUse(a, r, ctx) {
   if (a.brownout) return { ...r, sync: 0, offline: 2 }; // offline this round and the next
   if (ctx.resonant) {
-    if (r.sync < SYNC_MAX) throw new Error('A Resonant cast needs Sync 3.');
+    if (r.sync < SYNC_MAX) throw new Error('A Resonant burst needs Sync 3.');
     return { ...r, sync: ctx.talents?.resonantFloor ?? 0 }; // Overload: never below Warm
   }
   return { ...r, sync: Math.min(SYNC_MAX, r.sync + 1) };
 }
 
-/** Switching mode is free but re-tunes the rig: Sync back to 0 (Steady Rig: keep up to `keep`). */
-export function switchMode(r, mode, keep = 0) {
-  return mode === r.mode ? r : { ...r, mode, sync: Math.min(r.sync, keep), switched: true };
+/**
+ * Switching mode is free but re-tunes the rig: Sync back to 0 (Steady Rig: keep up to `keep`).
+ * opening (decision 146): the fight's opening choice — before your first action, picking a mode is setting up,
+ * not a switch: Sync kept (Quick Tune's Warm too), the round-end +1 still comes.
+ */
+export function switchMode(r, mode, keep = 0, { opening = false } = {}) {
+  if (mode === r.mode) return r;
+  return opening ? { ...r, mode } : { ...r, mode, sync: Math.min(r.sync, keep), switched: true };
 }
+
+/** Decision 146: in a fight, round 1, nothing done yet (no action spent or borrowed) — the mode is still an opening choice. */
+export const openingChoice = (turn) => Boolean(turn?.inCombat) && (turn.round ?? 1) === 1 && !turn.used && !turn.reserved && !(turn.spent ?? []).length;
+
+/** Decision 174: what the generic ability limits need — in a fight, first action, uses this mission. c: the character. */
+export const abilityContext = (c) => ({ inCombat: Boolean(c.play.turn?.inCombat), opening: openingChoice(c.play.turn), missionUses: c.play.abilityUses ?? {}, sceneUses: c.play.sceneUses ?? {} });
 
 /** Disruption: damage to a body location costs 1 Sync. */
 export const disruptSync = (r) => ({ ...r, sync: Math.max(0, r.sync - 1) });
@@ -216,7 +227,7 @@ function scavengerUse(a, r, ctx = {}) {
   }
   if (a.gain?.target && !ctx.failed) next = placeTells({ ...next, toPlace: next.toPlace + a.gain.target }, r.target, a.gain.target, { track: ctx.track ?? 1, classesData: ctx.classesData });
   if (a.gain?.spread && !ctx.failed) next.toPlace = (next.toPlace ?? 0) + a.gain.spread; // one on each of up to n enemies: placed by hand
-  if (a.weapon) next.attacked = true;
+  if (a.weapon || a.revealsYou) next.attacked = true; // decision 178: Scan shows you — no Unseen next round
   if (a.id === 'vanish') next.attacked = false;
   return next;
 }
@@ -227,16 +238,47 @@ function scavengerUse(a, r, ctx = {}) {
 export function canUse(classId, base, resources, ctx = {}) {
   const ability = tunedAbility(base, ctx.talents);
   if (ability.hands && ctx.arms >= 2) return { ok: false, code: 'needHands', reason: 'Needs at least one working arm' };
+  // decision 174: limits any ability may carry — out of a fight only, first action only, once per mission
+  if (ability.outOfCombat && ctx.inCombat) return { ok: false, code: 'outOfCombat', reason: 'Out of a fight only' };
+  if (ability.opening && 'opening' in ctx && !ctx.opening) return { ok: false, code: 'opening', reason: 'Only as your first action in a fight' };
+  if (ability.perMission && (ctx.missionUses?.[ability.id] ?? 0) >= ability.perMission) return { ok: false, code: 'perMission', reason: 'Once per mission: already used' };
+  if (ability.perScene && (ctx.sceneUses?.[ability.id] ?? 0) >= ability.perScene) return { ok: false, code: 'perScene', reason: 'Once per scene: already used' }; // decision 180
   switch (classId) {
     case 'soldier': return soldierCheck(ability, resources, ctx);
     case 'hacker': {
       if (resources.stunned) return { ok: false, code: 'rebooting', reason: 'Deck rebooting' };
       return canRunHack(ability, ctx.capacity ? deckStatus(ctx.capacity, resources) : null);
     }
-    case 'techwiz': return techCheck(ability, resources);
+    case 'techwiz':
+      if (ability.drone && 'drone' in ctx && !ctx.drone) return { ok: false, code: 'needDrone', reason: 'Needs your drone' }; // decision 172
+      return techCheck(ability, resources);
     case 'smuggler': return smugglerCheck(ability, resources, ctx);
     case 'scavenger': return scavengerCheck(ability, resources, ctx);
     default: return { ok: false, code: 'noClass', reason: 'No class' };
+  }
+}
+
+/**
+ * Decision 179: what a failed ability costs (abilityRoll.onFailure 'step'). Never the full price — one step:
+ * Soldier 1 TP (if it costs any) · Hacker 1 heat (if it makes any; no RAM locked) · Scavenger 1 Tell off the target
+ * (if it spends any) · Tech Wizard Sync −1 · Smuggler the pendulum one step toward 0. A builder that fails builds nothing.
+ */
+export function failAbility(classId, base, r, ctx = {}) {
+  const a = tunedAbility(base, ctx.talents);
+  switch (classId) {
+    case 'soldier': return { ...r, tp: Math.max(0, (r.tp ?? 0) - Math.min(1, a.cost ?? 0)) };
+    case 'hacker': return { ...r, heat: (r.heat ?? 0) + (a.heat > 0 ? 1 : 0) };
+    case 'techwiz': return { ...r, sync: Math.max(0, (r.sync ?? 0) - 1) };
+    case 'smuggler': { const p = r.pendulum ?? 0; return { ...r, pendulum: p - Math.sign(p) }; }
+    case 'scavenger': {
+      const next = { ...r, ...(a.weapon ? { attacked: true } : {}) };
+      if (!a.tells || !r.target || !r.tells?.[r.target]) return next;
+      const left = r.tells[r.target] - 1;
+      next.tells = { ...r.tells, [r.target]: left };
+      if (!left) delete next.tells[r.target];
+      return next;
+    }
+    default: return r;
   }
 }
 
@@ -270,8 +312,8 @@ export function roundEnd(classId, r, ctx = {}) {
       return { ...r, heat: Math.max(0, r.heat - rules.heatVent - (t.heatVent ?? 0)) };
     }
     case 'techwiz': {
-      if (r.offline > 0) return { ...r, offline: r.offline - 1, switched: false };
-      return { ...r, sync: r.switched ? r.sync : Math.min(SYNC_MAX, r.sync + 1), switched: false }; // held the mode: +1
+      if (r.offline > 0) return { ...r, offline: r.offline - 1, switched: false, held: false };
+      return { ...r, sync: r.switched ? r.sync : Math.min(SYNC_MAX, r.sync + 1), switched: false, held: false }; // held the mode: +1 · Recalibrate's lock ends (decision 177)
     }
     case 'smuggler': return ctx.wounded ? { ...r, pendulum: Math.min(4, r.pendulum + 1) } : r;
     case 'scavenger': return { ...r, toPlace: tellGain(r, ctx.cover ?? 0, ctx.classesData, ctx.inDark), attacked: false }; // next turn's Tells (a readied Exploit stays)

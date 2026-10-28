@@ -33,12 +33,14 @@ async function boot() {
       <p>${err.message}</p><p class="muted">${t('boot.http')}</p></div>`);
     return;
   }
-  installRefs(data.refs);
+  installRefs(data.refs, { manual: { href: '#/manual/', newTab: true } }); // decision 160: tap only; Learn more opens the manual beside the sheet
   installExplain(data);
   const store = createStore({ data });
   const table = createTableLink(store, {
     toast,
     log,
+    // decision 160: one character per player at the table
+    oneAtATime: ({ player, here, there }) => window.confirm(t('table.oneAtATime', { player: player || t('table.thisPlayer'), here, there: there.join(', ') })),
     combat: (id, msg) => store.update(id, (c) => actions.tableCombat(c, data, { msg })),
     progress: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyProgress(c, data, { msg }); }); return out; },
     downtime: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyDowntime(c, data, { msg }); }); return out; },
@@ -49,6 +51,13 @@ async function boot() {
       if (next && next.length && next !== c.play.mapMemories) store.update(id, (d) => { d.play.mapMemories = next; }, { silent: true });
     },
     gift: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.receiveItem(c, data, { msg }); }); return out; },
+    boon: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveBoon(c, data, { msg }); }); return out; }, // decision 155
+    hit: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveHit(c, data, { msg }); }); return out; }, // decision 154
+    initiative: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.askInitiative(c, data, { msg }); }); return out; }, // decision 148
+    scene: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.newScene(c, data, { msg }); }); return out; }, // decision 180
+    ping: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receivePing(c, data, { msg }); }); return out; }, // decision 170
+    ask: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.askRoll(c, data, { msg }); }); return out; }, // decision 165
+    deal: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveDeal(c, data, { msg }); }); return out; }, // decision 143
     backstory: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.applyBackstory(c, data, { msg }); }); return out; },
   });
   const library = createLibrary(table, store); // decision 87: who plays here, and their characters at the table

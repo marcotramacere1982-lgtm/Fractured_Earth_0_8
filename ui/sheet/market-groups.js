@@ -21,6 +21,7 @@ function itemGroup(e) {
     if (opts.some((o) => o.boost || o.endStims)) return 'stims';
     return 'medical';
   }
+  if (e.drone) return 'seeing'; // a toy drone (decision 171)
   const tool = e.tool?.[0];
   if (tool) return tool.attack ? 'weapongear' : tool.attr ? 'force' : TOOL_DOMAIN[tool.skill] ?? 'other';
   return e.story ? 'story' : 'other';
@@ -40,6 +41,8 @@ export function marketGroups(kind, list, data, fits = () => false) {
     case 'item': keyOf = itemGroup; order = ITEM_ORDER; label = (k) => t(`shop.group.${k}`); break;
     case 'ammo': keyOf = (e) => (fits(e) ? ' yours' : e.ammo); label = (k) => (k === ' yours' ? t('shop.group.yours') : k); break;
     case 'deckMod': keyOf = (e) => e.type; label = (k) => data.deckMods.types?.find((x) => x.id === k)?.name ?? k; break;
+    case 'weaponMod': keyOf = (e) => data.weaponMods.types.find((x) => x.id === e.type)?.for ?? 'other'; label = (k) => t(`wmod.for.${k}`); break; // decision 173
+    case 'droneMod': keyOf = (e) => e.type; label = (k) => data.droneMods.types?.find((x) => x.id === k)?.name ?? k; break; // decision 172
     case 'lifestyle': keyOf = (e) => e.category; label = (k) => data.lifestyle.categories.find((x) => x.id === k)?.name ?? k; break;
     default: return list.length ? [{ key: 'all', label: '', items: [...list].sort(byPrice) }] : [];
   }

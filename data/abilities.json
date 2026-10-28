@@ -11,7 +11,16 @@
       "gain": 2,
       "stanceFrom": "any",
       "stanceTo": "defensive",
-      "desc": "Drop low and set your feet: +2 armor until your next turn. Builds 2 TP."
+      "desc": "Drop low and set your feet: +2 armor until your next turn. Builds 2 TP.",
+      "play": {
+        "target": "self",
+        "self": {
+          "conditions": [
+            "braced"
+          ],
+          "roundEnd": true
+        }
+      }
     },
     {
       "id": "tactical_shot",
@@ -24,7 +33,16 @@
       "gain": 1,
       "stanceFrom": "any",
       "stanceTo": "current",
-      "desc": "Settle your breathing and line up the next shot: your next normal attack this round gets +2 TN. Builds 1 TP."
+      "desc": "Settle your breathing and line up the next shot: your next normal attack this round gets +2 TN. Builds 1 TP.",
+      "play": {
+        "target": "self",
+        "self": {
+          "conditions": [
+            "focused"
+          ],
+          "roundEnd": true
+        }
+      }
     },
     {
       "id": "dig_in_and_push",
@@ -40,7 +58,12 @@
       "weapon": {
         "ammo": 1
       },
-      "desc": "Break from cover: move up to your squares, then fire at an enemy in sight for weapon damage."
+      "desc": "Break from cover: move up to your squares, then fire at an enemy in sight for weapon damage.",
+      "play": {
+        "target": "enemy",
+        "weapon": true,
+        "gm": "Moves up to their squares first."
+      }
     },
     {
       "id": "suppressive_sweep",
@@ -57,7 +80,15 @@
         "ammo": 1,
         "noDamage": true
       },
-      "desc": "Pinning fire: one enemy, or two adjacent to each other, attack at −4 TN until the end of next round."
+      "desc": "Pinning fire: one enemy, or two adjacent to each other, attack at −4 TN until the end of next round.",
+      "play": {
+        "target": "enemies",
+        "max": 2,
+        "conditions": [
+          "suppressed"
+        ],
+        "gm": "Pinned until the end of next round (two targets must stand next to each other)."
+      }
     },
     {
       "id": "overwatch_sweep",
@@ -70,7 +101,11 @@
       "gain": 0,
       "stanceFrom": "attack",
       "stanceTo": "defensive",
-      "desc": "Hold two lines of sight: a free shot at +2 TN on the first enemy that crosses each, before your next turn."
+      "desc": "Hold two lines of sight: a free shot at +2 TN on the first enemy that crosses each, before your next turn.",
+      "play": {
+        "target": "none",
+        "gm": "Holds two lines of sight: a free shot at +2 TN on the first enemy to cross each, before their next turn."
+      }
     },
     {
       "id": "commanding_directive",
@@ -82,7 +117,13 @@
       "gain": 0,
       "stanceFrom": "defensive",
       "stanceTo": "attack",
-      "desc": "Bark an order: an ally in sight takes one free action right now (move or attack)."
+      "desc": "Bark an order: an ally in sight takes one free action right now (move or attack).",
+      "play": {
+        "target": "ally",
+        "ally": {
+          "note": "Free action now: move or attack."
+        }
+      }
     },
     {
       "id": "coordinated_crossfire",
@@ -94,7 +135,14 @@
       "gain": 0,
       "stanceFrom": "defensive",
       "stanceTo": "attack",
-      "desc": "Mark a target: until the end of the round, allies attacking it get +2 TN and +1d6 damage."
+      "desc": "Mark a target: until the end of the round, allies attacking it get +2 TN and +1d6 damage.",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "marked"
+        ],
+        "gm": "Allies hitting it this round add +1d6 damage."
+      }
     },
     {
       "id": "tactical_redeploy",
@@ -106,7 +154,14 @@
       "gain": 0,
       "stanceFrom": "attack",
       "stanceTo": "defensive",
-      "desc": "Every ally may move up to their squares without provoking opportunity attacks; allies who end in cover get +2 armor until their next turn."
+      "desc": "Every ally may move up to their squares without provoking opportunity attacks; allies who end in cover get +2 armor until their next turn.",
+      "play": {
+        "target": "allies",
+        "ally": {
+          "note": "Move up to your squares without opportunity attacks. If you end in cover: +2 armor until your next turn (tick Braced)."
+        },
+        "gm": "Every ally may move up to their squares, no opportunity attacks; those ending in cover get +2 armor."
+      }
     },
     {
       "id": "fix_bayonets",
@@ -121,7 +176,15 @@
       "weapon": {
         "bonus": "1d6"
       },
-      "desc": "Charge up to your squares into an enemy and strike: weapon damage +1d6, and the target is Prone."
+      "desc": "Charge up to your squares into an enemy and strike: weapon damage +1d6, and the target is Prone.",
+      "play": {
+        "target": "enemy",
+        "weapon": true,
+        "conditions": [
+          "prone"
+        ],
+        "gm": "Charges up to their squares first."
+      }
     },
     {
       "id": "bunker_buster",
@@ -137,7 +200,13 @@
         "ammo": 1,
         "armorHalf": true
       },
-      "desc": "A brutal point-blank blow or shot: weapon damage that ignores half the target's armor, and cracks its armor by 1."
+      "desc": "A brutal point-blank blow or shot: weapon damage that ignores half the target's armor, and cracks its armor by 1.",
+      "play": {
+        "target": "enemy",
+        "weapon": true,
+        "armor": "half",
+        "crack": 1
+      }
     },
     {
       "id": "reckless_execution",
@@ -154,21 +223,241 @@
         "twice": true,
         "minAmmo": 3
       },
-      "desc": "Empty the magazine at point blank: roll weapon damage twice (melee: two strikes). Needs at least 3 rounds loaded."
+      "desc": "Empty the magazine at point blank: roll weapon damage twice (melee: two strikes). Needs at least 3 rounds loaded.",
+      "play": {
+        "target": "enemy",
+        "weapon": true
+      }
+    },
+    {
+      "id": "shift_stance",
+      "name": "Shift Stance",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "housekeeping": true,
+      "auto": true,
+      "stanceShift": true,
+      "cost": 0,
+      "gain": 0,
+      "stanceFrom": "any",
+      "stanceTo": "current",
+      "desc": "Move one step between Defensive and Attack without an ability. No TP; you are Unsteady (−2 TN on attacks) until the round ends."
+    },
+    {
+      "id": "field_strip",
+      "name": "Field Strip",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "housekeeping": true,
+      "auto": true,
+      "outOfCombat": true,
+      "refill": true,
+      "cost": 0,
+      "gain": 0,
+      "stanceFrom": "any",
+      "stanceTo": "current",
+      "desc": "Out of a fight: clear Jammed and top up both weapons from your spare magazines."
+    },
+    {
+      "id": "cover_me",
+      "name": "Cover Me",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "reaction": true,
+      "cost": 1,
+      "gain": 0,
+      "stanceFrom": "any",
+      "stanceTo": "current",
+      "desc": "Reaction, when an ally in sight is attacked: they're Covered — attacks against them at −2 TN until the round ends. Pays like Dodge.",
+      "play": {
+        "target": "ally",
+        "ally": {
+          "conditions": [
+            "covered"
+          ]
+        }
+      }
+    },
+    {
+      "id": "hard_stare",
+      "name": "Hard Stare",
+      "subclasses": [
+        "grunt",
+        "officer"
+      ],
+      "outOfCombat": true,
+      "perMission": 1,
+      "cost": 0,
+      "gain": 0,
+      "stanceFrom": "any",
+      "stanceTo": "current",
+      "desc": "Once per mission, out of a fight: roll your Class TN instead of Interrogation / Intimidation.",
+      "play": {
+        "target": "none",
+        "gm": "Hard Stare: this roll stands for their Interrogation / Intimidation check (once per mission)."
+      }
+    },
+    {
+      "id": "human_shield",
+      "name": "Human Shield",
+      "subclasses": [
+        "grunt"
+      ],
+      "cost": 1,
+      "gain": 0,
+      "stanceFrom": "defensive",
+      "stanceTo": "defensive",
+      "desc": "Until your next turn, attacks on an adjacent ally hit you instead (your armor takes them).",
+      "play": {
+        "target": "ally",
+        "ally": {
+          "note": "A Soldier shields you: attacks on you hit them instead until their next turn."
+        },
+        "gm": "Human Shield: until their next turn, attacks on the adjacent ally hit the Soldier instead."
+      }
+    },
+    {
+      "id": "shoulder_charge",
+      "name": "Shoulder Charge",
+      "subclasses": [
+        "grunt"
+      ],
+      "cost": 0,
+      "gain": 1,
+      "stanceFrom": "any",
+      "stanceTo": "attack",
+      "desc": "Move up to 2 squares into an adjacent enemy and knock it Prone (no damage). Builds 1 TP; you end in Attack.",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "prone"
+        ],
+        "gm": "Moves up to 2 squares into it first."
+      }
+    },
+    {
+      "id": "breach_and_clear",
+      "name": "Breach & Clear",
+      "subclasses": [
+        "grunt"
+      ],
+      "cost": 1,
+      "gain": 0,
+      "stanceFrom": "any",
+      "stanceTo": "current",
+      "desc": "Through a locked door or a weak wall with brute force. Loud: everyone near hears it.",
+      "play": {
+        "target": "none",
+        "gm": "Breach & Clear: the door or weak wall gives way (breakable walls: breach it on the Deploy tab). Loud."
+      }
+    },
+    {
+      "id": "second_wind",
+      "name": "Second Wind",
+      "subclasses": [
+        "grunt"
+      ],
+      "cost": 2,
+      "gain": 0,
+      "stanceFrom": "onslaught",
+      "stanceTo": "onslaught",
+      "desc": "In Onslaught: heal yourself 1d6 + your CON bonus and shake off Stunned.",
+      "play": {
+        "target": "self",
+        "withSelf": true,
+        "ally": {
+          "heal": "1d6+{CON}",
+          "clear": [
+            "stunned"
+          ]
+        }
+      }
+    },
+    {
+      "id": "battle_plan",
+      "name": "Battle Plan",
+      "subclasses": [
+        "officer"
+      ],
+      "outOfCombat": true,
+      "perMission": 1,
+      "cost": 0,
+      "gain": 0,
+      "stanceFrom": "any",
+      "stanceTo": "current",
+      "desc": "Once per mission, out of a fight: plan it with the crew. At the start of the next fight every ally gets +2 initiative, and you start with 2 TP.",
+      "play": {
+        "target": "allies",
+        "withSelf": true,
+        "ally": {
+          "note": "Battle plan: +2 initiative at the start of the next fight (the Officer starts with 2 TP)."
+        },
+        "gm": "Battle Plan: next fight, +2 initiative for the crew; the Officer starts with 2 TP."
+      }
+    },
+    {
+      "id": "rally",
+      "name": "Rally",
+      "subclasses": [
+        "officer"
+      ],
+      "cost": 1,
+      "gain": 0,
+      "stanceFrom": "defensive",
+      "stanceTo": "current",
+      "desc": "Allies in sight shake off Suppressed or Stunned and get +1 TN on their next roll.",
+      "play": {
+        "target": "allies",
+        "ally": {
+          "clear": [
+            "suppressed",
+            "stunned"
+          ],
+          "note": "Rallied: +1 TN on your next roll."
+        }
+      }
+    },
+    {
+      "id": "flank_order",
+      "name": "Flank Order",
+      "subclasses": [
+        "officer"
+      ],
+      "cost": 1,
+      "gain": 0,
+      "stanceFrom": "attack",
+      "stanceTo": "attack",
+      "desc": "An ally moves up to their squares and gets +2 TN on their next attack against your target this round.",
+      "play": {
+        "target": "ally",
+        "ally": {
+          "note": "Flank order: move up to your squares; +2 TN on your next attack against the Officer's target this round."
+        }
+      }
     }
   ],
   "hacker": [
     {
       "id": "ping_sweep",
       "name": "Ping Sweep",
-      "desc": "Map the local network: reveal hidden units and devices within 10 squares, through walls. Until the end of the round, allies get +2 TN against revealed targets.",
+      "desc": "Ask the networks around you who's there: every node and device within 10 squares, through walls, listed by network — never where they are. Works out of a fight too. The networks hear it (Trace). Until the end of the round, allies get +2 TN against devices the scan names.",
       "ram": 1,
       "heat": 1,
       "sustained": false,
       "subclasses": [
         "scammer",
         "master"
-      ]
+      ],
+      "play": {
+        "target": "none",
+        "ping": true
+      }
     },
     {
       "id": "credentials_spoof",
@@ -179,7 +468,14 @@
       "sustained": true,
       "subclasses": [
         "scammer"
-      ]
+      ],
+      "play": {
+        "target": "ally",
+        "ally": {
+          "note": "Credentials Spoof: synthetic systems ignore you and organic guards accept you as authorised while it lasts. It ends if either of you attacks."
+        },
+        "gm": "Synthetic systems ignore them both; organic guards accept them. Ends if either attacks."
+      }
     },
     {
       "id": "keylogger_injection",
@@ -191,7 +487,15 @@
       "subclasses": [
         "scammer",
         "master"
-      ]
+      ],
+      "play": {
+        "target": "enemy",
+        "tags": [
+          "cybernetic",
+          "synthetic"
+        ],
+        "gm": "Announce its next action before it acts; each time it acts, the hacker vents 1 heat."
+      }
     },
     {
       "id": "thermal_dump_safe",
@@ -205,7 +509,8 @@
         "master"
       ],
       "heatVent": 3,
-      "auto": true
+      "auto": true,
+      "housekeeping": true
     },
     {
       "id": "data_loop_strobe",
@@ -216,7 +521,18 @@
       "sustained": true,
       "subclasses": [
         "scammer"
-      ]
+      ],
+      "play": {
+        "target": "enemy",
+        "tags": [
+          "cybernetic",
+          "synthetic"
+        ],
+        "conditions": [
+          "suppressed"
+        ],
+        "gm": "Suppressed while the hack is sustained: clear it when it ends."
+      }
     },
     {
       "id": "feedback_loop_ddos",
@@ -237,7 +553,19 @@
           "vs": "cybernetic",
           "dice": "2d6"
         }
-      ]
+      ],
+      "play": {
+        "target": "enemy",
+        "tags": [
+          "cybernetic",
+          "synthetic"
+        ],
+        "damage": {
+          "synthetic": "3d6",
+          "cybernetic": "2d6"
+        },
+        "armor": "ignore"
+      }
     },
     {
       "id": "overclock_pulse",
@@ -248,21 +576,13 @@
       "sustained": false,
       "subclasses": [
         "master"
-      ]
-    },
-    {
-      "id": "release_payload",
-      "name": "Release Payload",
-      "desc": "End all your sustained hacks and free their RAM. To end just one, tap its ✕ on the deck panel. No roll.",
-      "ram": 0,
-      "heat": 0,
-      "sustained": false,
-      "subclasses": [
-        "scammer",
-        "master"
       ],
-      "clearsRam": "sustained",
-      "auto": true
+      "play": {
+        "target": "self",
+        "self": {
+          "note": "Your next instant hack this round hits two targets, or the same target twice."
+        }
+      }
     },
     {
       "id": "system_hard_reboot",
@@ -277,7 +597,8 @@
       ],
       "heatVent": "all",
       "clearsRam": "all",
-      "auto": true
+      "auto": true,
+      "housekeeping": true
     },
     {
       "id": "logic_bomb",
@@ -288,7 +609,19 @@
       "sustained": true,
       "subclasses": [
         "master"
-      ]
+      ],
+      "play": {
+        "target": "enemy",
+        "tags": [
+          "cybernetic",
+          "synthetic"
+        ],
+        "bomb": {
+          "damage": "3d6",
+          "splash": "1d6"
+        },
+        "gm": "Planted: it detonates when it moves or the hacker releases it."
+      }
     },
     {
       "id": "false_flag_broadcast",
@@ -299,7 +632,197 @@
       "sustained": false,
       "subclasses": [
         "scammer"
-      ]
+      ],
+      "play": {
+        "target": "enemy",
+        "tags": [
+          "cybernetic",
+          "synthetic"
+        ],
+        "gm": "It spends its next turn attacking its nearest ally."
+      }
+    },
+    {
+      "id": "door_control",
+      "name": "Door Control",
+      "subclasses": [
+        "scammer",
+        "master"
+      ],
+      "ram": 1,
+      "heat": 1,
+      "sustained": false,
+      "desc": "Open, close or lock a networked or electric door you can see, or one on a network you have pinged.",
+      "play": {
+        "target": "none",
+        "gm": "Door Control: open, close or lock the door they name (in sight or on a pinged network) — do it on the Deploy tab."
+      }
+    },
+    {
+      "id": "comms_jam",
+      "name": "Comms Jam",
+      "subclasses": [
+        "scammer",
+        "master"
+      ],
+      "ram": 2,
+      "heat": 2,
+      "sustained": true,
+      "desc": "Enemy radios within 6 squares go silent: they can't call for help, and their next attack is at −2 TN. Works on people, through their gear.",
+      "play": {
+        "target": "none",
+        "gm": "Comms Jam: enemies within 6 squares can't call for help; each one's next attack is at −2 TN."
+      }
+    },
+    {
+      "id": "firewall",
+      "name": "Firewall",
+      "subclasses": [
+        "scammer",
+        "master"
+      ],
+      "ram": 1,
+      "heat": 0,
+      "sustained": true,
+      "desc": "Wrap an ally's cyberware — or the Tech Wizard's drone — in your firewall: hacks against it fail while it holds.",
+      "play": {
+        "target": "ally",
+        "withSelf": true,
+        "ally": {
+          "note": "Firewall: hacks against your cyberware (or your drone) fail while the hacker holds it."
+        }
+      }
+    },
+    {
+      "id": "phish",
+      "name": "Phish",
+      "subclasses": [
+        "scammer"
+      ],
+      "ram": 0,
+      "heat": 0,
+      "sustained": false,
+      "outOfCombat": true,
+      "perMission": 1,
+      "desc": "Once per mission, out of a fight: roll your Class TN instead of Deception or Persuasion, through a screen.",
+      "play": {
+        "target": "none",
+        "gm": "Phish: this roll stands for their Deception or Persuasion check, through a screen (once per mission)."
+      }
+    },
+    {
+      "id": "bodycam_hijack",
+      "name": "Bodycam Hijack",
+      "subclasses": [
+        "scammer"
+      ],
+      "ram": 1,
+      "heat": 1,
+      "sustained": true,
+      "desc": "See through a guard's bodycam or smart glasses: the GM tells you what it sees, and allies get +2 TN against that guard (Marked).",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "marked"
+        ],
+        "gm": "Bodycam Hijack: tell them what this one's camera sees while it holds."
+      }
+    },
+    {
+      "id": "spoofed_orders",
+      "name": "Spoofed Orders",
+      "subclasses": [
+        "scammer"
+      ],
+      "ram": 2,
+      "heat": 2,
+      "sustained": false,
+      "desc": "Someone with comms gets fake orders: on its next turn it moves where you say (up to its squares) instead of attacking.",
+      "play": {
+        "target": "enemy",
+        "gm": "Spoofed Orders: on its next turn it moves where the hacker says (up to its squares) instead of attacking."
+      }
+    },
+    {
+      "id": "camera_loop",
+      "name": "Camera Loop",
+      "subclasses": [
+        "scammer"
+      ],
+      "ram": 1,
+      "heat": 1,
+      "sustained": true,
+      "desc": "A camera network shows an empty loop while it holds — in or out of a fight.",
+      "play": {
+        "target": "none",
+        "gm": "Camera Loop: the cameras they name show an empty loop while it holds (switch them on the Deploy tab)."
+      }
+    },
+    {
+      "id": "clean_logs",
+      "name": "Clean Logs",
+      "subclasses": [
+        "master"
+      ],
+      "ram": 0,
+      "heat": 0,
+      "sustained": false,
+      "outOfCombat": true,
+      "perMission": 1,
+      "desc": "Once per mission, out of a fight: scrub a network's logs — its Trace drops by 2.",
+      "play": {
+        "target": "none",
+        "gm": "Clean Logs: lower the network's Trace by 2 (Deploy → Networks · Trace)."
+      }
+    },
+    {
+      "id": "backdoor",
+      "name": "Backdoor",
+      "subclasses": [
+        "master"
+      ],
+      "ram": 0,
+      "heat": 0,
+      "sustained": false,
+      "outOfCombat": true,
+      "desc": "Out of a fight: plant access in a network you have pinged. Your next ping there adds no Trace, and hacks on its devices get +2 TN this mission.",
+      "play": {
+        "target": "none",
+        "gm": "Backdoor: their next ping on that network adds no Trace (trim it back); hacks on its devices +2 TN this mission."
+      }
+    },
+    {
+      "id": "cascade",
+      "name": "Cascade",
+      "subclasses": [
+        "master"
+      ],
+      "ram": 3,
+      "heat": 4,
+      "sustained": false,
+      "desc": "Take a router or access point you have pinged offline: everything behind it goes dark.",
+      "play": {
+        "target": "none",
+        "gm": "Cascade: the router or access point they name goes offline — everything behind it goes dark (Deploy tab: the node → offline)."
+      }
+    },
+    {
+      "id": "smartgun_lockout",
+      "name": "Smartgun Lockout",
+      "subclasses": [
+        "master"
+      ],
+      "ram": 2,
+      "heat": 3,
+      "sustained": true,
+      "desc": "A linked weapon locks and can't fire while it holds — on a cyborg, a drone, or anyone carrying a smartgun.",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "jammed"
+        ],
+        "gm": "Smartgun Lockout: Jammed while the hack holds — clear it when it ends."
+      }
     }
   ],
   "techwiz": [
@@ -312,7 +835,22 @@
       ],
       "minSync": 0,
       "mend": "Reveal cover and hazards within 6 squares; one ally gets +2 TN on their next Avoid / Reflexes roll.",
-      "surge": "Mark a weak point on an enemy in sight: the next hit against it ignores 2 armor."
+      "surge": "Mark a weak point on an enemy in sight: the next hit against it ignores 2 armor.",
+      "play": {
+        "mend": {
+          "target": "ally",
+          "ally": {
+            "note": "+2 TN on your next Avoid / Reflexes roll."
+          },
+          "gm": "Reveal cover and hazards within 6 squares."
+        },
+        "surge": {
+          "target": "enemy",
+          "conditions": [
+            "exposed"
+          ]
+        }
+      }
     },
     {
       "id": "field_maintenance",
@@ -323,7 +861,29 @@
       ],
       "minSync": 0,
       "mend": "Mend 2 cracks in an adjacent ally’s armor.",
-      "surge": "Crack an adjacent enemy’s armor by 2, or deal 1d6 to an adjacent drone."
+      "surge": "Crack an adjacent enemy’s armor by 2, or deal 1d6 to an adjacent drone.",
+      "play": {
+        "mend": {
+          "target": "ally",
+          "ally": {
+            "cracks": 2
+          }
+        },
+        "surge": {
+          "target": "enemy",
+          "choose": [
+            {
+              "label": "Crack its armor by 2",
+              "crack": 2
+            },
+            {
+              "label": "1d6 to a drone",
+              "damage": "1d6"
+            }
+          ]
+        }
+      },
+      "droneReach": true
     },
     {
       "id": "deploy_improvised_cover",
@@ -334,7 +894,17 @@
       ],
       "minSync": 0,
       "mend": "Raise Partial cover (+2) in a square next to an ally, until it is moved or destroyed.",
-      "surge": "Hurl the scrap plate: 2d6 to one enemy in sight."
+      "surge": "Hurl the scrap plate: 2d6 to one enemy in sight.",
+      "play": {
+        "mend": {
+          "target": "none",
+          "gm": "Partial cover (+2) in a square next to an ally, until it is moved or destroyed."
+        },
+        "surge": {
+          "target": "enemy",
+          "damage": "2d6"
+        }
+      }
     },
     {
       "id": "targeted_overclock",
@@ -344,7 +914,21 @@
       ],
       "minSync": 1,
       "mend": "An ally in sight gets +1 action next round.",
-      "surge": "An ally's next weapon hit deals +1d6."
+      "surge": "An ally's next weapon hit deals +1d6.",
+      "play": {
+        "mend": {
+          "target": "ally",
+          "ally": {
+            "note": "+1 action next round."
+          }
+        },
+        "surge": {
+          "target": "ally",
+          "ally": {
+            "note": "+1d6 damage on your next weapon hit."
+          }
+        }
+      }
     },
     {
       "id": "restock_repair_kits",
@@ -355,7 +939,30 @@
       ],
       "minSync": 1,
       "mend": "Fabricate 1 Tool Kit from scrap, or fully repair a drone or turret.",
-      "surge": "Salvage a wreck in reach: every ally reloads one weapon for free."
+      "surge": "Salvage a wreck in reach: every ally reloads one weapon for free.",
+      "play": {
+        "mend": {
+          "target": "self",
+          "choose": [
+            {
+              "label": "Fabricate a tool kit",
+              "self": {
+                "custom": "Scrap tool kit"
+              }
+            },
+            {
+              "label": "Repair a drone or turret",
+              "gm": "Fully repairs a drone or turret."
+            }
+          ]
+        },
+        "surge": {
+          "target": "allies",
+          "ally": {
+            "note": "Reload one weapon for free."
+          }
+        }
+      }
     },
     {
       "id": "fortify_position",
@@ -365,7 +972,20 @@
       ],
       "minSync": 2,
       "mend": "A cover piece becomes Full cover (+4) until the end of next round.",
-      "surge": "Electrify a cover piece: an enemy in or next to it takes 1d6 and is Stunned."
+      "surge": "Electrify a cover piece: an enemy in or next to it takes 1d6 and is Stunned.",
+      "play": {
+        "mend": {
+          "target": "none",
+          "gm": "A cover piece becomes Full cover (+4) until the end of next round."
+        },
+        "surge": {
+          "target": "enemy",
+          "damage": "1d6",
+          "conditions": [
+            "stunned"
+          ]
+        }
+      }
     },
     {
       "id": "rig_power_conduit",
@@ -375,7 +995,23 @@
       ],
       "minSync": 2,
       "mend": "Adjacent allies get +2 armor until the end of next round.",
-      "surge": "A 2×2 shock zone for 3 rounds: 1d6 to anyone ending a turn inside; drones in it are Disconnected."
+      "surge": "A 2×2 shock zone for 3 rounds: 1d6 to anyone ending a turn inside; drones in it are Disconnected.",
+      "play": {
+        "mend": {
+          "target": "allies",
+          "ally": {
+            "conditions": [
+              "braced"
+            ],
+            "note": "+2 armor until the end of next round."
+          }
+        },
+        "surge": {
+          "target": "none",
+          "gm": "A 2×2 shock zone for 3 rounds: 1d6 to anyone ending a turn inside; drones in it are Disconnected."
+        }
+      },
+      "droneReach": true
     },
     {
       "id": "healing_surge",
@@ -385,7 +1021,33 @@
       ],
       "minSync": 2,
       "mend": "Heal an adjacent ally 2d6 HP, or stabilise someone at 0 HP without a roll.",
-      "surge": "Corrosive injection at melee range: the target is Poisoned / Corroded."
+      "surge": "Corrosive injection at melee range: the target is Poisoned / Corroded.",
+      "play": {
+        "mend": {
+          "target": "ally",
+          "choose": [
+            {
+              "label": "Heal 2d6",
+              "ally": {
+                "heal": "2d6"
+              }
+            },
+            {
+              "label": "Stabilise at 0 HP",
+              "ally": {
+                "note": "Stabilised: you are no longer bleeding out."
+              }
+            }
+          ]
+        },
+        "surge": {
+          "target": "enemy",
+          "conditions": [
+            "poisoned"
+          ]
+        }
+      },
+      "droneReach": true
     },
     {
       "id": "deploy_sentry_turret",
@@ -394,8 +1056,19 @@
         "engineer"
       ],
       "minSync": 2,
-      "mend": "A barrier drone gives Partial cover (+2) to allies in a 2×2 area behind it.",
-      "surge": "A sentry turret (HP 8, armor 1) fires at the nearest enemy at each round end: TN 10, 1d6."
+      "mend": "Your drone hovers as a barrier: Partial cover (+2) to allies in a 2×2 area behind it.",
+      "surge": "Your drone lands as a sentry turret (HP {hp}, armor {armor}) and fires at the nearest enemy at each round end: TN 10, {damage}.",
+      "play": {
+        "mend": {
+          "target": "none",
+          "gm": "Their drone hovers as a barrier: Partial cover (+2) to allies in a 2×2 area behind it."
+        },
+        "surge": {
+          "target": "none",
+          "gm": "Their drone lands as a sentry turret (HP {hp}, armor {armor}): add it to the combat as an ally; at each round end it fires at the nearest enemy, TN 10, {damage}."
+        }
+      },
+      "drone": true
     },
     {
       "id": "structural_collapse",
@@ -407,7 +1080,289 @@
       "minSync": 3,
       "brownout": true,
       "mend": "Brace the structure: pillars give the whole squad Full cover (+4) until destroyed.",
-      "surge": "Bring the ceiling down on a 3×3 area: 3d6, cover there is destroyed, targets are Prone."
+      "surge": "Bring the ceiling down on a 3×3 area: 3d6, cover there is destroyed, targets are Prone.",
+      "play": {
+        "mend": {
+          "target": "allies",
+          "ally": {
+            "note": "Braced pillars: Full cover (+4) until they are destroyed."
+          }
+        },
+        "surge": {
+          "target": "enemies",
+          "max": 9,
+          "damage": "3d6",
+          "conditions": [
+            "prone"
+          ],
+          "gm": "Cover in the 3×3 area is destroyed."
+        }
+      }
+    },
+    {
+      "id": "recalibrate",
+      "name": "Recalibrate",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "housekeeping": true,
+      "auto": true,
+      "lockMode": true,
+      "minSync": 0,
+      "desc": "Tune the rig: +1 Sync, no roll. In a fight it takes an action, and you can't switch mode this round."
+    },
+    {
+      "id": "patch_the_drone",
+      "name": "Patch the Drone",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "housekeeping": true,
+      "auto": true,
+      "outOfCombat": true,
+      "repairDrone": true,
+      "minSync": 0,
+      "desc": "Out of a fight: repair your wrecked drone. No roll."
+    },
+    {
+      "id": "jury_rig",
+      "name": "Jury-Rig",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "minSync": 0,
+      "mend": "A broken device, console, vehicle or door works — for one use.",
+      "surge": "Sabotage a device, console, vehicle or door: it fails at the worst possible moment.",
+      "play": {
+        "mend": {
+          "target": "none",
+          "gm": "Jury-Rig: the broken thing they name works for one use."
+        },
+        "surge": {
+          "target": "none",
+          "gm": "Jury-Rig (sabotage): the thing they name fails at the worst moment — you pick when."
+        }
+      }
+    },
+    {
+      "id": "spotlight",
+      "name": "Spotlight",
+      "subclasses": [
+        "mechanic",
+        "engineer"
+      ],
+      "minSync": 1,
+      "mend": "Light a 3×3 area as bright as day until the end of the scene.",
+      "surge": "A blinding flash: enemies in a 2×2 area are Blinded.",
+      "play": {
+        "mend": {
+          "target": "none",
+          "gm": "Spotlight: a 3×3 area is lit (drop lights there on the Deploy tab)."
+        },
+        "surge": {
+          "target": "enemies",
+          "max": 4,
+          "conditions": [
+            "blinded"
+          ]
+        }
+      }
+    },
+    {
+      "id": "triage",
+      "name": "Triage",
+      "subclasses": [
+        "mechanic"
+      ],
+      "minSync": 0,
+      "droneReach": true,
+      "mend": "An adjacent ally heals 1d6 and loses Poisoned.",
+      "surge": "An adrenaline shot: an adjacent ally is Fired Up.",
+      "play": {
+        "mend": {
+          "target": "ally",
+          "withSelf": true,
+          "ally": {
+            "heal": "1d6",
+            "clear": [
+              "poisoned"
+            ]
+          }
+        },
+        "surge": {
+          "target": "ally",
+          "withSelf": true,
+          "ally": {
+            "conditions": [
+              "fired_up"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "reinforce_armor",
+      "name": "Reinforce Armor",
+      "subclasses": [
+        "mechanic"
+      ],
+      "minSync": 1,
+      "droneReach": true,
+      "mend": "Bolt plates onto an adjacent ally: +2 armor until the end of next round (Braced).",
+      "surge": "Rip the plating off an adjacent enemy: it is Exposed.",
+      "play": {
+        "mend": {
+          "target": "ally",
+          "withSelf": true,
+          "ally": {
+            "conditions": [
+              "braced"
+            ],
+            "note": "+2 armor until the end of next round."
+          }
+        },
+        "surge": {
+          "target": "enemy",
+          "conditions": [
+            "exposed"
+          ]
+        }
+      }
+    },
+    {
+      "id": "mobile_workshop",
+      "name": "Mobile Workshop",
+      "subclasses": [
+        "mechanic"
+      ],
+      "minSync": 1,
+      "droneReach": true,
+      "mend": "An adjacent ally's weapon: Jammed cleared and reloaded for free.",
+      "surge": "An adjacent enemy's weapon jams.",
+      "play": {
+        "mend": {
+          "target": "ally",
+          "withSelf": true,
+          "ally": {
+            "clear": [
+              "jammed"
+            ],
+            "note": "Your weapon is cleared and reloaded for free (reload it on your sheet without spending a magazine — the GM agrees)."
+          }
+        },
+        "surge": {
+          "target": "enemy",
+          "conditions": [
+            "jammed"
+          ]
+        }
+      }
+    },
+    {
+      "id": "steady_hands",
+      "name": "Steady Hands",
+      "subclasses": [
+        "mechanic"
+      ],
+      "minSync": 0,
+      "outOfCombat": true,
+      "perMission": 1,
+      "desc": "Once per mission, out of a fight: roll your Class TN instead of Medicine / First Aid.",
+      "play": {
+        "target": "none",
+        "gm": "Steady Hands: this roll stands for their Medicine / First Aid check (once per mission)."
+      }
+    },
+    {
+      "id": "remote_pilot",
+      "name": "Remote Pilot",
+      "subclasses": [
+        "engineer"
+      ],
+      "minSync": 1,
+      "drone": true,
+      "mend": "Fly your drone up to {reach} squares ahead: the GM reveals what it sees.",
+      "surge": "Dive the drone into the enemy: 2d6 to everyone in a 3×3 area. Your drone is wrecked.",
+      "play": {
+        "mend": {
+          "target": "none",
+          "gm": "Remote Pilot: their drone scouts up to {reach} squares ahead — reveal what it sees."
+        },
+        "surge": {
+          "target": "enemies",
+          "max": 9,
+          "damage": "2d6",
+          "wrecksDrone": true
+        }
+      }
+    },
+    {
+      "id": "emp_burst",
+      "name": "EMP Burst",
+      "subclasses": [
+        "engineer"
+      ],
+      "minSync": 2,
+      "mend": "Shield the crew's gear: allies can't be Jammed or Disconnected this round.",
+      "surge": "An electromagnetic pulse: cybernetic and synthetic enemies in a 3×3 area are Disconnected.",
+      "play": {
+        "mend": {
+          "target": "allies",
+          "withSelf": true,
+          "ally": {
+            "note": "Shielded: you can't be Jammed or Disconnected this round."
+          }
+        },
+        "surge": {
+          "target": "enemies",
+          "max": 9,
+          "tags": [
+            "cybernetic",
+            "synthetic"
+          ],
+          "conditions": [
+            "disconnected"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rig_trap",
+      "name": "Rig Trap",
+      "subclasses": [
+        "engineer"
+      ],
+      "minSync": 1,
+      "mend": "A tripwire alarm on a square: you know the moment anyone crosses it.",
+      "surge": "A shock trap on a square: the first enemy through takes 2d6 and is Stunned.",
+      "play": {
+        "mend": {
+          "target": "none",
+          "gm": "Rig Trap: a tripwire alarm on the square they name — tell them when anyone crosses it."
+        },
+        "surge": {
+          "target": "none",
+          "gm": "Rig Trap (shock): the first enemy into the square they name takes 2d6 and is Stunned."
+        }
+      }
+    },
+    {
+      "id": "calibrate",
+      "name": "Calibrate",
+      "subclasses": [
+        "engineer"
+      ],
+      "minSync": 0,
+      "outOfCombat": true,
+      "perMission": 1,
+      "desc": "Once per mission, out of a fight: roll your Class TN instead of Mechanics or Electronics.",
+      "play": {
+        "target": "none",
+        "gm": "Calibrate: this roll stands for their Mechanics or Electronics check (once per mission)."
+      }
     }
   ],
   "smuggler": [
@@ -427,6 +1382,11 @@
         "ammo": 1,
         "minAmmo": 1,
         "ranged": true
+      },
+      "play": {
+        "target": "enemy",
+        "weapon": true,
+        "gm": "Then moves up to 2 squares into cover."
       }
     },
     {
@@ -440,7 +1400,17 @@
       "subclasses": [
         "dealer",
         "trafficker"
-      ]
+      ],
+      "play": {
+        "target": "enemy",
+        "tags": [
+          "organic"
+        ],
+        "conditions": [
+          "suppressed"
+        ],
+        "gm": "Suppressed until its next attack."
+      }
     },
     {
       "id": "pistol_whip_rob",
@@ -455,6 +1425,11 @@
       ],
       "weapon": {
         "ammo": 0
+      },
+      "play": {
+        "target": "enemy",
+        "weapon": true,
+        "gm": "Takes one magazine or item from it: say what (send it with Give item)."
       }
     },
     {
@@ -467,7 +1442,11 @@
       },
       "subclasses": [
         "dealer"
-      ]
+      ],
+      "play": {
+        "target": "self",
+        "gm": "Sprints up to twice their squares without opportunity attacks."
+      }
     },
     {
       "id": "contraband_stash",
@@ -481,7 +1460,34 @@
         "dealer",
         "trafficker"
       ],
-      "hands": true
+      "hands": true,
+      "play": {
+        "choose": [
+          {
+            "label": "Heal 1d6",
+            "target": "ally",
+            "withSelf": true,
+            "ally": {
+              "heal": "1d6"
+            }
+          },
+          {
+            "label": "+2 armor (Braced)",
+            "target": "self",
+            "self": {
+              "conditions": [
+                "braced"
+              ]
+            },
+            "gm": "+2 armor until the end of next round."
+          },
+          {
+            "label": "Smoke",
+            "target": "none",
+            "gm": "Smoke in a 2×2 area: attacks through it at −4 TN."
+          }
+        ]
+      }
     },
     {
       "id": "safehouse_route",
@@ -493,7 +1499,17 @@
       },
       "subclasses": [
         "trafficker"
-      ]
+      ],
+      "play": {
+        "target": "ally",
+        "ally": {
+          "clear": [
+            "prone",
+            "stunned"
+          ],
+          "note": "Move up to your squares without opportunity attacks."
+        }
+      }
     },
     {
       "id": "decoy_deployment",
@@ -506,7 +1522,11 @@
       "subclasses": [
         "trafficker"
       ],
-      "hands": true
+      "hands": true,
+      "play": {
+        "target": "none",
+        "gm": "A decoy within 5 squares: enemies who see it attack it first, until it is hit or the next round ends."
+      }
     },
     {
       "id": "black_market_ammo",
@@ -523,6 +1543,23 @@
         "ammo": 0,
         "ranged": true,
         "noDamage": true
+      },
+      "play": {
+        "target": "self",
+        "choose": [
+          {
+            "label": "Ignore half armor",
+            "self": {
+              "ammo": "half"
+            }
+          },
+          {
+            "label": "+1d6 damage",
+            "self": {
+              "ammo": "d6"
+            }
+          }
+        ]
       }
     },
     {
@@ -541,6 +1578,11 @@
         "ammo": "all",
         "minAmmo": 3,
         "ranged": true
+      },
+      "play": {
+        "target": "enemies",
+        "max": 9,
+        "weapon": true
       }
     },
     {
@@ -554,7 +1596,250 @@
       "subclasses": [
         "trafficker"
       ],
-      "oncePerCombat": true
+      "oncePerCombat": true,
+      "play": {
+        "choose": [
+          {
+            "label": "Sniper round",
+            "target": "enemy",
+            "damage": "3d6",
+            "armor": "ignore",
+            "gm": "Lands at the start of next round."
+          },
+          {
+            "label": "Flare",
+            "target": "enemies",
+            "max": 9,
+            "damage": "2d6",
+            "gm": "Lands at the start of next round, on everyone in a 3×3 area."
+          }
+        ]
+      }
+    },
+    {
+      "id": "breathe",
+      "name": "Breathe",
+      "subclasses": [
+        "dealer",
+        "trafficker"
+      ],
+      "housekeeping": true,
+      "auto": true,
+      "steer": true,
+      "shift": {
+        "delta": 0
+      },
+      "desc": "Steady yourself or let it build: move the pendulum 1 step, cooler or hotter. No roll; in a fight it takes an action."
+    },
+    {
+      "id": "palm_it",
+      "name": "Palm It",
+      "subclasses": [
+        "dealer",
+        "trafficker"
+      ],
+      "housekeeping": true,
+      "auto": true,
+      "outOfCombat": true,
+      "shift": {
+        "delta": 0
+      },
+      "desc": "Out of a fight: hide one item or weapon on you from a pat-down. A scanner is the GM's call."
+    },
+    {
+      "id": "slip_it_over",
+      "name": "Slip It Over",
+      "subclasses": [
+        "dealer",
+        "trafficker"
+      ],
+      "requires": null,
+      "shift": {
+        "delta": 1
+      },
+      "desc": "Hand an item or a magazine to an ally within 2 squares (Give item): they can use it this round.",
+      "play": {
+        "target": "ally",
+        "ally": {
+          "note": "Handed over by a Smuggler: you can use it this round."
+        },
+        "gm": "Hands an item or a magazine to an ally within 2 squares (sent with Give item)."
+      }
+    },
+    {
+      "id": "duck_and_weave",
+      "name": "Duck & Weave",
+      "subclasses": [
+        "dealer",
+        "trafficker"
+      ],
+      "requires": 1,
+      "reaction": true,
+      "shift": {
+        "delta": -1
+      },
+      "desc": "Reaction, when you're attacked: you're Evasive — attacks against you at −2 TN until the round ends. Pays like Dodge.",
+      "play": {
+        "target": "self",
+        "self": {
+          "conditions": [
+            "evasive"
+          ],
+          "roundEnd": true
+        }
+      }
+    },
+    {
+      "id": "fast_talk",
+      "name": "Fast Talk",
+      "subclasses": [
+        "dealer"
+      ],
+      "requires": null,
+      "outOfCombat": true,
+      "perMission": 1,
+      "shift": {
+        "delta": 0
+      },
+      "desc": "Once per mission, out of a fight: roll your Class TN instead of Persuasion or Deception, for one lie or one deal.",
+      "play": {
+        "target": "none",
+        "gm": "Fast Talk: this roll stands for their Persuasion or Deception check (once per mission)."
+      }
+    },
+    {
+      "id": "quick_draw",
+      "name": "Quick-Draw",
+      "subclasses": [
+        "dealer"
+      ],
+      "requires": -1,
+      "opening": true,
+      "tnBonus": 2,
+      "shift": {
+        "delta": -1
+      },
+      "desc": "Before your first action in a fight: fire your readied gun at +2 TN (weapon damage, 1 round).",
+      "play": {
+        "target": "enemy",
+        "weapon": true
+      },
+      "weapon": {
+        "ammo": 1,
+        "minAmmo": 1,
+        "ranged": true
+      }
+    },
+    {
+      "id": "price_tag",
+      "name": "Price Tag",
+      "subclasses": [
+        "dealer"
+      ],
+      "requires": null,
+      "outOfCombat": true,
+      "shift": {
+        "delta": 0
+      },
+      "desc": "Out of a fight: you know what something is worth and who would buy it. The washer's next offer to you is better.",
+      "play": {
+        "target": "none",
+        "gm": "Price Tag: tell them what it is worth and who would buy it; your next washer offer to them is better (about +10%)."
+      }
+    },
+    {
+      "id": "double_tap",
+      "name": "Double Tap",
+      "subclasses": [
+        "dealer"
+      ],
+      "requires": 2,
+      "shift": {
+        "delta": 1
+      },
+      "desc": "Two shots at one target: weapon damage, then a second attack at −2 TN (2 rounds).",
+      "play": {
+        "target": "enemy",
+        "weapon": true,
+        "gm": "A second shot at the same target at −2 TN: they roll it as an attack."
+      },
+      "weapon": {
+        "ammo": 2,
+        "minAmmo": 2,
+        "ranged": true
+      }
+    },
+    {
+      "id": "know_a_guy",
+      "name": "Know a Guy",
+      "subclasses": [
+        "trafficker"
+      ],
+      "requires": null,
+      "outOfCombat": true,
+      "perMission": 1,
+      "shift": {
+        "delta": 0
+      },
+      "desc": "Once per mission, out of a fight: a contact comes through — information, a vehicle, gear at cost, or a door opened. The GM says what.",
+      "play": {
+        "target": "none",
+        "gm": "Know a Guy: a contact provides information, a vehicle, gear at cost or a door opened — you say what and what it costs them later."
+      }
+    },
+    {
+      "id": "cover_story",
+      "name": "Cover Story",
+      "subclasses": [
+        "trafficker"
+      ],
+      "requires": null,
+      "outOfCombat": true,
+      "shift": {
+        "delta": 0
+      },
+      "desc": "Out of a fight: papers and a story for the crew. Each ally (and you) gets +2 on the next Deception or Persuasion check against officials.",
+      "play": {
+        "target": "allies",
+        "withSelf": true,
+        "ally": {
+          "note": "Cover story: +2 on your next Deception or Persuasion check against officials."
+        }
+      }
+    },
+    {
+      "id": "exit_plan",
+      "name": "Exit Plan",
+      "subclasses": [
+        "trafficker"
+      ],
+      "requires": -1,
+      "shift": {
+        "delta": 1
+      },
+      "desc": "Call the route out: allies who move this round get +1 square and ignore difficult ground.",
+      "play": {
+        "target": "allies",
+        "ally": {
+          "note": "Exit plan: this round, +1 square and ignore difficult ground."
+        }
+      }
+    },
+    {
+      "id": "bought_eyes",
+      "name": "Bought Eyes",
+      "subclasses": [
+        "trafficker"
+      ],
+      "requires": -2,
+      "shift": {
+        "delta": 2
+      },
+      "desc": "A bribed local tips you off: one hidden enemy is revealed, and allies get +2 TN against it this round.",
+      "play": {
+        "target": "none",
+        "gm": "Bought Eyes: reveal one hidden enemy; allies get +2 TN against it this round."
+      }
     }
   ],
   "scavenger": [
@@ -588,7 +1873,13 @@
         "stalker"
       ],
       "tells": 1,
-      "desc": "Paint the target for the crew: allies get +2 TN on attacks against it until the end of the round."
+      "desc": "Paint the target for the crew: allies get +2 TN on attacks against it until the end of the round.",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "marked"
+        ]
+      }
     },
     {
       "id": "lift",
@@ -599,7 +1890,11 @@
       "tells": 1,
       "adjacent": true,
       "hands": true,
-      "desc": "Take one item off an adjacent target: a magazine, a consumable, a small tool, keycards or creds, or a civilian weapon. The GM says what it carries (Liftable list)."
+      "desc": "Take one item off an adjacent target: a magazine, a consumable, a small tool, keycards or creds, or a civilian weapon. The GM says what it carries (Liftable list).",
+      "play": {
+        "target": "enemy",
+        "gm": "Takes one item from it: say what it carries (Liftable list) and send it with Give item."
+      }
     },
     {
       "id": "misdirect",
@@ -608,7 +1903,14 @@
         "prowler"
       ],
       "tells": 1,
-      "desc": "Feint and shift: the target's next attack is at −4 TN, and if it misses it hits another enemy next to it, if there is one (GM's call)."
+      "desc": "Feint and shift: the target's next attack is at −4 TN, and if it misses it hits another enemy next to it, if there is one (GM's call).",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "suppressed"
+        ],
+        "gm": "Until its next attack; if it misses, it hits another enemy next to it (your call)."
+      }
     },
     {
       "id": "pin_the_route",
@@ -617,7 +1919,13 @@
         "stalker"
       ],
       "tells": 1,
-      "desc": "Call out its path to the crew: the target is Slowed until the end of its next turn."
+      "desc": "Call out its path to the crew: the target is Slowed until the end of its next turn.",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "slowed"
+        ]
+      }
     },
     {
       "id": "jam",
@@ -628,7 +1936,13 @@
       "tells": 2,
       "adjacent": true,
       "hands": true,
-      "desc": "Tamper with an adjacent target's weapon: it is Jammed."
+      "desc": "Tamper with an adjacent target's weapon: it is Jammed.",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "jammed"
+        ]
+      }
     },
     {
       "id": "called_shot",
@@ -643,7 +1957,11 @@
         "ranged": true,
         "located": true
       },
-      "desc": "Fire your readied gun as a location attack on your Class TN, with no −4 penalty: roll where it lands and apply that location's effect."
+      "desc": "Fire your readied gun as a location attack on your Class TN, with no −4 penalty: roll where it lands and apply that location's effect.",
+      "play": {
+        "target": "enemy",
+        "weapon": true
+      }
     },
     {
       "id": "strip",
@@ -654,7 +1972,20 @@
       "tells": 2,
       "adjacent": true,
       "hands": true,
-      "desc": "Tear off a plate or disarm an adjacent target. Pick one: it drops its weapon (1 action to pick it up; an AI-locked weapon is useless to you), or its armor cracks by 2."
+      "desc": "Tear off a plate or disarm an adjacent target. Pick one: it drops its weapon (1 action to pick it up; an AI-locked weapon is useless to you), or its armor cracks by 2.",
+      "play": {
+        "target": "enemy",
+        "choose": [
+          {
+            "label": "Disarm",
+            "gm": "It drops its weapon (1 action to pick it up; an AI-locked weapon is useless to the crew)."
+          },
+          {
+            "label": "Crack its armor by 2",
+            "crack": 2
+          }
+        ]
+      }
     },
     {
       "id": "kill_shot",
@@ -670,7 +2001,12 @@
         "bonus": "3d4",
         "armorHalf": true
       },
-      "desc": "Everything you learned in one shot: your readied gun deals weapon damage +3d4, ignoring cover, and its armor counts half."
+      "desc": "Everything you learned in one shot: your readied gun deals weapon damage +3d4, ignoring cover, and its armor counts half.",
+      "play": {
+        "target": "enemy",
+        "weapon": true,
+        "gm": "Ignores cover."
+      }
     },
     {
       "id": "vanish",
@@ -680,7 +2016,213 @@
         "stalker"
       ],
       "oncePerCombat": true,
-      "desc": "Slip out of sight: move up to your squares into full cover without provoking attacks. You count as not having attacked this round, so you start next round Unseen."
+      "desc": "Slip out of sight: move up to your squares into full cover without provoking attacks. You count as not having attacked this round, so you start next round Unseen.",
+      "play": {
+        "target": "self",
+        "gm": "Moves up to their squares into full cover, no opportunity attacks."
+      }
+    },
+    {
+      "id": "scan",
+      "name": "Scan",
+      "subclasses": [
+        "prowler",
+        "stalker"
+      ],
+      "housekeeping": true,
+      "auto": true,
+      "gain": {
+        "target": 1
+      },
+      "revealsYou": true,
+      "desc": "Lean out and look: +1 Tell on your target, no roll. In a fight it takes an action, and you've shown yourself — no Unseen next round."
+    },
+    {
+      "id": "scrounge",
+      "name": "Scrounge",
+      "subclasses": [
+        "prowler",
+        "stalker"
+      ],
+      "housekeeping": true,
+      "auto": true,
+      "outOfCombat": true,
+      "desc": "Out of a fight, once per scene: search a room or a body — one small item, or a spare magazine for a gun you carry. The GM says what.",
+      "perScene": 1
+    },
+    {
+      "id": "read_the_room",
+      "name": "Read the Room",
+      "subclasses": [
+        "prowler",
+        "stalker"
+      ],
+      "outOfCombat": true,
+      "perMission": 1,
+      "desc": "Once per mission, out of a fight: roll your Class TN instead of Perception / Awareness or Forensics / Investigation.",
+      "play": {
+        "target": "none",
+        "gm": "Read the Room: this roll stands for their Perception or Investigation check (once per mission)."
+      }
+    },
+    {
+      "id": "spotter",
+      "name": "Spotter",
+      "subclasses": [
+        "prowler",
+        "stalker"
+      ],
+      "tells": 1,
+      "desc": "Call the weak spot: an ally's next attack on your target can be a location attack with no −4 penalty.",
+      "play": {
+        "target": "enemy",
+        "gm": "Spotter: an ally's next attack on it can be a location attack with no −4 penalty."
+      }
+    },
+    {
+      "id": "lead_the_way",
+      "name": "Lead the Way",
+      "subclasses": [
+        "prowler",
+        "stalker"
+      ],
+      "outOfCombat": true,
+      "desc": "Out of a fight: the crew follows your route — everyone gets +2 on their next Stealth check.",
+      "play": {
+        "target": "allies",
+        "withSelf": true,
+        "ally": {
+          "note": "Following the Scavenger: +2 on your next Stealth check."
+        }
+      }
+    },
+    {
+      "id": "pickpocket",
+      "name": "Pickpocket",
+      "subclasses": [
+        "prowler"
+      ],
+      "outOfCombat": true,
+      "hands": true,
+      "desc": "Out of a fight: lift something from someone who isn't fighting you, unnoticed — your Class TN against their Awareness.",
+      "play": {
+        "target": "none",
+        "gm": "Pickpocket: their Class TN roll against the mark's Awareness; on a success they take something small, unnoticed."
+      }
+    },
+    {
+      "id": "dirty_trick",
+      "name": "Dirty Trick",
+      "subclasses": [
+        "prowler"
+      ],
+      "tells": 1,
+      "adjacent": true,
+      "hands": true,
+      "desc": "Grit in the eyes: your adjacent target is Blinded until its next turn.",
+      "play": {
+        "target": "enemy",
+        "conditions": [
+          "blinded"
+        ],
+        "gm": "Blinded until its next turn."
+      }
+    },
+    {
+      "id": "sidestep",
+      "name": "Sidestep",
+      "subclasses": [
+        "prowler"
+      ],
+      "tells": 1,
+      "adjacent": true,
+      "reaction": true,
+      "desc": "Reaction, when your adjacent target attacks you: you read it coming — Sidestepping, attacks against you at −4 TN until the round ends. Pays like Dodge.",
+      "play": {
+        "target": "self",
+        "self": {
+          "conditions": [
+            "sidestepping"
+          ],
+          "roundEnd": true
+        }
+      }
+    },
+    {
+      "id": "plant_a_bug",
+      "name": "Plant a Bug",
+      "subclasses": [
+        "prowler"
+      ],
+      "outOfCombat": true,
+      "hands": true,
+      "desc": "Out of a fight: plant a tracker on someone close to you. Later, you know where they went.",
+      "play": {
+        "target": "none",
+        "gm": "Plant a Bug: a tracker on the person they name — later, tell them where that person went."
+      }
+    },
+    {
+      "id": "flush_out",
+      "name": "Flush Out",
+      "subclasses": [
+        "stalker"
+      ],
+      "tells": 1,
+      "weapon": {
+        "ammo": 1,
+        "minAmmo": 1,
+        "ranged": true,
+        "noDamage": true
+      },
+      "desc": "A shot that drives your target from cover: it moves out, or stays and is Exposed.",
+      "play": {
+        "target": "enemy",
+        "weapon": true,
+        "conditions": [
+          "exposed"
+        ],
+        "gm": "Flush Out: it leaves its cover on its turn, or stays Exposed."
+      }
+    },
+    {
+      "id": "long_look",
+      "name": "Long Look",
+      "subclasses": [
+        "stalker"
+      ],
+      "outOfCombat": true,
+      "desc": "Out of a fight: study a place through your optic from afar. The GM reveals guard numbers, patrols and timings.",
+      "play": {
+        "target": "none",
+        "gm": "Long Look: tell them the guards, patrols and timings they could see from there (reveal squares on the map)."
+      }
+    },
+    {
+      "id": "track",
+      "name": "Track",
+      "subclasses": [
+        "stalker"
+      ],
+      "outOfCombat": true,
+      "desc": "Out of a fight: follow someone's trail — footprints, scuffs, a door left ajar, a camera that saw them.",
+      "play": {
+        "target": "none",
+        "gm": "Track: they follow the trail — tell them where it leads (and how fresh it is)."
+      }
+    },
+    {
+      "id": "overwatch_spotter",
+      "name": "Overwatch Spotter",
+      "subclasses": [
+        "stalker"
+      ],
+      "tells": 2,
+      "desc": "Watch your target: until your next turn, the first time it moves, every ally gets +2 TN against it.",
+      "play": {
+        "target": "enemy",
+        "gm": "Overwatch Spotter: until their next turn, the first time it moves, allies get +2 TN against it."
+      }
     }
   ]
 }

@@ -122,7 +122,8 @@
       "cr": 20
     },
     "skill": "melee_cqc",
-    "hands": 1
+    "hands": 1,
+    "modSlots": 0
   },
   {
     "id": "zip_9_junk_pistol",
@@ -227,12 +228,12 @@
   {
     "id": "nova_micro_pulse_pistol",
     "legacyId": 10,
-    "name": "Nova Micro-Pulse Pistol",
+    "name": "Nova Micro-Coil Pistol",
     "class": "ranged",
     "type": "pistol",
     "manufacturer": "Nova Armaments",
     "damage": "1d8+2",
-    "ammo": "Energy Cell",
+    "ammo": "Coil Cartridge",
     "magSize": 12,
     "range": {
       "min": 1,
@@ -460,12 +461,12 @@
   {
     "id": "nova_plasma_carbine",
     "legacyId": 19,
-    "name": "Nova Plasma Carbine",
+    "name": "Nova Coil Carbine",
     "class": "ranged",
     "type": "assault rifle",
     "manufacturer": "Nova Armaments",
     "damage": "2d8",
-    "ammo": "Energy Cell",
+    "ammo": "Coil Cartridge",
     "magSize": 20,
     "range": {
       "min": 3,
@@ -561,12 +562,12 @@
   {
     "id": "nova_arc_lance_precision",
     "legacyId": 23,
-    "name": "Nova Arc-Lance Precision",
+    "name": "Nova Rail-Lance Precision",
     "class": "ranged",
     "type": "sniper rifle",
     "manufacturer": "Nova Armaments",
     "damage": "3d10+5",
-    "ammo": "Heavy Energy Cell",
+    "ammo": "Rail Slug Pack",
     "magSize": 3,
     "range": {
       "min": 20,
@@ -586,12 +587,12 @@
   {
     "id": "nova_prototype_singularity_pistol",
     "legacyId": 24,
-    "name": "Nova Prototype Singularity Pistol",
+    "name": "Nova Prototype Electrolaser",
     "class": "ranged",
     "type": "pistol",
     "manufacturer": "Nova Armaments",
     "damage": "2d10",
-    "ammo": "Heavy Energy Cell",
+    "ammo": "Heavy Power Cell",
     "magSize": 4,
     "range": {
       "min": 2,
@@ -636,6 +637,7 @@
   },
   {
     "id": "unarmed_fists",
+    "natural": true,
     "legacyId": 26,
     "name": "Unarmed / Fists",
     "class": "cqc",

@@ -3,17 +3,22 @@
 import { html, render, delegate, cleanup } from '../dom.js';
 import { go } from '../router.js';
 import { toast } from '../shell.js';
-import { STEPS } from './steps.js';
+import { STEPS, aimBar, stepArt } from './steps.js';
+import { openDialog } from '../sheet/dialogs.js';
 import { typeInto } from './console.js';
 import { info } from '../ref.js';
-import { createCharacter } from '../../state/character.js';
+import { createCharacter, upgradeSave } from '../../state/character.js';
 import { setExplainSource } from '../explain.js';
 import { t, getLang } from '../../i18n/index.js';
 import { storyPrompt, portraitPrompt } from './prompts.js';
 import { shrinkImage } from '../../state/store.js';
-import { runAdolescence, runCareerTerm, resolveChoice } from '../../rules/builder.js';
+import { runAdolescence, runCareerTerm, resolveChoice, nextQuestion, scoreQuiz } from '../../rules/builder.js';
+import { findSubclass } from '../../rules/classes.js';
+import { takeKit } from '../../rules/kits.js';
 
 const KEY = 'fe.builder.draft.v1';
+const INTRO = 'fe.builder.intro'; // decision 169: the intro window was seen on this device
+const AIM_STEPS = ['attributes', 'adolescence', 'career', 'class']; // where the Aiming for bar shows
 
 function newDraft(data) {
   return {
@@ -70,6 +75,7 @@ export function builderView({ data, store, main, table, library }) {
             <p class="page-lede">${t('builder.stepOf', { n: draft.step + 1, total: STEPS.length })}</p>
           </div>
           <div class="cluster">
+            <button class="btn btn--sm btn--ghost" data-action="intro">? ${t('builder.intro.button')}</button>
             <label class="b-toggle"><input type="checkbox" data-action="advanced" ${draft.advanced ? 'checked' : ''}><span>${t('builder.advancedMode')}</span></label>
             <button class="btn btn--sm btn--ghost" data-action="restart">${t('builder.startOver')}</button>
           </div>
@@ -80,7 +86,7 @@ export function builderView({ data, store, main, table, library }) {
         </ol>
         <section class="card b-card">
           <header class="card__head"><div><h2 class="card__title">${st.title}${st.ref ? info(st.ref, st.title) : ''}</h2><p class="hint b-lede">${st.lede}</p></div></header>
-          <div class="card__body stack">${st.view({ ...draft, log }, data, { atTable: Boolean(table?.state.available) })}</div>
+          <div class="card__body stack">${stepArt(data, st.id)}${AIM_STEPS.includes(st.id) ? aimBar(draft, data) : ''}${st.view({ ...draft, log }, data, { atTable: Boolean(table?.state.available) })}</div>
           <footer class="card__foot">
             <button class="btn" data-action="prev" ${draft.step === 0 ? 'disabled' : ''}>${t('common.back')}</button>
             <span class="hint b-nav-reason">${nav.reason}</span>
@@ -129,10 +135,20 @@ export function builderView({ data, store, main, table, library }) {
     prev: () => commit((d) => { d.step = Math.max(0, d.step - 1); }),
     goto: ({ step: i }) => commit((d) => { d.step = Number(i); }),
     restart: () => { if (confirm(t('builder.confirmRestart'))) { draft = newDraft(data); saveDraft(draft); draw(); } },
-    answer: ({ q, o }) => commit((d) => { d.quiz[q] = o; }),
+    answer: ({ q, o }) => commit((d) => { // decision 169: one question at a time — answering moves on
+      d.quiz[q] = o;
+      const at = data.quiz.questions.findIndex((x) => x.id === q);
+      d.quizAt = nextQuestion(data.quiz.questions, d.quiz, at);
+    }),
+    quizGo: ({ i }) => commit((d) => { d.quizAt = Number(i); }),
+    intro: () => openIntro(),
+    storyMode: ({ mode }) => commit((d) => { d.storyMode = mode; }),
+    pickKit: ({ id: kit }) => commit((d) => { d.kit = kit || null; }), // decision 183
     attr: ({ key, delta }) => commit((d) => { d.character.attributes[key] += Number(delta); }),
     suggest: ({ class: cls }) => commit((d) => {
       Object.assign(d.character.attributes, data.quiz.suggestedStats[cls].stats, { CRS: data.attributes.creation.crs.start });
+      // decision 169: the class you load stats for becomes what you aim at (the quiz's subclass of it, else its first)
+      if (!d.character.subclassId) d.target = scoreQuiz(d.quiz, data.quiz).find((r) => r.classId === cls)?.subclassId ?? data.classes.classes.find((k) => k.id === cls)?.subclasses[0]?.id ?? d.target;
     }),
     rollYouth: () => commit((d) => {
       d.snapshots.youth = structuredClone(d.character);
@@ -200,9 +216,11 @@ export function builderView({ data, store, main, table, library }) {
       toast(t('dossier.askedToast'), 'success');
     },
     create: () => {
-      const c = structuredClone(draft.character);
+      const kit = draft.kit && (data.kits?.kits ?? []).find((k) => k.id === draft.kit && k.subclass === draft.character.subclassId);
+      const c = kit ? takeKit(draft.character, kit, data) : structuredClone(draft.character); // decision 183: the starter kit, gear free
       c.tags = c.tags.filter((t) => t !== 'Career ended');
       c.waivers = [];
+      upgradeSave(c, data); // decision 172: a Tech Wizard's Scrap Drone
       const id = store.add(c);
       localStorage.removeItem(KEY);
       toast(t('builder.ready', { name: c.name }), 'success');
@@ -242,9 +260,33 @@ export function builderView({ data, store, main, table, library }) {
     if (!sel) return;
     if (sel.dataset.pick) commit((d) => { (d.picks[sel.dataset.pick] ??= [])[Number(sel.dataset.index)] = sel.value; }, { redraw: false });
     if (sel.dataset.field) { commit((d) => setPath(d.character, sel.dataset.field, sel.value)); }
+    if (sel.hasAttribute('data-aim') && sel.value) commit((d) => { // decision 169: what you aim at (a picked class follows it)
+      d.target = sel.value;
+      const f = d.character.subclassId ? findSubclass(data.classes, sel.value) : null;
+      if (f) { d.character.classId = f.cls.id; d.character.subclassId = f.sub.id; }
+    });
   };
   main.addEventListener('change', onSelect);
 
+  /** Decision 169: what this is and what happens — once on a fresh draft, then from the header's ? button. */
+  function openIntro() {
+    try { localStorage.setItem(INTRO, '1'); } catch { /* private mode */ }
+    openDialog(() => html`
+      <header class="card__head"><h2 class="card__title">${t('builder.intro.title')}</h2>
+        <button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
+      <div class="dialog__body stack b-intro">
+        ${stepArt(data, 'intro')}
+        <p>${t('builder.intro.p1')}</p>
+        <ol class="b-intro__steps">${STEPS.map((s) => html`<li>${s.title}</li>`)}</ol>
+        <p>${t('builder.intro.p2')}</p>
+        <p>${t('builder.intro.p3')}</p>
+        <button class="btn btn--primary btn--block" data-action="close">${t('builder.intro.go')}</button>
+      </div>`, { click: {} });
+  }
+
   draw();
+  let seen = false;
+  try { seen = localStorage.getItem(INTRO) === '1'; } catch { /* private mode */ }
+  if (!seen && draft.step === 0 && !Object.keys(draft.quiz).length) openIntro();
   return cleanup(offClick, offInput, offChange, () => main.removeEventListener('input', onInput), () => main.removeEventListener('change', onSelect));
 }

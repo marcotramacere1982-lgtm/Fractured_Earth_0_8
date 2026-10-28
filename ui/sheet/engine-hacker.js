@@ -24,6 +24,22 @@ function heatBar(heat, cap) {
   return html`<div class="hk-bar hk-bar--heat" role="meter" aria-label="Heat" aria-valuenow="${heat}" aria-valuemin="0" aria-valuemax="${cap}">${cells}</div>`;
 }
 
+/** Decision 170: what the last ping found — networks by letter, their nodes and devices by type; never where. */
+function scanBlock(c, data) {
+  const scan = c.play.netScan;
+  if (!scan) return '';
+  const role = (n) => t(`ping.role.${n}`);
+  return html`<div class="hk-scan">
+    <div class="spread"><span class="label">${ico(data, 'fx_search')}${t('ping.title')}</span>
+      <button class="btn btn--sm btn--ghost" data-action="clearScan" title="${t('ping.clear')}" aria-label="${t('ping.clear')}">✕</button></div>
+    ${!scan.ok ? html`<p class="muted st-small">${t('ping.failed')}</p>` : !scan.networks.length ? html`<p class="muted st-small">${t('ping.none')}</p>`
+      : scan.networks.map((n) => html`<div class="hk-scan__net">
+        <strong>${t('ping.network', { key: n.key })}${n.name ? ` · ${n.name}` : ''}</strong>${n.mood ? html` <span class="pill ${n.mood === 'calm' ? '' : n.mood === 'twitchy' ? 'pill--info' : 'pill--danger'}">${t(`ping.mood.${n.mood}`)}</span>` : ''}
+        <div class="muted st-small">${n.nodes.map((x) => `${x.n} ${role(x.name)}`).join(' · ')}${n.named.length ? ` — ${n.named.join(', ')}` : ''}</div>
+        <div class="st-small">${n.devices.length ? n.devices.map((x) => `${x.n > 1 ? `${x.n}× ` : ''}${x.name}`).join(' · ') : '—'}</div></div>`)}
+  </div>`;
+}
+
 export function hackerPanel(c, s, data, r, cls) {
   const owned = c.play.inventory.filter((x) => x.kind === 'deck');
   const ownedMods = c.play.inventory.filter((x) => x.kind === 'deckMod');
@@ -37,7 +53,7 @@ export function hackerPanel(c, s, data, r, cls) {
   if (!d) return html`${deckRow}<p class="notice notice--warn">${owned.length ? t('engine.selectDeck') : t('engine.buyDeck')}</p>`;
   const { ram, heatCap } = d.capacity;
   const ghost = s.talents.keepSustainedOnBluescreen;
-  return html`${deckRow}
+  return html`${deckRow}${scanBlock(c, data)}
     ${!r.bluescreen && d.status.heat.bluescreen ? html`<p class="notice notice--warn">${t(ghost ? 'engine.overheatGhost' : 'engine.overheat')}</p>` : ''}
     ${r.bluescreen ? html`<p class="notice notice--danger">BLUE SCREEN — ${t(ghost ? 'engine.bluescreenGhost' : 'engine.bluescreen', { heat: heatCap - cls.resources.roundEnd.rebootHeatBelowCap - (s.talents.rebootBelowCap ?? 0) })}</p>` : ''}
     ${r.stunned ? html`<p class="notice notice--warn">${t('engine.reboot')}</p>` : ''}
@@ -47,7 +63,7 @@ export function hackerPanel(c, s, data, r, cls) {
         <span class="mono"><strong>${Math.max(0, ram - r.ram)}</strong> ${t('engine.hkFreeOf', { max: ram })}${r.ram ? html` · <span class="muted">${t('engine.hkLocked', { n: r.ram })}</span>` : ''}</span></div>
       ${ramBar(r, ram, data)}
     </div>
-    ${r.sustained.length ? html`<div class="cluster hk-payloads"><span class="label">${t('engine.sustained')}</span>${r.sustained.map((id) => html`
+    ${r.sustained.length ? html`<div class="cluster hk-payloads"><span class="label">${t('engine.sustained')}</span>${r.sustained.length > 1 ? html`<button class="btn btn--sm btn--ghost" data-action="releaseAll" title="${t('engine.releaseAllHint')}">${t('engine.releaseAll')}</button>` : ''}${r.sustained.map((id) => html`
       <button class="btn btn--sm hk-payload" data-action="release" data-id="${id}" title="${t('engine.release')}">${ico(data, 'lock')}${nameOf(data.abilities.hacker, id)}
         <span class="mono muted">${data.abilities.hacker.find((a) => a.id === id)?.ram ?? 0}</span> ✕</button>`)}</div>` : ''}
     <div class="hk-gauge">

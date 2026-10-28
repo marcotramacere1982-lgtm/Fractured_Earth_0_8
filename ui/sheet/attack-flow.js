@@ -8,7 +8,6 @@ import { formatRoll } from '../../rules/dice.js';
 import { damageDice, damageFrom } from '../../rules/turn.js';
 import { hitLocations } from '../../rules/body.js';
 import { stanceMultiplier, exploitDice, isRanged } from '../../rules/engines.js';
-import { locationRule } from './play.js';
 import { tellTargets } from './engine.js';
 
 /** Breakdown of a damage roll: dice, second roll, bonus dice, Exploit, OFF, Hot, stance multiplier. */
@@ -17,17 +16,50 @@ export const damageBreakdown = (d) => [formatRoll(d.base ?? d), d.second ? `+ ${
 
 const upTo = (n) => Array.from({ length: n }, (_, i) => i + 1);
 
-/** Where a location roll lands, and what that does if it gets through the armor. */
-function located(total, data) {
+const condName = (data, id) => data.conditions.find((k) => k.id === id)?.name ?? id;
+
+/** What a location does when the damage gets through (decision 156): synthetic targets (drones, robots) have their own column. */
+export function partEffect(bp, data, tag = 'organic') {
+  const inj = data.body.injuries;
+  if (tag === 'synthetic') return condName(data, inj.synthetic[bp]);
+  return bp === 'head' ? t('body.headRow', { stunned: condName(data, inj.head.condition), severe: condName(data, inj.head.severe) }) : condName(data, inj[bp].condition);
+}
+
+/** Decision 156: the location table for the roll window — d20 band, body part, what it does to this target (or both kinds). */
+export function locationTable(data, tag = null, { at = null } = {}) {
+  const kinds = tag ? [tag === 'synthetic' ? 'synthetic' : 'organic'] : ['organic', 'synthetic'];
+  return html`<table class="loc-table">
+    <thead><tr><th>d20</th><th>${t('attack.location')}</th>${kinds.map((k) => html`<th>${t(`loc.${k}`)}</th>`)}</tr></thead>
+    <tbody>${data.body.hitLocation.table.map((r) => {
+      const bp = data.body.locations.find((l) => l.id === r.locations[0])?.bp;
+      return html`<tr class="${at != null && at >= r.min && at <= r.max ? 'is-on' : ''}"><td class="mono">${r.min}–${r.max}</td><td>${t(`body.part.${bp}`)}</td>${kinds.map((k) => html`<td>${partEffect(bp, data, k)}</td>`)}</tr>`;
+    })}</tbody></table>
+    <p class="hint">${t('attack.locationCrack')}${tag ? '' : ` ${t('loc.which')}`}</p>`;
+}
+
+/** Where a location roll lands, and what that does if it gets through the armor (for this target's kind). */
+function located(total, data, tag = 'organic') {
   const ids = hitLocations(total, data.body);
   const bp = data.body.locations.find((l) => l.id === ids[0])?.bp;
-  const cond = (id) => data.conditions.find((k) => k.id === id)?.name ?? id;
   const where = [...new Set(ids.map((x) => t(`body.part.${data.body.locations.find((l) => l.id === x)?.bp}`)))].join(' / ');
   return {
     where,
-    html: html`<div class="roll-extra__main"><span class="label">${t('attack.location')}</span><span class="roll-extra__n">${where}</span><span class="mono muted">d20 ${total} · ${t('attack.aimNote')}</span></div>
-      <p class="hint">${t('attack.locationIf', { condition: cond(data.body.injuries[bp].condition) })}${bp === 'head' ? ` ${locationRule(data).head}` : ''} ${t('attack.locationCrack')}</p>`,
+    part: bp, // decision 153: what the GM's pending hit is prefilled with
+    html: html`<div class="roll-extra__main"><span class="label">${t('attack.location')}</span><span class="roll-extra__n">${where}</span><span class="mono muted">d20 ${total}</span></div>
+      <p class="hint">${t('attack.locationIf', { condition: partEffect(bp, data, tag) })} ${t('attack.locationCrack')}</p>`,
   };
+}
+
+/** Decision 156: Aim's ±N — the locations an aimed d20 can be moved to, each at the nearest value to the roll. */
+function aimChoices(roll, data, tag) {
+  const n = data.body.hitLocation.aim ?? 5;
+  const lo = Math.max(1, roll - n);
+  const hi = Math.min(20, roll + n);
+  return data.body.hitLocation.table.filter((r) => r.max >= lo && r.min <= hi).map((r) => {
+    const v = Math.min(Math.max(roll, r.min), r.max);
+    const bp = data.body.locations.find((l) => l.id === r.locations[0])?.bp;
+    return { value: v, label: `${t(`body.part.${bp}`)} (d20 ${v}) → ${partEffect(bp, data, tag)}`, primary: roll >= r.min && roll <= r.max };
+  });
 }
 
 /**
@@ -63,7 +95,9 @@ export function weaponFlow({ c, sh, data, w, spec = {}, exploit = false, combat 
       ] };
     }
     if (spent(a) && !a.exploit) return { id: 'exploit', title: `${t('flow.exploitDice')} · ${label(a.who)}`, dice: [{ key: 'dice', label: 'Exploit', expr: dice(spent(a)) }] };
-    if (spec.located && !a.loc) return { id: 'loc', title: t('flow.location'), dice: [{ key: 'd20', label: t('flow.location'), expr: data.body.hitLocation.die }] };
+    if (spec.located && !a.loc) return { id: 'loc', title: t('flow.location'), hint: spec.aimed ? `🎯 ${t('flow.aimedHint')}` : undefined, dice: [{ key: 'd20', label: t('flow.location'), expr: data.body.hitLocation.die }] };
+    // decision 156: aimed — pick where it lands within ±5 of the roll; the window works out the parts in reach
+    if (spec.located && spec.aimed && a.loc && a.shift === undefined) return { id: 'shift', title: `🎯 ${t('flow.aimShift')}`, hint: t('flow.aimShiftHint', { n: a.loc.d20.total, aim: data.body.hitLocation.aim ?? 5 }), choose: aimChoices(a.loc.d20.total, data, spec.targetTag) };
     return null;
   };
 
@@ -71,7 +105,7 @@ export function weaponFlow({ c, sh, data, w, spec = {}, exploit = false, combat 
     const dmg = expr ? damageFrom({ base: a.damage.base, second: a.damage.second ?? null, extra: a.damage.extra ?? null, exploit: a.exploit?.dice ?? null },
       sh.combat.off.value, { multiplier: stanceMultiplier(c.classId, c.play.resources, data.classes), flat: sh.zone.damage,
         extras: !isRanged(w) && sh.conditionMods.meleeDamage ? [{ n: sh.conditionMods.meleeDamage, label: 'Enraged' }] : [] }) : null;
-    return { dmg, loc: a.loc ? located(a.loc.d20.total, data) : null };
+    return { dmg, loc: a.loc ? located(Number(a.shift ?? a.loc.d20.total), data, spec.targetTag) : null };
   };
 
   return {
@@ -82,6 +116,7 @@ export function weaponFlow({ c, sh, data, w, spec = {}, exploit = false, combat 
       if (id === 'n') return Number(a) ? `Exploit: ${a} Tell${a > 1 ? 's' : ''}` : 'Exploit: —';
       if (id === 'exploit') return `Exploit: ${formatRoll(a.dice)}`;
       if (id === 'loc') return `${t('flow.location')}: d20 ${a.d20.total}`;
+      if (id === 'shift') return `🎯 ${t('flow.aimShift')}: d20 ${a}`;
       return '';
     },
     summary(a) {
@@ -94,7 +129,7 @@ export function weaponFlow({ c, sh, data, w, spec = {}, exploit = false, combat 
     complete(a) {
       const { dmg, loc } = result(a);
       const text = [dmg ? `${dmg.total} damage (${damageBreakdown(dmg)})` : '', loc ? `location ${loc.where}` : ''].filter(Boolean).join(' · ');
-      onDone({ text: text || 'hit', exploit: spent(a) ? { key: a.who, n: spent(a), name: label(a.who) } : null });
+      onDone({ text: text || 'hit', exploit: spent(a) ? { key: a.who, n: spent(a), name: label(a.who) } : null, damage: dmg?.total ?? null, part: loc?.part ?? null, where: loc?.where ?? '', armorHalf: Boolean(spec.armorHalf) });
     },
   };
 }

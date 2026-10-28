@@ -23,7 +23,8 @@ const SMALL_PX = 14; // decision 135: how near a tap must be to a small piece (a
  *       canDrag(key) → may this marker be dragged (default: all), reach(key) → Map "x,y" → steps to shade (optional),
  *       route(key, to) → the squares walked from its square to `to`, or null when it can't get there (optional),
  *       marks (decision 82): markTool() → the tool being drawn with, or null (not marking); markColor() → the colour
- *       of the preview; drawMark({ tool, points }); mayTouch(mark) → can this screen pin / remove it; tapMark(id) }
+ *       of the preview; drawMark({ tool, points }); mayTouch(mark) → can this screen pin / remove it; tapMark(id);
+ *       markIdleTap() → true: a mark you may touch is tapped even when not marking (decision 168) }
  * interactive: markers can be dragged (GM, or a player's own marker); otherwise only pan and zoom.
  */
 export function createMapViewer({ data, prefix, interactive = false, on = {} }) {
@@ -158,6 +159,10 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
       return;
     }
     const hit = interactive && on.moveToken ? tokenAt(cam.toMap(e)) : null;
+    if (!hit && on.markIdleTap?.() && state.marks) { // decision 168: your own mark, tapped outside marking — select it
+      const m = markAt(state.marks.list, cam.toMap(e), (x) => on.mayTouch?.(x));
+      if (m) { gesture = { kind: 'markTap', id: m.id }; return; }
+    }
     const tk = hit && (!on.canDrag || on.canDrag(hit.key)) ? hit : null;
     gesture = tk
       ? { kind: 'token', key: tk.key, from: { x: tk.x, y: tk.y }, to: { x: tk.x, y: tk.y }, sx: e.clientX, sy: e.clientY, reach: on.reach?.(tk.key) ?? null }

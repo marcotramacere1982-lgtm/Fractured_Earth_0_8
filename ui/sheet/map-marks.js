@@ -18,13 +18,28 @@ export const marksButton = () => html`<button class="btn btn--sm ${ui.tool ? 'bt
 /** The marks this map shows: the table's list when it belongs to this map. */
 const listFor = (marks, map) => (marks && marks.map === map.id ? marks.list : []);
 
+/** Decision 168: your mark tapped outside marking — keep it or remove it, right there. */
+export function pickedMarkPanel(map, data, id, marks) {
+  if (ui.tool || !ui.sel) return null;
+  const sel = listFor(marks, map).find((m) => m.id === ui.sel && m.by === id);
+  if (!sel) { ui.sel = null; return null; }
+  const left = secondsLeft(sel, data.map.marks, Date.now(), marks.skew);
+  return html`<section class="map-target map-info map-mark-pick"><div class="map-target__head"><strong>${ICON[sel.tool] ?? ''} ${t('map.mark.yours')}</strong>
+      <button class="btn btn--sm btn--ghost" data-action="mapMarkDeselect" aria-label="${t('map.info.close')}">✕</button></div>
+    <div class="cluster">
+      <button class="btn btn--sm" data-action="mapMarkPin" data-id="${sel.id}" data-on="${sel.pinned ? '0' : '1'}">📌 ${t(sel.pinned ? 'map.mark.unpin' : 'map.mark.pin')}</button>
+      <button class="btn btn--sm btn--danger" data-action="mapMarkRemove" data-id="${sel.id}">✕ ${t('map.mark.remove')}</button>
+      ${left != null ? html`<span class="muted st-small">${t('map.mark.fadesIn', { s: Math.ceil(left) })}</span>` : ''}</div></section>`;
+}
+
 /** Side panel while marking: tools, your colour, the mark you tapped. */
-export function marksPanel(map, data, id, marks, myColor) {
+export function marksPanel(map, data, id, marks, myColor, myTag = '') {
   if (!ui.tool) return '';
   const cfg = data.map.marks;
   const list = listFor(marks, map);
   const sel = list.find((m) => m.id === ui.sel && m.by === id) ?? null;
   if (!sel) ui.sel = null;
+  const mine = list.filter((m) => m.by === id);
   const takenBy = (color) => map.tokens.find((tk) => tk.kind === 'player' && tk.key !== id && tk.color === color)?.name;
   const left = sel ? secondsLeft(sel, cfg, Date.now(), marks.skew) : null;
   return html`<section class="map-marks" data-tour="map-marks-panel">
@@ -38,8 +53,11 @@ export function marksPanel(map, data, id, marks, myColor) {
     <div class="mark-swatches"><span class="label">${t('map.mark.colour')}</span>${cfg.colors.map((color) => html`
       <button class="mark-swatch mark-swatch--${color} ${takenBy(color) ? 'is-taken' : ''}" data-action="mapMarkColor" data-color="${color}" aria-pressed="${myColor === color}"
         title="${t(`map.mark.color.${color}`)}${takenBy(color) ? ` · ${t('map.mark.taken', { name: takenBy(color) })}` : ''}" aria-label="${t(`map.mark.color.${color}`)}"></button>`)}</div>
+    <label class="cluster map-marks__tag"><span class="label">${t('map.mark.tag')}</span>
+      <input class="input input--num" maxlength="3" value="${myTag}" placeholder="${t('map.mark.tagAuto')}" data-action="mapTag" aria-label="${t('map.mark.tag')}" title="${t('map.mark.tagHint')}"></label>
     <p class="hint">${t('map.mark.note', { n: Math.round(cfg.fadeSeconds / 60) })}</p>
-    <button class="btn btn--sm" data-action="mapMarkMode">${t('map.mark.done')}</button>
+    <div class="cluster"><button class="btn btn--sm" data-action="mapMarkMode">${t('map.mark.done')}</button>
+      ${mine.length ? html`<button class="btn btn--sm btn--ghost text-danger" data-action="mapMarkClear">✕ ${t('map.mark.clearMine', { n: mine.length })}</button>` : ''}</div>
   </section>`;
 }
 
@@ -52,6 +70,7 @@ export function markHooks({ map, data, id, marks, myColor, onIdle, send }) {
       markTool: () => ui.tool,
       markColor: () => myColor,
       mayTouch: (m) => m.by === id,
+      markIdleTap: () => true, // decision 168
       tapMark(mid) { ui.sel = ui.sel === mid ? null : mid; onIdle(); },
       async drawMark(raw) {
         const mark = cleanMark(raw, cfg);
@@ -62,16 +81,21 @@ export function markHooks({ map, data, id, marks, myColor, onIdle, send }) {
   };
 }
 
-/** Sheet handlers for the marking controls. ctx: { draw, run, send } */
-export function markHandlers({ draw, run, send }) {
+/** Sheet handlers for the marking controls. ctx: { draw, run, send, mine() → your marks on the table map } */
+export function markHandlers({ draw, run, send, mine = () => [] }) {
   return {
     mapMarkMode() { ui.tool = ui.tool ? null : 'crosshair'; ui.sel = null; draw(); },
     mapMarkTool({ tool }) { ui.tool = tool; draw(); },
     mapMarkColor({ color }) { run('mapColor', { color }); },
     async mapMarkPin({ id, on }) { await send({ pin: { id, on: on === '1' } }); },
     async mapMarkRemove({ id }) { ui.sel = null; await send({ remove: id }); draw(); },
+    mapMarkDeselect() { ui.sel = null; draw(); },
+    async mapMarkClear() { ui.sel = null; for (const m of mine()) await send({ remove: m.id }); draw(); }, // decision 168
   };
 }
 
 /** Your colour for the map: your choice, else the one the GM's table gave your marker, else the one from your id. */
+/** Your marks on this map (for Clear my marks). */
+export const myMarks = (marks, map, id) => (map ? listFor(marks, map).filter((m) => m.by === id) : []);
+
 export const myMarkColor = (c, data, map = null) => markColor(c.id, c.play?.mapColor ?? map?.tokens.find((tk) => tk.key === c.id)?.color, data.map.marks);

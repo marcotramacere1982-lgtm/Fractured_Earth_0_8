@@ -6,7 +6,8 @@
   "note": "Enemy attacks hit on d20 <= attack TN (roll-under, like players). A location attack takes −4 TN and rolls a hit location. Damage minus the target’s armor is applied by the target. Reinforcements added mid-fight act last, then roll initiative at round end.",
   "roundEndClears": [
     "stunned",
-    "slowed"
+    "slowed",
+    "marked"
   ],
   "challenge": {
     "note": "GM estimate (decision 43): ratio = rounds the party would last ÷ rounds to defeat the enemies. Bands are a starting point — tune after play.",

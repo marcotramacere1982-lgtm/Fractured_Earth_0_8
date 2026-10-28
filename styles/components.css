@@ -170,6 +170,20 @@
   background: var(--color-surface); color: var(--color-text); box-shadow: var(--shadow-2);
 }
 .dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
+.dialog--wide { width: min(60rem, calc(100vw - 2 * var(--space-4))); }
+/* decision 156: the roll window — setup in two columns, folded to one line once rolled */
+.check-setup { display: grid; gap: var(--space-3) var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); align-items: start; }
+.check-setup__wide { grid-column: 1 / -1; }
+.check-summary { margin: 0; font-size: var(--text-sm); }
+.foe-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.foe-chip { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--touch); padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface-2); color: inherit; font: inherit; cursor: pointer; }
+.foe-chip img, .foe-chip__letter { width: 2.5rem; height: 2.5rem; border-radius: var(--radius-sm); object-fit: cover; flex: none; }
+.foe-chip__letter { display: grid; place-items: center; font-family: var(--font-display); color: var(--color-text-faint); background: var(--color-surface); }
+.foe-chip[aria-pressed="true"] { border-color: var(--color-accent); background: var(--color-accent-soft); font-weight: 700; }
+.loc-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.loc-table th, .loc-table td { padding: var(--space-1) var(--space-2); border-bottom: var(--border-width) solid var(--color-border); text-align: left; }
+.loc-table th { font-family: var(--font-ui); font-size: var(--text-xs); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--color-text-muted); }
+.loc-table tr.is-on td { background: var(--color-accent-soft); font-weight: 700; }
 .dialog__body { padding: var(--space-4); overflow-y: auto; max-height: 70dvh; }
 .dialog__body > * { flex-shrink: 0; } /* scrolling flex column must not squash tabs/rows */
 .dialog__foot { display: flex; justify-content: flex-end; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-top: var(--border-width) solid var(--color-border); }
@@ -177,10 +191,14 @@
 /* ---------- toast ---------- */
 .toasts { position: fixed; inset: auto var(--space-4) var(--space-4) auto; display: flex; flex-direction: column; gap: var(--space-2); z-index: 50; max-width: min(26rem, calc(100vw - 2 * var(--space-4))); }
 .toast {
-  padding: var(--space-3) var(--space-4); border-radius: var(--radius-md);
+  display: flex; align-items: flex-start; gap: var(--space-2);
+  padding: var(--space-3) var(--space-2) var(--space-3) var(--space-4); border-radius: var(--radius-md);
   background: var(--color-surface-3); border-left: 3px solid var(--color-accent); box-shadow: var(--shadow-2);
   font-size: var(--text-sm);
 }
+.toast__text { flex: 1; padding-top: var(--space-1); }
+.toast__close { flex: none; min-width: var(--touch); min-height: var(--touch); margin: calc(-1 * var(--space-2)) 0; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--color-text-muted); font: inherit; cursor: pointer; }
+.toast__close:hover { color: var(--color-text); background: var(--color-surface-2); }
 .toast--danger { border-left-color: var(--color-danger); }
 .toast--success { border-left-color: var(--color-success); }
 
@@ -301,3 +319,13 @@
 .frame-ctl { display: grid; gap: var(--space-1); }
 .frame-ctl input { width: 100%; min-height: var(--touch); }
 
+
+/* decision 160: market tabs — what your class needs (★) and what it can't use in action */
+.tab--need { color: var(--color-accent); font-weight: 700; }
+.tab--skip { opacity: 0.55; }
+
+/* decision 163: line icons beside labels (data/icons.json) — they help find things; the label still names them */
+.ico { display: inline-flex; flex: none; width: 1.15em; height: 1.15em; margin-right: 0.35em; vertical-align: -0.2em; color: inherit; }
+.ico svg { width: 100%; height: 100%; }
+.label .ico { width: 1.25em; height: 1.25em; margin-right: 0.25em; opacity: 0.85; }
+.pill .ico { width: 1em; height: 1em; margin-right: 0.25em; }

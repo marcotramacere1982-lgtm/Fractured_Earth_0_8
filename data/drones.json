@@ -1,0 +1,71 @@
+[
+  {
+    "id": "scrap_drone",
+    "name": "Scrap Drone",
+    "manufacturer": "Your workbench",
+    "desc": "Your personal project: four mismatched rotors, a car battery cell and a lot of tape. It flies. Mostly.",
+    "modSlots": 1,
+    "reach": 3,
+    "hp": 8,
+    "armor": 1,
+    "damage": "1d6",
+    "visibility": 2,
+    "rarity": "F",
+    "cost": {
+      "cr": 0
+    },
+    "starter": true,
+    "provisional": true
+  },
+  {
+    "id": "hobby_hexacopter",
+    "name": "Hobbyist Hexacopter",
+    "manufacturer": "SkyKit",
+    "desc": "A racing frame with six rotors and a spare-parts gimbal. Fast, light, loud.",
+    "modSlots": 2,
+    "reach": 4,
+    "hp": 10,
+    "armor": 1,
+    "damage": "1d6+1",
+    "visibility": 3,
+    "rarity": "D",
+    "cost": {
+      "cr": 900
+    },
+    "provisional": true
+  },
+  {
+    "id": "contractor_drone",
+    "name": "Contractor Utility Drone",
+    "manufacturer": "Meridian Works",
+    "desc": "A site-survey workhorse with a cargo cradle and a company serial filed off.",
+    "modSlots": 3,
+    "reach": 5,
+    "hp": 12,
+    "armor": 2,
+    "damage": "1d6+2",
+    "visibility": 2,
+    "rarity": "C",
+    "cost": {
+      "cr": 2400
+    },
+    "provisional": true
+  },
+  {
+    "id": "milspec_drone",
+    "name": "Mil-Spec Field Drone",
+    "manufacturer": "Halberd Defence",
+    "desc": "Armoured, quiet and very much not for sale. Somebody sold it anyway.",
+    "modSlots": 4,
+    "reach": 6,
+    "hp": 14,
+    "armor": 2,
+    "damage": "2d6",
+    "visibility": 1,
+    "rarity": "B",
+    "cost": {
+      "cr": 6000
+    },
+    "provisional": true
+  }
+]

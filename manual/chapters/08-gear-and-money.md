@@ -13,11 +13,27 @@ Every purchase can be made in two ways, and the choice matters.
 
 ::table[economy]
 
+### Your stash {#sec-8-stash}
+
+Not everything has to be on you. Gear tab → **Stashes** (right column, each stash folded to one line until you tap it): name the place (a locker at the bus depot, a loose tile under the sink) and 📦 on an item puts one of it there; cash goes in and out by the amount. What is stashed is not carried: it can't be lost, searched, taken or used until you go back for it — which, at the table, means the GM agrees you can get there. Out of reach during a fight. Only you and the GM see it; every move is logged.
+
+**Crew stashes.** At the table the GM can set up stashes the whole crew shares — the van, a lock-up, a dead drop. They show on everyone's Gear tab: anyone can put things in (📦 asks which stash) or take them out, and the stash's history shows who did what. Trust is the point. The GM can **lock** one (you see it, you can't reach it: it's being watched, or the van is impounded) or **raid** it (everything in it is gone).
+
+### The washer {#sec-8-washer}
+
+Some fixers move money between the two worlds. **Washing** turns cash into Credit Score: a fake salary, a fake contract, and your score goes up. **Cashing out** goes the other way: you borrow against your score and walk out with untraced cash, and your score goes down. The fixer names a rate (cash per Credit Score point) and takes a commission; the GM makes the offer, it appears in Gear, and you choose how many points to take — the sheet shows the sum before you agree. Credit Score never goes above its cap or below 0 this way. Every deal is logged: a fixer's books are a trail of their own.
+
 ## 8-2. Weapons {#sec-8-2}
 
 Every weapon attacks with a skill: knives, batons and stun guns use **Melee / CQC**, pistols **Handguns**, SMGs and assault rifles **Automatic Firearms**, sniper rifles **Long Guns / Shotguns**, fists **Brawling**. Damage adds your Offensive Bonus.
 
 ::table[weapons]
+
+### Weapon mods {#sec-8-2-mods}
+
+Weapons take small upgrades in **mod slots** by rarity: F and E 1, D and C 2, B 3, A 4 (fists and the stun gun none). **One mod of each kind per weapon.** Melee: a *Balanced Hilt* (+1 TN) and a *Sharpened Edge* (+1 damage). Firearms: a *Custom Grip* (+1 TN), a *Heavy Barrel* (+1 damage), *Improved Sights* (+25% maximum range) and an *Extended Magazine* (+50%, at least one more round). Anyone can buy them; **a Soldier or a Tech Wizard installs and removes them**, out of a fight, for free — *🔧* on the weapon's Gear row. A modded weapon becomes its own item (marked *Modded*): its mods go with it when you sell, trade, stash or give it, and it still loads its stock magazines. Taking off the last mod makes it a stock weapon again. Prices are provisional.
+
+::table[weapon-mods]
 
 ## 8-3. Armor {#sec-8-3}
 
@@ -44,6 +60,14 @@ A deck sets the Hacker's **RAM** and **heat cap**. Mod slots take hardware upgra
 ::table[decks]
 
 ::table[deck-mods]
+
+### Tech Wizard drones {#sec-8-5-drones}
+
+The Tech Wizard's drone is an item, bought and modded like a deck — and every Tech Wizard starts with a free **Scrap Drone**, their personal project. It never takes a turn: the Tech Wizard spends actions on the abilities that use it. Its numbers go into them: the Engineer's *Deploy Sentry* barrier is the drone hovering, the sentry turret is the drone landing (its HP, armor and damage). And it gives **reach**: *Healing Surge*, *Field Maintenance* and *Rig Power Conduit*, normally next to you, work up to the drone's reach away. Mod slots take a longer link (reach), a frame (HP), plating (armor), a payload (turret damage) or a shield emitter (armor for allies behind the barrier). When it's shot down, mark it **Wrecked** on the engine: it never shuts down, but it works at half reach and half damage until *Restock & Repair* or the time between missions fixes it. All values are provisional.
+
+::table[drones]
+
+::table[drone-mods]
 
 ### Scavenger optics {#sec-8-5-optics}
 

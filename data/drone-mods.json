@@ -1,0 +1,109 @@
+{
+  "note": "Decision 172: upgrades for the Tech Wizard's drone, one mod slot each. PROVISIONAL values: owner to tune.",
+  "types": [
+    {
+      "id": "reach",
+      "name": "Link",
+      "adds": "reach"
+    },
+    {
+      "id": "frame",
+      "name": "Frame",
+      "adds": "hp"
+    },
+    {
+      "id": "plating",
+      "name": "Plating",
+      "adds": "armor"
+    },
+    {
+      "id": "payload",
+      "name": "Payload",
+      "adds": "damage"
+    },
+    {
+      "id": "shield",
+      "name": "Shield emitter",
+      "adds": "shield"
+    }
+  ],
+  "mods": [
+    {
+      "id": "long_range_antenna",
+      "name": "Long-Range Antenna",
+      "type": "reach",
+      "amount": 1,
+      "rarity": "F",
+      "cost": {
+        "cr": 300
+      },
+      "provisional": true
+    },
+    {
+      "id": "signal_booster",
+      "name": "Mesh Signal Booster",
+      "type": "reach",
+      "amount": 2,
+      "rarity": "C",
+      "cost": {
+        "cr": 1100
+      },
+      "provisional": true
+    },
+    {
+      "id": "reinforced_frame",
+      "name": "Reinforced Frame",
+      "type": "frame",
+      "amount": 2,
+      "rarity": "D",
+      "cost": {
+        "cr": 400
+      },
+      "provisional": true
+    },
+    {
+      "id": "scrap_plating",
+      "name": "Scrap Plating",
+      "type": "plating",
+      "amount": 1,
+      "rarity": "F",
+      "cost": {
+        "cr": 350
+      },
+      "provisional": true
+    },
+    {
+      "id": "rifled_barrel",
+      "name": "Rifled Turret Barrel",
+      "type": "payload",
+      "amount": 1,
+      "rarity": "D",
+      "cost": {
+        "cr": 600
+      },
+      "provisional": true
+    },
+    {
+      "id": "shock_rounds_feeder",
+      "name": "Shock-Round Feeder",
+      "type": "payload",
+      "amount": 2,
+      "rarity": "B",
+      "cost": {
+        "cr": 1800
+      },
+      "provisional": true
+    },
+    {
+      "id": "field_emitter",
+      "name": "Field Emitter",
+      "type": "shield",
+      "amount": 1,
+      "rarity": "C",
+      "cost": {
+        "cr": 900
+      },
+      "provisional": true
+    }
+  ]
+}

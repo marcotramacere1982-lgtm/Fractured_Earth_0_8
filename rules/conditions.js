@@ -20,3 +20,17 @@ export function conditionMods(ids, conditionsData, extra = {}) {
 
 /** Squares per move after Prone (halved, rounded down, minimum 1). */
 export const halvedMove = (squares, half) => (half ? Math.max(1, Math.floor(squares / 2)) : squares);
+
+/**
+ * Decision 158: what the target's conditions give whoever attacks it (data: `against: { melee, ranged }`) —
+ * melee at someone Prone +4, ranged at someone Blinded +4, anything at a Marked enemy +2.
+ * @returns { tn, parts: [{ id, name, tn }] }
+ */
+export function againstMods(targetConditions, conditionsData, { melee = false } = {}) {
+  const parts = (targetConditions ?? []).map((id) => {
+    const c = conditionsData.find((x) => x.id === id);
+    const n = c?.against?.[melee ? 'melee' : 'ranged'] ?? 0;
+    return n ? { id, name: c.name, tn: n } : null;
+  }).filter(Boolean);
+  return { tn: parts.reduce((a, b) => a + b.tn, 0), parts };
+}

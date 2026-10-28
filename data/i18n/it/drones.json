@@ -1,0 +1,14 @@
+{
+  "scrap_drone": {
+    "desc": "Il tuo progetto personale: quattro rotori spaiati, una cella di batteria d'auto e tanto nastro. Vola. Quasi sempre."
+  },
+  "hobby_hexacopter": {
+    "desc": "Un telaio da corsa a sei rotori con un gimbal di recupero. Veloce, leggero, rumoroso."
+  },
+  "contractor_drone": {
+    "desc": "Un mulo da rilievi di cantiere con culla di carico e il numero di serie aziendale limato via."
+  },
+  "milspec_drone": {
+    "desc": "Corazzato, silenzioso e assolutamente non in vendita. Qualcuno l'ha venduto lo stesso."
+  }
+}

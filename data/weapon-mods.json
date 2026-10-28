@@ -1,0 +1,117 @@
+{
+  "note": "Decision 173: weapon mods. Slots by rarity (a weapon may set its own modSlots); one mod of each kind per weapon; installed out of a fight by a Soldier or a Tech Wizard. range / mag amounts are percentages. PROVISIONAL prices: owner to tune.",
+  "slotsByRarity": {
+    "F": 1,
+    "E": 1,
+    "D": 2,
+    "C": 2,
+    "B": 3,
+    "A": 4
+  },
+  "types": [
+    {
+      "id": "balance",
+      "name": "Balance",
+      "for": "melee",
+      "adds": "tn"
+    },
+    {
+      "id": "edge",
+      "name": "Edge",
+      "for": "melee",
+      "adds": "damage"
+    },
+    {
+      "id": "grip",
+      "name": "Grip",
+      "for": "ranged",
+      "adds": "tn"
+    },
+    {
+      "id": "barrel",
+      "name": "Barrel",
+      "for": "ranged",
+      "adds": "damage"
+    },
+    {
+      "id": "sights",
+      "name": "Sights",
+      "for": "ranged",
+      "adds": "range"
+    },
+    {
+      "id": "mag",
+      "name": "Magazine",
+      "for": "ranged",
+      "adds": "mag"
+    }
+  ],
+  "mods": [
+    {
+      "id": "balanced_hilt",
+      "name": "Balanced Hilt",
+      "type": "balance",
+      "amount": 1,
+      "rarity": "E",
+      "cost": {
+        "cr": 350
+      },
+      "provisional": true
+    },
+    {
+      "id": "sharpened_edge",
+      "name": "Sharpened Edge",
+      "type": "edge",
+      "amount": 1,
+      "rarity": "E",
+      "cost": {
+        "cr": 300
+      },
+      "provisional": true
+    },
+    {
+      "id": "custom_grip",
+      "name": "Custom Grip",
+      "type": "grip",
+      "amount": 1,
+      "rarity": "D",
+      "cost": {
+        "cr": 450
+      },
+      "provisional": true
+    },
+    {
+      "id": "heavy_barrel",
+      "name": "Heavy Barrel",
+      "type": "barrel",
+      "amount": 1,
+      "rarity": "C",
+      "cost": {
+        "cr": 700
+      },
+      "provisional": true
+    },
+    {
+      "id": "improved_sights",
+      "name": "Improved Sights",
+      "type": "sights",
+      "amount": 25,
+      "rarity": "D",
+      "cost": {
+        "cr": 500
+      },
+      "provisional": true
+    },
+    {
+      "id": "extended_mag",
+      "name": "Extended Magazine",
+      "type": "mag",
+      "amount": 50,
+      "rarity": "E",
+      "cost": {
+        "cr": 350
+      },
+      "provisional": true
+    }
+  ]
+}

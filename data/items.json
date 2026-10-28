@@ -849,22 +849,17 @@
     "id": "micro_drone_recon_cam",
     "legacyId": 37,
     "name": "Micro-Drone Recon Cam",
-    "desc": "Palm-sized quadcopter for short-range aerial scouting.",
+    "desc": "Palm-sized toy quadcopter with a camera: a few minutes of flight, easy to spot and to shoot down.",
     "effectType": "Utility",
-    "effect": "Perception / Awareness (PB) +3 · scouting from above",
-    "skillBonus": "Perception (+3)",
+    "effect": "Fly (out of a fight): recon or decoy · Drones / Remote Craft · fail by 5+ and it is lost · one flight, then recharge",
     "rarity": "C",
     "cost": {
       "cr": 750
     },
-    "tool": [
-      {
-        "id": "main",
-        "skill": "perception_awareness",
-        "tn": 3,
-        "when": "scouting from above"
-      }
-    ]
+    "drone": {
+      "skill": "drones_remote_craft",
+      "lostMargin": -5
+    }
   },
   {
     "id": "emp_pulse_grenade",

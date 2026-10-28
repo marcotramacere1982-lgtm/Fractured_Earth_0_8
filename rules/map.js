@@ -6,6 +6,7 @@ import { normalizeZones } from './zones.js';
 import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
 import { FAIL_MODES } from './power.js';
 import { normalizeAllWires } from './network.js';
+import { floorEdges, linkJumps, normalizeFloors } from './floors.js';
 
 export const MAP_SCHEMA = 1;
 const FREE_STEP = 0.05; // snap off: positions still round to 1/20 of a square
@@ -158,10 +159,11 @@ export function normalizeMap(raw, data) {
     const { min, max } = data.map.sensor.reach;
     const reach = Object.fromEntries(Object.entries(q.reach ?? {}).filter(([k, n]) => def.sensor?.reach?.[k] != null && Number.isFinite(n)).map(([k, n]) => [k, Math.max(min, Math.min(max, Math.round(n)))]));
     const text = (k, max) => (typeof q[k] === 'string' && q[k].trim() ? { [k]: q[k].trim().slice(0, max) } : {}); // GM label / note (decision 99)
-    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}) });
+    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(['uplink', 'router', 'ap', 'repeater'].includes(def.net) ? text('netName', 30) : {}), ...(def.net === 'uplink' && ['civil', 'corp', 'military'].includes(q.security) ? { security: q.security } : {}), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}) });
   }
   const wires = normalizeAllWires(raw.wires, { walls, props }, data); // decisions 127, 129: GM-only power wiring and data links
-  return { ...base, walls, props, ...(wires.length ? { wires } : {}), zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
+  const floors = normalizeFloors(raw, { cols: base.cols, rows: base.rows, props }, data); // decision 184
+  return { ...base, walls, props, ...(wires.length ? { wires } : {}), ...(floors.floors.length ? floors : {}), zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
 }
 
 /** Counts by kind, for the builder's summary. */
@@ -203,6 +205,7 @@ export function publicMap(live, people, data) {
     walls: m.walls.filter((w) => !w.hidden).map((w) => ({ id: w.id, a: w.a, b: w.b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open } : {}),
       ...(w.broken ? { broken: true } : {}), ...(w.cracks ? { cracks: true } : {}), ...(isLink(w) && w.cut ? { cut: true } : {}) })), // a weak wall's `breakable` never leaves the GM (decision 83)
     props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.reach ? { reach: p.reach } : {}), ...(p.caption ? { caption: p.caption } : {}), ...(p.height != null ? { height: p.height } : {}), ...publicState(p, propDef(data, p.prop)) })), // a caption travels; label and note never do
+    ...(m.floors?.length ? { floors: m.floors, floorLinks: (m.floorLinks ?? []).filter((l) => [l.a, l.b].every((id) => activeProps(m).some((p) => p.id === id))) } : {}), // decision 184: the building's floors
     tokens: people.filter((p) => !p.hidden && live.tokens[p.key]).map((p) => ({
       key: p.key, kind: p.kind, label: p.label, name: p.name, x: live.tokens[p.key].x, y: live.tokens[p.key].y, down: Boolean(p.down), current: Boolean(p.current),
       ...(p.kind === 'player' && p.color ? { color: p.color } : {}), // the player's chosen colour, also their marks' (decision 82)
@@ -280,6 +283,7 @@ const moveBlockers = (map, data) => [
   ...activeProps(map).filter((p) => propBlocksMove(propDef(data, p.prop), p)).flatMap((p) => propEdges(p, data)),
   ...activeProps(map).flatMap((p) => blockedEdges(p, data)), // stairs and elevators: invisible side walls (decision 72)
   ...activeProps(map).flatMap((p) => shellEdges(p, data)), // walk-in containers: walls all round, the door while closed (decision 85)
+  ...floorEdges(map), // decision 184: a floor's outline — the way across is a linked staircase
 ];
 
 /**
@@ -289,6 +293,8 @@ const moveBlockers = (map, data) => [
 function walk(map, data, from, max) {
   const blockers = moveBlockers(map, data);
   const rough = difficultSquares(map, data);
+  const jumps = linkJumps(map, data); // decision 184: a linked staircase leads to its partner
+  const jumpCost = data.map.floors?.linkCost ?? 2;
   const steps = new Map([[`${from.x},${from.y}`, 0]]);
   const prev = new Map();
   const buckets = [[from]];
@@ -305,6 +311,14 @@ function walk(map, data, from, max) {
           prev.set(k, s);
           (buckets[c] ??= []).push(t);
         }
+      }
+      for (const t of jumps.get(`${s.x},${s.y}`) ?? []) {
+        const k = `${t.x},${t.y}`;
+        const c = cost + jumpCost;
+        if (c > max || (steps.has(k) && steps.get(k) <= c) || !onBoard(map, t)) continue;
+        steps.set(k, c);
+        prev.set(k, s);
+        (buckets[c] ??= []).push(t);
       }
     }
   }
@@ -327,7 +341,8 @@ function pathFrom(prev, to) {
 /** Movement cost of a route (difficult ground counts 2). */
 export function routeCost(map, data, path) {
   const rough = difficultSquares(map, data);
-  return path.slice(1).reduce((n, s) => n + (rough.has(`${s.x},${s.y}`) ? 2 : 1), 0);
+  const jump = data.map.floors?.linkCost ?? 2;
+  return path.slice(1).reduce((n, s, i) => n + (squaresBetween(path[i], s) > 1 ? jump : rough.has(`${s.x},${s.y}`) ? 2 : 1), 0); // decision 184: a staircase jump
 }
 
 /**
@@ -382,7 +397,8 @@ const SHIFT = 0.01; // the trace is tested a hair to each side, so a room's corn
 /** Everything sight stops at: walls, closed doors, and pieces that block sight (hidden pieces don't count). */
 export const sightSegments = (map, data) => [...solidSegments(map).filter((w) => blocksSight(w, data)),
   ...activeProps(map).filter((p) => propBlocksSight(propDef(data, p.prop), p)).flatMap((p) => propEdges(p, data)),
-  ...activeProps(map).flatMap((p) => shellEdges(p, data))]; // a closed container hides who is inside (decision 85)
+  ...activeProps(map).flatMap((p) => shellEdges(p, data)), // a closed container hides who is inside (decision 85)
+  ...floorEdges(map)]; // decision 184: nobody sees from one floor into another
 
 /** The blockers a line A→B meets, tested a hair to each side: [left, right]; both set = blocked (a corner counts). */
 export function sightHits(A, B, segs) {

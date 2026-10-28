@@ -35,6 +35,21 @@ export function endItemEffects(c, data) {
 
 export const itemActions = {
   /**
+   * Decision 180: the GM starts a new scene (durable `scene`). Scene-long item effects end (no crash), the toy drone
+   * is recharged, once-per-scene uses come back. @returns true when it's new (the same scene can arrive again).
+   */
+  newScene(c, data, { msg }) {
+    if (!msg?.id || c.play.lastScene === msg.id) return false;
+    c.play.lastScene = msg.id;
+    const ended = (c.play.effects ?? []).filter((e) => e.roundsLeft == null);
+    c.play.effects = (c.play.effects ?? []).filter((e) => e.roundsLeft != null);
+    if (ended.length) fitHp(c, data);
+    c.play.droneFlat = false;
+    c.play.sceneUses = {};
+    log(c, `New scene${ended.length ? ` — ended: ${ended.map((e) => e.name).join(', ')}` : ''}`);
+    return true;
+  },
+  /**
    * Uses one item. option: the item's use option id. target: 'self' | 'ally'. heal: the heal roll's total
    * (rolled or typed in the window). limb: which injury a trauma kit treats.
    * @returns a short English summary (also shown to the player for an ally: "heal 7…").

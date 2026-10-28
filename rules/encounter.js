@@ -4,7 +4,8 @@
 import { roll } from './dice.js';
 import { hitLocations } from './body.js';
 import { locationOutcome } from './injuries.js';
-import { damageDice } from './turn.js';
+import { damageDice, allowance } from './turn.js';
+import { conditionMods, againstMods } from './conditions.js';
 
 /**
  * entry = { key, kind: 'player'|'enemy', name, init, roll, reinforcement, enemy? }
@@ -85,10 +86,44 @@ export function addEnemies(enc, template, count = 1) {
     next.entries.push({
       key: `e${next.seq}`, kind: 'enemy', name: label, init: template.init ?? 0, roll: null, reinforcement: next.active, enemy: spawn(template, label),
       letter, publicName: template.publicName ?? '', hidden: false, // what the players' sheets see (publicView)
+      look: n, // decision 152: which picture this copy wears (looks cycle through what exists)
     });
     if (next.active) next.order.push(`e${next.seq}`);
   }
   if (!next.active) next.order = sortKeys(next.entries);
+  return next;
+}
+
+/**
+ * Decision 158: an enemy's attack as its conditions make it — its own (Blinded −10, Suppressed −4, Focused +2 TN;
+ * Enraged +2 melee damage) and the target's (melee at someone Prone +4, ranged at someone Blinded +4).
+ * @returns { tn, base, parts: [{ name, tn }], damageBonus, melee }
+ */
+export function enemyAttackTn(attack, enemy, data, { located = false, targetConditions = [] } = {}) {
+  const melee = attack.type === 'melee';
+  const own = conditionMods(enemy.conditions, data.conditions);
+  const mine = enemy.conditions.map((id) => data.conditions.find((c) => c.id === id)).filter((c) => c?.mods?.attackTn).map((c) => ({ name: c.name, tn: c.mods.attackTn }));
+  const vs = againstMods(targetConditions, data.conditions, { melee });
+  const base = attack.tn - (located ? data.body.locationAttack.tnPenalty : 0);
+  return { tn: base + own.attackTn + vs.tn, base, parts: [...mine, ...vs.parts.map((p) => ({ name: `${p.name} target`, tn: p.tn }))], damageBonus: melee ? own.meleeDamage : 0, melee };
+}
+
+/** Decision 158: an enemy's actions this round — Overdrive +1, Slowed −1, Stunned 1 (the players' rule). */
+export const enemyActions = (enemy, data) => allowance(enemy.actions + conditionMods(enemy.conditions, data.conditions).act, enemy.conditions, data.actions);
+
+/** Decision 152: which picture an enemy wears (1, 2, 3… — cycles through what exists). */
+export function setLook(enc, key, look) {
+  const next = clone(enc);
+  const e = entryOf(next, key);
+  if (e?.enemy) e.look = Math.max(1, Math.round(Number(look) || 1));
+  return next;
+}
+
+/** Decision 152: an entry fights on the crew's side — the sheets show it named, in green, under Allies. */
+export function setAlly(enc, key, on) {
+  const next = clone(enc);
+  const e = entryOf(next, key);
+  if (e?.enemy) e.ally = Boolean(on);
   return next;
 }
 
@@ -187,11 +222,28 @@ export function endCombat(enc) {
 }
 
 /** What the players see of an enemy: the name the GM gives it at the table, and whether it is revealed. */
+/** Decision 160: a renamed enemy's tag — the initials of two words ("Guard Captain" → GC) or the first two letters ("Sniper" → SN). */
+export function initialsOf(name) {
+  const words = String(name ?? '').replace(/[^\p{L}\p{N}\s]/gu, ' ').trim().split(/\s+/).filter(Boolean);
+  return (words.length > 1 ? words[0][0] + words[1][0] : (words[0] ?? '').slice(0, 2)).toUpperCase();
+}
+
 export function setPublic(enc, key, { publicName, hidden } = {}) {
   const next = clone(enc);
   const e = entryOf(next, key);
   if (!e?.enemy) throw new Error('No such enemy.');
-  if (publicName !== undefined) e.publicName = String(publicName).trim().slice(0, 40);
+  if (publicName !== undefined) {
+    e.publicName = String(publicName).trim().slice(0, 40);
+    // decision 160: the tag follows the name the players see (the map marker, the tracker, the cards); a clash gets a number
+    e.baseLetter ??= e.letter;
+    const tag = initialsOf(e.publicName);
+    if (tag) {
+      const taken = new Set(next.entries.filter((x) => x !== e && x.letter).map((x) => x.letter));
+      let n = 1;
+      while (taken.has(n === 1 ? tag : `${tag}${n}`)) n += 1;
+      e.letter = n === 1 ? tag : `${tag}${n}`;
+    } else e.letter = e.baseLetter;
+  }
   if (hidden !== undefined) e.hidden = Boolean(hidden);
   return next;
 }
@@ -220,10 +272,10 @@ export function updateEnemy(enc, key, fn) {
  * damage that gets through adds the location's condition; armor that stops it all cracks by 1.
  * Returns { enc, absorbed, taken, condition, immune, crack }.
  */
-export function damageEnemy(enc, key, amount, { ignoreArmor = false, part = null } = {}, data = null) {
+export function damageEnemy(enc, key, amount, { ignoreArmor = false, armorHalf = false, part = null } = {}, data = null) {
   let out = { absorbed: 0, taken: 0, condition: null, immune: false, crack: 0 };
   const next = updateEnemy(enc, key, (en) => {
-    const armor = ignoreArmor ? 0 : en.armor;
+    const armor = ignoreArmor ? 0 : armorHalf ? Math.floor(en.armor / 2) : en.armor; // decision 155: Bunker Buster, Kill Shot, special rounds
     if (part) {
       const o = locationOutcome({ part, damage: amount, armor, wornArmor: armor, hp: en.hp, maxHp: en.maxHp, tag: en.tag, immune: en.immune ?? [] }, data.body);
       out = { absorbed: amount - o.taken, taken: o.taken, condition: o.condition, immune: o.immune, crack: o.crack };
@@ -261,9 +313,10 @@ export function enemyAttack(attack, data, rng = Math.random, { located = false }
  * tells which enemy acts when. Hostiles: the revealed enemies by letter, with what anyone could see — the
  * public name, organic/synthetic, a wound band and visible conditions. Never HP, armor, stats or initiative.
  */
-export function publicView(enc, data) {
+export function publicView(enc, data, { art = null, faces = null } = {}) {
   const visible = (e) => e && !(e.kind === 'enemy' && e.hidden);
   const limbs = data.conditions.filter((c) => c.limb);
+  const shownName = (e) => e.publicName || (e.ally ? e.name : data.encounter.hostileLabel); // allies are known by name
   return {
     type: 'combat',
     id: enc.id,
@@ -273,15 +326,20 @@ export function publicView(enc, data) {
     hostiles: enc.entries.filter((e) => e.enemy && visible(e)).map((e) => ({
       key: e.key,
       letter: e.letter,
-      name: e.publicName || data.encounter.hostileLabel,
+      name: shownName(e),
       tag: e.enemy.tag ?? 'organic',
+      elite: e.enemy.kind === 'elite',
+      ally: Boolean(e.ally),
+      art: art?.[e.enemy.templateId]?.key ?? null, // decision 152: an opaque key, never the bestiary id
+      look: e.look ?? 1,
       band: woundBand(e.enemy.hp, e.enemy.maxHp, data),
       conditions: [...e.enemy.conditions, ...limbs.filter((c) => e.enemy.injuries?.[c.limb] > 0).map((c) => c.id)],
     })),
     order: enc.order.map((k) => entryOf(enc, k)).filter(visible)
       .map((e) => ({
-        key: e.kind === 'player' ? e.key : 'hostile',
-        name: e.kind === 'player' ? e.name : data.encounter.hostileLabel,
+        key: e.kind === 'player' ? e.key : e.ally ? 'ally' : 'hostile',
+        name: e.kind === 'player' ? e.name : e.ally ? shownName(e) : data.encounter.hostileLabel,
+        ...(e.kind === 'player' && faces?.[e.key] ? { face: faces[e.key] } : {}), // decision 159: the player's portrait frame (the picture comes from the table)
         current: e.key === currentKey(enc),
         done: enc.active && enc.acted.includes(e.key),
         down: Boolean(e.enemy && e.enemy.hp <= 0),

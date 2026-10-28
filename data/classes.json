@@ -90,7 +90,22 @@
           "desc": "Tactical commander: squad positioning, defensive holds, marking priority targets.",
           "legacyIndex": 1
         }
-      ]
+      ],
+      "market": {
+        "need": [
+          "ammo",
+          "armor",
+          "weapon",
+          "weaponMod"
+        ],
+        "skip": [
+          "deck",
+          "deckMod",
+          "drone",
+          "droneMod",
+          "optic"
+        ]
+      }
     },
     {
       "id": "hacker",
@@ -117,11 +132,11 @@
           "rebootHeatBelowCap": 3
         },
         "rules": {
-          "ramFull": "No RAM left: release a sustained payload (Release Payload or System Hard Reboot) to free slots.",
+          "ramFull": "No RAM left: release a sustained payload (its ✕, Release all, or System Hard Reboot) to free slots.",
           "heatCap": "Heat reaching the deck cap = Blue Screen: every sustained hack crashes (RAM freed), the deck is locked for the next round, then reboots at cap - 3 heat.",
           "range": "Hack range: a device in sight, or within 10 squares on a network you have pinged.",
           "tags": "Enemies are organic, cybernetic or synthetic. Most hacks only touch cybernetic or synthetic targets; organic ones are reached only through their gear.",
-          "auto": "Thermal Dump, Release Payload and System Hard Reboot need no roll; they still take an action."
+          "auto": "Thermal Dump and System Hard Reboot need no roll and never take a slot; they still take an action."
         }
       },
       "maxEquippedAbilities": 3,
@@ -146,7 +161,17 @@
           "desc": "Heavy system destruction, deep network control, multi-target payloads, extreme heat.",
           "legacyIndex": 3
         }
-      ]
+      ],
+      "market": {
+        "need": [
+          "deck"
+        ],
+        "skip": [
+          "drone",
+          "droneMod",
+          "optic"
+        ]
+      }
     },
     {
       "id": "techwiz",
@@ -184,7 +209,7 @@
         "rules": {
           "gain": "+1 Sync each time you use an ability, and +1 at the end of a round in which you did not switch mode (max 3, Resonant).",
           "switch": "Switching mode is free at the start of your turn, but Sync drops to 0.",
-          "resonant": "At Resonant (3) you may make a Resonant cast: the ability fires both faces, then Sync drops to 0.",
+          "resonant": "At Resonant (3) you may make a Resonant burst: the ability fires both faces, then Sync drops to 0.",
           "brownout": "The heaviest abilities cause a Brownout: Sync 0 and the rig is offline (no abilities) until the end of the next round.",
           "disruption": "Losing HP costs 1 Sync.",
           "combat": "Every combat starts at Sync 0 (Cold)."
@@ -212,7 +237,17 @@
           "desc": "Weapon modifications, electrical traps, automated hardware.",
           "legacyIndex": 5
         }
-      ]
+      ],
+      "market": {
+        "need": [
+          "drone"
+        ],
+        "skip": [
+          "deck",
+          "deckMod",
+          "optic"
+        ]
+      }
     },
     {
       "id": "smuggler",
@@ -283,7 +318,20 @@
           "desc": "Tactical mastermind and off-grid navigator: map control, decoys, underground favors.",
           "legacyIndex": 7
         }
-      ]
+      ],
+      "market": {
+        "need": [
+          "weapon",
+          "ammo"
+        ],
+        "skip": [
+          "deck",
+          "deckMod",
+          "drone",
+          "droneMod",
+          "optic"
+        ]
+      }
     },
     {
       "id": "scavenger",
@@ -368,12 +416,24 @@
           ],
           "desc": "Patient eye at a distance: cases the room through the optic, marks targets for the crew, makes the shot that matters."
         }
-      ]
+      ],
+      "market": {
+        "need": [
+          "optic",
+          "weapon"
+        ],
+        "skip": [
+          "deck",
+          "deckMod",
+          "drone",
+          "droneMod"
+        ]
+      }
     }
   ],
   "abilityRoll": {
     "tn": "class",
-    "onFailure": "spend",
-    "note": "Every ability rolls d20 against Class TN (minus GM difficulty). onFailure 'spend': the attempt still spends the action and moves the class engine (TP, heat, resonance, pendulum); only the effect fails. Set to 'nothing' to make a failed roll change nothing but the action."
+    "onFailure": "step",
+    "note": "Every ability rolls d20 against Class TN (minus GM difficulty). onFailure 'step' (decision 179): a failed roll spends the action and costs one step of the engine — 1 TP, 1 heat, 1 Tell on the target, Sync −1, or the pendulum one step toward 0; never the full price, and a builder builds nothing. 'spend': the full engine cost anyway (old rule). 'nothing': only the action."
   }
 }

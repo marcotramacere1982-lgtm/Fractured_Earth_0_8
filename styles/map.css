@@ -237,3 +237,7 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 .map-net--cut { stroke: var(--color-danger); stroke-dasharray: 10 8; }
 .map-net__range { fill: var(--color-info-soft); fill-opacity: 0.25; stroke: var(--color-info); stroke-dasharray: 4 8; opacity: 0.5; pointer-events: none; }
 .map-net__tag { fill: var(--color-info); }
+
+/* decision 184: floors side by side */
+.map-floor { fill: none; stroke: var(--color-accent); stroke-width: 8; stroke-dasharray: 24 12; opacity: 0.7; }
+.map-floor__name { fill: var(--color-accent); font-family: var(--font-display); font-size: 32px; opacity: 0.85; }

@@ -155,5 +155,61 @@
       "Allerta monitoraggio: la sicurezza automatica ti segnala appena ti vede — aspettati allarmi."
     ],
     "clear": "Togli il kit (Equipaggiamento)."
+  },
+  "braced": {
+    "name": "Braced",
+    "targets": "Operatori",
+    "effects": [
+      "+2 armatura."
+    ],
+    "clear": "Fino al tuo prossimo turno, o quanto dice l’ability."
+  },
+  "suppressed": {
+    "name": "Suppressed",
+    "targets": "Tutti",
+    "effects": [
+      "−4 TN agli attacchi."
+    ],
+    "clear": "Quando lo dice l’ability (di solito: fine del prossimo round, o il suo prossimo attacco)."
+  },
+  "marked": {
+    "name": "Marked",
+    "targets": "Nemici",
+    "effects": [
+      "Gli alleati ottengono +2 TN agli attacchi contro di lui."
+    ],
+    "clear": "Alla fine del round."
+  },
+  "exposed": {
+    "name": "Exposed",
+    "targets": "Nemici",
+    "effects": [
+      "Il prossimo colpo contro di lui ignora 2 di armatura."
+    ],
+    "clear": "Dopo quel colpo."
+  },
+  "unsteady": {
+    "effects": [
+      "−2 TN agli attacchi."
+    ],
+    "clear": "Alla fine del round."
+  },
+  "evasive": {
+    "effects": [
+      "Attacchi contro di te a −2 TN."
+    ],
+    "clear": "Alla fine del round."
+  },
+  "sidestepping": {
+    "effects": [
+      "Attacchi contro di te a −4 TN."
+    ],
+    "clear": "Alla fine del round."
+  },
+  "covered": {
+    "effects": [
+      "Un compagno ti copre: attacchi contro di te a −2 TN."
+    ],
+    "clear": "Alla fine del round."
   }
 }

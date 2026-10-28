@@ -1,16 +1,22 @@
 // Sheet actions: each takes the draft character (+ data, args) and mutates it.
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
-import { canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
+import { abilityContext, failAbility, canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, openingChoice, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
 import { buy, magazineId, addItem } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
 import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance } from '../../rules/turn.js';
+import { checkDroneMod } from '../../rules/field-drone.js';
 import { RuleError } from '../../rules/messages.js';
-import { locationOutcome, partOf } from '../../rules/injuries.js';
+import { abilityFaces } from '../../rules/ability-play.js';
+import { kitAbilities } from '../../rules/kits.js';
+import { hitOutcome } from '../../rules/injuries.js';
 import { progressActions, resetUses } from './progress-actions.js';
 import { downtimeActions } from './downtime-actions.js';
 import { storyActions } from './story-actions.js';
 import { inventoryActions } from './inventory-actions.js';
+import { washerActions } from './washer-actions.js';
+import { stashActions } from './stash-actions.js';
+import { abilityActions } from './ability-actions.js';
 import { itemActions, tickItemEffects, endItemEffects } from './item-actions.js';
 import { wornGrants } from '../../rules/body.js';
 
@@ -28,6 +34,31 @@ export function spend(c, data, what) {
 
 const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 const owned = (c, kind) => c.play.inventory.filter((x) => x.kind === kind);
+
+/** Decision 175: Field Strip — clear Jammed, top up every slotted gun from its spare magazines. */
+function fieldStrip(c, data) {
+  c.play.conditions = c.play.conditions.filter((x) => x !== 'jammed');
+  const done = [];
+  for (const w of deriveSheet(c, data).weapons.filter((x) => !x.empty && x.magSize)) {
+    if ((c.play.ammo[w.slot] ?? 0) >= w.magSize) continue;
+    const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.moddedFrom ?? w.id));
+    if (!mags?.qty) continue;
+    actions.qty(c, data, { kind: 'ammo', id: mags.id, delta: -1 });
+    c.play.ammo[w.slot] = w.magSize;
+    done.push(w.name);
+  }
+  if (done.length) log(c, `Reload ${done.join(', ')} (Field Strip)`);
+}
+
+/** Decision 174: a reaction ability pays like Dodge — this round's action, or next round's once they're gone. */
+function reactionSpend(c, data) {
+  const turn = c.play.turn ?? newTurn();
+  if (!turn.inCombat) return '';
+  const max = allowance(deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions);
+  const now = turn.used < max;
+  c.play.turn = now ? spendAction(turn, max, { kind: 'reaction' }) : borrowAction(turn, max);
+  return `R${turn.round} · reaction (${now ? "this round's action" : "next round's action"}) · `;
+}
 
 export function ensureResources(c) {
   if (c.classId && (!c.play.resources || Object.keys(c.play.resources).length === 0)) c.play.resources = defaultResources(c.classId);
@@ -113,9 +144,7 @@ export const actions = {
     c.play.injuries ??= [];
     const s = deriveSheet(c, data);
     const dmg = Math.max(0, Number(damage) || 0);
-    const outcome = loc
-      ? locationOutcome({ part: partOf(loc, data.body), damage: dmg, armor: s.armor.general, wornArmor: s.armor.current, hp: s.hp.current, maxHp: s.hp.max, immune: s.immune, headNoIncap: Boolean(s.talents.headNoIncap) }, data.body)
-      : { taken: Math.max(0, dmg - s.armor.general), condition: null, crack: 0 };
+    const outcome = hitOutcome(s, { damage: dmg, loc }, data.body);
     const hpNow = s.hp.current - outcome.taken;
     c.play.hp = hpNow >= s.hp.max ? null : hpNow;
     const sync = hurt(c, data, outcome.taken);
@@ -167,6 +196,12 @@ export const actions = {
     c.play.slots[slot] = value || null;
     const w = data.weapons.find((x) => x.id === value);
     c.play.ammo[slot] = w?.magSize ?? 0;
+    if (!c.play.turn?.inCombat) { // out of a fight you hold what you just readied, not your fists (decision 147)
+      const hand = c.play.hand ?? 1;
+      const other = Number(slot) === 1 ? 2 : 1;
+      if (value && !c.play.slots[hand]) c.play.hand = Number(slot);
+      else if (!value && hand === Number(slot) && c.play.slots[other]) c.play.hand = other;
+    }
   },
   ammo(c, data, { slot, delta }) {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
@@ -174,7 +209,7 @@ export const actions = {
   },
   /** Takes a weapon in hand (decision 56): free out of combat, 1 action in combat. */
   hand(c, data, { slot }) {
-    const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
+    const w = data.weapons.find((x) => x.id === c.play.slots[slot]) ?? data.weapons.find((x) => x.natural); // an empty slot: fists (decision 147)
     if (!w || String(deriveSheet(c, data).handSlot) === String(slot)) return;
     const prefix = spend(c, data, { kind: 'swap', name: w.name });
     c.play.hand = Number(slot);
@@ -185,11 +220,12 @@ export const actions = {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
     if (!w?.magSize) return;
     if (c.play.turn?.inCombat && String(deriveSheet(c, data).handSlot) !== String(slot)) throw new RuleError('notInHand', { weapon: w.name }, `The ${w.name} isn't in your hand: swap to it first.`);
-    const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.id));
+    const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.moddedFrom ?? w.id)); // decision 173
     if (!mags?.qty) throw new RuleError('noMagazine', { weapon: w.name }, `No spare magazines for the ${w.name}: buy some, or ask the GM.`);
     const prefix = spend(c, data, { kind: 'reload', name: w.name });
     actions.qty(c, data, { kind: 'ammo', id: mags.id, delta: -1 });
     c.play.ammo[slot] = w.magSize;
+    if (String(c.play.specialAmmo?.slot) === String(slot)) c.play.specialAmmo = null; // decision 155: Black-Market Ammo lasts until the next reload
     log(c, `${prefix}Reload ${w.name} (${mags.qty} spare magazine${mags.qty === 1 ? '' : 's'} left)`);
   },
 
@@ -211,6 +247,8 @@ export const actions = {
       if (kind === 'weapon') for (const s of [1, 2]) if (c.play.slots[s] === id) c.play.slots[s] = null;
       if (kind === 'deck' && c.play.deck === id) c.play.deck = null;
       if (kind === 'deckMod') c.play.deckMods = c.play.deckMods.filter((x) => x !== id);
+      if (kind === 'drone' && c.play.drone === id) c.play.drone = null;
+      if (kind === 'droneMod') c.play.droneMods = (c.play.droneMods ?? []).filter((x) => x !== id);
       if (kind === 'optic' && c.play.optic === id) c.play.optic = null;
     }
   },
@@ -230,11 +268,27 @@ export const actions = {
 
   // ---------------- class engine
   maxAbilities(c, _d, { delta }) { c.play.maxAbilities = clamp(c.play.maxAbilities + Number(delta), 1, 12); },
+  /** Decision 183: a suggested loadout — its abilities replace the equipped ones (within the brain fog limit). */
+  equipKit(c, data, { id }) {
+    const kit = (data.kits?.kits ?? []).find((k) => k.id === id && k.subclass === c.subclassId);
+    if (!kit) return;
+    c.play.abilities = kitAbilities(kit, c, data, deriveSheet(c, data).abilityLimit);
+    log(c, `Loadout: ${kit.name}`);
+  },
   equip(c, data, { id }) {
+    if (data.abilities[c.classId]?.find((a) => a.id === id)?.housekeeping) return; // decision 174: always at hand, never in a slot
     const limit = deriveSheet(c, data).abilityLimit; // brain fog limit + slots from levels 3 / 6 / 9
     if (c.play.abilities.includes(id)) c.play.abilities = c.play.abilities.filter((x) => x !== id);
     else if (c.play.abilities.length < limit) c.play.abilities.push(id);
     else throw new RuleError('brainFog', { n: limit }, `Brain fog: only ${limit} abilities can be equipped. Unequip one first.`);
+  },
+  /** Decision 176: every sustained hack ends at once (it was the Release Payload ability). @returns the ids released. */
+  releaseAll(c, data) {
+    ensureResources(c);
+    const ids = [...(c.play.resources.sustained ?? [])];
+    for (const id of ids) c.play.resources = releasePayload(c.play.resources, id, data.abilities);
+    if (ids.length) log(c, `Released ${ids.map((id) => data.abilities.hacker.find((a) => a.id === id)?.name ?? id).join(', ')}`);
+    return ids;
   },
   release(c, data, { id }) {
     c.play.resources = releasePayload(c.play.resources, id, data.abilities);
@@ -246,12 +300,14 @@ export const actions = {
     const hi = max === '' || max == null ? Infinity : Number(max);
     c.play.resources[key] = clamp((c.play.resources[key] ?? 0) + Number(delta), lo, hi);
   },
-  /** Tech Wizard: Mend / Surge. Free, but Sync drops to 0. */
+  /** Tech Wizard: Mend / Surge. Free, but Sync drops to 0 — except the fight's opening choice (decision 146). */
   techMode(c, data, { value }) {
     ensureResources(c);
     const was = c.play.resources;
-    c.play.resources = switchMode(was, value, deriveSheet(c, data).talents.keepSyncOnSwitch ?? 0);
-    if (was.mode !== value) log(c, `Mode → ${value === 'surge' ? 'Surge' : 'Mend'} (Sync reset)`);
+    const opening = openingChoice(c.play.turn);
+    if (was.held && !opening && was.mode !== value) throw new RuleError('recalibrated', {}, 'You recalibrated this round: no mode switch until it ends.'); // decision 177
+    c.play.resources = switchMode(was, value, deriveSheet(c, data).talents.keepSyncOnSwitch ?? 0, { opening });
+    if (was.mode !== value) log(c, opening ? `Opening mode: ${value === 'surge' ? 'Surge' : 'Mend'}` : `Mode → ${value === 'surge' ? 'Surge' : 'Mend'} (Sync reset)`);
   },
   setRes(c, _d, { key, value }) {
     ensureResources(c);
@@ -296,6 +352,16 @@ export const actions = {
     r.marks = (r.marks ?? []).filter((m) => m.key !== key);
     c.play.resources = pruneTells(r, [...r.marks.map((m) => m.key), ...Object.keys(r.tells).filter((k) => !k.startsWith('m'))]);
   },
+  droneSel(c, _d, { value }) { c.play.drone = value || null; }, // decision 172
+  droneMod(c, data, { id }) {
+    const installed = c.play.droneMods ?? [];
+    checkDroneMod(data.drones.find((d) => d.id === c.play.drone), installed, id);
+    c.play.droneMods = installed.includes(id) ? installed.filter((x) => x !== id) : [...installed, id];
+  },
+  droneWreck(c) {
+    c.play.droneWrecked = !c.play.droneWrecked;
+    log(c, c.play.droneWrecked ? 'Drone: wrecked — half reach, half damage until repaired' : 'Drone: repaired', c.play.droneWrecked ? 'bad' : 'ok');
+  },
   deckMod(c, _d, { id }) {
     c.play.deckMods = c.play.deckMods.includes(id) ? c.play.deckMods.filter((x) => x !== id) : [...c.play.deckMods, id];
   },
@@ -310,7 +376,9 @@ export const actions = {
       classesData: data.classes,
       talents: deriveSheet(c, data).talents,
     });
-    c.play.conditions = c.play.conditions.filter((x) => !data.encounter.roundEndClears.includes(x));
+    const transient = new Set(data.conditions.filter((k) => k.transient).map((k) => k.id)); // decision 182: Evasive, Covered, Unsteady… — this round only
+    c.play.conditions = c.play.conditions.filter((x) => !data.encounter.roundEndClears.includes(x) && !(c.play.roundConditions ?? []).includes(x) && !transient.has(x));
+    c.play.roundConditions = []; // decision 155: Steady Aim's Focused, Brace & Dig In's Braced — this round only
     tickItemEffects(c, data); // after the clear: a stim crash Slows next round
     resetUses(c, data, 'round');
     c.play.turn = endRound(turn);
@@ -326,12 +394,55 @@ export const actions = {
   combatEnd(c, data) {
     if (data) endItemEffects(c, data);
     c.play.turn = endCombat(c.play.turn ?? newTurn());
+    c.play.aimed = false;
+    c.play.conditions = c.play.conditions.filter((x) => !(c.play.roundConditions ?? []).includes(x));
+    c.play.roundConditions = [];
     log(c, '=== Combat over ===');
   },
   /**
    * The GM's combat tracker drives the sheet: start, every round end (class engines tick), end.
    * Idempotent — the same state can arrive again on reconnect.
    */
+  /** Decision 148: the GM asks for initiative (durable `initiative`). Ignored mid-fight. @returns true when it's new. */
+  askInitiative(c, _d, { msg }) {
+    if (c.play.turn?.inCombat || c.play.initAsk?.id === msg.id) return false;
+    c.play.initAsk = { id: String(msg.id ?? '').slice(0, 40) };
+    return true;
+  },
+  /** Decision 170: what a ping found (or `wipe`: a network re-keyed, its line goes). Kept until the next ping. */
+  receivePing(c, _d, { msg }) {
+    const clean = (n) => ({ key: String(n.key ?? '?').slice(0, 2), name: n.name ? String(n.name).slice(0, 30) : null, mood: n.mood ?? null,
+      nodes: (n.nodes ?? []).slice(0, 8).map((x) => ({ name: String(x.name), n: Number(x.n) || 0 })), named: (n.named ?? []).slice(0, 12).map(String),
+      devices: (n.devices ?? []).slice(0, 40).map((x) => ({ name: String(x.name).slice(0, 40), n: Number(x.n) || 0 })) });
+    if (msg.wipe) {
+      if (!c.play.netScan) return false;
+      c.play.netScan = { ...c.play.netScan, networks: c.play.netScan.networks.filter((n) => n.key !== msg.wipe) };
+      log(c, `Network ${msg.wipe} re-keyed: its scan is gone`, 'bad');
+      return true;
+    }
+    c.play.netScan = { at: Date.now(), ok: Boolean(msg.ok), networks: msg.ok ? (msg.networks ?? []).slice(0, 8).map(clean) : [] };
+    log(c, msg.ok ? `Ping: ${c.play.netScan.networks.map((n) => `${n.key} (${n.devices.reduce((k, d) => k + d.n, 0)} devices)`).join(', ') || 'no networks in range'}` : 'Ping: no answer', msg.ok ? 'ok' : 'bad');
+    return true;
+  },
+  clearScan(c) { c.play.netScan = null; },
+  /** Decision 165: the GM asks for a skill or attribute roll (durable `ask`); a card waits on Setup / Tactical. */
+  askRoll(c, data, { msg }) {
+    const kind = msg.kind === 'attr' ? 'attr' : 'skill';
+    const known = kind === 'attr' ? data.attributes.attributes.some((a) => a.id === msg.target) : data.skills.skills.some((k) => k.id === msg.target);
+    const asks = c.play.rollAsks ?? [];
+    if (!known || asks.some((a) => a.id === msg.id)) return false;
+    c.play.rollAsks = [...asks, { id: String(msg.id ?? '').slice(0, 40), kind, target: msg.target, note: String(msg.note ?? '').slice(0, 120) }].slice(-5);
+    return true;
+  },
+  /** Put aside without rolling: the card goes (rolling clears it in the check handler). */
+  rollAsked(c, _d, { id, name = '' }) {
+    c.play.rollAsks = (c.play.rollAsks ?? []).filter((a) => a.id !== id);
+    log(c, `Put aside the GM's ${name} roll`);
+  },
+  initiativeRolled(c, _d, { text }) {
+    c.play.initAsk = null;
+    log(c, `Initiative: ${text}`);
+  },
   tableCombat(c, data, { msg }) {
     const turn = c.play.turn ?? newTurn();
     const mine = turn.inCombat && turn.tableCombat === msg.id;
@@ -340,6 +451,7 @@ export const actions = {
       return;
     }
     if (!mine) {
+      c.play.initAsk = null; // the fight started: the GM has the order (decision 148)
       actions.combatStart(c, data);
       c.play.turn = { ...c.play.turn, tableCombat: msg.id, round: msg.round };
       if (msg.round > 1) log(c, `Joined the GM's combat at round ${msg.round}`);
@@ -359,7 +471,8 @@ export const actions = {
   act(c, data, { kind, detail = '' }) {
     const a = data.actions.actions.find((x) => x.id === kind);
     log(c, `${spend(c, data, { kind })}${a?.name ?? kind}${detail ? ` — ${detail}` : ''}`);
-    if (kind === 'move' && c.play.turn?.inCombat) c.play.turn = { ...c.play.turn, moveLeft: deriveSheet(c, data).move }; // the squares of this Move
+    if (kind === 'aim') c.play.aimed = true; // decision 150: held until the next attack (or the fight ends)
+    if (kind === 'move' && c.play.turn?.inCombat) c.play.turn = { ...c.play.turn, moveLeft: (c.play.turn.moveLeft ?? 0) + deriveSheet(c, data).move }; // the squares of this Move, on top of any left (decision 161)
   },
   /** Scavenger (decision 76): "in the dark" — unlit and unseen by the target — counts as Unseen for Tells. */
   inDark(c, _data, { on }) {
@@ -367,6 +480,11 @@ export const actions = {
     log(c, on ? 'In the dark (Unseen for Tells)' : 'Out of the dark');
   },
   /** Your colour on the table map, for your marker and your marks (decision 82): purely visual, not logged. */
+  /** Decision 160: your letters on the map (2–3, letters and digits); empty → the initials of your name. Visual, not logged. */
+  mapTag(c, _d, { value }) {
+    const tag = String(value ?? '').replace(/[^\p{L}\p{N}]/gu, '').slice(0, 3).toUpperCase();
+    c.play.mapTag = tag || null;
+  },
   mapColor(c, data, { color }) {
     if (data.map.marks.colors.includes(color)) c.play.mapColor = color;
   },
@@ -382,31 +500,46 @@ export const actions = {
   mapMove(c, data, { steps }) {
     const turn = c.play.turn ?? newTurn();
     if (!turn.inCombat) return;
+    // decision 161 (owner): in a fight dragging never spends — tap Move first (1 action), then walk the squares it gives
     let left = turn.moveLeft ?? 0;
-    let prefix = '';
-    if (steps > left) { prefix = spend(c, data, { kind: 'move' }); left += deriveSheet(c, data).move; }
+    if (steps > left) throw new RuleError('pressMove', { n: left }, left ? `Only ${left} squares left: tap Move for more.` : 'Tap Move first (1 action), then drag your marker.');
     left = Math.max(0, left - steps);
     c.play.turn = { ...c.play.turn, moveLeft: left };
-    log(c, `${prefix}Move on the map — ${steps} square${steps === 1 ? '' : 's'}${left ? ` (${left} left)` : ''}`);
+    log(c, `Move on the map — ${steps} square${steps === 1 ? '' : 's'}${left ? ` (${left} left)` : ''}`);
   },
   /** Ability roll resolved in the dialog. `success` from the Class TN roll. */
-  useRolled(c, data, { id, success, rollText, resonant = false }) {
+  useRolled(c, data, { id, success, rollText, resonant = false, steer = 0, stance = null }) {
     ensureResources(c);
     const ability = data.abilities[c.classId].find((a) => a.id === id);
     const sh = deriveSheet(c, data);
-    const ctx = { capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.armed, arms: sh.injured.arms, talents: sh.talents, track: sh.optic?.track ?? 1, classesData: data.classes, failed: !success };
+    const ctx = { ...abilityContext(c), capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.armed, arms: sh.injured.arms, talents: sh.talents, track: sh.optic?.track ?? 1, classesData: data.classes, failed: !success };
     const check = canUse(c.classId, ability, c.play.resources, ctx);
     if (!check.ok) throw new RuleError(check.code, check.vars, `${ability.name}: ${check.reason}`);
-    const prefix = spend(c, data, { kind: 'ability', name: ability.name });
-    if (success || data.classes.abilityRoll.onFailure === 'spend') c.play.resources = useAbility(c.classId, ability, c.play.resources, ctx);
+    const prefix = ability.reaction ? reactionSpend(c, data) : spend(c, data, { kind: 'ability', name: ability.name }); // decision 174: a reaction pays like Dodge
+    if (ability.lockMode) c.play.resources = { ...c.play.resources, held: true }; // decision 177: Recalibrate — no mode switch this round
+    if (ability.perScene) c.play.sceneUses = { ...(c.play.sceneUses ?? {}), [id]: (c.play.sceneUses?.[id] ?? 0) + 1 }; // decision 180
+    if (ability.perMission) c.play.abilityUses = { ...(c.play.abilityUses ?? {}), [id]: (c.play.abilityUses?.[id] ?? 0) + 1 };
+    if (ability.stanceShift && ['defensive', 'attack'].includes(stance)) { // decision 175: Shift Stance — one step, Unsteady till the round ends
+      c.play.resources = { ...c.play.resources, stance };
+      if (!c.play.conditions.includes('unsteady')) c.play.conditions.push('unsteady');
+      c.play.roundConditions = [...new Set([...(c.play.roundConditions ?? []), 'unsteady'])];
+    } else if (ability.refill) fieldStrip(c, data); // decision 175
+    else if (ability.repairDrone) { c.play.droneWrecked = false; log(c, 'Drone: repaired (Patch the Drone)', 'ok'); } // decision 177
+    else if (ability.steer) c.play.resources = { ...c.play.resources, pendulum: clamp((c.play.resources.pendulum ?? 0) + Math.sign(steer), -4, 4) }; // Breathe: one step, your choice
+    else if (success || data.classes.abilityRoll.onFailure === 'spend') c.play.resources = useAbility(c.classId, ability, c.play.resources, ctx);
+    else if (data.classes.abilityRoll.onFailure === 'step') c.play.resources = failAbility(c.classId, ability, c.play.resources, ctx); // decision 179: one step, never the full price
+    if (success && abilityFaces(ability, c.play.resources, { resonant }).some((f) => f.spec.wrecksDrone) && !c.play.droneWrecked) { // decision 177: Remote Pilot's dive
+      c.play.droneWrecked = true;
+      log(c, 'Drone: wrecked — dived into the enemy (half reach, half damage until repaired)', 'bad');
+    }
     // abilities that fire a weapon use its ammunition, hit or miss
     const w = abilityWeapon(ability, ctx.weapons);
     if (w?.magSize && ability.weapon.ammo) c.play.ammo[w.slot] = ability.weapon.ammo === 'all' ? 0 : Math.max(0, (c.play.ammo[w.slot] ?? 0) - ability.weapon.ammo);
-    log(c, `${prefix}${ability.name}${ctx.resonant ? ' (Resonant cast)' : ''}: ${rollText} → ${success ? 'success' : 'failed'}`, success ? 'ok' : 'bad');
+    log(c, `${prefix}${ability.name}${ctx.resonant ? ' (Resonant burst)' : ''}: ${rollText} → ${success ? 'success' : 'failed'}`, success ? 'ok' : 'bad');
   },
   /** Weapon attack resolved in the dialog: spends the action and one round of ammo. */
   attack(c, data, { slot, hit, rollText, damageText, located = false }) {
-    const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
+    const w = data.weapons.find((x) => x.id === c.play.slots[slot]) ?? data.weapons.find((x) => x.natural); // an empty slot: fists (decision 147)
     if (!w) throw new RuleError('noWeapon', {}, 'No weapon in that slot.');
     const ws = deriveSheet(c, data).weapons.find((x) => String(x.slot) === String(slot));
     if (ws?.usable === false) throw new RuleError(ws.why === 'noArms' ? 'noArms' : 'oneArm', { weapon: w.name }, ws.why === 'noArms' ? 'Both arms are broken: no weapons.' : `${w.name}: with a broken arm you can use only one one-handed weapon.`);
@@ -424,7 +557,9 @@ export const actions = {
       ensureResources(c);
       c.play.resources = { ...c.play.resources, attacked: true };
     }
-    log(c, `${prefix}${located ? 'Location attack' : 'Attack'} with ${w.name}: ${rollText} → ${hit ? `hit${damageText ? `, ${damageText}` : ''}${momentum}` : 'miss'}`, hit ? 'ok' : 'bad');
+    const aimed = located && c.play.aimed ? ' (aimed: location ±5)' : '';
+    c.play.aimed = false; // decision 150: the attack uses up the aim
+    log(c, `${prefix}${located ? 'Location attack' : 'Attack'}${aimed} with ${w.name}: ${rollText} → ${hit ? `hit${damageText ? `, ${damageText}` : ''}${momentum}` : 'miss'}`, hit ? 'ok' : 'bad');
   },
   /**
    * The damage step of an attack or ability, once every die is in (app-rolled or typed): logs it, and for
@@ -441,8 +576,34 @@ export const actions = {
   dodge(c, data, { rollText, success }) {
     const s = deriveSheet(c, data);
     const turn = c.play.turn ?? newTurn();
-    c.play.turn = borrowAction(turn, allowance(s.combat.act.value, c.play.conditions, data.actions));
-    log(c, `R${turn.round} · Dodge (next round's action): ${rollText} → ${success ? 'avoided' : 'failed'}`, success ? 'ok' : 'bad');
+    const max = allowance(s.combat.act.value, c.play.conditions, data.actions);
+    // decision 161 (owner): an action left this round pays for the Dodge; only when they're gone does it borrow from next round
+    const now = turn.used < max;
+    c.play.turn = now ? spendAction(turn, max, { kind: 'dodge' }) : borrowAction(turn, max);
+    log(c, `R${turn.round} · Dodge (${now ? "this round's action" : "next round's action"}): ${rollText} → ${success ? 'avoided' : 'failed'}`, success ? 'ok' : 'bad');
+    return true;
+  },
+  /** Decision 154: a hit the GM sent (durable `hit`) waits on the Play tab until it's applied or dodged. @returns true when new. */
+  receiveHit(c, _d, { msg }) {
+    c.play.hits ??= [];
+    if (!msg?.id || c.play.hits.some((h) => h.id === msg.id)) return false;
+    const text = (v, n) => String(v ?? '').slice(0, n);
+    c.play.hits.push({ id: text(msg.id, 40), from: text(msg.from, 40), attack: text(msg.attack, 60), damage: Math.max(0, Math.round(Number(msg.damage) || 0)),
+      dmgText: text(msg.dmgText, 80), loc: text(msg.loc, 12), where: text(msg.where, 40), roll: text(msg.roll, 40) });
+    return true;
+  },
+  applyHit(c, data, { id }) {
+    const h = (c.play.hits ?? []).find((x) => x.id === id);
+    if (!h) return null;
+    c.play.hits = c.play.hits.filter((x) => x !== h);
+    log(c, `${h.from} hit you with ${h.attack}`, 'bad');
+    return actions.takeHit(c, data, { damage: h.damage, loc: h.loc });
+  },
+  dodgedHit(c, _d, { id }) {
+    const h = (c.play.hits ?? []).find((x) => x.id === id);
+    if (!h) return;
+    c.play.hits = c.play.hits.filter((x) => x !== h);
+    log(c, `Dodged ${h.from}'s ${h.attack}`, 'ok');
   },
 
   // ---------------- dossier
@@ -463,6 +624,9 @@ export const actions = {
   ...downtimeActions,
   ...storyActions,
   ...inventoryActions,
+  ...washerActions, // decision 143
+  ...stashActions, // decision 144
+  ...abilityActions, // decision 155
   ...itemActions,
 };
 

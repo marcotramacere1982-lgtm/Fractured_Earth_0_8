@@ -1,0 +1,15 @@
+{
+  "_note": "Decision 169: optional pictures for the builder (intro window and each step), paths relative to app/. Empty = no picture. Prompts for making them: docs/builder-image-prompts.md.",
+  "art": {
+    "intro": "",
+    "quiz": "",
+    "identity": "",
+    "attributes": "",
+    "adolescence": "",
+    "career": "",
+    "debt": "",
+    "class": "",
+    "story": "",
+    "review": ""
+  }
+}

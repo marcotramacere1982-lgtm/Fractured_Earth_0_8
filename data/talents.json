@@ -476,7 +476,7 @@
     "tree": "techwiz",
     "tier": 3,
     "kind": "auto",
-    "desc": "A Resonant cast doesn't drop Sync below Warm.",
+    "desc": "A Resonant burst doesn't drop Sync below Warm.",
     "branch": "engineer",
     "effects": {
       "resonantFloor": 1

@@ -16,8 +16,8 @@
           "id": "tabs",
           "tab": "play",
           "target": "tabs",
-          "title": "Six tabs",
-          "text": "Play for the fight, Skills for checks, Gear for money and the market, Dossier for your story and debt, Notes & maps for anything (and the maps you have seen), Progress for XP and talents. When the GM puts a map on the table, an Active map tab appears too — with its own short tour."
+          "title": "Five tabs",
+          "text": "Setup for the fight and the checks (scroll down for skills and attributes, with a search), Gear for money and the market, Dossier for your story and debt, Notes & maps for anything (and the maps you have seen), Progress for XP and talents. When the GM puts a map on the table, a Tactical tab comes first — with its own short tour."
         },
         {
           "id": "health",
@@ -64,7 +64,7 @@
         },
         {
           "id": "checks",
-          "tab": "skills",
+          "tab": "play",
           "target": "skills",
           "title": "Checks: the roll window",
           "text": "Tap a skill (or an attribute) to roll it: d20, equal or under the TN succeeds. The window shows the GM's difficulty — including Favourable, Easy and Very easy when someone helps you or things go your way — the tools you carry, the items in play (a hypo's +1, already counted) and, in the dark, Light. Locks: mechanical → Sleight of Hand, electronic → Electronics, networked → Hacking."
@@ -161,7 +161,7 @@
           "tab": "play",
           "target": "engine-resource",
           "title": "Field Sync",
-          "text": "The rings are your Sync, Cold to Resonant, filling outward: +1 for each ability used, +1 at round end if you held your mode, −1 when you lose HP. The line beside them says what the end of this round will do. At Resonant both glyphs light up: a Resonant cast fires both faces."
+          "text": "The rings are your Sync, Cold to Resonant, filling outward: +1 for each ability used, +1 at round end if you held your mode, −1 when you lose HP. The line beside them says what the end of this round will do. At Resonant both glyphs light up: a Resonant burst fires both faces."
         },
         {
           "id": "abilities",

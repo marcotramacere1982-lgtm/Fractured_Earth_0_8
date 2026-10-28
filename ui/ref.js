@@ -1,7 +1,7 @@
 // Rule tooltips: html`${info('cover')}` renders an ⓘ button; tapping it opens a short explanation
 // with a "Learn more" link into the manual. One popover for the whole app, installed once in main.js.
 // Live explanations (data-explain="kind:id", built from the character on screen) come from a registered
-// explainer. On devices with a mouse, hovering an ⓘ or an element with data-hint opens it too.
+// explainer. In the GM console (opts.hover), hovering an ⓘ or an element with data-hint with a mouse opens it too.
 
 import { html, escape } from './dom.js';
 import { t } from '../i18n/index.js';
@@ -61,7 +61,10 @@ function open(button, { hover = false } = {}) {
   pop.style.setProperty('--y', `${(below ? r.bottom + 8 : r.top - pop.offsetHeight - 8) + window.scrollY}px`);
 }
 
-/** Installs the shared popover and global listeners. `opts.manual`: { href, newTab } for the "Learn more" link. */
+/**
+ * Installs the shared popover and global listeners. `opts.manual`: { href, newTab } for the "Learn more" link;
+ * `opts.hover`: open on mouse hover too (the GM console; the sheets are tap-only since decision 160 — it cluttered the view).
+ */
 export function installRefs(refsData, opts = {}) {
   refs = refsData.refs;
   if (opts.manual) manual = { ...manual, ...opts.manual };
@@ -79,7 +82,7 @@ export function installRefs(refsData, opts = {}) {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
   // hover (mouse / trackpad only — touch screens use the ⓘ tap)
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  if (opts.hover && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     const TARGETS = '[data-ref], [data-explain], [data-hint]';
     let timer = null;
     document.addEventListener('pointerover', (e) => {

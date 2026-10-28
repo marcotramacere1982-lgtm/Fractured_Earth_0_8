@@ -130,13 +130,15 @@ Quando uno scontro è inevitabile — guardie che si avvicinano a una porta blin
 
 A seconda del tempo concesso dal GM, gli Operatori possono preparare mosse decisive nello spazio fisico e in quello digitale:
 
-- **Preparazione digitale e di rete:** un Hacker usa *Ping Sweep* per scandagliare le sottoreti locali e scoprire torrette nascoste, o precarica un *Keylogger Injection* prima che i nemici entrino in linea di vista.
+- **Preparazione digitale e di rete:** un Hacker usa *Ping Sweep* per scandagliare le sottoreti locali (cosa c'è, mai dove — 7-4) e nominare le torrette che vi stanno, o precarica un *Keylogger Injection* prima che i nemici entrino in linea di vista.
 
 - **Posizione e copertura:** un Soldier o uno Smuggler usa un'azione per mettersi in **copertura totale**, prendere la **stance Defensive** o attivare in anticipo *Brace & Dig In*.
 
 - **Manomettere l'ambiente:** un Tech Wizard spende azioni di preparazione per schierare *Improvised Cover*, individuare i punti deboli della struttura (*Scavenge & Survey*) o manomettere i cavi vicini (*Rig Power Conduit*).
 
 - **Posizionamento e agguato:** gli Operatori furtivi usano le azioni di preparazione per sparire negli angoli bui, ottenendo il bonus di **copertura parziale o totale** o preparando reazioni.
+
+- **Un drone giocattolo:** chiunque può portare un *Micro-Drone Recon Cam* — una telecamera tascabile che vola per pochi minuti. Solo fuori dal combattimento (o agisci o lo fai volare): *Fai volare* sulla sua riga in Equipaggiamento, scegli **Ricognizione** (vola avanti e guarda — il GM ti dice cosa vede) o **Diversivo** (attira occhi e orecchie altrove), e tira **Drones / Remote Craft**. Successo: andata e ritorno. Fallimento: notato, o ha visto poco — ma torna. Fallimento di 5 o più: avvistato e abbattuto, perso. Poi la batteria è scarica: *Ricarica* quando cambia la scena. In un sito sorvegliato la rete più vicina nota qualcosa in aria (+1 Trace, 7-4).
 
 ### Sorpresa e allarmi
 

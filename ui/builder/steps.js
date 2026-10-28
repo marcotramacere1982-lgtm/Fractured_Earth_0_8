@@ -5,12 +5,14 @@ import { driveEditor } from '../sheet/drive.js';
 import { counter, nameOf } from '../sheet/parts.js';
 import { bonus } from '../../rules/stats.js';
 import { pointsRemaining, canAdjust, careerChecks, entryTarget } from '../../rules/creation.js';
-import { scoreQuiz, careerClosed, recommendationLabel } from '../../rules/builder.js';
+import { scoreQuiz, careerClosed, recommendationLabel, careerFit } from '../../rules/builder.js';
 import { lookFields } from '../look.js';
 import { portraitImg } from '../portrait.js';
 import { findSubclass, classTN } from '../../rules/classes.js';
 import { deriveSheet } from '../../state/character.js';
 import { storyPrompt, portraitPrompt } from './prompts.js';
+import { kitsFor } from '../../rules/kits.js';
+import { findGear } from '../../rules/economy.js';
 import { explain, hint } from '../explain.js';
 import { t } from '../../i18n/index.js';
 import { ruleText } from '../rule-text.js';
@@ -30,6 +32,42 @@ function summary(c, data) {
 }
 
 const recs = (draft, data) => scoreQuiz(draft.quiz, data.quiz).slice(0, 2);
+
+/** Decision 169: the subclass this player is building towards — the one picked, else the one aimed at, else the quiz's top pick. */
+export function aim(draft, data) {
+  const id = draft.character.subclassId || draft.target || recs(draft, data)[0]?.subclassId;
+  return id ? findSubclass(data.classes, id) : null;
+}
+
+/** Decision 169: the "Aiming for" bar on the steps that shape the character: the class, its two stats and its TN now. */
+export function aimBar(draft, data) {
+  const a = aim(draft, data);
+  const at = draft.character.attributes;
+  return html`<div class="b-aim">
+    <span class="label">${t('builder.aim.label')}</span>
+    <select class="select b-aim__pick" data-aim aria-label="${t('builder.aim.label')}">
+      ${a ? '' : html`<option value="" selected>${t('builder.aim.pick')}</option>`}
+      ${data.classes.classes.map((cls) => html`<optgroup label="${cls.name}">${cls.subclasses.map((sub) => html`<option value="${sub.id}" ${a?.sub.id === sub.id ? raw('selected') : ''}>${cls.name} · ${sub.name}</option>`)}</optgroup>`)}
+    </select>
+    ${a ? html`<span class="b-aim__tn mono">${t('builder.aim.tn', { a: a.sub.stats[0], va: at[a.sub.stats[0]], b: a.sub.stats[1], vb: at[a.sub.stats[1]], tn: classTN(at, a.sub) })}</span>
+      <span class="muted st-small">${t('builder.aim.why')}</span>` : html`<span class="muted st-small">${t('builder.aim.none')}</span>`}
+  </div>`;
+}
+
+/** Decision 183: starter kits for the chosen subclass — 3 abilities and cheap gear; or none. */
+function kitPicker(draft, data) {
+  const kits = kitsFor(draft.character.subclassId, data);
+  if (!kits.length) return '';
+  const abilityName = (id) => data.abilities[draft.character.classId]?.find((a) => a.id === id)?.name ?? id;
+  const gearName = ([kind, id, qty]) => `${findGear(kind, id, data)?.name ?? id}${qty > 1 ? ` ×${qty}` : ''}`;
+  return html`<div class="stack-tight b-kits"><span class="label">${t('builder.kit.title')}</span><p class="hint">${t('builder.kit.hint')}</p>
+    <div class="b-kits__list">${kits.map((k) => html`<button class="b-kit" data-action="pickKit" data-id="${k.id}" aria-pressed="${draft.kit === k.id}">
+      <strong>${k.name}</strong><span class="st-small">${k.abilities.map(abilityName).join(' · ')}</span><span class="muted st-small">${k.gear.map(gearName).join(', ')}</span></button>`)}
+      <button class="b-kit" data-action="pickKit" data-id="" aria-pressed="${!draft.kit}"><strong>${t('builder.kit.none')}</strong><span class="muted st-small">${t('builder.kit.noneHint')}</span></button></div></div>`;
+}
+
+/** Decision 169: an optional picture for a step or the intro (data/builder.json). */
+export const stepArt = (data, id) => (data.builder?.art?.[id] ? html`<img class="b-art" src="${data.builder.art[id]}" alt="" loading="lazy">` : '');
 
 function terminal(draft) {
   return html`<div class="term" id="term" tabindex="0" aria-live="polite" title="${t('builder.tapSkip')}">${draft.log.length ? '' : html`<div class="term__line term__line--dim">${t('builder.awaiting')}</div>`}</div>`;
@@ -62,15 +100,16 @@ export const STEPS = [
     get lede() { return t('builder.quiz.lede'); },
     view(draft, data) {
       const ranked = recs(draft, data);
+      const qs = data.quiz.questions;
+      const at = Math.max(0, Math.min(draft.quizAt ?? 0, qs.length)); // decision 169: one question at a time
+      const q = qs[at];
       return html`
-        <div class="b-quiz">
-          ${data.quiz.questions.map((q, n) => html`
-            <fieldset class="b-q">
-              <legend><span class="b-q__n">${n + 1}</span>${q.text}</legend>
-              <div class="b-q__opts">${q.options.map((o) => html`
-                <button class="b-opt" data-action="answer" data-q="${q.id}" data-o="${o.id}" aria-pressed="${draft.quiz[q.id] === o.id}">${o.text}</button>`)}</div>
-            </fieldset>`)}
-        </div>
+        <div class="b-qdots" role="group" aria-label="${t('builder.quiz.progress')}">${qs.map((x, i) => html`<button class="b-qdot ${draft.quiz[x.id] ? 'is-done' : ''} ${i === at ? 'is-current' : ''}" data-action="quizGo" data-i="${i}" aria-label="${t('builder.quiz.question', { n: i + 1 })}" aria-current="${i === at}">${i + 1}</button>`)}</div>
+        ${q ? html`<fieldset class="b-q b-q--single">
+            <legend><span class="b-q__n">${at + 1}</span>${q.text}</legend>
+            <div class="b-q__opts">${q.options.map((o) => html`
+              <button class="b-opt" data-action="answer" data-q="${q.id}" data-o="${o.id}" aria-pressed="${draft.quiz[q.id] === o.id}">${o.text}</button>`)}</div>
+          </fieldset>` : html`<p class="notice notice--ok">${t('builder.quiz.done')}</p>`}
         ${ranked.length ? html`<div class="b-rec">
           <span class="label">${t('builder.fit')}</span>
           ${ranked.map((r, i) => html`<span class="pill ${i === 0 ? 'pill--accent' : 'pill--info'}">${i === 0 ? t('builder.primary') : t('builder.secondary')} · ${recommendationLabel(r, data.classes)} (${r.score})</span>`)}
@@ -103,6 +142,7 @@ export const STEPS = [
       const suggestions = [...ranked.map((r) => r.classId), ...Object.keys(data.quiz.suggestedStats)]
         .filter((v, i, list) => list.indexOf(v) === i);
       const s = deriveSheet(c, data);
+      const key = aim(draft, data)?.sub.stats ?? []; // decision 169: the two stats the class rolls on
       return html`
         <div class="b-attr-layout">
           <div class="stack">
@@ -110,9 +150,9 @@ export const STEPS = [
             <div class="cluster"><span class="label">${t('builder.suggested')}</span>${suggestions.map((id, i) => html`<button class="btn btn--sm ${i < ranked.length && ranked.length ? 'btn--primary' : ''}" data-action="suggest" data-class="${id}">${nameOf(data.classes.classes, id)}</button>`)}</div>
             <div class="b-attrs">
               ${data.attributes.attributes.map((a) => html`
-                <div class="b-attr" ${hint('attr', a.id)}>
+                <div class="b-attr ${key.includes(a.id) ? 'b-attr--key' : ''}" ${hint('attr', a.id)}>
                   <span class="icon">${raw(data.icons[a.id.toLowerCase()] ?? '')}</span>
-                  <div class="b-attr__name"><strong>${a.id}${explain('attr', a.id, a.name)}</strong><span class="muted">${a.name}</span></div>
+                  <div class="b-attr__name"><strong>${a.id}${explain('attr', a.id, a.name)}</strong><span class="muted">${a.name}${key.includes(a.id) ? html` · <span class="text-accent">${t('builder.aim.key')}</span>` : ''}</span></div>
                   ${draft.advanced
                     ? html`<input class="input input--num" type="number" data-action="setAttr" data-key="${a.id}" value="${c.attributes[a.id]}">`
                     : html`<span class="counter">
@@ -171,8 +211,10 @@ export const STEPS = [
       const closed = careerClosed(c);
       const sel = data.careers.careers.find((k) => k.id === draft.careerId);
       const terms = c.history.careers;
+      const a = aim(draft, data); // decision 169: which careers help the class's two stats
       return html`
         ${summary(c, data)}
+        ${a ? html`<p class="hint">${t('builder.aim.careerHint', { a: a.sub.stats[0], b: a.sub.stats[1] })}</p>` : ''}
         <div class="cluster">
           ${c.credentials.map((id) => html`<span class="pill pill--info">${nameOf(data.careers.credentials, id)}</span>`)}
           ${c.criminalRecord ? html`<span class="pill pill--danger">${t('dossier.criminal')}</span>` : ''}
@@ -188,8 +230,9 @@ export const STEPS = [
                 <span class="b-career__mods mono">${Object.entries(k.modifiers).map(([a, v]) => `${a} ${signed(v)}`).join(' · ')}</span>
                 <span class="b-career__req text-danger">${t('builder.fallbackOnly')}</span></div>`;
               const entry = entryTarget(c, k, data.careers);
-              return html`<button class="b-career ${eligible ? '' : 'is-blocked'}" data-action="pickCareer" data-id="${k.id}" aria-pressed="${draft.careerId === k.id}">
-                <span class="b-career__cat">${k.category}</span>
+              const fit = a ? careerFit(k, a.sub.stats) : { plus: [], minus: [] };
+              return html`<button class="b-career ${eligible ? '' : 'is-blocked'} ${fit.plus.length && !fit.minus.length ? 'b-career--fits' : ''}" data-action="pickCareer" data-id="${k.id}" aria-pressed="${draft.careerId === k.id}">
+                <span class="b-career__cat">${k.category}${fit.plus.length || fit.minus.length ? html`<span class="b-career__fit">${fit.plus.map((x) => html`<span class="text-success">▲ ${x}</span>`)}${fit.minus.map((x) => html`<span class="text-danger">▼ ${x}</span>`)}</span>` : ''}</span>
                 <span class="b-career__name">${k.name === 'Standard' ? k.category : k.name}</span>
                 <span class="b-career__mods mono">${Object.entries(k.modifiers).map(([a, v]) => `${a} ${signed(v)}`).join(' · ')}</span>
                 <span class="b-career__req">${checks.length ? checks.map((x) => html`<span class="${x.met || waived ? 'text-success' : 'text-danger'}">${x.met || waived ? '✓' : '✗'} ${ruleText(x)}</span>`) : html`<span class="text-success">✓ ${t('builder.noReqs')}</span>`}</span>
@@ -238,6 +281,8 @@ export const STEPS = [
       const c = draft.character;
       const ranked = recs(draft, data).map((r) => r.subclassId);
       const sel = c.subclassId ? findSubclass(data.classes, c.subclassId) : null;
+      const best = Math.max(...data.classes.classes.flatMap((k) => k.subclasses.map((sub) => classTN(c.attributes, sub)))); // decision 169
+      const aimed = aim(draft, data)?.sub.id;
       return html`
         <div class="b-classes">
           ${data.classes.classes.map((cls) => html`
@@ -245,9 +290,9 @@ export const STEPS = [
               <div class="b-class__head"><span class="icon">${raw(data.icons[cls.id] ?? '')}</span><strong>${cls.name}</strong><span class="muted">${cls.resources.engine}</span></div>
               <p class="hint">${cls.summary}</p>
               <div class="b-class__subs">${cls.subclasses.map((sub) => html`
-                <button class="b-sub" data-action="pickClass" data-id="${sub.id}" aria-pressed="${c.subclassId === sub.id}">
-                  <span class="b-sub__name">${sub.name} ${ranked.includes(sub.id) ? html`<span class="pill pill--accent">${ranked[0] === sub.id ? t('builder.quizPick') : t('builder.quizAlt')}</span>` : ''}</span>
-                  <span class="mono muted">${sub.stats.join(' + ')} · TN ${classTN(c.attributes, sub)}</span>
+                <button class="b-sub ${classTN(c.attributes, sub) === best ? 'b-sub--best' : ''} ${!c.subclassId && aimed === sub.id ? 'b-sub--aim' : ''}" data-action="pickClass" data-id="${sub.id}" aria-pressed="${c.subclassId === sub.id}">
+                  <span class="b-sub__name">${sub.name} ${ranked.includes(sub.id) ? html`<span class="pill pill--accent">${ranked[0] === sub.id ? t('builder.quizPick') : t('builder.quizAlt')}</span>` : ''}${!c.subclassId && aimed === sub.id && !ranked.includes(sub.id) ? html`<span class="pill pill--info">${t('builder.aim.yours')}</span>` : ''}</span>
+                  <span class="mono ${classTN(c.attributes, sub) === best ? 'text-accent' : 'muted'}">${sub.stats.join(' + ')} · TN ${classTN(c.attributes, sub)}${classTN(c.attributes, sub) === best ? ` · ${t('builder.class.best')}` : ''}</span>
                   <span class="b-sub__desc">${sub.desc}</span>
                 </button>`)}</div>
             </div>`)}
@@ -263,12 +308,21 @@ export const STEPS = [
     get lede() { return t('builder.story.lede'); },
     view(draft, data, ctx = {}) {
       const c = draft.character;
+      // decision 169: at a table, ask first whether the GM should make the backstory and portrait; the prompts only for doing it yourself
+      const asked = Boolean(c.narrative.backstoryRequest);
+      const diy = !ctx.atTable || draft.storyMode === 'diy';
       return html`
-        ${ctx.atTable ? html`<div class="notice b-story__gm">
-          ${c.narrative.backstoryRequest ? t('builder.sentToGm') : html`<span>${t('builder.gmOffer')}</span> <button class="btn btn--sm btn--primary" data-action="sendStory">${t('builder.sendToGm')}</button>`}
-        </div>` : ''}
         <details class="details b-look" data-keep="look" open><summary>${t('look.title')}</summary>${lookFields(c.narrative.look ?? {}, 'builder')}</details>
-        <div class="b-story">
+        ${ctx.atTable ? (asked ? html`<div class="notice notice--ok b-story__gm"><span>${t('builder.sentToGm')}</span>
+            ${diy ? '' : html`<button class="btn btn--sm btn--ghost" data-action="storyMode" data-mode="diy">${t('builder.story.diyToo')}</button>`}</div>`
+          : draft.storyMode === 'diy' ? html`<p class="hint">${t('builder.gmOffer')} <button class="btn btn--sm btn--ghost" data-action="sendStory">${t('builder.sendToGm')}</button></p>`
+          : html`<div class="b-ask">
+            <h3 class="card__title">${t('builder.story.ask')}</h3>
+            <p>${t('builder.story.askText')}</p>
+            <div class="cluster"><button class="btn btn--primary" data-action="sendStory">${t('builder.story.yes')}</button>
+              <button class="btn" data-action="storyMode" data-mode="diy">${t('builder.story.no')}</button></div>
+          </div>`) : ''}
+        ${diy ? html`<div class="b-story">
           <div class="stack">
             <div class="spread"><span class="label">${t('builder.storyPrompt')}</span><button class="btn btn--sm" data-action="copy" data-target="p-story">${t('common.copy')}</button></div>
             <textarea class="textarea mono b-prompt" id="p-story" readonly>${storyPrompt(c, data)}</textarea>
@@ -284,7 +338,7 @@ export const STEPS = [
               <label class="btn btn--sm">${t('builder.uploadPortrait')}<input type="file" accept="image/*" class="visually-hidden" data-action="portrait"></label>
             </div>
           </div>
-        </div>`;
+        </div>` : ''}`;
     },
     done: () => true,
   },
@@ -314,6 +368,7 @@ export const STEPS = [
             <span class="label">${t('builder.topSkills')}</span>
             <div class="b-skills">${[...s.skills].sort((x, y) => y.value - x.value).slice(0, 10).map((k) => html`<span class="pill">${k.name} <strong class="text-accent">${k.value}</strong></span>`)}</div>
             ${driveEditor(c, data, 'builder')}
+            ${kitPicker(draft, data)}
             <button class="btn btn--primary btn--block b-create" data-action="create">${t('builder.create')}</button>
           </div>
         </div>`;
