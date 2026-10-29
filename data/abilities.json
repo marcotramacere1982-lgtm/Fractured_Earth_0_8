@@ -243,7 +243,8 @@
       "gain": 0,
       "stanceFrom": "any",
       "stanceTo": "current",
-      "desc": "Move one step between Defensive and Attack without an ability. No TP; you are Unsteady (−2 TN on attacks) until the round ends."
+      "desc": "Move one step between Defensive and Attack without an ability. No TP; you are Unsteady (−2 TN on attacks) until the round ends.",
+      "inCombatOnly": true
     },
     {
       "id": "field_strip",
@@ -1110,7 +1111,8 @@
       "auto": true,
       "lockMode": true,
       "minSync": 0,
-      "desc": "Tune the rig: +1 Sync, no roll. In a fight it takes an action, and you can't switch mode this round."
+      "desc": "Tune the rig: +1 Sync, no roll. In a fight it takes an action, and you can't switch mode this round.",
+      "inCombatOnly": true
     },
     {
       "id": "patch_the_drone",
@@ -1629,7 +1631,8 @@
       "shift": {
         "delta": 0
       },
-      "desc": "Steady yourself or let it build: move the pendulum 1 step, cooler or hotter. No roll; in a fight it takes an action."
+      "desc": "Steady yourself or let it build: move the pendulum 1 step, cooler or hotter. No roll; in a fight it takes an action.",
+      "inCombatOnly": true
     },
     {
       "id": "palm_it",
@@ -2035,7 +2038,8 @@
         "target": 1
       },
       "revealsYou": true,
-      "desc": "Lean out and look: +1 Tell on your target, no roll. In a fight it takes an action, and you've shown yourself — no Unseen next round."
+      "desc": "Lean out and look: +1 Tell on your target, no roll. In a fight it takes an action, and you've shown yourself — no Unseen next round.",
+      "inCombatOnly": true
     },
     {
       "id": "scrounge",

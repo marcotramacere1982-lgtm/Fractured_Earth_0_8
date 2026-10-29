@@ -294,6 +294,13 @@
         ],
         "roundEnd": {
           "woundedShift": 1
+        },
+        "subclassZones": {
+          "trafficker": {
+            "cold": {
+              "damage": 1
+            }
+          }
         }
       },
       "maxEquippedAbilities": 3,

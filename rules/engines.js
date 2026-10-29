@@ -143,11 +143,13 @@ function smugglerUse(a, r) {
 }
 
 /** Smuggler zone bonuses (decision 38): Cold +2 TN on gun attacks; Hot +1 damage and +1 square. Zero for other classes. */
-export function zoneBonus(classId, r, classesData, talents = {}) {
+export function zoneBonus(classId, r, classesData, talents = {}, subclassId = null) {
   const none = { zone: null, name: null, rangedTn: 0, damage: 0, squares: 0 };
   if (classId !== 'smuggler') return none;
   const z = zoneFor(r?.pendulum ?? 0, classesData.classes.find((c) => c.id === 'smuggler').resources.zones);
-  const damage = z?.bonus?.damage ? z.bonus.damage + (talents.hotDamage ?? 0) : 0; // Hair Trigger: Hot hits harder
+  const sm = classesData.classes.find((c) => c.id === 'smuggler').resources;
+  const extra = (z && subclassId ? sm.subclassZones?.[subclassId]?.[z.id]?.damage : 0) ?? 0; // decision 186: a Trafficker in Cold +1 damage
+  const damage = (z?.bonus?.damage ? z.bonus.damage + (talents.hotDamage ?? 0) : 0) + extra; // Hair Trigger: Hot hits harder
   return z ? { zone: z.id, name: z.name, rangedTn: z.bonus?.rangedTn ?? 0, damage, squares: z.bonus?.squares ?? 0 } : none;
 }
 
@@ -240,6 +242,7 @@ export function canUse(classId, base, resources, ctx = {}) {
   if (ability.hands && ctx.arms >= 2) return { ok: false, code: 'needHands', reason: 'Needs at least one working arm' };
   // decision 174: limits any ability may carry — out of a fight only, first action only, once per mission
   if (ability.outOfCombat && ctx.inCombat) return { ok: false, code: 'outOfCombat', reason: 'Out of a fight only' };
+  if (ability.inCombatOnly && 'inCombat' in ctx && !ctx.inCombat) return { ok: false, code: 'inCombatOnly', reason: 'Only in a fight' }; // decision 185: no pre-charging an engine
   if (ability.opening && 'opening' in ctx && !ctx.opening) return { ok: false, code: 'opening', reason: 'Only as your first action in a fight' };
   if (ability.perMission && (ctx.missionUses?.[ability.id] ?? 0) >= ability.perMission) return { ok: false, code: 'perMission', reason: 'Once per mission: already used' };
   if (ability.perScene && (ctx.sceneUses?.[ability.id] ?? 0) >= ability.perScene) return { ok: false, code: 'perScene', reason: 'Once per scene: already used' }; // decision 180
@@ -361,6 +364,6 @@ export function combatStart(classId, r, talents = {}, { cover = 0, classesData =
   }
   if (classId === 'soldier') return { ...r, tp: talents.startTp ?? 0, stance: 'ready' };
   if (classId === 'techwiz') return { ...r, sync: Math.min(SYNC_MAX, talents.startSync ?? 0), offline: 0, switched: false };
-  if (classId === 'smuggler') return { ...r, used: [] };
+  if (classId === 'smuggler') return { ...r, pendulum: 0, used: [] }; // decision 185: every fight starts at Composure, like every other engine resets
   return r;
 }

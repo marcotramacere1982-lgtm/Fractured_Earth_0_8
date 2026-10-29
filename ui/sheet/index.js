@@ -260,7 +260,8 @@ export function sheetView({ data, store, main, table }, route) {
       const c = character();
       const sh = deriveSheet(c, data);
       const ability = droneAbility(data.abilities[c.classId].find((a) => a.id === abilityId), sh.drone); // decision 172
-      if (!sh.class || (!ability.reaction && !actionAvailable(c, sh))) return; // decision 174: a reaction may borrow next round's action
+      const freeBreathe = ability.steer && sh.talents.freeSteer && !c.play.talentUses?.[sh.talents.freeSteer]; // decision 186: Poker Face
+      if (!sh.class || (!ability.reaction && !freeBreathe && !actionAvailable(c, sh))) return; // decision 174: a reaction may borrow next round's action
       if (ability.stanceShift) { // decision 175: Shift Stance — Defensive or Attack, whichever you aren't in
         const now = c.play.resources?.stance ?? 'ready';
         const stances = data.classes.classes.find((k) => k.id === 'soldier').resources.stances.filter((x) => ['defensive', 'attack'].includes(x.id) && x.id !== now);

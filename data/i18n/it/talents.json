@@ -30,7 +30,7 @@
     "desc": "Una volta: +5 Credit Score, e un precedente penale viene cancellato senza rumore."
   },
   "network": {
-    "desc": "Una volta per missione, un contatto ti dà informazioni, una porta o un favore (decide il GM)."
+    "desc": "Una volta per missione, un contatto ti dà informazioni, una porta o un favore (decide il GM). Un Trafficker invece ha Know a Guy due volte per missione."
   },
   "safe_house": {
     "desc": "Nel downtime le ferite vengono curate e l’armatura riparata gratis."
@@ -66,7 +66,7 @@
     "desc": "Abbattere un nemico ti dà +1 TP."
   },
   "unstoppable": {
-    "desc": "In Onslaught non puoi essere buttato Prone."
+    "desc": "Human Shield copre ogni alleato adiacente, non uno solo."
   },
   "command_voice": {
     "desc": "Commanding Directive costa 1 TP in meno."
@@ -87,7 +87,7 @@
     "desc": "Credentials Spoof costa 1 RAM in meno."
   },
   "social_engineer": {
-    "desc": "+2 TN a Deception contro bersagli cibernetici."
+    "desc": "Phish funziona due volte per missione, e Spoofed Orders produce 1 heat in meno."
   },
   "ghost": {
     "desc": "I tuoi hack sostenuti sopravvivono a un Blue Screen (di solito li fa crollare tutti)."
@@ -96,7 +96,7 @@
     "desc": "+1 RAM."
   },
   "thermal_discipline": {
-    "desc": "Overclock Pulse genera 2 heat in meno."
+    "desc": "Backdoor abbassa anche di 2 la Trace di quella rete (dillo al GM), e Cascade produce 1 heat in meno."
   },
   "chain_reaction": {
     "desc": "Feedback Loop rimbalza su un bersaglio cibernetico o sintetico adiacente, con metà dei danni."
@@ -108,25 +108,25 @@
     "desc": "Il disturbo scatta solo quando perdi 4 o più HP in un colpo."
   },
   "field_medic": {
-    "desc": "Le cure in Mend +1."
+    "desc": "Cure in Mend +1 (Triage, Healing Surge…)."
   },
   "reinforce": {
-    "desc": "Field Maintenance ripara 3 incrinature invece di 2."
+    "desc": "Portata del drone +2: le ability che arrivano tramite lui vanno più lontano."
   },
   "steady_rig": {
     "desc": "Cambiare modalità ti lascia 1 Sync."
   },
   "live_wire": {
-    "desc": "Danni in Surge +1."
+    "desc": "Danni in Surge +1: i dadi delle tue ability e la torretta del drone."
   },
   "extra_mount": {
-    "desc": "La tua torretta ha +1 armatura e +4 HP."
+    "desc": "Il tuo drone ha +4 HP e +1 armatura (anche come torretta)."
   },
   "overload": {
     "desc": "Un Resonant burst non fa scendere il Sync sotto Warm."
   },
   "poker_face": {
-    "desc": "Una volta per combattimento, sposta gratis il pendolo di 1 verso 0."
+    "desc": "Una volta per combattimento, Breathe non costa azioni."
   },
   "deep_pockets": {
     "desc": "Contraband Stash funziona anche a 0 (Composure)."
@@ -153,7 +153,7 @@
     "desc": "La prima volta che piazzi Tell in uno scontro, ne piazzi 1 in più."
   },
   "scrounger": {
-    "desc": "Salvage prende 2 oggetti invece di 1."
+    "desc": "Salvage prende 2 oggetti invece di 1, e Scrounge funziona due volte per scena."
   },
   "sticky_fingers": {
     "desc": "Una volta per scontro, Lift non costa Tell (serve comunque il tiro)."

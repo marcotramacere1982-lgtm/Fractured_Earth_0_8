@@ -660,5 +660,29 @@
     },
     "skill": "brawling",
     "hands": 1
+  },
+  {
+    "id": "scrap_pump_shotgun",
+    "name": "Scrap Pump Shotgun",
+    "class": "ranged",
+    "type": "shotgun",
+    "manufacturer": "Street Craft",
+    "damage": "1d10",
+    "ammo": "12-gauge shells",
+    "magSize": 5,
+    "range": {
+      "min": 1,
+      "max": 20
+    },
+    "reliability": 7,
+    "rarity": "E",
+    "cost": {
+      "cr": 450
+    },
+    "magCost": {
+      "cr": 20
+    },
+    "skill": "long_guns_shotguns",
+    "hands": 2
   }
 ]

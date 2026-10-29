@@ -104,6 +104,8 @@ export function tunedAbility(ability, effects = {}) {
   if ('requires' in mod) a.requires = mod.requires; // e.g. 0 = also works at Composure
   if (mod.minAmmo && a.weapon) a.weapon = { ...a.weapon, minAmmo: mod.minAmmo };
   if (mod.uses) a.uses = (a.uses ?? 1) + mod.uses - 1;
+  if (mod.perMission) a.perMission = mod.perMission; // decision 186: Network, Social Engineer
+  if (mod.perScene) a.perScene = mod.perScene; // Scrounger
   return a;
 }
 

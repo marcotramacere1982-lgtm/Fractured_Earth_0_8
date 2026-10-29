@@ -35,6 +35,25 @@ export function linkJumps(map, data) {
   return out;
 }
 
+/**
+ * Ending a move on a linked staircase takes you across: the square of its partner in the same place on the piece
+ * (the next free one if someone stands there), or null when `sq` isn't on a linked piece or the partner is full.
+ */
+export function stairLanding(map, data, sq, occupied = []) {
+  const props = new Map(activeProps(map).map((p) => [p.id, p]));
+  for (const l of map.floorLinks ?? []) {
+    for (const [here, there] of [[props.get(l.a), props.get(l.b)], [props.get(l.b), props.get(l.a)]]) {
+      if (!here || !there) continue;
+      const i = squaresUnder(here, data).findIndex((s) => s.x === sq.x && s.y === sq.y);
+      if (i < 0) continue;
+      const to = squaresUnder(there, data);
+      const free = (s) => !occupied.some((o) => o.x === s.x && o.y === s.y);
+      return [to[i], ...to].find((s) => s && free(s)) ?? null;
+    }
+  }
+  return null;
+}
+
 /** The piece a linked piece leads to, or null. */
 export const partnerOf = (map, propId) => {
   const l = (map.floorLinks ?? []).find((x) => x.a === propId || x.b === propId);

@@ -55,7 +55,7 @@
   },
   {
     "id": "second_wind",
-    "name": "Second Wind",
+    "name": "Last Reserves",
     "tree": "survival",
     "tier": 3,
     "kind": "auto",
@@ -95,7 +95,7 @@
   },
   {
     "id": "read_the_room",
-    "name": "Read the Room",
+    "name": "Sized Up",
     "tree": "street",
     "tier": 2,
     "kind": "table",
@@ -124,11 +124,18 @@
     "tree": "street",
     "tier": 3,
     "kind": "table",
-    "desc": "Once per mission, a contact gives you intel, a door, or a favor (the GM decides).",
+    "desc": "Once per mission, a contact gives you intel, a door, or a favor (the GM decides). A Trafficker instead gets Know a Guy twice per mission.",
     "needs": {
       "CHA": 12
     },
-    "use": "mission"
+    "use": "mission",
+    "effects": {
+      "abilities": {
+        "know_a_guy": {
+          "perMission": 2
+        }
+      }
+    }
   },
   {
     "id": "safe_house",
@@ -140,7 +147,7 @@
   },
   {
     "id": "quick_draw",
-    "name": "Quick Draw",
+    "name": "First to Move",
     "tree": "tactics",
     "tier": 1,
     "kind": "auto",
@@ -255,19 +262,12 @@
   },
   {
     "id": "unstoppable",
-    "name": "Unstoppable",
+    "name": "Iron Wall",
     "tree": "soldier",
     "tier": 3,
-    "kind": "auto",
-    "desc": "In Onslaught you can't be knocked Prone.",
-    "branch": "grunt",
-    "effects": {
-      "immuneInStance": {
-        "onslaught": [
-          "prone"
-        ]
-      }
-    }
+    "kind": "table",
+    "desc": "Human Shield covers every adjacent ally, not just one.",
+    "branch": "grunt"
   },
   {
     "id": "command_voice",
@@ -296,7 +296,7 @@
   },
   {
     "id": "battle_plan",
-    "name": "Battle Plan",
+    "name": "Relay Orders",
     "tree": "soldier",
     "tier": 3,
     "kind": "table",
@@ -347,9 +347,19 @@
     "name": "Social Engineer",
     "tree": "hacker",
     "tier": 2,
-    "kind": "table",
-    "desc": "+2 TN on Deception against cybernetic targets.",
-    "branch": "scammer"
+    "kind": "auto",
+    "desc": "Phish works twice per mission, and Spoofed Orders makes 1 heat less.",
+    "branch": "scammer",
+    "effects": {
+      "abilities": {
+        "phish": {
+          "perMission": 2
+        },
+        "spoofed_orders": {
+          "heat": -1
+        }
+      }
+    }
   },
   {
     "id": "ghost",
@@ -377,16 +387,16 @@
   },
   {
     "id": "thermal_discipline",
-    "name": "Thermal Discipline",
+    "name": "Root Access",
     "tree": "hacker",
     "tier": 2,
     "kind": "auto",
-    "desc": "Overclock Pulse makes 2 less heat.",
+    "desc": "Backdoor also lowers that network's Trace by 2 (tell the GM), and Cascade makes 1 heat less.",
     "branch": "master",
     "effects": {
       "abilities": {
-        "overclock_pulse": {
-          "heat": -2
+        "cascade": {
+          "heat": -1
         }
       }
     }
@@ -427,18 +437,24 @@
     "name": "Field Medic",
     "tree": "techwiz",
     "tier": 2,
-    "kind": "table",
-    "desc": "Mend healing +1.",
-    "branch": "mechanic"
+    "kind": "auto",
+    "desc": "Mend healing +1 (Triage, Healing Surge…).",
+    "branch": "mechanic",
+    "effects": {
+      "mendHeal": 1
+    }
   },
   {
     "id": "reinforce",
-    "name": "Reinforce",
+    "name": "Long Arm",
     "tree": "techwiz",
     "tier": 2,
-    "kind": "table",
-    "desc": "Field Maintenance mends 3 cracks instead of 2.",
-    "branch": "mechanic"
+    "kind": "auto",
+    "desc": "Your drone's reach +2: the abilities that reach through it go further.",
+    "branch": "mechanic",
+    "effects": {
+      "droneReach": 2
+    }
   },
   {
     "id": "steady_rig",
@@ -457,18 +473,25 @@
     "name": "Live Wire",
     "tree": "techwiz",
     "tier": 2,
-    "kind": "table",
-    "desc": "Surge damage +1.",
-    "branch": "engineer"
+    "kind": "auto",
+    "desc": "Surge damage +1: your abilities' own dice and your drone's turret.",
+    "branch": "engineer",
+    "effects": {
+      "surgeDamage": 1
+    }
   },
   {
     "id": "extra_mount",
     "name": "Extra Mount",
     "tree": "techwiz",
     "tier": 2,
-    "kind": "table",
-    "desc": "Your sentry turret has +1 armor and +4 HP.",
-    "branch": "engineer"
+    "kind": "auto",
+    "desc": "Your drone has +4 HP and +1 armor (as a turret too).",
+    "branch": "engineer",
+    "effects": {
+      "droneHp": 4,
+      "droneArmor": 1
+    }
   },
   {
     "id": "overload",
@@ -488,11 +511,12 @@
     "tree": "smuggler",
     "tier": 1,
     "kind": "auto",
-    "desc": "Once per combat, move the pendulum 1 toward 0 for free.",
+    "desc": "Once per combat, Breathe costs no action.",
     "use": "combat",
     "effects": {
-      "pendulumToZero": 1
-    }
+      "freeSteer": "poker_face"
+    },
+    "passive": true
   },
   {
     "id": "deep_pockets",
@@ -605,7 +629,14 @@
     "tree": "scavenger",
     "tier": 1,
     "kind": "table",
-    "desc": "Salvage takes 2 items instead of 1."
+    "desc": "Salvage takes 2 items instead of 1, and Scrounge works twice per scene.",
+    "effects": {
+      "abilities": {
+        "scrounge": {
+          "perScene": 2
+        }
+      }
+    }
   },
   {
     "id": "sticky_fingers",

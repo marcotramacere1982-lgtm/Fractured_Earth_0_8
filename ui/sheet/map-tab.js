@@ -226,6 +226,7 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
       const m = move();
       const check = m?.max ? checkMove(map, data, me(), to, m.max, others()) : { ok: false, code: 'blocked', max: 0 };
       if (!check.ok) { toast(t(`map.err.${check.code}`, { max: check.max }), 'danger'); return; }
+      to = check.to; // a linked staircase carries you to the other floor (decision 187)
       if (onMove(to, check.steps, m.combat)) {
         // decision 163: end a move beside a door and its panel opens by itself (a door left behind closes its panel)
         const door = map.walls.find((w) => w.kind === 'door' && nextToDoor(to, w));

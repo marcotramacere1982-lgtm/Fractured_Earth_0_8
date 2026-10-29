@@ -7,7 +7,7 @@ import { openDialog, openCheck } from './dialogs.js';
 import { weaponFlow } from './attack-flow.js';
 import { abilityFaces, chosen, damageFor, canTarget, playEffects } from '../../rules/ability-play.js';
 import { abilityWeapon } from '../../rules/engines.js';
-import { roll, formatRoll } from '../../rules/dice.js';
+import { roll, formatRoll, addFlat } from '../../rules/dice.js';
 import { t } from '../../i18n/index.js';
 import { bonus } from '../../rules/stats.js';
 
@@ -136,9 +136,10 @@ export async function playAbility(ctx) {
     function diceFlow(list) {
       const steps = [];
       list.forEach((s, i) => {
-        const exprs = [...new Set((picks[i].enemies.length ? picks[i].enemies.map((e) => damageFor(s, e.tag)) : [damageFor(s, 'organic') ?? damageFor(s, 'synthetic')]).filter(Boolean))];
+        const surge = faces[i].face === 'surge' ? ctx.sh.talents?.surgeDamage ?? 0 : 0; // decision 186: Live Wire
+        const exprs = [...new Set((picks[i].enemies.length ? picks[i].enemies.map((e) => damageFor(s, e.tag)) : [damageFor(s, 'organic') ?? damageFor(s, 'synthetic')]).filter(Boolean).map((x) => addFlat(x, surge)))];
         exprs.forEach((expr) => steps.push({ id: `d${i}_${expr}`, title: `${t('flow.damage')} · ${ability.name}`, dice: [{ key: 'r', label: ability.name, expr }] }));
-        if (s.ally?.heal) steps.push({ id: `h${i}`, title: `${t('ability.heal')} · ${ability.name}`, dice: [{ key: 'r', label: t('ability.heal'), expr: withStats(s.ally.heal, ctx.sh) }] });
+        if (s.ally?.heal) steps.push({ id: `h${i}`, title: `${t('ability.heal')} · ${ability.name}`, dice: [{ key: 'r', label: t('ability.heal'), expr: addFlat(withStats(s.ally.heal, ctx.sh), faces[i].face === 'mend' ? ctx.sh.talents?.mendHeal ?? 0 : 0) }] }); // decision 186: Field Medic
       });
       if (!steps.length) return null;
       return {
@@ -155,7 +156,8 @@ export async function playAbility(ctx) {
       let cards = 0;
       specs.forEach((s, i) => {
         const pick = picks[i];
-        const damage = weapon ? weapon.damage : Object.fromEntries(pick.enemies.map((e) => [e.key, rolls[`d${i}_${damageFor(s, e.tag)}`]?.r.total ?? null]));
+        const surgeBonus = faces[i].face === 'surge' ? ctx.sh.talents?.surgeDamage ?? 0 : 0;
+        const damage = weapon ? weapon.damage : Object.fromEntries(pick.enemies.map((e) => [e.key, rolls[`d${i}_${addFlat(damageFor(s, e.tag) ?? '', surgeBonus)}`]?.r.total ?? null]));
         const out = playEffects(s, { ability: `${ability.name}${faces[i].face ? ` (${faceName(data, faces[i].face)})` : ''}`, enemies: pick.enemies, allies: pick.allies, damage,
           weaponText: weapon?.text ?? '', heal: rolls[`h${i}`]?.r.total ?? null, healText: rolls[`h${i}`] ? formatRoll(rolls[`h${i}`].r) : '', roll: state.rollText });
         if (combat) for (const rep of out.reports) { table?.report(rep); toGm += 1; }

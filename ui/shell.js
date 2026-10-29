@@ -56,6 +56,10 @@ export function renderHeader(el, route) {
 }
 
 const TOASTS_MAX = 3;
+let toastMs = 0; // 0: stays until its ✕
+/** Decision 188: the GM console's pop-ups fade by themselves (they pile up there); the player sheet keeps the ✕. */
+export const setToastTimeout = (ms) => { toastMs = ms; };
+
 /** Decision 160: a pop-up stays until its ✕ (playtest: they went too fast); at most 3 — the oldest makes room. */
 export function toast(message, kind = '') {
   const host = document.getElementById('toasts');
@@ -75,4 +79,9 @@ export function toast(message, kind = '') {
   el.append(text, close);
   host.append(el);
   while (host.children.length > TOASTS_MAX) host.firstElementChild.remove();
+  if (toastMs) { // the pointer over it holds it, so a long one can still be read
+    let timer = setTimeout(() => el.remove(), toastMs);
+    el.addEventListener('pointerenter', () => clearTimeout(timer));
+    el.addEventListener('pointerleave', () => { timer = setTimeout(() => el.remove(), toastMs); });
+  }
 }

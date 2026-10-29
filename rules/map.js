@@ -6,7 +6,7 @@ import { normalizeZones } from './zones.js';
 import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
 import { FAIL_MODES } from './power.js';
 import { normalizeAllWires } from './network.js';
-import { floorEdges, linkJumps, normalizeFloors } from './floors.js';
+import { floorEdges, linkJumps, normalizeFloors, stairLanding } from './floors.js';
 
 export const MAP_SCHEMA = 1;
 const FREE_STEP = 0.05; // snap off: positions still round to 1/20 of a square
@@ -347,15 +347,21 @@ export function routeCost(map, data, path) {
 
 /**
  * Can a marker go from → to in at most `max` squares? occupied: squares with another marker.
- * @returns { ok, steps, path } or { ok: false, code: 'offBoard' | 'occupied' | 'tooFar' | 'blocked', max }
+ * Ending on a linked staircase lands on its partner (`to` is where the marker ends, `crossed` true).
+ * @returns { ok, steps, path, to, crossed? } or { ok: false, code: 'offBoard' | 'occupied' | 'tooFar' | 'blocked', max }
  */
 export function checkMove(map, data, from, to, max, occupied = []) {
   if (!onBoard(map, to)) return { ok: false, code: 'offBoard', max };
   if (occupied.some((s) => s.x === to.x && s.y === to.y)) return { ok: false, code: 'occupied', max };
   const { steps, prev } = walk(map, data, from, max);
   const cost = steps.get(`${to.x},${to.y}`);
-  if (cost != null) return { ok: true, steps: cost, path: pathFrom(prev, to) };
-  return { ok: false, code: squaresBetween(from, to) > max ? 'tooFar' : 'blocked', max };
+  if (cost == null) return { ok: false, code: squaresBetween(from, to) > max ? 'tooFar' : 'blocked', max };
+  const path = pathFrom(prev, to);
+  // decision 187: stopping on a linked staircase takes you up (or down) to its partner when the move still allows it
+  const walkedOn = path.length > 1 && squaresBetween(path[path.length - 2], to) <= 1; // not just come across the link
+  const land = walkedOn && cost + (data.map.floors?.linkCost ?? 2) <= max ? stairLanding(map, data, to, occupied) : null;
+  if (land) return { ok: true, steps: cost + (data.map.floors?.linkCost ?? 2), path: [...path, land], to: land, crossed: true };
+  return { ok: true, steps: cost, path, to };
 }
 
 // ------------------------------------------------------------------ line of sight and range (step 4)

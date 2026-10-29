@@ -3,7 +3,7 @@
 
 import { t } from '../../i18n/index.js';
 
-const WEAPON = { knife: 'melee', blunt: 'melee', melee: 'melee', 'stun gun': 'melee', pistol: 'pistols', SMG: 'smgs', 'assault rifle': 'rifles', 'sniper rifle': 'snipers' };
+const WEAPON = { knife: 'melee', blunt: 'melee', melee: 'melee', 'stun gun': 'melee', pistol: 'pistols', SMG: 'smgs', 'assault rifle': 'rifles', shotgun: 'rifles', 'sniper rifle': 'snipers' };
 const WEAPON_ORDER = ['melee', 'pistols', 'smgs', 'rifles', 'snipers'];
 const ARMOR = { helmet: 'head', vest: 'torso', jacket: 'torso', suit: 'body', sleeves: 'arms', bracers: 'arms', pants: 'legs', greaves: 'legs' };
 const ARMOR_ORDER = ['head', 'torso', 'body', 'arms', 'legs'];

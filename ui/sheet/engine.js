@@ -220,7 +220,7 @@ const kitButtons = (c, data) => {
 };
 
 /** Decision 174: the generic limits an ability carries, as small chips. */
-const flagChips = (a) => html`${a.outOfCombat ? html`<span class="pill">${t('engine.flag.outOfCombat')}</span>` : ''}${a.opening ? html`<span class="pill">${t('engine.flag.opening')}</span>` : ''}${a.reaction ? html`<span class="pill pill--info">${t('engine.flag.reaction')}</span>` : ''}${a.perMission ? html`<span class="pill pill--accent">${t('engine.flag.perMission')}</span>` : ''}${a.perScene ? html`<span class="pill">${t('engine.flag.perScene')}</span>` : ''}`;
+const flagChips = (a) => html`${a.inCombatOnly ? html`<span class="pill">${t('engine.flag.inCombatOnly')}</span>` : ''}${a.outOfCombat ? html`<span class="pill">${t('engine.flag.outOfCombat')}</span>` : ''}${a.opening ? html`<span class="pill">${t('engine.flag.opening')}</span>` : ''}${a.reaction ? html`<span class="pill pill--info">${t('engine.flag.reaction')}</span>` : ''}${a.perMission ? html`<span class="pill pill--accent">${t('engine.flag.perMission')}</span>` : ''}${a.perScene ? html`<span class="pill">${t('engine.flag.perScene')}</span>` : ''}`;
 
 /** combat: the GM's combat state at the table (the Scavenger's Tells sit on its hostiles). */
 export function engineCard(c, s, data, combat = null, opts = {}) {

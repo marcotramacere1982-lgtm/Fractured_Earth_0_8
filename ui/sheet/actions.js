@@ -515,7 +515,9 @@ export const actions = {
     const ctx = { ...abilityContext(c), capacity: capacityOf(c, data), resonant: Boolean(resonant), weapons: sh.armed, arms: sh.injured.arms, talents: sh.talents, track: sh.optic?.track ?? 1, classesData: data.classes, failed: !success };
     const check = canUse(c.classId, ability, c.play.resources, ctx);
     if (!check.ok) throw new RuleError(check.code, check.vars, `${ability.name}: ${check.reason}`);
-    const prefix = ability.reaction ? reactionSpend(c, data) : spend(c, data, { kind: 'ability', name: ability.name }); // decision 174: a reaction pays like Dodge
+    const free = ability.steer && sh.talents.freeSteer && !(c.play.talentUses?.[sh.talents.freeSteer]); // decision 186: Poker Face — one free Breathe a combat
+    if (free) c.play.talentUses = { ...(c.play.talentUses ?? {}), [sh.talents.freeSteer]: 1 };
+    const prefix = free ? 'Poker Face (free) · ' : ability.reaction ? reactionSpend(c, data) : spend(c, data, { kind: 'ability', name: ability.name }); // decision 174: a reaction pays like Dodge
     if (ability.lockMode) c.play.resources = { ...c.play.resources, held: true }; // decision 177: Recalibrate — no mode switch this round
     if (ability.perScene) c.play.sceneUses = { ...(c.play.sceneUses ?? {}), [id]: (c.play.sceneUses?.[id] ?? 0) + 1 }; // decision 180
     if (ability.perMission) c.play.abilityUses = { ...(c.play.abilityUses ?? {}), [id]: (c.play.abilityUses?.[id] ?? 0) + 1 };

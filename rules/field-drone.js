@@ -13,18 +13,18 @@ export const STARTER_DRONE = 'scrap_drone';
  * What the drone gives right now. drone: a drones.json entry; installed: mod ids (only the first modSlots count).
  * @returns { id, name, slots, used, reach, hp, armor, damage, shield, wrecked } | null
  */
-export function droneProfile(drone, installed, modsData, { wrecked = false } = {}) {
+export function droneProfile(drone, installed, modsData, { wrecked = false, bonus = {} } = {}) { // bonus: talents (decision 186) — reach, hp, armor, damage
   if (!drone) return null;
   const mods = (installed ?? []).map((id) => modsData.mods.find((m) => m.id === id)).filter(Boolean).slice(0, drone.modSlots);
   const add = (type) => mods.filter((m) => m.type === type).reduce((n, m) => n + m.amount, 0);
-  const reach = drone.reach + add('reach');
+  const reach = drone.reach + add('reach') + (bonus.reach ?? 0);
   const shield = add('shield');
   return {
     id: drone.id, name: drone.name, slots: drone.modSlots, used: mods.length,
     reach: wrecked ? Math.max(1, Math.floor(reach / 2)) : reach,
-    hp: drone.hp + add('frame'),
-    armor: drone.armor + add('plating'),
-    damage: addFlat(drone.damage, add('payload')),
+    hp: drone.hp + add('frame') + (bonus.hp ?? 0),
+    armor: drone.armor + add('plating') + (bonus.armor ?? 0),
+    damage: addFlat(drone.damage, add('payload') + (bonus.damage ?? 0)),
     shield: wrecked ? Math.floor(shield / 2) : shield,
     wrecked: Boolean(wrecked),
   };

@@ -170,7 +170,7 @@ export function deriveSheet(character, data) {
   const weapon = (id) => data.weapons.find((w) => w.id === id);
   const deck = data.decks.find((d) => d.id === character.play.deck) ?? null;
   const optic = character.classId === 'scavenger' ? data.optics.find((o) => o.id === character.play.optic) ?? null : null;
-  const zone = zoneBonus(character.classId, character.play.resources, data.classes, fx);
+  const zone = zoneBonus(character.classId, character.play.resources, data.classes, fx, character.subclassId);
   const stanceTn = stanceOf(character.classId, character.play.resources, data.classes)?.attackTn ?? 0; // Soldier in Attack: +2 TN (decision 88)
   // the weapon in hand: the chosen slot — an empty slot is your fists (decision 147)
   const handSlot = Number(character.play.hand ?? 1);
@@ -201,7 +201,7 @@ export function deriveSheet(character, data) {
     })() : null,
     optic: character.classId === 'scavenger' ? { item: optic, ...opticStats(optic, data.classes) } : null, // Scavenger: range, track, mode
     drone: character.classId === 'techwiz' && data.drones // decision 172: what the Tech Wizard's drone gives now
-      ? droneProfile(data.drones.find((d) => d.id === character.play.drone) ?? null, character.play.droneMods ?? [], data.droneMods, { wrecked: character.play.droneWrecked }) : null,
+      ? droneProfile(data.drones.find((d) => d.id === character.play.drone) ?? null, character.play.droneMods ?? [], data.droneMods, { wrecked: character.play.droneWrecked, bonus: { reach: fx.droneReach ?? 0, hp: fx.droneHp ?? 0, armor: fx.droneArmor ?? 0, damage: fx.surgeDamage ?? 0 } }) : null, // decision 186: Long Arm, Extra Mount, Live Wire
     lifestyle: (() => {
       const upkeep = lifestyleUpkeep(character.play.lifestyle ?? [], data);
       const tierOf = (cat) => upkeep.entries.find((x) => x.category === cat)?.tier ?? null;

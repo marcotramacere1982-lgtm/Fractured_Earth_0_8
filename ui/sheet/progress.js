@@ -81,7 +81,7 @@ export function talentsCard(c, s, data) {
   const used = c.play.talentUses ?? {};
   const body = html`<ul class="talent-list">${owned.map((x) => html`<li class="talent-list__item">
     <div><strong>${x.name}</strong> <span class="muted">${x.desc}</span></div>
-    ${x.use ? html`<button class="btn btn--sm" data-action="useTalent" data-id="${x.id}" ${used[x.id] ? raw('disabled') : ''} title="${t(`progress.use.${x.use}`)}">${used[x.id] ? t('progress.used') : t('progress.useBtn')}</button>` : ''}
+    ${x.use && !x.passive ? html`<button class="btn btn--sm" data-action="useTalent" data-id="${x.id}" ${used[x.id] ? raw('disabled') : ''} title="${t(`progress.use.${x.use}`)}">${used[x.id] ? t('progress.used') : t('progress.useBtn')}</button>` : ''}
   </li>`)}</ul>`;
   return card(t('progress.talentsCard'), body, { sub: t('progress.talentsSub'), ref: 'talents' });
 }
