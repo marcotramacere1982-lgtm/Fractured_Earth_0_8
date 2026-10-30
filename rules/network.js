@@ -7,7 +7,7 @@
 // and truth (a tampered node makes everything behind it report false data). Per device: reporting, offline,
 // fooled, no power, or not networked. Players never see any of it. Pure.
 
-import { propDef, activeProps } from './props.js';
+import { propDef } from './props.js';
 import { applyPower, normalizeWires } from './power.js';
 
 export const NET_NODES = ['uplink', 'router', 'ap', 'repeater'];
@@ -43,7 +43,7 @@ const rangeOf = (def) => def?.wifi?.radius ?? 0;
 /** The automatic Wi-Fi joins: [{ from, to }] for Wi-Fi-capable pieces with no data link in, to the nearest access
  *  point or repeater in range (repeaters join access points the same way). */
 export function autoJoins(map, data) {
-  const props = activeProps(map);
+  const props = (map.props ?? []);
   const linked = new Set((map.wires ?? []).filter((w) => w.net === 'data').map((w) => w.to));
   const role = (p) => netRole(propDef(data, p.prop));
   const out = [];
@@ -69,7 +69,7 @@ export function autoJoins(map, data) {
  */
 export function networkState(map, data) {
   const m = applyPower(map, data); // no power, no network (batteries excepted)
-  const props = new Map(activeProps(m).map((p) => [p.id, p]));
+  const props = new Map((m.props ?? []).map((p) => [p.id, p]));
   const role = (id) => netRole(propDef(data, props.get(id)?.prop));
   const up = (id) => { const p = props.get(id); return p && p.on !== false && !p.wrecked && !p.netOff; };
   const links = [...(m.wires ?? []).filter((w) => w.net === 'data' && !w.cut), ...autoJoins(m, data)];

@@ -3,7 +3,7 @@
 // Every ping is heard: each network it touches gains Trace (more if it failed, more on a better-guarded network), and
 // the network knows which node heard it. Trace and security are the GM's; players only ever get the list. Pure.
 
-import { activeProps, propDef } from './props.js';
+import { propDef } from './props.js';
 import { netRole, networkState, networkTags, NET_NODES } from './network.js';
 
 export const PING_RANGE = 10; // squares, through walls
@@ -18,7 +18,7 @@ export const traceGain = (security, success) => (success ? 1 : 2) + (SECURITY[se
 
 /** The map's networks, one per uplink, lettered A, B… in map order: [{ id, letter, name, security }]. */
 export function networksOf(map, data) {
-  return activeProps(map).filter((p) => netRole(propDef(data, p.prop)) === 'uplink')
+  return (map.props ?? []).filter((p) => netRole(propDef(data, p.prop)) === 'uplink')
     .map((p, i) => ({ id: p.id, letter: String.fromCharCode(65 + (i % 26)), name: p.netName ?? null, security: securityOf(p) }));
 }
 
@@ -32,7 +32,7 @@ const near = (p, c, range) => Math.hypot(p.x - c.x, p.y - c.y) <= range;
  */
 export function pingScan(map, data, at, range = PING_RANGE) {
   const state = networkState(map, data);
-  const props = new Map(activeProps(map).map((p) => [p.id, p]));
+  const props = new Map((map.props ?? []).map((p) => [p.id, p]));
   const rootOf = (id) => { let x = id; for (let n = 0; state.get(x)?.parent && n < 500; n += 1) x = state.get(x).parent; return x; };
   const nets = networksOf(map, data);
   const c = centre(at);
@@ -56,7 +56,7 @@ export function pingScan(map, data, at, range = PING_RANGE) {
 /** Which node heard the ping on each network: the nearest node of that network to the hacker (its name, else its tag). */
 export function heardBy(map, data, at, scan) {
   const tags = networkTags(map, data);
-  const props = new Map(activeProps(map).map((p) => [p.id, p]));
+  const props = new Map((map.props ?? []).map((p) => [p.id, p]));
   const c = centre(at);
   return Object.fromEntries(scan.map((n) => {
     const best = [...n.nodes].sort((a, b) => Math.hypot(props.get(a.id).x - c.x, props.get(a.id).y - c.y) - Math.hypot(props.get(b.id).x - c.x, props.get(b.id).y - c.y))[0];

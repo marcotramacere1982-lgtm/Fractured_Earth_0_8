@@ -4,9 +4,10 @@
 // cut, comes from something fed — so a backup generator on the same fusebox keeps it live until both are cut.
 // Breakers and switches pass power only while on; a wired load runs while fed, or on its battery; a wired electric
 // door without power locks (fail-secure) or unlocks (fail-safe). Unwired pieces stay manual, as before.
-// Players never see wires: only what happens (a light goes out, a door won't open). Pure.
+// Players never see wires: only what happens (a light goes out, a door won't open). Every placed piece counts,
+// hidden ones too: hidden only means the players can't see it (decision 189). Pure.
 
-import { propDef, activeProps, sensesOf } from './props.js';
+import { propDef, sensesOf } from './props.js';
 
 export const FEEDERS = ['source', 'breaker', 'switch', 'outlet']; // outlet: a wall socket, passes power on
 export const FAIL_MODES = ['secure', 'safe']; // secure: locks without power (a vault) · safe: unlocks (a fire exit)
@@ -69,7 +70,7 @@ export const setWireCut = (map, id, cut) => ({ ...map, wires: (map.wires ?? []).
  * via: Map id → the source id that feeds it (the first found) }
  */
 export function powerState(map, data) {
-  const props = new Map(activeProps(map).map((p) => [p.id, p]));
+  const props = new Map((map.props ?? []).map((p) => [p.id, p]));
   const role = (id) => (props.has(id) ? circuitRole(propDef(data, props.get(id).prop)) : map.walls.some((w) => w.id === id && w.kind === 'door' && w.powered) ? 'door' : null);
   const on = (id) => { const p = props.get(id); return p ? p.on !== false && !p.wrecked : true; };
   const wires = powerWires(map.wires).filter((w) => !w.cut);
