@@ -32,6 +32,9 @@
     },
     "use_item": {
       "desc": "Usa un consumabile: una cura, uno stimolante, un antidoto, una granata."
+    },
+    "study": {
+      "desc": "Studia un nemico in campo — il migliore tra Perception / Awareness e Forensics / Investigation. Un successo aggiunge alla tua Intel su quel tipo (Known, poi Studied). Una volta per scontro."
     }
   },
   "reactions": {

@@ -72,6 +72,13 @@
       "icon": "medicine_first_aid"
     },
     {
+      "id": "study",
+      "name": "Study",
+      "desc": "Study an enemy on the board — the better of Perception / Awareness and Forensics / Investigation. A success adds to your Intel on its type (Known, then Studied). Once per fight.",
+      "roll": null,
+      "icon": "fx_search"
+    },
+    {
       "id": "other",
       "name": "Other",
       "desc": "Anything else — the GM decides the roll and how many actions it takes.",

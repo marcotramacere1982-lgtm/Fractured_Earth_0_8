@@ -622,20 +622,19 @@
 
 /* decision 162: the Tactical View — on tablets and desktops one fixed frame, only its panels scroll; phones stack it */
 .tac { display: flex; flex-direction: column; gap: var(--space-2); }
-.tac__panel { background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-2) var(--space-3); }
-.tac__panel > .card { border: 0; background: none; box-shadow: none; }
-.tac__panel .card__head { padding: 0 0 var(--space-2); }
-.tac__panel .card__body { padding: 0; }
 .tac__top .sheet-status { margin: 0; position: static; } /* not sticky under the app header: the frame is the whole window */
 .tac__top .sheet-nav { margin-top: var(--space-1); }
 .tac__map .map-card { margin: 0; }
-.tac__log .log { max-height: 12rem; overflow-y: auto; }
+.tac__engine > .card { border: 0; background: none; box-shadow: none; } /* a card inside a bookmark panel (decision 190) */
+.tac__engine .card__head { padding: 0 0 var(--space-2); }
+.tac__engine .card__body { padding: 0; }
 .tac .turn-head { gap: var(--space-2) var(--space-3); margin-bottom: var(--space-2); }
 .tac .turn-round__n { font-size: var(--text-2xl); }
 .tac .turn-controls { font-size: var(--text-sm); }
 .tac__bottom { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
 .tac .action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1); }
-.tac__conds { overflow-x: hidden; overflow-y: auto; max-height: 45vh; }
+.tac__conds { overflow-x: hidden; }
+.tac__actors { margin-top: var(--space-2); }
 .tac .cond-grid--compact { grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); }
 /* decision 163 follow-up: conditions as icon tiles in the Tactical View (names in the tooltips, back with "Show what each does") */
 .tac .cond-grid--bare { grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr)); }
@@ -659,35 +658,19 @@
 @media (min-width: 900px) {
   .tac-open, .tac-open body { overflow: hidden; }
   .tac { position: fixed; inset: 0; z-index: 30; padding: var(--space-2); background: var(--color-bg);
-    display: grid; grid-template-columns: minmax(15rem, 20%) minmax(0, 1fr) minmax(17rem, 22%); grid-template-rows: auto minmax(0, 1fr) auto; }
-  .tac__top { grid-column: 1 / -1; display: grid; gap: var(--space-1); }
+    display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
+  .tac__top { display: grid; gap: var(--space-1); }
   .tac__top .sheet-nav { margin: 0; }
-  .tac__left, .tac__right { min-height: 0; display: grid; gap: var(--space-2); }
-  .tac__left { grid-template-rows: auto minmax(0, 1fr) minmax(0, auto); } /* conditions as icons take what they need: the order gets the rest */
-  .tac__right { grid-template-rows: minmax(0, auto) minmax(9rem, 1fr) minmax(0, 8rem); }
-  .tac__actions { max-height: 48vh; }
-  .tac__panel { min-height: 0; overflow-y: auto; }
-  .tac__map { min-height: 0; display: flex; flex-direction: column; }
+  .tac__rails { min-height: 0; } /* decision 190: the map takes the width; the panels are bookmarks at its sides */
+  .tac__map { flex: 1; min-height: 0; display: flex; flex-direction: column; }
   .tac__map .map-card { flex: 1; min-height: 0; display: flex; flex-direction: column; }
   .tac__map .map-card__stage { height: var(--map-fit, 100%); }
-  .tac__bottom { grid-column: 1 / -1; max-height: 32vh; overflow-y: auto; }
+  .tac__bottom { max-height: 32vh; overflow-y: auto; }
 }
 
-/* decision 163: the compact class engine (Tactical View) and ability effect icons */
-.engine-compact { display: flex; flex-direction: column; gap: var(--space-2); }
-.ability-lines { display: flex; flex-direction: column; gap: var(--space-1); }
-.ability-line { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-1) var(--space-2); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); }
-.ability-line.is-ready { border-color: var(--color-success); }
-.ability-line__name { font-family: var(--font-ui); font-weight: 700; font-size: var(--text-sm); min-width: 0; }
-.ability-line__why { text-align: right; }
+/* decision 163: ability effect icons */
+.loadout__chips { gap: var(--space-1); font-size: var(--text-xs); }
 .ico--fx { color: var(--color-accent); }
-/* the compact engine keeps what's played in a fight; the dial, the rules list and the fix-up live in the full engine */
-.engine-compact .sync-ring-dial, .engine-compact .sync-rules, .engine-compact .stance-fix { display: none; }
-.engine-compact .mode-switch__opt { padding: var(--space-1) var(--space-2); font-size: var(--text-sm); }
-.tac__engine { overflow-x: hidden; overflow-y: auto; }
-@media (min-width: 900px) {
-  .tac__right--engine { grid-template-rows: minmax(0, 1fr) minmax(0, 10rem); }
-}
 
 /* decision 164: the skill search on the Setup tab */
 .skills-search { width: 100%; max-width: 28rem; margin-bottom: var(--space-3); }
@@ -708,3 +691,71 @@
 
 /* decision 174: housekeeping abilities — always at hand, outside the slots */
 .chores { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: var(--space-2); border: var(--border-width) dashed var(--color-border-strong); border-radius: var(--radius-md); }
+
+/* decision 192: each kind of action its own hue — the icon in colour, the tile tinted — so the grid reads at a glance */
+.action-btn { --tile: var(--color-text-muted); }
+.action-btn--attack { --tile: var(--color-danger); }
+.action-btn--reaction { --tile: var(--color-success); }
+.action-btn--k-move { --tile: var(--color-info); }
+.action-btn--k-aim, .action-btn--k-overwatch { --tile: var(--color-mark-coral); }
+.action-btn--k-reload, .action-btn__name--swap { --tile: var(--color-warning); }
+.action-btn--k-interact, .action-btn--k-use_item { --tile: var(--color-accent); }
+.action-btn--k-disengage { --tile: var(--color-mark-periwinkle); }
+.action-btn--k-first_aid { --tile: var(--color-success); }
+.action-btn--k-other { --tile: var(--color-mark-magenta); }
+.action-btn .ico, .action-btn__name--swap .ico { color: var(--tile); }
+.action-grid--bare .action-btn:not(:disabled) { background: color-mix(in srgb, var(--tile) 12%, var(--color-surface)); border-color: color-mix(in srgb, var(--tile) 45%, var(--color-border)); }
+.action-grid--bare .action-btn .ico { width: 1.75rem; height: 1.75rem; }
+
+/* decision 192: Swap abilities — a real button, not a grey line */
+.engine-swap--big { width: 100%; min-height: var(--touch); }
+
+/* decision 192: the loadout window — before a fight (can't be skipped) and Swap abilities */
+.loadout { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: var(--space-3); background: var(--color-scrim); }
+.loadout__box { width: min(56rem, 100%); max-height: 92dvh; display: flex; flex-direction: column; background: var(--color-surface); border: 2px solid var(--color-border-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); }
+.loadout__box--fight { border-color: var(--color-danger); }
+.loadout__head { padding: var(--space-4) var(--space-4) var(--space-3); border-bottom: var(--border-width) solid var(--color-border); }
+.loadout__title { margin: 0; font-family: var(--font-display); font-size: var(--text-2xl); letter-spacing: 0.04em; }
+.loadout__box--fight .loadout__title { color: var(--color-danger); }
+.loadout__lead { margin: var(--space-1) 0 0; font-size: var(--text-lg); }
+.loadout__body { flex: 1; min-height: 0; overflow-y: auto; padding: var(--space-3) var(--space-4); display: flex; flex-direction: column; gap: var(--space-5); }
+.loadout__body .card { margin: 0; }
+.loadout__foot { display: flex; justify-content: flex-end; padding: var(--space-3) var(--space-4); border-top: var(--border-width) solid var(--color-border); }
+.loadout__go { min-height: 3rem; min-width: 12rem; font-size: var(--text-lg); }
+.loadout__abilities { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+.loadout__ability { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); }
+.loadout__ability.is-on { border-color: var(--color-success); background: var(--color-success-soft); }
+.loadout__ability-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+/* decision 193: the GM's roll calls, mid-screen */
+.loadout__box--call { width: min(38rem, 100%); border-color: var(--color-accent); }
+.loadout__box--call .loadout__body { padding: var(--space-4); }
+.loadout__box--call .card { border: 0; background: none; box-shadow: none; }
+.loadout__box--call .card__head { padding: 0 0 var(--space-3); }
+.loadout__box--call .card__body { padding: 0; }
+.loadout__box--call .card__title { color: var(--color-accent); font-size: var(--text-2xl); }
+.loadout__box--call .roll-ask strong { font-size: var(--text-lg); }
+
+/* decision 195: a Tech Wizard's two faces, both readable in the loadout window — the one the engine is on stressed */
+.ability-face { display: block; }
+.ability-face:not(.is-active) { opacity: 0.7; }
+.ability-face.is-active { color: var(--color-text); }
+
+/* decision 195: the actions as one row of icons in the Tactical map's header (on a narrow screen, a row of its own) */
+.map-card__head { flex-wrap: wrap; row-gap: var(--space-2); }
+.map-card__actions { flex: 1; min-width: 0; display: flex; justify-content: center; }
+.action-grid--strip { display: flex; flex-wrap: wrap; gap: var(--space-1); justify-content: center; }
+.action-grid--strip .action-btn { position: relative; width: calc(var(--touch) + var(--space-1)); min-height: var(--touch); padding: 0; justify-content: center; }
+.action-grid--strip .action-btn .ico { width: 1.5rem; height: 1.5rem; }
+.action-btn__badge { position: absolute; right: 2px; bottom: 1px; font-family: var(--font-mono); font-size: var(--text-xs); line-height: 1; color: var(--tile); }
+@media (max-width: 1400px) { .map-card__actions { order: 3; flex-basis: 100%; justify-content: flex-start; } .action-grid--strip { justify-content: flex-start; } }
+
+/* decision 197: Intel — what a character knows about an enemy type */
+.foe__body .intel__facts { margin-top: var(--space-1); }
+.intel__facts { display: flex; flex-direction: column; gap: var(--space-1); font-size: var(--text-sm); }
+.intel__stats { gap: var(--space-2); }
+.intel__attacks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.intel__line, .intel__rumour { margin: 0; }
+.intel-file { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.intel-file__row { padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: var(--space-1); }
+.intel-bg { padding: var(--space-3); border: var(--border-width) dashed var(--color-accent); border-radius: var(--radius-md); }
+.intel-bg__pick { gap: var(--space-2); }

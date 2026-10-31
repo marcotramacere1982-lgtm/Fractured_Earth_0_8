@@ -66,7 +66,7 @@ You rarely roll against raw attributes. Every attribute has a **bonus equal to h
 Because every attribute feeds several skills, neglecting one leaves blind spots across the whole tree. The sheet calculates all skills live — tap any skill to roll it.
 
 **The roll window.** Tapping a skill or an attribute opens it. From top to bottom:
-- **TN, Difficulty and Roll ≤** — your TN, the difficulty step (the GM's table difficulty is picked for you; red when harder, green when easier, 6-2) and the number you need.
+- **TN, Difficulty and Roll ≤** — your TN, the difficulty step (at the table it is the GM's and you can't change it — the window shows it, *set by the GM*; on your own you pick it; red when harder, green when easier, 6-2) and the number you need.
 - **In play** — items and effects already counted in your TN: a stim you took, a drug, an optic. Nothing to do; it tells you why the number is what it is.
 - **Gear that helps** — tools you carry that fit this skill (a lockpick set, a medkit). Tick the one that fits; only one counts, and the GM can say it doesn't apply here.
 - **Light** — only in the dark (7-2 §4): the sheet pre-picks the line from the map or the GM's Light switch; change it if the scene says otherwise.
@@ -265,7 +265,7 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 ## 5-8. The Character Sheet {#sec-5-8}
 
 - **Status bar** — always visible: HP, armor, initiative, actions, Class TN, Credit Score, cash and active conditions.
-- **Setup** — two rows in the order of a turn: the Turn panel (*Start combat*, *End round*, one *Attack* for the weapon in hand, *?* shows what each action does) beside your weapons (attack TN, damage, ammo, reload); then your class engine, equipped abilities and talents beside health, armor, injuries and conditions (with *Take a hit*) and cover. Move, OFF, DEF and PER sit on the header's second line, changed live by conditions.
+- **Setup** — two rows in the order of a turn: the Turn panel (*Start combat* when you play without a table — at the table the GM starts the fights —, *End round*, one *Attack* for the weapon in hand, *?* shows what each action does) beside your weapons (attack TN, damage, ammo, reload); then your class engine, equipped abilities and talents beside health, armor, injuries and conditions (with *Take a hit*) and cover. Move, OFF, DEF and PER sit on the header's second line, changed live by conditions.
   Scroll down for every skill (type in *Find a skill* to filter by name, stat or group) and the attributes (adjustable for injuries, aging or GM rulings). Tap to roll with the GM's difficulty. When the GM asks for a roll, a card waits at the top (and in the Tactical View): *Roll* opens the same window and the result goes to the GM.
 - **Tactical** — first while the GM has a map on the table: the fight on one screen (7-2 §5).
 - **Gear** — cash, inventory, the market, and your lifestyle.

@@ -4,9 +4,10 @@
 import { abilityContext, failAbility, canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, openingChoice, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
 import { buy, magazineId, addItem } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
-import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance } from '../../rules/turn.js';
+import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance, checkLoadout } from '../../rules/turn.js';
 import { checkDroneMod } from '../../rules/field-drone.js';
 import { RuleError } from '../../rules/messages.js';
+import { mergeIntel } from '../../rules/intel.js';
 import { abilityFaces } from '../../rules/ability-play.js';
 import { kitAbilities } from '../../rules/kits.js';
 import { hitOutcome } from '../../rules/injuries.js';
@@ -272,11 +273,13 @@ export const actions = {
   equipKit(c, data, { id }) {
     const kit = (data.kits?.kits ?? []).find((k) => k.id === id && k.subclass === c.subclassId);
     if (!kit) return;
+    checkLoadout(c.play.turn); // decision 194
     c.play.abilities = kitAbilities(kit, c, data, deriveSheet(c, data).abilityLimit);
     log(c, `Loadout: ${kit.name}`);
   },
   equip(c, data, { id }) {
     if (data.abilities[c.classId]?.find((a) => a.id === id)?.housekeeping) return; // decision 174: always at hand, never in a slot
+    checkLoadout(c.play.turn); // decision 194: not mid-fight
     const limit = deriveSheet(c, data).abilityLimit; // brain fog limit + slots from levels 3 / 6 / 9
     if (c.play.abilities.includes(id)) c.play.abilities = c.play.abilities.filter((x) => x !== id);
     else if (c.play.abilities.length < limit) c.play.abilities.push(id);
@@ -453,7 +456,7 @@ export const actions = {
     if (!mine) {
       c.play.initAsk = null; // the fight started: the GM has the order (decision 148)
       actions.combatStart(c, data);
-      c.play.turn = { ...c.play.turn, tableCombat: msg.id, round: msg.round };
+      c.play.turn = { ...c.play.turn, tableCombat: msg.id, round: msg.round, ready: false }; // the pre-fight window (decision 195)
       if (msg.round > 1) log(c, `Joined the GM's combat at round ${msg.round}`);
       return;
     }
@@ -465,6 +468,42 @@ export const actions = {
     // catch up one round end per missed round (capped: a long disconnect must not drain the engine)
     for (let i = 0; i < 3 && c.play.turn.round < msg.round; i++) actions.roundEnd(c, data);
     if (c.play.turn.round < msg.round) c.play.turn = { ...c.play.turn, round: msg.round };
+  },
+
+  /** Decision 197: Intel arrives (a Study, the GM, your background, a crewmate's share) — kept on the sheet. */
+  receiveIntel(c, data, { msg }) {
+    const entries = msg.entries ?? (msg.entry ? [msg.entry] : []);
+    let added = 0;
+    for (const raw of entries) {
+      if (!raw?.id || typeof raw.name !== 'string') continue;
+      const entry = { ...raw, ...(msg.from && !raw.from ? { from: msg.from } : {}) };
+      const next = mergeIntel(c.play.intel, entry);
+      if (next !== c.play.intel) { c.play.intel = next; added++; log(c, `Intel: ${entry.name} — ${entry.rumour ? 'a rumour' : entry.level >= 2 ? 'Studied' : 'Known'}${entry.from ? ` (from ${entry.from})` : ''}`); }
+    }
+    return added;
+  },
+  /** Decision 197: the Study action — one action, once per fight; the roll's result decides what comes back. */
+  study(c, data, { name, hit }) {
+    if (!c.play.turn?.inCombat) throw new RuleError('studyInFight', {}, 'Study works in a fight, on an enemy on the board.');
+    if (c.play.turn.studied) throw new RuleError('studiedThisFight', {}, 'You already studied an enemy in this fight.');
+    log(c, `${spend(c, data, { kind: 'study' })}Study · ${name} — ${hit ? 'success' : 'nothing useful'}`);
+    c.play.turn = { ...c.play.turn, studied: true };
+  },
+  /** Decision 197: a background roll (INT), kept so it can't be rolled again; `done` once the picks are sent. */
+  intelBackgroundRoll(c, data, { source, id, ok }) {
+    const bg = c.play.intelBackground ?? { rolls: {} };
+    if (bg.done || bg.rolls[source]) return;
+    c.play.intelBackground = { ...bg, rolls: { ...bg.rolls, [source]: { id, ok: Boolean(ok) } } };
+    log(c, `Background intel roll: ${id} — ${ok ? 'remembered' : 'nothing'}`);
+  },
+  intelBackgroundDone(c, data, { nemesis = null }) {
+    c.play.intelBackground = { ...(c.play.intelBackground ?? { rolls: {} }), nemesis, done: true };
+  },
+
+  /** Decision 195: "I'm ready" — the pre-fight window closes and the loadout is set until the fight ends. */
+  combatReady(c) {
+    if (c.play.turn?.inCombat) c.play.turn = { ...c.play.turn, ready: true };
+    log(c, 'Ready for the fight');
   },
 
   /** Takes a plain action (move, interact, …). In combat it spends one action; outside it just logs. */

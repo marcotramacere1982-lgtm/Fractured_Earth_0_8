@@ -4,7 +4,7 @@ import { cue } from './ui/sound.js';
 import { loadData } from './data/index.js';
 import { loadI18n, t, getLang } from './i18n/index.js';
 import { createStore } from './state/store.js';
-import { renderHeader } from './ui/shell.js';
+import { renderHeader, setToastTimeout } from './ui/shell.js';
 import { startRouter } from './ui/router.js';
 import { render, html } from './ui/dom.js';
 import { homeView } from './ui/home.js';
@@ -22,6 +22,7 @@ import { rememberMap } from './rules/map-memory.js';
 
 const header = document.getElementById('app-header');
 const main = document.getElementById('app-main');
+setToastTimeout(2000); // decision 192: pop-ups fade after 2 s, no ✕ (they used to stay and block the corner)
 
 async function boot() {
   let data;
@@ -58,6 +59,7 @@ async function boot() {
     ping: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receivePing(c, data, { msg }); }); return out; }, // decision 170
     ask: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.askRoll(c, data, { msg }); }); return out; }, // decision 165
     deal: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveDeal(c, data, { msg }); }); return out; }, // decision 143
+    intel: (id, msg) => { let out = 0; store.update(id, (c) => { out = actions.receiveIntel(c, data, { msg }); }); return out; }, // decision 197
     backstory: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.applyBackstory(c, data, { msg }); }); return out; },
   });
   const library = createLibrary(table, store); // decision 87: who plays here, and their characters at the table

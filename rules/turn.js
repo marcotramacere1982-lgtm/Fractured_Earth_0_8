@@ -32,7 +32,17 @@ export function borrowAction(turn, max) {
   return { ...turn, reserved: turn.reserved + 1 };
 }
 
-export const startCombat = () => ({ inCombat: true, round: 1, used: 0, reserved: 0, spent: [], moveLeft: 0 });
+/**
+ * Decisions 194–195: abilities are chosen before a fight, not during it — out of combat, or in a GM's fight only
+ * while the pre-fight window is open (`ready: false`, set when the GM's fight reaches the sheet; "I'm ready" sets
+ * it true). A fight you start yourself is set from the start.
+ */
+export const loadoutOpen = (turn) => !turn?.inCombat || turn.ready === false;
+export function checkLoadout(turn) {
+  if (!loadoutOpen(turn)) throw new RuleError('loadoutLocked', {}, 'Abilities are set for this fight: swap them when it ends.');
+}
+
+export const startCombat = () => ({ inCombat: true, round: 1, used: 0, reserved: 0, spent: [], moveLeft: 0, ready: true });
 export const endCombat = (turn) => ({ ...turn, inCombat: false, used: 0, reserved: 0, spent: [], moveLeft: 0 });
 
 /** Round end: unspent actions are lost; borrowed actions are already spent next round. */

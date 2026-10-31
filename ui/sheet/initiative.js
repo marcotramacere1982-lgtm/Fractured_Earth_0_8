@@ -1,4 +1,4 @@
-// Initiative asked by the GM (decision 148): a card on the Play tab — roll it here (the breakdown shows), or type the
+// Initiative asked by the GM (decision 148): a card shown mid-screen by calls.js (decision 193) — roll it here (the breakdown shows), or type the
 // die you rolled at the table. The die goes to the GM's combat setup; the sheet logs the roll. No actions imported here:
 // the sheet passes `run` in (play.js imports this module).
 

@@ -146,7 +146,7 @@
     },
     "hostiles": {
       "title": "Ostili",
-      "text": "I nemici che il GM ha rivelato, con una lettera (la stessa che il GM usa al tavolo). Vedi quello che vedrebbe chiunque: il nome che gli dà il GM, organico o sintetico, una fascia di ferite (Illeso, Ferito, Grave a metà HP o meno, A terra) e le condizioni visibili. Un ritratto quando il GM ce l'ha (toccalo: immagine intera); le Elite in arancione; gli alleati a parte, per nome, in verde. Mai HP, armatura o iniziativa."
+      "text": "I nemici che il GM ha rivelato, con una lettera (la stessa che il GM usa al tavolo). Vedi quello che vedrebbe chiunque: il nome che gli dà il GM, organico o sintetico, una fascia di ferite (Illeso, Ferito, Grave a metà HP o meno, A terra) e le condizioni visibili. Un ritratto quando il GM ce l'ha (toccalo: immagine intera); le Elite in arancione; gli alleati a parte, per nome, in verde. HP, armatura e il resto solo quando la tua Intel conosce quel tipo (7-9)."
     },
     "scavenger": {
       "title": "Scavenger · Tell",
@@ -187,6 +187,14 @@
     "housekeeping": {
       "title": "Manutenzione",
       "text": "Piccole incombenze di classe, sempre a portata di mano: non occupano mai uno slot (brain fog). Nessun tiro di Class TN; in combattimento ognuna costa un'azione. Al massimo due per classe."
+    },
+    "intel": {
+      "title": "Intel",
+      "text": "Quello che il tuo personaggio sa dei tipi di nemici. Known: armatura, HP, quadretti, armi. Studied: tutto, e +1 per colpire quel tipo. Si impara con Studia (un'azione e un tiro, una volta per scontro), dal GM, e una volta dal tuo passato; Condividi dà una voce alla squadra."
+    },
+    "gm.intel": {
+      "title": "Grant intel",
+      "text": "Scegli un tipo di nemico, Known / Studied / Rumour, spunta chi lo impara. I dati arrivano dal tuo bestiario; i talenti segreti non viaggiano mai."
     }
   }
 }

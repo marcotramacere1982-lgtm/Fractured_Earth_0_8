@@ -8,6 +8,8 @@ Prima o poi ogni squadra si ritrova dall'altra parte di un corridoio rispetto a 
 
 ## 10-1. Leggere una scheda {#sec-10-1}
 
+Una scheda qui mostra un tipo e com'è fatto. **I numeri qui sotto non sono stampati**: la tua scheda li mostra quando il tuo personaggio conosce quel tipo — *Intel* (7-9). Questo elenco ti dice cosa significano quando succede.
+
 - **Tipo** — *organic* (carne, forse un po' di cromo), *cybernetic* (persone con impianti in rete) o *synthetic* (droni, robot, torrette). Decide cosa può toccare un Hacker (la maggior parte degli hack raggiunge solo bersagli cybernetic e synthetic) e cosa fa un colpo localizzato (10-3).
 - **HP** — quanti danni servono per abbatterlo. I giocatori vedono solo la fascia di ferite: *Unhurt*, *Hurt*, *Bloodied* (metà degli HP o meno), *Down*.
 - **Armatura** — si sottrae ai danni di ogni colpo, esattamente come la tua. Si incrina di 1 quando ferma del tutto un colpo localizzato (7-5).

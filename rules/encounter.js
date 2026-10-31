@@ -1,6 +1,7 @@
 // Combat encounter for the GM console: initiative order, turns, rounds, enemy instances.
 // Pure functions over a plain object; every function returns a new encounter (no mutation).
 
+import { intelRef } from './intel.js';
 import { roll } from './dice.js';
 import { hitLocations } from './body.js';
 import { locationOutcome } from './injuries.js';
@@ -331,6 +332,7 @@ export function publicView(enc, data, { art = null, faces = null } = {}) {
       elite: e.enemy.kind === 'elite',
       ally: Boolean(e.ally),
       art: art?.[e.enemy.templateId]?.key ?? null, // decision 152: an opaque key, never the bestiary id
+      ref: e.enemy.templateId ? intelRef(e.enemy.templateId) : null, // decision 197: matched against a sheet's Intel (the same opaque key)
       look: e.look ?? 1,
       band: woundBand(e.enemy.hp, e.enemy.maxHp, data),
       conditions: [...e.enemy.conditions, ...limbs.filter((c) => e.enemy.injuries?.[c.limb] > 0).map((c) => c.id)],

@@ -1,5 +1,6 @@
 // Dossier tab (identity, class, background, debt, portrait) and Notes & maps tab (notes, maps we've seen, action log).
 
+import { intelCard } from './intel.js';
 import { html, raw } from '../dom.js';
 import { card, nameOf } from './parts.js';
 import { sanitizeHtml } from '../sanitize.js';
@@ -104,7 +105,7 @@ export function dossierTab(c, s, data, ctx = {}) {
 
   return html`
     <div class="sheet-grid sheet-grid--dossier">
-      <div class="stack dossier__info">${identity}${background}${motivator}</div>
+      <div class="stack dossier__info">${identity}${background}${motivator}${intelCard(c, s, data, ctx)}</div>
       <div class="stack dossier__story">${story}${timelineCard(c)}</div>
       <div class="stack dossier__photo">${portrait}${card(t('look.title'), lookFields(c.narrative.look ?? {}), { tour: 'look' })}</div>
     </div>`;

@@ -38,7 +38,7 @@
     },
     "hostiles": {
       "title": "Hostiles",
-      "text": "The enemies the GM has revealed, by letter (the same letter the GM uses at the table). You see what anyone could see: the name the GM gives them, organic or synthetic, a wound band (Unhurt, Hurt, Bloodied at half HP or less, Down) and visible conditions. A portrait when the GM has one (tap: full picture); elites in orange; allies apart, by name, in green. Never HP, armor or initiative.",
+      "text": "The enemies the GM has revealed, by letter (the same letter the GM uses at the table). You see what anyone could see: the name the GM gives them, organic or synthetic, a wound band (Unhurt, Hurt, Bloodied at half HP or less, Down) and visible conditions. A portrait when the GM has one (tap: full picture); elites in orange; allies apart, by name, in green. HP, armor and the rest only when your Intel knows the type (7-9).",
       "anchor": "sec-7-1"
     },
     "hp": {
@@ -390,6 +390,16 @@
       "title": "Housekeeping",
       "text": "Small class chores, always at hand: they never take a slot (brain fog). No Class TN roll; in a fight each costs an action. At most two per class.",
       "anchor": "sec-7-4"
+    },
+    "intel": {
+      "title": "Intel",
+      "text": "What your character knows about enemy types. Known: armor, HP, squares, weapons. Studied: everything, and +1 to hit that type. Learned by Study (an action and a roll, once per fight), from the GM, and once from your background; Share gives an entry to the crew.",
+      "anchor": "sec-7-9"
+    },
+    "gm.intel": {
+      "title": "Grant intel",
+      "text": "Pick an enemy type, Known / Studied / Rumour, tick who learns it. Facts come from your bestiary; secret talents never travel.",
+      "anchor": "sec-9-5"
     }
   }
 }

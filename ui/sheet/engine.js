@@ -4,6 +4,7 @@ import { html, raw } from '../dom.js';
 import { counter, card, segmented, nameOf, icon } from './parts.js';
 import { abilityEffects } from '../../rules/ability-play.js';
 import { canUse, defaultResources, upgradeTechResources, SYNC_MAX, newTells, tellGain, openingChoice, abilityContext } from '../../rules/engines.js';
+import { loadoutOpen } from '../../rules/turn.js';
 import { info } from '../ref.js';
 import { t, tn } from '../../i18n/index.js';
 import { tourDone } from '../tour.js';
@@ -214,7 +215,7 @@ function resourcePanel(c, s, data, r, combat, opts = {}) {
 }
 
 /** Decision 183: suggested loadouts — one tap swaps the equipped abilities (gear stays as it is). */
-const kitButtons = (c, data) => {
+export const kitButtons = (c, data) => {
   const kits = kitsFor(c.subclassId, data);
   return kits.length ? html`<div class="cluster"><span class="label">${t('engine.kits')}</span>${kits.map((k) => html`<button class="btn btn--sm btn--ghost" data-action="useKit" data-id="${k.id}" title="${t('engine.kitHint')}">${k.name}</button>`)}</div>` : '';
 };
@@ -223,12 +224,39 @@ const kitButtons = (c, data) => {
 const flagChips = (a) => html`${a.inCombatOnly ? html`<span class="pill">${t('engine.flag.inCombatOnly')}</span>` : ''}${a.outOfCombat ? html`<span class="pill">${t('engine.flag.outOfCombat')}</span>` : ''}${a.opening ? html`<span class="pill">${t('engine.flag.opening')}</span>` : ''}${a.reaction ? html`<span class="pill pill--info">${t('engine.flag.reaction')}</span>` : ''}${a.perMission ? html`<span class="pill pill--accent">${t('engine.flag.perMission')}</span>` : ''}${a.perScene ? html`<span class="pill">${t('engine.flag.perScene')}</span>` : ''}`;
 
 /** combat: the GM's combat state at the table (the Scavenger's Tells sit on its hostiles). */
-export function engineCard(c, s, data, combat = null, opts = {}) {
-  if (!c.classId) return card(t('engine.class'), html`<p class="muted">${t('engine.noClass')}</p>`);
+/** The class engine's state for this sheet: its resources (filled in) and what abilities check against. */
+function engineState(c, s) {
   const saved = c.play.resources && Object.keys(c.play.resources).length ? c.play.resources : null;
   const r = c.classId === 'techwiz' ? upgradeTechResources(saved ?? defaultResources('techwiz'))
     : c.classId === 'scavenger' ? { ...newTells(), ...saved } : { ...defaultResources(c.classId), ...saved };
   const ctx = { ...abilityContext(c), capacity: s.deck?.capacity ?? null, weapons: s.armed, arms: s.injured.arms, talents: s.talents, ...(c.classId === 'techwiz' ? { drone: s.drone } : {}) };
+  return { r, ctx };
+}
+
+/**
+ * Decision 194: what an ability needs and does in the class's own terms (Soldier: TP and stance from → to; Hacker:
+ * RAM and heat; Tech Wizard: Sync and Brownout; Scavenger: Tells; Smuggler: its zones), plus its limits — for the
+ * condensed lines and the loadout window, the same chips as the full engine.
+ */
+export function abilityChips(c, s, data, a) {
+  const { r, ctx } = engineState(c, s);
+  return html`${abilityMeta(c.classId, a, r, data, ctx)}${flagChips(a)}`;
+}
+
+/** The ability's rule in one place: its text, or a Tech Wizard's two faces, the one the engine is on stressed (decision 195). */
+export function abilityLine(c, s, a) {
+  if (a.mend && c.classId === 'techwiz') {
+    const { r } = engineState(c, s);
+    const face = (id, text, label, tone) => html`<span class="ability-face ${r.mode === id ? 'is-active' : ''}"><strong class="${tone}">${label}</strong> ${text}</span>`;
+    return html`${face('mend', a.mend, 'Mend', 'text-success')}${face('surge', a.surge, 'Surge', 'text-danger')}`;
+  }
+  return a.desc ?? '';
+}
+
+export function engineCard(c, s, data, combat = null, opts = {}) {
+  if (!c.classId) return card(t('engine.class'), html`<p class="muted">${t('engine.noClass')}</p>`);
+  const { r, ctx } = engineState(c, s);
+  const swapOk = loadoutOpen(c.play.turn); // decision 194: not mid-fight
   const all = data.abilities[c.classId].filter((a) => !a.housekeeping).map((a) => ({ ...droneAbility(a, s.drone), available: a.subclasses.includes(c.subclassId) })); // decision 172: the drone's numbers in
   // decision 174: housekeeping — always at hand, outside the slots; in a fight each costs an action
   const chores = data.abilities[c.classId].filter((a) => a.housekeeping && a.subclasses.includes(c.subclassId)).map((a) => ({ ...a, check: canUse(c.classId, a, r, ctx) }));
@@ -255,7 +283,7 @@ export function engineCard(c, s, data, combat = null, opts = {}) {
           <div class="cluster">
             ${isEquipped && check.ok ? html`<button class="btn btn--sm btn--primary" data-action="abilityRoll" data-id="${a.id}" title="${t('engine.useHint', { tn: s.class.tn })}">${t('engine.use', { tn: s.class.tn })}</button>` : ''}
             ${isEquipped && check.ok && c.classId === 'techwiz' && r.sync >= SYNC_MAX ? html`<button class="btn btn--sm btn--resonant" data-action="abilityRoll" data-id="${a.id}" data-resonant="1" title="${t('engine.resonantHint')}">${t('engine.resonantCast')}</button>` : ''}
-            <button class="btn btn--sm btn--ghost" data-action="equip" data-id="${a.id}" ${!a.available && !isEquipped ? raw('disabled') : ''}>${isEquipped ? t('engine.unequip') : t('engine.equip')}</button>
+            ${swapOk ? html`<button class="btn btn--sm btn--ghost" data-action="equip" data-id="${a.id}" ${!a.available && !isEquipped ? raw('disabled') : ''}>${isEquipped ? t('engine.unequip') : t('engine.equip')}</button>` : ''}
           </div>
         </div>
         ${abilityText(c.classId, a, r, data.icons, { usableNow: isEquipped && check.ok })}
@@ -266,23 +294,6 @@ export function engineCard(c, s, data, combat = null, opts = {}) {
   };
 
   const cls = data.classes.classes.find((k) => k.id === c.classId);
-  // decision 163: the Tactical View's compact engine — one line per equipped ability, then the resource panel
-  if (opts.compact) {
-    const line = (a) => html`<div class="ability-line ${a.check.ok ? 'is-ready' : ''}" title="${a.desc ?? [a.play?.mend && a.mend, a.play?.surge && a.surge].filter(Boolean).join(' / ') ?? ''}">
-      <span class="ability-line__name">${abilityEffects(a).map((id) => icon(data, id, 'ico--fx'))}${a.name}</span>
-      ${a.check.ok ? html`<button class="btn btn--sm btn--primary" data-action="abilityRoll" data-id="${a.id}" title="${t('engine.useHint', { tn: s.class.tn })}">${t('engine.useShort')}</button>
-        ${c.classId === 'techwiz' && r.sync >= SYNC_MAX ? html`<button class="btn btn--sm btn--resonant" data-action="abilityRoll" data-id="${a.id}" data-resonant="1" title="${t('engine.resonantHint')}">✦</button>` : ''}`
-        : html`<span class="muted st-small ability-line__why">${ruleText(a.check)}</span>`}
-    </div>`;
-    return html`<div class="engine-compact">
-      <div class="spread"><span class="label">${icon(data, data.icons[c.classId] ? c.classId : 'class_tn')}${s.class.name} · ${cls.resources.engine}</span>
-        <button class="btn btn--sm btn--ghost" data-action="tacEngine" title="${t('tac.engineFull')}" aria-label="${t('tac.engineFull')}">⤢</button></div>
-      <span class="label">${t('engine.equipped')} · <span class="text-success">${t('engine.readyCount', { n: readyCount })}</span></span>
-      <div class="ability-lines">${equipped.length ? equipped.map(line) : html`<p class="muted st-small">${t('engine.nothingEquippedShort')}</p>`}</div>
-      ${choresStrip}
-      <div class="stack" data-tour="engine-resource">${resourcePanel(c, s, data, r, combat, opts)}</div>
-    </div>`;
-  }
   const body = html`
     <div class="stack">
       ${tourDone(`class.${c.classId}`) ? '' : html`<p class="notice tour-offer"><span>${t('tour.classOffer', { cls: cls.name })}</span>
@@ -293,7 +304,8 @@ export function engineCard(c, s, data, combat = null, opts = {}) {
       <div class="spread spread--wrap">
         <span class="label">${t('engine.equipped')} ${equipped.length}/${s.abilityLimit} · <span class="text-success">${t('engine.readyCount', { n: readyCount })}</span></span>
         <span class="cluster"><span class="label">${t('engine.brainFog')}${info('brain-fog', t('engine.brainFog'))}</span>${counter({ action: 'maxAbilities', value: c.play.maxAbilities, min: 1, size: 'sm', label: t('engine.brainFog') })}</span></div>
-      ${kitButtons(c, data)}
+      ${swapOk ? html`<button class="btn btn--primary engine-swap engine-swap--big" data-action="loadoutOpen" title="${t('engine.swapHint')}">⇄ ${t('engine.swap')}</button>
+      ${kitButtons(c, data)}` : html`<p class="notice">🔒 ${t('rule.loadoutLocked')}</p>`}
       ${equipped.length ? equipped.map((a) => abilityRow(a, true)) : html`<p class="muted">${t('engine.nothingEquipped', { n: s.abilityLimit, resource: data.classes.classes.find((k) => k.id === c.classId).resources.counters[0].name })}</p>`}
       <details class="details" data-keep="abilities"><summary>${t('engine.allAbilities', { cls: data.classes.classes.find((k) => k.id === c.classId).name, n: rest.length })}</summary>
         <div class="stack">${rest.map((a) => abilityRow(a, false))}</div>
@@ -301,5 +313,5 @@ export function engineCard(c, s, data, combat = null, opts = {}) {
       </div>
     </div>`;
   return card(`${s.class.name} · ${t('engine.title')}`, body, { sub: cls.resources.engine, ref: c.classId, tour: 'engine',
-    actions: html`<span class="cluster">${opts.expandable ? html`<button class="btn btn--sm btn--ghost" data-action="tacEngine" title="${t('tac.engineCompact')}" aria-label="${t('tac.engineCompact')}">⤡</button>` : ''}<button class="btn btn--sm btn--ghost" data-action="tour" data-id="class.${c.classId}">${t('tour.classTour')}</button></span>` });
+    actions: html`<span class="cluster"><button class="btn btn--sm btn--ghost" data-action="tour" data-id="class.${c.classId}">${t('tour.classTour')}</button></span>` });
 }

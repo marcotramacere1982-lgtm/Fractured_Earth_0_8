@@ -8,6 +8,8 @@ It is a **collection**, not a rulebook. Browse it to get a feel for the street. 
 
 ## 10-1. Reading a card {#sec-10-1}
 
+A card here shows a type and what it looks like. **The numbers below are not printed**: your sheet shows them once your character knows that type — *Intel* (7-9). This list tells you what they mean when you do.
+
 - **Type** — *organic* (flesh, maybe a little chrome), *cybernetic* (people with networked implants) or *synthetic* (drones, robots, turrets). It decides what a Hacker can touch (most hacks only reach cybernetic and synthetic targets) and what a location hit does (10-3).
 - **HP** — how much damage it takes to drop it. Players see only the wound band: *Unhurt*, *Hurt*, *Bloodied* (half HP or less), *Down*.
 - **Armor** — subtracted from the damage of every hit, exactly like yours. It cracks by 1 when it stops a location attack completely (7-5).

@@ -5,6 +5,7 @@
 import { html } from '../dom.js';
 import { t } from '../../i18n/index.js';
 import { toast } from '../shell.js';
+import { railOpen } from '../rails.js';
 import { cleanMark, markColor, secondsLeft } from '../../rules/marks.js';
 
 const ICON = { crosshair: '⊕', arrow: '➜', question: '?', line: '〰' };
@@ -84,7 +85,7 @@ export function markHooks({ map, data, id, marks, myColor, onIdle, send }) {
 /** Sheet handlers for the marking controls. ctx: { draw, run, send, mine() → your marks on the table map } */
 export function markHandlers({ draw, run, send, mine = () => [] }) {
   return {
-    mapMarkMode() { ui.tool = ui.tool ? null : 'crosshair'; ui.sel = null; draw(); },
+    mapMarkMode() { ui.tool = ui.tool ? null : 'crosshair'; ui.sel = null; if (ui.tool) railOpen('tac', 'right', 'map'); draw(); }, // the tools sit in the Map bookmark (decision 192)
     mapMarkTool({ tool }) { ui.tool = tool; draw(); },
     mapMarkColor({ color }) { run('mapColor', { color }); },
     async mapMarkPin({ id, on }) { await send({ pin: { id, on: on === '1' } }); },

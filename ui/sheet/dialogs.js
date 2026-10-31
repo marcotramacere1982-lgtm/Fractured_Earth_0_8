@@ -11,6 +11,10 @@ import { info } from '../ref.js';
 import { t } from '../../i18n/index.js';
 import { ruleText } from '../rule-text.js';
 
+// Decision 192: at the table the difficulty is the GM's — the roll window shows it, nobody else changes it.
+let tierLocked = () => false;
+export const setTierLock = (fn) => { tierLocked = fn; };
+
 export function openDialog(draw, handlers, { wide = false } = {}) {
   const dlg = document.createElement('dialog');
   dlg.className = wide ? 'dialog dialog--wide' : 'dialog';
@@ -126,7 +130,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
           <span class="hint">${t('check.inPlayHint')}</span></p>` : ''}
         ${once && r ? html`<p class="check-summary muted">${summaryLine()}</p>` : html`<div class="check-setup">
         ${foe ? html`<div class="stack stack--tight check-setup__wide"><span class="label">${t('attack.foe')}</span>
-          <div class="foe-chips" role="group" aria-label="${t('attack.foe')}">${foe.options.map((o) => html`<button class="foe-chip" data-action="foePick" data-id="${o.id}" aria-pressed="${(state.foe ?? '') === o.id}">
+          <div class="foe-chips" role="group" aria-label="${t('attack.foe')}">${foe.options.map((o) => html`<button class="foe-chip ${o.mapped ? 'foe-chip--mapped' : ''}" data-action="foePick" data-id="${o.id}" aria-pressed="${(state.foe ?? '') === o.id}">${o.mapped ? html`<span class="foe-chip__map">🎯 ${t('attack.onMap')}</span>` : ''}
             ${o.img ? html`<img src="${o.img}" alt="" loading="lazy">` : o.letter ? html`<span class="foe-chip__letter">${o.letter}</span>` : ''}<span>${o.label}</span></button>`)}</div></div>` : ''}
         ${aim ? html`<div class="stack stack--tight ${state.aim === 'located' && aim.table ? 'check-setup__wide' : ''}"><span class="label">${t('attack.aim')}${info('location-attack', t('attack.aim'))}</span>
           <div class="segmented" role="group" aria-label="${t('attack.aim')}">${aim.options.map((o) => html`<button class="segmented__opt" data-action="aim" data-id="${o.id}" aria-pressed="${state.aim === o.id}">${o.label}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
@@ -137,8 +141,10 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
             <span><strong>${x.name} +${x.tn}</strong> <span class="muted">· ${x.when}</span></span></label>`)}</div></div>` : ''}
         ${light ? html`<div class="stack stack--tight"><span class="label">${t('light.title')}${info('darkness', t('light.title'))}</span>
           <div class="segmented" role="group" aria-label="${t('light.title')}">${light.options.map((o) => html`<button class="segmented__opt" data-action="light" data-id="${o.id}" aria-pressed="${state.light === o.id}" title="${t('light.suggested', { option: t(`light.${light.kind}.${light.pick}`) })}">${t(`light.${light.kind}.${o.id}`)}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div></div>` : ''}
-        <label class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
-          <select class="select" data-action="tierPick" aria-label="${t('table.difficulty')}" title="${tier.example}">${tiers.map((x) => html`<option value="${x.id}" ${x.id === state.tier ? raw('selected') : ''}>${x.name}${x.penalty ? ` (${signed(-x.penalty)})` : ''}</option>`)}</select></label>
+        ${tierLocked() ? html`<div class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
+          <span class="check-tier ${tier.penalty > 0 ? 'check-tier--hard' : ''}" title="${tier.example}"><strong>${tier.name}${tier.penalty ? ` (${signed(-tier.penalty)})` : ''}</strong> <span class="muted st-small">· ${t('check.tierByGm')}</span></span></div>`
+        : html`<label class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
+          <select class="select" data-action="tierPick" aria-label="${t('table.difficulty')}" title="${tier.example}">${tiers.map((x) => html`<option value="${x.id}" ${x.id === state.tier ? raw('selected') : ''}>${x.name}${x.penalty ? ` (${signed(-x.penalty)})` : ''}</option>`)}</select></label>`}
         </div>`}
         ${once && r ? '' : html`<div class="cluster">
           <button class="btn btn--primary" data-action="roll">${t('check.roll')}</button>
@@ -157,7 +163,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
   };
   const d = openDialog(draw, {
     click: {
-      tier: ({ value }) => { if (once && state.result) return; state.tier = Number(value); state.result = null; d.redraw(); },
+      tier: ({ value }) => { if (tierLocked() || (once && state.result)) return; state.tier = Number(value); state.result = null; d.redraw(); },
       roll: () => { const dice = roll('1d20'); resolve(dice.total, dice); },
       enter: () => { const v = Number(state.manual); if (v >= 1 && v <= 20) resolve(v); },
       tool: ({ id }) => { if (once && state.result) return; state.tool = state.tool === id ? null : id; state.result = null; d.redraw(); },
@@ -169,7 +175,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       flowEnter: () => diceAnswer(true),
     },
     change: {
-      tierPick: (_, e) => { if (once && state.result) return; state.tier = Number(e.target.value); state.result = null; d.redraw(); }, // decision 156: one dropdown
+      tierPick: (_, e) => { if (tierLocked() || (once && state.result)) return; state.tier = Number(e.target.value); state.result = null; d.redraw(); }, // decision 156: one dropdown
     },
     input: {
       manual: (_, e) => { state.manual = e.target.value; },

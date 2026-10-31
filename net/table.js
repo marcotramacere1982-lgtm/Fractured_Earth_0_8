@@ -120,6 +120,9 @@ export function createTableLink(store, hooks) {
       case 'ask': // the GM asks for a skill or attribute roll (decision 165)
         if (id && hooks.ask?.(id, msg)) { hooks.toast(t('ask.toast'), 'success'); hooks.notify?.('message'); }
         break;
+      case 'intel': // decision 197: what you learned about an enemy type (the GM, or a crewmate's share)
+        if (id && hooks.intel?.(id, msg)) { hooks.toast(msg.entry?.from ? t('intel.shared', { from: msg.entry.from, name: msg.entry.name }) : msg.entry?.rumour ? t('intel.rumourIn', { name: msg.entry.name }) : t('intel.in', { name: msg.entry?.name ?? '' }), 'success'); hooks.notify?.('message'); }
+        break;
       case 'scene': // the GM starts a new scene (decision 180)
         if (id && hooks.scene?.(id, msg)) hooks.toast(t('scene.toast'), 'success');
         break;
@@ -272,6 +275,14 @@ export function createTableLink(store, hooks) {
         const res = await fetch('/api/table/report', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, character: state.joinedId }) });
         return res.ok;
       } catch { return false; }
+    },
+    /** Decision 197: Intel — a successful Study, background picks, sharing an entry. @returns the server's answer, or null. */
+    async intel(kind, body) {
+      if (!state.joinedId) return null;
+      try {
+        const res = await fetch(`/api/table/intel/${kind}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, character: state.joinedId }) });
+        return res.ok ? await res.json() : null;
+      } catch { return null; }
     },
     /** Decision 149: a private note to the GM. @returns true when the server took it. */
     async whisper(text) {

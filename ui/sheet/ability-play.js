@@ -52,12 +52,14 @@ export async function playAbility(ctx) {
   const specOf = (i) => chosen(faces[i].spec, picks[i].choice);
   // Scavenger: an ability that spends Tells can only go at an enemy carrying enough of them
   const tellsOk = (h) => !ability.tells || (c.play.resources?.tells?.[h.key] ?? 0) >= ability.tells;
-  const enemyOptions = (spec) => hostiles.filter((h) => canTarget(spec, h) && tellsOk(h)).map((h) => ({ key: h.key, label: `${h.letter} · ${h.name}`, tag: h.tag, letter: h.letter, img: h.art ? `/api/table/art?art=${h.art}&size=portrait&look=${h.look ?? 1}` : null }));
+  const enemyOptions = (spec) => hostiles.filter((h) => canTarget(spec, h) && tellsOk(h)).map((h) => ({ key: h.key, mapped: h.key === ctx.onMap, label: `${h.letter} · ${h.name}`, tag: h.tag, letter: h.letter, img: h.art ? `/api/table/art?art=${h.art}&size=portrait&look=${h.look ?? 1}` : null }));
   const allyOptions = (spec) => [...(spec.withSelf ? [{ id: c.id, name: t('ability.me'), me: true }] : []), ...others.map((p) => ({ id: p.id, name: p.name }))];
   const preset = (i) => { // sensible first picks: the Scavenger's target, every ally for "allies"
     const spec = specOf(i);
     const foes = enemyOptions(spec);
-    picks[i].enemies = spec.target === 'enemy' ? foes.filter((e) => e.key === c.play.resources?.target).slice(0, 1) : [];
+    const scav = foes.filter((e) => e.key === c.play.resources?.target);
+    const mapped = foes.filter((e) => e.mapped); // decision 192: the enemy tapped on the map
+    picks[i].enemies = spec.target === 'enemy' ? (scav.length ? scav : mapped).slice(0, 1) : ENEMY.includes(spec.target) ? mapped : [];
     picks[i].allies = spec.target === 'allies' ? allyOptions(spec) : spec.withSelf ? allyOptions(spec).slice(0, 1) : [];
   };
   faces.forEach((_, i) => preset(i));
@@ -81,7 +83,7 @@ export async function playAbility(ctx) {
         ${f.face ? html`<h3 class="label">${faceName(data, f.face)}</h3>` : ''}
         ${f.spec.choose ? html`<div class="stack stack--tight"><span class="label">${t('ability.pick')}</span><div class="segmented" role="group">${f.spec.choose.map((o, k) => html`<button class="segmented__opt" data-action="choice" data-face="${i}" data-k="${k}" aria-pressed="${picks[i].choice === k}">${o.label}</button>`)}</div></div>` : ''}
         ${ENEMY.includes(s.target) && foes.length ? html`<div class="stack stack--tight"><span class="label">${t('attack.foe')}${s.target === 'enemies' ? ` · ${t('ability.upTo', { n: Math.min(s.max ?? 9, foes.length) })}` : ''}</span>
-          <div class="foe-chips" role="group">${foes.map((e) => html`<button class="foe-chip" data-action="foe" data-face="${i}" data-key="${e.key}" aria-pressed="${picks[i].enemies.some((x) => x.key === e.key)}">${e.img ? html`<img src="${e.img}" alt="" loading="lazy">` : html`<span class="foe-chip__letter">${e.letter}</span>`}<span>${e.label}</span></button>`)}</div></div>` : ''}
+          <div class="foe-chips" role="group">${foes.map((e) => html`<button class="foe-chip ${e.mapped ? 'foe-chip--mapped' : ''}" data-action="foe" data-face="${i}" data-key="${e.key}" aria-pressed="${picks[i].enemies.some((x) => x.key === e.key)}">${e.mapped ? html`<span class="foe-chip__map">🎯 ${t('attack.onMap')}</span>` : ''}${e.img ? html`<img src="${e.img}" alt="" loading="lazy">` : html`<span class="foe-chip__letter">${e.letter}</span>`}<span>${e.label}</span></button>`)}</div></div>` : ''}
         ${ENEMY.includes(s.target) && !foes.length ? html`<p class="hint">${t('ability.noFoes')}</p>` : ''}
         ${ALLY.includes(s.target) && pals.length ? html`<div class="stack stack--tight"><span class="label">${t(s.target === 'allies' ? 'ability.allies' : 'ability.ally')}</span>
           <div class="segmented" role="group">${pals.map((p) => html`<button class="segmented__opt" data-action="pal" data-face="${i}" data-id="${p.id}" aria-pressed="${picks[i].allies.some((x) => x.id === p.id)}">${p.name}</button>`)}</div></div>` : ''}

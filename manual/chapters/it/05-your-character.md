@@ -66,7 +66,7 @@ Raramente tiri contro un attributo nudo. Ogni attributo ha un **bonus pari a met
 Siccome ogni attributo alimenta più abilità, trascurarne uno lascia punti ciechi in tutto l'albero. La scheda calcola tutte le abilità in tempo reale: tocca un'abilità per tirarla.
 
 **La finestra del tiro.** Si apre toccando un'abilità o un attributo. Dall'alto in basso:
-- **TN, difficoltà e Roll ≤** — il tuo TN, il livello di difficoltà (quello impostato dal GM per il tavolo è già scelto; rosso se più difficile, verde se più facile, 6-2) e il numero da fare.
+- **TN, difficoltà e Roll ≤** — il tuo TN, il livello di difficoltà (al tavolo è del GM e non puoi cambiarlo — la finestra lo mostra, *decisa dal GM*; da solo lo scegli tu; rosso se più difficile, verde se più facile, 6-2) e il numero da fare.
 - **In gioco** — oggetti ed effetti già contati nel TN: uno stimolante preso, una droga, un'ottica. Non devi fare niente; ti spiega perché il numero è quello.
 - **Attrezzatura utile** — gli attrezzi che porti adatti a questa abilità (un set da scasso, un medkit). Spunta quello giusto; ne conta solo uno, e il GM può dire che qui non vale.
 - **Luce** — solo al buio (7-2 §4): la scheda sceglie la riga dalla mappa o dall'interruttore Luce del GM; cambiala se la scena dice altro.
@@ -265,7 +265,7 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 ## 5-8. La scheda del personaggio {#sec-5-8}
 
 - **Barra di stato** — sempre visibile: HP, armatura, iniziativa, azioni, Class TN, Credit Score, contanti e condizioni attive.
-- **Preparazione** — due righe nell'ordine di un turno: il pannello del turno (*Inizia combattimento*, *Fine round*, un solo *Attacca* per l'arma in mano, *?* mostra cosa fa ogni azione) accanto alle armi (TN d'attacco, danni, munizioni, ricarica); poi il tuo motore di classe, le ability equipaggiate e i talenti accanto a salute, armatura, ferite e condizioni (con *Subisci un colpo*) e copertura. Movimento, OFF, DEF e PER stanno nella seconda riga dell'intestazione, aggiornati dalle condizioni.
+- **Preparazione** — due righe nell'ordine di un turno: il pannello del turno (*Inizia combattimento* quando giochi senza tavolo — al tavolo gli scontri li avvia il GM —, *Fine round*, un solo *Attacca* per l'arma in mano, *?* mostra cosa fa ogni azione) accanto alle armi (TN d'attacco, danni, munizioni, ricarica); poi il tuo motore di classe, le ability equipaggiate e i talenti accanto a salute, armatura, ferite e condizioni (con *Subisci un colpo*) e copertura. Movimento, OFF, DEF e PER stanno nella seconda riga dell'intestazione, aggiornati dalle condizioni.
   Scorri in basso per tutte le abilità (scrivi in *Cerca un'abilità* per filtrare per nome, statistica o gruppo) e gli attributi (modificabili per ferite, invecchiamento o decisioni del GM). Tocca per tirare con la difficoltà del GM. Quando il GM chiede un tiro, in cima compare una carta (anche nella vista Tattica): *Tira* apre la stessa finestra e il risultato va al GM.
 - **Tattica** — per prima finché il GM ha una mappa sul tavolo: lo scontro in una schermata (7-2 §5).
 - **Equipaggiamento** — contanti, inventario, il mercato e il tuo stile di vita.

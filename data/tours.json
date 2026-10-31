@@ -241,7 +241,7 @@
           "tab": "map",
           "target": "map-stage",
           "title": "The map on the table",
-          "text": "What your crew can see. Drag to look around, pinch or use the mouse wheel to zoom, Fit to see it all. Dark squares: never seen. Dimmed: seen before, nobody sees them now. Doors and windows let sight through; closed doors don't."
+          "text": "What your crew can see. Drag to look around, pinch or use the mouse wheel to zoom, Fit to see it all. Covered: never seen. Washed out and hatched: seen before, nobody sees them now. A night tint: you see it, but it's in the dark; warm: a light reaches it. Doors and windows let sight through; closed doors don't."
         },
         {
           "id": "move",
@@ -255,7 +255,7 @@
           "tab": "map",
           "target": "map-target",
           "title": "Tap to check",
-          "text": "Tap a marker: line of sight (clear, cover likely, blocked), distance, and which of your weapons reach. Tap a piece to see what it is. Tap a door next to you to open or close it — in combat that's an Interact action; a locked one won't budge."
+          "text": "Tap a marker: line of sight (clear, cover likely, blocked), distance, and which of your weapons reach — in the Map bookmark on the right. An enemy you tap is picked to start with when you attack. Tap a piece to see what it is. Tap a door next to you to open or close it — in combat that's an Interact action; a locked one won't budge."
         },
         {
           "id": "gear",

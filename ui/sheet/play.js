@@ -11,8 +11,6 @@ import { info } from '../ref.js';
 import { explain, hint } from '../explain.js';
 import { t, tn } from '../../i18n/index.js';
 import { portraitImg } from '../portrait.js';
-import { initiativeCard } from './initiative.js';
-import { rollAskCard } from './roll-ask.js';
 import { hitsCard, boonsCard } from './hits.js';
 
 export function statusBar(c, s, data, { compact = false, all = false } = {}) {
@@ -172,7 +170,7 @@ function healthCard(c, s, data, { tips = false } = {}) {
   return card(t('body.title'), body, { sub: t('body.sub'), ref: 'conditions', tour: 'health' });
 }
 
-function weaponsCard(c, s, data) {
+export function weaponsCard(c, s, data) {
   const owned = c.play.inventory.filter((x) => x.kind === 'weapon');
   const options = (slot) => html`
     <select class="select" data-action="slot" data-slot="${slot}" aria-label="${t('weapons.slot')} ${slot}">
@@ -218,9 +216,9 @@ function weaponsCard(c, s, data) {
  */
 export function playTab(c, s, data, ctx = {}) {
   return html`
-    ${initiativeCard(c, s, data)}${rollAskCard(c, s, data)}${hitsCard(c, s, data)}${boonsCard(c, data)}
+    ${hitsCard(c, s, data)}${boonsCard(c, data)}
     <div class="sheet-grid sheet-grid--play">
-      <div class="stack">${turnCard(c, s, data, ctx.combat, { tips: ctx.actionTips })}</div>
+      <div class="stack">${turnCard(c, s, data, ctx.combat, { tips: ctx.actionTips, atTable: ctx.atTable })}</div>
       <div class="stack">${engineCard(c, s, data, ctx.combat, { mapDark: ctx.mapDark ?? null })}${talentsCard(c, s, data)}</div>
     </div>
     <div class="sheet-grid sheet-grid--play">

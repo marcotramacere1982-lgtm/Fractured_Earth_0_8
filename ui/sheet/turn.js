@@ -1,5 +1,7 @@
 // Turn panel: round, action pips, the action menu. Every action is logged (and seen by the GM).
 
+import { intelFactsView } from './intel.js';
+import { intelFor } from '../../rules/intel.js';
 import { portraitImg } from '../portrait.js';
 import { html, raw } from '../dom.js';
 import { card, temp, icon } from './parts.js';
@@ -31,7 +33,7 @@ function orderStrip(c, combat) {
  * The enemies the GM has revealed, by letter: what anyone at the table could see of them (decision 152: a portrait
  * when the GM has one — tap for the full picture —, orange for elites; allies apart, named, in green).
  */
-function foeCard(h, data) {
+function foeCard(h, data, intel = null) {
   const condName = (id) => data.conditions.find((x) => x.id === id)?.name ?? id;
   const pic = h.art ? `/api/table/art?art=${h.art}&size=portrait&look=${h.look ?? 1}` : null;
   return html`<li class="foe ${h.elite ? 'foe--elite' : ''} ${h.ally ? 'foe--ally' : ''} ${h.band === 'down' ? 'is-down' : ''}">
@@ -43,17 +45,18 @@ function foeCard(h, data) {
         ${h.elite ? html`<span class="pill pill--warning">${t('foe.elite')}</span>` : ''}${h.ally ? html`<span class="pill pill--success">${t('foe.ally')}</span>` : ''}</div>
       <div class="foe__tags"><span class="pill hostiles__band hostiles__band--${h.band}">${t(`turn.band.${h.band}`)}</span><span class="pill tag--${h.tag}">${h.tag}</span>
         ${h.conditions.map((id) => html`<span class="pill pill--danger">${icon(data, data.conditions.find((k) => k.id === id)?.icon)}${condName(id)}</span>`)}</div>
+      ${h.ally ? '' : intelFactsView(intelFor(intel, h.ref), data)}
     </div>
   </li>`;
 }
-function hostilesList(combat, data) {
+function hostilesList(combat, data, intel = null) {
   if (!combat.hostiles?.length) return '';
   const allies = combat.hostiles.filter((h) => h.ally);
   const foes = combat.hostiles.filter((h) => !h.ally);
   return html`
     ${allies.length ? html`<h3 class="label hostiles__title">${t('foe.allies')}</h3><ul class="foes">${allies.map((h) => foeCard(h, data))}</ul>` : ''}
     ${foes.length ? html`<h3 class="label hostiles__title">${t('turn.hostiles')}${info('hostiles', t('turn.hostiles'))}</h3>
-    <ul class="foes" data-tour="hostiles">${foes.map((h) => foeCard(h, data))}</ul>` : ''}`;
+    <ul class="foes" data-tour="hostiles">${foes.map((h) => foeCard(h, data, intel))}</ul>` : ''}`;
 }
 
 /** What this round's actions were, in order: "Attack · Pistol", "Move", "Ping Sweep"… */
@@ -67,9 +70,11 @@ function spentList(spent) {
 /**
  * Decision 162: the Turn card's pieces — `head` (round, actions, end round), `actors` (the order and who's on the
  * board), `grid` (the action buttons) — so the Tactical View can lay them out apart; the Play tab composes them as before.
+ * atTable: the GM starts the fights, so there is no Start combat button (decision 192).
+ * strip: one row of icons for the Tactical View's map header (decision 195) — no tips line, Move's squares as a badge.
  * combat: the GM's combat state when this sheet is at the table and the GM runs the rounds.
  */
-export function turnPieces(c, s, data, combat = null, { tips = false, hint = true, bare = false } = {}) {
+export function turnPieces(c, s, data, combat = null, { tips = false, hint = true, bare = false, atTable = false, strip = false } = {}) {
   const ts = turnStatus(c.play.turn ?? newTurn(), s.combat.act.value, c.play.conditions, data.actions);
   const gmRuns = Boolean(combat && ts.inCombat && c.play.turn?.tableCombat === combat.id);
   const pipsHtml = Array.from({ length: ts.max }, (_, i) => html`<span class="act-pip ${i < ts.used ? 'is-used' : ''}" aria-hidden="true"></span>`);
@@ -78,6 +83,8 @@ export function turnPieces(c, s, data, combat = null, { tips = false, hint = tru
   const sub = (text) => (tips ? html`<span class="action-btn__sub">${text}</span>` : '');
   const noActions = ts.inCombat && ts.left === 0;
   const label = (text) => html`<span class="action-btn__label">${text}</span>`; // decision 163: hidden in the Tactical View's bare grid
+  const iconOnly = strip || (bare && !tips); // decision 192: Attack and Dodge are plain icon tiles too (their numbers in the tooltip)
+  const wide = iconOnly ? '' : 'action-btn--wide';
 
   const head = ts.inCombat
     ? html`<div class="turn-head">
@@ -93,37 +100,38 @@ export function turnPieces(c, s, data, combat = null, { tips = false, hint = tru
       </div>
       `
     : html`<div class="turn-head">
-        <p class="muted turn-idle">${t('turn.idle')}</p>
-        <button class="btn btn--primary" data-action="combatStart">${t('turn.startCombat')}</button>
+        <p class="muted turn-idle">${t(atTable ? 'turn.idleTable' : 'turn.idle')}</p>
+        ${atTable ? '' : html`<button class="btn btn--primary" data-action="combatStart">${t('turn.startCombat')}</button>`}
       </div>`;
 
-  const actors = gmRuns ? html`${orderStrip(c, combat)}${hostilesList(combat, data)}` : '';
+  const actors = gmRuns ? html`${orderStrip(c, combat)}${hostilesList(combat, data, c.play.intel)}` : '';
   const moveLeft = ts.inCombat ? c.play.turn?.moveLeft ?? 0 : 0; // decision 161: the squares a Move gave, still to walk
   const grid = html`
-    ${noActions ? html`<p class="notice notice--warn">${t('turn.noneLeft')}</p>` : ''}
-    <div class="action-grid ${bare && !tips ? 'action-grid--bare' : ''}" data-tour="actions">
+    ${noActions && !strip ? html`<p class="notice notice--warn">${t('turn.noneLeft')}</p>` : ''}
+    <div class="action-grid ${iconOnly ? 'action-grid--bare' : ''} ${strip ? 'action-grid--strip' : ''}" data-tour="actions" ${strip && noActions ? html`title="${t('turn.noneLeft')}"` : ''}>
       ${weapons.length ? weapons.map((w) => {
         const off = noActions || w.usable === false;
         return html`
-        <button class="action-btn action-btn--attack action-btn--wide" data-action="attackRoll" data-slot="${w.slot}" ${off ? raw('disabled') : ''} title="${t('turn.attack')} — ${w.usable === false ? t(`weapons.unusable.${w.why}`) : t('turn.attackHint')}">
-          <span class="action-btn__name">${icon(data, data.actions.actions.find((x) => x.id === 'attack')?.icon)}${label(t('turn.attack'))}</span><span class="action-btn__live">${w.name} · TN ${temp(w.base, w.tn)}${w.magSize ? ` · ${w.rounds}/${w.magSize}${w.burst > 1 ? ` · ${t('turn.attacksLeft', { n: w.attacksLeft })}` : ''}` : ''}</span>${sub(t('turn.attackHint'))}</button>`;
+        <button class="action-btn action-btn--attack ${wide}" data-action="attackRoll" data-slot="${w.slot}" ${off ? raw('disabled') : ''} title="${t('turn.attack')} · ${w.name} · TN ${w.tn}${w.magSize ? ` · ${w.rounds}/${w.magSize}` : ''} — ${w.usable === false ? t(`weapons.unusable.${w.why}`) : t('turn.attackHint')}">
+          <span class="action-btn__name">${icon(data, data.actions.actions.find((x) => x.id === 'attack')?.icon)}${label(t('turn.attack'))}</span>${iconOnly ? '' : html`<span class="action-btn__live">${w.name} · TN ${temp(w.base, w.tn)}${w.magSize ? ` · ${w.rounds}/${w.magSize}${w.burst > 1 ? ` · ${t('turn.attacksLeft', { n: w.attacksLeft })}` : ''}` : ''}</span>`}${sub(t('turn.attackHint'))}</button>`;
       })
         : html`<button class="action-btn" disabled><span class="action-btn__name">${t('turn.attack')}</span><span class="action-btn__sub">${t('turn.noWeapon')}</span></button>`}
       ${otherWeapon ? html`<button class="action-btn" data-action="hand" data-slot="${otherWeapon.slot}" ${noActions ? raw('disabled') : ''} title="${t('turn.swapTo', { weapon: otherWeapon.name })} — ${t('turn.swapHint')}">
-        <span class="action-btn__name">${icon(data, 'act_swap')}${label(t('turn.swapTo', { weapon: otherWeapon.name }))}</span>${sub(t('turn.swapSub'))}</button>` : ''}
-      <button class="action-btn action-btn--wide" data-action="act" data-kind="move" data-detail="up to ${s.move} squares" ${noActions ? raw('disabled') : ''} title="${t('turn.move')} — ${t('turn.moveHint')}">
-        <span class="action-btn__name">${icon(data, data.actions.actions.find((x) => x.id === 'move')?.icon)}${label(t('turn.move'))}</span><span class="action-btn__live">${moveLeft ? t('turn.squaresLeft', { n: moveLeft }) : s.move !== s.moveBase ? html`<span class="temp temp--down">${t('turn.squares', { n: s.move })}</span>` : t('turn.squares', { n: s.move })}</span></button>
+        <span class="action-btn__name action-btn__name--swap">${icon(data, 'act_swap')}${label(t('turn.swapTo', { weapon: otherWeapon.name }))}</span>${sub(t('turn.swapSub'))}</button>` : ''}
+      <button class="action-btn ${strip ? '' : 'action-btn--wide'} action-btn--k-move" data-action="act" data-kind="move" data-detail="up to ${s.move} squares" ${noActions ? raw('disabled') : ''} title="${t('turn.move')} — ${t('turn.squares', { n: moveLeft || s.move })} — ${t('turn.moveHint')}">
+        <span class="action-btn__name">${icon(data, data.actions.actions.find((x) => x.id === 'move')?.icon)}${label(t('turn.move'))}</span>${strip ? html`<span class="action-btn__badge">${moveLeft || s.move}</span>` : ''}<span class="action-btn__live ${strip ? 'action-btn__label' : ''}">${moveLeft ? t('turn.squaresLeft', { n: moveLeft }) : s.move !== s.moveBase ? html`<span class="temp temp--down">${t('turn.squares', { n: s.move })}</span>` : t('turn.squares', { n: s.move })}</span></button>
       ${data.actions.actions.filter((a) => !['move', 'attack', 'ability'].includes(a.id)).map((a) => {
         const lit = a.id === 'aim' && c.play.aimed; // decision 150: aimed, until the next attack
+        const studyOff = a.id === 'study' && (!ts.inCombat || c.play.turn?.studied); // decision 197: in a fight, once
         return html`
-        <button class="action-btn ${lit ? 'action-btn--on' : ''}" data-action="${a.id === 'reload' ? 'reloadPick' : a.id === 'use_item' ? 'useItem' : 'act'}" data-kind="${a.id}" title="${t(`action.${a.id}`)} — ${a.desc}" ${lit ? raw('aria-pressed="true"') : ''} ${noActions || lit ? raw('disabled') : ''}>
+        <button class="action-btn action-btn--k-${a.id} ${lit ? 'action-btn--on' : ''}" data-action="${a.id === 'reload' ? 'reloadPick' : a.id === 'use_item' ? 'useItem' : a.id === 'study' ? 'studyPick' : 'act'}" data-kind="${a.id}" title="${t(`action.${a.id}`)} — ${a.desc}${studyOff ? ` (${t(ts.inCombat ? 'intel.studiedThisFight' : 'intel.studyInFight')})` : ''}" ${lit ? raw('aria-pressed="true"') : ''} ${noActions || lit || studyOff ? raw('disabled') : ''}>
           <span class="action-btn__name">${icon(data, a.icon)}${label(t(`action.${a.id}`))}</span>${lit ? html`<span class="action-btn__live">${t('turn.aimed')}</span>` : sub(a.desc.split('.')[0])}</button>`;
       })}
-      ${ts.inCombat ? html`<button class="action-btn action-btn--reaction action-btn--wide" data-action="dodgeRoll" title="${t('dodge.title')} — ${data.actions.reactions[0].desc}">
-        <span class="action-btn__name">${icon(data, data.actions.reactions[0].icon)}${label(t('dodge.title'))}</span><span class="action-btn__live">Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value}</span>${sub(t('turn.dodgeSub'))}</button>` : ''}
+      ${ts.inCombat ? html`<button class="action-btn action-btn--reaction ${wide}" data-action="dodgeRoll" title="${t('dodge.title')} · Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value} — ${data.actions.reactions[0].desc}">
+        <span class="action-btn__name">${icon(data, data.actions.reactions[0].icon)}${label(t('dodge.title'))}</span>${iconOnly ? '' : html`<span class="action-btn__live">Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value}</span>`}${sub(t('turn.dodgeSub'))}</button>` : ''}
     </div>
-    <div class="spread">${hint ? html`<p class="hint">${t('turn.abilitiesHint', { tn: s.class ? ` (${s.class.tn})` : '' })}</p>` : ''}
-      <button class="btn btn--sm btn--ghost" data-action="actionTips" aria-pressed="${tips}" title="${t('turn.tipsHint')}">? ${t(tips ? 'turn.tipsHide' : 'turn.tipsShow')}</button></div>`;
+    ${strip ? '' : html`<div class="spread">${hint ? html`<p class="hint">${t('turn.abilitiesHint', { tn: s.class ? ` (${s.class.tn})` : '' })}</p>` : ''}
+      <button class="btn btn--sm btn--ghost" data-action="actionTips" aria-pressed="${tips}" title="${t('turn.tipsHint')}">? ${t(tips ? 'turn.tipsHide' : 'turn.tipsShow')}</button></div>`}`;
   return { head, actors, grid };
 }
 

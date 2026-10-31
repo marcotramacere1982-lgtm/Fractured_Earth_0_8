@@ -95,23 +95,41 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   loadProps(data).then(() => { propsKey = ''; if (state) update(state); });
 
   /**
-   * Fog of war (decision 71): squares never seen are covered (opaque for players, shaded for the GM), squares
-   * remembered but not seen now are dimmed. fog: { mode: 'gm' | 'player', seen, visible } (lists or sets of "x,y").
+   * Fog of war (decision 71) and light (decision 191), four levels kept apart at a glance: never seen (covered —
+   * opaque for players, shaded for the GM), remembered (washed out and hatched: a memory, not the dark), seen now
+   * but in shadow (a night tint), seen now and lit by a light in the dark (a faint warm pool). fog: { mode: 'gm' |
+   * 'player', seen, visible, light? } — light: { allDark, dark, lit } from rules/light.js → lightState.
+   * Shadow shows where someone looks now; the GM also sees every light's pool, seen or not.
    */
   function fogSvg(map, fog) {
     const seen = new Set(fog.seen);
     const now = new Set(fog.visible);
-    let dark = '';
-    let dim = '';
+    const all = Boolean(fog.all); // fog off (GM): only the light is drawn
+    const light = fog.light ?? null;
+    const darkSet = new Set(light?.dark ?? []);
+    const litSet = new Set(light?.lit ?? []);
+    const isDark = (k) => Boolean(light) && (light.allDark || darkSet.has(k));
+    const gm = fog.mode === 'gm';
+    let cover = '';
+    let memory = '';
+    let shadow = '';
+    let pool = '';
     for (let x = 0; x < map.cols; x++) {
       for (let y = 0; y < map.rows; y++) {
         const k = `${x},${y}`;
         const r = `M${x * U} ${y * U}h${U}v${U}h${-U}z`;
-        if (!seen.has(k)) dark += r;
-        else if (!now.has(k)) dim += r;
+        const looking = all || now.has(k);
+        if (!all && !seen.has(k)) cover += r;
+        else if (!looking) memory += r;
+        if (isDark(k) && litSet.has(k) && (looking || gm)) pool += r; // the GM sees every light's pool
+        else if (isDark(k) && looking) shadow += r; // shadow only where someone looks: a dark map stays readable
       }
     }
-    return `<path class="map-fog map-fog--${fog.mode}" d="${dark}"/><path class="map-fog-dim map-fog-dim--${fog.mode}" d="${dim}"/>`;
+    const hatch = `${prefix}-fog-hatch`;
+    return `<defs><pattern id="${hatch}" patternUnits="userSpaceOnUse" width="${U / 3}" height="${U / 3}" patternTransform="rotate(45)"><line class="map-fog-hatch" x1="0" y1="0" x2="0" y2="${U / 3}" stroke-width="${U * 0.03}"/></pattern></defs>`
+      + `<path class="map-shadow map-shadow--${fog.mode}" d="${shadow}"/><path class="map-pool" d="${pool}"/>`
+      + `<path class="map-fog-dim map-fog-dim--${fog.mode}" d="${memory}"/><path class="map-fog-dim-hatch" fill="url(#${hatch})" d="${memory}"/>`
+      + `<path class="map-fog map-fog--${fog.mode}" d="${cover}"/>`;
   }
 
   /** The line of sight being checked: centre to centre, coloured clear / cover / blocked, a ring on the target. */

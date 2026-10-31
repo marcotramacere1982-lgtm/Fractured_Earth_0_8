@@ -55,7 +55,7 @@ function drawMap(viewer) {
   }
   viewer.update({
     key: map.id, map, tokens: map.tokens ?? [],
-    fog: map.fog ? { mode: 'player', ...map.fog } : null,
+    fog: map.fog ? { mode: 'player', ...map.fog, light: map.light ?? null } : null,
     focus: focusBox(map, map.fog?.seen, map.tokens ?? []), // decision 133: frame what the crew has seen
     marks: { list: marks?.map === map.id ? marks.list : [], skew: marks?.skew ?? 0 },
   });

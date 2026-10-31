@@ -23,6 +23,7 @@ export const DATA_FILES = {
   deckMods: 'deck-mods.json',
   weaponMods: 'weapon-mods.json', // decision 173
   kits: 'kits.json', // decision 183: starter kits
+  intel: 'intel.json', // decision 197: what characters know about enemy types
   drones: 'drones.json', // decision 172: the Tech Wizard's drone
   droneMods: 'drone-mods.json',
   optics: 'optics.json',

@@ -57,10 +57,10 @@ export function renderHeader(el, route) {
 
 const TOASTS_MAX = 3;
 let toastMs = 0; // 0: stays until its ✕
-/** Decision 188: the GM console's pop-ups fade by themselves (they pile up there); the player sheet keeps the ✕. */
+/** Decisions 188 / 192: pop-ups fade by themselves after `ms`, no ✕ (they piled up, forgotten, over the screen's corner). */
 export const setToastTimeout = (ms) => { toastMs = ms; };
 
-/** Decision 160: a pop-up stays until its ✕ (playtest: they went too fast); at most 3 — the oldest makes room. */
+/** A pop-up: at most 3 — the oldest makes room. With a timeout it fades on its own; without, it waits for its ✕ (decision 160). */
 export function toast(message, kind = '') {
   const host = document.getElementById('toasts');
   if (!host) return;
@@ -76,12 +76,14 @@ export function toast(message, kind = '') {
   close.textContent = '✕';
   close.setAttribute('aria-label', t('common.close'));
   close.addEventListener('click', () => el.remove());
-  el.append(text, close);
+  el.append(text, ...(toastMs ? [] : [close]));
   host.append(el);
   while (host.children.length > TOASTS_MAX) host.firstElementChild.remove();
-  if (toastMs) { // the pointer over it holds it, so a long one can still be read
-    let timer = setTimeout(() => el.remove(), toastMs);
-    el.addEventListener('pointerenter', () => clearTimeout(timer));
-    el.addEventListener('pointerleave', () => { timer = setTimeout(() => el.remove(), toastMs); });
+  if (toastMs) { // the pointer over it holds it, so a long one can still be read; a tap sends it away
+    const fade = () => { el.classList.add('toast--out'); setTimeout(() => el.remove(), 400); };
+    let timer = setTimeout(fade, toastMs);
+    el.addEventListener('pointerenter', () => { clearTimeout(timer); el.classList.remove('toast--out'); });
+    el.addEventListener('pointerleave', () => { timer = setTimeout(fade, toastMs); });
+    el.addEventListener('click', () => el.remove());
   }
 }

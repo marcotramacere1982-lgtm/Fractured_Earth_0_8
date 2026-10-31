@@ -1,211 +1,126 @@
 {
   "enemies": {
     "enemy.street_mugger": {
-      "desc": "Sbandato disperato di basso livello, armato di una lama arrugginita e senza alcun istinto di sopravvivenza.",
-      "behaviour": "Aggressivo e sconsiderato"
+      "desc": "Sbandato disperato di basso livello, armato di una lama arrugginita e senza alcun istinto di sopravvivenza."
     },
     "enemy.junk_drone": {
-      "desc": "Un goffo drone domestico modificato, con un taser a scarica montato alla buona.",
-      "behaviour": "Imprevedibile, attacca a sciame"
+      "desc": "Un goffo drone domestico modificato, con un taser a scarica montato alla buona."
     },
     "enemy.alley_pusher": {
-      "desc": "Spacciatore di basso livello protetto da una banda sgangherata di duri del quartiere.",
-      "behaviour": "Prudente e difensivo"
+      "desc": "Spacciatore di basso livello protetto da una banda sgangherata di duri del quartiere."
     },
     "enemy.tenement_enforcer": {
-      "desc": "Bruto massiccio che spreme i residenti per l'affitto degli Avalon-Collins Stables.",
-      "behaviour": "Brutale e diretto"
+      "desc": "Bruto massiccio che spreme i residenti per l'affitto degli Avalon-Collins Stables."
     },
     "enemy.syndicate_scrapper": {
-      "desc": "Teppista aggressivo con segni tribali e un tubo contundente.",
-      "behaviour": "Instancabile e rumoroso"
+      "desc": "Teppista aggressivo con segni tribali e un tubo contundente."
     },
     "enemy.ledger_zealot": {
-      "desc": "Teppista neo-religioso fanatico a guardia di un santuario-ATM digitale illuminato del quartiere.",
-      "behaviour": "Fanatico e irremovibile"
+      "desc": "Teppista neo-religioso fanatico a guardia di un santuario-ATM digitale illuminato del quartiere."
     },
     "enemy.street_splicer": {
-      "desc": "Smanettone fuori controllo che spara scintille irregolari da hardware fatto in casa.",
-      "behaviour": "Calcolatore, tiene le distanze"
+      "desc": "Smanettone fuori controllo che spara scintille irregolari da hardware fatto in casa."
     },
     "enemy.guard_recruit": {
-      "desc": "Guardia di sicurezza a basso costo e oberata, che si affida in tutto ai prompt della subnet locale.",
-      "behaviour": "Obbediente ed esitante"
+      "desc": "Guardia di sicurezza a basso costo e oberata, che si affida in tutto ai prompt della subnet locale."
     },
     "enemy.watch_patrolman": {
-      "desc": "Guardia standard di Centurion-Vanguard che pattuglia linee di trasporto e canyon urbani.",
-      "behaviour": "Disciplinato e metodico"
+      "desc": "Guardia standard di Centurion-Vanguard che pattuglia linee di trasporto e canyon urbani."
     },
     "enemy.watch_scout_drone": {
-      "desc": "Piccola unità aerea automatica che trasmette alla subnet aggiornamenti in diretta sulle minacce.",
-      "behaviour": "Sfuggente, ti segue"
+      "desc": "Piccola unità aerea automatica che trasmette alla subnet aggiornamenti in diretta sulle minacce."
     },
     "enemy.watch_riot_guard": {
-      "desc": "Guardia pesante di prima linea con scudo balistico e manganello elettrico.",
-      "behaviour": "Fa muro, difensivo"
+      "desc": "Guardia pesante di prima linea con scudo balistico e manganello elettrico."
     },
     "enemy.watch_sniper": {
-      "desc": "Specialista a contratto a lungo raggio che copre i varchi d'ingresso della zona grigia.",
-      "behaviour": "Paziente e letale"
+      "desc": "Specialista a contratto a lungo raggio che copre i varchi d'ingresso della zona grigia."
     },
     "enemy.grid_enforcer": {
-      "desc": "Picchiatore aziendale dei servizi che protegge le dorsali in fibra ottica dai ladri di rame.",
-      "behaviour": "Aggressivo e territoriale"
+      "desc": "Picchiatore aziendale dei servizi che protegge le dorsali in fibra ottica dai ladri di rame."
     },
     "enemy.optic_drone": {
-      "desc": "Drone di servizio ronzante capace di sganciare lampi accecanti.",
-      "behaviour": "Tattico, acceca"
+      "desc": "Drone di servizio ronzante capace di sganciare lampi accecanti."
     },
     "enemy.syndicate_subnet_throttler": {
-      "desc": "Poliziotto dei dati aziendale che stende campi di interferenza sulla rete locale.",
-      "behaviour": "Calcolatore, mette fuori uso"
+      "desc": "Poliziotto dei dati aziendale che stende campi di interferenza sulla rete locale."
     },
     "enemy.trf_operator": {
-      "desc": "Ripulitore tattico d'élite di Obsidian Response, con respiratore sigillato e lenti AR.",
-      "behaviour": "Coordinato e implacabile"
+      "desc": "Ripulitore tattico d'élite di Obsidian Response, con respiratore sigillato e lenti AR."
     },
     "enemy.trf_breach_specialist": {
-      "desc": "Combattente tattico pesante armato di cariche cinetiche da sfondamento.",
-      "behaviour": "Aggressivo e risoluto"
+      "desc": "Combattente tattico pesante armato di cariche cinetiche da sfondamento."
     },
     "enemy.trf_recon_drone": {
-      "desc": "Unità militare sospesa e silenziosa che caccia in branchi coordinati da quattro.",
-      "behaviour": "Silenzioso, ti segue"
+      "desc": "Unità militare sospesa e silenziosa che caccia in branchi coordinati da quattro."
     },
     "enemy.trf_sniper": {
-      "desc": "Specialista di alto livello nel recupero di asset, con smorzatori di frequenza.",
-      "behaviour": "Calcolatore, copre dall'alto"
+      "desc": "Specialista di alto livello nel recupero di asset, con smorzatori di frequenza."
     },
     "enemy.trf_heavy_gunner": {
-      "desc": "Soldato aziendale corazzato che blocca le vie di fuga con fuoco cinetico pesante.",
-      "behaviour": "Fuoco di soppressione, implacabile"
+      "desc": "Soldato aziendale corazzato che blocca le vie di fuga con fuoco cinetico pesante."
     },
     "enemy.glitch_anarchist": {
-      "desc": "Sabotatore di strada sconsiderato che lancia cariche EMP fatte in casa.",
-      "behaviour": "Imprevedibile e distruttivo"
+      "desc": "Sabotatore di strada sconsiderato che lancia cariche EMP fatte in casa."
     },
     "enemy.barricade_drone": {
-      "desc": "Unità sospesa pesante che cala barriere antisommossa d'acciaio nei vicoli stretti.",
-      "behaviour": "Difensivo, sbarra la strada"
+      "desc": "Unità sospesa pesante che cala barriere antisommossa d'acciaio nei vicoli stretti."
     },
     "enemy.neo_luddite_zealot": {
-      "desc": "Fanatico anti-tecnologia armato di pesanti mazze a bassa tecnologia.",
-      "behaviour": "Furioso e incessante"
+      "desc": "Fanatico anti-tecnologia armato di pesanti mazze a bassa tecnologia."
     },
     "enemy.ashram_archer": {
-      "desc": "Cacciatore di montagna furtivo, con archi compound silenziosi e cavi a strappo.",
-      "behaviour": "Paziente, tende imboscate"
+      "desc": "Cacciatore di montagna furtivo, con archi compound silenziosi e cavi a strappo."
     },
     "enemy.ghost_chaser_scavenger": {
-      "desc": "Cultista visionario che fruga tra i server in cerca delle voci degli antenati.",
-      "behaviour": "Ossessivo e distratto"
+      "desc": "Cultista visionario che fruga tra i server in cerca delle voci degli antenati."
     },
     "enemy.stalking_relay_drone": {
-      "desc": "Drone autonomo a rete metallica che si aggira vicino ai tralicci dell'alta tensione.",
-      "behaviour": "Furtivo e sfuggente"
+      "desc": "Drone autonomo a rete metallica che si aggira vicino ai tralicci dell'alta tensione."
     },
     "enemy.glass_walker_saboteur": {
-      "desc": "Operativo fuori controllo e sfuggente che mette a segno sabotaggi pesanti alle infrastrutture.",
-      "behaviour": "Sfuggente e metodico"
+      "desc": "Operativo fuori controllo e sfuggente che mette a segno sabotaggi pesanti alle infrastrutture."
     },
     "enemy.autonomous_strike_unit": {
-      "desc": "Drone di sicurezza aziendale sperimentale che spara proiettili di soppressione letali.",
-      "behaviour": "Implacabile e automatico"
+      "desc": "Drone di sicurezza aziendale sperimentale che spara proiettili di soppressione letali."
     },
     "enemy.terminal_clean_up_bot": {
-      "desc": "Pesante droide da manutenzione industriale riconvertito alla bonifica letale degli asset.",
-      "behaviour": "Inarrestabile e meccanico"
+      "desc": "Pesante droide da manutenzione industriale riconvertito alla bonifica letale degli asset."
     },
     "enemy.sector_commander": {
-      "desc": "Direttore aziendale di alto grado che coordina le reti di risposta tattica.",
-      "behaviour": "Tattico e diretto"
+      "desc": "Direttore aziendale di alto grado che coordina le reti di risposta tattica."
     }
   },
   "elites": {
     "elite.kaelen_the_carver_vane": {
-      "desc": "Il braccio armato più temuto di uno strozzino della Grey Zone: con una sparachiodi industriale modificata e una lama ad arco riscuote debiti in organi.",
-      "behaviour": "Giustiziere implacabile che si lancia sugli Operatori isolati e scavalca le coperture.",
-      "talents": {
-        "debt_collector_s_focus": {
-          "desc": "+2 danni contro bersagli feriti (un braccio rotto o una gamba azzoppata) o Incapacitated."
-        }
-      }
+      "desc": "Il braccio armato più temuto di uno strozzino della Grey Zone: con una sparachiodi industriale modificata e una lama ad arco riscuote debiti in organi."
     },
     "elite.centurion_shield_lead": {
-      "desc": "Caposquadra PMC di lunga esperienza, con un pesante scudo antisommossa e ottiche HUD collegate alla squadra.",
-      "behaviour": "Tiene i passaggi stretti in postura difensiva mentre dirige il fuoco preciso degli alleati.",
-      "talents": {
-        "phalanx_wall": {
-          "desc": "Dà +2 di armatura a tutti gli alleati adiacenti. Immune a Prone."
-        }
-      }
+      "desc": "Caposquadra PMC di lunga esperienza, con un pesante scudo antisommossa e ottiche HUD collegate alla squadra."
     },
     "elite.ghost_chaser_preacher_malachai": {
-      "desc": "Capo di un culto, folle, coperto di placche di rack per server, che trasmette statica acustica ad alta frequenza.",
-      "behaviour": "Fanatico imprevedibile che aggira le coperture per disturbare gli HUD degli Operatori.",
-      "talents": {
-        "acoustic_hum_generator": {
-          "desc": "Tutti gli Operatori entro 3 quadretti subiscono −2 TN alle abilità tecniche e agli attacchi a distanza, per il ritorno acustico."
-        }
-      }
+      "desc": "Capo di un culto, folle, coperto di placche di rack per server, che trasmette statica acustica ad alta frequenza."
     },
     "elite.obsidian_vanguard_trf_pointman": {
-      "desc": "Ripulitore aziendale pesantemente corazzato, mandato a chiudere le falle di sicurezza ad alto rischio.",
-      "behaviour": "Sfondatore coordinato che avanza sotto fuoco di copertura.",
-      "talents": {
-        "reactive_plating": {
-          "desc": "Placche ablative a strati che disperdono gli impatti. Solo narrativo: la protezione in più è già nella sua armatura (7)."
-        }
-      }
+      "desc": "Ripulitore aziendale pesantemente corazzato, mandato a chiudere le falle di sicurezza ad alto rischio."
     },
     "elite.rogue_tech_splicer_nix": {
-      "desc": "Viene dalla manutenzione Euro-Grid; ora modifica hardware al mercato nero. Impianti cibernetici alle braccia.",
-      "behaviour": "Combatte a distanza, piazza trappole elettriche e mette fuori uso la cyberware degli Operatori."
+      "desc": "Viene dalla manutenzione Euro-Grid; ora modifica hardware al mercato nero. Impianti cibernetici alle braccia."
     },
     "elite.ledger_reclamation_officer": {
-      "desc": "Specialista di audit aziendale dal sangue freddo, con l'autorità di pignorare beni sul posto.",
-      "behaviour": "Tiratore metodico che colpisce per primo l'Operatore con il Credit Score più alto, per far rispettare le regole.",
-      "talents": {
-        "algorithmic_target_lock": {
-          "desc": "+1 TN cumulativo agli attacchi consecutivi contro lo stesso bersaglio."
-        }
-      }
+      "desc": "Specialista di audit aziendale dal sangue freddo, con l'autorità di pignorare beni sul posto."
     },
     "elite.heavy_cargo_security_unit_apex_hsu": {
-      "desc": "Drone di sicurezza industriale quadrupede riconvertito, che spara raffiche di soppressione letali.",
-      "behaviour": "Inseguitore aggressivo che usa la sua mobilità per aggirare le coperture e prendere sul fianco i bersagli più fragili.",
-      "talents": {
-        "targeting_matrix": {
-          "desc": "Ignora la copertura parziale (+2 di armatura) quando attacca bersagli entro 4 quadretti."
-        }
-      }
+      "desc": "Drone di sicurezza industriale quadrupede riconvertito, che spara raffiche di soppressione letali."
     },
     "elite.syndicate_pit_boss_jax": {
-      "desc": "Lottatore da arena potenziato ciberneticamente, padrone di un giro di scommesse illegali nella Grey Zone.",
-      "behaviour": "Picchia senza ritegno in corpo a corpo e usa le prese per scompaginare la formazione.",
-      "talents": {
-        "pain_converter": {
-          "desc": "+1 danno a ogni colpo in corpo a corpo per ogni 10 HP che gli mancano dal massimo."
-        }
-      }
+      "desc": "Lottatore da arena potenziato ciberneticamente, padrone di un giro di scommesse illegali nella Grey Zone."
     },
     "elite.neo_luddite_elder_hunter": {
-      "desc": "Cacciatore veterano con un pesante arco composito e mimetica non connessa.",
-      "behaviour": "Resta nascosto in copertura totale e apre con colpi letali sui bersagli scoperti.",
-      "talents": {
-        "air_gapped_camouflage": {
-          "desc": "Non può essere rilevato né evidenziato dai Ping Sweep degli Hacker o dalle ottiche dei droni."
-        }
-      }
+      "desc": "Cacciatore veterano con un pesante arco composito e mimetica non connessa."
     },
     "elite.watch_sector_overseer": {
-      "desc": "Ufficiale di medio livello con un trench balistico da dirigente e comunicazioni tattiche di squadra.",
-      "behaviour": "Resta al sicuro in copertura totale, dirige le guardie di basso livello e le copre da cecchino.",
-      "talents": {
-        "tactical_rally": {
-          "desc": "Una volta per round, come reazione gratuita, una guardia di basso livello vicina appena abbattuta resta in piedi a 1 HP."
-        }
-      }
+      "desc": "Ufficiale di medio livello con un trench balistico da dirigente e comunicazioni tattiche di squadra."
     }
   },
   "people": {

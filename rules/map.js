@@ -286,6 +286,10 @@ const moveBlockers = (map, data) => [
   ...floorEdges(map), // decision 184: a floor's outline — the way across is a linked staircase
 ];
 
+// Straight steps first, then diagonals (decision 196): a diagonal costs the same 1 square, so among routes of the same
+// length the first found wins — this way a straight line stays straight instead of zig-zagging.
+const STEPS = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]];
+
 /**
  * Walk round walls up to `max` squares of movement: steps (cost) to each square and where it came from.
  * Entering difficult ground costs 2 (manual 7-2), so this is a shortest-path search by cost buckets.
@@ -301,16 +305,14 @@ function walk(map, data, from, max) {
   for (let cost = 0; cost <= max; cost++) {
     for (const s of buckets[cost] ?? []) {
       if (steps.get(`${s.x},${s.y}`) !== cost) continue; // reached cheaper since
-      for (let dx = -1; dx <= 1; dx++) {
-        for (let dy = -1; dy <= 1; dy++) {
-          const t = { x: s.x + dx, y: s.y + dy };
-          const k = `${t.x},${t.y}`;
-          const c = cost + (rough.has(k) ? 2 : 1);
-          if ((!dx && !dy) || c > max || (steps.has(k) && steps.get(k) <= c) || !onBoard(map, t) || !stepClear(s, t, blockers)) continue;
-          steps.set(k, c);
-          prev.set(k, s);
-          (buckets[c] ??= []).push(t);
-        }
+      for (const [dx, dy] of STEPS) {
+        const t = { x: s.x + dx, y: s.y + dy };
+        const k = `${t.x},${t.y}`;
+        const c = cost + (rough.has(k) ? 2 : 1);
+        if (c > max || (steps.has(k) && steps.get(k) <= c) || !onBoard(map, t) || !stepClear(s, t, blockers)) continue;
+        steps.set(k, c);
+        prev.set(k, s);
+        (buckets[c] ??= []).push(t);
       }
       for (const t of jumps.get(`${s.x},${s.y}`) ?? []) {
         const k = `${t.x},${t.y}`;

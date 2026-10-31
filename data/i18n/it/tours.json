@@ -142,7 +142,7 @@
       "steps": {
         "view": {
           "title": "La mappa sul tavolo",
-          "text": "Quello che la tua squadra può vedere. Trascina per guardarti intorno, pizzica o usa la rotella per lo zoom, Adatta per vederla tutta. Quadretti scuri: mai visti. Attenuati: visti prima, ora nessuno li vede. Porte e finestre lasciano passare la vista; le porte chiuse no."
+          "text": "Quello che la tua squadra può vedere. Trascina per guardarti intorno, pizzica o usa la rotella per lo zoom, Adatta per vederla tutta. Coperti: mai visti. Sbiaditi e tratteggiati: visti prima, ora nessuno li vede. Tinta notturna: li vedi, ma sono al buio; alone caldo: ci arriva una luce. Porte e finestre lasciano passare la vista; le porte chiuse no."
         },
         "move": {
           "title": "Muoversi",
@@ -150,7 +150,7 @@
         },
         "tap": {
           "title": "Tocca per controllare",
-          "text": "Tocca un segnalino: linea di vista (libera, probabile copertura, bloccata), distanza e quali delle tue armi arrivano. Tocca un pezzo per sapere cos'è. Tocca una porta accanto a te per aprirla o chiuderla — in combattimento è un'azione Interact; una porta chiusa a chiave non si muove."
+          "text": "Tocca un segnalino: linea di vista (libera, probabile copertura, bloccata), distanza e quali delle tue armi arrivano — nel segnalibro Mappa a destra. Un nemico che tocchi è già scelto quando attacchi. Tocca un pezzo per sapere cos'è. Tocca una porta accanto a te per aprirla o chiuderla — in combattimento è un'azione Interact; una porta chiusa a chiave non si muove."
         },
         "gear": {
           "title": "Luce e visione",

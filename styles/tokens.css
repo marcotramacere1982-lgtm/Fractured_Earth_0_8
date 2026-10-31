@@ -117,20 +117,32 @@
   --color-sky-left: #1b1f25;
   --color-sky-right: #262c35;
   --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+  /* the table map's four levels (decision 191): never seen · remembered · seen in shadow · seen in a light's pool */
+  --color-map-unseen: #050608;
+  --color-map-memory: #0e1013;
+  --color-map-hatch: rgba(140, 149, 161, 0.28);
+  --color-map-shadow: #0b1638;
+  --color-map-pool: rgba(242, 190, 90, 0.12);
 
   color-scheme: dark;
 }
 
 :root[data-theme='light'] {
-  --color-sky-top: #ffffff;
-  --color-sky-left: #c3c9d1;
-  --color-sky-right: #dbe0e6;
-  --color-bg: #eef0f2;
-  --color-surface: #ffffff;
-  --color-surface-2: #f5f6f8;
-  --color-surface-3: #e8ebef;
-  --color-border: #d3d8de;
-  --color-border-strong: #aab2bc;
+  /* decision 191: soft greys, not white (players found the light theme glaring at the table) */
+  --color-sky-top: #eceff2;
+  --color-sky-left: #b7bec7;
+  --color-sky-right: #cdd3da;
+  --color-bg: #d6dae0;
+  --color-surface: #e6e9ed;
+  --color-surface-2: #dde1e6;
+  --color-surface-3: #d0d5db;
+  --color-border: #bcc3cb;
+  --color-border-strong: #949eaa;
+  --color-map-unseen: #7a828c;
+  --color-map-memory: #b4bac2;
+  --color-map-hatch: rgba(50, 60, 72, 0.3);
+  --color-map-shadow: #1c2a5a;
+  --color-map-pool: rgba(255, 176, 48, 0.2);
 
   --color-text: #1b1f24;
   --color-text-muted: #59626e;

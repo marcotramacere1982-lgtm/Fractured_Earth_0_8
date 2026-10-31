@@ -1,4 +1,4 @@
-// The GM asks for a roll (decision 165): a card per ask on Setup and in the Tactical View. *Roll* opens the usual check
+// The GM asks for a roll (decision 165): a card per ask, shown mid-screen by calls.js (decision 193). *Roll* opens the usual check
 // window (difficulty, tools, light, typed dice); the first result goes back to the GM and the card goes. Nothing
 // imported from actions: the sheet's `check` handler does the rolling.
 

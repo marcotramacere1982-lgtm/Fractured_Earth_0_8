@@ -1,0 +1,39 @@
+{
+  "note": "Decision 197: what a character knows about enemy types. Levels: 1 Known (armor, HP, squares, weapons), 2 Studied (+ actions, initiative, behaviour, talents, immunities; +studiedEdge.tn to hit that type). Study: an action and a roll, the better of `study.skills`, once per player per fight. Background (owner-approved 2026-10-31): each career gives `auto` Known entries and one roll (INT) on its `pick` list; a few life events add a pick; `nemesis` events give one elite of the player's choice, no roll. Ids are the bestiary's, as in collection.json.",
+  "studiedEdge": { "tn": 1 },
+  "study": { "skills": ["perception_awareness", "forensics_investigation"] },
+  "backgroundRoll": "INT",
+  "careers": {
+    "military_law_enforcement_grunt": { "auto": ["enemy.guard_recruit"], "pick": ["enemy.watch_patrolman", "enemy.watch_riot_guard", "enemy.grid_enforcer", "enemy.barricade_drone"] },
+    "military_law_enforcement_officer": { "auto": ["enemy.watch_patrolman"], "pick": ["enemy.watch_sniper", "enemy.sector_commander", "elite.centurion_shield_lead", "enemy.watch_scout_drone"] },
+    "military_special_force": { "auto": ["enemy.trf_operator"], "pick": ["enemy.trf_breach_specialist", "enemy.trf_sniper", "enemy.trf_heavy_gunner", "enemy.trf_recon_drone", "enemy.autonomous_strike_unit"] },
+    "security_investigation": { "auto": ["enemy.watch_patrolman"], "pick": ["enemy.optic_drone", "enemy.watch_scout_drone", "enemy.tenement_enforcer", "enemy.street_splicer"] },
+    "criminal": { "auto": ["enemy.alley_pusher"], "pick": ["enemy.street_mugger", "enemy.tenement_enforcer", "enemy.syndicate_scrapper", "enemy.street_splicer", "elite.kaelen_the_carver_vane"] },
+    "unemployed_drifter_outcast": { "auto": ["enemy.street_mugger"], "pick": ["enemy.junk_drone", "enemy.ghost_chaser_scavenger", "enemy.neo_luddite_zealot", "enemy.glitch_anarchist"] },
+    "science_construction_mechanic": { "auto": ["enemy.junk_drone"], "pick": ["enemy.barricade_drone", "enemy.terminal_clean_up_bot", "elite.heavy_cargo_security_unit_apex_hsu", "enemy.stalking_relay_drone"] },
+    "science_construction_scientist": { "auto": ["enemy.optic_drone"], "pick": ["enemy.autonomous_strike_unit", "enemy.terminal_clean_up_bot", "enemy.stalking_relay_drone", "enemy.syndicate_subnet_throttler"] },
+    "media_freelancer": { "auto": ["enemy.glitch_anarchist"], "pick": ["enemy.ledger_zealot", "enemy.glass_walker_saboteur", "enemy.watch_riot_guard", "enemy.neo_luddite_zealot"] },
+    "media_reporter": { "auto": ["enemy.glitch_anarchist"], "pick": ["enemy.ledger_zealot", "enemy.glass_walker_saboteur", "enemy.watch_riot_guard", "enemy.neo_luddite_zealot"] },
+    "administration_economy_law": { "auto": ["enemy.ledger_zealot"], "pick": ["elite.ledger_reclamation_officer", "enemy.syndicate_subnet_throttler", "enemy.grid_enforcer"] },
+    "franchiser_wage_slave": { "auto": ["enemy.guard_recruit"], "pick": ["enemy.optic_drone", "enemy.syndicate_scrapper", "enemy.alley_pusher"] },
+    "student_military_academy": { "auto": ["enemy.guard_recruit"], "pick": ["enemy.watch_patrolman", "enemy.watch_scout_drone"] },
+    "student_media_college": { "auto": [], "pick": ["enemy.glitch_anarchist", "enemy.ledger_zealot"] },
+    "student_business_school": { "auto": [], "pick": ["enemy.ledger_zealot", "enemy.syndicate_subnet_throttler"] },
+    "student_technical_university": { "auto": [], "pick": ["enemy.junk_drone", "enemy.optic_drone", "enemy.barricade_drone"] }
+  },
+  "events": {
+    "street_hustler": ["enemy.street_mugger", "enemy.alley_pusher", "enemy.street_splicer", "enemy.syndicate_scrapper"],
+    "involved_in_serious_crime": ["enemy.street_mugger", "enemy.alley_pusher", "enemy.street_splicer", "enemy.syndicate_scrapper"],
+    "involved_in_minor_crime": ["enemy.street_mugger", "enemy.alley_pusher", "enemy.street_splicer", "enemy.syndicate_scrapper"],
+    "serious_crime_committed": ["enemy.street_mugger", "enemy.alley_pusher", "enemy.street_splicer", "enemy.syndicate_scrapper"],
+    "minor_crime_committed": ["enemy.street_mugger", "enemy.alley_pusher", "enemy.street_splicer", "enemy.syndicate_scrapper"],
+    "criminal_record": ["enemy.street_mugger", "enemy.alley_pusher", "enemy.street_splicer", "enemy.syndicate_scrapper"],
+    "military_heritage": ["enemy.watch_patrolman", "enemy.guard_recruit", "enemy.trf_operator"],
+    "military_connections": ["enemy.watch_patrolman", "enemy.guard_recruit", "enemy.trf_operator"],
+    "relative_within_the_police_department": ["enemy.watch_patrolman", "enemy.watch_riot_guard", "enemy.watch_scout_drone"],
+    "contacts_within_police_department": ["enemy.watch_patrolman", "enemy.watch_riot_guard", "enemy.watch_scout_drone"],
+    "contact_within_a_megacorp": ["enemy.optic_drone", "enemy.grid_enforcer", "enemy.syndicate_subnet_throttler"]
+  },
+  "nemesis": ["powerful_fanatic_enemy"],
+  "nemesisFrom": ["elite.kaelen_the_carver_vane", "elite.centurion_shield_lead", "elite.ghost_chaser_preacher_malachai", "elite.rogue_tech_splicer_nix", "elite.ledger_reclamation_officer", "elite.syndicate_pit_boss_jax", "elite.neo_luddite_elder_hunter", "elite.watch_sector_overseer"]
+}

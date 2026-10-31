@@ -6,690 +6,210 @@
       "kind": "regular",
       "name": "Street Mugger",
       "desc": "Desperate low-tier drifter armed with a rusted blade and zero survival skills.",
-      "tag": "organic",
-      "hp": 12,
-      "armor": 0,
-      "actions": 1,
-      "sqr": 5,
-      "init": 1,
-      "behaviour": "Aggressive and Reckless",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Rusted Shank",
-          "type": "melee",
-          "tn": 9,
-          "damage": "1d4+1"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.junk_drone",
       "kind": "regular",
       "name": "Junk Drone",
       "desc": "A clunky, modified household drone carrying a rigged shock taser.",
-      "tag": "synthetic",
-      "hp": 8,
-      "armor": 1,
-      "actions": 1,
-      "sqr": 6,
-      "init": 3,
-      "behaviour": "Erratic and Swarming",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Rigged Taser Arc",
-          "type": "melee",
-          "tn": 8,
-          "damage": "1d6"
-        }
-      ],
-      "talents": []
+      "tag": "synthetic"
     },
     {
       "id": "enemy.alley_pusher",
       "kind": "regular",
       "name": "Alley Pusher",
       "desc": "Low-level drug runner protected by a loose gang of local toughs.",
-      "tag": "organic",
-      "hp": 15,
-      "armor": 1,
-      "actions": 1,
-      "sqr": 5,
-      "init": 2,
-      "behaviour": "Cautious and Defensive",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Zip-Gun Pistol",
-          "type": "ranged",
-          "tn": 10,
-          "damage": "1d6+1"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.tenement_enforcer",
       "kind": "regular",
       "name": "Tenement Enforcer",
       "desc": "Heavy-set brute shaking down local residents for Avalon-Collins Stables rent.",
-      "tag": "organic",
-      "hp": 22,
-      "armor": 2,
-      "actions": 1,
-      "sqr": 4,
-      "init": 0,
-      "behaviour": "Brutal and Direct",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Heavy Lead Pipe",
-          "type": "melee",
-          "tn": 11,
-          "damage": "1d8+2"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.syndicate_scrapper",
       "kind": "regular",
       "name": "Syndicate Scrapper",
       "desc": "Aggressive street thug sporting tribal aesthetic markers and a blunt pipe.",
-      "tag": "organic",
-      "hp": 18,
-      "armor": 1,
-      "actions": 1,
-      "sqr": 5,
-      "init": 2,
-      "behaviour": "Relentless and Loud",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Spiked Baton",
-          "type": "melee",
-          "tn": 10,
-          "damage": "1d6+2"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.ledger_zealot",
       "kind": "regular",
       "name": "Ledger Zealot",
       "desc": "Fanatical neo-religious thug defending a local glowing digital ATM sanctuary.",
-      "tag": "organic",
-      "hp": 16,
-      "armor": 1,
-      "actions": 1,
-      "sqr": 5,
-      "init": 1,
-      "behaviour": "Fanatical and Unyielding",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Rebar Crowbar",
-          "type": "melee",
-          "tn": 10,
-          "damage": "1d6+2"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.street_splicer",
       "kind": "regular",
       "name": "Street Splicer",
       "desc": "Demented rogue tech-user firing erratic, homemade hardware sparks.",
-      "tag": "cybernetic",
-      "hp": 14,
-      "armor": 0,
-      "actions": 2,
-      "sqr": 5,
-      "init": 4,
-      "behaviour": "Calculated and Distant",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Arcing Sparker",
-          "type": "ranged",
-          "tn": 11,
-          "damage": "1d8"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.guard_recruit",
       "kind": "regular",
       "name": "Guard Recruit",
       "desc": "Overworked low-cost security guard relying entirely on local subnet prompts.",
-      "tag": "cybernetic",
-      "hp": 20,
-      "armor": 2,
-      "actions": 1,
-      "sqr": 5,
-      "init": 1,
-      "behaviour": "Obedient and Hesitant",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Standard Sidearm",
-          "type": "ranged",
-          "tn": 10,
-          "damage": "1d6+2"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.watch_patrolman",
       "kind": "regular",
       "name": "Watch Patrolman",
       "desc": "Standard Centurion-Vanguard guard policing transit lines and urban canyons.",
-      "tag": "cybernetic",
-      "hp": 25,
-      "armor": 3,
-      "actions": 1,
-      "sqr": 5,
-      "init": 2,
-      "behaviour": "Disciplined and Methodical",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Subnet Carbine",
-          "type": "ranged",
-          "tn": 12,
-          "damage": "2d6"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.watch_scout_drone",
       "kind": "regular",
       "name": "Watch Scout Drone",
       "desc": "Small automated aerial unit transmitting live threat updates to the subnet.",
-      "tag": "synthetic",
-      "hp": 10,
-      "armor": 2,
-      "actions": 2,
-      "sqr": 7,
-      "init": 5,
-      "behaviour": "Evasive and Tracking",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Targeting Laser / Pulse",
-          "type": "ranged",
-          "tn": 11,
-          "damage": "1d4+1"
-        }
-      ],
-      "talents": []
+      "tag": "synthetic"
     },
     {
       "id": "enemy.watch_riot_guard",
       "kind": "regular",
       "name": "Watch Riot Guard",
       "desc": "Heavy front-line guard carrying a ballistic shield and shock baton.",
-      "tag": "cybernetic",
-      "hp": 32,
-      "armor": 4,
-      "actions": 1,
-      "sqr": 4,
-      "init": 0,
-      "behaviour": "Phalanx and Defensive",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Heavy Shock Baton",
-          "type": "melee",
-          "tn": 12,
-          "damage": "1d8+3"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.watch_sniper",
       "kind": "regular",
       "name": "Watch Sniper",
       "desc": "Long-range contract specialist covering gray zone entry points.",
-      "tag": "cybernetic",
-      "hp": 18,
-      "armor": 1,
-      "actions": 1,
-      "sqr": 4,
-      "init": 3,
-      "behaviour": "Patient and Lethal",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "High-Caliber Rifle",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "2d8+2"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.grid_enforcer",
       "kind": "regular",
       "name": "Grid Enforcer",
       "desc": "Corporate utility thug protecting fiber-optic trunks from copper thieves.",
-      "tag": "cybernetic",
-      "hp": 24,
-      "armor": 2,
-      "actions": 1,
-      "sqr": 5,
-      "init": 2,
-      "behaviour": "Aggressive and Territorial",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Pneumatic Nailer",
-          "type": "ranged",
-          "tn": 11,
-          "damage": "1d8+1"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.optic_drone",
       "kind": "regular",
       "name": "Optic Drone",
       "desc": "Humming utility drone capable of deploying blinding flash payloads.",
-      "tag": "synthetic",
-      "hp": 12,
-      "armor": 2,
-      "actions": 2,
-      "sqr": 6,
-      "init": 4,
-      "behaviour": "Tactical and Blinding",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Strobe Pulse",
-          "type": "ranged",
-          "tn": 12,
-          "damage": "1d6"
-        }
-      ],
-      "talents": []
+      "tag": "synthetic"
     },
     {
       "id": "enemy.syndicate_subnet_throttler",
       "kind": "regular",
       "name": "Syndicate Subnet Throttler",
       "desc": "Corporate data-cop deploying local network interference fields.",
-      "tag": "cybernetic",
-      "hp": 20,
-      "armor": 2,
-      "actions": 2,
-      "sqr": 5,
-      "init": 3,
-      "behaviour": "Calculated and Disabling",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Static Discharge",
-          "type": "ranged",
-          "tn": 12,
-          "damage": "1d8+2"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.trf_operator",
       "kind": "regular",
       "name": "TRF Operator",
       "desc": "Elite Obsidian Response tactical cleaner in sealed respirators and AR lenses.",
-      "tag": "cybernetic",
-      "hp": 45,
-      "armor": 5,
-      "actions": 2,
-      "sqr": 6,
-      "init": 5,
-      "behaviour": "Synchronized and Relentless",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Suppressor Carbine",
-          "type": "ranged",
-          "tn": 15,
-          "damage": "2d6+3"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.trf_breach_specialist",
       "kind": "regular",
       "name": "TRF Breach Specialist",
       "desc": "Heavy tactical combatant armed with kinetic entry breach charges.",
-      "tag": "cybernetic",
-      "hp": 50,
-      "armor": 6,
-      "actions": 2,
-      "sqr": 5,
-      "init": 3,
-      "behaviour": "Aggressive and Decisive",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Heavy Breaching Shotgun",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "3d6+2"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.trf_recon_drone",
       "kind": "regular",
       "name": "TRF Recon Drone",
       "desc": "Stealth military-grade hovering unit hunting in synchronized four-man packs.",
-      "tag": "synthetic",
-      "hp": 15,
-      "armor": 3,
-      "actions": 2,
-      "sqr": 8,
-      "init": 6,
-      "behaviour": "Silent and Tracking",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Flechette Spray",
-          "type": "ranged",
-          "tn": 13,
-          "damage": "1d8+2"
-        }
-      ],
-      "talents": []
+      "tag": "synthetic"
     },
     {
       "id": "enemy.trf_sniper",
       "kind": "regular",
       "name": "TRF Sniper",
       "desc": "High-tier asset recovery specialist utilizing frequency dampeners.",
-      "tag": "cybernetic",
-      "hp": 35,
-      "armor": 4,
-      "actions": 1,
-      "sqr": 4,
-      "init": 4,
-      "behaviour": "Calculated and Overwatching",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Anti-Materiel Rail",
-          "type": "ranged",
-          "tn": 16,
-          "damage": "3d8+4"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.trf_heavy_gunner",
       "kind": "regular",
       "name": "TRF Heavy Gunner",
       "desc": "Armored corporate soldier suppressing escape routes with heavy kinetic fire.",
-      "tag": "cybernetic",
-      "hp": 60,
-      "armor": 7,
-      "actions": 2,
-      "sqr": 4,
-      "init": 2,
-      "behaviour": "Suppressive and Implacable",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Heavy Rotary Auto",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "2d10+3"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.glitch_anarchist",
       "kind": "regular",
       "name": "Glitch Anarchist",
       "desc": "Reckless street-level saboteur throwing homemade EMP charges.",
-      "tag": "organic",
-      "hp": 14,
-      "armor": 0,
-      "actions": 2,
-      "sqr": 6,
-      "init": 3,
-      "behaviour": "Erratic and Destructive",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Jury-Rigged Bomb",
-          "type": "thrown",
-          "tn": 10,
-          "damage": "2d6"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.barricade_drone",
       "kind": "regular",
       "name": "Barricade Drone",
       "desc": "Heavy hovering unit deploying physical steel riot barriers in narrow alleys.",
-      "tag": "synthetic",
-      "hp": 25,
-      "armor": 5,
-      "actions": 1,
-      "sqr": 4,
-      "init": 1,
-      "behaviour": "Defensive and Blocking",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Hydraulic Ram",
-          "type": "melee",
-          "tn": 11,
-          "damage": "1d8+2"
-        }
-      ],
-      "talents": []
+      "tag": "synthetic"
     },
     {
       "id": "enemy.neo_luddite_zealot",
       "kind": "regular",
       "name": "Neo-Luddite Zealot",
       "desc": "Fanatical anti-tech zealot armed with heavy low-tech kinetic clubs.",
-      "tag": "organic",
-      "hp": 22,
-      "armor": 2,
-      "actions": 1,
-      "sqr": 5,
-      "init": 2,
-      "behaviour": "Furious and Unrelenting",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Spiked Sledge",
-          "type": "melee",
-          "tn": 11,
-          "damage": "2d6+2"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.ashram_archer",
       "kind": "regular",
       "name": "Ashram Archer",
       "desc": "Stealthy mountain hunter utilizing silent compound bows and tripwires.",
-      "tag": "organic",
-      "hp": 18,
-      "armor": 1,
-      "actions": 1,
-      "sqr": 6,
-      "init": 4,
-      "behaviour": "Patient and Ambush",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Compound Bow",
-          "type": "ranged",
-          "tn": 13,
-          "damage": "1d10+1"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.ghost_chaser_scavenger",
       "kind": "regular",
       "name": "Ghost-Chaser Scavenger",
       "desc": "Delusional cultist searching server stacks for ancestral voice data.",
-      "tag": "organic",
-      "hp": 16,
-      "armor": 1,
-      "actions": 1,
-      "sqr": 5,
-      "init": 1,
-      "behaviour": "Obsessive and Distracted",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Heavy Wire-Cutter",
-          "type": "melee",
-          "tn": 9,
-          "damage": "1d6+1"
-        }
-      ],
-      "talents": []
+      "tag": "organic"
     },
     {
       "id": "enemy.stalking_relay_drone",
       "kind": "regular",
       "name": "Stalking Relay Drone",
       "desc": "Autonomous wire-mesh drone hovering near high-voltage transmission towers.",
-      "tag": "synthetic",
-      "hp": 14,
-      "armor": 2,
-      "actions": 2,
-      "sqr": 7,
-      "init": 5,
-      "behaviour": "Furtive and Evasive",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "High-Voltage Arc",
-          "type": "ranged",
-          "tn": 12,
-          "damage": "1d8+1"
-        }
-      ],
-      "talents": []
+      "tag": "synthetic"
     },
     {
       "id": "enemy.glass_walker_saboteur",
       "kind": "regular",
       "name": "Glass-Walker Saboteur",
       "desc": "Elusive rogue operator executing high-yield infrastructure disruptions.",
-      "tag": "cybernetic",
-      "hp": 28,
-      "armor": 3,
-      "actions": 2,
-      "sqr": 6,
-      "init": 5,
-      "behaviour": "Elusive and Methodical",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Custom Silenced Pistol",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "2d6+1"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     },
     {
       "id": "enemy.autonomous_strike_unit",
       "kind": "regular",
       "name": "Autonomous Strike Unit",
       "desc": "Experimental corporate security drone firing lethal suppression rounds.",
-      "tag": "synthetic",
-      "hp": 30,
-      "armor": 4,
-      "actions": 2,
-      "sqr": 7,
-      "init": 6,
-      "behaviour": "Relentless and Automated",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Twin Auto-Cannons",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "2d8+2"
-        }
-      ],
-      "talents": []
+      "tag": "synthetic"
     },
     {
       "id": "enemy.terminal_clean_up_bot",
       "kind": "regular",
       "name": "Terminal Clean-Up Bot",
       "desc": "Heavy industrial maintenance droid repurposed for lethal asset sanitation.",
-      "tag": "synthetic",
-      "hp": 40,
-      "armor": 6,
-      "actions": 1,
-      "sqr": 4,
-      "init": 0,
-      "behaviour": "Unstoppable and Mechanical",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Industrial Grinder",
-          "type": "melee",
-          "tn": 13,
-          "damage": "3d6+4"
-        }
-      ],
-      "talents": []
+      "tag": "synthetic"
     },
     {
       "id": "enemy.sector_commander",
       "kind": "regular",
       "name": "Sector Commander",
       "desc": "High-ranking corporate asset director coordinating tactical response grids.",
-      "tag": "cybernetic",
-      "hp": 35,
-      "armor": 4,
-      "actions": 2,
-      "sqr": 5,
-      "init": 4,
-      "behaviour": "Tactical and Direct",
-      "attacks": [
-        {
-          "id": "main",
-          "name": "Tactical Sidearm",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "2d6+2"
-        }
-      ],
-      "talents": []
+      "tag": "cybernetic"
     }
   ],
   "elites": [
@@ -698,366 +218,70 @@
       "kind": "elite",
       "name": "Kaelen 'The Carver' Vane",
       "desc": "Notorious Grey Zone loan shark enforcer who uses a modified heavy industrial nailer and an arc-blade to collect organ debts.",
-      "tag": "organic",
-      "hp": 35,
-      "armor": 3,
-      "actions": 2,
-      "sqr": 5,
-      "init": 3,
-      "behaviour": "Relentless executioner who rushes isolated Operators and bypasses cover.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Arc-Splicer Blade",
-          "type": "melee",
-          "tn": 12,
-          "damage": "1d8+3"
-        },
-        {
-          "id": "ranged",
-          "name": "Pneumatic Riveter",
-          "type": "ranged",
-          "tn": 11,
-          "damage": "2d6+1"
-        }
-      ],
-      "talents": [
-        {
-          "id": "debt_collector_s_focus",
-          "name": "Debt Collector's Focus",
-          "desc": "Deals +2 bonus damage against injured targets (a broken arm or a crippled leg) or Incapacitated ones."
-        }
-      ],
-      "immune": []
+      "tag": "organic"
     },
     {
       "id": "elite.centurion_shield_lead",
       "kind": "elite",
       "name": "Centurion Shield-Lead",
       "desc": "Hardened PMC squad leader outfitted with a heavy riot shield and automated squad-linking HUD optics.",
-      "tag": "cybernetic",
-      "hp": 40,
-      "armor": 4,
-      "actions": 2,
-      "sqr": 4,
-      "init": 2,
-      "behaviour": "Holds chokepoints in Defensive Stance while issuing precision fire directives to allies.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Shield Bash & Taser",
-          "type": "melee",
-          "tn": 11,
-          "damage": "1d6+2"
-        },
-        {
-          "id": "ranged",
-          "name": "Burst-Fire Submachine Gun",
-          "type": "ranged",
-          "tn": 13,
-          "damage": "2d6+1"
-        }
-      ],
-      "talents": [
-        {
-          "id": "phalanx_wall",
-          "name": "Phalanx Wall",
-          "desc": "Grants +2 armor to all adjacent allies. Immune to Prone."
-        }
-      ],
-      "immune": [
-        "prone"
-      ]
+      "tag": "cybernetic"
     },
     {
       "id": "elite.ghost_chaser_preacher_malachai",
       "kind": "elite",
       "name": "Ghost-Chaser 'Preacher' Malachai",
       "desc": "Deranged cult leader wearing stripped server-rack plating, broadcasting high-frequency auditory static.",
-      "tag": "cybernetic",
-      "hp": 30,
-      "armor": 2,
-      "actions": 2,
-      "sqr": 6,
-      "init": 4,
-      "behaviour": "Erratic zealot who flanks around cover to disrupt Operator HUD systems.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Solder-Weld Cleaver",
-          "type": "melee",
-          "tn": 10,
-          "damage": "1d8+2"
-        },
-        {
-          "id": "ranged",
-          "name": "Jury-Rigged Nail Cannon",
-          "type": "ranged",
-          "tn": 12,
-          "damage": "1d10+1"
-        }
-      ],
-      "talents": [
-        {
-          "id": "acoustic_hum_generator",
-          "name": "Acoustic Hum Generator",
-          "desc": "All Operators within 3 grid squares suffer a -2 TN penalty to technical abilities and ranged attacks due to auditory feedback."
-        }
-      ],
-      "immune": []
+      "tag": "cybernetic"
     },
     {
       "id": "elite.obsidian_vanguard_trf_pointman",
       "kind": "elite",
       "name": "Obsidian Vanguard TRF Pointman",
       "desc": "Heavily armored corporate cleaner deployed to scrub high-risk security breaches.",
-      "tag": "cybernetic",
-      "hp": 45,
-      "armor": 7,
-      "actions": 2,
-      "sqr": 5,
-      "init": 4,
-      "behaviour": "Synchronized breaching combatant who advances under suppressive fire.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Tactical Combat Knife",
-          "type": "melee",
-          "tn": 13,
-          "damage": "1d6+3"
-        },
-        {
-          "id": "ranged",
-          "name": "Heavy Kinetic Shotgun",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "3d6"
-        }
-      ],
-      "talents": [
-        {
-          "id": "reactive_plating",
-          "name": "Reactive Plating",
-          "desc": "Layered ablative plates that shed impacts. Story only: the extra protection is already in its armor (7)."
-        }
-      ],
-      "immune": []
+      "tag": "cybernetic"
     },
     {
       "id": "elite.rogue_tech_splicer_nix",
       "kind": "elite",
       "name": "Rogue Tech-Splicer 'Nix'",
       "desc": "Former Euro-Grid maintenance engineer turned black-market hardware modifier with cybernetic arm implants.",
-      "tag": "cybernetic",
-      "hp": 28,
-      "armor": 2,
-      "actions": 3,
-      "sqr": 6,
-      "init": 5,
-      "behaviour": "Kites at long range, setting up shock traps and disabling Operator cyberware.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Overclocked Wire-Cutter",
-          "type": "melee",
-          "tn": 11,
-          "damage": "1d8+1"
-        },
-        {
-          "id": "ranged",
-          "name": "Handheld Rail-Pistol",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "2d6+2"
-        }
-      ],
-      "talents": [],
-      "immune": []
+      "tag": "cybernetic"
     },
     {
       "id": "elite.ledger_reclamation_officer",
       "kind": "elite",
       "name": "Ledger Reclamation Officer",
       "desc": "Cold corporate audit specialist authorized to execute immediate asset repossessions in the field.",
-      "tag": "cybernetic",
-      "hp": 32,
-      "armor": 3,
-      "actions": 2,
-      "sqr": 5,
-      "init": 3,
-      "behaviour": "Methodical shooter who targets the highest-Credit Score Operator first to enforce compliance.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Shock Baton Stick",
-          "type": "melee",
-          "tn": 12,
-          "damage": "1d6+2"
-        },
-        {
-          "id": "ranged",
-          "name": "Smart-Linked Heavy Pistol",
-          "type": "ranged",
-          "tn": 13,
-          "damage": "2d6+1"
-        }
-      ],
-      "talents": [
-        {
-          "id": "algorithmic_target_lock",
-          "name": "Algorithmic Target-Lock",
-          "desc": "Gains a cumulative +1 TN bonus on consecutive attacks against the same target."
-        }
-      ],
-      "immune": []
+      "tag": "cybernetic"
     },
     {
       "id": "elite.heavy_cargo_security_unit_apex_hsu",
       "kind": "elite",
       "name": "Heavy Cargo Security Unit (Apex HSU)",
       "desc": "Repurposed quadrupedal industrial security drone firing lethal suppression bursts.",
-      "tag": "synthetic",
-      "hp": 38,
-      "armor": 4,
-      "actions": 2,
-      "sqr": 7,
-      "init": 6,
-      "behaviour": "Aggressive tracker that uses high mobility to bypass cover and flank squishy targets.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Hydraulic Maul",
-          "type": "melee",
-          "tn": 12,
-          "damage": "2d6+2"
-        },
-        {
-          "id": "ranged",
-          "name": "Mounted Flechette Cannon",
-          "type": "ranged",
-          "tn": 13,
-          "damage": "2d6"
-        }
-      ],
-      "talents": [
-        {
-          "id": "targeting_matrix",
-          "name": "Targeting Matrix",
-          "desc": "Ignores Partial Cover bonuses (+2 ARMOR) when attacking targets within 4 grid squares."
-        }
-      ],
-      "immune": []
+      "tag": "synthetic"
     },
     {
       "id": "elite.syndicate_pit_boss_jax",
       "kind": "elite",
       "name": "Syndicate 'Pit Boss' Jax",
       "desc": "Cybernetically augmented arena brawler ruling over an illegal Grey Zone gambling ring.",
-      "tag": "cybernetic",
-      "hp": 42,
-      "armor": 3,
-      "actions": 2,
-      "sqr": 5,
-      "init": 1,
-      "behaviour": "Brawls recklessly in melee range, using grapple maneuvers to disrupt formation.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Piston Cyber-Fist",
-          "type": "melee",
-          "tn": 13,
-          "damage": "2d6+3"
-        },
-        {
-          "id": "ranged",
-          "name": "Sawed-Off Shotgun",
-          "type": "ranged",
-          "tn": 11,
-          "damage": "2d8"
-        }
-      ],
-      "talents": [
-        {
-          "id": "pain_converter",
-          "name": "Pain Converter",
-          "desc": "Gains +1 bonus damage on all melee strikes for every 10 HP missing from his max HP pool."
-        }
-      ],
-      "immune": []
+      "tag": "cybernetic"
     },
     {
       "id": "elite.neo_luddite_elder_hunter",
       "kind": "elite",
       "name": "Neo-Luddite Elder Hunter",
       "desc": "Veteran tracker armed with a heavy composite bow and un-networked camouflage gear.",
-      "tag": "organic",
-      "hp": 30,
-      "armor": 2,
-      "actions": 2,
-      "sqr": 6,
-      "init": 5,
-      "behaviour": "Remains hidden in Full Cover, delivering lethal opening strikes on exposed targets.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Hollow-Ground Machete",
-          "type": "melee",
-          "tn": 12,
-          "damage": "1d8+2"
-        },
-        {
-          "id": "ranged",
-          "name": "Heavy Compound Bow (Broadhead)",
-          "type": "ranged",
-          "tn": 15,
-          "damage": "2d8+1"
-        }
-      ],
-      "talents": [
-        {
-          "id": "air_gapped_camouflage",
-          "name": "Air-Gapped Camouflage",
-          "desc": "Cannot be scanned or highlighted by Hacker Ping Sweeps or drone optics."
-        }
-      ],
-      "immune": []
+      "tag": "organic"
     },
     {
       "id": "elite.watch_sector_overseer",
       "kind": "elite",
       "name": "Watch Sector Overseer",
       "desc": "Mid-level officer wearing an executive ballistic trench coat, equipped with tactical squad comms.",
-      "tag": "cybernetic",
-      "hp": 36,
-      "armor": 3,
-      "actions": 2,
-      "sqr": 5,
-      "init": 4,
-      "behaviour": "Stays safely behind Full Cover, directing low-tier guards while providing sniper support.",
-      "attacks": [
-        {
-          "id": "melee",
-          "name": "Weighted Trench Baton",
-          "type": "melee",
-          "tn": 11,
-          "damage": "1d6+2"
-        },
-        {
-          "id": "ranged",
-          "name": "Precision DMR Carbine",
-          "type": "ranged",
-          "tn": 14,
-          "damage": "2d6+3"
-        }
-      ],
-      "talents": [
-        {
-          "id": "tactical_rally",
-          "name": "Tactical Rally",
-          "desc": "Once per round as a free reaction, allows a nearby defeated low-tier guard to survive at 1 HP."
-        }
-      ],
-      "immune": []
+      "tag": "cybernetic"
     }
   ],
   "people": [
