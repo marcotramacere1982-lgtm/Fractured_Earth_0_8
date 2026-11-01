@@ -81,6 +81,11 @@
       "text": "Foundation changes (attributes, CRS, cash, inventory, XP…) the sheet's log doesn't explain. Usually a mistake: ask, then Accept or Revert. Every snapshot is kept.",
       "anchor": "sec-9-3"
     },
+    "gm.hand": {
+      "title": "Changed by hand",
+      "text": "HP set with − / + and conditions or injuries toggled on the sheet. They pass, but you confirm them: Accept, or Revert just that change (damage since then stays).",
+      "anchor": "sec-9-3"
+    },
     "gm.difficulty": {
       "title": "Table difficulty",
       "text": "One step for the whole situation, pre-picked in every roll window. Easier steps (+2/+4/+6) are how help, time and good tools work. Off when the scene changes.",
@@ -183,7 +188,7 @@
     },
     "gm.properties": {
       "title": "Properties",
-      "text": "The selected wall, door, piece, zone or group — or the tool's options. What you set here is how it starts when the map goes on the table: a door locked, a light off, a weak wall already broken. The Deploy tab changes it live; the saved map keeps the start.",
+      "text": "The selected wall, door, piece, zone or group — or the tool's options. What you set here is how it starts when the map goes on the table: a door locked, a light off, a weak wall already broken. The Play tab changes it live; the saved map keeps the start.",
       "anchor": "sec-9-7"
     },
     "gm.players": {
@@ -193,7 +198,7 @@
     },
     "gm.zones": {
       "title": "Event zones",
-      "text": "GM-only rectangles: Entry, Trigger (numbered T1, T2…), Exit, Note — each with a label and a note. Reminders only: no rule reads them and players never see them. Tap one on the Deploy tab to read its note.",
+      "text": "GM-only rectangles: Entry, Trigger (numbered T1, T2…), Exit, Note — each with a label and a note. Reminders only: no rule reads them and players never see them. Tap one on the Play tab to read its note.",
       "anchor": "sec-9-7"
     },
     "gm.marks": {

@@ -28,7 +28,7 @@ People have **no stat block** and no special abilities in the rules. Their power
 **In the GM console.**
 
 - **Story tab → Notable NPCs** — add people from the library (or a new name) to a mission. Each keeps a **status** (*active*, *captured*, *dead*), a **relationship** to the crew (*allied*, *neutral*, *hostile*) and a GM note, shared across every mission of the campaign.
-- **Deploy tab → NPCs** — pick a role and *+ Add* to put a person on the map; rename to reveal who they are.
+- **Play tab → NPCs** — pick a role and *+ Add* to put a person on the map; rename to reveal who they are.
 - **Mission drafts** — the *Draft with AI* prompt can include library people, so new jobs grow from faces the table already knows.
 
 > **Keep it fun.** Give each person one thing the players will remember — a tic, a phrase, a smell — and one thing they want. Recurring people are the campaign's memory: the clerk the crew bribed in the first job should be there, promoted and nervous, in the fifth.

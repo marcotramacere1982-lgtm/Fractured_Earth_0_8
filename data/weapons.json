@@ -78,6 +78,7 @@
     "id": "heavy_crowbar",
     "legacyId": 4,
     "name": "Heavy Crowbar",
+    "icon": "crowbar",
     "class": "cqc",
     "type": "blunt",
     "manufacturer": "Street Craft",

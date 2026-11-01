@@ -26,7 +26,7 @@
 }
 .btn:hover { background: var(--color-surface-3); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn--primary { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-text-inverse); }
+.btn--primary { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-text-inverse); box-shadow: var(--btn-primary-glow); }
 .btn--primary:hover { background: var(--color-accent); filter: brightness(1.08); }
 .btn--ghost { background: transparent; border-color: transparent; color: var(--color-text-muted); }
 .btn--ghost:hover { background: var(--color-surface-2); color: var(--color-text); }
@@ -38,10 +38,10 @@
 
 /* ---------- card ---------- */
 .card {
-  background: var(--color-surface);
-  border: var(--border-width) solid var(--color-border);
+  background: var(--panel-deco), var(--panel-bg);
+  border: var(--border-width) var(--panel-border-style) var(--panel-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-1);
+  box-shadow: var(--panel-shadow);
   min-width: 0;
 }
 .card__head {
@@ -50,8 +50,8 @@
   border-bottom: var(--border-width) solid var(--color-border);
 }
 .card__title {
-  font-family: var(--font-display); font-weight: 400; font-size: var(--text-xl);
-  letter-spacing: 0.04em; color: var(--color-text);
+  font-family: var(--title-font); font-weight: 400; font-size: var(--text-xl);
+  letter-spacing: var(--title-spacing); text-transform: var(--title-transform); color: var(--title-color);
 }
 .card__title small { font-family: var(--font-ui); font-size: var(--text-sm); color: var(--color-text-muted); letter-spacing: 0; margin-left: var(--space-2); }
 .card__body { padding: var(--space-4); }
@@ -167,10 +167,24 @@
 .dialog {
   width: min(42rem, calc(100vw - 2 * var(--space-4))); max-height: calc(100dvh - 2 * var(--space-6));
   padding: 0; border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-lg);
-  background: var(--color-surface); color: var(--color-text); box-shadow: var(--shadow-2);
+  background: var(--panel-deco), var(--panel-bg); color: var(--color-text); box-shadow: var(--shadow-2);
 }
 .dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
 .dialog--wide { width: min(60rem, calc(100vw - 2 * var(--space-4))); }
+.icon-pick { display: flex; flex-wrap: wrap; gap: var(--space-1); max-height: 12rem; overflow-y: auto; } /* decision 223 */
+.icon-pick__opt[aria-pressed='true'] { color: var(--color-accent); border-color: var(--color-accent); }
+.dialog--market { width: min(74rem, calc(100vw - 2 * var(--space-4))); } /* decision 222: the market's rows carry icons */
+/* decision 222: inventory icons (ui/gear-icon.js) — silhouettes in the text colour */
+.gi { width: 1.5em; height: 1.5em; flex: none; fill: currentColor; vertical-align: middle; }
+.gi--row { width: 2.5rem; height: 2.5rem; color: var(--color-text-muted); align-self: center; }
+.gi--lg { width: 1.6em; height: 1.6em; margin-right: var(--space-2); color: var(--color-accent); }
+.gi-chip { display: inline-flex; align-items: center; gap: var(--space-1); margin-right: var(--space-2); white-space: nowrap; }
+.gi-chip.is-hand { color: var(--color-accent); }
+.gi-chip--bare { position: relative; margin-right: var(--space-1); }
+.gi-row { display: inline-flex; align-items: center; gap: var(--space-1); }
+.sum-value { display: inline-flex; align-items: baseline; gap: var(--space-1); margin-right: var(--space-3); } /* decision 224 */
+.sum-value strong { font-size: var(--text-lg); color: var(--color-text); }
+.gi-qty { font-size: var(--text-xs); color: var(--color-text-faint); margin-left: -2px; }
 /* decision 156: the roll window — setup in two columns, folded to one line once rolled */
 .check-setup { display: grid; gap: var(--space-3) var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); align-items: start; }
 .check-setup__wide { grid-column: 1 / -1; }
@@ -344,7 +358,7 @@
 .rails__label { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
 .rails__badge { position: absolute; top: var(--space-1); right: var(--space-1); min-width: 1rem; height: 1rem; padding: 0 var(--space-1); border-radius: 999px; background: var(--color-accent); color: var(--color-text-inverse); font-size: var(--text-xs); line-height: 1rem; text-align: center; }
 .rails__stage { position: relative; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
-.rails__drawer { position: absolute; top: 0; bottom: 0; z-index: 5; width: var(--drawer-w); display: none; flex-direction: column; background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong); box-shadow: var(--shadow-2); }
+.rails__drawer { position: absolute; top: 0; bottom: 0; z-index: 5; width: var(--drawer-w); display: none; flex-direction: column; background: var(--panel-deco), var(--panel-bg); border: var(--border-width) solid var(--color-border-strong); box-shadow: var(--shadow-2); }
 .rails__drawer--left { left: 0; border-left: 0; border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
 .rails__drawer--right { right: 0; border-right: 0; border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
 .rails__drawer.is-open { display: flex; animation: rails-in var(--dur-fast) var(--ease); }
@@ -367,3 +381,11 @@
 /* decision 192: the GM's difficulty, shown read-only in the roll window at the table */
 .check-tier { display: inline-flex; align-items: baseline; gap: var(--space-1); min-height: var(--touch); padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface-2); }
 .check-tier--hard { border-color: var(--color-danger); }
+
+/* decision 199: the Display menu (Aa) — UI size and day / night, per device */
+.display-menu { position: relative; }
+.display-menu__btn { list-style: none; font-family: var(--font-ui); font-weight: 700; font-size: var(--text-md); }
+.display-menu__btn::-webkit-details-marker { display: none; }
+.display-menu__panel { position: absolute; right: 0; top: calc(100% + var(--space-1)); z-index: 65; display: flex; flex-direction: column; gap: var(--space-2); min-width: 13rem; padding: var(--space-3); background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-md); box-shadow: var(--shadow-2); }
+.display-menu__row { justify-content: space-between; flex-wrap: nowrap; }
+.display-menu__now { min-width: 6.5rem; text-align: center; white-space: nowrap; }

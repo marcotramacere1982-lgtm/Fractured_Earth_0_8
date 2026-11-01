@@ -47,6 +47,10 @@ function open(button, { hover = false } = {}) {
   current = button;
   pinned = !hover;
   button.setAttribute('aria-expanded', 'true');
+  // decision 198: inside a window (a native dialog lives in the browser's top layer, above any z-index) the
+  // popover goes into that window, or it would open hidden underneath it
+  const host = button.closest('dialog[open], .loadout') ?? document.body;
+  if (pop.parentElement !== host) host.append(pop);
   pop.innerHTML = `
     <div class="ref-pop__title">${escape(c.title)}</div>
     ${c.html}
@@ -57,8 +61,8 @@ function open(button, { hover = false } = {}) {
   const w = pop.offsetWidth;
   const left = Math.max(8, Math.min(window.innerWidth - w - 8, r.left + r.width / 2 - w / 2));
   const below = r.bottom + 8 + pop.offsetHeight < window.innerHeight;
-  pop.style.setProperty('--x', `${left + window.scrollX}px`);
-  pop.style.setProperty('--y', `${(below ? r.bottom + 8 : r.top - pop.offsetHeight - 8) + window.scrollY}px`);
+  pop.style.setProperty('--x', `${left}px`); // fixed: viewport coordinates, in a window or on the page
+  pop.style.setProperty('--y', `${below ? r.bottom + 8 : r.top - pop.offsetHeight - 8}px`);
 }
 
 /**
@@ -101,4 +105,5 @@ export function installRefs(refsData, opts = {}) {
   }
   window.addEventListener('hashchange', close);
   window.addEventListener('resize', close);
+  window.addEventListener('scroll', () => { if (!pop.hidden) close(); }, true); // fixed now: it would stay put while its button scrolls away
 }

@@ -21,7 +21,7 @@ function itemGroup(e) {
     if (opts.some((o) => o.boost || o.endStims)) return 'stims';
     return 'medical';
   }
-  if (e.drone) return 'seeing'; // a toy drone (decision 171)
+  if (e.drone || e.light) return 'seeing'; // a toy drone (decision 171); a light you carry (decision 223)
   const tool = e.tool?.[0];
   if (tool) return tool.attack ? 'weapongear' : tool.attr ? 'force' : TOOL_DOMAIN[tool.skill] ?? 'other';
   return e.story ? 'story' : 'other';

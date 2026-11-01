@@ -1,4 +1,49 @@
 /* Tactical maps (decision 64): the board, walls, doors and windows. Shared by the GM builder and the sheet. */
+/* decision 219: inside the map the colour tokens point to the map's palette (tokens.css → --mp-*): themes don't reach it */
+.map-view {
+  --font-display: 'Bebas Neue', 'Rajdhani', sans-serif; /* marker letters keep their face too */
+  --color-accent: var(--mp-accent);
+  --color-accent-soft: var(--mp-accent-soft);
+  --color-bg: var(--mp-bg);
+  --color-border: var(--mp-border);
+  --color-border-strong: var(--mp-border-strong);
+  --color-danger: var(--mp-danger);
+  --color-danger-soft: var(--mp-danger-soft);
+  --color-info: var(--mp-info);
+  --color-info-soft: var(--mp-info-soft);
+  --color-map-hatch: var(--mp-map-hatch);
+  --color-map-memory: var(--mp-map-memory);
+  --color-map-pool: var(--mp-map-pool);
+  --color-map-shadow: var(--mp-map-shadow);
+  --color-map-unseen: var(--mp-map-unseen);
+  --color-mark-coral: var(--mp-mark-coral);
+  --color-mark-coral-soft: var(--mp-mark-coral-soft);
+  --color-mark-lime: var(--mp-mark-lime);
+  --color-mark-lime-soft: var(--mp-mark-lime-soft);
+  --color-mark-magenta: var(--mp-mark-magenta);
+  --color-mark-magenta-soft: var(--mp-mark-magenta-soft);
+  --color-mark-periwinkle: var(--mp-mark-periwinkle);
+  --color-mark-periwinkle-soft: var(--mp-mark-periwinkle-soft);
+  --color-mark-sand: var(--mp-mark-sand);
+  --color-mark-sand-soft: var(--mp-mark-sand-soft);
+  --color-mark-white: var(--mp-mark-white);
+  --color-mark-white-soft: var(--mp-mark-white-soft);
+  --color-private: var(--mp-private);
+  --color-private-soft: var(--mp-private-soft);
+  --color-sky-left: var(--mp-sky-left);
+  --color-sky-right: var(--mp-sky-right);
+  --color-sky-top: var(--mp-sky-top);
+  --color-success: var(--mp-success);
+  --color-success-soft: var(--mp-success-soft);
+  --color-surface: var(--mp-surface);
+  --color-surface-2: var(--mp-surface-2);
+  --color-surface-3: var(--mp-surface-3);
+  --color-text: var(--mp-text);
+  --color-text-faint: var(--mp-text-faint);
+  --color-text-muted: var(--mp-text-muted);
+  --color-warning: var(--mp-warning);
+  --color-warning-soft: var(--mp-warning-soft);
+}
 .map-board { fill: var(--color-surface); }
 /* grid lines keep the same thickness on screen at every zoom */
 .map-grid { fill: none; stroke: var(--color-border); stroke-width: 1; vector-effect: non-scaling-stroke; }

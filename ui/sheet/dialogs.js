@@ -1,5 +1,6 @@
 // Native <dialog>s: skill/attribute checks and the market.
 
+import { iconFor, gearIcon, allGearIcons } from '../gear-icon.js';
 import { html, raw, render, delegate, cleanup, signed } from '../dom.js';
 import { segmented } from './parts.js';
 import { resolveCheck } from '../../rules/checks.js';
@@ -15,9 +16,9 @@ import { ruleText } from '../rule-text.js';
 let tierLocked = () => false;
 export const setTierLock = (fn) => { tierLocked = fn; };
 
-export function openDialog(draw, handlers, { wide = false } = {}) {
+export function openDialog(draw, handlers, { wide = false, cls = '' } = {}) {
   const dlg = document.createElement('dialog');
-  dlg.className = wide ? 'dialog dialog--wide' : 'dialog';
+  dlg.className = `${wide ? 'dialog dialog--wide' : 'dialog'}${cls ? ` ${cls}` : ''}`;
   document.body.append(dlg);
   // decision 160: a redraw keeps the window's scroll (the market jumped to the top after every purchase)
   const redraw = () => {
@@ -35,7 +36,7 @@ export function openDialog(draw, handlers, { wide = false } = {}) {
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }); // backdrop
   redraw();
   dlg.showModal();
-  return { redraw, close: () => dlg.close(), toTop: () => { const b = dlg.querySelector('.dialog__body'); if (b) b.scrollTop = 0; } };
+  return { el: dlg, redraw, close: () => dlg.close(), toTop: () => { const b = dlg.querySelector('.dialog__body'); if (b) b.scrollTop = 0; } };
 }
 
 /**
@@ -52,7 +53,12 @@ export function openDialog(draw, handlers, { wide = false } = {}) {
  * with the suggested option chosen; the player can change it.
  */
 /** aim (decision 97): { options: [{ id, tn, label }], pick, onPick(id) } — Body / ⌖ Location for an attack. */
-/** foe (decision 153): { options: [{ id, label }], pick, onPick(id) } — which enemy an attack goes at (told to the GM). */
+/** Decision 204: the target's cover as the map shows it — information like the GM's difficulty, never added to the roll. */
+const coverLine = (c, data) => html`<p class="check-cover"><span class="label">${t('attack.cover')}${info('cover', t('attack.cover'))}</span>
+  <strong>${c.armor ? `${data.difficulty.cover.find((x) => x.armor === c.armor)?.name ?? ''} +${c.armor}` : t('attack.coverNone')}</strong>${c.text ? html` <span class="muted st-small">· ${c.text}</span>` : ''}
+  ${c.armor ? html`<span class="muted st-small">· ${t('attack.coverGm')}</span>` : ''}</p>`;
+
+/** foe (decision 153): { options: [{ id, label, cover }], pick, onPick(id) } — which enemy an attack goes at (told to the GM). */
 export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [], light = null, boosts = [], aim = null, notice = '', foe = null } = {}) {
   const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false,
     tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null, aim: aim?.pick ?? null, foe: foe?.pick ?? '' };
@@ -131,7 +137,8 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
         ${once && r ? html`<p class="check-summary muted">${summaryLine()}</p>` : html`<div class="check-setup">
         ${foe ? html`<div class="stack stack--tight check-setup__wide"><span class="label">${t('attack.foe')}</span>
           <div class="foe-chips" role="group" aria-label="${t('attack.foe')}">${foe.options.map((o) => html`<button class="foe-chip ${o.mapped ? 'foe-chip--mapped' : ''}" data-action="foePick" data-id="${o.id}" aria-pressed="${(state.foe ?? '') === o.id}">${o.mapped ? html`<span class="foe-chip__map">🎯 ${t('attack.onMap')}</span>` : ''}
-            ${o.img ? html`<img src="${o.img}" alt="" loading="lazy">` : o.letter ? html`<span class="foe-chip__letter">${o.letter}</span>` : ''}<span>${o.label}</span></button>`)}</div></div>` : ''}
+            ${o.img ? html`<img src="${o.img}" alt="" loading="lazy">` : o.letter ? html`<span class="foe-chip__letter">${o.letter}</span>` : ''}<span>${o.label}</span></button>`)}</div>
+          ${foeOpt()?.cover ? coverLine(foeOpt().cover, data) : ''}</div>` : ''}
         ${aim ? html`<div class="stack stack--tight ${state.aim === 'located' && aim.table ? 'check-setup__wide' : ''}"><span class="label">${t('attack.aim')}${info('location-attack', t('attack.aim'))}</span>
           <div class="segmented" role="group" aria-label="${t('attack.aim')}">${aim.options.map((o) => html`<button class="segmented__opt" data-action="aim" data-id="${o.id}" aria-pressed="${state.aim === o.id}">${o.label}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
           ${state.aim === 'located' && aim.table ? aim.table(state.foe) : aimOpt()?.hint ? html`<p class="hint">${aimOpt().hint}</p>` : ''}</div>` : ''}
@@ -205,6 +212,8 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
     <label class="field"><span class="label">${t('shop.customName')}</span><input class="input" maxlength="60" value="${state.custom.name}" data-action="cField" data-field="name" placeholder="${t('shop.customNamePh')}"></label>
     <label class="field"><span class="label">${t('shop.customNote')}</span><input class="input" maxlength="200" value="${state.custom.note}" data-action="cField" data-field="note"></label>
     <label class="field"><span class="label">${t('gear.qty')}</span><input class="input input--num" type="number" min="1" max="99" value="${state.custom.qty}" data-action="cField" data-field="qty"></label>
+    <div class="field"><span class="label">${t('shop.customIcon')}</span>
+      <div class="icon-pick" role="group" aria-label="${t('shop.customIcon')}">${allGearIcons(data).map((id) => html`<button type="button" class="btn btn--sm btn--ghost icon-pick__opt" data-action="cIcon" data-id="${id}" aria-pressed="${(state.custom.icon ?? data.gearIcons.kinds.custom) === id}" title="${id}" aria-label="${id}">${gearIcon(id)}</button>`)}</div></div>
     <button class="btn btn--primary" data-action="addCustom">${t('shop.customAdd')}</button></div>`;
   /** The list price means nothing to players (they see CRS and $): weapons show a spare magazine's street price instead,
    *  lifestyle its monthly upkeep. */
@@ -243,6 +252,7 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
           ${g.items.map((e) => {
             const p = priceOptions(e, state.kind, data.economy, state.multiplier);
             return html`<div class="row row--wrap">
+              ${iconFor(state.kind, e, data, 'gi--row')}
               <div class="row__main">
                 <div class="row__title">${e.name} ${fits(e) ? html`<span class="pill pill--success">${t('shop.fits')}</span>` : ''}${e.rarity ? html`<span class="pill ${['A', 'B'].includes(e.rarity) ? 'pill--danger' : ''}">${e.rarity}</span>` : ''}${e.provisional ? html` <span class="pill">${t('shop.provisional')}</span>` : ''}</div>
                 <div class="row__meta">${describe(state.kind, e, data)}${metaPrice(e)}${state.kind === 'lifestyle' ? ` · ${t(addsUp(e) ? 'shop.addsUp' : 'shop.replaces')}` : ''}</div>
@@ -263,6 +273,7 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
     click: {
       kind: ({ value }) => { state.kind = value; state.message = ''; d.redraw(); d.toTop(); }, // a new list starts at the top
       mult: ({ value }) => { state.multiplier = Number(value); d.redraw(); },
+      cIcon: ({ id }) => { state.custom.icon = id; d.redraw(); }, // decision 223: a misc item's icon
       addCustom: () => {
         try { state.message = `✓ ${onBuy({ kind: 'custom', method: 'custom', ...state.custom })}`; state.custom = { name: '', note: '', qty: 1 }; }
         catch (err) { state.message = ruleText(err); }
@@ -285,5 +296,5 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
         el?.focus(); el?.setSelectionRange(pos, pos);
       },
     },
-  });
+  }, { wide: true, cls: 'dialog--market' }); // decision 222: room for the icons
 }

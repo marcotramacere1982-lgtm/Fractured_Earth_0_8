@@ -25,7 +25,9 @@
 .app-nav a:hover { color: var(--color-text); background: var(--color-surface-2); }
 .app-nav a[aria-current='page'] { color: var(--color-accent); background: var(--color-accent-soft); }
 
-.app-actions { display: flex; gap: var(--space-1); }
+.app-actions { display: flex; align-items: center; gap: var(--space-1); }
+.app-actions__page { display: flex; align-items: center; gap: var(--space-1); } /* decision 220: the sheet's tools */
+.app-actions__page:empty { display: none; }
 
 .app-main { width: 100%; max-width: var(--content-max); margin: 0 auto; padding: var(--space-4); }
 

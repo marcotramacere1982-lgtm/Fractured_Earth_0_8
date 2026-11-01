@@ -32,6 +32,8 @@ export const DATA_FILES = {
   difficulty: 'difficulty.json',
   conditions: 'conditions.json',
   icons: 'icons.json',
+  gearIcons: 'gear-icons.json', // decision 222: inventory icons (which silhouette for which gear)
+  uiIcons: 'ui-icons.json', // decision 229: the detailed icons that replace line ones in icons.json
   refs: 'rules-ref.json',
   actions: 'actions.json',
   encounter: 'encounter.json',
@@ -72,6 +74,10 @@ export async function loadData({ lang = 'en', base = new URL('./', import.meta.u
       return [key, applyOverlay(table, overlay)];
     }),
   );
-  cache = Object.freeze(Object.fromEntries(entries));
+  const tables = Object.fromEntries(entries);
+  // decision 229: an id in ui-icons.json draws from the detailed sprite instead of its line drawing in icons.json
+  const sprite = new URL('../images/ui-icons.svg', import.meta.url).href;
+  tables.icons = { ...tables.icons, ...Object.fromEntries(Object.keys(tables.uiIcons.sources).map((id) => [id, `<svg viewBox="0 0 512 512" fill="currentColor" focusable="false"><use href="${sprite}#ui-${id}"/></svg>`])) };
+  cache = Object.freeze(tables);
   return cache;
 }

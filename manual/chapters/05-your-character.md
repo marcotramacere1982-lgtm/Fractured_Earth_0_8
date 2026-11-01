@@ -264,11 +264,19 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 
 ## 5-8. The Character Sheet {#sec-5-8}
 
-- **Status bar** — always visible: HP, armor, initiative, actions, Class TN, Credit Score, cash and active conditions.
-- **Setup** — two rows in the order of a turn: the Turn panel (*Start combat* when you play without a table — at the table the GM starts the fights —, *End round*, one *Attack* for the weapon in hand, *?* shows what each action does) beside your weapons (attack TN, damage, ammo, reload); then your class engine, equipped abilities and talents beside health, armor, injuries and conditions (with *Take a hit*) and cover. Move, OFF, DEF and PER sit on the header's second line, changed live by conditions.
-  Scroll down for every skill (type in *Find a skill* to filter by name, stat or group) and the attributes (adjustable for injuries, aging or GM rulings). Tap to roll with the GM's difficulty. When the GM asks for a roll, a card waits at the top (and in the Tactical View): *Roll* opens the same window and the result goes to the GM.
+- **Display** (top right) — the interface's size (Auto, or A− / A+) and the **theme**: *Night*, *Day*, *Corp Interface* (navy HUD), *Grey Zone Terminal* (amber phosphor), *Field Dossier* (a printed case file, bright), *Netrunner* (the hacker's neon), *Night Ops* (olive and stencil, low glare), *Graphite Violet* or *Graphite Crimson* (dark grey with a violet or red accent) — one dropdown. A theme changes the look — colours, panels, borders, titles — never the map, which keeps its own tested colours so fog, darkness and lights always read the same. Remembered on this device.
+- **Status bar** — always visible: HP, armor, initiative, actions, Class TN, Credit Score, cash and active conditions. Its second line holds the sheet's tabs (Sheet, Dossier, Notes & maps, Progress) beside Move, OFF, DEF and PER, and your conditions sit under your class; the tools — message the GM, sound, the tour (?), *At the table*, *Export* — are at the top right of the screen.
+- **Sheet** — your character in folding sections, all closed to start; each one shows a one-line summary while closed (*HP 30/33 · Wounded · armor 3*), the index on the left (a row on top in a narrow window) opens one and brings it into view, and tapping it again closes it (*Open all* / *Close all* under it); the sheet uses the whole width of the window, and what you leave open stays open on this device:
+  - **Health & conditions** — HP, armor, injuries and conditions (with *Take a hit*) and cover.
+  - **Weapons** — your two slots: attack TN, damage, ammo, reload.
+  - **Class & abilities** — the class engine, equipped abilities and talents.
+  - **Actions** — the Turn panel (*Start combat* and *End round* when you play without a table — at the table the GM starts, advances and ends the fights, and the sheet has no such buttons —, one *Attack* for the weapon in hand, *?* shows what each action does). At the table the Tactical view has them too.
+  - **Attributes & skills** — every skill (type in *Find a skill* to filter by name, stat or group) and the attributes (adjustable for injuries, aging or GM rulings). Tap to roll with the GM's difficulty.
+  - **Inventory** — what you carry (wear armor, quantities, sell / give / drop) and your stashes.
+  - **Money, market & lifestyle** — cash, Credit Score, the market, a fixer's offers and your lifestyle.
+
+  Move, OFF, DEF and PER sit on the header's second line, changed live by conditions. When the GM asks for a roll, a window comes up in the middle of the screen: *Roll* opens the same check window and the result goes to the GM.
 - **Tactical** — first while the GM has a map on the table: the fight on one screen (7-2 §5).
-- **Gear** — cash, inventory, the market, and your lifestyle.
 - **Dossier** — identity, class, background, debt (with its pressure and instalments), portrait, backstory and *Story so far* (5-10).
 - **Notes & maps** — your field notes, **Maps we've seen** (every map that was on the table, as far as your crew saw it, 7-2 §5) and a log of rolls, purchases and ability uses.
 - **Progress** — level, XP, and the talent trees (5-9).

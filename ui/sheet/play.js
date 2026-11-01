@@ -1,19 +1,15 @@
-// Status bar + Play tab (health, body, weapons, conditions, combat values, class engine).
+// Status bar and the sheet's cards (health, body, weapons, conditions); the Sheet tab places them (decision 215).
 
+import { iconFor } from '../gear-icon.js';
 import { html, raw, signed } from '../dom.js';
-import { skillsTab } from './skills.js';
 import { counter, meter, card, segmented, nameOf, temp, icon } from './parts.js';
-import { engineCard } from './engine.js';
-import { talentsCard } from './progress.js';
-import { turnCard } from './turn.js';
 import { carriedProtections } from '../../rules/tools.js';
 import { info } from '../ref.js';
 import { explain, hint } from '../explain.js';
 import { t, tn } from '../../i18n/index.js';
 import { portraitImg } from '../portrait.js';
-import { hitsCard, boonsCard } from './hits.js';
 
-export function statusBar(c, s, data, { compact = false, all = false } = {}) {
+export function statusBar(c, s, data, { compact = false, all = false, tabs = '' } = {}) {
   const hpKind = s.hp.current <= 0 ? 'danger' : s.hp.current <= s.hp.max / 3 ? 'danger' : 'success';
   if (compact) return compactStatus(c, s, data, hpKind, { all });
   return html`
@@ -23,6 +19,12 @@ export function statusBar(c, s, data, { compact = false, all = false } = {}) {
         <div>
           <div class="sheet-status__name">${c.name || t('common.unnamed')}</div>
           <div class="sheet-status__class">${s.class ? `${s.class.name} · ${s.class.subclass.name}` : t('sheet.noClass')}</div>
+          ${s.effects.length ? html`<div class="cluster sheet-status__conds">${s.effects.map((e) => html`<span class="pill pill--success effect-pill">${e.name} · ${e.roundsLeft == null ? t('use.scene') : tn('use.rounds', e.roundsLeft)}
+            <button class="effect-pill__end" data-action="endEffect" data-id="${e.id}" aria-label="${t('use.end', { name: e.name })}" title="${t('use.end', { name: e.name })}">✕</button></span>`)}</div>` : ''}
+          ${c.play.conditions.length || s.injured.locations.length ? html`<div class="cluster sheet-status__conds">${c.play.conditions.map((id) => html`<span class="pill ${data.conditions.find((k) => k.id === id)?.positive ? 'pill--success' : data.conditions.find((k) => k.id === id)?.mixed ? 'pill--warning' : 'pill--danger'}">${nameOf(data.conditions, id)}</span>`)}${s.injured.locations.map((id) => {
+            const loc = data.body.locations.find((l) => l.id === id);
+            return html`<span class="pill pill--danger">${data.conditions.find((k) => k.limb === loc?.bp)?.name} · ${loc?.name}</span>`;
+          })}</div>` : ''}
         </div>
       </div>
       <div class="sheet-status__stats">
@@ -36,16 +38,12 @@ export function statusBar(c, s, data, { compact = false, all = false } = {}) {
         <div class="stat"><span class="label">${t('stat.actions')}${explain('combat', 'act', t('stat.actions'))}</span><span class="stat__value">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></div>
         ${s.class ? html`<div class="stat"><span class="label">Class TN${explain('class-tn', '', 'Class TN')}</span><span class="stat__value stat__value--accent">${s.class.tn}</span></div>` : ''}
       </div>
+      <div class="sheet-status__row2">${tabs}
       <div class="sheet-status__combat" data-tour="combat-line">
         <span class="chip-stat" ${hint('combat', 'sqr')}><span class="label">${t('stat.move')}${explain('combat', 'sqr', t('stat.move'))}</span><span class="chip-stat__v">${temp(s.moveBase, s.move)}</span><span class="chip-stat__u">${t('stat.squares')}</span></span>
         ${['off', 'def', 'per'].map((id) => html`<span class="chip-stat" ${hint('combat', id)}><span class="label">${id.toUpperCase()}${explain('combat', id, data.combat.derived.find((d) => d.id === id)?.name ?? id)}</span><span class="chip-stat__v">${temp(s.combat[id].base, s.combat[id].value, id === 'off' ? signed : (x) => x)}</span></span>`)}
       </div>
-      ${s.effects.length ? html`<div class="cluster">${s.effects.map((e) => html`<span class="pill pill--success effect-pill">${e.name} · ${e.roundsLeft == null ? t('use.scene') : tn('use.rounds', e.roundsLeft)}
-        <button class="effect-pill__end" data-action="endEffect" data-id="${e.id}" aria-label="${t('use.end', { name: e.name })}" title="${t('use.end', { name: e.name })}">✕</button></span>`)}</div>` : ''}
-      ${c.play.conditions.length || s.injured.locations.length ? html`<div class="cluster">${c.play.conditions.map((id) => html`<span class="pill ${data.conditions.find((k) => k.id === id)?.positive ? 'pill--success' : data.conditions.find((k) => k.id === id)?.mixed ? 'pill--warning' : 'pill--danger'}">${nameOf(data.conditions, id)}</span>`)}${s.injured.locations.map((id) => {
-        const loc = data.body.locations.find((l) => l.id === id);
-        return html`<span class="pill pill--danger">${data.conditions.find((k) => k.limb === loc?.bp)?.name} · ${loc?.name}</span>`;
-      })}</div>` : ''}
+      </div>
     </div>`;
 }
 
@@ -132,7 +130,7 @@ export function conditionsGrid(c, s, data, { tips = false, bare = false } = {}) 
 }
 
 /** tips (decision 156): the same switch as the Turn card — off, a condition shows its name only (its effect when it's on you). */
-function healthCard(c, s, data, { tips = false } = {}) {
+export function healthCard(c, s, data, { tips = false } = {}) {
   const rule = locationRule(data);
   const body = html`
     ${deathNotice(c, s)}
@@ -166,7 +164,7 @@ function healthCard(c, s, data, { tips = false } = {}) {
     ${conditionsGrid(c, s, data, { tips })}
     ${tips ? html`<p class="hint">${t('body.boostsHint')}</p>
     <p class="hint">${t('body.locationRule', { n: data.body.locationAttack.tnPenalty })} ${rule.rows.join(' · ')}. ${t('body.crackRule')}</p>` : ''}
-    <p class="hint">${t('body.wearing')}: ${c.play.worn.length ? c.play.worn.map((id) => nameOf(data.armor, id)).join(', ') : t('body.nothing')} — ${t('body.wearingNote')}</p>`;
+    <p class="hint">${t('body.wearing')}: ${c.play.worn.length ? c.play.worn.map((id) => html`<span class="gi-chip">${iconFor('armor', data.armor.find((a) => a.id === id), data)}${nameOf(data.armor, id)}</span>`) : t('body.nothing')} — ${t('body.wearingNote')}</p>`;
   return card(t('body.title'), body, { sub: t('body.sub'), ref: 'conditions', tour: 'health' });
 }
 
@@ -183,7 +181,7 @@ export function weaponsCard(c, s, data) {
         <div class="weapon ${w.inHand ? 'weapon--in-hand' : ''}">
           <div class="spread"><span class="label">${t('weapons.slot')} ${w.slot}</span>${options(w.slot)}</div>
           ${w.empty ? html`<p class="muted">${owned.length ? t('weapons.pick') : t('weapons.none')}</p>` : html`
-            <div class="spread"><div class="weapon__name">${w.name}</div>
+            <div class="spread"><div class="weapon__name">${iconFor('weapon', w, data, 'gi--lg')}${w.name}</div>
               ${w.inHand ? html`<span class="pill pill--accent">${t('weapons.inHand')}</span>` : html`<button class="btn btn--sm" data-action="hand" data-slot="${w.slot}" title="${t('weapons.takeHint')}">${t('weapons.take')}</button>`}</div>
             ${w.note ? html`<p class="weapon__note">◆ ${w.note}</p>` : ''}
             <div class="weapon__stats">
@@ -208,22 +206,4 @@ export function weaponsCard(c, s, data) {
         </div>`)}
     </div>`;
   return card(t('weapons.title'), body, { ref: 'weapon-tn', tour: 'weapons' });
-}
-
-/**
- * Decision 97: two rows — what can I do (Turn | class engine + talents, used every turn), then with what / my state
- * (Weapons, for equipping and reloading | health & conditions; decision 157 swapped engine and weapons). Phones stack them.
- */
-export function playTab(c, s, data, ctx = {}) {
-  return html`
-    ${hitsCard(c, s, data)}${boonsCard(c, data)}
-    <div class="sheet-grid sheet-grid--play">
-      <div class="stack">${turnCard(c, s, data, ctx.combat, { tips: ctx.actionTips, atTable: ctx.atTable })}</div>
-      <div class="stack">${engineCard(c, s, data, ctx.combat, { mapDark: ctx.mapDark ?? null })}${talentsCard(c, s, data)}</div>
-    </div>
-    <div class="sheet-grid sheet-grid--play">
-      <div class="stack">${weaponsCard(c, s, data)}</div>
-      <div class="stack">${healthCard(c, s, data, { tips: ctx.actionTips })}</div>
-    </div>
-    ${skillsTab(c, s, data)}`; // decision 164: Play and Skills are one Setup tab — scroll down for skills and attributes
 }

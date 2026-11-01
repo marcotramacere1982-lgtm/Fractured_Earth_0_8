@@ -1,5 +1,6 @@
 // Header: brand, section navigation, theme toggle.
 
+import { displayMenu } from './scale.js';
 import { html, render, raw } from './dom.js';
 import { t, LANGS, getLang, setLang } from '../i18n/index.js';
 
@@ -17,15 +18,11 @@ const NAV = [
   { name: 'manual', label: 'nav.manual', icon: 'manual', newTab: true }, // decision 157: a player at the sheet stays at the sheet
 ];
 
-export const theme = () => document.documentElement.dataset.theme ?? 'dark';
+export { theme } from './themes.js';
+import { setTheme, theme as current } from './themes.js';
 
-/** Dark ↔ light, remembered per device (`fe.theme`), shared by the player app and the GM console (decision 103). */
-export function toggleTheme() {
-  const next = theme() === 'light' ? 'dark' : 'light';
-  document.documentElement.dataset.theme = next;
-  try { localStorage.setItem('fe.theme', next); } catch { /* private mode */ }
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--color-bg').trim());
-}
+/** Night ↔ Day (the GM console's day / night button and older callers); the Display menu lists every theme. */
+export function toggleTheme() { setTheme(current() === 'light' ? 'dark' : 'light'); }
 
 let bound = false;
 
@@ -40,14 +37,12 @@ export function renderHeader(el, route) {
       })}
     </nav>
     <div class="app-actions">
+      <div class="app-actions__page" id="page-tools"></div><!-- decision 220: a page's own tools (the sheet: message the GM, sound, tour, table, export) -->
       <div class="lang-switch" role="group" aria-label="${t('nav.language')}">${LANGS.map((l) => html`<button class="lang-switch__opt" data-action="lang" data-id="${l.id}" aria-pressed="${l.id === getLang()}" title="${l.name}">${l.label}</button>`)}</div>
-      <button class="btn btn--ghost btn--icon" data-action="theme" title="${t('nav.theme')}" aria-label="${t('nav.theme')}">
-        <span class="icon">${raw(theme() === 'light' ? ICONS.moon : ICONS.sun)}</span>
-      </button>
+      ${displayMenu()}
     </div>`);
   if (!bound) {
     el.addEventListener('click', (e) => {
-      if (e.target.closest('[data-action="theme"]')) { toggleTheme(); renderHeader(el, route); }
       const lang = e.target.closest('[data-action="lang"]');
       if (lang && lang.dataset.id !== getLang()) setLang(lang.dataset.id);
     });

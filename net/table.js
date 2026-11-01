@@ -115,13 +115,18 @@ export function createTableLink(store, hooks) {
         if (id && hooks.boon?.(id, msg)) { hooks.toast(t('boon.toast', { from: msg.fromName ?? '', ability: msg.ability ?? '' }), 'success'); hooks.notify?.('message'); }
         break;
       case 'hit': // an enemy hit you: Apply or Dodge on the Play tab (decision 154)
-        if (id && hooks.hit?.(id, msg)) { hooks.toast(t('hit.toast', { from: msg.from ?? '' }), 'danger'); hooks.notify?.('hit'); }
+        if (id && hooks.hit?.(id, msg)) hooks.notify?.('hit'); // decision 207: the hit window says it; the sound still plays
         break;
       case 'ask': // the GM asks for a skill or attribute roll (decision 165)
         if (id && hooks.ask?.(id, msg)) { hooks.toast(t('ask.toast'), 'success'); hooks.notify?.('message'); }
         break;
       case 'intel': // decision 197: what you learned about an enemy type (the GM, or a crewmate's share)
         if (id && hooks.intel?.(id, msg)) { hooks.toast(msg.entry?.from ? t('intel.shared', { from: msg.entry.from, name: msg.entry.name }) : msg.entry?.rumour ? t('intel.rumourIn', { name: msg.entry.name }) : t('intel.in', { name: msg.entry?.name ?? '' }), 'success'); hooks.notify?.('message'); }
+        break;
+      case 'contact': // decision 211: a waiting enemy was seen — the GM stops movement; the sheet shows it mid-screen
+        state.contact = Number(msg.at) || Date.now();
+        hooks.notify?.('message');
+        emit();
         break;
       case 'scene': // the GM starts a new scene (decision 180)
         if (id && hooks.scene?.(id, msg)) hooks.toast(t('scene.toast'), 'success');

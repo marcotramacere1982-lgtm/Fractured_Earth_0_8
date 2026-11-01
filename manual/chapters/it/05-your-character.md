@@ -264,11 +264,19 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 
 ## 5-8. La scheda del personaggio {#sec-5-8}
 
-- **Barra di stato** — sempre visibile: HP, armatura, iniziativa, azioni, Class TN, Credit Score, contanti e condizioni attive.
-- **Preparazione** — due righe nell'ordine di un turno: il pannello del turno (*Inizia combattimento* quando giochi senza tavolo — al tavolo gli scontri li avvia il GM —, *Fine round*, un solo *Attacca* per l'arma in mano, *?* mostra cosa fa ogni azione) accanto alle armi (TN d'attacco, danni, munizioni, ricarica); poi il tuo motore di classe, le ability equipaggiate e i talenti accanto a salute, armatura, ferite e condizioni (con *Subisci un colpo*) e copertura. Movimento, OFF, DEF e PER stanno nella seconda riga dell'intestazione, aggiornati dalle condizioni.
-  Scorri in basso per tutte le abilità (scrivi in *Cerca un'abilità* per filtrare per nome, statistica o gruppo) e gli attributi (modificabili per ferite, invecchiamento o decisioni del GM). Tocca per tirare con la difficoltà del GM. Quando il GM chiede un tiro, in cima compare una carta (anche nella vista Tattica): *Tira* apre la stessa finestra e il risultato va al GM.
+- **Schermo** (in alto a destra) — la dimensione dell'interfaccia (Auto, oppure A− / A+) e il **tema**: *Notte*, *Giorno*, *Corp Interface* (HUD blu notte), *Grey Zone Terminal* (fosfori ambra), *Field Dossier* (un fascicolo stampato, chiaro), *Netrunner* (il neon dell'hacker), *Night Ops* (verde oliva e stencil, poco abbagliante), *Graphite Violet* o *Graphite Crimson* (grigio scuro con un accento viola o rosso) — un solo menu a tendina. Un tema cambia l'aspetto — colori, pannelli, bordi, titoli — mai la mappa, che tiene i suoi colori collaudati così nebbia, buio e luci si leggono sempre allo stesso modo. Ricordato su questo dispositivo.
+- **Barra di stato** — sempre visibile: HP, armatura, iniziativa, azioni, Class TN, Credit Score, contanti e condizioni attive. La sua seconda riga contiene le schede (Scheda, Dossier, Note e mappe, Progressi) accanto a Movimento, OFF, DEF e PER, e le tue condizioni stanno sotto la classe; gli strumenti — messaggio al GM, suoni, il tour (?), *Al tavolo*, *Esporta* — sono in alto a destra dello schermo.
+- **Scheda** — il tuo personaggio in sezioni richiudibili, tutte chiuse all'inizio; chiusa, ognuna mostra un riassunto in una riga (*HP 30/33 · Wounded · armatura 3*), l'indice a sinistra (una riga in alto in una finestra stretta) ne apre una e la porta in vista, e toccarla di nuovo la chiude (*Apri tutto* / *Chiudi tutto* sotto); la scheda usa tutta la larghezza della finestra, e quello che lasci aperto resta aperto su questo dispositivo:
+  - **Salute e condizioni** — HP, armatura, ferite e condizioni (con *Subisci un colpo*) e copertura.
+  - **Armi** — i tuoi due slot: TN d'attacco, danni, munizioni, ricarica.
+  - **Classe e ability** — il motore di classe, le ability equipaggiate e i talenti.
+  - **Azioni** — il pannello del turno (*Inizia combattimento* e *Fine round* quando giochi senza tavolo — al tavolo il GM avvia, fa avanzare e chiude gli scontri, e la scheda non ha questi pulsanti —, un solo *Attacca* per l'arma in mano, *?* mostra cosa fa ogni azione). Al tavolo le ha anche la vista Tattica.
+  - **Attributi e abilità** — tutte le abilità (scrivi in *Cerca un'abilità* per filtrare per nome, statistica o gruppo) e gli attributi (modificabili per ferite, invecchiamento o decisioni del GM). Tocca per tirare con la difficoltà del GM.
+  - **Inventario** — quello che porti (indossare armature, quantità, vendere / dare / buttare) e i tuoi nascondigli.
+  - **Soldi, mercato e stile di vita** — contanti, Credit Score, il mercato, le offerte di un faccendiere e il tuo stile di vita.
+
+  Movimento, OFF, DEF e PER stanno nella seconda riga dell'intestazione, aggiornati dalle condizioni. Quando il GM chiede un tiro, una finestra compare al centro dello schermo: *Tira* apre la stessa finestra della prova e il risultato va al GM.
 - **Tattica** — per prima finché il GM ha una mappa sul tavolo: lo scontro in una schermata (7-2 §5).
-- **Equipaggiamento** — contanti, inventario, il mercato e il tuo stile di vita.
 - **Dossier** — identità, classe, trascorsi, debito (con pressione e rate), ritratto, storia e *La storia finora* (5-10).
 - **Note e mappe** — i tuoi appunti, **Mappe che abbiamo visto** (ogni mappa che è stata sul tavolo, per quanto la tua squadra l'ha vista, 7-2 §5) e il registro di tiri, acquisti e uso delle ability.
 - **Progressi** — livello, XP e gli alberi dei talenti (5-9).

@@ -2,6 +2,8 @@
 
 ## 8-1. Paying for Things {#sec-8-1}
 
+*Every piece of gear has its own silhouette — a pistol, an SMG, a scoped rifle, a pistol magazine or a power cell, a vest or a helmet, pills, a hypo, lockpicks, a torch — in the market, in your inventory and on the sheet's folded sections, so you find things at a glance. (Icons from game-icons.net, CC BY 3.0.)*
+
 Every purchase can be made in two ways, and the choice matters.
 
 - **Official channels — Credit Score.** Corporate shops never take your money; they extend you debt. The item's Credit Score cost is subtracted from your Credit Score, and the purchase is **logged against your identity**. Cheap for groceries and rent, ruinous for anything that matters on a job: the more attention an item draws, the steeper its cost.
@@ -15,7 +17,7 @@ Every purchase can be made in two ways, and the choice matters.
 
 ### Your stash {#sec-8-stash}
 
-Not everything has to be on you. Gear tab → **Stashes** (right column, each stash folded to one line until you tap it): name the place (a locker at the bus depot, a loose tile under the sink) and 📦 on an item puts one of it there; cash goes in and out by the amount. What is stashed is not carried: it can't be lost, searched, taken or used until you go back for it — which, at the table, means the GM agrees you can get there. Out of reach during a fight. Only you and the GM see it; every move is logged.
+Not everything has to be on you. Sheet → Inventory → **Stashes** (each stash folded to one line until you tap it): name the place (a locker at the bus depot, a loose tile under the sink) and 📦 on an item puts one of it there; cash goes in and out by the amount. What is stashed is not carried: it can't be lost, searched, taken or used until you go back for it — which, at the table, means the GM agrees you can get there. Out of reach during a fight. Only you and the GM see it; every move is logged.
 
 **Crew stashes.** At the table the GM can set up stashes the whole crew shares — the van, a lock-up, a dead drop. They show on everyone's Gear tab: anyone can put things in (📦 asks which stash) or take them out, and the stash's history shows who did what. Trust is the point. The GM can **lock** one (you see it, you can't reach it: it's being watched, or the van is impounded) or **raid** it (everything in it is gone).
 

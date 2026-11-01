@@ -1,5 +1,6 @@
 // Entry point: load data, create the store, start the router.
 
+import { installScale } from './ui/scale.js';
 import { cue } from './ui/sound.js';
 import { loadData } from './data/index.js';
 import { loadI18n, t, getLang } from './i18n/index.js';
@@ -34,6 +35,7 @@ async function boot() {
       <p>${err.message}</p><p class="muted">${t('boot.http')}</p></div>`);
     return;
   }
+  installScale(); // decision 199: the UI's size — Auto by the window, − / + in the Display menu
   installRefs(data.refs, { manual: { href: '#/manual/', newTab: true } }); // decision 160: tap only; Learn more opens the manual beside the sheet
   installExplain(data);
   const store = createStore({ data });

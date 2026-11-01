@@ -454,6 +454,18 @@ export function lineOfSight(map, data, from, to, others = []) {
 }
 
 /**
+ * Decision 204: the cover a line of sight gives its target, as armor (coverData = data.difficulty.cover). A prop
+ * gives its own (half / full); a wall's edge or a body in the way gives partial. The best one counts.
+ * @returns { armor, level: 'none'|'half'|'full', why: [reason] } or null when the line is blocked (or missing)
+ */
+export function losCover(los, coverData) {
+  if (!los || los.result === 'blocked') return null;
+  const levelOf = (r) => (r.code === 'prop' ? r.cover : 'half');
+  const level = los.reasons.some((r) => levelOf(r) === 'full') ? 'full' : los.reasons.length ? 'half' : 'none';
+  return { armor: coverData.find((x) => x.prop === level)?.armor ?? 0, level, why: los.reasons.filter((r) => levelOf(r) === level) };
+}
+
+/**
  * A weapon's range (metres in the data) against a distance in squares (1 square = data.map.square.metres).
  * At least 1 square: a knife reaches the next square. Information only (owner, decision 67): the GM rules.
  * @returns { status: 'in' | 'far' | 'close', min, max } in squares

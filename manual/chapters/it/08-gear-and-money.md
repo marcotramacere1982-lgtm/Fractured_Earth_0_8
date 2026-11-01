@@ -2,6 +2,8 @@
 
 ## 8-1. Pagare {#sec-8-1}
 
+*Ogni pezzo di equipaggiamento ha la sua sagoma — una pistola, un mitra, un fucile con mirino, un caricatore o una cella d'energia, un giubbotto o un elmetto, pillole, una siringa, grimaldelli, una torcia — nel mercato, nell'inventario e nelle sezioni chiuse della scheda, così trovi le cose a colpo d'occhio. (Icone da game-icons.net, CC BY 3.0.)*
+
 Ogni acquisto si può fare in due modi, e la scelta conta.
 
 - **Canali ufficiali — Credit Score.** I negozi delle corporazioni non prendono mai i tuoi soldi: ti concedono debito. Il costo in Credit Score dell'oggetto viene sottratto dal tuo Credit Score, e l'acquisto viene **registrato a tuo nome**. Conveniente per la spesa e l'affitto, rovinoso per tutto ciò che conta in un lavoro: più attenzione attira un oggetto, più sale il prezzo.
@@ -15,7 +17,7 @@ La **rarità** va da **F** (roba di tutti i giorni) ad **A** (prototipo). I due 
 
 ### Il tuo nascondiglio {#sec-8-stash}
 
-Non serve portarsi tutto addosso. Scheda Equipaggiamento → **Nascondigli** (colonna di destra, ogni nascondiglio chiuso su una riga finché non lo tocchi): dai un nome al posto (un armadietto al deposito degli autobus, una piastrella smossa sotto il lavello) e 📦 su un oggetto ne mette uno lì; i contanti entrano ed escono per importo. Quello che è nascosto non è addosso a te: non si perde, non si trova in una perquisizione, non te lo prendono e non lo usi finché non torni a prenderlo — cioè, al tavolo, finché il GM non è d'accordo che tu possa arrivarci. Irraggiungibile durante uno scontro. Lo vedete solo tu e il GM; ogni spostamento finisce nel registro.
+Non serve portarsi tutto addosso. Scheda → Inventario → **Nascondigli** (ogni nascondiglio chiuso su una riga finché non lo tocchi): dai un nome al posto (un armadietto al deposito degli autobus, una piastrella smossa sotto il lavello) e 📦 su un oggetto ne mette uno lì; i contanti entrano ed escono per importo. Quello che è nascosto non è addosso a te: non si perde, non si trova in una perquisizione, non te lo prendono e non lo usi finché non torni a prenderlo — cioè, al tavolo, finché il GM non è d'accordo che tu possa arrivarci. Irraggiungibile durante uno scontro. Lo vedete solo tu e il GM; ogni spostamento finisce nel registro.
 
 **Nascondigli della crew.** Al tavolo il GM può allestire nascondigli condivisi da tutta la crew — il furgone, un box, un punto di scambio. Compaiono nella scheda Equipaggiamento di tutti: chiunque può mettere dentro (📦 chiede quale nascondiglio) o prendere, e lo storico del nascondiglio mostra chi ha fatto cosa. Il punto è la fiducia. Il GM può **chiuderne** uno (lo vedi, non ci arrivi: è sorvegliato, o il furgone è sotto sequestro) o **saccheggiarlo** (tutto quello che c'è dentro sparisce).
 

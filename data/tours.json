@@ -16,8 +16,8 @@
           "id": "tabs",
           "tab": "play",
           "target": "tabs",
-          "title": "Five tabs",
-          "text": "Setup for the fight and the checks (scroll down for skills and attributes, with a search), Gear for money and the market, Dossier for your story and debt, Notes & maps for anything (and the maps you have seen), Progress for XP and talents. When the GM puts a map on the table, a Tactical tab comes first — with its own short tour."
+          "title": "Four tabs",
+          "text": "Sheet is your character in folding sections — health, weapons, class and abilities, actions, skills, inventory, money and the market; each shows a one-line summary while closed, and the index on the left opens or closes one. Dossier for your story and debt, Notes & maps for anything (and the maps you have seen), Progress for XP and talents. When the GM puts a map on the table, a Tactical tab comes first — with its own short tour."
         },
         {
           "id": "health",
@@ -71,7 +71,7 @@
         },
         {
           "id": "market",
-          "tab": "gear",
+          "tab": "play",
           "target": "market",
           "title": "Money and the Market",
           "text": "Buy officially with your Credit Score (traced) or on the street with cash (untraced, marked up). Guns come with 2 spare magazines — more in the Ammo tab — and Reload uses one. Hackers need a deck and Scavengers an optic. Misc adds story items with no rules. Each inventory row has ⇄ to sell or give it to a player, and 🗑 to drop it. Items marked Story only have no dice effect: the GM rules on them."

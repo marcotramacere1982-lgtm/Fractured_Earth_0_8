@@ -19,6 +19,8 @@ export const newEncounter = () => ({
 
 /** Enemy letters for the table: A…Z, then A2…Z2. Never reused within an encounter. */
 export const letterOf = (i) => `${String.fromCharCode(65 + (i % 26))}${i >= 26 ? Math.floor(i / 26) + 1 : ''}`;
+/** Back from a letter to its place (A → 0, B2 → 27). */
+export const letterIndex = (l) => (l.charCodeAt(0) - 65) + 26 * ((Number(l.slice(1)) || 1) - 1);
 
 /** Encounters saved before "acted" existed used a turn index; set-ups saved unsorted get sorted. */
 export function upgradeEncounter(enc) {
@@ -64,6 +66,7 @@ export function spawn(template, label) {
 
 /** Sort: highest total first; ties → higher bonus, then players before enemies. Reinforcements go last. */
 function sortKeys(entries) {
+  entries = entries.filter((e) => !e.waiting); // decision 211: waiting enemies aren't in the order until they join
   const rank = (e) => [e.reinforcement ? 1 : 0, -(totalOf(e) ?? -99), -e.init, e.kind === 'player' ? 0 : 1];
   return [...entries]
     .sort((a, b) => {
@@ -75,21 +78,28 @@ function sortKeys(entries) {
 }
 
 /** Adds `count` copies of a template. Mid-fight they are reinforcements: they act last this round. */
-export function addEnemies(enc, template, count = 1) {
+/**
+ * opts.waiting (decision 211): placed for later — hidden, out of the order, the challenge and the players' list
+ * until the GM has them join (startCombat's `join`, or joinFight during a fight).
+ */
+export function addEnemies(enc, template, count = 1, { waiting = false } = {}) {
   const next = clone(enc);
-  const same = next.entries.filter((e) => e.enemy?.templateId === template.id).length;
+  const kin = next.entries.filter((e) => e.enemy?.templateId === template.id);
+  const same = kin.length;
+  const top = Math.max(same, ...kin.map((e) => Number(/#(\d+)$/.exec(e.name)?.[1] ?? 1))); // numbers go on from the highest (removals, enemies back from a map)
   for (let i = 0; i < count; i++) {
     next.seq += 1;
-    const n = same + i + 1;
+    const n = top + i + 1;
     const label = count + same > 1 ? `${template.name} #${n}` : template.name;
     const letter = letterOf(next.letters ?? 0);
     next.letters = (next.letters ?? 0) + 1;
     next.entries.push({
       key: `e${next.seq}`, kind: 'enemy', name: label, init: template.init ?? 0, roll: null, reinforcement: next.active, enemy: spawn(template, label),
-      letter, publicName: template.publicName ?? '', hidden: false, // what the players' sheets see (publicView)
+      letter, publicName: template.publicName ?? '', hidden: waiting, // what the players' sheets see (publicView)
       look: n, // decision 152: which picture this copy wears (looks cycle through what exists)
+      ...(waiting ? { waiting: true } : {}),
     });
-    if (next.active) next.order.push(`e${next.seq}`);
+    if (next.active && !waiting) next.order.push(`e${next.seq}`);
   }
   if (!next.active) next.order = sortKeys(next.entries);
   return next;
@@ -152,7 +162,7 @@ export function removeEntry(enc, key) {
 /** Rolls initiative for every entry without a roll (or all, with { all: true }). */
 export function rollInitiative(enc, data, rng = Math.random, { all = false } = {}) {
   const next = clone(enc);
-  for (const e of next.entries) if (all || e.roll == null) e.roll = roll(data.encounter.initiativeDie, rng).total;
+  for (const e of next.entries) if (!e.waiting && (all || e.roll == null)) e.roll = roll(data.encounter.initiativeDie, rng).total; // decision 212: waiting enemies roll when they join
   if (!next.active) next.order = sortKeys(next.entries);
   return next;
 }
@@ -166,8 +176,64 @@ export function setRoll(enc, key, value) {
   return next;
 }
 
-export function startCombat(enc, data, rng = Math.random) {
-  const next = rollInitiative(enc, data, rng);
+/**
+ * Decision 218: an enemy flees — out of the fight and back to waiting (hidden, out of the order, no roll), its HP,
+ * armor and conditions kept, so a later fight can bring it back as it left. New encounter keeps it.
+ */
+export function fleeEnemy(enc, key) {
+  const next = clone(enc);
+  const e = entryOf(next, key);
+  if (!e?.enemy) return next;
+  Object.assign(e, { waiting: true, hidden: true, reinforcement: false, roll: null });
+  next.order = next.order.filter((k) => k !== key);
+  next.acted = next.acted.filter((k) => k !== key);
+  return next;
+}
+
+/** Decision 211: the waiting enemies' keys. */
+export const waitingKeys = (enc) => enc.entries.filter((e) => e.waiting).map((e) => e.key);
+
+/**
+ * Decision 211: waiting enemies join the fight — `reveal`ed ones show to the players, the rest stay hidden (an
+ * ambusher). During a fight they come in as reinforcements (they act last this round).
+ */
+export function joinFight(enc, keys, { reveal = [] } = {}) {
+  const next = clone(enc);
+  for (const e of next.entries) {
+    if (!e.waiting || !keys.includes(e.key)) continue;
+    delete e.waiting;
+    e.hidden = !reveal.includes(e.key);
+    if (next.active) { e.reinforcement = true; next.order.push(e.key); }
+  }
+  if (!next.active) next.order = sortKeys(next.entries);
+  return next;
+}
+
+/**
+ * Decision 211: waiting enemies saved with a map's table state come back into the encounter, with fresh keys and
+ * letters where theirs are taken. Returns { enc, keys: { old: new } } (the map's markers follow the new keys).
+ */
+export function addWaiting(enc, entries = []) {
+  const next = clone(enc);
+  const keys = {};
+  const letters = new Set(next.entries.map((e) => e.letter).filter(Boolean));
+  for (const saved of entries) {
+    if (!saved?.enemy) continue;
+    next.seq += 1;
+    const key = `e${next.seq}`;
+    let letter = saved.letter;
+    if (!letter || letters.has(letter)) { letter = letterOf(next.letters ?? 0); next.letters = (next.letters ?? 0) + 1; }
+    next.letters = Math.max(next.letters ?? 0, letterIndex(letter) + 1); // later enemies never get the same letter
+    letters.add(letter);
+    keys[saved.key] = key;
+    next.entries.push({ ...structuredClone(saved), key, letter, waiting: true, hidden: true, reinforcement: false });
+  }
+  return { enc: next, keys };
+}
+
+/** opts.join (decision 211; the console now joins them in the setup first, decision 212): waiting enemies that join (revealed: opts.reveal). */
+export function startCombat(enc, data, rng = Math.random, { join = [], reveal = [] } = {}) {
+  const next = rollInitiative(joinFight(enc, join, { reveal }), data, rng);
   next.id = `c${Date.now().toString(36)}`;
   next.active = true;
   next.round = 1;
@@ -219,6 +285,8 @@ export function endCombat(enc) {
   const next = clone(enc);
   next.active = false;
   next.acted = [];
+  for (const e of next.entries) { e.roll = null; e.reinforcement = false; } // decision 212: the next fight rolls fresh initiative
+  next.order = sortKeys(next.entries);
   return next;
 }
 
@@ -270,15 +338,17 @@ export function updateEnemy(enc, key, fn) {
 
 /**
  * Damage to an enemy: armor absorbs first unless it is ignored. part (a location attack: 'head', 'arm'…):
- * damage that gets through adds the location's condition; armor that stops it all cracks by 1.
+ * damage that gets through adds the location's condition; armor that stops it all cracks by 1. cover (decision 204):
+ * armor from where it stands, on top of what it wears — never halved or ignored, never cracks.
  * Returns { enc, absorbed, taken, condition, immune, crack }.
  */
-export function damageEnemy(enc, key, amount, { ignoreArmor = false, armorHalf = false, part = null } = {}, data = null) {
+export function damageEnemy(enc, key, amount, { ignoreArmor = false, armorHalf = false, part = null, cover = 0 } = {}, data = null) {
   let out = { absorbed: 0, taken: 0, condition: null, immune: false, crack: 0 };
   const next = updateEnemy(enc, key, (en) => {
-    const armor = ignoreArmor ? 0 : armorHalf ? Math.floor(en.armor / 2) : en.armor; // decision 155: Bunker Buster, Kill Shot, special rounds
+    const worn = ignoreArmor ? 0 : armorHalf ? Math.floor(en.armor / 2) : en.armor; // decision 155: Bunker Buster, Kill Shot, special rounds
+    const armor = worn + Math.max(0, Number(cover) || 0);
     if (part) {
-      const o = locationOutcome({ part, damage: amount, armor, wornArmor: armor, hp: en.hp, maxHp: en.maxHp, tag: en.tag, immune: en.immune ?? [] }, data.body);
+      const o = locationOutcome({ part, damage: amount, armor, wornArmor: worn, hp: en.hp, maxHp: en.maxHp, tag: en.tag, immune: en.immune ?? [] }, data.body);
       out = { absorbed: amount - o.taken, taken: o.taken, condition: o.condition, immune: o.immune, crack: o.crack };
       const limb = o.condition && data.conditions.find((c) => c.id === o.condition)?.limb;
       en.injuries ??= { arm: 0, leg: 0 };
@@ -315,7 +385,7 @@ export function enemyAttack(attack, data, rng = Math.random, { located = false }
  * public name, organic/synthetic, a wound band and visible conditions. Never HP, armor, stats or initiative.
  */
 export function publicView(enc, data, { art = null, faces = null } = {}) {
-  const visible = (e) => e && !(e.kind === 'enemy' && e.hidden);
+  const visible = (e) => e && !e.waiting && !(e.kind === 'enemy' && e.hidden);
   const limbs = data.conditions.filter((c) => c.limb);
   const shownName = (e) => e.publicName || (e.ally ? e.name : data.encounter.hostileLabel); // allies are known by name
   return {

@@ -83,6 +83,7 @@ export function startTour(tour, { openTab, onClose = () => {} }) {
       if (step.tab) openTab(step.tab);
       const el = step.target ? await waitFor(step.target) : null;
       if (step.target && !el && step.optional) continue;
+      for (let d = el?.closest('details:not([open])'); d; d = d.parentElement?.closest('details:not([open])')) d.open = true; // decision 215: a folded section opens for its step
       index = i;
       current = el;
       currentTarget = step.target ?? null;

@@ -42,15 +42,20 @@
   position: sticky; top: var(--header-h); z-index: 10;
   display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5);
   padding: var(--space-3) var(--space-4);
-  background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-1);
+  background: var(--panel-deco), var(--panel-bg); border: var(--border-width) var(--panel-border-style) var(--panel-border); border-radius: var(--radius-lg);
+  box-shadow: var(--panel-shadow);
 }
 .sheet-status__id { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
 .sheet-status__name { font-family: var(--font-display); font-size: var(--text-2xl); letter-spacing: 0.04em; line-height: 1; }
 .sheet-status__class { font-family: var(--font-ui); font-weight: 600; color: var(--color-accent); }
 .sheet-status__stats { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-5); flex: 1; justify-content: flex-end; }
 /* decision 97: the combat values as a second header line (one scrolling row on phones) */
-.sheet-status__combat { flex-basis: 100%; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-2); padding-top: var(--space-2); border-top: var(--border-width) solid var(--color-border); }
+.sheet-status__combat { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-2); margin-left: auto; }
+/* decision 220: the second line holds the sheet's tabs on the left and the combat values on the right; narrow, they stack */
+.sheet-status__row2 { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); padding-top: var(--space-2); border-top: var(--border-width) solid var(--color-border); }
+.sheet-status__row2 .tabs { border-bottom: 0; min-width: 0; }
+.sheet-status__row2 .tab { display: inline-flex; align-items: center; text-decoration: none; }
+.sheet-status__conds { margin-top: var(--space-1); gap: var(--space-1); }
 .chip-stat { display: inline-flex; align-items: baseline; gap: var(--space-2); padding: var(--space-1) var(--space-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-2); }
 .chip-stat__v { font-family: var(--font-mono); font-size: var(--text-lg); font-weight: 700; }
 .chip-stat__u { font-size: var(--text-xs); color: var(--color-text-muted); }
@@ -84,7 +89,7 @@
 .weapon-grid { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
 .weapon { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-surface-2); border: var(--border-width) solid var(--color-border); }
 .weapon .select { max-width: 70%; }
-.weapon__name { font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: 0.03em; }
+.weapon__name { display: inline-flex; align-items: center; font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: 0.03em; }
 .weapon__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
 
 /* ---------- derived combat values ---------- */
@@ -400,6 +405,7 @@
 .map-target__weapons li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--space-2); align-items: center; }
 .map-legend__dot--npc { border-color: var(--color-private); background: var(--color-private-soft); }
 .map-card__gear { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-top: var(--border-width) solid var(--color-border); }
+.check-cover { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-2); margin: 0; } /* decision 204: the target's cover, shown only */
 .check-boosts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); margin: 0; }
 /* Soldier stances and TP (decision 88) */
 .tp-badges { display: inline-flex; flex-wrap: wrap; gap: 2px; align-items: center; color: var(--color-accent); }
@@ -658,7 +664,7 @@
 @media (min-width: 900px) {
   .tac-open, .tac-open body { overflow: hidden; }
   .tac { position: fixed; inset: 0; z-index: 30; padding: var(--space-2); background: var(--color-bg);
-    display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
+    display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto auto; } /* top · map + bookmarks · class bar · waiting cards */
   .tac__top { display: grid; gap: var(--space-1); }
   .tac__top .sheet-nav { margin: 0; }
   .tac__rails { min-height: 0; } /* decision 190: the map takes the width; the panels are bookmarks at its sides */
@@ -712,10 +718,18 @@
 
 /* decision 192: the loadout window — before a fight (can't be skipped) and Swap abilities */
 .loadout { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: var(--space-3); background: var(--color-scrim); }
-.loadout__box { width: min(56rem, 100%); max-height: 92dvh; display: flex; flex-direction: column; background: var(--color-surface); border: 2px solid var(--color-border-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); }
+.loadout__box { width: min(56rem, 100%); max-height: 92dvh; display: flex; flex-direction: column; background: var(--panel-deco), var(--panel-bg); border: 2px solid var(--color-border-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); }
 .loadout__box--fight { border-color: var(--color-danger); }
+.hit-box { width: min(30rem, 100%); } /* decision 207: a hit, mid-screen — smaller than the pre-fight window */
+.hit-box__body { gap: var(--space-2); text-align: center; }
+.hit-box__big { margin: 0; font-family: var(--font-display); font-size: var(--text-3xl); letter-spacing: 0.04em; color: var(--color-text-muted); }
+.hit-box__big.is-hurt { color: var(--color-danger); }
+.hit-box__more { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-1); margin: 0; }
+.loadout__foot.hit-box__foot { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--space-2); }
+.hit-box__count { font-family: var(--font-ui); font-size: var(--text-sm); color: var(--color-text-muted); letter-spacing: 0; }
+.hit-box__btn { display: flex; flex-direction: column; align-items: center; gap: 2px; height: auto; padding: var(--space-2) var(--space-3); white-space: normal; text-align: center; }
 .loadout__head { padding: var(--space-4) var(--space-4) var(--space-3); border-bottom: var(--border-width) solid var(--color-border); }
-.loadout__title { margin: 0; font-family: var(--font-display); font-size: var(--text-2xl); letter-spacing: 0.04em; }
+.loadout__title { margin: 0; font-family: var(--title-font); font-size: var(--text-2xl); letter-spacing: var(--title-spacing); text-transform: var(--title-transform); }
 .loadout__box--fight .loadout__title { color: var(--color-danger); }
 .loadout__lead { margin: var(--space-1) 0 0; font-size: var(--text-lg); }
 .loadout__body { flex: 1; min-height: 0; overflow-y: auto; padding: var(--space-3) var(--space-4); display: flex; flex-direction: column; gap: var(--space-5); }
@@ -759,3 +773,103 @@
 .intel-file__row { padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: var(--space-1); }
 .intel-bg { padding: var(--space-3); border: var(--border-width) dashed var(--color-accent); border-radius: var(--radius-md); }
 .intel-bg__pick { gap: var(--space-2); }
+
+/* decision 198: the context line under the Tactical map's header — what you tapped, or what you can do */
+.map-ctx { position: relative; display: flex; align-items: center; justify-content: center; gap: var(--space-2); flex-wrap: wrap; min-height: var(--touch); padding: var(--space-1) calc(var(--touch) + var(--space-3)); border-bottom: var(--border-width) solid var(--color-border); font-size: var(--text-sm); } /* centred: an open left bookmark doesn't cover it */
+.map-ctx .is-go { color: var(--color-accent); font-weight: 600; }
+.map-ctx__more { position: absolute; right: var(--space-2); top: 50%; transform: translateY(-50%); }
+.map-ctx__weapon { font-family: var(--font-mono); font-size: var(--text-xs); white-space: nowrap; }
+.map-ctx__weapon.map-range--in { color: var(--color-success); }
+.map-ctx__weapon.map-range--far, .map-ctx__weapon.map-range--close { color: var(--color-text-muted); }
+.action-btn--k-torch { --tile: var(--color-warning); }
+.action-btn--k-torch.action-btn--on,
+.action-grid--bare .action-btn--on { background: color-mix(in srgb, var(--tile) 35%, var(--color-surface)); border-color: var(--tile); } /* on (a lit torch, aimed): filled in its own colour, no words — the size never changes */
+.action-grid--bare .action-btn--on .action-btn__name { color: var(--tile); }
+
+/* decision 198: the class bar — under the map: the meter, a tile per equipped ability, housekeeping; folds to one line */
+.cbar { display: flex; align-items: stretch; justify-content: center; gap: var(--space-2); min-height: 0; min-width: 0; padding: var(--space-2); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); }
+.cbar.is-folded { align-items: center; padding: var(--space-1) var(--space-2); }
+.cbar__meter { flex: none; display: flex; flex-direction: column; justify-content: center; gap: var(--space-1); padding-right: var(--space-2); border-right: var(--border-width) solid var(--color-border); font-size: var(--text-sm); min-width: 8rem; }
+.cbar.is-folded .cbar__meter { flex-direction: row; align-items: center; border-right: 0; }
+.cbar__meter-item { display: inline-flex; align-items: center; gap: var(--space-1); white-space: nowrap; }
+.cbar__glyph { display: inline-flex; width: 1.1rem; height: 1.1rem; }
+.cbar__glyph svg { width: 100%; height: 100%; }
+.cbar__stance--defensive { color: var(--color-info); }
+.cbar__stance--attack, .cbar__stance--onslaught { color: var(--color-danger); }
+.cbar__mode--mend { color: var(--color-success); }
+.cbar__mode--surge { color: var(--color-danger); }
+.cbar__zone--cold { color: var(--color-info); }
+.cbar__zone--hot { color: var(--color-danger); }
+.cbar__pend { display: inline-flex; gap: 2px; }
+.cbar__pend-cell { width: 0.6rem; height: 0.9rem; border-radius: 2px; background: var(--color-surface-3); }
+.cbar__pend-cell--cold { background: color-mix(in srgb, var(--color-info) 30%, var(--color-surface-3)); }
+.cbar__pend-cell--hot { background: color-mix(in srgb, var(--color-danger) 30%, var(--color-surface-3)); }
+.cbar__pend-cell.is-now { outline: 2px solid var(--color-text); background: var(--color-accent); }
+.cbar__sync { display: inline-flex; gap: 3px; }
+.cbar__sync-dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; border: var(--border-width) solid var(--color-accent); }
+.cbar__sync-dot.is-on { background: var(--color-accent); }
+.cbar__tiles { flex: 0 1 auto; min-width: 0; display: flex; gap: var(--space-2); overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: var(--space-1); } /* decision 200: centred with the meter and housekeeping; scrolls sideways when the tiles don't fit */
+.cbar__tile { scroll-snap-align: start; }
+.cbar__tile { flex: 0 0 auto; width: 15rem; display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-1) var(--space-2); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); }
+.cbar__tile.is-ready { border-color: var(--color-success); }
+.cbar__name { display: inline-flex; align-items: center; gap: var(--space-1); padding: 0; border: 0; background: none; color: var(--color-text); font: inherit; font-family: var(--font-ui); font-weight: 700; font-size: var(--text-sm); text-align: left; cursor: pointer; }
+.cbar__name:hover { color: var(--color-accent); }
+.cbar__chips { gap: var(--space-1); font-size: var(--text-xs); }
+.cbar__go, .cbar__why { margin-top: auto; }
+.cbar__chores { flex: none; display: flex; flex-direction: column; justify-content: center; gap: var(--space-1); padding-left: var(--space-2); border-left: var(--border-width) solid var(--color-border); }
+.cbar__fold { flex: none; align-self: center; }
+.cbar__count { flex: 0 1 auto; }
+.cbar__text .ability-face { margin-bottom: var(--space-1); }
+.engine-how { margin-top: var(--space-1); }
+
+/* decision 200: the Display menu (Aa) at the top right of the Tactical page, beside the stats */
+.tac__statusrow { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.tac__statusrow > .sheet-status { flex: 1; min-width: 0; }
+.tac__statusrow > .display-menu { flex: none; }
+
+/* decision 201: the class meters are a glance — icons, numbers, little bars; the words live in the tooltips */
+.cbar__meter { min-width: 0; }
+.cbar__meter .cbar__glyph { width: 1.35rem; height: 1.35rem; }
+.cbar__stance .cbar__glyph, .cbar__mode .cbar__glyph, .cbar__zone .cbar__glyph { width: 1.75rem; height: 1.75rem; }
+.cbar__big { font-size: var(--text-lg); font-weight: 700; line-height: 1; }
+.cbar__cells { display: inline-flex; gap: 2px; margin-left: var(--space-1); }
+.cbar__cell { width: 0.45rem; height: 0.9rem; border-radius: 2px; background: var(--color-surface-3); }
+.cbar__cells--accent .cbar__cell.is-on { background: var(--color-accent); }
+.cbar__cells--info .cbar__cell.is-on { background: var(--color-info); }
+.cbar__cells--heat .cbar__cell.is-on { background: var(--color-warning); }
+.cbar__cells--heat .cbar__cell.is-on:nth-child(n+8) { background: var(--color-danger); }
+.cbar__mode--brownout { color: var(--color-text-muted); }
+.cbar__zone--composure { color: var(--color-text-muted); }
+.cbar__dark { color: var(--color-info); }
+
+/* decision 215: the Sheet tab — one column of folding sections, a summary line each; decision 216: full width, an index on the left */
+.sheet-open .app-main { max-width: none; } /* the character sheet uses the whole window; other pages keep their reading width */
+.sheet-layout { display: grid; grid-template-columns: 1fr; gap: var(--space-3); }
+.sheet-index { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1); }
+.sheet-index__item { min-height: var(--touch); padding: var(--space-1) var(--space-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text-muted); font: inherit; font-size: var(--text-sm); text-align: left; cursor: pointer; }
+.sheet-index__item:hover { color: var(--color-text); border-color: var(--color-border-strong); }
+.sheet-index__item.is-open { color: var(--color-accent); border-color: var(--color-accent); background: var(--color-accent-soft); }
+.sheet-index__all { display: flex; gap: var(--space-1); margin-left: auto; }
+@media (min-width: 1100px) {
+  .sheet-layout { grid-template-columns: 13rem minmax(0, 1fr); align-items: start; }
+  .sheet-index { position: sticky; top: calc(var(--header-h) + var(--status-h, 0px) + var(--space-3)); flex-direction: column; align-items: stretch; flex-wrap: nowrap; }
+  .sheet-index__all { margin: var(--space-2) 0 0; justify-content: space-between; }
+}
+.sheet-secs { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.sheet-sec { border: var(--border-width) var(--panel-border-style) var(--panel-border); border-radius: var(--radius-lg); background: var(--panel-deco), var(--panel-bg); box-shadow: var(--panel-shadow); scroll-margin-top: var(--space-6); }
+.sheet-sec[open] { border-color: var(--color-border-strong); }
+.sheet-sec__head { display: flex; align-items: baseline; flex-wrap: nowrap; gap: var(--space-1) var(--space-3); min-height: var(--touch); padding: var(--space-2) var(--space-4); cursor: pointer; list-style: none; }
+.sheet-sec__head::-webkit-details-marker { display: none; }
+.sheet-sec__head::before { content: '▸'; color: var(--color-text-muted); }
+.sheet-sec[open] > .sheet-sec__head::before { content: '▾'; }
+.sheet-sec__title { font-family: var(--title-font); font-size: var(--text-xl); letter-spacing: var(--title-spacing); text-transform: var(--title-transform); color: var(--title-color); }
+.sheet-sec__sum { flex: 1 1 16rem; min-width: 0; color: var(--color-text-muted); font-size: var(--text-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* one line, however long */
+.sheet-sec[open] > .sheet-sec__head .sheet-sec__sum { display: none; }
+.sheet-sec__body { display: flex; flex-direction: column; gap: var(--space-3); padding: 0 var(--space-3) var(--space-3); }
+.sheet-sec__body .card { margin: 0; border: 0; border-radius: 0; background: none; box-shadow: none; } /* no box in a box */
+.sheet-sec__body .card + .card, .sheet-sec__body > .stack > .card + .card { border-top: var(--border-width) solid var(--color-border); }
+.sheet-sec__body .card__head { padding-inline: var(--space-1); }
+.sheet-sec__body .card__title { font-size: var(--text-lg); color: var(--color-text-muted); } /* inner cards: sub-headings */
+.sheet-sec--single > .sheet-sec__body > .card > .card__head .card__title { display: none; }
+.sheet-sec--single > .sheet-sec__body > .card > .card__head { border-bottom: 0; padding-block: 0; }
+.sheet-sec__body .card__body { padding-inline: var(--space-1); }

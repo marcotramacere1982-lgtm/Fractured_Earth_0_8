@@ -355,7 +355,7 @@
       "desc": "Through a locked door or a weak wall with brute force. Loud: everyone near hears it.",
       "play": {
         "target": "none",
-        "gm": "Breach & Clear: the door or weak wall gives way (breakable walls: breach it on the Deploy tab). Loud."
+        "gm": "Breach & Clear: the door or weak wall gives way (breakable walls: breach it on the Play tab). Loud."
       }
     },
     {
@@ -656,7 +656,7 @@
       "desc": "Open, close or lock a networked or electric door you can see, or one on a network you have pinged.",
       "play": {
         "target": "none",
-        "gm": "Door Control: open, close or lock the door they name (in sight or on a pinged network) — do it on the Deploy tab."
+        "gm": "Door Control: open, close or lock the door they name (in sight or on a pinged network) — do it on the Play tab."
       }
     },
     {
@@ -756,7 +756,7 @@
       "desc": "A camera network shows an empty loop while it holds — in or out of a fight.",
       "play": {
         "target": "none",
-        "gm": "Camera Loop: the cameras they name show an empty loop while it holds (switch them on the Deploy tab)."
+        "gm": "Camera Loop: the cameras they name show an empty loop while it holds (switch them on the Play tab)."
       }
     },
     {
@@ -804,7 +804,7 @@
       "desc": "Take a router or access point you have pinged offline: everything behind it goes dark.",
       "play": {
         "target": "none",
-        "gm": "Cascade: the router or access point they name goes offline — everything behind it goes dark (Deploy tab: the node → offline)."
+        "gm": "Cascade: the router or access point they name goes offline — everything behind it goes dark (Play tab: the node → offline)."
       }
     },
     {
@@ -1162,7 +1162,7 @@
       "play": {
         "mend": {
           "target": "none",
-          "gm": "Spotlight: a 3×3 area is lit (drop lights there on the Deploy tab)."
+          "gm": "Spotlight: a 3×3 area is lit (drop lights there on the Play tab)."
         },
         "surge": {
           "target": "enemies",

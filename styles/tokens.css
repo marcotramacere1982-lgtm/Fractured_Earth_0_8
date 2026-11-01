@@ -14,7 +14,24 @@
 @font-face { font-family: 'IBM Plex Mono'; src: url('../fonts/IBMPlexMono-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'IBM Plex Mono'; src: url('../fonts/IBMPlexMono-SemiBold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
 
+@font-face { font-family: 'VT323'; src: url('../fonts/VT323-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; } /* decision 221: theme faces (OFL / Apache, licences beside them) */
+@font-face { font-family: 'Special Elite'; src: url('../fonts/SpecialElite-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Share Tech Mono'; src: url('../fonts/ShareTechMono-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Black Ops One'; src: url('../fonts/BlackOpsOne-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 :root {
+  /* --- shape (decision 219: a theme changes these too, not only colours) --- */
+  --panel-bg: var(--color-surface);
+  --panel-deco: linear-gradient(transparent, transparent); /* an extra layer over panels (corner brackets…) */
+  --panel-border: var(--color-border);
+  --panel-border-style: solid; /* decision 221: dashed, double… */
+  --panel-shadow: var(--shadow-1);
+  --title-font: var(--font-display);
+  --title-spacing: 0.04em;
+  --title-transform: none;
+  --title-color: var(--color-text);
+  --page-bg: var(--color-bg);
+  --btn-primary-glow: none;
+
   /* --- type --- */
   --font-display: 'Bebas Neue', 'Rajdhani', sans-serif;
   --font-ui: 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
@@ -47,7 +64,7 @@
   --radius-md: 6px;
   --radius-lg: 10px;
   --border-width: 1px;
-  --touch: 2.5rem;          /* minimum touch target */
+  --touch: max(2.5rem, 40px); /* minimum touch target — never under 40 px, however small the UI scale (decision 199) */
   --size-thumb: 4rem;            /* small portrait thumbnails */
   --content-max: 1500px;
   --header-h: 3.5rem;
@@ -149,8 +166,8 @@
   --color-text-faint: #8a929c;
   --color-text-inverse: #ffffff;
 
-  --color-accent: #b86e00;
-  --color-accent-soft: rgba(184, 110, 0, 0.12);
+  --color-accent: #a86400; /* decision 219: a shade darker, 3:1 on the page background */
+  --color-accent-soft: rgba(168, 100, 0, 0.12);
   --color-info: #0a7c9c;
   --color-info-soft: rgba(10, 124, 156, 0.1);
   --color-success: #23843c;
@@ -189,4 +206,392 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root { --dur-fast: 0ms; --dur: 0ms; }
+}
+
+/* ==========================================================================
+   Decision 219: the map's own palette. Themes restyle the interface; the tactical map keeps one of two tested
+   palettes (fog, darkness, light pools, walls…), chosen by the theme through data-map="dark|light". Inside
+   .map-view (map.css) the colour tokens are pinned to these, so no theme can make the map unreadable.
+   ========================================================================== */
+:root {
+  --mp-accent: #f2a93b;
+  --mp-accent-soft: rgba(242, 169, 59, 0.14);
+  --mp-bg: #0e1013;
+  --mp-border: #2e343d;
+  --mp-border-strong: #454d58;
+  --mp-danger: #ef5b5b;
+  --mp-danger-soft: rgba(239, 91, 91, 0.14);
+  --mp-info: #5ec8e5;
+  --mp-info-soft: rgba(94, 200, 229, 0.13);
+  --mp-map-hatch: rgba(140, 149, 161, 0.28);
+  --mp-map-memory: #0e1013;
+  --mp-map-pool: rgba(242, 190, 90, 0.12);
+  --mp-map-shadow: #0b1638;
+  --mp-map-unseen: #050608;
+  --mp-mark-coral: rgb(255, 138, 92);
+  --mp-mark-coral-soft: rgba(255, 138, 92, 0.2);
+  --mp-mark-lime: rgb(184, 224, 74);
+  --mp-mark-lime-soft: rgba(184, 224, 74, 0.2);
+  --mp-mark-magenta: rgb(255, 110, 199);
+  --mp-mark-magenta-soft: rgba(255, 110, 199, 0.2);
+  --mp-mark-periwinkle: rgb(143, 155, 255);
+  --mp-mark-periwinkle-soft: rgba(143, 155, 255, 0.2);
+  --mp-mark-sand: rgb(217, 185, 140);
+  --mp-mark-sand-soft: rgba(217, 185, 140, 0.2);
+  --mp-mark-white: rgb(242, 244, 247);
+  --mp-mark-white-soft: rgba(242, 244, 247, 0.2);
+  --mp-private: #c792ff;
+  --mp-private-soft: rgba(199, 146, 255, 0.16);
+  --mp-sky-left: #1b1f25;
+  --mp-sky-right: #262c35;
+  --mp-sky-top: #353c47;
+  --mp-success: #5fbf77;
+  --mp-success-soft: rgba(95, 191, 119, 0.14);
+  --mp-surface: #16191e;
+  --mp-surface-2: #1d2128;
+  --mp-surface-3: #262b33;
+  --mp-text: #d9dde3;
+  --mp-text-faint: #5f6772;
+  --mp-text-muted: #8c95a1;
+  --mp-warning: #e2c35a;
+  --mp-warning-soft: rgba(226, 195, 90, 0.16);
+}
+:root[data-map='light'] {
+  --mp-accent: #b86e00;
+  --mp-accent-soft: rgba(184, 110, 0, 0.12);
+  --mp-bg: #d6dae0;
+  --mp-border: #bcc3cb;
+  --mp-border-strong: #949eaa;
+  --mp-danger: #c62828;
+  --mp-danger-soft: rgba(198, 40, 40, 0.1);
+  --mp-info: #0a7c9c;
+  --mp-info-soft: rgba(10, 124, 156, 0.1);
+  --mp-map-hatch: rgba(50, 60, 72, 0.3);
+  --mp-map-memory: #b4bac2;
+  --mp-map-pool: rgba(255, 176, 48, 0.2);
+  --mp-map-shadow: #1c2a5a;
+  --mp-map-unseen: #7a828c;
+  --mp-mark-coral: rgb(212, 80, 30);
+  --mp-mark-coral-soft: rgba(212, 80, 30, 0.14);
+  --mp-mark-lime: rgb(91, 138, 0);
+  --mp-mark-lime-soft: rgba(91, 138, 0, 0.14);
+  --mp-mark-magenta: rgb(194, 24, 122);
+  --mp-mark-magenta-soft: rgba(194, 24, 122, 0.14);
+  --mp-mark-periwinkle: rgb(65, 80, 200);
+  --mp-mark-periwinkle-soft: rgba(65, 80, 200, 0.14);
+  --mp-mark-sand: rgb(138, 106, 58);
+  --mp-mark-sand-soft: rgba(138, 106, 58, 0.14);
+  --mp-mark-white: rgb(38, 50, 56);
+  --mp-mark-white-soft: rgba(38, 50, 56, 0.14);
+  --mp-private: #7b2fd0;
+  --mp-private-soft: rgba(123, 47, 208, 0.1);
+  --mp-sky-left: #b7bec7;
+  --mp-sky-right: #cdd3da;
+  --mp-sky-top: #eceff2;
+  --mp-success: #23843c;
+  --mp-success-soft: rgba(35, 132, 60, 0.1);
+  --mp-surface: #e6e9ed;
+  --mp-surface-2: #dde1e6;
+  --mp-surface-3: #d0d5db;
+  --mp-text: #1b1f24;
+  --mp-text-faint: #8a929c;
+  --mp-text-muted: #59626e;
+  --mp-warning: #8f6d00;
+  --mp-warning-soft: rgba(143, 109, 0, 0.12);
+}
+
+/* ==========================================================================
+   Decision 219: Corp Interface — the corporate HUD: deep navy, cyan edge light, corner brackets, wide-spaced
+   capital titles, a faint glow behind the page. Numbers stay on solid plates; the map stays on its dark palette.
+   ========================================================================== */
+:root[data-theme='corp'] {
+  --color-bg: #060a14;
+  --color-surface: #0b1323;
+  --color-surface-2: #101b30;
+  --color-surface-3: #16243d;
+  --color-border: #1c3150;
+  --color-border-strong: #2b4b76;
+  --color-text: #e4eeff;
+  --color-text-muted: #94abca;
+  --color-text-faint: #62789a;
+  --color-text-inverse: #03111d;
+  --color-accent: #39cfff;
+  --color-accent-soft: rgba(57, 207, 255, 0.14);
+  --color-info: #8fb3ff;
+  --color-info-soft: rgba(143, 179, 255, 0.12);
+  --color-success: #3ddc8f;
+  --color-success-soft: rgba(61, 220, 143, 0.12);
+  --color-danger: #ff4f6d;
+  --color-danger-soft: rgba(255, 79, 109, 0.14);
+  --color-warning: #ffc24f;
+  --color-warning-soft: rgba(255, 194, 79, 0.12);
+
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+
+  --deco: rgba(57, 207, 255, 0.75);
+  --panel-bg: linear-gradient(180deg, #0f1a2f 0%, #0a1220 100%);
+  --panel-deco:
+    linear-gradient(var(--deco), var(--deco)) top left / 14px 2px no-repeat,
+    linear-gradient(var(--deco), var(--deco)) top left / 2px 14px no-repeat,
+    linear-gradient(var(--deco), var(--deco)) top right / 14px 2px no-repeat,
+    linear-gradient(var(--deco), var(--deco)) top right / 2px 14px no-repeat,
+    linear-gradient(var(--deco), var(--deco)) bottom left / 14px 2px no-repeat,
+    linear-gradient(var(--deco), var(--deco)) bottom left / 2px 14px no-repeat,
+    linear-gradient(var(--deco), var(--deco)) bottom right / 14px 2px no-repeat,
+    linear-gradient(var(--deco), var(--deco)) bottom right / 2px 14px no-repeat;
+  --panel-border: #1f3a60;
+  --panel-shadow: 0 0 0 1px rgba(57, 207, 255, 0.05), 0 0 22px rgba(57, 207, 255, 0.07);
+  --title-font: var(--font-ui);
+  --title-spacing: 0.14em;
+  --title-transform: uppercase;
+  --title-color: #bfeaff;
+  --page-bg: radial-gradient(1400px 700px at 50% -15%, rgba(40, 110, 200, 0.28) 0%, transparent 60%), #060a14;
+  --btn-primary-glow: 0 0 14px rgba(57, 207, 255, 0.45);
+}
+
+/* ==========================================================================
+   Decision 221: Grey Zone Terminal — amber phosphor on near-black, square dashed frames, a retro terminal face
+   for titles and monospace buttons. Street-level, no scanline effects. Map: dark palette.
+   ========================================================================== */
+:root[data-theme='terminal'] {
+  --font-display: 'VT323', 'IBM Plex Mono', monospace; /* names and big headings follow the theme */
+  --color-bg: #0a0805;
+  --color-surface: #110e09;
+  --color-surface-2: #18140d;
+  --color-surface-3: #211b11;
+  --color-border: #3b2f1b;
+  --color-border-strong: #604c29;
+  --color-text: #ffd38a;
+  --color-text-muted: #c9a25c;
+  --color-text-faint: #8b7042;
+  --color-text-inverse: #130d03;
+  --color-accent: #ffb000;
+  --color-accent-soft: rgba(255, 176, 0, 0.14);
+  --color-info: #8fd8c4;
+  --color-info-soft: rgba(143, 216, 196, 0.12);
+  --color-success: #a6e36b;
+  --color-success-soft: rgba(166, 227, 107, 0.12);
+  --color-danger: #ff6b4a;
+  --color-danger-soft: rgba(255, 107, 74, 0.14);
+  --color-warning: #ffd166;
+  --color-warning-soft: rgba(255, 209, 102, 0.12);
+  --font-ui: 'IBM Plex Mono', ui-monospace, monospace;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --panel-bg: var(--color-surface);
+  --panel-border: #4a3b20;
+  --panel-border-style: dashed;
+  --panel-shadow: inset 0 0 0 1px rgba(255, 176, 0, 0.04);
+  --title-font: 'VT323', 'IBM Plex Mono', monospace;
+  --title-spacing: 0.06em;
+  --title-transform: uppercase;
+  --title-color: #ffb000;
+  --page-bg: radial-gradient(1200px 700px at 50% 0%, rgba(255, 176, 0, 0.07) 0%, transparent 65%), #0a0805;
+  --btn-primary-glow: 0 0 10px rgba(255, 176, 0, 0.35);
+}
+
+/* ==========================================================================
+   Decision 221: Field Dossier — a printed case file: manila paper, ink text, stamp-red accents, typewriter titles,
+   thin paper shadows. Bright and calm for daylight. Map: light palette.
+   ========================================================================== */
+:root[data-theme='dossier'] {
+  --font-display: 'Special Elite', 'Courier New', monospace; /* names and big headings follow the theme */
+  --color-bg: #ddd3bb;
+  --color-surface: #f3eddd;
+  --color-surface-2: #ebe3cf;
+  --color-surface-3: #dfd5bd;
+  --color-border: #c7b993;
+  --color-border-strong: #998659;
+  --color-text: #1e1910;
+  --color-text-muted: #5a4f3b;
+  --color-text-faint: #857a63;
+  --color-text-inverse: #fffaf0;
+  --color-accent: #a8231b;
+  --color-accent-soft: rgba(168, 35, 27, 0.1);
+  --color-info: #274a7a;
+  --color-info-soft: rgba(39, 74, 122, 0.1);
+  --color-success: #2c6a2f;
+  --color-success-soft: rgba(44, 106, 47, 0.1);
+  --color-danger: #a8231b;
+  --color-danger-soft: rgba(168, 35, 27, 0.1);
+  --color-warning: #7d5200;
+  --color-warning-soft: rgba(125, 82, 0, 0.12);
+  --color-sky-top: #eceff2;
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --panel-bg: var(--color-surface);
+  --panel-border: #c2b48c;
+  --panel-shadow: 0 1px 0 rgba(60, 40, 10, 0.08), 0 3px 8px rgba(60, 40, 10, 0.12);
+  --title-font: 'Special Elite', 'Courier New', monospace;
+  --title-spacing: 0.02em;
+  --title-transform: none;
+  --title-color: #1e1910;
+  --page-bg: radial-gradient(1400px 800px at 50% 0%, rgba(255, 250, 235, 0.55) 0%, transparent 70%), #ddd3bb;
+  --btn-primary-glow: none;
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   Decision 221: Netrunner — the hacker's deck: black glass, neon green signal, magenta alarms, a signal bar on
+   the left of every panel, techno monospace titles. Map: dark palette.
+   ========================================================================== */
+:root[data-theme='hacker'] {
+  --font-display: 'Share Tech Mono', 'IBM Plex Mono', monospace; /* names and big headings follow the theme */
+  --color-bg: #040709;
+  --color-surface: #091014;
+  --color-surface-2: #0d171c;
+  --color-surface-3: #132128;
+  --color-border: #163039;
+  --color-border-strong: #225461;
+  --color-text: #d6ffe8;
+  --color-text-muted: #7fc0a1;
+  --color-text-faint: #4c7a66;
+  --color-text-inverse: #01110a;
+  --color-accent: #00f59a;
+  --color-accent-soft: rgba(0, 245, 154, 0.12);
+  --color-info: #20d4ff;
+  --color-info-soft: rgba(32, 212, 255, 0.12);
+  --color-success: #00f59a;
+  --color-success-soft: rgba(0, 245, 154, 0.12);
+  --color-danger: #ff3f86;
+  --color-danger-soft: rgba(255, 63, 134, 0.14);
+  --color-warning: #ffe04f;
+  --color-warning-soft: rgba(255, 224, 79, 0.12);
+  --font-ui: 'Share Tech Mono', 'IBM Plex Mono', monospace;
+  --radius-sm: 0px;
+  --radius-md: 1px;
+  --radius-lg: 2px;
+  --deco: rgba(0, 245, 154, 0.8);
+  --panel-bg: linear-gradient(180deg, #0b1418 0%, #070d10 100%);
+  --panel-deco: linear-gradient(var(--deco), var(--deco)) left top / 3px 100% no-repeat;
+  --panel-border: #17343e;
+  --panel-shadow: 0 0 18px rgba(0, 245, 154, 0.05);
+  --title-font: 'Share Tech Mono', 'IBM Plex Mono', monospace;
+  --title-spacing: 0.12em;
+  --title-transform: uppercase;
+  --title-color: #00f59a;
+  --page-bg: radial-gradient(1000px 600px at 85% -10%, rgba(255, 63, 134, 0.12) 0%, transparent 60%), radial-gradient(1200px 700px at 10% -10%, rgba(0, 245, 154, 0.1) 0%, transparent 60%), #040709;
+  --btn-primary-glow: 0 0 14px rgba(0, 245, 154, 0.45);
+}
+
+/* ==========================================================================
+   Decision 221: Field Soldier · Night Ops — olive drab and khaki, a stencil face for titles, a tape strip on top
+   of every panel, a faint camouflage behind the page. Low glare for dark rooms. Map: dark palette.
+   ========================================================================== */
+:root[data-theme='nightops'] {
+  --font-display: 'Black Ops One', 'Bebas Neue', sans-serif; /* names and big headings follow the theme */
+  --color-bg: #0c0e09;
+  --color-surface: #141810;
+  --color-surface-2: #1a1f15;
+  --color-surface-3: #22291b;
+  --color-border: #2e3824;
+  --color-border-strong: #4a5936;
+  --color-text: #e2e6d1;
+  --color-text-muted: #a8b18f;
+  --color-text-faint: #6e775d;
+  --color-text-inverse: #10140a;
+  --color-accent: #cdb46a;
+  --color-accent-soft: rgba(205, 180, 106, 0.14);
+  --color-info: #9cc27a;
+  --color-info-soft: rgba(156, 194, 122, 0.12);
+  --color-success: #84c95c;
+  --color-success-soft: rgba(132, 201, 92, 0.12);
+  --color-danger: #e65a43;
+  --color-danger-soft: rgba(230, 90, 67, 0.14);
+  --color-warning: #e3b33c;
+  --color-warning-soft: rgba(227, 179, 60, 0.12);
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
+  --deco: rgba(205, 180, 106, 0.55);
+  --panel-bg: var(--color-surface);
+  --panel-deco: linear-gradient(var(--deco), var(--deco)) left top / 100% 3px no-repeat;
+  --panel-border: #333e27;
+  --panel-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  --title-font: 'Black Ops One', 'Bebas Neue', sans-serif;
+  --title-spacing: 0.05em;
+  --title-transform: uppercase;
+  --title-color: #cdb46a;
+  --page-bg: radial-gradient(420px 260px at 12% 18%, rgba(70, 85, 45, 0.18) 0%, transparent 70%), radial-gradient(520px 300px at 78% 30%, rgba(50, 60, 32, 0.22) 0%, transparent 70%), radial-gradient(480px 320px at 40% 80%, rgba(80, 70, 40, 0.14) 0%, transparent 70%), #0c0e09;
+  --btn-primary-glow: none;
+}
+
+/* ==========================================================================
+   Decision 225: Graphite Violet — dark graphite panels with a violet signal, a faint violet glow behind the page.
+   Calm and modern. Map: dark palette.
+   ========================================================================== */
+:root[data-theme='violet'] {
+  --color-bg: #0f0e12;
+  --color-surface: #17161b;
+  --color-surface-2: #1e1c23;
+  --color-surface-3: #26232d;
+  --color-border: #2d2a35;
+  --color-border-strong: #4a4458;
+  --color-text: #ece8f5;
+  --color-text-muted: #aaa3bb;
+  --color-text-faint: #6f6881;
+  --color-text-inverse: #13091f;
+  --color-accent: #b48cff;
+  --color-accent-soft: rgba(180, 140, 255, 0.14);
+  --color-info: #8ab4ff;
+  --color-info-soft: rgba(138, 180, 255, 0.12);
+  --color-success: #6fd39a;
+  --color-success-soft: rgba(111, 211, 154, 0.12);
+  --color-danger: #ff6b8b;
+  --color-danger-soft: rgba(255, 107, 139, 0.14);
+  --color-warning: #f2c46b;
+  --color-warning-soft: rgba(242, 196, 107, 0.12);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --panel-bg: linear-gradient(180deg, #1a1820 0%, #151419 100%);
+  --panel-border: #2f2b39;
+  --panel-shadow: 0 0 0 1px rgba(180, 140, 255, 0.04), 0 6px 18px rgba(0, 0, 0, 0.35);
+  --title-spacing: 0.06em;
+  --title-color: #cdb7ff;
+  --page-bg: radial-gradient(1300px 700px at 50% -15%, rgba(140, 90, 255, 0.16) 0%, transparent 60%), #0f0e12;
+  --btn-primary-glow: 0 0 12px rgba(180, 140, 255, 0.35);
+}
+
+/* ==========================================================================
+   Decision 225: Graphite Crimson — dark grey panels with a deep red accent and a red line on top of each panel;
+   danger turns orange so a hit never blends into the theme. Map: dark palette.
+   ========================================================================== */
+:root[data-theme='crimson'] {
+  --color-bg: #101010;
+  --color-surface: #181818;
+  --color-surface-2: #1f1f20;
+  --color-surface-3: #28282a;
+  --color-border: #302f32;
+  --color-border-strong: #4d4a4f;
+  --color-text: #efebe9;
+  --color-text-muted: #b1a8a6;
+  --color-text-faint: #78716f;
+  --color-text-inverse: #1c0505;
+  --color-accent: #e5484d;
+  --color-accent-soft: rgba(229, 72, 77, 0.14);
+  --color-info: #7fb2d9;
+  --color-info-soft: rgba(127, 178, 217, 0.12);
+  --color-success: #7dcf8b;
+  --color-success-soft: rgba(125, 207, 139, 0.12);
+  --color-danger: #ff8a3d;
+  --color-danger-soft: rgba(255, 138, 61, 0.14);
+  --color-warning: #f2c14e;
+  --color-warning-soft: rgba(242, 193, 78, 0.12);
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --deco: rgba(229, 72, 77, 0.85);
+  --panel-bg: var(--color-surface);
+  --panel-deco: linear-gradient(var(--deco), var(--deco)) left top / 100% 2px no-repeat;
+  --panel-border: #2f2e31;
+  --panel-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --title-spacing: 0.05em;
+  --title-color: #ff8f8b;
+  --page-bg: radial-gradient(1300px 700px at 50% -15%, rgba(200, 30, 40, 0.14) 0%, transparent 60%), #101010;
+  --btn-primary-glow: none;
 }

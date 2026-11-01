@@ -10,9 +10,10 @@
  * sheet: deriveSheet(); loc: a location id ('rarm'…) for a location attack, or '' for a normal hit.
  * @returns {{ taken, through, condition, immune, crack, armor }}
  */
-export function hitOutcome(sheet, { damage, loc = '' }, body) {
+export function hitOutcome(sheet, { damage, loc = '', cover = null }, body) {
   const dmg = Math.max(0, Number(damage) || 0);
-  const armor = sheet.armor.general;
+  // decision 204: a hit the GM sent says the cover it met (from the map and the sheet); it replaces the sheet's setting
+  const armor = cover == null ? sheet.armor.general : sheet.armor.general - sheet.armor.cover + Math.max(0, Number(cover) || 0);
   const o = loc
     ? locationOutcome({ part: partOf(loc, body), damage: dmg, armor, wornArmor: sheet.armor.current, hp: sheet.hp.current, maxHp: sheet.hp.max, immune: sheet.immune, headNoIncap: Boolean(sheet.talents?.headNoIncap) }, body)
     : { taken: Math.max(0, dmg - armor), through: dmg > armor, condition: null, immune: false, crack: 0 };

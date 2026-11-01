@@ -70,11 +70,12 @@ function spentList(spent) {
 /**
  * Decision 162: the Turn card's pieces — `head` (round, actions, end round), `actors` (the order and who's on the
  * board), `grid` (the action buttons) — so the Tactical View can lay them out apart; the Play tab composes them as before.
- * atTable: the GM starts the fights, so there is no Start combat button (decision 192).
+ * atTable: the GM starts, advances and ends the fights — no Start combat, End round or End combat on the sheet (decisions 192, 203).
  * strip: one row of icons for the Tactical View's map header (decision 195) — no tips line, Move's squares as a badge.
+ * extra: more tiles at the strip's end (decision 198: the torch).
  * combat: the GM's combat state when this sheet is at the table and the GM runs the rounds.
  */
-export function turnPieces(c, s, data, combat = null, { tips = false, hint = true, bare = false, atTable = false, strip = false } = {}) {
+export function turnPieces(c, s, data, combat = null, { tips = false, hint = true, bare = false, atTable = false, strip = false, extra = '' } = {}) {
   const ts = turnStatus(c.play.turn ?? newTurn(), s.combat.act.value, c.play.conditions, data.actions);
   const gmRuns = Boolean(combat && ts.inCombat && c.play.turn?.tableCombat === combat.id);
   const pipsHtml = Array.from({ length: ts.max }, (_, i) => html`<span class="act-pip ${i < ts.used ? 'is-used' : ''}" aria-hidden="true"></span>`);
@@ -93,7 +94,7 @@ export function turnPieces(c, s, data, combat = null, { tips = false, hint = tru
           <div class="act-pips" role="img" aria-label="${t('turn.leftOf', { left: ts.left, max: ts.max })}">${pipsHtml}</div>
           <span class="mono muted">${t('turn.left', { n: ts.left })}${ts.reserved ? ` · ${t('turn.borrowed', { n: ts.reserved })}` : ''}${c.play.conditions.includes('stunned') ? ` · ${t('turn.stunned')}` : ''}</span>
           ${spentList(ts.spent)}</div>
-        ${gmRuns ? html`<p class="muted turn-controls">${t('turn.gmRuns')}${info('round-end', t('turn.endRound'))}</p>` : html`<div class="cluster turn-controls">
+        ${gmRuns || atTable ? html`<p class="muted turn-controls">${t('turn.gmRuns')}${info('round-end', t('turn.endRound'))}</p>` : html`<div class="cluster turn-controls">
           <button class="btn btn--primary" data-action="roundEnd">${t('turn.endRound')}${info('round-end', t('turn.endRound'))}</button>
           <button class="btn btn--ghost btn--sm" data-action="combatEnd">${t('turn.endCombat')}</button>
         </div>`}
@@ -124,11 +125,12 @@ export function turnPieces(c, s, data, combat = null, { tips = false, hint = tru
         const lit = a.id === 'aim' && c.play.aimed; // decision 150: aimed, until the next attack
         const studyOff = a.id === 'study' && (!ts.inCombat || c.play.turn?.studied); // decision 197: in a fight, once
         return html`
-        <button class="action-btn action-btn--k-${a.id} ${lit ? 'action-btn--on' : ''}" data-action="${a.id === 'reload' ? 'reloadPick' : a.id === 'use_item' ? 'useItem' : a.id === 'study' ? 'studyPick' : 'act'}" data-kind="${a.id}" title="${t(`action.${a.id}`)} — ${a.desc}${studyOff ? ` (${t(ts.inCombat ? 'intel.studiedThisFight' : 'intel.studyInFight')})` : ''}" ${lit ? raw('aria-pressed="true"') : ''} ${noActions || lit || studyOff ? raw('disabled') : ''}>
-          <span class="action-btn__name">${icon(data, a.icon)}${label(t(`action.${a.id}`))}</span>${lit ? html`<span class="action-btn__live">${t('turn.aimed')}</span>` : sub(a.desc.split('.')[0])}</button>`;
+        <button class="action-btn action-btn--k-${a.id} ${lit ? 'action-btn--on' : ''}" data-action="${a.id === 'reload' ? 'reloadPick' : a.id === 'use_item' ? 'useItem' : a.id === 'study' ? 'studyPick' : 'act'}" data-kind="${a.id}" title="${t(`action.${a.id}`)}${lit ? ` — ${t('turn.aimed')}` : ''} — ${a.desc}${studyOff ? ` (${t(ts.inCombat ? 'intel.studiedThisFight' : 'intel.studyInFight')})` : ''}" ${lit ? raw('aria-pressed="true"') : ''} ${noActions || lit || studyOff ? raw('disabled') : ''}>
+          <span class="action-btn__name">${icon(data, a.icon)}${label(t(`action.${a.id}`))}</span>${lit ? (iconOnly ? html`<span class="action-btn__badge" aria-hidden="true">✓</span>` : html`<span class="action-btn__live">${t('turn.aimed')}</span>`) : sub(a.desc.split('.')[0])}</button>`;
       })}
       ${ts.inCombat ? html`<button class="action-btn action-btn--reaction ${wide}" data-action="dodgeRoll" title="${t('dodge.title')} · Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value} — ${data.actions.reactions[0].desc}">
         <span class="action-btn__name">${icon(data, data.actions.reactions[0].icon)}${label(t('dodge.title'))}</span>${iconOnly ? '' : html`<span class="action-btn__live">Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value}</span>`}${sub(t('turn.dodgeSub'))}</button>` : ''}
+      ${extra}
     </div>
     ${strip ? '' : html`<div class="spread">${hint ? html`<p class="hint">${t('turn.abilitiesHint', { tn: s.class ? ` (${s.class.tn})` : '' })}</p>` : ''}
       <button class="btn btn--sm btn--ghost" data-action="actionTips" aria-pressed="${tips}" title="${t('turn.tipsHint')}">? ${t(tips ? 'turn.tipsHide' : 'turn.tipsShow')}</button></div>`}`;

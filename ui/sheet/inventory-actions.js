@@ -23,11 +23,12 @@ function takeOne(c, data, kind, id) {
 
 export const inventoryActions = {
   /** A misc item with no price and no rules: mission items, trinkets, anything to keep track of. */
-  addCustom(c, _d, { name, note = '', qty = 1 }) {
+  addCustom(c, data, { name, note = '', qty = 1, icon = null }) {
     const label = String(name ?? '').trim().slice(0, 60);
     if (!label) throw new RuleError('needName', {}, 'Give the item a name.');
     const n = Math.max(1, Math.min(99, Math.round(Number(qty) || 1)));
-    c.play.inventory.push({ kind: 'custom', id: uid(), name: label, note: String(note ?? '').trim().slice(0, 200), qty: n });
+    const pic = icon && data?.gearIcons?.sources[icon] ? { icon } : {}; // decision 223: an icon from the set, or the default
+    c.play.inventory.push({ kind: 'custom', id: uid(), name: label, note: String(note ?? '').trim().slice(0, 200), qty: n, ...pic });
     log(c, `Added ${label}${n > 1 ? ` ×${n}` : ''} (custom item)`);
   },
   /** Story items (decision 60): using one only writes a line in the log — no action, nothing used up. */

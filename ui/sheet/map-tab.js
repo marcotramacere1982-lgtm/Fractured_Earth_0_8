@@ -9,12 +9,11 @@ import { html } from '../dom.js';
 import { t } from '../../i18n/index.js';
 import { toast } from '../shell.js';
 import { tourDone } from '../tour.js';
-import { railOpen } from '../rails.js';
 import { info as ruleInfo } from '../ref.js';
 import { createMapViewer, focusBox } from '../map/viewer.js';
 import { createSkylineViewer, hasSkyline, tileAt } from '../map/skyline.js';
 import { marksButton, marksPanel, markHooks, marking, pickedMarkPanel } from './map-marks.js';
-import { reachable, checkMove, routeTo, lineOfSight, rangeCheck, nextToDoor } from '../../rules/map.js';
+import { reachable, checkMove, routeTo, lineOfSight, losCover, rangeCheck, nextToDoor } from '../../rules/map.js';
 
 let viewer = null; // one per page: it keeps its zoom across the sheet's re-renders
 let skyView = null; // decision 123: the skyline, look only
@@ -66,6 +65,23 @@ function linkLegend(map) {
   return html`<ul class="map-links">${kinds.map((k) => html`<li><span class="map-links__swatch map-links__swatch--${k}"></span>${t(`map.link.${k}`)}</li>`)}${cut ? html`<li><span class="map-links__swatch map-links__swatch--cut"></span>${t('map.link.cut')}</li>` : ''}</ul>`;
 }
 
+const propName = (data, id) => data.props.props.find((d) => d.id === id)?.name ?? '?';
+/** Why a line gives cover, in words: "behind the Table (half cover) · Dax is in the line" (short: without the level). */
+function whyText(reasons, tokens, data, short = false) {
+  const nameOf = (key) => { const tk = tokens.find((x) => x.key === key); return !tk ? '?' : tk.kind === 'enemy' ? `${tk.label} (${tk.name})` : tk.name; };
+  return reasons.map((r) => (r.code === 'character' ? t('map.los.why.character', { name: nameOf(r.key) })
+    : r.code === 'prop' ? (short ? t('map.los.why.propShort', { name: propName(data, r.prop) }) : t('map.los.why.prop', { name: propName(data, r.prop), cover: t(`map.cover.${r.cover}`) })) : t('map.los.why.edge'))).join(' · ');
+}
+/** Decision 204: the cover the marker `key` has against you, as the map shows it ({ armor, level, text }), or null (not on the map / no line). */
+export function coverTo(map, data, id, key) {
+  const tokens = shown(map, id);
+  const me = tokens.find((tk) => tk.key === id);
+  const tgt = tokens.find((tk) => tk.key === key);
+  if (!me || !tgt) return null;
+  const c = losCover(lineOfSight(map, data, me, tgt, tokens.filter((tk) => tk.key !== id && tk.key !== key)), data.difficulty.cover);
+  return c && { ...c, text: whyText(c.why, tokens, data, true) }; // the attack window states the level already
+}
+
 /** Line of sight and distance from your marker to the tapped one, or null. tokens: as shown (pending move applied). */
 function sightTo(map, data, id, tokens) {
   const me = tokens.find((tk) => tk.key === id);
@@ -81,11 +97,7 @@ function targetPanel(map, data, s, id, combat = null, intel = null) {
   const sight = sightTo(map, data, id, tokens);
   if (!sight) return html`<p data-tour="map-target" class="map-target map-target--empty muted">${t('map.target.hint')}</p>`;
   const { tgt, los } = sight;
-  const nameOf = (key) => { const tk = tokens.find((x) => x.key === key); return !tk ? '?' : tk.kind === 'enemy' ? `${tk.label} (${tk.name})` : tk.name; };
-  const propName = (id) => data.props.props.find((d) => d.id === id)?.name ?? '?';
-  const why = los.result === 'blocked' ? t(`map.los.by.${los.by}`, { name: los.prop ? propName(los.prop) : '' })
-    : los.reasons.map((r) => (r.code === 'character' ? t('map.los.why.character', { name: nameOf(r.key) })
-      : r.code === 'prop' ? t('map.los.why.prop', { name: propName(r.prop), cover: t(`map.cover.${r.cover}`) }) : t('map.los.why.edge'))).join(' · ');
+  const why = los.result === 'blocked' ? t(`map.los.by.${los.by}`, { name: los.prop ? propName(data, los.prop) : '' }) : whyText(los.reasons, tokens, data);
   const weapons = s.weapons.filter((w) => !w.empty);
   return html`<section data-tour="map-target" class="map-target map-target--${los.result}">
     <div class="map-target__head">
@@ -102,6 +114,45 @@ function targetPanel(map, data, s, id, combat = null, intel = null) {
         <span class="mono muted">${w.range.min}–${w.range.max} m</span><span class="pill map-range map-range--${r.status}">${t(`map.range.${r.status}`)}</span></li>`;
     })}</ul>` : html`<p class="muted">${t('map.range.none')}</p>`}
   </section>`;
+}
+
+/**
+ * Decision 198: the context line under the map's header — what you tapped, in one line (an enemy: distance, sight,
+ * which weapons reach; a door: open / close or why not; a piece: what it is), else what you can do now. The Map
+ * bookmark (⋯) keeps the full detail; nothing pops open on a tap.
+ */
+function contextLine(map, data, s, id, { doorUse, mapMove }) {
+  const more = html`<button type="button" class="btn btn--sm btn--ghost map-ctx__more" data-rail-tab="map" data-side="right" title="${t('map.ctx.more')}" aria-label="${t('map.ctx.more')}">⋯</button>`;
+  const line = (body, cls = '') => html`<div class="map-ctx ${cls}" data-tour="map-move">${body}${more}</div>`;
+  if (info?.kind === 'door') {
+    const w = map.walls.find((x) => x.id === info.id && x.kind === 'door');
+    if (w) {
+      const me = shown(map, id).find((tk) => tk.key === id);
+      const why = !(me && nextToDoor(me, w)) ? t('map.door.far') : doorUse === 'gm' ? t('map.door.gm') : doorUse === 'wait' ? t('map.door.wait') : doorUse === 'noActions' ? t('map.door.noActions') : null;
+      return line(html`<strong>🚪 ${t('map.door.title')}</strong><span class="muted">${t(w.open ? 'map.door.isOpen' : 'map.door.isClosed')}</span>
+        ${why ? html`<span class="muted">· ${why}</span>` : html`<button class="btn btn--sm btn--primary" data-action="mapDoor" data-door="${w.id}" data-open="${w.open ? '0' : '1'}">${t(w.open ? 'map.door.doClose' : 'map.door.doOpen')}</button>${doorUse === 'ok' && mapCombat ? html`<span class="muted st-small">${t('map.door.cost')}</span>` : ''}`}
+        <button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
+    }
+  }
+  if (info?.kind === 'prop') {
+    const p = (map.props ?? []).find((x) => x.id === info.id);
+    const d = p && data.props.props.find((x) => x.id === p.prop);
+    if (d) {
+      const traits = [d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null, d.cover !== 'none' ? t(`map.cover.${d.cover}`) : null].filter(Boolean);
+      return line(html`<strong>${p.caption || d.name}</strong><span class="muted">${traits.join(' · ') || t('map.info.nothing')}</span><button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
+    }
+  }
+  if (info?.kind === 'laser') return line(html`<strong>${t('map.info.laser')}</strong><button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
+  const sight = target ? sightTo(map, data, id, shown(map, id)) : null;
+  if (sight) {
+    const { tgt, los } = sight;
+    const weapons = s.weapons.filter((w) => !w.empty);
+    return line(html`<span class="map-legend__dot map-legend__dot--${tgt.kind}">${tgt.label}</span><strong>${tgt.name}</strong>
+      <span class="mono">${t('map.ctx.squares', { n: los.squares })}</span><span class="pill map-los-pill map-los-pill--${los.result}">${t(`map.los.${los.result}`)}</span>
+      ${weapons.map((w) => { const r = rangeCheck(w.range, los.squares, data); return html`<span class="map-ctx__weapon map-range--${r.status}" title="${t(`map.range.${r.status}`)}">${w.name} ${r.status === 'in' ? '✓' : '✗'}</span>`; })}
+      <button class="btn btn--sm btn--ghost" data-action="mapTarget" aria-label="${t('map.target.clear')}">✕</button>`, `map-ctx--${los.result}`);
+  }
+  return line(html`<span class="${mapMove && !mapMove.why ? 'is-go' : 'muted'}">${skyNow(map, data) ? t('map.sky.hint') : hint(map, mapMove)}</span>`);
 }
 
 /** The hint under the map: what this player can do right now. move: from moveState() */
@@ -128,11 +179,10 @@ const skyNow = (map, data) => sky && hasSkyline(map, data);
  * one-line chip saying what you can do now. What you
  * tap (a marker, a piece, a door, a mark) shows in the Map bookmark beside it — mapPanel — never over the map.
  */
-export function mapTab(c, s, data, { map, id, combat, mapMove, actions = null }) {
+export function mapTab(c, s, data, { map, id, combat, mapMove, doorUse = null, actions = null }) {
   mapCombat = Boolean(combat?.active);
   if (!map) return html`<div class="card"><div class="empty"><div class="empty__title">${t('map.none')}</div></div></div>`;
   const mine = map.tokens.find((x) => x.key === id);
-  const canGo = mapMove && !mapMove.why;
   return html`<section class="card map-card map-card--tactical ${marking() ? 'is-marking' : ''}">
     <header class="card__head map-card__head"><h2 class="card__title">${map.name}${ruleInfo('map', t('sheet.tab.map'))}<small>${mine ? t('map.youAt', { col: mine.x + 1, row: mine.y + 1 }) : t('map.notPlaced')}</small></h2>
       ${actions ? html`<div class="map-card__actions">${actions}</div>` : ''}
@@ -147,9 +197,9 @@ export function mapTab(c, s, data, { map, id, combat, mapMove, actions = null })
     ${tourDone('map') ? '' : html`<p class="notice tour-offer map-card__offer"><span>${t('map.tourOffer')}</span>
       <button class="btn btn--sm btn--primary" data-action="tour" data-id="map">${t('tour.offerStart')}</button>
       <button class="btn btn--sm btn--ghost" data-action="tourSkip" data-id="map">${t('tour.offerNo')}</button></p>`}
+    ${contextLine(map, data, s, id, { doorUse, mapMove })}
     <div class="map-card__body map-card__body--folded">
       <div class="map-card__stage" data-map-slot data-tour="map-stage"></div>
-      <p class="map-card__chip ${canGo && !skyNow(map, data) ? 'is-go' : ''}" data-tour="map-move">${skyNow(map, data) ? t('map.sky.hint') : hint(map, mapMove)}</p>
     </div>
   </section>`;
 }
@@ -161,8 +211,6 @@ export function mapPanel(c, s, data, { map, id, combat, doorUse, torch = null, m
   return html`<div class="stack map-panel">
     ${infoPanel(map, data, id, doorUse) ?? pickedMarkPanel(map, data, id, marks) ?? targetPanel(map, data, s, id, combat, c.play.intel)}
     ${marksPanel(map, data, id, marks, myColor, c.play.mapTag ?? '')}
-    ${torch == null ? '' : html`<div class="map-card__gear" data-tour="map-gear"><button class="btn btn--sm ${torch ? 'btn--primary' : ''}" data-action="mapTorch" data-on="${torch ? '0' : '1'}" aria-pressed="${torch}">🔦 ${t(torch ? 'map.torch.on' : 'map.torch.off')}</button>
-      <span class="muted st-small">${t('map.torch.hint')}</span></div>`}
     <ul class="map-legend" data-tour="map-legend">${map.tokens.map((tk) => html`<li class="map-legend__item ${tk.key === id ? 'is-you' : ''} ${tk.down ? 'is-down' : ''}">
       <span class="map-legend__dot map-legend__dot--${tk.kind} ${tk.color ? `map-legend__dot--c-${tk.color}` : ''}">${tk.label}</span>
       <span>${tk.key === id ? t('map.you') : tk.name}${band(tk) ? html` <span class="muted">· ${t(`turn.band.${band(tk)}`)}</span>` : ''}${tk.current ? html` <span class="pill pill--accent">${t('map.acting')}</span>` : ''}</span></li>`)}</ul>
@@ -196,10 +244,10 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   Object.assign(viewer.on, {
     idle: onIdle,
     canDrag: (key) => key === id && map.canMove && Boolean(move()?.max),
-    tapToken(key) { info = null; target = key === id || key === target ? null : key; reveal(); onIdle(); },
-    tapProp(pid) { info = info?.id === pid ? null : { kind: 'prop', id: pid }; reveal(); onIdle(); },
-    tapDoor(wid) { info = info?.id === wid ? null : { kind: 'door', id: wid }; reveal(); onIdle(); },
-    tapLaser(wid) { info = info?.id === wid ? null : { kind: 'laser', id: wid }; reveal(); onIdle(); },
+    tapToken(key) { info = null; target = key === id || key === target ? null : key; onIdle(); },
+    tapProp(pid) { info = info?.id === pid ? null : { kind: 'prop', id: pid }; onIdle(); },
+    tapDoor(wid) { info = info?.id === wid ? null : { kind: 'door', id: wid }; onIdle(); },
+    tapLaser(wid) { info = info?.id === wid ? null : { kind: 'laser', id: wid }; onIdle(); },
     tapSquare() { if (target || info) { target = null; info = null; onIdle(); } },
     reach: () => reachable(map, data, me(), move().max),
     route: (_key, to) => (others().some((o) => o.x === to.x && o.y === to.y) ? null : routeTo(map, data, me(), to, move().max)),
@@ -212,7 +260,7 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
       if (onMove(to, check.steps, m.combat)) {
         // decision 163: end a move beside a door and its panel opens by itself (a door left behind closes its panel)
         const door = map.walls.find((w) => w.kind === 'door' && nextToDoor(to, w));
-        if (door) { info = { kind: 'door', id: door.id }; reveal(); } else if (info?.kind === 'door') info = null;
+        if (door) info = { kind: 'door', id: door.id }; else if (info?.kind === 'door') info = null;
         pending = { base: map, to }; onIdle();
       }
     },
@@ -225,8 +273,6 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   viewer.attach(main);
 }
 
-/** Something tapped: the Map bookmark comes out to show it (decision 192). */
-const reveal = () => { if (target || info) railOpen('tac', 'right', 'map'); };
 
 
 /**
@@ -239,7 +285,9 @@ function fitToWindow(main) {
   if (!body) return;
   const cell = body.closest('.tac__map'); // decision 162: in the Tactical View the map fills its own cell
   if (cell && window.matchMedia('(min-width: 900px)').matches) {
-    const free = Math.floor(cell.getBoundingClientRect().bottom - body.getBoundingClientRect().top - 2);
+    const bar = cell.querySelector('.cbar'); // decision 198: the class bar sits under the map, inside the same cell
+    const below = bar ? bar.getBoundingClientRect().height + parseFloat(getComputedStyle(bar).marginTop || '0') : 0;
+    const free = Math.floor(cell.getBoundingClientRect().bottom - body.getBoundingClientRect().top - below - 2);
     body.style.setProperty('--map-fit', `${Math.max(200, free)}px`);
     return;
   }

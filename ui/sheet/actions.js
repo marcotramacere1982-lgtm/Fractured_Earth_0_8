@@ -1,6 +1,7 @@
 // Sheet actions: each takes the draft character (+ data, args) and mutates it.
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
+import { logHandHp } from '../../rules/hand-edits.js';
 import { abilityContext, failAbility, canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, openingChoice, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
 import { buy, magazineId, addItem } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
@@ -118,8 +119,8 @@ function autoWear(c, id, data) {
   if (data) syncWornConditions(c, data, before);
 }
 
-export function log(c, text, kind = 'info') {
-  c.play.log = [{ t: Date.now(), text, kind }, ...(c.play.log ?? [])].slice(0, 40);
+export function log(c, text, kind = 'info', extra = null) {
+  c.play.log = [{ t: Date.now(), text, kind, ...(extra ?? {}) }, ...(c.play.log ?? [])].slice(0, 40);
 }
 
 export const actions = {
@@ -128,6 +129,7 @@ export const actions = {
     const s = deriveSheet(c, data);
     const next = Math.min(s.hp.max, s.hp.current + Number(delta));
     c.play.hp = next >= s.hp.max ? null : next; // allow negatives (overkill tracking)
+    c.play.log = logHandHp(c.play.log ?? [], { from: s.hp.current, to: next }).slice(0, 40); // decision 208: the GM sees and confirms it
     const sync = hurt(c, data, -Number(delta));
     if (sync) log(c, `Took damage${sync}`, 'bad');
   },
@@ -141,11 +143,11 @@ export const actions = {
    * that gets through adds the location's condition; armor that stops it all cracks by 1.
    * @returns the outcome, for the screen to describe
    */
-  takeHit(c, data, { damage, loc = '' }) {
+  takeHit(c, data, { damage, loc = '', cover = null }) {
     c.play.injuries ??= [];
     const s = deriveSheet(c, data);
     const dmg = Math.max(0, Number(damage) || 0);
-    const outcome = hitOutcome(s, { damage: dmg, loc }, data.body);
+    const outcome = hitOutcome(s, { damage: dmg, loc, cover }, data.body);
     const hpNow = s.hp.current - outcome.taken;
     c.play.hp = hpNow >= s.hp.max ? null : hpNow;
     const sync = hurt(c, data, outcome.taken);
@@ -157,7 +159,7 @@ export const actions = {
     }
     if (outcome.crack) { c.play.armorDamage = (c.play.armorDamage ?? 0) + outcome.crack; effect = ` · armor cracked −${outcome.crack}`; }
     const where = loc ? ` to the ${data.body.locations.find((l) => l.id === loc)?.name ?? loc}` : '';
-    log(c, `Hit${where}: ${dmg} damage − ${s.armor.general} armor → ${outcome.taken} HP${effect}${sync}`, 'bad');
+    log(c, `Hit${where}: ${dmg} damage − ${outcome.armor} armor${cover != null ? ` (cover +${cover})` : ''} → ${outcome.taken} HP${effect}${sync}`, 'bad');
     return outcome;
   },
   /** Armor cracked by an effect (or fixed by hand): 0 … worn. */
@@ -177,12 +179,14 @@ export const actions = {
     c.play.injuries ??= [];
     const had = c.play.injuries.includes(loc);
     c.play.injuries = had ? c.play.injuries.filter((x) => x !== loc) : [...c.play.injuries, loc];
-    log(c, had ? `Treated: ${injuryName(data, loc)}` : `Injured: ${injuryName(data, loc)}`, had ? 'ok' : 'bad');
+    log(c, had ? `Treated: ${injuryName(data, loc)}` : `Injured: ${injuryName(data, loc)}`, had ? 'ok' : 'bad', { hand: { kind: 'injury', loc, on: !had } }); // decision 208
   },
   cover(c, _d, { value }) { c.play.cover = Number(value); },
-  condition(c, _d, { id }) {
+  condition(c, data, { id }) {
     const has = c.play.conditions.includes(id);
     c.play.conditions = has ? c.play.conditions.filter((x) => x !== id) : [...c.play.conditions, id];
+    const name = data?.conditions.find((k) => k.id === id)?.name ?? id;
+    log(c, `By hand: ${name} ${has ? 'off' : 'on'}`, 'warn', { hand: { kind: 'condition', id, on: !has } }); // decision 208: the GM sees and confirms it
   },
 
   // ---------------- attributes & money
@@ -468,6 +472,7 @@ export const actions = {
     // catch up one round end per missed round (capped: a long disconnect must not drain the engine)
     for (let i = 0; i < 3 && c.play.turn.round < msg.round; i++) actions.roundEnd(c, data);
     if (c.play.turn.round < msg.round) c.play.turn = { ...c.play.turn, round: msg.round };
+    if (c.play.turn.round > msg.round) c.play.turn = { ...c.play.turn, round: msg.round }; // decision 202: the GM stepped back (Undo): the sheet follows
   },
 
   /** Decision 197: Intel arrives (a Study, the GM, your background, a crewmate's share) — kept on the sheet. */
@@ -630,7 +635,8 @@ export const actions = {
     if (!msg?.id || c.play.hits.some((h) => h.id === msg.id)) return false;
     const text = (v, n) => String(v ?? '').slice(0, n);
     c.play.hits.push({ id: text(msg.id, 40), from: text(msg.from, 40), attack: text(msg.attack, 60), damage: Math.max(0, Math.round(Number(msg.damage) || 0)),
-      dmgText: text(msg.dmgText, 80), loc: text(msg.loc, 12), where: text(msg.where, 40), roll: text(msg.roll, 40) });
+      dmgText: text(msg.dmgText, 80), loc: text(msg.loc, 12), where: text(msg.where, 40), roll: text(msg.roll, 40),
+      cover: msg.cover == null ? null : Math.max(0, Math.round(Number(msg.cover) || 0)) }); // decision 204: the cover the GM counted
     return true;
   },
   applyHit(c, data, { id }) {
@@ -638,7 +644,7 @@ export const actions = {
     if (!h) return null;
     c.play.hits = c.play.hits.filter((x) => x !== h);
     log(c, `${h.from} hit you with ${h.attack}`, 'bad');
-    return actions.takeHit(c, data, { damage: h.damage, loc: h.loc });
+    return actions.takeHit(c, data, { damage: h.damage, loc: h.loc, cover: h.cover ?? null });
   },
   dodgedHit(c, _d, { id }) {
     const h = (c.play.hits ?? []).find((x) => x.id === id);

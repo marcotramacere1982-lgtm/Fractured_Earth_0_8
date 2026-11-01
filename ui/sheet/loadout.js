@@ -6,7 +6,7 @@
 
 import { html, raw } from '../dom.js';
 import { t } from '../../i18n/index.js';
-import { icon } from './parts.js';
+import { icon, counter } from './parts.js';
 import { weaponsCard } from './play.js';
 import { kitButtons, abilityChips, abilityLine } from './engine.js';
 import { loadoutOpen } from '../../rules/turn.js';
@@ -35,7 +35,8 @@ function abilityList(c, s, data) {
   const on = (a) => c.play.abilities.includes(a.id);
   const full = c.play.abilities.length >= s.abilityLimit;
   return html`<div class="stack">
-    <div class="spread spread--wrap"><span class="label">${t('engine.equipped')} ${c.play.abilities.length}/${s.abilityLimit}</span>${kitButtons(c, data)}</div>
+    <div class="spread spread--wrap"><span class="label">${t('engine.equipped')} ${c.play.abilities.length}/${s.abilityLimit}</span>
+      <span class="cluster"><span class="label">${t('engine.brainFog')}</span>${counter({ action: 'maxAbilities', value: c.play.maxAbilities, min: 1, size: 'sm', label: t('engine.brainFog') })}</span>${kitButtons(c, data)}</div>
     <ul class="loadout__abilities">${[...all.filter(on), ...all.filter((a) => !on(a))].map((a) => html`<li class="loadout__ability ${on(a) ? 'is-on' : ''}">
       <div class="loadout__ability-text"><strong>${abilityEffects(a).map((id) => icon(data, id, 'ico--fx'))}${a.name}</strong>
         <span class="cluster loadout__chips">${abilityChips(c, s, data, a)}</span>

@@ -10,7 +10,10 @@ Play it, share it, change it for your own table: free. Making money from it is n
 |---|---|
 | The game's text and art: the rulebook (`manual/`), the lore, careers, events, backstory and other game text in `data/`, the map pieces (`props/`), images and icons | [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
 | The app's code (`*.js`, `*.html`, `*.css`) | [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0) — full text below |
-| The fonts in `fonts/` (Bebas Neue, Rajdhani, Lato, IBM Plex Mono) | Their own [SIL Open Font License 1.1](https://openfontlicense.org), by their authors — see the `OFL-*.txt` files beside them |
+| The fonts in `fonts/` (Bebas Neue, Rajdhani, Lato, IBM Plex Mono, VT323, Share Tech Mono, Black Ops One) | Their own [SIL Open Font License 1.1](https://openfontlicense.org), by their authors — see the `OFL-*.txt` files beside them |
+| The font Special Elite in `fonts/` | [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), by Astigmatic — see `LICENSE-specialelite.txt` |
+| The inventory icons (`images/gear-icons.svg`) | [Creative Commons Attribution 3.0 (CC BY 3.0)](https://creativecommons.org/licenses/by/3.0/) — icons by Lorc, Delapouite, Skoll, Sbed, Darkzaitzev, Caro Asercion and Andymeneely, from [game-icons.net](https://game-icons.net); the author of each is listed in `data/gear-icons.json` |
+| The interface icons — attributes, combat values, classes, skills, class engines, conditions, actions, ability effects (`images/ui-icons.svg`) | [Creative Commons Attribution 3.0 (CC BY 3.0)](https://creativecommons.org/licenses/by/3.0/) — icons by Lorc, Delapouite, Skoll, Sbed, Darkzaitzev, Caro Asercion, Carl Olsen, Faithtoken, Felbrigg, John Colburn and Zeromancer, from [game-icons.net](https://game-icons.net); the author of each is listed in `data/ui-icons.json` |
 
 **CC BY-NC-SA 4.0, in short:** you may copy, share and adapt the game's text and art, as long as you credit *Fractured Earth by Marco Tramacere*, do not use it commercially, and share your changes under the same licence.
 

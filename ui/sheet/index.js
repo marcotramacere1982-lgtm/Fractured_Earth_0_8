@@ -1,16 +1,16 @@
 // Character sheet view: #/sheet/<id>/<tab>
 
-import { html, raw, render, delegate, cleanup, signed } from '../dom.js';
+import { html, render, delegate, cleanup, signed } from '../dom.js';
 import { href, go } from '../router.js';
-import { toast, toggleTheme, theme } from '../shell.js';
+import { toast } from '../shell.js';
 import { deriveSheet } from '../../state/character.js';
 import { exportCharacter, shrinkImage } from '../../state/store.js';
 import { actions, log } from './actions.js';
-import { statusBar, playTab } from './play.js';
+import { statusBar } from './play.js';
+import { sheetTab, setOpen, isOpen, SECTIONS, onSectionToggle } from './sheet-tab.js';
 import { progressTab } from './progress.js';
 import { setExplainSource } from '../explain.js';
 import { findSkill } from './skills.js';
-import { gearTab } from './gear.js';
 import { tacticalView } from './tactical.js';
 import { dossierTab, notesTab } from './dossier.js';
 import { openCheck, openShop, openChoice, openDialog, setTierLock } from './dialogs.js';
@@ -41,10 +41,13 @@ import { soundOn, setSound } from '../sound.js';
 import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 import { boostsFor } from './check-boosts.js';
-import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky, mapTarget } from './map-tab.js';
+import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky, mapTarget, coverTo } from './map-tab.js';
 import { railOpen } from '../rails.js';
 import { loadoutOverlay, openSwap, closeSwap } from './loadout.js';
+import { hitOverlay } from './hits.js';
+import { contactOverlay, closeContact } from './contact.js';
 import { callOverlay } from './calls.js';
+import { abilityWindow, toggleClassBar } from './class-bar.js';
 import { attachMemory, memoryBusy, toggleMemory, memoryFit, memoryZoom, toggleMemorySky } from './map-memories.js';
 import { forgetMap, noteMap } from '../../rules/map-memory.js';
 import { markHandlers, myMarkColor, myMarks } from './map-marks.js';
@@ -55,8 +58,7 @@ import { frameOf } from '../portrait.js';
 const rollText = (r) => `d20 ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}`;
 
 const TABS = [
-  { id: 'play', label: 'sheet.tab.setup', view: playTab }, // decision 164: Play + Skills → Setup (the id stays: links, tours)
-  { id: 'gear', label: 'sheet.tab.gear', view: gearTab },
+  { id: 'play', label: 'sheet.tab.sheet', view: sheetTab }, // decision 215: Setup + Gear → Sheet, folding sections (the id stays: links, tours)
   { id: 'dossier', label: 'sheet.tab.dossier', view: dossierTab },
   { id: 'notes', label: 'sheet.tab.notes', view: notesTab },
   { id: 'progress', label: 'sheet.tab.progress', view: progressTab },
@@ -65,7 +67,8 @@ const TABS = [
 
 export function sheetView({ data, store, main, table }, route) {
   const [id, askedTab] = route.params;
-  const asked = askedTab === 'skills' ? 'play' : askedTab; // decision 164: old Skills links land on Setup
+  if (askedTab === 'gear') setOpen(['inventory', 'money']); // decision 215: the old Gear tab is the Sheet's Inventory and Money
+  const asked = askedTab === 'skills' || askedTab === 'gear' ? 'play' : askedTab; // decision 164: old Skills links land on Setup
   const tableMap = () => (table?.state.joinedId === id ? table.state.map : null);
   // decision 162: with a map on the table the Tactical View comes first, and a sheet opened without a tab goes there
   const tabs = () => (tableMap() ? [TABS.find((x) => x.id === 'map'), ...TABS.filter((x) => x.id !== 'map')] : TABS.filter((x) => x.id !== 'map'));
@@ -85,6 +88,9 @@ export function sheetView({ data, store, main, table }, route) {
   /** In combat, an action needs a free action this round. */
   const actionAvailable = (c, sh) => {
     const ts = turnStatus(c.play.turn ?? newTurn(), sh.combat.act.value, c.play.conditions, data.actions);
+    // decision 202: when the GM runs the rounds, actions are spent on your own turn (reactions don't come through here)
+    const combat = table?.state.joinedId === id ? table.state.combat : null;
+    if (ts.inCombat && combat?.active && c.play.turn?.tableCombat === combat.id && combat.current && combat.current !== c.id) { toast(t('turn.notYours'), 'danger'); return false; }
     if (ts.inCombat && ts.left <= 0) { toast(t('turn.noActions'), 'danger'); return false; }
     return true;
   };
@@ -104,31 +110,36 @@ export function sheetView({ data, store, main, table }, route) {
     // keep collapsible sections open across re-renders
     const open = new Set([...main.querySelectorAll('details[data-keep][open]')].map((d) => d.dataset.keep));
     const ctx = { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null };
+    const tabNav = html`<nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
+            ${tabs().map((x) => html`<a class="tab ${x.id === 'map' ? 'tab--live' : ''}" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
+          </nav>`;
+    const tools = html`${crewBadge(table, data)}${whisperButton(table, id)}${soundButton(table)}<button class="btn btn--sm btn--ghost" data-action="tour" data-id="general" title="${t('tour.startHint')}" aria-label="${t('tour.startHint')}">?</button>${tableButton(table, id)}
+            <button class="btn btn--sm" data-action="export" title="${t('sheet.exportHint')}">${t('common.export')}</button>`;
+    // the Tactical View keeps its own bar (tabs + tools); elsewhere the tabs sit in the status bar and the tools in the app header (decision 220)
     const nav = html`
         <div class="sheet-nav">
-          <nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
-            ${tabs().map((x) => html`<a class="tab ${x.id === 'map' ? 'tab--live' : ''}" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
-          </nav>
-          <div class="cluster">
-            ${crewBadge(table, data)}${whisperButton(table, id)}${soundButton(table)}${tab.id === 'map' && tableMap() ? html`<button class="btn btn--sm btn--ghost sheet-theme" data-action="themeToggle" title="${t('nav.theme')}" aria-label="${t('nav.theme')}"><span class="icon">${raw(data.icons[theme() === 'light' ? 'moon' : 'sun'] ?? '')}</span></button>` : ''}<button class="btn btn--sm btn--ghost" data-action="tour" data-id="general" title="${t('tour.startHint')}" aria-label="${t('tour.startHint')}">?</button>${tableButton(table, id)}
-            <button class="btn btn--sm" data-action="export" title="${t('sheet.exportHint')}">${t('common.export')}</button>
-          </div>
+          ${tabNav}
+          <div class="cluster">${tools}</div>
         </div>
 `;
-    const loadout = loadoutOverlay(c, s, withUniques(data, c), ctx.combat) || callOverlay(c, s, withUniques(data, c)); // decision 192: before a fight, or Swap abilities; then the GM's roll calls (decision 193)
-    if (tab.id === 'map' && tableMap()) { // decision 162: the Tactical View has its own frame
+    const loadout = loadoutOverlay(c, s, withUniques(data, c), ctx.combat) || hitOverlay(c, s, withUniques(data, c)) || (table?.state.joinedId === id ? contactOverlay(table.state.contact) : '') || callOverlay(c, s, withUniques(data, c)); // decision 211: contact // decision 192: before a fight, or Swap abilities; then a hit (decision 207); then the GM's roll calls (decision 193)
+    const tactical = tab.id === 'map' && Boolean(tableMap());
+    if (toolsEl) render(toolsEl, tactical ? '' : tools);
+    if (tactical) { // decision 162: the Tactical View has its own frame
       render(main, html`${tacticalView(c, s, withUniques(data, c), ctx, nav)}${loadout}`);
     } else render(main, html`
       <div class="sheet">
-        ${statusBar(c, s, data, { compact: tab.id === 'map' && !statusOpen() })}${tab.id === 'map' && statusOpen() ? html`<button class="btn btn--sm btn--ghost sheet-status__less" data-action="statusOpen">${t('status.collapse')}</button>` : ''}
+        ${statusBar(c, s, data, { compact: tab.id === 'map' && !statusOpen(), tabs: tabNav })}${tab.id === 'map' && statusOpen() ? html`<button class="btn btn--sm btn--ghost sheet-status__less" data-action="statusOpen">${t('status.collapse')}</button>` : ''}
         ${tableBanner(table, id, data)}
         ${tourDone('general') ? '' : html`<p class="notice tour-offer"><span>${t('tour.offer')}</span>
           <button class="btn btn--sm btn--primary" data-action="tour" data-id="general">${t('tour.offerStart')}</button>
           <button class="btn btn--sm btn--ghost" data-action="tourSkip">${t('tour.offerNo')}</button></p>`}
-        ${nav}
         <div class="sheet-body">${tab.view(c, s, withUniques(data, c), ctx)}</div>
       </div>${loadout}`);
     document.documentElement.classList.toggle('tac-open', tab.id === 'map' && Boolean(tableMap())); // decision 162: on wide screens the page doesn't scroll under the Tactical View
+    document.documentElement.classList.add('sheet-open'); // decision 216: the character sheet uses the whole window
+    const bar = main.querySelector('.sheet-status')?.offsetHeight; // the Sheet tab's index sticks just under the status bar
+    if (bar) main.style.setProperty('--status-h', `${bar}px`);
     if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark });
     if (tab.id === 'notes') attachMemory(main, data, c, draw); // decision 122
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
@@ -222,7 +233,38 @@ export function sheetView({ data, store, main, table }, route) {
     return w && !ability.weapon.noDamage ? weaponFlow({ c, sh, data, w, spec: ability.weapon, onDone }) : null;
   };
 
-  const offClick = delegate(main, 'click', {
+  /** An ability's roll (from the engine, the class bar or its window). */
+  const rollAbility = ({ id: abilityId, resonant }) => {
+    const c = character();
+    const sh = deriveSheet(c, data);
+    const ability = droneAbility(data.abilities[c.classId].find((a) => a.id === abilityId), sh.drone); // decision 172
+    const freeBreathe = ability.steer && sh.talents.freeSteer && !c.play.talentUses?.[sh.talents.freeSteer]; // decision 186: Poker Face
+    if (!sh.class || (!ability.reaction && !freeBreathe && !actionAvailable(c, sh))) return; // decision 174: a reaction may borrow next round's action
+    if (ability.stanceShift) { // decision 175: Shift Stance — Defensive or Attack, whichever you aren't in
+      const now = c.play.resources?.stance ?? 'ready';
+      const stances = data.classes.classes.find((k) => k.id === 'soldier').resources.stances.filter((x) => ['defensive', 'attack'].includes(x.id) && x.id !== now);
+      openChoice(ability.name, stances.map((x) => ({ value: x.id, label: x.name, sub: t('engine.unsteadyCost') })), (stance) => run('useRolled', { id: abilityId, success: true, rollText: 'no roll', stance }));
+      return;
+    }
+    if (ability.steer) { // decision 174: Breathe — one step of the pendulum, your choice, no roll
+      openChoice(ability.name, [{ value: '-1', label: t('engine.steerCool') }, { value: '1', label: t('engine.steerHot') }], (dir) => run('useRolled', { id: abilityId, success: true, rollText: 'no roll', steer: Number(dir) }));
+      return;
+    }
+    if (ability.auto) { // housekeeping: no Class TN roll
+      run('useRolled', { id: abilityId, success: true, rollText: 'no roll' });
+      if (abilityId === 'system_hard_reboot') run('clearBomb');
+      return;
+    }
+    const ping = async (r) => { // decision 170: the GM's console works out the list from the map
+      if (!(await table?.ping(tableMap()?.id ?? null, { success: r.success, margin: r.margin }))) toast(t('ping.offline'), 'danger');
+    };
+    if (ability.play) { playAbility({ c, sh, data, ability, resonant: Boolean(resonant), combat: tableCombat(), table, run, toast, rollText, tier: tableTier, ping, onMap: mapTarget() }); return; } // decision 155; onMap: decision 192
+    openCheck({ name: resonant ? `${ability.name} · ${t('engine.resonantCast')}` : ability.name, tn: sh.class.tn, sub: `Class TN · ${sh.class.subclass.name}` }, data,
+      (r) => run('useRolled', { id: abilityId, success: r.success, rollText: rollText(r), resonant: Boolean(resonant) }),
+      { tier: tableTier(), once: true, flow: abilityFlow(c, sh, ability), after: (r) => (!r.success && data.classes.abilityRoll.onFailure !== 'nothing' ? html`<p class="hint">${t(`check.abilityFailed.${data.classes.abilityRoll.onFailure}`)}</p>` : '') });
+  };
+
+  const clicks = {
     hp: ({ delta }) => run('hp', { delta }),
     heal: () => run('heal'),
     repairArmor: () => run('repairArmor'),
@@ -253,42 +295,22 @@ export function sheetView({ data, store, main, table }, route) {
     condition: ({ id: cid }) => run('condition', { id: cid }),
     attr: (d) => run('attr', d),
     ammo: (d) => run('ammo', d),
-    reload: (d) => run('reload', d),
+    reload: (d) => { const c = character(); if (actionAvailable(c, deriveSheet(c, data))) run('reload', d); }, // decision 202: an action — on your turn
     wear: (d) => run('wear', d),
     qty: (d) => run('qty', d),
     dropLifestyle: (d) => run('dropLifestyle', d),
     maxAbilities: (d) => run('maxAbilities', d),
     equip: (d) => run('equip', d),
     useKit: ({ id: kitId }) => run('equipKit', { id: kitId }), // decision 183
-    abilityRoll: ({ id: abilityId, resonant }) => {
+    abilityRoll: (d) => rollAbility(d),
+    /** Decision 198: a class bar tile's whole card, in a window; Use from there too. */
+    abilityInfo: ({ id: abilityId }) => {
       const c = character();
-      const sh = deriveSheet(c, data);
-      const ability = droneAbility(data.abilities[c.classId].find((a) => a.id === abilityId), sh.drone); // decision 172
-      const freeBreathe = ability.steer && sh.talents.freeSteer && !c.play.talentUses?.[sh.talents.freeSteer]; // decision 186: Poker Face
-      if (!sh.class || (!ability.reaction && !freeBreathe && !actionAvailable(c, sh))) return; // decision 174: a reaction may borrow next round's action
-      if (ability.stanceShift) { // decision 175: Shift Stance — Defensive or Attack, whichever you aren't in
-        const now = c.play.resources?.stance ?? 'ready';
-        const stances = data.classes.classes.find((k) => k.id === 'soldier').resources.stances.filter((x) => ['defensive', 'attack'].includes(x.id) && x.id !== now);
-        openChoice(ability.name, stances.map((x) => ({ value: x.id, label: x.name, sub: t('engine.unsteadyCost') })), (stance) => run('useRolled', { id: abilityId, success: true, rollText: 'no roll', stance }));
-        return;
-      }
-      if (ability.steer) { // decision 174: Breathe — one step of the pendulum, your choice, no roll
-        openChoice(ability.name, [{ value: '-1', label: t('engine.steerCool') }, { value: '1', label: t('engine.steerHot') }], (dir) => run('useRolled', { id: abilityId, success: true, rollText: 'no roll', steer: Number(dir) }));
-        return;
-      }
-      if (ability.auto) { // housekeeping: no Class TN roll
-        run('useRolled', { id: abilityId, success: true, rollText: 'no roll' });
-        if (abilityId === 'system_hard_reboot') run('clearBomb');
-        return;
-      }
-      const ping = async (r) => { // decision 170: the GM's console works out the list from the map
-        if (!(await table?.ping(tableMap()?.id ?? null, { success: r.success, margin: r.margin }))) toast(t('ping.offline'), 'danger');
-      };
-      if (ability.play) { playAbility({ c, sh, data, ability, resonant: Boolean(resonant), combat: tableCombat(), table, run, toast, rollText, tier: tableTier, ping, onMap: mapTarget() }); return; } // decision 155; onMap: decision 192
-      openCheck({ name: resonant ? `${ability.name} · ${t('engine.resonantCast')}` : ability.name, tn: sh.class.tn, sub: `Class TN · ${sh.class.subclass.name}` }, data,
-        (r) => run('useRolled', { id: abilityId, success: r.success, rollText: rollText(r), resonant: Boolean(resonant) }),
-        { tier: tableTier(), once: true, flow: abilityFlow(c, sh, ability), after: (r) => (!r.success && data.classes.abilityRoll.onFailure !== 'nothing' ? html`<p class="hint">${t(`check.abilityFailed.${data.classes.abilityRoll.onFailure}`)}</p>` : '') });
+      const view = abilityWindow(c, deriveSheet(c, data), withUniques(data, c), abilityId);
+      if (!view) return;
+      const d = openDialog(() => abilityWindow(character(), deriveSheet(character(), data), withUniques(data, character()), abilityId), { click: { use: (args) => { d.close(); rollAbility(args); } } });
     },
+    classBarFold: () => { toggleClassBar(); draw(); },
     actionTips: () => { try { localStorage.setItem(TIPS, tipsOn() ? '0' : '1'); } catch { /* private mode: stays as is */ } draw(); },
     attackRoll: ({ slot, located }) => {
       const c = character();
@@ -314,7 +336,8 @@ export function sheetView({ data, store, main, table }, route) {
           const vs = againstMods(h.conditions, data.conditions, { melee: !isRanged(w) });
           const edge = studiedEdge(c.play.intel, h.ref, data); // decision 197: you know how this type fights
           const parts = [...vs.parts.map((p) => p.name), ...(edge ? [t('intel.studied')] : [])];
-          return { id: h.key, mapped: h.key === onMap, label: `${h.letter} · ${h.name}${vs.tn + edge ? ` · +${vs.tn + edge} (${parts.join(', ')})` : ''}`, letter: h.letter, tn: vs.tn + edge, img: h.art ? `/api/table/art?art=${h.art}&size=portrait&look=${h.look ?? 1}` : null };
+          const cover = tableMap() ? coverTo(tableMap(), data, id, h.key) : null; // decision 204: shown, never added — the GM counts it on the damage
+          return { id: h.key, mapped: h.key === onMap, cover, label: `${h.letter} · ${h.name}${vs.tn + edge ? ` · +${vs.tn + edge} (${parts.join(', ')})` : ''}`, letter: h.letter, tn: vs.tn + edge, img: h.art ? `/api/table/art?art=${h.art}&size=portrait&look=${h.look ?? 1}` : null };
         }), { id: '', label: t('attack.foeNone') }] } : null;
       aim.table = (k) => locationTable(data, foes.find((h) => h.key === k)?.tag ?? null); // decision 156: what each location does to this target
       const report = (extra) => {
@@ -402,7 +425,7 @@ export function sheetView({ data, store, main, table }, route) {
       openChoice(t('action.reload'), choices, (v) => run(v[0] === 'r' ? 'reload' : 'hand', { slot: v.slice(1) }));
     },
     hand: ({ slot }) => { const c = character(); if (actionAvailable(c, deriveSheet(c, data))) run('hand', { slot }); },
-    combatEnd: () => run('combatEnd'),
+    combatEnd: () => { if (!table?.state.available) run('combatEnd'); }, // decision 203: at the table only the GM ends a fight
     /** Decision 50: the GM's Claude writes (or polishes) the backstory; it comes back as a durable message. */
     askBackstory: async () => {
       const c = character();
@@ -489,8 +512,17 @@ export function sheetView({ data, store, main, table }, route) {
     statusOpen: () => { try { localStorage.setItem(STATUS, statusOpen() ? '0' : '1'); } catch { /* private mode */ } draw(); },
     loadoutOpen: () => { if (!loadoutOpen(character().play.turn)) { toast(t('rule.loadoutLocked'), 'danger'); return; } openSwap(); draw(); }, // decision 192: Swap abilities; 194: not mid-fight
     loadoutClose: () => { closeSwap(); draw(); },
-    combatReady: () => { closeSwap(); run('combatReady'); }, // the pre-fight window: once per fight (decision 195)
-    themeToggle: () => { toggleTheme(); draw(); }, // decision 192: the Tactical View covers the app header and its switch
+    combatReady: () => { closeSwap(); run('combatReady'); },
+    contactOk: ({ at }) => { closeContact(at); draw(); }, // decision 211
+    secJump: ({ id: sec }) => { // decision 215: open it and bring its title just under the sticky status bar; decision 216: tapped again, it closes
+      if (isOpen(sec)) { setOpen([sec], false); draw(); return; }
+      setOpen([sec]);
+      draw();
+      const el = main.querySelector(`#sec-${sec}`);
+      const bar = main.querySelector('.sheet-status')?.getBoundingClientRect().bottom ?? 0;
+      if (el) window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - Math.max(0, bar) - 8, behavior: 'smooth' });
+    },
+    secAll: ({ on }) => { setOpen(SECTIONS, on === '1'); draw(); }, // the pre-fight window: once per fight (decision 195)
     tourSkip: ({ id: tourId }) => { markTourDone(tourId ?? 'general'); draw(); },
     copyPrompt: async ({ target }) => {
       const el = document.getElementById(target);
@@ -519,8 +551,8 @@ export function sheetView({ data, store, main, table }, route) {
     droneMod: (d) => run('droneMod', d), // decision 172
     weaponMods: ({ id: weaponId }) => openWeaponMods(weaponId, { character, data, run }), // decision 173
     droneWreck: () => run('droneWreck'),
-    roundEnd: () => run('roundEnd'),
-    combatStart: () => run('combatStart'),
+    roundEnd: () => { if (!table?.state.available) run('roundEnd'); }, // decision 203: at the table only the GM advances rounds
+    combatStart: () => { if (!table?.state.available) run('combatStart'); },
     portraitClear: () => { run('field', { path: 'portrait.dataUrl', value: '' }); run('field', { path: 'portrait.frame', value: null }); },
     portraitReset: () => run('field', { path: 'portrait.frame', value: null }),
     export: () => exportCharacter(character()),
@@ -572,7 +604,11 @@ export function sheetView({ data, store, main, table }, route) {
       store.update(id, (draft) => { notice = actions.buy(draft, data, { kind: k, id: itemId, method, multiplier }); });
       return ruleText(notice);
     }),
-  });
+  };
+  const offClick = delegate(main, 'click', clicks);
+  // decision 220: the sheet's tools sit in the app header (outside main): same handlers
+  const toolsEl = document.getElementById('page-tools');
+  const offTools = toolsEl ? delegate(toolsEl, 'click', clicks) : null;
 
   // decision 96: portrait framing — the sliders preview live and save on release; dragging the photo moves it
   const framePreview = (el, key, value) => {
@@ -601,6 +637,8 @@ export function sheetView({ data, store, main, table }, route) {
     frame.addEventListener('pointermove', move); frame.addEventListener('pointerup', up); frame.addEventListener('pointercancel', up);
   };
   main.addEventListener('pointerdown', onFrameDown);
+  const onToggle = (e) => { if (e.target.matches?.('details.sheet-sec')) onSectionToggle(e.target); }; // decision 215: remember what is open
+  main.addEventListener('toggle', onToggle, true);
 
   const offChange = delegate(main, 'change', {
     portraitFrame: ({ key }, e) => saveFrame({ [key]: Number(e.target.value) }),
@@ -646,7 +684,9 @@ export function sheetView({ data, store, main, table }, route) {
   });
 
   draw();
-  return cleanup(offClick, offChange, offInput, unsubscribe, offTable, () => main.removeEventListener('pointerdown', onFrameDown));
+  return cleanup(offClick, offChange, offInput, unsubscribe, offTable, () => main.removeEventListener('pointerdown', onFrameDown), () => main.removeEventListener('toggle', onToggle, true),
+    () => document.documentElement.classList.remove('sheet-open', 'tac-open'), // decision 216: other pages keep their reading width
+    () => offTools?.()); // decision 220: the header re-renders the slot empty on other pages; clearing it here would wipe the next sheet's tools (the cleanup can run after it drew)
 }
 
 /** Join / leave the GM's live table (only shown when the app is served by the table server). */

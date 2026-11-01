@@ -1,5 +1,7 @@
-// Gear tab: cash, inventory (qty, wear armor), lifestyle; the shop is a dialog (see dialogs.js).
+// Gear: cash, inventory (qty, wear armor), lifestyle, stashes, washer offers — the cards of the Sheet tab's Inventory and
+// Money sections (decision 215); the shop is a dialog (see dialogs.js).
 
+import { iconFor } from '../gear-icon.js';
 import { html, raw } from '../dom.js';
 import { card, counter, nameOf } from './parts.js';
 import { CATALOGS, findGear, magazines } from '../../rules/economy.js';
@@ -22,7 +24,7 @@ function baseDescribe(kind, e, data) {
   switch (kind) {
     case 'weapon': return `${e.type} · ${e.damage} · ${e.range.min}–${e.range.max}m${e.magSize ? ` · ${t('gear.mag')} ${e.magSize}` : ''}`;
     case 'armor': return `${e.type} · ${t('stat.armor')} +${e.maxHits} · ${t('gear.visibility')} ${e.visibility}/5`;
-    case 'item': return e.story ? `${t('gear.storyOnly')} · ${e.effect}` : e.effect; // story items: no dice effect, the GM rules on them (decision 77)
+    case 'item': return e.story && !e.light ? `${t('gear.storyOnly')} · ${e.effect}` : e.effect; // a torch works on the map: not story-only (decision 223) // story items: no dice effect, the GM rules on them (decision 77)
     case 'deck': return `RAM ${e.ram} · heat cap ${e.heatCap} · ${e.modSlots} mod slot · ${t('gear.battery')} ${e.battery.idle} idle / ${e.battery.usage} use`;
     case 'deckMod': return `+${e.amount} ${e.type === 'ram' ? 'RAM' : 'heat cap'}`;
     case 'drone': return `${t('twd.stat.reach')} ${e.reach} · HP ${e.hp} · ${t('twd.stat.armor')} ${e.armor} · ${t('twd.stat.damage')} ${e.damage} · ${e.modSlots} mod slot`; // decision 172
@@ -57,7 +59,8 @@ function offersCard(c, data) {
   })}</div>`, { ref: 'washer' });
 }
 
-export function gearTab(c, s, data, ctx = {}) {
+/** The gear cards: { offers, money, inventory, stash, lifestyle } (decision 215: the Sheet tab places them). */
+export function gearCards(c, s, data, ctx = {}) {
   const kinds = ['weapon', 'weaponMod', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'drone', 'droneMod', 'optic', 'custom'];
   const money = card(t('gear.money'), html`
     <div class="cluster cluster--gap">
@@ -80,6 +83,7 @@ export function gearTab(c, s, data, ctx = {}) {
             if (!e) return html`<div class="row"><span class="row__main muted">${t('gear.unknown')}: ${r.id}</span></div>`;
             const worn = kind === 'armor' && c.play.worn.includes(r.id);
             return html`<div class="row row--wrap ${r.unique ? 'row--unique' : ''}">
+              ${iconFor(kind, e, data, 'gi--row')}
               <div class="row__main"><div class="row__title">${e.name}${r.unique?.moddedFrom ? html` <span class="pill pill--info">${t('wmod.modded')}</span>` : r.unique ? html` <span class="pill pill--unique">${t('gear.unique')}</span>` : e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}${r.official ? html` <span class="pill pill--info" title="${t('gear.registeredHint')}">${t('gear.registered', { n: r.official })}</span>` : ''}</div><div class="row__meta">${describe(kind, e, data)}</div></div>
               ${kind === 'item' && e.story ? html`<button class="btn btn--sm" data-action="storyUse" data-id="${r.id}" title="${t('use.storyHint')}">${t('use.use')}</button>` : ''}
               ${kind === 'item' && e.drone ? (c.play.droneFlat
@@ -106,7 +110,7 @@ export function gearTab(c, s, data, ctx = {}) {
 
   const lifestyle = card(t('gear.kind.lifestyle'), html`
     ${s.lifestyle.entries.length ? html`<div class="rows">${s.lifestyle.entries.map((e) => html`
-      <div class="row"><div class="row__main"><div class="row__title">${e.name}${e.tier ? html` <span class="pill">${t('gear.tier')} ${e.tier}</span>` : ''}</div><div class="row__meta">${nameOf(data.lifestyle.categories, e.category)} · $${e.cost.cr}/${t('gear.month')}</div></div>
+      <div class="row">${iconFor('lifestyle', e, data, 'gi--row')}<div class="row__main"><div class="row__title">${e.name}${e.tier ? html` <span class="pill">${t('gear.tier')} ${e.tier}</span>` : ''}</div><div class="row__meta">${nameOf(data.lifestyle.categories, e.category)} · $${e.cost.cr}/${t('gear.month')}</div></div>
       <button class="btn btn--sm btn--ghost" data-action="dropLifestyle" data-id="${e.id}" aria-label="${t('common.remove')}: ${e.name}">✕</button></div>`)}</div>
       <p class="mono">${t('gear.upkeep', { cr: s.lifestyle.cr, crs: s.lifestyle.crs })}</p>`
     : html`<p class="muted">${t('gear.noLifestyle')}</p>`}`, {
@@ -115,7 +119,7 @@ export function gearTab(c, s, data, ctx = {}) {
     ref: 'lifestyle',
   });
 
-  return html`<div class="stack">${offersCard(c, data)}${money}<div class="gear-cols"><div class="stack">${gear}</div><div class="stack">${stashesCard(c, data, ctx.stashes)}${lifestyle}</div></div></div>`;
+  return { offers: offersCard(c, data), money, inventory: gear, stash: stashesCard(c, data, ctx.stashes), lifestyle };
 }
 
 export const catalog = (kind, data) => {
