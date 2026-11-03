@@ -899,7 +899,8 @@
       "play": {
         "mend": {
           "target": "none",
-          "gm": "Partial cover (+2) in a square next to an ally, until it is moved or destroyed."
+          "gm": "Partial cover (+2) in a square next to an ally, until it is moved or destroyed.",
+          "place": "scrap_cover"
         },
         "surge": {
           "target": "enemy",
@@ -1004,7 +1005,10 @@
             "conditions": [
               "braced"
             ],
-            "note": "+2 armor until the end of next round."
+            "note": "+2 armor until the end of next round.",
+            "lasts": {
+              "braced": "nextRound"
+            }
           }
         },
         "surge": {
@@ -1169,7 +1173,10 @@
           "max": 4,
           "conditions": [
             "blinded"
-          ]
+          ],
+          "lasts": {
+            "blinded": "nextRound"
+          }
         }
       }
     },
@@ -1223,7 +1230,10 @@
             "conditions": [
               "braced"
             ],
-            "note": "+2 armor until the end of next round."
+            "note": "+2 armor until the end of next round.",
+            "lasts": {
+              "braced": "nextRound"
+            }
           }
         },
         "surge": {

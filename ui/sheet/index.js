@@ -30,7 +30,8 @@ import { withUniques } from '../../rules/uniques.js';
 import { abilityWeapon, isRanged } from '../../rules/engines.js';
 import { itemName } from './inventory-actions.js';
 import { crewStashHandlers } from './crew-stash-handlers.js';
-import { initiativeHandlers } from './initiative.js';
+import { initiativeHandlers, prepareHandlers } from './initiative.js';
+import { tableStrip, startStripClock } from './table-strip.js';
 import { whisperButton, openWhisper } from './whisper.js';
 import { hitHandlers } from './hit-handlers.js';
 import { playAbility, detonate } from './ability-play.js';
@@ -70,9 +71,9 @@ export function sheetView({ data, store, main, table }, route) {
   if (askedTab === 'gear') setOpen(['inventory', 'money']); // decision 215: the old Gear tab is the Sheet's Inventory and Money
   const asked = askedTab === 'skills' || askedTab === 'gear' ? 'play' : askedTab; // decision 164: old Skills links land on Setup
   const tableMap = () => (table?.state.joinedId === id ? table.state.map : null);
-  // decision 162: with a map on the table the Tactical View comes first, and a sheet opened without a tab goes there
-  const tabs = () => (tableMap() ? [TABS.find((x) => x.id === 'map'), ...TABS.filter((x) => x.id !== 'map')] : TABS.filter((x) => x.id !== 'map'));
-  const tabId = asked ?? (tableMap() ? 'map' : 'play');
+  // decision 162 → 232: with a map on the table the Tactical View is the tab next to Sheet; a sheet opens on Sheet
+  const tabs = () => { const rest = TABS.filter((x) => x.id !== 'map'); return tableMap() ? [rest[0], TABS.find((x) => x.id === 'map'), ...rest.slice(1)] : rest; };
+  const tabId = asked ?? 'play';
   const tableMarks = () => (table?.state.joinedId === id ? table.state.marks : null); // decision 82
   const sendMark = (body) => (tableMap() ? table.mark(tableMap().id, body) : Promise.resolve(false));
   if (!store.get(id)) {
@@ -109,7 +110,11 @@ export function sheetView({ data, store, main, table }, route) {
     const s = deriveSheet(c, data);
     // keep collapsible sections open across re-renders
     const open = new Set([...main.querySelectorAll('details[data-keep][open]')].map((d) => d.dataset.keep));
-    const ctx = { combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null };
+    // decision 237: the table strip — the GM's environment, a timer for this character, the round countdowns shown
+    const atTableNow = table?.state.joinedId === id;
+    const strip = atTableNow ? tableStrip(data, { env: table.state.environment, timer: table.state.timer, countdowns: table.state.combat?.countdowns ?? [] }) : '';
+    if (strip) startStripClock();
+    const ctx = { strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null };
     const tabNav = html`<nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
             ${tabs().map((x) => html`<a class="tab ${x.id === 'map' ? 'tab--live' : ''}" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
           </nav>`;
@@ -122,13 +127,15 @@ export function sheetView({ data, store, main, table }, route) {
           <div class="cluster">${tools}</div>
         </div>
 `;
-    const loadout = loadoutOverlay(c, s, withUniques(data, c), ctx.combat) || hitOverlay(c, s, withUniques(data, c)) || (table?.state.joinedId === id ? contactOverlay(table.state.contact) : '') || callOverlay(c, s, withUniques(data, c)); // decision 211: contact // decision 192: before a fight, or Swap abilities; then a hit (decision 207); then the GM's roll calls (decision 193)
+    const loadout = loadoutOverlay(c, s, withUniques(data, c), ctx.combat, table?.state.joinedId === id ? table.state.prepare : null) || hitOverlay(c, s, withUniques(data, c)) || (table?.state.joinedId === id ? contactOverlay(table.state.contact) : '') || callOverlay(c, s, withUniques(data, c)); // decision 211: contact // decision 192: before a fight, or Swap abilities; then a hit (decision 207); then the GM's roll calls (decision 193)
     const tactical = tab.id === 'map' && Boolean(tableMap());
     if (toolsEl) render(toolsEl, tactical ? '' : tools);
     if (tactical) { // decision 162: the Tactical View has its own frame
       render(main, html`${tacticalView(c, s, withUniques(data, c), ctx, nav)}${loadout}`);
     } else render(main, html`
       <div class="sheet">
+        ${strip}
+        ${table?.state.stale ? html`<p class="notice notice--warn sheet-stale">${t('table.stale')} <button class="btn btn--sm btn--primary" data-action="reloadApp">${t('table.reload')}</button></p>` : ''}
         ${statusBar(c, s, data, { compact: tab.id === 'map' && !statusOpen(), tabs: tabNav })}${tab.id === 'map' && statusOpen() ? html`<button class="btn btn--sm btn--ghost sheet-status__less" data-action="statusOpen">${t('status.collapse')}</button>` : ''}
         ${tableBanner(table, id, data)}
         ${tourDone('general') ? '' : html`<p class="notice tour-offer"><span>${t('tour.offer')}</span>
@@ -154,7 +161,7 @@ export function sheetView({ data, store, main, table }, route) {
     if (!map?.canMove || !map.tokens.some((tk) => tk.key === id)) return null;
     const combat = tableCombat();
     if (!combat?.active) return { max: data.map.move.explore, combat: false };
-    if (combat.current !== id) return { why: 'notTurn' };
+    if (combat.current !== id && combat.round !== 0) return { why: 'notTurn' }; // decision 233: in a head start everyone moves
     const c = character();
     const s = deriveSheet(c, data);
     const turn = c.play.turn ?? newTurn();
@@ -447,6 +454,7 @@ export function sheetView({ data, store, main, table }, route) {
     askSkip: ({ id: askId, name }) => run('rollAsked', { id: askId, name }), // decision 165
     clearScan: () => run('clearScan'), // decision 170
     ...initiativeHandlers({ character, sheet: () => deriveSheet(character(), data), data, run, table, toast }), // decision 148
+    ...prepareHandlers({ character, sheet: () => deriveSheet(character(), data), data, run, table, toast }), // decision 232
     ...crewStashHandlers({ character, data, run, table, toast }), // decision 145: 📦 picks your stash or the crew's
     stashTake: ({ kind, id: itemId }) => run('stashTake', { kind, id: itemId }),
     stashCash: ({ dir }, e) => run('stashCash', { dir, amount: e.target.closest('.stash-cash')?.querySelector('input')?.value }),
@@ -513,6 +521,7 @@ export function sheetView({ data, store, main, table }, route) {
     loadoutOpen: () => { if (!loadoutOpen(character().play.turn)) { toast(t('rule.loadoutLocked'), 'danger'); return; } openSwap(); draw(); }, // decision 192: Swap abilities; 194: not mid-fight
     loadoutClose: () => { closeSwap(); draw(); },
     combatReady: () => { closeSwap(); run('combatReady'); },
+    reloadApp: () => location.reload(), // decision 234: the table's app was updated
     contactOk: ({ at }) => { closeContact(at); draw(); }, // decision 211
     secJump: ({ id: sec }) => { // decision 215: open it and bring its title just under the sticky status bar; decision 216: tapped again, it closes
       if (isOpen(sec)) { setOpen([sec], false); draw(); return; }
@@ -670,18 +679,8 @@ export function sheetView({ data, store, main, table }, route) {
   });
 
   const unsubscribe = store.subscribe((change) => { if (change.id === id && change.type === 'update' && !change.silent) draw(); });
-  // decision 162: a new map on the table takes this sheet to the Tactical View, once per map
-  const SEEN = 'fe.tactical.seen';
-  const offTable = table?.subscribe(() => {
-    const m = tableMap();
-    let seen = null;
-    try { seen = sessionStorage.getItem(SEEN); } catch { /* private mode */ }
-    if (m && m.id !== seen) {
-      try { sessionStorage.setItem(SEEN, m.id); } catch { /* private mode */ }
-      if (tabId !== 'map') { go('sheet', id, 'map'); return; } // the table already says a map arrived
-    }
-    draw();
-  });
+  // decision 232: a new map on the table no longer takes the sheet to the Tactical View — its tab appears next to Sheet
+  const offTable = table?.subscribe(() => draw());
 
   draw();
   return cleanup(offClick, offChange, offInput, unsubscribe, offTable, () => main.removeEventListener('pointerdown', onFrameDown), () => main.removeEventListener('toggle', onToggle, true),

@@ -28,7 +28,7 @@ Una scheda qui mostra un tipo e com'è fatto. **I numeri qui sotto non sono stam
 
 **Come si gioca.** La maggior parte dei nemici di strada non è pagata abbastanza per morire. Un'abitudine, non una regola: i nemici normali pensano a scappare quando sono *Bloodied*, quando cade il loro capo, o quando lo scontro gli gira chiaramente contro. Si arrendono, fuggono, o chiamano rinforzi che possono arrivare in due round. Fanatici e macchine no. Gli élite decidono da sé, e i migliori tornano.
 
-**Nella console del GM (scheda Combat).**
+**Nella console del GM (scheda Scene).**
 
 - **Aggiungere nemici** dalla libreria: cerca, scegli quante copie, *Add*. Oppure scrivine uno personalizzato nell'ultima riga.
 - **Players see** — dai a ognuno un nome pubblico; *Hide* tiene un'imboscata fuori dagli schermi dei giocatori finché non viene rivelata.

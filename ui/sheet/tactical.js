@@ -58,7 +58,7 @@ export function tacticalView(c, s, data, ctx, nav) {
     { id: 'log', icon: ico('act_other'), label: t('tac.rail.log'), body: html`<div class="log">${(c.play.log ?? []).slice(0, 30).map((l) => html`<div class="log__row log__row--${l.kind}"><span class="mono muted">${time(l.t)}</span><span>${l.text}</span></div>`)}</div>` },
   ];
   return html`<div class="tac" data-tour="tactical">
-    <div class="tac__top"><div class="tac__statusrow">${statusBar(c, s, data, { compact: true, all: true })}${displayMenu()}</div>${nav}</div>
+    <div class="tac__top">${ctx.strip ?? ''}<div class="tac__statusrow">${statusBar(c, s, data, { compact: true, all: true })}${displayMenu()}</div>${nav}</div>
     ${railLayout('tac', { left, right, className: 'tac__rails', main: html`<section class="tac__map">${mapTab(c, s, data, { ...ctx, tactical: true, actions: grid })}</section>` })}
     ${classBar(c, s, data)}
     ${waiting.length ? html`<div class="tac__bottom">${waiting}</div>` : ''}

@@ -28,7 +28,7 @@ You live and die by your ability to manage your stress, keep your head down, and
 
 The deepest terrors of the twenty-first century do not arrive with the blare of sirens or the visible descent of monsters. They arrive on the back of an inescapable, bone-deep weariness.
 
-Beneath the frantic, hyper-monetized activity of everyday life, The Fractured Century is experiencing a quiet, unquantifiable spiritual collapse. Talk to anyone on the commuter lines, and they will blame their collective, crushing exhaustion on the relentless mechanical grind of late-stage digital capitalism, the predatory demands of the Aggregated Shift, or the financial stress of the micro-transaction grid.
+Beneath the frantic, hyper-monetized activity of everyday life, Fractured Earth is experiencing a quiet, unquantifiable spiritual collapse. Talk to anyone on the commuter lines, and they will blame their collective, crushing exhaustion on the relentless mechanical grind of late-stage digital capitalism, the predatory demands of the Aggregated Shift, or the financial stress of the micro-transaction grid.
 
 They are only half right.
 
@@ -70,7 +70,7 @@ Instead of organizing or building meaningful solidarity, they spin outward into 
 
 ![The everyday grind.](images/tech_repairing_fibre.webp)
 
-Technology in The Fractured Century is not a ladder toward human ascension; it is the concrete and code we are using to construct our own cage. Humanity is slipping down a long, dark incline of its own making.
+Technology in Fractured Earth is not a ladder toward human ascension; it is the concrete and code we are using to construct our own cage. Humanity is slipping down a long, dark incline of its own making.
 
 **The Mechanical Inertia**
 

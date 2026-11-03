@@ -2,6 +2,7 @@
 // Logs stay English ("Brace & Dig In: Braced"); a fabricated item is logged "Added …" for the GM's audit.
 
 import { boonResult } from '../../rules/ability-play.js';
+import { stamp, prune } from '../../rules/condition-time.js'; // decision 236
 import { deriveSheet } from '../../state/character.js';
 import { uid } from '../../state/id.js';
 import { log } from './actions.js';
@@ -36,7 +37,7 @@ export const abilityActions = {
     c.play.boons ??= [];
     if (!msg?.id || c.play.boons.some((b) => b.id === msg.id)) return false;
     c.play.boons.push({ id: text(msg.id, 40), from: text(msg.fromName, 40), ability: text(msg.ability, 60), heal: Number.isFinite(Number(msg.heal)) && msg.heal != null ? Math.max(0, Math.round(Number(msg.heal))) : null,
-      healText: text(msg.healText, 80), conditions: (msg.conditions ?? []).filter((id) => /^[a-z_]{1,24}$/.test(id)).slice(0, 4), clear: (msg.clear ?? []).filter((id) => /^[a-z_]{1,24}$/.test(id)).slice(0, 4),
+      healText: text(msg.healText, 80), conditions: (msg.conditions ?? []).filter((id) => /^[a-z_]{1,24}$/.test(id)).slice(0, 4), lasts: msg.lasts && typeof msg.lasts === 'object' ? msg.lasts : {}, clear: (msg.clear ?? []).filter((id) => /^[a-z_]{1,24}$/.test(id)).slice(0, 4),
       cracks: Math.max(0, Math.min(10, Math.round(Number(msg.cracks) || 0))), note: text(msg.note, 300) });
     return true;
   },
@@ -49,6 +50,9 @@ export const abilityActions = {
     const out = boonResult({ hp: s.hp.current, maxHp: s.hp.max, conditions: c.play.conditions, armorDamage: c.play.armorDamage ?? 0 }, b);
     c.play.hp = out.hp >= s.hp.max ? null : out.hp;
     c.play.conditions = out.conditions;
+    // decision 236: the card's conditions last as its ability says (Braced to the end of next round), else their default
+    const t = c.play.turn;
+    c.play.condTimes = prune(out.conditions, stamp(c.play.condTimes, b.conditions ?? [], { round: t?.inCombat ? t.round : 0, own: Boolean(t?.onTurn), lasts: b.lasts ?? {} }, data));
     c.play.armorDamage = out.armorDamage;
     const parts = [out.gained ? `+${out.gained} HP${b.healText ? ` (${b.healText})` : ''}` : '', ...(b.conditions ?? []).map((k) => condName(data, k)),
       ...(b.clear ?? []).map((k) => `no longer ${condName(data, k)}`), b.cracks ? `${b.cracks} armor cracks mended` : '', b.note].filter(Boolean);

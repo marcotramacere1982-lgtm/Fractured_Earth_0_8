@@ -8,9 +8,9 @@
 
 Il mondo non finisce con un punto esclamativo, improvviso e violento. Non annega nel bagliore accecante del neon di un delirio cibernetico, e non crolla sotto il tallone di ferro di un'occupazione militare aziendale dichiarata. La verità del nostro declino è molto più silenziosa, molto più ordinata, e infinitamente più estenuante.
 
-**The Fractured Century** è un gioco di ruolo di fantascienza hard ambientato esattamente vent'anni nel nostro futuro. È una finestra concreta, quasi storica, sul lento congelamento del consolidamento sistemico delle corporazioni. L'ambientazione rifiuta apertamente i cliché sensazionalistici del cyberpunk pop: niente luci sottopelle, niente samurai cibernetici che fendono grattacieli monolitici, nessuna grande rivoluzione digitale all'orizzonte. Questo è invece un mondo che gira su un sottofondo costante, a bassa frequenza, di attrito strutturale, stanchezza amministrativa e profonda apatia di sistema.
+**Fractured Earth** è un gioco di ruolo di fantascienza hard ambientato nel 2045, vent'anni nel nostro futuro. È una finestra concreta, quasi storica, sul lento congelamento del consolidamento sistemico delle corporazioni. L'ambientazione rifiuta apertamente i cliché sensazionalistici del cyberpunk pop: niente luci sottopelle, niente samurai cibernetici che fendono grattacieli monolitici, nessuna grande rivoluzione digitale all'orizzonte. Questo è invece un mondo che gira su un sottofondo costante, a bassa frequenza, di attrito strutturale, stanchezza amministrativa e profonda apatia di sistema.
 
-> È un mondo distopico ambientato vent'anni nel futuro, più o meno nel 2050. Alcuni concetti suoneranno stranamente familiari; altre tecnologie e altri comportamenti sono nati come conseguenza del progresso.
+> È un mondo distopico ambientato nel 2045, tra vent'anni. Alcuni concetti suoneranno stranamente familiari; altre tecnologie e altri comportamenti sono nati come conseguenza del progresso.
 
 ## 1-2. La Guerra dei Tre Anni e il Grande Riconsolidamento {#sec-1-2}
 

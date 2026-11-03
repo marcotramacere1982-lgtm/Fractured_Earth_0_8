@@ -18,8 +18,8 @@
   "npcRoles": [
     {
       "id": "group",
-      "name": "Group",
-      "short": "G"
+      "name": "Party",
+      "short": "P"
     },
     {
       "id": "civilian",

@@ -15,7 +15,8 @@
     "against": {
       "melee": 4
     },
-    "icon": "cond_prone"
+    "icon": "cond_prone",
+    "lasts": "treated"
   },
   {
     "id": "slowed",
@@ -25,7 +26,8 @@
       "−1 action on your next turn (minimum 1)."
     ],
     "clear": "Clears at the end of your next turn.",
-    "icon": "cond_slowed"
+    "icon": "cond_slowed",
+    "lasts": "turn"
   },
   {
     "id": "stunned",
@@ -36,7 +38,8 @@
       "No proactive defense or opportunity attacks."
     ],
     "clear": "Clears at the end of your next turn.",
-    "icon": "cond_stunned"
+    "icon": "cond_stunned",
+    "lasts": "turn"
   },
   {
     "id": "blinded",
@@ -47,14 +50,15 @@
       "Your attacks −10 TN or hit a random adjacent square.",
       "Ranged attacks against you gain +4 TN."
     ],
-    "clear": "1 action to clear ocular feedback, or lasts 1–3 rounds.",
+    "clear": "Clears at the end of your next turn (some abilities: longer), or spend 1 action to clear ocular feedback.",
     "mods": {
       "attackTn": -10
     },
     "against": {
       "ranged": 4
     },
-    "icon": "cond_blinded"
+    "icon": "cond_blinded",
+    "lasts": "turn"
   },
   {
     "id": "broken_arm",
@@ -66,7 +70,8 @@
       "Both arms: only movement, talking and mental abilities."
     ],
     "clear": "First aid (1 action, Medicine / First Aid check), a Basic Trauma Kit or Paramedic Case, or downtime.",
-    "icon": "cond_broken_arm"
+    "icon": "cond_broken_arm",
+    "lasts": "treated"
   },
   {
     "id": "crippled_leg",
@@ -78,7 +83,8 @@
       "Both legs: 1 square per move."
     ],
     "clear": "First aid (1 action, Medicine / First Aid check), a Basic Trauma Kit or Paramedic Case, or downtime.",
-    "icon": "cond_crippled_leg"
+    "icon": "cond_crippled_leg",
+    "lasts": "treated"
   },
   {
     "id": "disconnected",
@@ -90,7 +96,8 @@
       "Active sustained scripts end immediately."
     ],
     "clear": "Computers / Hacking check (1 action) or a System Hard Reboot.",
-    "icon": "cond_disconnected"
+    "icon": "cond_disconnected",
+    "lasts": "treated"
   },
   {
     "id": "jammed",
@@ -101,7 +108,8 @@
       "Weapon mount jammed: no attacks."
     ],
     "clear": "1 action to clear the jam (the unit or a technician).",
-    "icon": "cond_jammed"
+    "icon": "cond_jammed",
+    "lasts": "treated"
   },
   {
     "id": "poisoned",
@@ -113,7 +121,8 @@
       "Synthetic: cracks 1 armor per round."
     ],
     "clear": "Lasts 3 rounds, or Antitoxin / Burn Gel.",
-    "icon": "cond_poisoned"
+    "icon": "cond_poisoned",
+    "lasts": "rounds3"
   },
   {
     "id": "enraged",
@@ -127,7 +136,8 @@
     "mods": {
       "meleeDamage": 2
     },
-    "icon": "cond_enraged"
+    "icon": "cond_enraged",
+    "lasts": "rounds2"
   },
   {
     "id": "incapacitated",
@@ -138,7 +148,8 @@
       "Attacks hit automatically and can execute or amputate."
     ],
     "clear": "Needs immediate stabilization: above 0 HP, a Paramedic Case, Adrenaline or Smelling Salts gets you up.",
-    "icon": "cond_incapacitated"
+    "icon": "cond_incapacitated",
+    "lasts": "treated"
   },
   {
     "id": "wounded",
@@ -148,7 +159,8 @@
       "Has taken damage this combat. Smuggler pendulum drifts +1 at round end."
     ],
     "clear": "Healed to full or end of combat.",
-    "icon": "cond_wounded"
+    "icon": "cond_wounded",
+    "lasts": "fight"
   },
   {
     "id": "overdrive",
@@ -162,7 +174,8 @@
     "mods": {
       "act": 1
     },
-    "icon": "cond_overdrive"
+    "icon": "cond_overdrive",
+    "lasts": "scene"
   },
   {
     "id": "focused",
@@ -176,7 +189,8 @@
     "mods": {
       "attackTn": 2
     },
-    "icon": "cond_focused"
+    "icon": "cond_focused",
+    "lasts": "scene"
   },
   {
     "id": "unsteady",
@@ -190,7 +204,8 @@
     "mods": {
       "attackTn": -2
     },
-    "icon": "cond_unsteady"
+    "icon": "cond_unsteady",
+    "lasts": "round"
   },
   {
     "id": "evasive",
@@ -206,7 +221,8 @@
       "melee": -2,
       "ranged": -2
     },
-    "icon": "cond_evasive"
+    "icon": "cond_evasive",
+    "lasts": "round"
   },
   {
     "id": "sidestepping",
@@ -222,7 +238,8 @@
       "melee": -4,
       "ranged": -4
     },
-    "icon": "cond_evasive"
+    "icon": "cond_evasive",
+    "lasts": "round"
   },
   {
     "id": "covered",
@@ -238,7 +255,8 @@
       "melee": -2,
       "ranged": -2
     },
-    "icon": "cond_guarded"
+    "icon": "cond_guarded",
+    "lasts": "round"
   },
   {
     "id": "sharp",
@@ -252,7 +270,8 @@
     "mods": {
       "skillTn": 1
     },
-    "icon": "cond_sharp"
+    "icon": "cond_sharp",
+    "lasts": "scene"
   },
   {
     "id": "fired_up",
@@ -266,7 +285,8 @@
     "mods": {
       "off": 1
     },
-    "icon": "cond_fired_up"
+    "icon": "cond_fired_up",
+    "lasts": "scene"
   },
   {
     "id": "guarded",
@@ -280,7 +300,8 @@
     "mods": {
       "def": 1
     },
-    "icon": "cond_guarded"
+    "icon": "cond_guarded",
+    "lasts": "scene"
   },
   {
     "id": "bolstered",
@@ -294,7 +315,8 @@
     "mods": {
       "armor": 1
     },
-    "icon": "cond_bolstered"
+    "icon": "cond_bolstered",
+    "lasts": "scene"
   },
   {
     "id": "masked",
@@ -307,7 +329,8 @@
       "But you are obviously masked: anyone who sees you treats you as hostile."
     ],
     "clear": "Take the kit off (Gear).",
-    "icon": "cond_masked"
+    "icon": "cond_masked",
+    "lasts": "treated"
   },
   {
     "id": "unreadable",
@@ -320,7 +343,8 @@
       "Monitoring alert: automated security flags you on sight — expect alarms."
     ],
     "clear": "Take the kit off (Gear).",
-    "icon": "cond_unreadable"
+    "icon": "cond_unreadable",
+    "lasts": "treated"
   },
   {
     "id": "braced",
@@ -334,7 +358,8 @@
     "mods": {
       "armor": 2
     },
-    "icon": "cond_braced"
+    "icon": "cond_braced",
+    "lasts": "turn"
   },
   {
     "id": "suppressed",
@@ -347,7 +372,8 @@
     "mods": {
       "attackTn": -4
     },
-    "icon": "cond_suppressed"
+    "icon": "cond_suppressed",
+    "lasts": "nextRound"
   },
   {
     "id": "marked",
@@ -362,7 +388,8 @@
       "melee": 2,
       "ranged": 2
     },
-    "icon": "cond_marked"
+    "icon": "cond_marked",
+    "lasts": "round"
   },
   {
     "id": "exposed",
@@ -373,6 +400,7 @@
       "The next hit against it ignores 2 armor."
     ],
     "clear": "After that hit.",
-    "icon": "cond_exposed"
+    "icon": "cond_exposed",
+    "lasts": "used"
   }
 ]

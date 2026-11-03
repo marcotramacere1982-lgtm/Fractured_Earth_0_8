@@ -28,7 +28,7 @@ Vivi e muori della tua capacità di gestire lo stress, di tenere la testa bassa 
 
 I terrori più profondi del Ventunesimo secolo non arrivano con l'urlo delle sirene o con mostri che scendono dal cielo. Arrivano in groppa a una stanchezza inesorabile, che entra nelle ossa.
 
-Sotto l'attività frenetica e iper-monetizzata della vita quotidiana, il Fractured Century sta vivendo un collasso spirituale silenzioso e impossibile da misurare. Parla con chiunque sulle linee dei pendolari, e darà la colpa di quella spossatezza collettiva e schiacciante alla macina implacabile del capitalismo digitale in fase terminale, alle pretese predatorie del Turno Aggregato o allo stress economico della rete delle microtransazioni.
+Sotto l'attività frenetica e iper-monetizzata della vita quotidiana, Fractured Earth sta vivendo un collasso spirituale silenzioso e impossibile da misurare. Parla con chiunque sulle linee dei pendolari, e darà la colpa di quella spossatezza collettiva e schiacciante alla macina implacabile del capitalismo digitale in fase terminale, alle pretese predatorie del Turno Aggregato o allo stress economico della rete delle microtransazioni.
 
 Hanno ragione solo a metà.
 
@@ -70,7 +70,7 @@ Invece di organizzarsi o costruire una solidarietà vera, si disperdono nella tr
 
 ![La fatica di tutti i giorni.](images/tech_repairing_fibre.webp)
 
-Nel Fractured Century la tecnologia non è una scala verso l'ascesa dell'umanità: è il cemento e il codice con cui stiamo costruendo la nostra gabbia. L'umanità sta scivolando lungo un lungo pendio buio che si è scavata da sola.
+In Fractured Earth la tecnologia non è una scala verso l'ascesa dell'umanità: è il cemento e il codice con cui stiamo costruendo la nostra gabbia. L'umanità sta scivolando lungo un lungo pendio buio che si è scavata da sola.
 
 **L'inerzia meccanica**
 

@@ -42,3 +42,31 @@ export function initiativeHandlers({ character, sheet, data, run, table, toast }
     },
   };
 }
+
+/**
+ * Decision 232: the GM's Prepare — initiative rolled in the get-ready window goes to the GM's setup straight away
+ * (their board shows "rolled"); "I'm ready" tells the GM and closes the window.
+ */
+export function prepareHandlers({ character, sheet, data, run, table, toast }) {
+  const prepId = () => table?.state.prepare?.id ?? null;
+  async function send(r) {
+    const id = prepId();
+    if (!id) return;
+    const init = sheet().initiative;
+    const text = `${r.expr} ${r.typed ? `${r.total} (typed)` : `[${r.rolls.join(', ')}]`} ${signedText(init)} INIT = ${r.total + init}`;
+    if (!(await table.initiative(id, r.total))) { toast(t('crewStash.why.offline'), 'danger'); return; }
+    run('prepareRolled', { id, roll: r.total, text });
+  }
+  return {
+    prepRoll: () => send(roll(data.encounter.initiativeDie)),
+    prepTyped: (_, e) => {
+      const v = e.target.closest('.init-ask')?.querySelector('input')?.value;
+      try { send(typedRoll(data.encounter.initiativeDie, v)); } catch { toast(t('init.badRoll', { die: data.encounter.initiativeDie }), 'danger'); }
+    },
+    async prepReady({ id }) {
+      if (character().play.prepared?.id !== id || character().play.prepared.roll == null) return;
+      if (!(await table.ready(id))) { toast(t('crewStash.why.offline'), 'danger'); return; }
+      run('prepareReady', { id });
+    },
+  };
+}

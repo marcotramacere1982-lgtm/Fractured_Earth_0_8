@@ -8,6 +8,7 @@
 import { damageDice } from './turn.js';
 import { parseDice } from './dice.js';
 import { stanceMultiplier } from './engines.js';
+import { newEncounter, addEnemies } from './encounter.js';
 
 export const hitChance = (tn) => Math.min(0.95, Math.max(0.05, tn / 20));
 
@@ -44,6 +45,19 @@ export function enemyProfile(name, en) {
     key: name, name, tag: en.tag ?? 'organic', hp: en.hp, maxHp: en.maxHp, armor: en.armor, actions: en.actions,
     attacks: (en.conditions?.includes('jammed') ? [] : en.attacks).map((a) => ({ name: a.name, tn: a.tn, ...(damageStats(a.damage) ?? { avg: 0, max: 0 }) })),
   };
+}
+
+/**
+ * Decision 232, step 5 (the difficulty planner): enemy profiles from lines like { templateId, count } — the enemies as
+ * they'd come into a fight, fresh. templates: the library (enemies + elites). Unknown ids are skipped.
+ */
+export function plannedEnemies(lines, templates) {
+  let enc = newEncounter();
+  for (const { templateId, count } of lines) {
+    const t = templates.find((x) => x.id === templateId);
+    if (t && count > 0) enc = addEnemies(enc, t, count);
+  }
+  return enc.entries.filter((e) => e.enemy).map((e) => enemyProfile(e.name, e.enemy));
 }
 
 /** Expected damage per round of one attacker against armor A (best attack; armor subtracts per hit; + once-a-round extra). */

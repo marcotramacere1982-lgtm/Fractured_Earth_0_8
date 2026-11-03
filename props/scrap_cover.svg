@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- Scrap cover, 1 × ½: a bent metal plate propped on two struts (Improvised Cover) — partial cover, you can't walk through it. -->
+  <path class="solid" d="M6 14 L30 8 L52 12 L74 7 L94 13 L92 30 L70 34 L48 30 L26 35 L8 30 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path class="detail" d="M30 8 L26 35 M52 12 L48 30 M74 7 L70 34" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path class="detail" d="M22 34 L16 46 M78 33 L84 46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="16" cy="21" r="2" fill="currentColor"/><circle cx="62" cy="20" r="2" fill="currentColor"/><circle cx="84" cy="20" r="2" fill="currentColor"/>
+</svg>

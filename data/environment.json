@@ -1,0 +1,95 @@
+{
+  "_about": "Decision 237: the table environment the GM sets (narrative only, no rule reads it) — weather (one) and hazards (any), each with its icon in images/ui-icons.svg (env_* / haz_*).",
+  "weather": [
+    {
+      "id": "clear",
+      "name": "Clear"
+    },
+    {
+      "id": "cloud",
+      "name": "Some cloud"
+    },
+    {
+      "id": "overcast",
+      "name": "Overcast"
+    },
+    {
+      "id": "rain",
+      "name": "Rain"
+    },
+    {
+      "id": "acid_rain",
+      "name": "Acid rain"
+    },
+    {
+      "id": "storm",
+      "name": "Storm"
+    },
+    {
+      "id": "fog",
+      "name": "Fog"
+    },
+    {
+      "id": "snow",
+      "name": "Snow"
+    },
+    {
+      "id": "heat",
+      "name": "Heatwave"
+    },
+    {
+      "id": "wind",
+      "name": "High wind"
+    },
+    {
+      "id": "night",
+      "name": "Night"
+    }
+  ],
+  "hazards": [
+    {
+      "id": "radiation",
+      "name": "Radiation"
+    },
+    {
+      "id": "emp",
+      "name": "EMP storm"
+    },
+    {
+      "id": "toxic_gas",
+      "name": "Toxic gas"
+    },
+    {
+      "id": "smog",
+      "name": "Smog alert"
+    },
+    {
+      "id": "biohazard",
+      "name": "Biohazard"
+    },
+    {
+      "id": "blackout",
+      "name": "Blackout"
+    },
+    {
+      "id": "curfew",
+      "name": "Curfew"
+    },
+    {
+      "id": "drones",
+      "name": "Drone sweep"
+    },
+    {
+      "id": "surveillance",
+      "name": "Surveillance"
+    },
+    {
+      "id": "freeze",
+      "name": "Freezing"
+    },
+    {
+      "id": "fire",
+      "name": "Fires"
+    }
+  ]
+}

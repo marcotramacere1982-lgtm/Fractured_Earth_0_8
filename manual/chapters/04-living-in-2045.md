@@ -86,7 +86,7 @@ Freelancers use the internal processing cores of their modified Anchors to activ
 
 ## 4-4. The fragmented philosophies {#sec-4-4}
 
-In the fractured century, intellectual debate has suffered the same degradation as the physical infrastructure. True ideological discourse has evaporated, replaced by highly tribal, high-friction socio-political tribes. Belief systems operate less like rationalized philosophies and more like the fierce, unyielding loyalty of twentieth-century sports fan clubs.
+In 2045, intellectual debate has suffered the same degradation as the physical infrastructure. True ideological discourse has evaporated, replaced by highly tribal, high-friction socio-political tribes. Belief systems operate less like rationalized philosophies and more like the fierce, unyielding loyalty of twentieth-century sports fan clubs.
 
 People do not choose a worldview based on logic; they don't have the cognitive bandwidth under the ambient weight of the static. Instead, they pick a "team," don its aesthetic markers, and weaponize its rhetoric to survive the daily grind.
 

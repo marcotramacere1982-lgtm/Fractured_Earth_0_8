@@ -2,10 +2,11 @@
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
 import { logHandHp } from '../../rules/hand-edits.js';
+import { stamp, stampNew, atTurnEnd, atRoundEnd, atFightEnd, prune } from '../../rules/condition-time.js'; // decision 236
 import { abilityContext, failAbility, canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, openingChoice, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
 import { buy, magazineId, addItem } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
-import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance, checkLoadout } from '../../rules/turn.js';
+import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance, checkLoadout, roundAllowance } from '../../rules/turn.js';
 import { checkDroneMod } from '../../rules/field-drone.js';
 import { RuleError } from '../../rules/messages.js';
 import { mergeIntel } from '../../rules/intel.js';
@@ -26,7 +27,7 @@ import { wornGrants } from '../../rules/body.js';
 export function spend(c, data, what) {
   const turn = c.play.turn ?? newTurn();
   if (!turn.inCombat) return '';
-  const max = allowance(deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions);
+  const max = roundAllowance(turn, deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions); // decision 233: prep actions in round 0
   c.play.turn = spendAction(turn, max, what);
   const before = c.play.resources?.stance;
   if (c.classId === 'soldier' && c.play.resources) c.play.resources = stanceAfterAction(c.classId, c.play.resources, what.kind, data.classes); // decision 88
@@ -56,7 +57,7 @@ function fieldStrip(c, data) {
 function reactionSpend(c, data) {
   const turn = c.play.turn ?? newTurn();
   if (!turn.inCombat) return '';
-  const max = allowance(deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions);
+  const max = roundAllowance(turn, deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions); // decision 233: prep actions in round 0
   const now = turn.used < max;
   c.play.turn = now ? spendAction(turn, max, { kind: 'reaction' }) : borrowAction(turn, max);
   return `R${turn.round} · reaction (${now ? "this round's action" : "next round's action"}) · `;
@@ -384,9 +385,21 @@ export const actions = {
       talents: deriveSheet(c, data).talents,
     });
     const transient = new Set(data.conditions.filter((k) => k.transient).map((k) => k.id)); // decision 182: Evasive, Covered, Unsteady… — this round only
-    c.play.conditions = c.play.conditions.filter((x) => !data.encounter.roundEndClears.includes(x) && !(c.play.roundConditions ?? []).includes(x) && !transient.has(x));
+    c.play.conditions = c.play.conditions.filter((x) => !(c.play.roundConditions ?? []).includes(x) && !transient.has(x));
+    // decision 236: what lasts a round (or until the next one) wears off
+    // first seen now (at the table: during this sheet's turn or not; alone, the round end is its turn end — "until your next turn")
+    c.play.condTimes = stampNew(c.play.conditions, c.play.condTimes, { round: turn.round, own: Boolean(turn.tableCombat && turn.onTurn) }, data);
+    // a fight on this sheet alone has no turn order: its round is its turn
+    const solo = turn.tableCombat ? null : atTurnEnd(c.play.conditions, c.play.condTimes);
+    const r0 = solo ?? { conditions: c.play.conditions, times: c.play.condTimes, gone: [] };
+    const r1 = atRoundEnd(r0.conditions, r0.times, turn.round);
+    const r = { ...r1, gone: [...r0.gone, ...r1.gone] };
+    c.play.conditions = r.conditions;
+    c.play.condTimes = prune(r.conditions, r.times);
+    if (r.gone.length) log(c, `Wore off: ${r.gone.map((id) => data.conditions.find((k) => k.id === id)?.name ?? id).join(', ')}`);
     c.play.roundConditions = []; // decision 155: Steady Aim's Focused, Brace & Dig In's Braced — this round only
     tickItemEffects(c, data); // after the clear: a stim crash Slows next round
+    c.play.condTimes = stampNew(c.play.conditions, c.play.condTimes, { round: turn.round + 1, own: false }, data); // decision 236: put on between rounds
     resetUses(c, data, 'round');
     c.play.turn = endRound(turn);
     log(c, `— End of round ${turn.round} —`);
@@ -404,6 +417,12 @@ export const actions = {
     c.play.aimed = false;
     c.play.conditions = c.play.conditions.filter((x) => !(c.play.roundConditions ?? []).includes(x));
     c.play.roundConditions = [];
+    if (data) { // decision 236: what lasts a turn, a round or the fight ends with it
+      c.play.condTimes = stampNew(c.play.conditions, c.play.condTimes, {}, data);
+      const r = atFightEnd(c.play.conditions, c.play.condTimes);
+      c.play.conditions = r.conditions;
+      c.play.condTimes = prune(r.conditions, r.times);
+    }
     log(c, '=== Combat over ===');
   },
   /**
@@ -454,15 +473,37 @@ export const actions = {
     const turn = c.play.turn ?? newTurn();
     const mine = turn.inCombat && turn.tableCombat === msg.id;
     if (!msg.active) {
-      if (mine) actions.combatEnd(c, data);
+      // decision 231: the table has one tracker — no fight running there ends any table fight this sheet is still in,
+      // even an older one it missed the end of (a tablet asleep, then a new encounter): a stuck sheet ignored the next initiative ask
+      if (turn.inCombat && turn.tableCombat) actions.combatEnd(c, data);
       return;
     }
     if (!mine) {
       c.play.initAsk = null; // the fight started: the GM has the order (decision 148)
       actions.combatStart(c, data);
-      c.play.turn = { ...c.play.turn, tableCombat: msg.id, round: msg.round, ready: false }; // the pre-fight window (decision 195)
+      // the pre-fight window (decision 195) — not again for a sheet that got ready in the GM's Prepare (decision 232)
+      c.play.turn = { ...c.play.turn, tableCombat: msg.id, round: msg.round, ready: Boolean(c.play.prepared?.ready) };
+      c.play.prepared = null;
+      // decision 233: a head start — round 0, n prep actions, everyone at once (the get-ready window still comes first)
+      if (msg.round === 0 && msg.head) { c.play.turn = { ...c.play.turn, prep: msg.head.n }; log(c, `Head start: ${msg.head.n} prep action${msg.head.n === 1 ? '' : 's'}`); }
       if (msg.round > 1) log(c, `Joined the GM's combat at round ${msg.round}`);
       return;
+    }
+    // decision 233: the head start is over — round 1 with a fresh pool, no engine tick (prep is setup, not a round)
+    if (c.play.turn.round === 0 && msg.round >= 1) {
+      c.play.turn = { ...c.play.turn, round: 1, used: 0, reserved: 0, spent: [], moveLeft: 0, prep: null };
+      c.play.prepared = null; // its initiative was this fight's: the next fight asks again
+      log(c, '=== Round 1 ===');
+    }
+    // decision 236: conditions seen for the first time get their length now; this sheet's turn ending wears "turn" ones off
+    c.play.condTimes = stampNew(c.play.conditions, c.play.condTimes, { round: c.play.turn.round, own: Boolean(c.play.turn.onTurn) }, data);
+    if (msg.current === c.id) c.play.turn = { ...c.play.turn, onTurn: true };
+    else if (c.play.turn.onTurn) {
+      const r = atTurnEnd(c.play.conditions, c.play.condTimes);
+      c.play.conditions = r.conditions;
+      c.play.condTimes = prune(r.conditions, r.times);
+      c.play.turn = { ...c.play.turn, onTurn: false };
+      if (r.gone.length) log(c, `Wore off: ${r.gone.map((id) => data.conditions.find((k) => k.id === id)?.name ?? id).join(', ')}`);
     }
     // Scavenger: enemies that went down or left take their Tells with them
     if (c.classId === 'scavenger' && msg.hostiles) {
@@ -505,6 +546,17 @@ export const actions = {
     c.play.intelBackground = { ...(c.play.intelBackground ?? { rolls: {} }), nemesis, done: true };
   },
 
+  /** Decision 232: initiative rolled in the get-ready window (the GM has it); "I'm ready" opens. */
+  prepareRolled(c, _d, { id, roll, text }) {
+    c.play.prepared = { id: String(id).slice(0, 40), roll: Number(roll), text: String(text).slice(0, 120), ready: false };
+    log(c, `Initiative: ${text}`);
+  },
+  /** Decision 232: ready for the fight being prepared — the window closes; when the fight starts it doesn't ask again. */
+  prepareReady(c, _d, { id }) {
+    if (c.play.prepared?.id !== id) return;
+    c.play.prepared = { ...c.play.prepared, ready: true };
+    log(c, 'Ready for the fight');
+  },
   /** Decision 195: "I'm ready" — the pre-fight window closes and the loadout is set until the fight ends. */
   combatReady(c) {
     if (c.play.turn?.inCombat) c.play.turn = { ...c.play.turn, ready: true };
@@ -622,7 +674,7 @@ export const actions = {
   dodge(c, data, { rollText, success }) {
     const s = deriveSheet(c, data);
     const turn = c.play.turn ?? newTurn();
-    const max = allowance(s.combat.act.value, c.play.conditions, data.actions);
+    const max = roundAllowance(turn, s.combat.act.value, c.play.conditions, data.actions);
     // decision 161 (owner): an action left this round pays for the Dodge; only when they're gone does it borrow from next round
     const now = turn.used < max;
     c.play.turn = now ? spendAction(turn, max, { kind: 'dodge' }) : borrowAction(turn, max);

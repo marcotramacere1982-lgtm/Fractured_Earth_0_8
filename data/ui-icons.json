@@ -1,5 +1,5 @@
 {
-  "_about": "Decision 229: the detailed icons for attributes, combat values, classes, skills, class engines, conditions, actions and ability effects (decision 230). Each id here replaces the line drawing of the same id in icons.json (data/index.js). The drawings are one sprite, images/ui-icons.svg, built by tools/build-gear-icons.mjs from game-icons.net (CC BY 3.0).",
+  "_about": "Decision 229: the detailed icons for attributes, combat values, classes, skills, class engines, conditions, actions and ability effects (decision 230), the table environment, timer and countdowns (decision 237). Each id here replaces the line drawing of the same id in icons.json (data/index.js). The drawings are one sprite, images/ui-icons.svg, built by tools/build-gear-icons.mjs from game-icons.net (CC BY 3.0).",
   "credit": "Interface icons by Lorc, Delapouite, Skoll, Sbed, Darkzaitzev, Caro Asercion, Carl Olsen, Faithtoken, Felbrigg, John Colburn and Zeromancer — game-icons.net, CC BY 3.0",
   "sources": {
     "str": "delapouite/biceps",
@@ -121,6 +121,31 @@
     "fx_ally": "delapouite/meeple-group",
     "fx_search": "delapouite/archive-research",
     "fx_gm": "skoll/talk",
-    "fx_self": "delapouite/meeple"
+    "fx_self": "delapouite/meeple",
+    "env_clear": "lorc/sun",
+    "env_cloud": "delapouite/sun-cloud",
+    "env_overcast": "lorc/cloudy-fork",
+    "env_rain": "lorc/raining",
+    "env_acid_rain": "sbed/acid",
+    "env_storm": "lorc/lightning-storm",
+    "env_fog": "delapouite/fog",
+    "env_snow": "lorc/snowing",
+    "env_heat": "lorc/heat-haze",
+    "env_wind": "lorc/wind-slap",
+    "env_night": "lorc/night-sky",
+    "haz_radiation": "lorc/radioactive",
+    "haz_emp": "sbed/electric",
+    "haz_toxic_gas": "lorc/poison-gas",
+    "haz_smog": "lorc/gas-mask",
+    "haz_biohazard": "lorc/biohazard",
+    "haz_blackout": "sbed/unplugged",
+    "haz_curfew": "skoll/siren",
+    "haz_drones": "delapouite/delivery-drone",
+    "haz_surveillance": "delapouite/cctv-camera",
+    "haz_freeze": "delapouite/thermometer-cold",
+    "haz_fire": "carl-olsen/flame",
+    "timer": "lorc/hourglass",
+    "countdown": "delapouite/alarm-clock",
+    "calendar": "delapouite/calendar"
   }
 }

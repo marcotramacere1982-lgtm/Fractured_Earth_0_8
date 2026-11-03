@@ -188,7 +188,7 @@
     },
     "gm.properties": {
       "title": "Properties",
-      "text": "The selected wall, door, piece, zone or group — or the tool's options. What you set here is how it starts when the map goes on the table: a door locked, a light off, a weak wall already broken. The Play tab changes it live; the saved map keeps the start.",
+      "text": "The selected wall, door, piece, zone or group — or the tool's options. What you set here is how it starts when the map goes on the table: a door locked, a light off, a weak wall already broken. The Scene tab changes it live; the saved map keeps the start.",
       "anchor": "sec-9-7"
     },
     "gm.players": {
@@ -207,8 +207,8 @@
       "anchor": "sec-9-8"
     },
     "gm.npcs": {
-      "title": "NPCs on the map",
-      "text": "Pick a role and Add: players see Worker 1 until you rename it. Each NPC has a private note.",
+      "title": "People on the map",
+      "text": "Not fighting: pick a role and Add — players see Worker 1 until you rename it. Party: several characters moving as one on a big map. Each has a private note.",
       "anchor": "sec-9-8"
     },
     "gm.story": {

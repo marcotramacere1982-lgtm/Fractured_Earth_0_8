@@ -9,7 +9,7 @@ import { findSubclass, classTN, deckCapacity, deckStatus } from '../rules/classe
 import { zoneBonus, isRanged, opticStats, stanceOf } from '../rules/engines.js';
 import { lifestyleUpkeep, magazineId, addItem } from '../rules/economy.js';
 import { conditionMods, halvedMove } from '../rules/conditions.js';
-import { allowance } from '../rules/turn.js';
+import { allowance, roundAllowance } from '../rules/turn.js';
 import { effectTotals } from '../rules/items.js';
 import { withUniques, uniqueBonuses } from '../rules/uniques.js';
 import { emptyStash } from '../rules/stash.js';
@@ -211,7 +211,7 @@ export function deriveSheet(character, data) {
     zone,
     move: halvedMove(movement(combat.sqr.value + zone.squares, injured.legs), cm.moveHalf), // squares per Move action (Prone: halved)
     moveBase: movement(combat.sqr.value + zone.squares, injured.legs),
-    actionsNow: allowance(combat.act.value, character.play.conditions, data.actions), // this round: Stunned 1, Slowed −1
+    actionsNow: roundAllowance(character.play.turn, combat.act.value, character.play.conditions, data.actions), // this round: Stunned 1, Slowed −1; prep actions in a head start (decision 233)
     conditionMods: cm,
     injured: { ...injured, locations: character.play.injuries ?? [] },
     initiative: initiative(a, data.combat) + (fx.initiative ?? 0) + uniq.init,

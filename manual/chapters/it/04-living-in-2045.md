@@ -86,7 +86,7 @@ I freelance usano i processori interni dei loro Anchor modificati per dirottare 
 
 ## 4-4. Le filosofie frammentate {#sec-4-4}
 
-Nel secolo spezzato, il dibattito intellettuale ha subito lo stesso degrado delle infrastrutture fisiche. Il vero confronto ideologico è evaporato, sostituito da tribù socio-politiche fortemente tribali e ad alto attrito. I sistemi di credenze funzionano meno come filosofie ragionate e più come la fedeltà feroce e incrollabile delle tifoserie sportive del Novecento.
+Nel 2045 il dibattito intellettuale ha subito lo stesso degrado delle infrastrutture fisiche. Il vero confronto ideologico è evaporato, sostituito da tribù socio-politiche fortemente tribali e ad alto attrito. I sistemi di credenze funzionano meno come filosofie ragionate e più come la fedeltà feroce e incrollabile delle tifoserie sportive del Novecento.
 
 La gente non sceglie una visione del mondo in base alla logica: sotto il peso costante della statica, non ne ha la banda mentale. Sceglie piuttosto una "squadra", ne indossa i segni estetici e ne usa la retorica come un'arma per sopravvivere alla fatica quotidiana.
 

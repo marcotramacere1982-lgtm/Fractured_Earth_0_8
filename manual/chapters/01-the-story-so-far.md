@@ -8,9 +8,9 @@
 
 The world does not end with a sudden, violent punctuation mark. It doesn’t drown in the blinding neon glare of a cybernetic fever dream, nor does it collapse beneath the iron heel of an overt corporate military occupation. The truth of our descent is far more quiet, far more orderly, and infinitely more exhausting.
 
-**The Fractured Century** is a hard science fiction roleplaying game set exactly twenty years into our future. It functions as a grounded, historical window into the slow-motion freeze of systemic corporate consolidation. The setting actively rejects the sensationalized clichés of pop-cyberpunk; there are no glowing sub-dermal lights, no cybernetic street samurai slicing through monolithic skyscrapers, and no grand digital revolutions on the horizon. Instead, this is a world running on a low-frequency, ambient baseline of structural friction, administrative fatigue, and profound systemic apathy.
+**Fractured Earth** is a hard science fiction roleplaying game set in 2045, twenty years into our future. It functions as a grounded, historical window into the slow-motion freeze of systemic corporate consolidation. The setting actively rejects the sensationalized clichés of pop-cyberpunk; there are no glowing sub-dermal lights, no cybernetic street samurai slicing through monolithic skyscrapers, and no grand digital revolutions on the horizon. Instead, this is a world running on a low-frequency, ambient baseline of structural friction, administrative fatigue, and profound systemic apathy.
 
-> This is a dystopian world set 20 years in the future roughly in the 2050. Some concepts will be weirdly familiar, other new technologies and behaviours have been introduced as consequence of advancements.
+> This is a dystopian world set in 2045, twenty years from now. Some concepts will be weirdly familiar, other new technologies and behaviours have been introduced as consequence of advancements.
 
 ## 1-2. The three years war & the great reconsolidation {#sec-1-2}
 

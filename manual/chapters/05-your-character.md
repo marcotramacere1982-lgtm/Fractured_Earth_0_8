@@ -4,7 +4,7 @@
 
 ## 5-1. Who You Are & How We Play {#sec-5-1}
 
-Welcome to The Fractured Century. Before you load your character sheet or roll your first die, it is vital to understand who you play, the world you inhabit, and how we build this story together at the table.
+Welcome to Fractured Earth. Before you load your character sheet or roll your first die, it is vital to understand who you play, the world you inhabit, and how we build this story together at the table.
 
 ### Who You Are
 
@@ -47,7 +47,7 @@ The app is a smart paper sheet: it does the maths, keeps the rules one tap away 
 
 The GM can run the app from a laptop on the table's Wi-Fi: every tablet opens the same address and works even without internet. At the table the sheet plays a soft sound when your combat turn starts, when the GM sends you something and when you are hit; the 🔔 button in the sheet header switches it off on that device. (Browsers only allow sound after your first tap on the page.) Opening the files directly by double-click does not work — the app must be served from a computer (ask your GM).
 
-**Play as… — your characters on any device.** At the table, the characters page starts with **At the table · Play as**: pick your name (or *New player…* the first time). The list then shows only your characters (other players' on the same tablet fold behind a switch). Your characters at the table appear there, even ones made on another tablet — *Open here* copies one onto this device. Opening a character joins the table with it; characters you create or import while playing as yourself are saved to the table too, under your name. If two devices have played the same character, the newest save wins (the table keeps every earlier copy, so the GM can always go back); if it is open on another device right now, you're asked first. Without a table nothing changes: your sheets stay in this browser, and Export / Import work as always.
+**Play as… — your characters on any device.** At the table, the characters page starts with **At the table · Play as**: pick your name (or *New player…* the first time). The list then shows only your characters (other players' on the same tablet fold behind a switch). Your characters at the table appear there, even ones made on another tablet — *Open here* copies one onto this device. Opening a character joins the table with it; characters you create or import while playing as yourself are saved to the table too, under your name. If two devices have played the same character, the newest save wins (the table keeps every earlier copy, so the GM can always go back); if it is open on another device right now, you're asked first. **Delete** while playing as yourself takes the character off the table too (it isn't open on another device): it goes to the GM's archive, so the GM can bring it back. Without a table nothing changes: your sheets stay in this browser, and Export / Import work as always.
 
 ## 5-3. Attributes & Checks {#sec-5-3}
 
@@ -265,7 +265,7 @@ Upload the portrait on the sheet (Dossier tab); it is shrunk automatically so sa
 ## 5-8. The Character Sheet {#sec-5-8}
 
 - **Display** (top right) — the interface's size (Auto, or A− / A+) and the **theme**: *Night*, *Day*, *Corp Interface* (navy HUD), *Grey Zone Terminal* (amber phosphor), *Field Dossier* (a printed case file, bright), *Netrunner* (the hacker's neon), *Night Ops* (olive and stencil, low glare), *Graphite Violet* or *Graphite Crimson* (dark grey with a violet or red accent) — one dropdown. A theme changes the look — colours, panels, borders, titles — never the map, which keeps its own tested colours so fog, darkness and lights always read the same. Remembered on this device.
-- **Status bar** — always visible: HP, armor, initiative, actions, Class TN, Credit Score, cash and active conditions. Its second line holds the sheet's tabs (Sheet, Dossier, Notes & maps, Progress) beside Move, OFF, DEF and PER, and your conditions sit under your class; the tools — message the GM, sound, the tour (?), *At the table*, *Export* — are at the top right of the screen.
+- **Status bar** — always visible: HP, armor, initiative, actions, Class TN, Credit Score, cash and active conditions. Its second line holds the sheet's tabs (Sheet, Dossier, Notes & maps, Progress) beside Move, OFF, DEF and PER, and your conditions sit under your class; the tools — message the GM, sound, the tour (?), *At the table*, *Export* — are at the top right of the screen. At the table, a thin strip above it can show what the GM sets for the scene — the date and time, the weather, the temperature, the hazards — and a timer or a round countdown the GM gives you; it's the story, nothing in the rules reads it.
 - **Sheet** — your character in folding sections, all closed to start; each one shows a one-line summary while closed (*HP 30/33 · Wounded · armor 3*), the index on the left (a row on top in a narrow window) opens one and brings it into view, and tapping it again closes it (*Open all* / *Close all* under it); the sheet uses the whole width of the window, and what you leave open stays open on this device:
   - **Health & conditions** — HP, armor, injuries and conditions (with *Take a hit*) and cover.
   - **Weapons** — your two slots: attack TN, damage, ammo, reload.

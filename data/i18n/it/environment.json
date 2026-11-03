@@ -1,0 +1,72 @@
+{
+  "weather": {
+    "clear": {
+      "name": "Sereno"
+    },
+    "cloud": {
+      "name": "Poco nuvoloso"
+    },
+    "overcast": {
+      "name": "Coperto"
+    },
+    "rain": {
+      "name": "Pioggia"
+    },
+    "acid_rain": {
+      "name": "Pioggia acida"
+    },
+    "storm": {
+      "name": "Temporale"
+    },
+    "fog": {
+      "name": "Nebbia"
+    },
+    "snow": {
+      "name": "Neve"
+    },
+    "heat": {
+      "name": "Ondata di calore"
+    },
+    "wind": {
+      "name": "Vento forte"
+    },
+    "night": {
+      "name": "Notte"
+    }
+  },
+  "hazards": {
+    "radiation": {
+      "name": "Radiazioni"
+    },
+    "emp": {
+      "name": "Tempesta EMP"
+    },
+    "toxic_gas": {
+      "name": "Gas tossico"
+    },
+    "smog": {
+      "name": "Allerta smog"
+    },
+    "biohazard": {
+      "name": "Rischio biologico"
+    },
+    "blackout": {
+      "name": "Blackout"
+    },
+    "curfew": {
+      "name": "Coprifuoco"
+    },
+    "drones": {
+      "name": "Pattuglie di droni"
+    },
+    "surveillance": {
+      "name": "Sorveglianza"
+    },
+    "freeze": {
+      "name": "Gelo"
+    },
+    "fire": {
+      "name": "Incendi"
+    }
+  }
+}

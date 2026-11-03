@@ -67,11 +67,12 @@ export function playEffects(spec, { ability, enemies = [], allies = [], damage =
   const hitsEnemy = Boolean(spec.weapon || spec.damage || spec.conditions?.length || spec.crack);
   const reports = hitsEnemy || (spec.target === 'enemy' || spec.target === 'enemies')
     ? enemies.map((e) => ({ target: e.key, targetLabel: e.label, hit: true, ability, damage: dmgOf(e.key), armor: spec.armor ?? '',
-      conditions: spec.conditions ?? [], crack: spec.crack ?? 0, note: spec.gm ?? '', roll: [roll, weaponText].filter(Boolean).join(' · ') }))
+      conditions: spec.conditions ?? [], lasts: spec.lasts ?? {}, crack: spec.crack ?? 0, note: spec.gm ?? '', roll: [roll, weaponText].filter(Boolean).join(' · ') }))
     : [];
   // nothing aimed at an enemy, but the GM has to do something: a note-only report
-  if (!reports.length && spec.gm) reports.push({ target: '', targetLabel: '', hit: true, ability, damage: null, armor: '', conditions: [], crack: 0, note: spec.gm, roll });
-  const boon = spec.ally ? { ability, heal: spec.ally.heal ? heal : null, healText, conditions: spec.ally.conditions ?? [], clear: spec.ally.clear ?? [], cracks: spec.ally.cracks ?? 0, note: spec.ally.note ?? '' } : null;
+  // place (decision 238): a map piece the GM puts down for it (Improvised Cover's scrap plate) — the GM's card offers it
+  if (!reports.length && spec.gm) reports.push({ target: '', targetLabel: '', hit: true, ability, damage: null, armor: '', conditions: [], crack: 0, note: spec.gm, roll, ...(spec.place ? { place: spec.place } : {}) });
+  const boon = spec.ally ? { ability, heal: spec.ally.heal ? heal : null, healText, conditions: spec.ally.conditions ?? [], lasts: spec.ally.lasts ?? {}, clear: spec.ally.clear ?? [], cracks: spec.ally.cracks ?? 0, note: spec.ally.note ?? '' } : null;
   const boons = boon ? allies.map((a) => ({ ...boon, to: a.id, toName: a.name, me: Boolean(a.me) })) : [];
   const self = spec.self ? { conditions: spec.self.conditions ?? [], roundEnd: Boolean(spec.self.roundEnd), note: spec.self.note ?? '', ammo: spec.self.ammo ?? null, custom: spec.self.custom ?? '' } : null;
   return { reports, self, boons };

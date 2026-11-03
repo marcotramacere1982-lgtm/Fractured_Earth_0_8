@@ -28,7 +28,7 @@ Le persone non hanno **statistiche** e nelle regole non hanno abilità speciali.
 **Nella console del GM.**
 
 - **Scheda Story → Notable NPCs** — aggiungi a una missione persone dalla libreria (o un nome nuovo). Ognuna tiene uno **stato** (*active*, *captured*, *dead*), un **rapporto** con la squadra (*allied*, *neutral*, *hostile*) e una nota del GM, condivisi in tutte le missioni della campagna.
-- **Scheda Deploy → NPCs** — scegli un ruolo e *+ Add* per mettere una persona sulla mappa; rinominala per rivelare chi è.
+- **Scheda Scene → Markers → People on the map** — scegli un ruolo e *+ Add* per mettere una persona sulla mappa; rinominala per rivelare chi è.
 - **Bozze di missione** — il prompt di *Draft with AI* può includere persone della libreria, così i nuovi lavori nascono da facce che il tavolo già conosce.
 
 > **Prima di tutto, divertirsi.** Dai a ogni persona una cosa che i giocatori ricorderanno — un tic, una frase, un odore — e una cosa che vuole. Le persone che ritornano sono la memoria della campagna: l'impiegato che la squadra ha corrotto nel primo lavoro dovrebbe esserci anche nel quinto, promosso e nervoso.

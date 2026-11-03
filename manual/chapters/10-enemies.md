@@ -28,7 +28,7 @@ A card here shows a type and what it looks like. **The numbers below are not pri
 
 **How it plays.** Most enemies on the street aren't paid enough to die. A habit, not a rule: regular enemies think about running once they're *Bloodied*, when their leader drops, or when the fight turns obviously against them. They surrender, flee, or call for backup that may arrive in two rounds. Fanatics and machines don't. Elites decide for themselves, and the good ones come back.
 
-**In the GM console (Combat tab).**
+**In the GM console (Scene tab).**
 
 - **Add enemies** from the library: search, choose how many copies, *Add*. Or type a custom one on the last line.
 - **Players see** — give each a public name; *Hide* keeps an ambusher off the players' screens until revealed.

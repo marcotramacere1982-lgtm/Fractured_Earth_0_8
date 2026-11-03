@@ -34,7 +34,7 @@ I periodi lunghi tra un'operazione e l'altra portano gli Operatori in una **fase
 
 ## 6-2. Prove di abilità e soglie di difficoltà {#sec-6-2}
 
-Nel *Fractured Century* ogni azione dall'esito incerto o ad alto rischio operativo si risolve con una **prova di abilità con il d20**. Ogni tiro mette alla prova la capacità naturale o l'addestramento specifico di un Operatore contro un numero bersaglio (TN), corretto dal GM per la complessità dell'ambiente e della situazione.
+In *Fractured Earth* ogni azione dall'esito incerto o ad alto rischio operativo si risolve con una **prova di abilità con il d20**. Ogni tiro mette alla prova la capacità naturale o l'addestramento specifico di un Operatore contro un numero bersaglio (TN), corretto dal GM per la complessità dell'ambiente e della situazione.
 
 ### La formula universale
 
@@ -78,7 +78,7 @@ Se un pericolo ambientale o il tiro di furtività di un PNG è peggiore del punt
 
 ## 6-3. Il ritmo dell'azione e l'interpretazione {#sec-6-3}
 
-Le scene fuori dal combattimento nel *Fractured Century* sono pensate per essere veloci, concrete e guidate dalla narrazione. L'interpretazione dovrebbe rispecchiare la natura brutale e ad alta posta di un futuro cyber distopico, dove l'informazione è una moneta, la sorveglianza aziendale è ovunque e ogni decisione ha conseguenze fisiche o economiche. Per tenere vive le scene non di combattimento ed evitare che le sessioni si impantanino in pianificazioni infinite, giocatori e GM dovrebbero seguire tre principi di ritmo:
+Le scene fuori dal combattimento in *Fractured Earth* sono pensate per essere veloci, concrete e guidate dalla narrazione. L'interpretazione dovrebbe rispecchiare la natura brutale e ad alta posta di un futuro cyber distopico, dove l'informazione è una moneta, la sorveglianza aziendale è ovunque e ogni decisione ha conseguenze fisiche o economiche. Per tenere vive le scene non di combattimento ed evitare che le sessioni si impantanino in pianificazioni infinite, giocatori e GM dovrebbero seguire tre principi di ritmo:
 
 ### 1. Il protocollo intento e mezzo
 
@@ -144,9 +144,11 @@ A seconda del tempo concesso dal GM, gli Operatori possono preparare mosse decis
 
 Se il gruppo ottiene una sorpresa totale (per esempio tendendo un agguato a una pattuglia ignara), gli Operatori hanno una fase di preparazione completa più un **round di sorpresa** in cui i bersagli non possono reagire. Se invece un Operatore fallisce una prova di preparazione decisiva (per esempio fa scattare un allarme a metà di un hack), la fase di preparazione finisce subito, scattano gli allarmi e tutti i partecipanti tirano normalmente l'**iniziativa**.
 
+**Al tavolo dal vivo** il GM apre la fase di preparazione con *Head start* (decisione 233): la tua scheda entra nello scontro al **round 0** con le azioni di preparazione che ti ha dato (prima la solita finestra di preparazione). Usale in qualsiasi ordine — i nemici non agiscono; *Move* ti fa percorrere i tuoi quadretti; posture, coperture, ping e abilità funzionano come in uno scontro e restano nel round 1. Poi tiri l'iniziativa, e il round 1 parte con un pool di azioni nuovo. Con la sorpresa totale la tua scheda dice *Surprise round* per tutto il round 1.
+
 ## 6-5. Economia, debito e leva sociale {#sec-6-5}
 
-Nel *Fractured Century* il potere economico è diviso tra il binario digitale e oppressivo del Credit Score aziendale (CRS) e l'economia pericolosa e fuori rete dei contanti ($). Capire come funzionano questi due sistemi è fondamentale per trattare, equipaggiarsi e sopravvivere tra un'operazione e l'altra.
+In *Fractured Earth* il potere economico è diviso tra il binario digitale e oppressivo del Credit Score aziendale (CRS) e l'economia pericolosa e fuori rete dei contanti ($). Capire come funzionano questi due sistemi è fondamentale per trattare, equipaggiarsi e sopravvivere tra un'operazione e l'altra.
 
 ### Credit Score (CRS): il guinzaglio del debito
 
@@ -182,7 +184,7 @@ Saltare i pagamenti minimi o lasciar crollare il CRS fa scattare la riscossione 
 
 ## 6-6. Morale e attrito con le corporazioni {#sec-6-6}
 
-Nel *Fractured Century* i quadri morali tradizionali non esistono. La società è profondamente transazionale, mossa dall'apatia delle corporazioni, dalla sopravvivenza disperata e da un freddo pragmatismo. Agli Operatori capita di rado di scegliere tra "giusto" e "sbagliato": di solito sono costretti a scegliere tra due esiti negativi, decidendo chi paga il prezzo e chi incassa.
+In *Fractured Earth* i quadri morali tradizionali non esistono. La società è profondamente transazionale, mossa dall'apatia delle corporazioni, dalla sopravvivenza disperata e da un freddo pragmatismo. Agli Operatori capita di rado di scegliere tra "giusto" e "sbagliato": di solito sono costretti a scegliere tra due esiti negativi, decidendo chi paga il prezzo e chi incassa.
 
 Invece di tenere conto di un allineamento astratto, l'etica nelle regole si gestisce con due realtà operative concrete: l'**attrito con le corporazioni** e il **Unity Protocol**.
 

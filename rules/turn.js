@@ -15,8 +15,11 @@ export function allowance(act, conditions, actionsData) {
   return act;
 }
 
+/** Decision 233: this round's actions for a sheet — the head start's prep actions in round 0, else the allowance. */
+export const roundAllowance = (turn, act, conditions, actionsData) => (turn?.prep != null && turn.round === 0 ? turn.prep : allowance(act, conditions, actionsData));
+
 export function turnStatus(turn, act, conditions, actionsData) {
-  const max = allowance(act, conditions, actionsData);
+  const max = roundAllowance(turn, act, conditions, actionsData);
   return { ...turn, max, left: Math.max(0, max - turn.used) };
 }
 

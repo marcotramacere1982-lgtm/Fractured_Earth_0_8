@@ -25,7 +25,7 @@ export function createTableLink(store, hooks) {
   // crew: the shared trust track; unity: the open Unity Check; myVotes: this sheet's ballot per check (decision 47)
   // map: the table map the GM is showing (decision 64), already filtered by the server-side public view
   // light: the GM's table-wide switch, true = dark (decision 76)
-  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {}, marks: null, stashes: [] }; // marks: { map, list, skew } (decision 82; skew = this clock − the server's)
+  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {}, marks: null, stashes: [], prepare: null, environment: null, timer: null }; // marks: { map, list, skew } (decision 82; skew = this clock − the server's)
   const listeners = new Set();
   const handled = new Set(); // message ids already applied (the server re-sends until acknowledged)
   let source = null;
@@ -38,7 +38,7 @@ export function createTableLink(store, hooks) {
     const character = store.get(state.joinedId);
     if (!character) return;
     try {
-      await fetch('/api/table/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character }) });
+      await fetch('/api/table/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character, app: document.querySelector('meta[name="fe-table"]')?.content ?? null }) });
     } catch { /* server gone: EventSource reconnect will re-sync */ }
   }
   const schedule = () => { clearTimeout(timer); timer = setTimeout(push, SYNC_DELAY); };
@@ -91,6 +91,7 @@ export function createTableLink(store, hooks) {
           try { last = sessionStorage.getItem(TURN_CUE); sessionStorage.setItem(TURN_CUE, mark); } catch { /* private mode */ }
           if (last !== mark) hooks.notify?.('turn');
         }
+        if (id && msg.active && msg.head && state.combat?.round !== 0) hooks.toast(t('head.toast', { n: msg.head.n }), 'success'); // decision 233
         state.combat = msg.active ? msg : null;
         if (id) hooks.combat?.(id, msg);
         emit();
@@ -134,6 +135,39 @@ export function createTableLink(store, hooks) {
       case 'ping': // what your ping found, from the GM's console (decision 170)
         if (id && hooks.ping?.(id, msg)) { hooks.toast(t(msg.wipe ? 'ping.wiped' : msg.ok ? 'ping.toast' : 'ping.nothing'), msg.ok || msg.wipe ? 'success' : 'danger'); hooks.notify?.('message'); }
         break;
+      case 'version': { // decision 234: the table runs another app than this tab (opened before an update): reload
+        const mine = document.querySelector('meta[name="fe-table"]')?.content;
+        state.stale = Boolean(msg.v && mine && mine !== '1' && msg.v !== mine);
+        emit();
+        break;
+      }
+      case 'environment': { // decision 237: the GM's scene — narrative only
+        const e = msg;
+        const any = e && (e.date || e.time || e.weather || (e.temp != null && e.temp !== '') || (e.hazards ?? []).length);
+        state.environment = any ? e : null;
+        emit();
+        break;
+      }
+      case 'timer': { // decision 237: a timer the GM set — for everyone, or for some characters
+        const mine = id && (!msg.to || msg.to.includes(id));
+        const was = state.timer;
+        state.timer = mine && msg.state !== 'off' ? { ...msg, skew: Date.now() - (msg.now ?? Date.now()) } : null;
+        if (state.timer && msg.state === 'running' && was?.id !== msg.id) { hooks.notify?.('turn'); hooks.toast(t('strip.timerToast', { label: msg.label }), 'success'); }
+        if (mine && msg.state === 'off' && msg.cancelled && was) hooks.toast(t('strip.timerCancelled', { label: msg.label }), 'danger');
+        emit();
+        break;
+      }
+      case 'moveRefused': // decision 232: your move arrived after the GM stopped movement (or it isn't your turn): the marker went back
+        if (id) hooks.toast(t(msg.why === 'turn' ? 'map.refused.turn' : 'map.refused.stopped'), 'danger');
+        break;
+      case 'prepare': { // decision 232: the GM prepares a fight — the get-ready window, with initiative; gm: the sheets the GM took over
+        const was = state.prepare;
+        state.prepare = msg.active ? msg : null;
+        if (id && state.prepare && !was) { hooks.toast(t('prep.toast'), 'success'); hooks.notify?.('message'); }
+        if (id && state.prepare?.gm?.includes(id) && !was?.gm?.includes(id)) hooks.toast(t('prep.takenOver'), 'success');
+        emit();
+        break;
+      }
       case 'initiative': // the GM asks for your initiative roll (decision 148)
         if (id && hooks.initiative?.(id, msg)) { hooks.toast(t('init.toast'), 'success'); hooks.notify?.('message'); }
         break;
@@ -294,6 +328,14 @@ export function createTableLink(store, hooks) {
       if (!state.joinedId) return false;
       try {
         const res = await fetch('/api/table/whisper', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, text }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 232: "I'm ready" for the fight being prepared. @returns true when sent. */
+    async ready(prep) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/ready', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, prep }) });
         return res.ok;
       } catch { return false; }
     },

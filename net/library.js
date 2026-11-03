@@ -65,6 +65,23 @@ export function createLibrary(table, store) {
     remoteOf: (id) => state.remote.find((c) => c.id === id) ?? null,
 
     claim,
+    /**
+     * Decision 239: deleting a character while playing at the table also takes it off the table — into the archive,
+     * where the GM can restore it (nothing is lost). Leaves the table first when this device plays it.
+     * @returns 'removed' | 'local' (the table doesn't know it / no table) | 'online' (open on another device) | 'failed'
+     */
+    async remove(id) {
+      if (!on() || !state.player) return 'local';
+      if (!state.remote.some((c) => c.id === id) && !state.owners[id]) return 'local';
+      if (table.state.joinedId === id) table.leave();
+      for (let i = 0; i < 4; i++) { // the server notices a closed connection a moment later
+        const r = await fetch('/api/table/library/remove', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ player: state.player.id, character: id }) }).catch(() => null);
+        if (r?.ok) { await refresh(); return 'removed'; }
+        if (r?.status !== 409) return 'failed';
+        await new Promise((res) => setTimeout(res, 500));
+      }
+      return 'online';
+    },
     /** After creating or importing: saved to the table when someone is playing on this device. */
     async keep(id) { if (await claim(id)) await refresh(); },
 

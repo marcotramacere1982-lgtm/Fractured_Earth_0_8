@@ -34,7 +34,7 @@ Extended periods between operations allow Operators to enter a **Downtime Phase*
 
 ## 6-2. Skill Checks & Difficulty Thresholds {#sec-6-2}
 
-In *The Fractured Century*, any action with an uncertain outcome or high operational risk is resolved using a **d20-based Skill Check**. Every roll tests an Operator's natural capability or specialized training against a Target Number (TN) set by the Game Master, adjusted for environmental and situational complexity.
+In *Fractured Earth*, any action with an uncertain outcome or high operational risk is resolved using a **d20-based Skill Check**. Every roll tests an Operator's natural capability or specialized training against a Target Number (TN) set by the Game Master, adjusted for environmental and situational complexity.
 
 ### The Universal Resolution Formula
 
@@ -78,7 +78,7 @@ If an environmental hazard or an NPC's stealth roll is worse than the Operator's
 
 ## 6-3. Action Flow & Roleplaying {#sec-6-3}
 
-Out-of-combat scenes in *The Fractured Century* are designed to be fast, grounded, and narrative-driven. Roleplaying should reflect the brutal, high-stakes nature of a dystopian cyber-future—where information is a currency, corporate surveillance is omnipresent, and every decision carries physical or financial consequences. To keep non-combat scenes engaging and prevent sessions from stalling in endless planning loops, both players and Game Masters should follow three core pacing principles:
+Out-of-combat scenes in *Fractured Earth* are designed to be fast, grounded, and narrative-driven. Roleplaying should reflect the brutal, high-stakes nature of a dystopian cyber-future—where information is a currency, corporate surveillance is omnipresent, and every decision carries physical or financial consequences. To keep non-combat scenes engaging and prevent sessions from stalling in endless planning loops, both players and Game Masters should follow three core pacing principles:
 
 ### 1. The Intent & Means Protocol
 
@@ -144,9 +144,11 @@ Depending on the time granted by the GM, Operators can execute critical setups a
 
 If the party achieves complete surprise (e.g., ambushing an unaware patrol), the Operators gain a full Prep Phase plus a **Surprise Round** where targets cannot take reaction actions. Conversely, if an Operator fails a critical prep check (such as triggering an alarm mid-hack), the Prep Phase terminates immediately, alarms sound, and all participating entities roll standard **Initiative**.
 
+**At the live table** the GM opens the Prep Phase with *Head start* (decision 233): your sheet enters the fight at **round 0** with the prep actions you were given (the usual get-ready window first). Spend them in any order — the enemies don't act; *Move* walks your squares; stances, cover, pings and abilities work as in a fight and carry into round 1. Then you roll initiative, and round 1 starts with a fresh pool of actions. With complete surprise your sheet says *Surprise round* through round 1.
+
 ## 6-5. Economy, Debt & Social Leverage {#sec-6-5}
 
-In *The Fractured Century*, financial power is split between the oppressive digital track of corporate Credit Score (CRS) and the dangerous, off-grid economy of Physical Cash ($). Understanding the dynamic between these two systems is critical for negotiating, gearing up, and surviving between operations.
+In *Fractured Earth*, financial power is split between the oppressive digital track of corporate Credit Score (CRS) and the dangerous, off-grid economy of Physical Cash ($). Understanding the dynamic between these two systems is critical for negotiating, gearing up, and surviving between operations.
 
 ### Credit Score (CRS): The Debt Leash
 
@@ -182,7 +184,7 @@ Failing to make minimum debt payments or letting your CRS drop to rock bottom tr
 
 ## 6-6. Moral System & Corporate Friction {#sec-6-6}
 
-In *The Fractured Century*, traditional moral frameworks do not exist. Society is deeply transactional, driven by corporate apathy, desperate survival, and cold pragmatism. Operators are rarely offered a choice between "right" and "wrong"—instead, they are routinely forced to choose between two bad outcomes, deciding who pays the price and who collects the payout.
+In *Fractured Earth*, traditional moral frameworks do not exist. Society is deeply transactional, driven by corporate apathy, desperate survival, and cold pragmatism. Operators are rarely offered a choice between "right" and "wrong"—instead, they are routinely forced to choose between two bad outcomes, deciding who pays the price and who collects the payout.
 
 Rather than tracking abstract alignment scores, ethics in game mechanics are handled through two direct operational realities: **Corporate Friction** and **The Unity Protocol**.
 

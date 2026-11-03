@@ -87,8 +87,11 @@ export function turnPieces(c, s, data, combat = null, { tips = false, hint = tru
   const iconOnly = strip || (bare && !tips); // decision 192: Attack and Dodge are plain icon tiles too (their numbers in the tooltip)
   const wide = iconOnly ? '' : 'action-btn--wide';
 
+  // decision 233: the head start (round 0, everyone at once) and the Surprise Round, said plainly
+  const headNote = gmRuns && combat.head ? html`<p class="notice notice--info turn-head__note">${t('head.banner', { n: combat.head.n })}</p>`
+    : gmRuns && combat.surprise ? html`<p class="notice notice--info turn-head__note">${t('head.surprise')}</p>` : '';
   const head = ts.inCombat
-    ? html`<div class="turn-head">
+    ? html`<div class="turn-head">${headNote}
         <div class="turn-round"><span class="label">${t('turn.round')}</span><span class="turn-round__n">${ts.round}</span></div>
         <div class="turn-actions"><span class="label">${t('stat.actions')}${info('actions', t('stat.actions'))}</span>
           <div class="act-pips" role="img" aria-label="${t('turn.leftOf', { left: ts.left, max: ts.max })}">${pipsHtml}</div>

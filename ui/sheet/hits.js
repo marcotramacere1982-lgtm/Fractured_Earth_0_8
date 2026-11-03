@@ -5,7 +5,7 @@
 import { html } from '../dom.js';
 import { card } from './parts.js';
 import { hitOutcome } from '../../rules/injuries.js';
-import { allowance, newTurn } from '../../rules/turn.js';
+import { allowance, newTurn, roundAllowance } from '../../rules/turn.js';
 import { t } from '../../i18n/index.js';
 
 /** What a hit would do, in words: "Your armor 3 → you lose 6 HP · Broken arm". */
@@ -29,7 +29,7 @@ export function hitOverlay(c, s, data) {
   const fight = Boolean(c.play.turn?.inCombat);
   const avoid = s.skills.find((k) => k.id === 'avoid_reflexes')?.value;
   const turn = c.play.turn ?? newTurn();
-  const thisRound = turn.used < allowance(s.combat.act.value, c.play.conditions, data.actions); // decision 161: this round's action first
+  const thisRound = turn.used < roundAllowance(turn, s.combat.act.value, c.play.conditions, data.actions); // decision 161: this round's action first
   return html`<div class="loadout" role="dialog" aria-modal="true" aria-labelledby="hit-title">
     <div class="loadout__box loadout__box--fight hit-box">
       <header class="loadout__head"><h2 id="hit-title" class="loadout__title">✖ ${t('hit.title')}${hits.length > 1 ? html` <small class="hit-box__count">${t('hit.of', { n: 1, total: hits.length })}</small>` : ''}</h2>

@@ -34,6 +34,7 @@ export const DATA_FILES = {
   icons: 'icons.json',
   gearIcons: 'gear-icons.json', // decision 222: inventory icons (which silhouette for which gear)
   uiIcons: 'ui-icons.json', // decision 229: the detailed icons that replace line ones in icons.json
+  environment: 'environment.json', // decision 237: the table environment's weather and hazards
   refs: 'rules-ref.json',
   actions: 'actions.json',
   encounter: 'encounter.json',

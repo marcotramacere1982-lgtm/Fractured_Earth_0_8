@@ -73,9 +73,17 @@ export function homeView({ data, store, main, table, library }) {
       go('sheet', c.id);
     },
     export({ id }) { exportCharacter(store.get(id)); },
-    remove({ id }) {
+    async remove({ id }) {
       const c = store.get(id);
-      if (confirm(t('home.confirmDelete', { name: c.name }))) { store.remove(id); draw(); }
+      const name = c?.name ?? library?.state.remote.find((r) => r.id === id)?.name ?? '';
+      const atTable = playing() && (library.remoteOf(id) || library.ownerOf(id));
+      if (!confirm(t(atTable ? 'home.confirmDeleteTable' : 'home.confirmDelete', { name }))) return;
+      const out = atTable ? await library.remove(id) : 'local'; // decision 239: off the table too (to the archive)
+      if (out === 'online') { toast(t('home.table.deleteOnline', { name }), 'danger'); return; }
+      if (out === 'failed') { toast(t('home.table.deleteFailed'), 'danger'); return; }
+      if (c) store.remove(id);
+      if (out === 'removed') toast(t('home.table.deleted', { name }), 'success');
+      draw();
     },
   });
   const offChange = delegate(main, 'change', {
@@ -124,7 +132,8 @@ function tableCard(library, away, data) {
       ${away.length ? html`<div class="rows">${away.map((r) => html`<div class="row"><div class="row__main">
           <div class="row__title">${r.name} <span class="pill">${t('home.table.onlyThere')}</span>${r.online ? html` <span class="pill pill--accent">${t('home.table.online')}</span>` : ''}</div>
           <div class="row__meta">${className(r, data)}</div></div>
-        <button class="btn btn--sm btn--primary" data-action="open" data-id="${r.id}">${t('home.table.copy')}</button></div>`)}</div>` : ''}
+        <span class="cluster"><button class="btn btn--sm btn--primary" data-action="open" data-id="${r.id}">${t('home.table.copy')}</button>
+          <button class="btn btn--sm btn--danger" data-action="remove" data-id="${r.id}">${t('common.delete')}</button></span></div>`)}</div>` : ''}
     </div></section>`;
 }
 const className = (r, data) => { const sub = r.subclassId ? findSubclass(data.classes, r.subclassId) : null; return sub ? `${sub.cls.name} · ${sub.sub.name}` : t('common.noClass'); };

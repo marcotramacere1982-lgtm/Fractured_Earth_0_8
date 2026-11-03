@@ -23,7 +23,7 @@
       "I tuoi attacchi hanno −10 TN o colpiscono un quadretto adiacente a caso.",
       "Gli attacchi a distanza contro di te ottengono +4 TN."
     ],
-    "clear": "1 azione per ripulire il feedback oculare, oppure dura 1–3 round."
+    "clear": "Finisce alla fine del tuo prossimo turno (alcune abilità: di più), oppure spendi 1 azione per smaltire il riverbero ottico."
   },
   "disconnected": {
     "targets": "Hacker, unità cibernetiche, torrette",

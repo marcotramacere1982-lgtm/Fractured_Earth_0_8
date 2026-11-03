@@ -7,6 +7,7 @@ import { hitLocations } from './body.js';
 import { locationOutcome } from './injuries.js';
 import { damageDice, allowance } from './turn.js';
 import { conditionMods, againstMods } from './conditions.js';
+import { stamp, stampNew, atTurnEnd, atRoundEnd, atHit, atFightEnd, prune } from './condition-time.js';
 
 /**
  * entry = { key, kind: 'player'|'enemy', name, init, roll, reinforcement, enemy? }
@@ -82,7 +83,8 @@ function sortKeys(entries) {
  * opts.waiting (decision 211): placed for later — hidden, out of the order, the challenge and the players' list
  * until the GM has them join (startCombat's `join`, or joinFight during a fight).
  */
-export function addEnemies(enc, template, count = 1, { waiting = false } = {}) {
+/** group: { id, name } — decision 232: the group these copies belong to (spotting one preselects the others). */
+export function addEnemies(enc, template, count = 1, { waiting = false, group = null } = {}) {
   const next = clone(enc);
   const kin = next.entries.filter((e) => e.enemy?.templateId === template.id);
   const same = kin.length;
@@ -98,6 +100,7 @@ export function addEnemies(enc, template, count = 1, { waiting = false } = {}) {
       letter, publicName: template.publicName ?? '', hidden: waiting, // what the players' sheets see (publicView)
       look: n, // decision 152: which picture this copy wears (looks cycle through what exists)
       ...(waiting ? { waiting: true } : {}),
+      ...(group ? { group: { id: String(group.id), name: String(group.name ?? '').slice(0, 40) } } : {}),
     });
     if (next.active && !waiting) next.order.push(`e${next.seq}`);
   }
@@ -160,9 +163,10 @@ export function removeEntry(enc, key) {
 }
 
 /** Rolls initiative for every entry without a roll (or all, with { all: true }). */
-export function rollInitiative(enc, data, rng = Math.random, { all = false } = {}) {
+/** keys: only these (decision 232: Prepare rolls for the enemies and the players the GM took over, never for a player still rolling). */
+export function rollInitiative(enc, data, rng = Math.random, { all = false, keys = null } = {}) {
   const next = clone(enc);
-  for (const e of next.entries) if (!e.waiting && (all || e.roll == null)) e.roll = roll(data.encounter.initiativeDie, rng).total; // decision 212: waiting enemies roll when they join
+  for (const e of next.entries) if (!e.waiting && (!keys || keys.includes(e.key)) && (all || e.roll == null)) e.roll = roll(data.encounter.initiativeDie, rng).total; // decision 212: waiting enemies roll when they join
   if (!next.active) next.order = sortKeys(next.entries);
   return next;
 }
@@ -188,6 +192,38 @@ export function fleeEnemy(enc, key) {
   next.order = next.order.filter((k) => k !== key);
   next.acted = next.acted.filter((k) => k !== key);
   return next;
+}
+
+/**
+ * Decision 232: End fight with a map on the table — the enemies (and allies) still standing wait again where they are
+ * (seen stays seen: no new contact), the fallen leave the tracker (the map turns them into bodies). Initiative clears.
+ * @returns { enc, fallen: [{ key, name, notes }], standing: [keys] }
+ */
+export function endFight(enc, data = null) {
+  let next = endCombat(enc, data);
+  const fighters = next.entries.filter((e) => e.enemy && !e.waiting);
+  const fallen = fighters.filter((e) => e.enemy.hp <= 0).map((e) => ({ key: e.key, name: e.name, notes: e.enemy.notes ?? '' }));
+  for (const f of fallen) next = removeEntry(next, f.key);
+  const standing = fighters.filter((e) => e.enemy.hp > 0).map((e) => e.key);
+  for (const e of next.entries) if (standing.includes(e.key)) Object.assign(e, { waiting: true, reinforcement: false, roll: null });
+  next.order = sortKeys(next.entries);
+  return { enc: next, fallen, standing };
+}
+
+/** Decision 232: put enemies in a group ({ id, name }), or take them out of theirs (null). */
+export function setGroup(enc, keys, group) {
+  const next = clone(enc);
+  for (const e of next.entries) {
+    if (!e.enemy || !keys.includes(e.key)) continue;
+    if (group) e.group = { id: String(group.id), name: String(group.name ?? '').slice(0, 40) };
+    else delete e.group;
+  }
+  return next;
+}
+/** Decision 232: the enemies in the same group as any of these keys (the keys themselves not included). */
+export function groupMates(enc, keys) {
+  const ids = new Set(enc.entries.filter((e) => keys.includes(e.key) && e.group).map((e) => e.group.id));
+  return enc.entries.filter((e) => e.group && ids.has(e.group.id) && !keys.includes(e.key)).map((e) => e.key);
 }
 
 /** Decision 211: the waiting enemies' keys. */
@@ -243,17 +279,96 @@ export function startCombat(enc, data, rng = Math.random, { join = [], reveal = 
   return next;
 }
 
+/**
+ * Decision 233: the head start (manual 6-4, the Prep Phase "zero-round"). The fight opens at round 0: the crew acts with
+ * n prep actions each, all at once (no order, no current), the enemies don't act; initiative comes after.
+ * surprise: complete surprise — round 1 is a Surprise Round (targets can't take reactions; a reminder, manual 6-4).
+ */
+export function startHeadStart(enc, { n = 1, surprise = false } = {}) {
+  const next = clone(enc);
+  next.id = `c${Date.now().toString(36)}`;
+  next.active = true;
+  next.round = 0;
+  next.acted = [];
+  next.order = []; // nobody's turn: everyone acts at once
+  next.head = { n: Math.min(3, Math.max(1, Math.round(Number(n) || 1))), surprise: Boolean(surprise) };
+  next.entries.forEach((e) => { e.reinforcement = false; if (e.enemy) e.enemy.used = 0; });
+  return next;
+}
+
+/**
+ * Decision 233: the head start is over — round 1 in initiative order. Enemies without a die get one now (players
+ * rolled on their sheets, or the GM typed / rolled theirs), as a normal Start fight does.
+ */
+export function beginAfterHeadStart(enc, data, rng = Math.random) {
+  const next = rollInitiative(enc, data, rng, { keys: enc.entries.filter((e) => e.kind !== 'player').map((e) => e.key) });
+  next.round = 1;
+  next.acted = [];
+  next.order = sortKeys(next.entries);
+  return next;
+}
+
+/**
+ * Decision 237: round countdowns — "3 rounds: reinforcements arrive". Each End round ticks them down; at 0 they fire
+ * (next.fired, for the GM's log) and go. show: the players see it ("⏰ 2 rounds — The bomb"). Narrative only.
+ */
+export function addCountdown(enc, { label, rounds, show = false }) {
+  const next = clone(enc);
+  const n = Math.max(1, Math.min(20, Math.round(Number(rounds) || 1)));
+  next.cdSeq = (next.cdSeq ?? 0) + 1;
+  next.countdowns = [...(next.countdowns ?? []), { id: `cd${next.cdSeq}`, label: String(label ?? '').trim().slice(0, 60) || 'Countdown', left: n, show: Boolean(show) }];
+  return next;
+}
+export function removeCountdown(enc, id) {
+  const next = clone(enc);
+  next.countdowns = (next.countdowns ?? []).filter((c) => c.id !== id);
+  return next;
+}
+
 /** Next turn: whoever is acting now is done. When everyone is done the round waits for endRound. */
-export function nextTurn(enc) {
+export function nextTurn(enc, data = null) {
   const key = currentKey(enc);
-  return key ? markActed(enc, key, true) : clone(enc);
+  return key ? markActed(enc, key, true, data) : clone(enc);
 }
 
 /** Marks a combatant as done (or not) this round — any order, so the table can act out of sequence. */
-export function markActed(enc, key, done = true) {
+export function markActed(enc, key, done = true, data = null) {
   const next = clone(enc);
   next.acted = done ? [...new Set([...next.acted, key])] : next.acted.filter((k) => k !== key);
+  const e = entryOf(next, key);
+  if (done && data && e?.enemy) wearOff(e, (c, t) => atTurnEnd(c, t), next, data); // decision 236: its turn is over
   return next;
+}
+
+/** Decision 236: conditions put on an enemy — stamped with how long they last (ability lengths in `lasts`). */
+export function putConditions(enc, key, ids, data, { lasts = {} } = {}) {
+  const next = clone(enc);
+  const e = entryOf(next, key);
+  if (!e?.enemy) return next;
+  const add = ids.filter((c) => !(e.enemy.immune ?? []).includes(c));
+  e.enemy.conditions = [...new Set([...e.enemy.conditions, ...add])];
+  e.enemy.condTimes = stamp(e.enemy.condTimes, add, { round: next.active ? next.round : 0, own: next.active && currentKey(next) === key, lasts }, data);
+  return next;
+}
+/** Decision 236: a condition taken off (or toggled) by hand on an enemy — its stamp follows. */
+export function toggleCondition(enc, key, id, data) {
+  const e = entryOf(enc, key);
+  if (!e?.enemy) return clone(enc);
+  if (!e.enemy.conditions.includes(id)) return putConditions(enc, key, [id], data);
+  const next = clone(enc);
+  const en = entryOf(next, key).enemy;
+  en.conditions = en.conditions.filter((c) => c !== id);
+  en.condTimes = prune(en.conditions, en.condTimes);
+  return next;
+}
+/** Applies one of the condition-time steps to an enemy; what wore off goes into next.woreOff (for the GM's log). */
+function wearOff(entry, step, next, data) {
+  const en = entry.enemy;
+  en.condTimes = stampNew(en.conditions, en.condTimes, { round: next.active ? next.round : 0 }, data); // any put on another way: from now
+  const r = step(en.conditions, en.condTimes);
+  en.conditions = r.conditions;
+  en.condTimes = r.times;
+  if (r.gone.length) next.woreOff = [...(next.woreOff ?? []), { name: entry.name, ids: r.gone }];
 }
 
 /** Delay: the combatant moves to the end of this round's order. */
@@ -272,20 +387,27 @@ export function endRound(enc, data, rng = Math.random) {
     e.reinforcement = false;
     if (e.enemy) {
       e.enemy.used = 0;
-      e.enemy.conditions = e.enemy.conditions.filter((c) => !data.encounter.roundEndClears.includes(c));
+      wearOff(e, (c, t) => atRoundEnd(c, t, next.round), next, data); // decision 236: what lasts the round, or until the next one
     }
   }
   next.round += 1;
   next.acted = [];
   next.order = sortKeys(next.entries);
+  // decision 237: the round countdowns tick; the ones at 0 fire
+  const ticked = (next.countdowns ?? []).map((c) => ({ ...c, left: c.left - 1 }));
+  const fired = ticked.filter((c) => c.left <= 0);
+  next.countdowns = ticked.filter((c) => c.left > 0);
+  if (fired.length) next.fired = fired.map((c) => c.label);
   return next;
 }
 
-export function endCombat(enc) {
+export function endCombat(enc, data = null) {
   const next = clone(enc);
   next.active = false;
   next.acted = [];
   for (const e of next.entries) { e.roll = null; e.reinforcement = false; } // decision 212: the next fight rolls fresh initiative
+  if (data) for (const e of next.entries) if (e.enemy && !e.waiting) wearOff(e, atFightEnd, next, data); // decision 236
+  next.countdowns = []; // decision 237: they belong to the fight
   next.order = sortKeys(next.entries);
   return next;
 }
@@ -353,13 +475,14 @@ export function damageEnemy(enc, key, amount, { ignoreArmor = false, armorHalf =
       const limb = o.condition && data.conditions.find((c) => c.id === o.condition)?.limb;
       en.injuries ??= { arm: 0, leg: 0 };
       if (limb) en.injuries[limb] = Math.min(2, en.injuries[limb] + 1);
-      else if (o.condition && !en.conditions.includes(o.condition)) en.conditions.push(o.condition);
+      else if (o.condition && !en.conditions.includes(o.condition)) { en.conditions.push(o.condition); en.condTimes = stamp(en.condTimes, [o.condition], { round: enc.active ? enc.round : 0, own: enc.active && currentKey(enc) === key }, data); }
       en.armor = Math.max(0, en.armor - o.crack);
     } else {
       out.absorbed = Math.min(armor, amount);
       out.taken = Math.max(0, amount - out.absorbed);
     }
     en.hp = Math.max(0, en.hp - out.taken);
+    if (data) { const h = atHit(en.conditions, en.condTimes); en.conditions = h.conditions; en.condTimes = h.times; } // decision 236: Exposed is used up
   });
   return { enc: next, ...out };
 }
@@ -393,7 +516,10 @@ export function publicView(enc, data, { art = null, faces = null } = {}) {
     id: enc.id,
     active: enc.active,
     round: enc.round,
-    current: currentKey(enc),
+    current: enc.round === 0 ? null : currentKey(enc),
+    ...(enc.active && enc.head && enc.round === 0 ? { head: { n: enc.head.n } } : {}), // decision 233: the head start
+    ...(enc.active && enc.head?.surprise && enc.round === 1 ? { surprise: true } : {}),
+    ...(enc.active && (enc.countdowns ?? []).some((c) => c.show) ? { countdowns: enc.countdowns.filter((c) => c.show).map((c) => ({ label: c.label, left: c.left })) } : {}), // decision 237
     hostiles: enc.entries.filter((e) => e.enemy && visible(e)).map((e) => ({
       key: e.key,
       letter: e.letter,
