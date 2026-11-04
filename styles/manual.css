@@ -45,6 +45,15 @@
 .md-callout > :last-child { margin-bottom: 0; }
 .md-figure { margin: var(--space-4) 0; }
 .md-figure img { width: 100%; border-radius: var(--radius-md); border: var(--border-width) solid var(--color-border); }
+/* placement after an image line (markdown.js): {left half}, {right third}, {center half}; phones get them full width */
+.md-figure--half { width: 50%; }
+.md-figure--third { width: 33%; }
+.md-figure--center { margin-inline: auto; }
+.md-figure--left { float: left; margin: var(--space-1) var(--space-4) var(--space-3) 0; }
+.md-figure--right { float: right; margin: var(--space-1) 0 var(--space-3) var(--space-4); }
+.md-figure--left:not(.md-figure--half):not(.md-figure--third), .md-figure--right:not(.md-figure--half):not(.md-figure--third) { width: 50%; }
+.manual-prose h2, .manual-prose h3 { clear: both; }
+@media (max-width: 600px) { .md-figure--left, .md-figure--right, .md-figure--half, .md-figure--third { float: none; width: 100%; margin: var(--space-4) 0; } }
 .md-figure figcaption { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); font-style: italic; }
 
 /* ---------- data tables ---------- */

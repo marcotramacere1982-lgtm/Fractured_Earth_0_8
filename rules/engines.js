@@ -155,10 +155,11 @@ export function zoneBonus(classId, r, classesData, talents = {}, subclassId = nu
 
 // ------------------------------------------------------------------ scavenger (Tells)
 // Tells live on enemies: tells = { [enemy key]: 0–3 }. target = the enemy abilities spend from (Exploit is picked in the attack window).
-// toPlace = Tells still to place this turn (a reminder); attacked = attacked this round (no Unseen next round).
+// toPlace = Tells still to place this turn — in a fight a hard limit (decision 249); placed = { key: n } placed this turn
+// (taking one of those off gives it back); attacked = attacked this round (no Unseen next round).
 // marks = enemies the player named by hand when no GM runs the fight ([{ key, name }]).
 
-export const newTells = () => ({ tells: {}, target: null, toPlace: 0, attacked: false, used: [], marks: [] });
+export const newTells = () => ({ tells: {}, target: null, toPlace: 0, placed: {}, attacked: false, used: [], marks: [] });
 
 const tellRules = (classesData) => classesData.classes.find((c) => c.id === 'scavenger').resources.tells;
 
@@ -177,18 +178,28 @@ export function tellGain(r, cover, classesData, inDark = false) {
   return (cover >= rules.unseenCover || inDark) && !r.attacked ? rules.gainUnseen : rules.gain;
 }
 
-/** Puts Tells on (delta > 0) or takes them off an enemy. Max 3 each; only `track` enemies may hold Tells. */
-export function placeTells(r, key, delta, { track, classesData }) {
+/**
+ * Puts Tells on (delta > 0) or takes them off an enemy. Max 3 each; only `track` enemies may hold Tells.
+ * limit (decision 249, in a fight): only as many as are left to place this turn; taking off one placed this turn gives it
+ * back (a misclick fixes itself), taking off an older one doesn't (it frees the optic for another enemy).
+ */
+export function placeTells(r, key, delta, { track, classesData, limit = false }) {
   const per = tellRules(classesData).perEnemy;
   const have = r.tells[key] ?? 0;
   const next = Math.max(0, Math.min(per, have + delta));
   if (delta > 0 && have >= per) throw new RuleError('tellsFull', { n: per }, `At most ${per} Tells on one enemy.`);
+  if (limit && delta > 0 && delta > (r.toPlace ?? 0)) throw new RuleError('noTellsToPlace', { n: r.toPlace ?? 0 }, `Not enough Tells left to place this turn (${r.toPlace ?? 0} left).`);
   const holding = Object.entries(r.tells).filter(([k, n]) => n > 0 && k !== key).length;
   if (delta > 0 && have === 0 && holding >= track) throw new RuleError('trackFull', { n: track }, `Your optic tracks ${track} enemies at a time: drop the Tells on one first.`);
   const tells = { ...r.tells, [key]: next };
   if (!next) delete tells[key];
-  const placed = Math.max(0, next - have);
-  return { ...r, tells, toPlace: Math.max(0, (r.toPlace ?? 0) - placed) };
+  const added = Math.max(0, next - have);
+  const thisTurn = { ...(r.placed ?? {}) };
+  let back = 0;
+  if (added) thisTurn[key] = (thisTurn[key] ?? 0) + added;
+  else if (next < have && thisTurn[key]) { back = Math.min(have - next, thisTurn[key]); thisTurn[key] -= back; } // placed this turn: it comes back
+  if (!thisTurn[key]) delete thisTurn[key];
+  return { ...r, tells, placed: thisTurn, toPlace: Math.max(0, (r.toPlace ?? 0) - added) + back };
 }
 
 /** Enemies that went down or left the fight take their Tells with them. alive: keys still standing. */
@@ -319,7 +330,7 @@ export function roundEnd(classId, r, ctx = {}) {
       return { ...r, sync: r.switched ? r.sync : Math.min(SYNC_MAX, r.sync + 1), switched: false, held: false }; // held the mode: +1 · Recalibrate's lock ends (decision 177)
     }
     case 'smuggler': return ctx.wounded ? { ...r, pendulum: Math.min(4, r.pendulum + 1) } : r;
-    case 'scavenger': return { ...r, toPlace: tellGain(r, ctx.cover ?? 0, ctx.classesData, ctx.inDark), attacked: false }; // next turn's Tells (a readied Exploit stays)
+    case 'scavenger': return { ...r, toPlace: tellGain(r, ctx.cover ?? 0, ctx.classesData, ctx.inDark), placed: {}, attacked: false }; // next turn's Tells (a readied Exploit stays); decision 249: unplaced ones don't carry over
     default: return r;
   }
 }

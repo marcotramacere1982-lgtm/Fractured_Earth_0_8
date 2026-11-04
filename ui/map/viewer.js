@@ -71,7 +71,7 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     }
     zonesLayer.innerHTML = next.map.zones?.length ? zonesSvg(next.map.zones, data, { selected: next.selectedZone }) : ''; // GM only: players' maps carry no zones
     render(tokensLayer, tokensSvg(next.tokens, data, next));
-    losLayer.innerHTML = next.sight ? sightSvg(next.sight) : '';
+    losLayer.innerHTML = (next.watch?.length ? watchSvg(next.watch, next.watchOwn) : '') + (next.sight ? sightSvg(next.sight) : ''); // decision 250: overwatch areas (GM); 251: your own, red
     fogLayer.innerHTML = next.fog ? fogSvg(next.map, next.fog) : '';
     drawMarks();
     settle();
@@ -132,6 +132,8 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
       + `<path class="map-fog map-fog--${fog.mode}" d="${cover}"/>`;
   }
 
+  /** Decision 250: the squares someone on overwatch watches (the GM's map). */
+  const watchSvg = (squares, own = false) => squares.map((s) => `<rect class="map-watch${own ? ' map-watch--own' : ''}" x="${s.x * U}" y="${s.y * U}" width="${U}" height="${U}"/>`).join('');
   /** The line of sight being checked: centre to centre, coloured clear / cover / blocked, a ring on the target. */
   function sightSvg({ from, to, result }) {
     const c = (sq) => [(sq.x + 0.5) * U, (sq.y + 0.5) * U];

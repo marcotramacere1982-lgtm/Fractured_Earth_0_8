@@ -1,6 +1,7 @@
 // Sheet actions: each takes the draft character (+ data, args) and mutates it.
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
+import { nameEn } from '../../data/index.js'; // decision 242: logs stay English
 import { logHandHp } from '../../rules/hand-edits.js';
 import { stamp, stampNew, atTurnEnd, atRoundEnd, atFightEnd, prune } from '../../rules/condition-time.js'; // decision 236
 import { abilityContext, failAbility, canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, openingChoice, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
@@ -98,7 +99,7 @@ function hurt(c, data, taken) {
 
 const injuryName = (data, locId) => {
   const loc = data.body.locations.find((l) => l.id === locId);
-  return `${data.conditions.find((k) => k.limb === loc?.bp)?.name ?? 'Injury'} (${loc?.name ?? locId})`;
+  return `${nameEn(data.conditions.find((k) => k.limb === loc?.bp)) || 'Injury'} (${loc?.name ?? locId})`;
 };
 
 /**
@@ -108,8 +109,8 @@ const injuryName = (data, locId) => {
 function syncWornConditions(c, data, before) {
   const was = wornGrants(before, data.armor);
   const now = wornGrants(c.play.worn, data.armor);
-  for (const id of now) if (!was.includes(id) && !c.play.conditions.includes(id)) { c.play.conditions.push(id); log(c, `${data.conditions.find((k) => k.id === id)?.name ?? id} (kit on)`); }
-  for (const id of was) if (!now.includes(id) && c.play.conditions.includes(id)) { c.play.conditions = c.play.conditions.filter((x) => x !== id); log(c, `${data.conditions.find((k) => k.id === id)?.name ?? id} ended (kit off)`); }
+  for (const id of now) if (!was.includes(id) && !c.play.conditions.includes(id)) { c.play.conditions.push(id); log(c, `${nameEn(data.conditions.find((k) => k.id === id)) || id} (kit on)`); }
+  for (const id of was) if (!now.includes(id) && c.play.conditions.includes(id)) { c.play.conditions = c.play.conditions.filter((x) => x !== id); log(c, `${nameEn(data.conditions.find((k) => k.id === id)) || id} ended (kit off)`); }
 }
 
 /** Armor you acquire is put on straight away (take it off in Gear if you only carry it). */
@@ -156,7 +157,7 @@ export const actions = {
     if (outcome.condition) {
       const limb = data.conditions.find((k) => k.id === outcome.condition)?.limb;
       if (limb) { if (!c.play.injuries.includes(loc)) c.play.injuries.push(loc); effect = ` · ${injuryName(data, loc)}`; }
-      else { if (!c.play.conditions.includes(outcome.condition)) c.play.conditions.push(outcome.condition); effect = ` · ${data.conditions.find((k) => k.id === outcome.condition)?.name}`; }
+      else { if (!c.play.conditions.includes(outcome.condition)) c.play.conditions.push(outcome.condition); effect = ` · ${nameEn(data.conditions.find((k) => k.id === outcome.condition))}`; }
     }
     if (outcome.crack) { c.play.armorDamage = (c.play.armorDamage ?? 0) + outcome.crack; effect = ` · armor cracked −${outcome.crack}`; }
     const where = loc ? ` to the ${data.body.locations.find((l) => l.id === loc)?.name ?? loc}` : '';
@@ -186,7 +187,7 @@ export const actions = {
   condition(c, data, { id }) {
     const has = c.play.conditions.includes(id);
     c.play.conditions = has ? c.play.conditions.filter((x) => x !== id) : [...c.play.conditions, id];
-    const name = data?.conditions.find((k) => k.id === id)?.name ?? id;
+    const name = nameEn(data?.conditions.find((k) => k.id === id)) || id;
     log(c, `By hand: ${name} ${has ? 'off' : 'on'}`, 'warn', { hand: { kind: 'condition', id, on: !has } }); // decision 208: the GM sees and confirms it
   },
 
@@ -332,11 +333,19 @@ export const actions = {
   optic(c, _d, { value }) { c.play.optic = value || null; },
 
   // ---------------- scavenger: Tells live on enemies (GM's hostiles by key, or enemies named by hand)
+  /** Decision 250: Overwatch — an action; watching a quarter circle toward `dir` with the weapon in `slot` until the next turn. */
+  overwatch(c, data, { dir, slot, reach }) {
+    const prefix = spend(c, data, { kind: 'overwatch' });
+    c.play.overwatch = { dir, slot: Number(slot), reach: Number(reach) || 1, round: c.play.turn?.round ?? 1 };
+    log(c, `${prefix}Overwatch — covering ${dir.toUpperCase()} (${reach} squares)`);
+  },
+  /** The GM called a target the player chose not to shoot: still watching. */
+  overwatchPass(c, _d, { name }) { log(c, `Overwatch: let ${name} pass — still watching`); },
   /** Places (delta +1) or removes (−1) a Tell on an enemy. */
   tell(c, data, { key, delta, combat = null }) {
     ensureResources(c);
     const was = c.play.resources.tells[key] ?? 0;
-    c.play.resources = placeTells(c.play.resources, key, Number(delta), tellCtx(c, data));
+    c.play.resources = placeTells(c.play.resources, key, Number(delta), { ...tellCtx(c, data), limit: Boolean(c.play.turn?.inCombat) }); // decision 249: in a fight, this turn's Tells only
     if (!c.play.resources.target && Number(delta) > 0) c.play.resources.target = key;
     const now = c.play.resources.tells[key] ?? 0;
     if (now !== was) log(c, `${now > was ? 'Tell on' : 'Tell off'} ${tellName(c, key, combat)} (${now}/3)`);
@@ -396,7 +405,7 @@ export const actions = {
     const r = { ...r1, gone: [...r0.gone, ...r1.gone] };
     c.play.conditions = r.conditions;
     c.play.condTimes = prune(r.conditions, r.times);
-    if (r.gone.length) log(c, `Wore off: ${r.gone.map((id) => data.conditions.find((k) => k.id === id)?.name ?? id).join(', ')}`);
+    if (r.gone.length) log(c, `Wore off: ${r.gone.map((id) => nameEn(data.conditions.find((k) => k.id === id)) || id).join(', ')}`);
     c.play.roundConditions = []; // decision 155: Steady Aim's Focused, Brace & Dig In's Braced — this round only
     tickItemEffects(c, data); // after the clear: a stim crash Slows next round
     c.play.condTimes = stampNew(c.play.conditions, c.play.condTimes, { round: turn.round + 1, own: false }, data); // decision 236: put on between rounds
@@ -415,6 +424,7 @@ export const actions = {
     if (data) endItemEffects(c, data);
     c.play.turn = endCombat(c.play.turn ?? newTurn());
     c.play.aimed = false;
+    c.play.overwatch = null; // decision 250
     c.play.conditions = c.play.conditions.filter((x) => !(c.play.roundConditions ?? []).includes(x));
     c.play.roundConditions = [];
     if (data) { // decision 236: what lasts a turn, a round or the fight ends with it
@@ -497,13 +507,16 @@ export const actions = {
     }
     // decision 236: conditions seen for the first time get their length now; this sheet's turn ending wears "turn" ones off
     c.play.condTimes = stampNew(c.play.conditions, c.play.condTimes, { round: c.play.turn.round, own: Boolean(c.play.turn.onTurn) }, data);
-    if (msg.current === c.id) c.play.turn = { ...c.play.turn, onTurn: true };
+    if (msg.current === c.id) {
+      if (c.play.overwatch && !c.play.turn.onTurn) { c.play.overwatch = null; log(c, 'Overwatch ends'); } // decision 250: until the start of your next turn
+      c.play.turn = { ...c.play.turn, onTurn: true };
+    }
     else if (c.play.turn.onTurn) {
       const r = atTurnEnd(c.play.conditions, c.play.condTimes);
       c.play.conditions = r.conditions;
       c.play.condTimes = prune(r.conditions, r.times);
       c.play.turn = { ...c.play.turn, onTurn: false };
-      if (r.gone.length) log(c, `Wore off: ${r.gone.map((id) => data.conditions.find((k) => k.id === id)?.name ?? id).join(', ')}`);
+      if (r.gone.length) log(c, `Wore off: ${r.gone.map((id) => nameEn(data.conditions.find((k) => k.id === id)) || id).join(', ')}`);
     }
     // Scavenger: enemies that went down or left take their Tells with them
     if (c.classId === 'scavenger' && msg.hostiles) {
@@ -636,14 +649,15 @@ export const actions = {
     log(c, `${prefix}${ability.name}${ctx.resonant ? ' (Resonant burst)' : ''}: ${rollText} → ${success ? 'success' : 'failed'}`, success ? 'ok' : 'bad');
   },
   /** Weapon attack resolved in the dialog: spends the action and one round of ammo. */
-  attack(c, data, { slot, hit, rollText, damageText, located = false }) {
+  attack(c, data, { slot, hit, rollText, damageText, located = false, free = false }) {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]) ?? data.weapons.find((x) => x.natural); // an empty slot: fists (decision 147)
     if (!w) throw new RuleError('noWeapon', {}, 'No weapon in that slot.');
     const ws = deriveSheet(c, data).weapons.find((x) => String(x.slot) === String(slot));
     if (ws?.usable === false) throw new RuleError(ws.why === 'noArms' ? 'noArms' : 'oneArm', { weapon: w.name }, ws.why === 'noArms' ? 'Both arms are broken: no weapons.' : `${w.name}: with a broken arm you can use only one one-handed weapon.`);
     if (w.magSize && (c.play.ammo[slot] ?? 0) <= 0) throw new RuleError('weaponEmpty', { weapon: w.name }, `${w.name} is empty — reload first.`);
     if (c.play.turn?.inCombat && ws && !ws.inHand) throw new RuleError('notInHand', { weapon: w.name }, `The ${w.name} isn't in your hand: swap to it first.`);
-    const prefix = spend(c, data, { kind: located ? 'located' : 'attack', name: w.name });
+    const prefix = free ? 'Overwatch shot · ' : spend(c, data, { kind: located ? 'located' : 'attack', name: w.name }); // decision 250: the overwatch shot costs nothing now
+    if (free) c.play.overwatch = null; // one shot, then it ends
     if (w.magSize) c.play.ammo[slot] = Math.max(0, c.play.ammo[slot] - (w.burst ?? 1)); // automatic weapons: a 3-round burst
     let momentum = '';
     if (hit && c.classId === 'soldier') {

@@ -150,6 +150,9 @@
 .attr__top { display: flex; align-items: center; gap: var(--space-1); }
 .skill .icon { grid-row: span 2; color: var(--color-text-muted); }
 .skill__name { font-family: var(--font-ui); font-weight: 600; }
+/* decision 242: the English term beside an Italian skill / condition name */
+.term-en { font-weight: 400; font-size: var(--text-xs); color: var(--color-text-muted); margin-left: var(--space-1); }
+.term-en::before { content: '· '; }
 .skill__stats { grid-column: 2; font-size: var(--text-xs); color: var(--color-text-faint); font-family: var(--font-mono); }
 .skill__tn { grid-column: 3; grid-row: 1 / span 2; font-family: var(--font-mono); font-weight: 600; font-size: var(--text-xl); color: var(--color-accent); }
 .skill__passive { grid-column: 4; grid-row: 1 / span 2; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-faint); }
@@ -884,3 +887,9 @@
 .strip__timer.is-up { color: var(--color-danger); font-weight: 700; }
 .strip__countdown { color: var(--color-warning); }
 @media (max-width: 720px) { .strip__word { display: none; } } /* small screens: icons, the names on hover */
+
+/* decision 251: the overwatch direction — eight arrows round your marker */
+.ow-pick { display: grid; grid-template-columns: repeat(3, 4rem); gap: var(--space-3); justify-content: center; padding: var(--space-3) 0; }
+.ow-pick__dir { width: 4rem; height: 4rem; border-radius: 50%; border: var(--border-width) solid var(--color-border-strong); background: var(--color-surface-2); color: var(--color-text); font-size: var(--text-xl); cursor: pointer; }
+.ow-pick__dir:hover, .ow-pick__dir:focus-visible { border-color: var(--color-danger); color: var(--color-danger); }
+.ow-pick__me { width: 4rem; height: 4rem; display: grid; place-items: center; font-size: var(--text-lg); }

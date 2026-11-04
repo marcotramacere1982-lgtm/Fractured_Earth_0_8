@@ -1,6 +1,7 @@
 // Player-side link to the GM's live table server. Only active when the app is served by that server
 // (GitHub Pages builds simply never find /api/ping and keep working offline).
 
+import { cleanPuzzle, cleanClue } from '../ui/puzzle-view.js'; // decisions 243, 247
 import { uid } from '../state/id.js';
 import { t } from '../i18n/index.js';
 
@@ -61,10 +62,22 @@ export function createTableLink(store, hooks) {
       case 'message':
         store.update(id, (c) => {
           const mid = msg.mid ?? uid();
-          if ((c.play.inbox ?? []).some((m) => m.id === mid)) return;
+          if ((c.play.inbox ?? []).some((m) => m.id === mid || (m.clueMids ?? []).includes(mid))) return;
+          const pc = msg.puzzleClue && cleanClue(msg.puzzleClue.clue);
+          const host = pc && (c.play.inbox ?? []).find((m) => m.puzzle?.id && m.puzzle.id === String(msg.puzzleClue.id ?? ''));
+          if (host) { // decision 247: a clue they earned joins its puzzle (moved back to the top, so it shows again)
+            if (!host.puzzle.found.some((x) => JSON.stringify(x) === JSON.stringify(pc))) host.puzzle.found = [...host.puzzle.found, pc].slice(0, 12);
+            host.clueMids = [...(host.clueMids ?? []), mid].slice(-20);
+            host.t = Date.now();
+            c.play.inbox = [host, ...c.play.inbox.filter((m) => m !== host)];
+            hooks.log(c, `GM: [puzzle clue: ${host.puzzle.kind}]`, 'warn');
+            return;
+          }
           c.play.inbox = [{ id: mid, t: Date.now(), text: msg.text ?? '', private: Boolean(msg.private), tone: msg.tone === 'hit' ? 'hit' : null,
-            image: typeof msg.image === 'string' && msg.image.startsWith('/api/table/handout?') ? msg.image : null }, ...(c.play.inbox ?? [])].slice(0, 20);
-          hooks.log(c, `${msg.tone === 'hit' ? 'HIT' : msg.private ? 'GM (private)' : 'GM'}: ${[msg.text, msg.image ? '[image]' : ''].filter(Boolean).join(' ')}`, msg.tone === 'hit' ? 'bad' : 'warn');
+            image: typeof msg.image === 'string' && msg.image.startsWith('/api/table/handout?') ? msg.image : null,
+            ...(cleanPuzzle(msg.puzzle) ? { puzzle: cleanPuzzle(msg.puzzle) } : {}),
+            ...(pc ? { puzzleClue: { kind: String(msg.puzzleClue.kind ?? ''), clue: pc } } : {}) }, ...(c.play.inbox ?? [])].slice(0, 20); // decision 243: a puzzle to solve; 247: a clue whose puzzle they closed
+          hooks.log(c, `${msg.tone === 'hit' ? 'HIT' : msg.private ? 'GM (private)' : 'GM'}: ${[msg.text, msg.image ? '[image]' : '', msg.puzzle ? `[puzzle: ${msg.puzzle.kind}]` : ''].filter(Boolean).join(' ')}`, msg.tone === 'hit' ? 'bad' : 'warn');
         });
         hooks.notify?.(msg.tone === 'hit' ? 'hit' : 'message');
         break;
@@ -123,6 +136,11 @@ export function createTableLink(store, hooks) {
         break;
       case 'intel': // decision 197: what you learned about an enemy type (the GM, or a crewmate's share)
         if (id && hooks.intel?.(id, msg)) { hooks.toast(msg.entry?.from ? t('intel.shared', { from: msg.entry.from, name: msg.entry.name }) : msg.entry?.rumour ? t('intel.rumourIn', { name: msg.entry.name }) : t('intel.in', { name: msg.entry?.name ?? '' }), 'success'); hooks.notify?.('message'); }
+        break;
+      case 'overwatch': // decision 250: an enemy crossed this sheet's overwatch — the GM lets it shoot
+        state.overwatchCall = { at: Date.now(), key: String(msg.key ?? ''), label: String(msg.label ?? '').slice(0, 60) };
+        hooks.notify?.('turn');
+        emit();
         break;
       case 'contact': // decision 211: a waiting enemy was seen — the GM stops movement; the sheet shows it mid-screen
         state.contact = Number(msg.at) || Date.now();
@@ -269,6 +287,14 @@ export function createTableLink(store, hooks) {
       if (!state.joinedId) return false;
       try {
         const res = await fetch('/api/table/mark', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, ...body }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 241: works a switch or a device next to this sheet's marker (on: the state asked for, for a device); the GM console decides. */
+    async device(mapId, propId, on) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/device', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, prop: propId, ...(typeof on === 'boolean' ? { on } : {}) }) });
         return res.ok;
       } catch { return false; }
     },

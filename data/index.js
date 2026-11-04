@@ -57,6 +57,20 @@ export const DATA_LANGS = ['it'];
  * Loads every table once; with a language, its translation overlays are laid over the English text.
  * Names the GM sees stay English by convention (decision 32), so saved logs stay English too.
  */
+/**
+ * Decision 242: skills and conditions show an Italian name with the English one beside it; the English stays on each
+ * record as `nameEn` — what the sheet's log, the table and the GM use (`nameEn(rec)`).
+ */
+const BILINGUAL = { skills: (t) => t.skills, conditions: (t) => t };
+function keepEnglishNames(key, base, out) {
+  if (!BILINGUAL[key]) return out;
+  const en = new Map(BILINGUAL[key](base).map((r) => [r.id, r.name]));
+  const add = (list) => list.map((r) => ({ ...r, nameEn: en.get(r.id) ?? r.name }));
+  return key === 'skills' ? { ...out, skills: add(out.skills) } : add(out);
+}
+/** A skill's or condition's English name (what logs and the table use), whatever the language on screen. */
+export const nameEn = (rec) => rec?.nameEn ?? rec?.name ?? '';
+
 export async function loadData({ lang = 'en', base = new URL('./', import.meta.url) } = {}) {
   if (cache) return cache;
   const getJson = async (url, optional = false) => {
@@ -72,7 +86,7 @@ export async function loadData({ lang = 'en', base = new URL('./', import.meta.u
         getJson(new URL(file, base)),
         listed.includes(file) ? getJson(new URL(`i18n/${lang}/${file}`, base), true).catch(() => null) : null,
       ]);
-      return [key, applyOverlay(table, overlay)];
+      return [key, keepEnglishNames(key, table, applyOverlay(table, overlay))];
     }),
   );
   const tables = Object.fromEntries(entries);

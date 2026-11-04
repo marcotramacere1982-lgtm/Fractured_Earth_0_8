@@ -8,6 +8,7 @@ import { info } from '../ref.js';
 import { explain, hint } from '../explain.js';
 import { t, tn } from '../../i18n/index.js';
 import { portraitImg } from '../portrait.js';
+import { enTerm, bothNames } from '../term.js';
 
 export function statusBar(c, s, data, { compact = false, all = false, tabs = '' } = {}) {
   const hpKind = s.hp.current <= 0 ? 'danger' : s.hp.current <= s.hp.max / 3 ? 'danger' : 'success';
@@ -106,15 +107,15 @@ export function conditionsGrid(c, s, data, { tips = false, bare = false } = {}) 
       ${conds.map((k) => {
         if (k.limb) {
           const hurt = sides(k.limb).filter((l) => s.injured.locations.includes(l.id));
-          return html`<div class="cond cond--limb ${hurt.length ? 'cond--on' : ''}" title="${k.name} — ${k.effects.join(' ')} ${k.clear ?? ''}">
-            <span class="cond__name">${icon(data, k.icon)}${name(k.name)}${hurt.length === 2 ? ' ×2' : ''}</span>
+          return html`<div class="cond cond--limb ${hurt.length ? 'cond--on' : ''}" title="${bothNames(k)} — ${k.effects.join(' ')} ${k.clear ?? ''}">
+            <span class="cond__name">${icon(data, k.icon)}${name(k.name)}${hurt.length === 2 ? ' ×2' : ''}${enTerm(k)}</span>
             ${(hurt.length && !icons) || tips ? html`<span class="cond__fx">${hurt.length === 2 ? k.effects[1] : k.effects[0]}</span>` : ''}
             <span class="cluster">${sides(k.limb).map((l) => html`<button class="btn btn--sm ${s.injured.locations.includes(l.id) ? 'btn--danger' : ''}" data-action="injury" data-loc="${l.id}" aria-pressed="${s.injured.locations.includes(l.id)}" title="${l.name} — ${k.clear}" aria-label="${l.name}">${side(l)}</button>`)}</span>
           </div>`;
         }
         const on = c.play.conditions.includes(k.id);
-        return html`<button class="cond ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${k.name} — ${k.effects.join(' ')} ${k.clear ?? ''}">
-          <span class="cond__name">${icon(data, k.icon)}${name(k.name)}</span>
+        return html`<button class="cond ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${bothNames(k)} — ${k.effects.join(' ')} ${k.clear ?? ''}">
+          <span class="cond__name">${icon(data, k.icon)}${name(k.name)}${enTerm(k)}</span>
           ${(on && !icons) || tips ? html`<span class="cond__fx">${k.effects[0]}</span>` : ''}
         </button>`;
       })}
@@ -123,8 +124,8 @@ export function conditionsGrid(c, s, data, { tips = false, bare = false } = {}) 
     <h3 class="label cond-group">${t('body.boosts')}</h3>
     <div class="${grid}">${boosts.map((k) => {
       const on = c.play.conditions.includes(k.id);
-      return html`<button class="cond cond--boost ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${k.name} — ${k.effects.join(' ')} ${k.clear ?? ''}">
-        <span class="cond__name">${icon(data, k.icon)}${name(k.name)}</span>${(on && !icons) || tips ? html`<span class="cond__fx">${k.effects[0]}</span>` : ''}</button>`;
+      return html`<button class="cond cond--boost ${on ? 'cond--on' : ''}" data-action="condition" data-id="${k.id}" aria-pressed="${on}" title="${bothNames(k)} — ${k.effects.join(' ')} ${k.clear ?? ''}">
+        <span class="cond__name">${icon(data, k.icon)}${name(k.name)}${enTerm(k)}</span>${(on && !icons) || tips ? html`<span class="cond__fx">${k.effects[0]}</span>` : ''}</button>`;
     })}</div>
 `;
 }

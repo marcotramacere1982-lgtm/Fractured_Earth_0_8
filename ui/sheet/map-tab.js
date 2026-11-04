@@ -14,6 +14,8 @@ import { createMapViewer, focusBox } from '../map/viewer.js';
 import { createSkylineViewer, hasSkyline, tileAt } from '../map/skyline.js';
 import { marksButton, marksPanel, markHooks, marking, pickedMarkPanel } from './map-marks.js';
 import { reachable, checkMove, routeTo, lineOfSight, losCover, rangeCheck, nextToDoor } from '../../rules/map.js';
+import { interactKind, nextToProp } from '../../rules/interact.js';
+import { watchedSquares } from '../../rules/overwatch.js';
 
 let viewer = null; // one per page: it keeps its zoom across the sheet's re-renders
 let skyView = null; // decision 123: the skyline, look only
@@ -51,11 +53,38 @@ function infoPanel(map, data, id, doorUse) {
   const traits = [d.shell ? t('map.info.shell') : null, d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null,
     d.cover !== 'none' ? t(`map.cover.${d.cover}`) : null].filter(Boolean);
   return html`<section data-tour="map-target" class="map-target map-info"><div class="map-target__head"><strong>${p.caption || d.name}</strong>
-      <span class="pill">${t(`map.group.${d.category}`)}</span>
+      <span class="pill">${t(`map.group.${d.category}`)}</span>${deviceState(d, p)}
       <button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button></div>
     ${p.caption ? html`<p class="muted st-small">${d.name}</p>` : ''}
-    <p class="muted map-target__why">${traits.length ? traits.join(' · ') : t('map.info.nothing')}</p></section>`;
+    <p class="muted map-target__why">${traits.length ? traits.join(' · ') : t('map.info.nothing')}</p>
+    ${interactKind(d) ? html`<div class="cluster">${deviceRow(map, data, id, p, d, doorUse)}</div>` : ''}</section>`;
 }
+
+/**
+ * Decision 241: what this player can do with a tapped piece — a button (an Interact action in a fight), or why not.
+ * doorUse: the sheet's 'ok' | 'gm' | 'wait' | 'noActions' (doors' rules); devices are worked in a fight only.
+ */
+function deviceRow(map, data, id, p, d, doorUse) {
+  const kind = interactKind(d);
+  if (!kind) return '';
+  if (kind === 'light') return html`<span class="muted">· ${t('map.device.light')}</span>`;
+  const me = shown(map, id).find((tk) => tk.key === id);
+  if (kind === 'open') { // decision 248: like a door — in or out of a fight, an Interact action in one
+    const no = !me ? t('map.notPlaced') : !nextToProp(me, p, data) ? t('map.device.far') : doorUse === 'gm' ? t('map.door.gm') : doorUse === 'wait' ? t('map.door.wait') : doorUse === 'noActions' ? t('map.door.noActions') : null;
+    if (no) return html`<span class="muted">· ${no}</span>`;
+    return html`<button class="btn btn--sm btn--primary" data-action="mapDevice" data-prop="${p.id}" data-kind="open" data-on="${p.open ? '0' : '1'}">${t(p.open ? 'map.door.doClose' : 'map.door.doOpen')}</button>
+      ${mapCombat ? html`<span class="muted st-small">${t('map.door.cost')}</span>` : ''}`;
+  }
+  const why = !me ? t('map.notPlaced') : !nextToProp(me, p, data) ? t('map.device.far') : doorUse === 'gm' || !mapCombat ? t('map.device.fight')
+    : doorUse === 'wait' ? t('map.door.wait') : doorUse === 'noActions' && kind !== 'ask' ? t('map.door.noActions') : null;
+  if (why) return html`<span class="muted">· ${why}</span>`;
+  const on = p.on !== false;
+  const label = kind === 'switch' ? t('map.device.flip') : kind === 'ask' ? t('map.device.ask') : t(on ? 'map.device.off' : 'map.device.on');
+  return html`<button class="btn btn--sm btn--primary" data-action="mapDevice" data-prop="${p.id}" data-kind="${kind}" data-on="${kind === 'toggle' ? (on ? '0' : '1') : ''}">${label}</button>
+    ${kind === 'ask' ? '' : html`<span class="muted st-small">${t('map.door.cost')}</span>`}`;
+}
+const deviceState = (d, p) => (interactKind(d) === 'open' ? html`<span class="pill">${t(p.open ? 'map.door.isOpen' : 'map.door.isClosed')}</span>`
+  : interactKind(d) === 'toggle' || interactKind(d) === 'light' ? html`<span class="pill">${t(p.on !== false ? 'map.device.isOn' : 'map.device.isOff')}</span>` : '');
 
 /** Decision 119: which link kinds this map shows, and which are cut. */
 function linkLegend(map) {
@@ -139,7 +168,7 @@ function contextLine(map, data, s, id, { doorUse, mapMove }) {
     const d = p && data.props.props.find((x) => x.id === p.prop);
     if (d) {
       const traits = [d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null, d.cover !== 'none' ? t(`map.cover.${d.cover}`) : null].filter(Boolean);
-      return line(html`<strong>${p.caption || d.name}</strong><span class="muted">${traits.join(' · ') || t('map.info.nothing')}</span><button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
+      return line(html`<strong>${p.caption || d.name}</strong>${deviceState(d, p)}${interactKind(d) ? deviceRow(map, data, id, p, d, doorUse) : html`<span class="muted">${traits.join(' · ') || t('map.info.nothing')}</span>`}<button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
     }
   }
   if (info?.kind === 'laser') return line(html`<strong>${t('map.info.laser')}</strong><button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
@@ -224,7 +253,7 @@ export function mapPanel(c, s, data, { map, id, combat, doorUse, torch = null, m
  * opts: { onIdle(), move(): { max, combat } | { why } | null, onMove(to, steps, combat) → bool,
  *         marks, myColor, onMark(body) → Promise<bool> (decision 82) }
  */
-export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = null, myColor = null, onMark = async () => false }) {
+export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = null, myColor = null, onMark = async () => false, overwatch = null }) {
   if (!map || !main.querySelector('[data-map-slot]')) return;
   if (skyNow(map, data)) { // look only: a tap shows the district under it
     skyView ??= createSkylineViewer({ data, prefix: 'sheetsky' });
@@ -268,7 +297,9 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   const hooks = markHooks({ map, data, id, marks, myColor, onIdle, send: onMark });
   Object.assign(viewer.on, hooks.on);
   const sight = sightTo(map, data, id, tokens);
-  viewer.update({ key: map.id, map, tokens, you: id, fog: map.fog ? { mode: 'player', ...map.fog, light: map.light ?? null } : null, focus: focusBox(map, map.fog?.seen, tokens), sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
+  const mine = tokens.find((tk) => tk.key === id);
+  const watch = overwatch?.dir && mine ? watchedSquares(map, data, mine, overwatch.dir, overwatch.reach) : []; // decision 251: where you are looking
+  viewer.update({ key: map.id, map, tokens, you: id, watch, watchOwn: true, fog: map.fog ? { mode: 'player', ...map.fog, light: map.light ?? null } : null, focus: focusBox(map, map.fog?.seen, tokens), sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
   keepFitted(main); // before attaching, so the viewer fits the final size
   viewer.attach(main);
 }

@@ -53,7 +53,7 @@
     {
       "id": "overwatch",
       "name": "Overwatch",
-      "desc": "Hold a line: free shot at the first enemy that crosses it before your next turn.",
+      "desc": "Watch a quarter circle until your next turn: one free shot at an enemy that crosses it, when the GM calls it.",
       "roll": null,
       "icon": "act_overwatch"
     },

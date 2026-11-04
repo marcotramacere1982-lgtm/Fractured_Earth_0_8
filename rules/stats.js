@@ -15,6 +15,7 @@ export function computeSkills(attributes, skillsData) {
   return skillsData.skills.map((skill) => ({
     id: skill.id,
     name: skill.name,
+    ...(skill.nameEn ? { nameEn: skill.nameEn } : {}), // decision 242: the English name, for logs and the table
     category: skill.category,
     stats: skill.stats,
     value: skillValue(skill, attributes),

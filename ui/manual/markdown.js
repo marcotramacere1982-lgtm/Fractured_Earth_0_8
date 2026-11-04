@@ -1,9 +1,11 @@
 // Minimal Markdown renderer for the manual (no dependencies, pure: string in, string out).
-// Supports: # headings {#id}, paragraphs, - lists, 1. lists, > callouts, ![caption](src) figures,
+// Supports: # headings {#id}, paragraphs, - lists, 1. lists, > callouts, ![caption](src) figures (+ {left|right half|third}),
 // pipe tables, ``` code blocks, **bold**, *italic*, `code`, [text](link), and ::table[name] directives.
 
 const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ESC[c]);
+
+const FIGURE = ['left', 'right', 'center', 'half', 'third'];
 
 export const slugify = (s) => s.toLowerCase().replace(/<[^>]+>/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -69,10 +71,12 @@ export function renderMarkdown(md, hooks = {}) {
     }
 
     // figure
-    const img = line.match(/^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/);
+    // an image line; optional placement after it: {left half}, {right third}, {center half} — text flows beside a left / right one
+    const img = line.match(/^!\[([^\]]*)\]\(([^)\s]+)\)\s*(?:\{([a-z ]+)\})?\s*$/);
     if (img) {
       const src = hooks.image ? hooks.image(img[2]) : img[2];
-      out.push(`<figure class="md-figure"><img src="${esc(src)}" alt="${esc(img[1])}" loading="lazy">${img[1] ? `<figcaption>${inline(img[1])}</figcaption>` : ''}</figure>`);
+      const place = (img[3] ?? '').split(/\s+/).filter((w) => FIGURE.includes(w)).map((w) => ` md-figure--${w}`).join('');
+      out.push(`<figure class="md-figure${place}"><img src="${esc(src)}" alt="${esc(img[1])}" loading="lazy">${img[1] ? `<figcaption>${inline(img[1])}</figcaption>` : ''}</figure>`);
       i++;
       continue;
     }

@@ -14,6 +14,9 @@ import { findSkill } from './skills.js';
 import { tacticalView } from './tactical.js';
 import { dossierTab, notesTab } from './dossier.js';
 import { openCheck, openShop, openChoice, openDialog, setTierLock } from './dialogs.js';
+import { withinReach } from '../../rules/interact.js';
+import { nameEn } from '../../data/index.js';
+import { bothNames } from '../term.js';
 import { flightOutcome, checkFlight } from '../../rules/drone.js';
 import { droneAbility } from '../../rules/field-drone.js';
 import { openWeaponMods } from './weapon-mods-dialog.js';
@@ -36,7 +39,7 @@ import { whisperButton, openWhisper } from './whisper.js';
 import { hitHandlers } from './hit-handlers.js';
 import { playAbility, detonate } from './ability-play.js';
 import { findGear, sellPrice, nextIsOfficial } from '../../rules/economy.js';
-import { t, getLang } from '../../i18n/index.js';
+import { t, tn, getLang } from '../../i18n/index.js';
 import { storyPrompt } from '../builder/prompts.js';
 import { soundOn, setSound } from '../sound.js';
 import { startTour, tourDone, markTourDone } from '../tour.js';
@@ -47,6 +50,8 @@ import { railOpen } from '../rails.js';
 import { loadoutOverlay, openSwap, closeSwap } from './loadout.js';
 import { hitOverlay } from './hits.js';
 import { contactOverlay, closeContact } from './contact.js';
+import { overwatchOverlay, closeOverwatch } from './overwatch.js';
+import { DIRS, reachOf } from '../../rules/overwatch.js';
 import { callOverlay } from './calls.js';
 import { abilityWindow, toggleClassBar } from './class-bar.js';
 import { attachMemory, memoryBusy, toggleMemory, memoryFit, memoryZoom, toggleMemorySky } from './map-memories.js';
@@ -127,7 +132,7 @@ export function sheetView({ data, store, main, table }, route) {
           <div class="cluster">${tools}</div>
         </div>
 `;
-    const loadout = loadoutOverlay(c, s, withUniques(data, c), ctx.combat, table?.state.joinedId === id ? table.state.prepare : null) || hitOverlay(c, s, withUniques(data, c)) || (table?.state.joinedId === id ? contactOverlay(table.state.contact) : '') || callOverlay(c, s, withUniques(data, c)); // decision 211: contact // decision 192: before a fight, or Swap abilities; then a hit (decision 207); then the GM's roll calls (decision 193)
+    const loadout = loadoutOverlay(c, s, withUniques(data, c), ctx.combat, table?.state.joinedId === id ? table.state.prepare : null) || hitOverlay(c, s, withUniques(data, c)) || (table?.state.joinedId === id ? contactOverlay(table.state.contact) : '') || (table?.state.joinedId === id ? overwatchOverlay(table.state.overwatchCall, c.play.overwatch) : '') || callOverlay(c, s, withUniques(data, c)); // decision 211: contact // decision 192: before a fight, or Swap abilities; then a hit (decision 207); then the GM's roll calls (decision 193)
     const tactical = tab.id === 'map' && Boolean(tableMap());
     if (toolsEl) render(toolsEl, tactical ? '' : tools);
     if (tactical) { // decision 162: the Tactical View has its own frame
@@ -147,7 +152,7 @@ export function sheetView({ data, store, main, table }, route) {
     document.documentElement.classList.add('sheet-open'); // decision 216: the character sheet uses the whole window
     const bar = main.querySelector('.sheet-status')?.offsetHeight; // the Sheet tab's index sticks just under the status bar
     if (bar) main.style.setProperty('--status-h', `${bar}px`);
-    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark });
+    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark, overwatch: c.play.overwatch }); // decision 251
     if (tab.id === 'notes') attachMemory(main, data, c, draw); // decision 122
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
   };
@@ -169,6 +174,48 @@ export function sheetView({ data, store, main, table }, route) {
     // decision 161: dragging in a fight needs a Move first — no drag spends an action by itself
     if (!left) return { why: turnStatus(turn, s.combat.act.value, c.play.conditions, data.actions).left > 0 ? 'pressMove' : 'noActions', move: s.move };
     return { max: left, combat: true, left, move: s.move };
+  };
+  /**
+   * Decision 241: Interact in a fight with a marker on the table map — a list of the doors, switches and devices
+   * within reach (or something else, for the GM). @returns false when there is nothing to pick (a plain Interact).
+   */
+  const interactPick = () => {
+    const map = tableMap();
+    const me = map?.tokens?.find((tk) => tk.key === id);
+    if (!me || !tableCombat()?.active || doorUse() !== 'ok') return false;
+    const near = withinReach(map, data, me);
+    if (!near.length) return false;
+    const side = (x) => ` (${t(`interact.side.${x.side}`)})`;
+    const label = (x) => (x.kind === 'door' ? `🚪 ${t('interact.door')}${side(x)} — ${t(x.open ? 'map.door.doClose' : 'map.door.doOpen')}`
+      : x.kind === 'open' ? `🚪 ${x.name}${side(x)} — ${t(x.open ? 'map.door.doClose' : 'map.door.doOpen')}`
+      : `💡 ${x.name}${side(x)} — ${x.kind === 'switch' ? t('map.device.flip') : x.kind === 'ask' ? t('map.device.ask') : t(x.on ? 'map.device.off' : 'map.device.on')}`);
+    openChoice(t('interact.title'), [...near.map((x, i) => ({ value: String(i), label: label(x) })), { value: 'other', label: t('interact.other') }], (v) => {
+      if (v === 'other') { run('act', { kind: 'interact', detail: '' }); return; }
+      const x = near[Number(v)];
+      if (x.kind === 'door') clicks.mapDoor({ door: x.id, open: x.open ? '0' : '1' });
+      else clicks.mapDevice({ prop: x.id, kind: x.kind, on: x.kind === 'toggle' ? (x.on ? '0' : '1') : x.kind === 'open' ? (x.open ? '0' : '1') : '' });
+    });
+    return true;
+  };
+  /** Decision 250: Overwatch in a fight — pick the direction (8 points); the weapon in hand sets how far. */
+  const overwatchPick = () => {
+    const c = character();
+    if (!c.play.turn?.inCombat) return false;
+    const sh = deriveSheet(c, data);
+    const w = sh.weapons.find((x) => x.inHand) ?? sh.weapons[0];
+    const reach = reachOf(data.weapons.find((x) => x.id === w?.id) ?? data.weapons.find((x) => x.natural), data);
+    // decision 251: eight arrows round your marker, the way the map lies (north up)
+    const ARROW = { nw: '↖', n: '↑', ne: '↗', w: '←', e: '→', sw: '↙', s: '↓', se: '↘' };
+    const me = tableMap()?.tokens?.find((tk) => tk.key === id);
+    const grid = ['nw', 'n', 'ne', 'w', null, 'e', 'sw', 's', 'se'];
+    const d = openDialog(() => html`<header class="card__head"><h2 class="card__title">${t('overwatch.pickTitle')}<small>${w?.name ?? ''} · ${tn('overwatch.reach', reach)}</small></h2>
+        <button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
+      <div class="dialog__body"><div class="ow-pick" role="group" aria-label="${t('overwatch.pickTitle')}">${grid.map((dir) => (dir
+        ? html`<button class="ow-pick__dir" data-action="owDir" data-dir="${dir}" aria-label="${t(`interact.side.${dir}`)}" title="${t(`interact.side.${dir}`)}">${ARROW[dir]}</button>`
+        : html`<span class="ow-pick__me map-legend__dot map-legend__dot--player" aria-hidden="true">${me?.label ?? '•'}</span>`))}</div></div>`, {
+      click: { owDir: ({ dir }) => { d.close(); run('overwatch', { dir, slot: w?.slot ?? 1, reach }); } },
+    });
+    return true;
   };
   /** Doors (decision 73): may this player open / close a door next to them now? 'ok' | 'gm' | 'wait' | 'noActions' */
   const doorUse = () => {
@@ -225,10 +272,10 @@ export function sheetView({ data, store, main, table }, route) {
       const a = data.attributes.attributes.find((x) => x.id === targetId);
       const v = s.attributes[targetId]; // with item boosts (decision 58)
       // attribute check: roll against the attribute value itself
-      return { name: t('check.attribute', { name: a.name }), tn: v, sub: `${a.id} ${v} (bonus ${bonus(v)})`, tools: toolsFor(c.play.inventory, data.items, { attr: targetId }), boosts: boostsFor(c, data, { kind: 'attr', id: targetId }) };
+      return { name: t('check.attribute', { name: a.name }), en: `${a.id} check`, tn: v, sub: `${a.id} ${v} (bonus ${bonus(v)})`, tools: toolsFor(c.play.inventory, data.items, { attr: targetId }), boosts: boostsFor(c, data, { kind: 'attr', id: targetId }) };
     }
     const k = s.skills.find((x) => x.id === targetId);
-    return { name: k.name, tn: k.value, sub: k.stats.join(' + '), tools: toolsFor(c.play.inventory, data.items, { skill: targetId }), boosts: boostsFor(c, data, { kind: 'skill', id: targetId }) };
+    return { name: bothNames(k), en: nameEn(k), tn: k.value, sub: k.stats.join(' + '), tools: toolsFor(c.play.inventory, data.items, { skill: targetId }), boosts: boostsFor(c, data, { kind: 'skill', id: targetId }) };
   };
 
   const tableCombat = () => (table?.state.joinedId === id ? table.state.combat : null);
@@ -319,11 +366,11 @@ export function sheetView({ data, store, main, table }, route) {
     },
     classBarFold: () => { toggleClassBar(); draw(); },
     actionTips: () => { try { localStorage.setItem(TIPS, tipsOn() ? '0' : '1'); } catch { /* private mode: stays as is */ } draw(); },
-    attackRoll: ({ slot, located }) => {
+    attackRoll: ({ slot, located, overwatch = null }) => {
       const c = character();
       const sh = deriveSheet(c, data);
       const w = sh.weapons.find((x) => String(x.slot) === String(slot));
-      if (!w || w.empty || !actionAvailable(c, sh)) return;
+      if (!w || w.empty || (!overwatch && !actionAvailable(c, sh))) return; // decision 250: the overwatch shot needs no action
       if (w.usable === false) { toast(t(`weapons.unusable.${w.why}`), 'danger'); return; }
       if (w.magSize && w.rounds <= 0) { toast(t('attack.empty', { weapon: w.name }), 'danger'); return; }
       // decision 97: one Attack button; where to aim (body, or ⌖ a location at −N TN) is chosen in the roll window
@@ -336,7 +383,7 @@ export function sheetView({ data, store, main, table }, route) {
       // decision 153: which enemy — the result goes to the GM as a pending hit (or a miss)
       const combat = tableCombat();
       const foes = (combat?.hostiles ?? []).filter((h) => !h.ally && h.band !== 'down');
-      const onMap = foes.some((h) => h.key === mapTarget()) ? mapTarget() : ''; // decision 192: the enemy you tapped on the map, picked to start with
+      const onMap = overwatch && foes.some((h) => h.key === overwatch) ? overwatch : foes.some((h) => h.key === mapTarget()) ? mapTarget() : ''; // decision 192: the enemy you tapped on the map, picked to start with; 250: the one in your overwatch
       if (onMap) { spec.target = onMap; spec.targetTag = foes.find((h) => h.key === onMap)?.tag ?? null; }
       const foe = foes.length ? { pick: onMap, onPick: (k) => { spec.target = k; spec.targetTag = foes.find((h) => h.key === k)?.tag ?? null; },
         options: [...foes.map((h) => { // decision 158: what its conditions give you (Prone vs melee +4, Blinded vs ranged +4, Marked +2)
@@ -352,8 +399,8 @@ export function sheetView({ data, store, main, table }, route) {
         const h = foes.find((x) => x.key === spec.target);
         table?.report({ target: spec.target ?? '', targetLabel: h ? `${h.letter} · ${h.name}` : '', weapon: w.name, ...extra });
       };
-      openCheck({ name: t('attack.title', { weapon: w.name }), tn: w.tn, sub: nameOfSkill(w.skill) }, data,
-        (r) => { spec.rollText = rollText(r); run('attack', { slot, hit: r.success, rollText: spec.rollText, located: spec.located }); if (!r.success) report({ hit: false, roll: spec.rollText }); },
+      openCheck({ name: overwatch ? `🎯 ${t('overwatch.shotTitle', { weapon: w.name })}` : t('attack.title', { weapon: w.name }), tn: w.tn, sub: nameOfSkill(w.skill) }, data,
+        (r) => { spec.rollText = rollText(r); run('attack', { slot, hit: r.success, rollText: spec.rollText, located: spec.located, free: Boolean(overwatch) }); if (!r.success) report({ hit: false, roll: spec.rollText }); },
         { tier: tableTier(), once: true, aim, notice: spec.aimed ? `🎯 ${t('attack.aimedNotice')}` : '', tools: toolsFor(c.play.inventory, data.items, { skill: w.skill, attack: isRanged(w) ? 'gun' : null }), light: lightFor('attack'), boosts: boostsFor(c, data, { kind: 'weapon', slot }),
           after: (r) => (r.success ? '' : html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`),
           foe, flow: weaponFlow({ c, sh, data, w, spec, exploit: true, combat: tableCombat(), onDone: (o) => { run('attackDamage', o); report({ hit: true, damage: o.damage, part: o.part, where: o.where, armorHalf: o.armorHalf, armor: o.armorHalf ? 'half' : '', roll: spec.rollText ?? '' }); } }) });
@@ -414,7 +461,13 @@ export function sheetView({ data, store, main, table }, route) {
       const res = await table?.intel('share', { id: entry });
       toast(res ? t('intel.sharedOut', { n: res.shared }) : t('intel.offline'), res ? 'success' : 'danger');
     },
-    act: ({ kind, detail }) => { const c = character(); if (actionAvailable(c, deriveSheet(c, data))) run('act', { kind, detail }); },
+    act: ({ kind, detail }) => {
+      const c = character();
+      if (!actionAvailable(c, deriveSheet(c, data))) return;
+      if (kind === 'interact' && interactPick()) return; // decision 241: what's within reach on the table map
+      if (kind === 'overwatch' && overwatchPick()) return; // decision 250: which way you watch
+      run('act', { kind, detail });
+    },
     /** Reload / swap (decision 56): a small choice — reload the weapon in hand, or swap to the other one. */
     reloadPick: () => {
       const c = character();
@@ -523,6 +576,8 @@ export function sheetView({ data, store, main, table }, route) {
     combatReady: () => { closeSwap(); run('combatReady'); },
     reloadApp: () => location.reload(), // decision 234: the table's app was updated
     contactOk: ({ at }) => { closeContact(at); draw(); }, // decision 211
+    owShoot: ({ at, key }) => { closeOverwatch(at); draw(); const ow = character().play.overwatch; if (ow) clicks.attackRoll({ slot: ow.slot, overwatch: key }); }, // decision 250
+    owPass: ({ at, label }) => { closeOverwatch(at); run('overwatchPass', { name: label }); },
     secJump: ({ id: sec }) => { // decision 215: open it and bring its title just under the sticky status bar; decision 216: tapped again, it closes
       if (isOpen(sec)) { setOpen([sec], false); draw(); return; }
       setOpen([sec]);
@@ -582,6 +637,24 @@ export function sheetView({ data, store, main, table }, route) {
     fixStance: ({ value }) => run('fixStance', { value }), // decision 88: a hand correction, logged
     ...markHandlers({ draw, run, send: sendMark, mine: () => myMarks(tableMarks(), tableMap(), id) }),
     inDark: ({ on }) => run('inDark', { on: on === '1' }),
+    mapDevice: ({ prop, kind, on }) => { // decision 241: a switch or a device next to the marker — an Interact action in a fight; a breaker is only asked
+      const map = tableMap();
+      const p = map?.props?.find((x) => x.id === prop);
+      const name = p?.caption || data.props.props.find((x) => x.id === p?.prop)?.name || '';
+      if (kind === 'open') { // decision 248: like a door — an Interact action in a fight only
+        if (tableCombat()?.active) {
+          try { store.update(id, (d) => { actions.act(d, withUniques(data, d), { kind: 'interact', detail: `${on === '1' ? 'opens' : 'closes'} the ${name} on the map` }); }); } catch (err) { toast(ruleText(err), 'danger'); return; }
+        }
+        table.device(map.id, prop, on === '1');
+        return;
+      }
+      if (kind !== 'ask') {
+        const what = kind === 'switch' ? `flips the ${name}` : `switches ${on === '1' ? 'on' : 'off'} the ${name}`;
+        try { store.update(id, (d) => { actions.act(d, withUniques(data, d), { kind: 'interact', detail: `${what} on the map` }); }); } catch (err) { toast(ruleText(err), 'danger'); return; }
+      }
+      table.device(map.id, prop, kind === 'toggle' ? on === '1' : undefined);
+      if (kind === 'ask') toast(t('map.device.asked', { name }), 'success');
+    },
     mapDoor: ({ door, open }) => { // a door next to the player's marker: an Interact action in combat; the GM console checks the lock
       if (tableCombat()?.active) {
         try {
@@ -598,10 +671,10 @@ export function sheetView({ data, store, main, table }, route) {
       openCheck(target, data, (r) => store.update(id, (c) => {
         if (d.ask && !answered) { // decision 165: the GM asked for this roll — the first result goes back, the card goes
           answered = true;
-          table?.rollResult({ ask: d.ask, name: target.name, roll: r.roll, tn: r.effective, success: r.success, margin: r.margin }).then((ok) => { if (!ok) toast(t('crewStash.why.offline'), 'danger'); });
+          table?.rollResult({ ask: d.ask, name: target.en ?? target.name, roll: r.roll, tn: r.effective, success: r.success, margin: r.margin }).then((ok) => { if (!ok) toast(t('crewStash.why.offline'), 'danger'); });
           c.play.rollAsks = (c.play.rollAsks ?? []).filter((a) => a.id !== d.ask);
         }
-        log(c, `${target.name}${d.ask ? ' (GM asked)' : ''}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
+        log(c, `${target.en ?? target.name}${d.ask ? ' (GM asked)' : ''}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
       }), { tier: tableTier(), tools: target.tools, boosts: target.boosts, light: d.kind === 'skill' ? lightFor(lightKind(d.id)) : null });
     },
     shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, withUniques(data, character()), ({ kind: k, id: itemId, method, multiplier, ...rest }) => {

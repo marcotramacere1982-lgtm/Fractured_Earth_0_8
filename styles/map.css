@@ -292,3 +292,7 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 /* decision 184: floors side by side */
 .map-floor { fill: none; stroke: var(--color-accent); stroke-width: 8; stroke-dasharray: 24 12; opacity: 0.7; }
 .map-floor__name { fill: var(--color-accent); font-family: var(--font-display); font-size: 32px; opacity: 0.85; }
+
+/* decision 250: squares someone on overwatch watches (the GM's map) */
+.map-watch { fill: var(--mp-accent-soft); stroke: var(--mp-accent); stroke-width: 1; stroke-opacity: 0.35; pointer-events: none; }
+.map-watch--own { fill: var(--mp-danger-soft); stroke: var(--mp-danger); } /* decision 251: where you are looking (your overwatch) */

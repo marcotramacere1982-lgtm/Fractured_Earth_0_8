@@ -5,6 +5,7 @@ import { html, render } from './dom.js';
 import { t } from '../i18n/index.js';
 import { downtimeReport } from './sheet/timeline.js';
 import { unityCard } from './unity.js';
+import { puzzleView, clueLine } from './puzzle-view.js';
 
 const time = (t) => new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -21,7 +22,8 @@ export function installTransmissions(store, table) {
     const inbox = c?.play?.inbox ?? [];
     const u = characterId() ? table.state.unity : null; // an open Unity Check (decision 47)
     const mine = u ? table.state.myVotes[u.id] : null;
-    const signature = [inbox.map((m) => m.id).join('|'), u ? `${u.id}:${u.phase}:${mine ?? ''}` : ''].join('#');
+    // a clue joining a puzzle (decision 247) redraws it too
+    const signature = [inbox.map((m) => `${m.id}:${m.puzzle?.found?.length ?? ''}`).join('|'), u ? `${u.id}:${u.phase}:${mine ?? ''}` : ''].join('#');
     if (signature === shown) return;
     shown = signature;
     render(host, html`${unityCard(u, characterId(), mine)}${inbox.map((m) => html`
@@ -32,7 +34,7 @@ export function installTransmissions(store, table) {
           <button class="transmission__close" data-dismiss="${m.id}" aria-label="${t('gm.close')}">✕</button>
         </header>
         ${m.image ? html`<a class="transmission__image" href="${m.image}" target="_blank" rel="noopener" title="${t('gm.imageOpen')}"><img src="${m.image}" alt="${t('gm.image')}"></a>` : ''}
-        ${m.kind === 'downtime' ? downtimeReport(m) : html`${m.text ? html`<p class="transmission__text">${m.text}</p>` : ''}
+        ${m.kind === 'downtime' ? downtimeReport(m) : html`${m.text ? html`<p class="transmission__text">${m.text}</p>` : ''}${m.puzzle ? puzzleView(m.puzzle) : ''}${m.puzzleClue ? html`<p class="transmission__text">🧩 ${t('puzzle.found')}: ${clueLine(m.puzzleClue.kind, m.puzzleClue.clue)}</p>` : ''}
         ${m.private ? html`<p class="transmission__hint">${t('gm.privateHint')}</p>` : ''}`}
       </section>`)}`);
     inbox.forEach((m) => seen.add(m.id));

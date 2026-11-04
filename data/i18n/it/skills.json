@@ -21,79 +21,104 @@
   },
   "skills": {
     "melee_cqc": {
-      "desc": "Armi improvvisate, manganelli, lotta a distanza ravvicinata."
+      "desc": "Armi improvvisate, manganelli, lotta a distanza ravvicinata.",
+      "name": "Mischia / CQC"
     },
     "brawling": {
-      "desc": "Colpi a mani nude, scorrettezze, risse di strada."
+      "desc": "Colpi a mani nude, scorrettezze, risse di strada.",
+      "name": "Rissa"
     },
     "parrying_blocking": {
-      "desc": "Difendersi da colpi fisici e attacchi ravvicinati."
+      "desc": "Difendersi da colpi fisici e attacchi ravvicinati.",
+      "name": "Parata / Blocco"
     },
     "thrown_objects": {
-      "desc": "Lanciare attrezzi, armi improvvisate od oggetti per distrarre."
+      "desc": "Lanciare attrezzi, armi improvvisate od oggetti per distrarre.",
+      "name": "Lancio di oggetti"
     },
     "handguns": {
-      "desc": "Armi corte da occultare, pistole, revolver."
+      "desc": "Armi corte da occultare, pistole, revolver.",
+      "name": "Pistole"
     },
     "long_guns_shotguns": {
-      "desc": "Fucili da caccia, carabine, fucili a pompa."
+      "desc": "Fucili da caccia, carabine, fucili a pompa.",
+      "name": "Armi lunghe / Fucili a pompa"
     },
     "automatic_firearms": {
-      "desc": "Mitragliette, armi automatiche compatte, controllo del rinculo."
+      "desc": "Mitragliette, armi automatiche compatte, controllo del rinculo.",
+      "name": "Armi automatiche"
     },
     "administration_legal": {
-      "desc": "Burocrazia, pratiche aziendali, cavilli municipali."
+      "desc": "Burocrazia, pratiche aziendali, cavilli municipali.",
+      "name": "Amministrazione / Legale"
     },
     "persuasion_social": {
-      "desc": "Negoziare, parlantina, fascino, sangue freddo sotto pressione."
+      "desc": "Negoziare, parlantina, fascino, sangue freddo sotto pressione.",
+      "name": "Persuasione / Relazioni"
     },
     "streetwise_dealing": {
-      "desc": "Commercio al mercato nero, reti clandestine, ricettazione."
+      "desc": "Commercio al mercato nero, reti clandestine, ricettazione.",
+      "name": "Strada / Trattative"
     },
     "interrogation_intimidation": {
-      "desc": "Estorcere informazioni, fare leva, trovare i punti deboli."
+      "desc": "Estorcere informazioni, fare leva, trovare i punti deboli.",
+      "name": "Interrogatorio / Intimidazione"
     },
     "deception_conning": {
-      "desc": "Travestimenti, bluff, ingegneria sociale sotto osservazione."
+      "desc": "Travestimenti, bluff, ingegneria sociale sotto osservazione.",
+      "name": "Inganno / Truffa"
     },
     "stealth": {
-      "desc": "Pedinare, sfuggire alla sorveglianza, muoversi in silenzio."
+      "desc": "Pedinare, sfuggire alla sorveglianza, muoversi in silenzio.",
+      "name": "Furtività"
     },
     "agility_athletics": {
-      "desc": "Parkour, scavalcare ostacoli, sfuggire agli inseguimenti."
+      "desc": "Parkour, scavalcare ostacoli, sfuggire agli inseguimenti.",
+      "name": "Agilità / Atletica"
     },
     "sleight_of_hand": {
-      "desc": "Borseggiare, piazzare prove, scassinare serrature meccaniche, piccoli trucchi di mano."
+      "desc": "Borseggiare, piazzare prove, scassinare serrature meccaniche, piccoli trucchi di mano.",
+      "name": "Destrezza di mano"
     },
     "climb_physical": {
-      "desc": "Scalare muri, forzare accessi, sforzo fisico."
+      "desc": "Scalare muri, forzare accessi, sforzo fisico.",
+      "name": "Arrampicata / Fisico"
     },
     "ground_vehicles": {
-      "desc": "Seminare gli inseguitori, guida in città, moto."
+      "desc": "Seminare gli inseguitori, guida in città, moto.",
+      "name": "Veicoli di terra"
     },
     "drones_remote_craft": {
-      "desc": "Pilotare droni civili e di sorveglianza (non velivoli militari)."
+      "desc": "Pilotare droni civili e di sorveglianza (non velivoli militari).",
+      "name": "Droni / Mezzi remoti"
     },
     "computers_hacking": {
-      "desc": "Accesso ai sistemi, manipolazione delle reti, tracce digitali, serrature in rete dal lato del sistema."
+      "desc": "Accesso ai sistemi, manipolazione delle reti, tracce digitali, serrature in rete dal lato del sistema.",
+      "name": "Computer / Hacking"
     },
     "electronics_security": {
-      "desc": "Serrature elettroniche e a badge, disattivare sensori e allarmi, cortocircuitare hardware."
+      "desc": "Serrature elettroniche e a badge, disattivare sensori e allarmi, cortocircuitare hardware.",
+      "name": "Elettronica / Sicurezza"
     },
     "medicine_first_aid": {
-      "desc": "Traumi sul campo, curare ferite, esami forensi."
+      "desc": "Traumi sul campo, curare ferite, esami forensi.",
+      "name": "Medicina / Primo soccorso"
     },
     "mechanics_fabrication": {
-      "desc": "Riparare veicoli, avviare motori senza chiave, manutenzione degli attrezzi."
+      "desc": "Riparare veicoli, avviare motori senza chiave, manutenzione degli attrezzi.",
+      "name": "Meccanica / Fabbricazione"
     },
     "forensics_investigation": {
-      "desc": "Analizzare scene del crimine, leggere le prove fisiche."
+      "desc": "Analizzare scene del crimine, leggere le prove fisiche.",
+      "name": "Scientifica / Indagine"
     },
     "avoid_reflexes": {
-      "desc": "Schivare i pericoli in arrivo, tuffarsi al riparo."
+      "desc": "Schivare i pericoli in arrivo, tuffarsi al riparo.",
+      "name": "Schivata / Riflessi (DB)"
     },
     "perception_awareness": {
-      "desc": "Accorgersi di chi ti segue, notare le anomalie, attenzione all'ambiente."
+      "desc": "Accorgersi di chi ti segue, notare le anomalie, attenzione all'ambiente.",
+      "name": "Percezione / Attenzione (PB)"
     }
   }
 }

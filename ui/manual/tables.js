@@ -10,6 +10,8 @@ const th = (h) => (h && hasKey(`th.${h}`) ? t(`th.${h}`) : h);
 
 const signed = (n) => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
 const nameOf = (list, id) => list.find((x) => x.id === id)?.name ?? id;
+/** Decision 242: in Italian, the English term under a skill or condition name (the GM's word for it). */
+const en = (rec) => (rec?.nameEn && rec.nameEn !== rec.name ? `<br><span class="muted">${e(rec.nameEn)}</span>` : '');
 
 function table(headers, rows, cls = '') {
   return `<div class="md-table-wrap"><table class="md-table ${cls}"><thead><tr>${headers.map((h) => `<th>${e(th(h))}</th>`).join('')}</tr></thead><tbody>${
@@ -83,7 +85,7 @@ const ABILITY_TABLES = {
 const TABLES = {
   attributes: (d) => table(['', 'Attribute', 'Covers'], d.attributes.attributes.map((a) => [`<strong class="mono">${a.id}</strong>`, e(a.name), e(a.desc)])),
   skills: (d) => table(['Skill', 'Category', 'Attributes', 'Used for'],
-    d.skills.skills.map((s) => [`<strong>${e(s.name)}</strong>`, e(nameOf(d.skills.categories, s.category)), `<span class="mono">${s.stats.join(' + ')}</span>`, e(s.desc)])),
+    d.skills.skills.map((s) => [`<strong>${e(s.name)}</strong>${en(s)}`, e(nameOf(d.skills.categories, s.category)), `<span class="mono">${s.stats.join(' + ')}</span>`, e(s.desc)])),
   combat: (d) => table(['Sum of the two attributes', ...d.combat.derived.map((x) => `${x.id.toUpperCase()} (${x.stats.join('+')})`)],
     d.combat.table.map((r) => [`<span class="mono">${r.min}–${r.max}</span>`, ...d.combat.derived.map((x) => (x.id === 'off' ? signed(r[x.id]) : r[x.id]))])),
   'hit-locations': (d) => table(['d20', 'Location', 'If it gets through the armor', 'Synthetic target'], d.body.hitLocation.table.map((r) => {
@@ -97,7 +99,7 @@ const TABLES = {
   })),
   cover: (d) => table(['Cover', 'Armor bonus'], d.difficulty.cover.map((c) => [e(c.name), c.armor ? `+${c.armor}` : '—'])),
   difficulty: (d) => table(['Tier', 'TN change', 'Example'], d.difficulty.tiers.map((x) => [`<strong>${e(x.name)}</strong>`, x.penalty > 0 ? `−${x.penalty}` : x.penalty < 0 ? `+${-x.penalty}` : '0', e(x.example)])),
-  conditions: (d) => table(['Condition', 'Affects', 'Effects', 'Clears'], d.conditions.map((c) => [`<strong>${e(c.name)}</strong>`, e(c.targets), `<ul>${c.effects.map((x) => `<li>${e(x)}</li>`).join('')}</ul>`, e(c.clear)])),
+  conditions: (d) => table(['Condition', 'Affects', 'Effects', 'Clears'], d.conditions.map((c) => [`<strong>${e(c.name)}</strong>${en(c)}`, e(c.targets), `<ul>${c.effects.map((x) => `<li>${e(x)}</li>`).join('')}</ul>`, e(c.clear)])),
   adolescence: (d) => events(d.adolescence, d),
   'career-events': (d) => events(d.careerEvents, d),
   careers: (d) => table(['Career', 'Requirements', 'Per term'],

@@ -1,6 +1,7 @@
 // Using consumables (decision 58). On yourself the effect lands on this sheet; on an ally the sheet only logs
 // the result (they enter it on their own sheet, as on paper). Logs stay English for the GM.
 
+import { nameEn } from '../../data/index.js'; // decision 242: logs stay English
 import { RuleError } from '../../rules/messages.js';
 import { effectFrom, tickEffects, endCombatEffects } from '../../rules/items.js';
 import { deriveSheet } from '../../state/character.js';
@@ -83,7 +84,7 @@ export const itemActions = {
       c.play.injuries = c.play.injuries.filter((x) => x !== loc);
       parts.push(`treated ${data.body.locations.find((l) => l.id === loc)?.name ?? loc}`);
     }
-    for (const cond of opt.clears ?? []) if (c.play.conditions.includes(cond)) { c.play.conditions = c.play.conditions.filter((x) => x !== cond); parts.push(`${data.conditions.find((k) => k.id === cond)?.name ?? cond} ended`); }
+    for (const cond of opt.clears ?? []) if (c.play.conditions.includes(cond)) { c.play.conditions = c.play.conditions.filter((x) => x !== cond); parts.push(`${nameEn(data.conditions.find((k) => k.id === cond)) || cond} ended`); }
     if (opt.revive && c.play.conditions.includes('incapacitated') && deriveSheet(c, data).hp.current > 0) {
       c.play.conditions = c.play.conditions.filter((x) => x !== 'incapacitated');
       parts.push('back on your feet');

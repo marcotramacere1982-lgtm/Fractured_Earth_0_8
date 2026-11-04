@@ -208,11 +208,29 @@
   :root { --dur-fast: 0ms; --dur: 0ms; }
 }
 
+/* decision 243: puzzle drawings (wire panel, keypad) — real-world colours, the same in every theme */
+:root {
+  --pz-red: #d8433b;
+  --pz-blue: #3a7bd5;
+  --pz-yellow: #e8c53a;
+  --pz-green: #3faa5a;
+  --pz-white: #e9e9e4;
+  --pz-black: #26282b;
+  --pz-casing: #3a3f45;
+  --pz-casing-edge: #23272c;
+  --pz-metal: #8e959c;
+  --pz-key: #c9ccd0;
+  --pz-key-worn: #e8e1cf;
+  --pz-ink: #1b1d20;
+  --pz-screen: #1d3a2c;
+}
+
 /* ==========================================================================
    Decision 219: the map's own palette. Themes restyle the interface; the tactical map keeps one of two tested
    palettes (fog, darkness, light pools, walls…), chosen by the theme through data-map="dark|light". Inside
    .map-view (map.css) the colour tokens are pinned to these, so no theme can make the map unreadable.
    ========================================================================== */
+
 :root {
   --mp-accent: #f2a93b;
   --mp-accent-soft: rgba(242, 169, 59, 0.14);

@@ -1,13 +1,14 @@
 // Abilities in play (decision 155): what a success does to the caster, the cards allies receive, the Logic Bomb.
 // Logs stay English ("Brace & Dig In: Braced"); a fabricated item is logged "Added …" for the GM's audit.
 
+import { nameEn } from '../../data/index.js'; // decision 242: logs stay English
 import { boonResult } from '../../rules/ability-play.js';
 import { stamp, prune } from '../../rules/condition-time.js'; // decision 236
 import { deriveSheet } from '../../state/character.js';
 import { uid } from '../../state/id.js';
 import { log } from './actions.js';
 
-const condName = (data, id) => data.conditions.find((k) => k.id === id)?.name ?? id;
+const condName = (data, id) => nameEn(data.conditions.find((k) => k.id === id)) || id;
 const text = (v, n) => String(v ?? '').slice(0, n);
 
 export const abilityActions = {

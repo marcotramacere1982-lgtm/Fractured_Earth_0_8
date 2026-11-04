@@ -6,33 +6,33 @@
 
 ![A typical street in modern days.](images/title1.webp)
 
-The world does not end with a sudden, violent punctuation mark. It doesn’t drown in the blinding neon glare of a cybernetic fever dream, nor does it collapse beneath the iron heel of an overt corporate military occupation. The truth of our descent is far more quiet, far more orderly, and infinitely more exhausting.
+The world didn't end with a bang. No neon fever dream, no tanks in the street, no evil overlord on a balcony. It ended the way a bank closes your account: politely, in writing, with a reference number.
 
-**Fractured Earth** is a hard science fiction roleplaying game set in 2045, twenty years into our future. It functions as a grounded, historical window into the slow-motion freeze of systemic corporate consolidation. The setting actively rejects the sensationalized clichés of pop-cyberpunk; there are no glowing sub-dermal lights, no cybernetic street samurai slicing through monolithic skyscrapers, and no grand digital revolutions on the horizon. Instead, this is a world running on a low-frequency, ambient baseline of structural friction, administrative fatigue, and profound systemic apathy.
+**Fractured Earth** is a hard science fiction roleplaying game set in 2045, twenty years from now. Forget glowing implants and street samurai. Nobody here is about to start a revolution, either. This is a world that runs on queues, error messages and low-grade dread — a place where the most dangerous thing in your pocket is your Credit Score.
 
 > This is a dystopian world set in 2045, twenty years from now. Some concepts will be weirdly familiar, other new technologies and behaviours have been introduced as consequence of advancements.
 
 ## 1-2. The three years war & the great reconsolidation {#sec-1-2}
 
-The current decay did not manifest overnight. It was catalyzed twenty years ago by a brutal, highly transactional conflict that the history logs now dryly refer to as The Three Years War.
+None of this happened overnight. It started twenty years ago, with what the history logs now call, in a bored tone, *The Three Years War*.
 
-It was not a war fought for flags, ideology, or national pride. It was an industrial liquidation event that permanently broke the back of the old world order, dissolved ancient sovereignty treaties, and paved the way for the absolute dominance of the modern Corporate Cartel.
+Nobody fought it for a flag. It was a clearance sale. When it was over, the old nations were broke, the treaties were scrap paper, and the Corporate Cartel owned the shop.
 
 ### I. THE SPARK: THE SOVEREIGN DEFAULT CASCADES
 
 ![The day the market showed its real face - systemic control.](images/financial_crash.webp)
 
-The conflict began when the remaining 20th-century nation-states, buckling under the weight of resource depletion and systemic debt, attempted to unilaterally restructure their sovereign bonds. They tried to regulate the un-networked capital flows.
+The last old-style governments, drowning in debt and running out of everything, tried one brave thing: they tried to rewrite their own bonds and put a leash on the money.
 
-The market responded with absolute, cold-blooded violence.
+The market answered within the hour.
 
-A coalition of international vulture funds, sovereign debt lobbies, and logistics conglomerates—the ancestral cells of what would become The Avalon-Collins Liquidity Ledger and the Euro-Grid Syndicate—instantly coordinated a total digital blockade. They didn't declare war with artillery; they declared it by pulling the plug on regional transaction networks.
+A coalition of vulture funds, debt lobbies and logistics giants — the ancestors of the Avalon-Collins Liquidity Ledger and the Euro-Grid Syndicate — didn't fire a shot. They just pulled the plug on the payment networks.
 
 > Some conspiracy theories are true, after all: economy, in the end, was never at humanity's service.
 
 **Year 1: The Liquidity Shock**
 
-Overnight, national currencies vanished from digital wallets, replaced by flickering amber error logs. Municipalities couldn't buy fuel for water-filtration plants; logistics networks refused to route synthetic nutrients to city distribution centers unless payment was cleared in corporate-backed Stables. Supply lines didn't just break—they were intentionally frozen by the cartels to force compliance. Riots in the Dense Urban centers were met not by police, but by automated corporate security drones logging biometric IDs for future credit throttling.
+One morning, national money was gone. Wallets showed an amber error line where your savings used to be. Cities couldn't buy fuel for the water plants. Food convoys wouldn't move unless they were paid in corporate Stables. When the riots came, there were no police — just security drones, quietly scanning faces and logging IDs for later.
 
 > The panic was real: hospitals completely halted, services stopped abruptly, power, heating, water - everything froze. Plants shutting down, global positioning services blocked. The reality of globalization reaching its worst nightmare: system collapse.
 
@@ -40,11 +40,9 @@ Overnight, national currencies vanished from digital wallets, replaced by flicke
 
 ![Ports blockades.](images/kinetic_auction.webp)
 
-As the financial chokehold tightened, the physical world fractured. The boiling point ignited in the Middle East, tearing through the critical maritime and pipeline corridors of the Levant. To the dying nation-states, this was a traditional war of survival fought with heavy artillery, bleeding borders, and desperate infantry deployments.
+Then the shooting started, in the Levant, along the pipelines and shipping lanes. For the dying states it was an old-fashioned war: artillery, borders, conscripts in the sand.
 
-In reality, the physical violence was merely a smoke screen for a hyper-calculated corporate blueprint. While old regimes threw their remaining armor divisions into the sand to defend physical pipelines, the global cartels deliberately allowed the logistics spine to shatter. By exposing the extreme fragility of the global supply chain, the cartels triggered a massive panic that drove commodities into an engineered hyper-inflation loop.
-
-While blood spilled physically in the desert, the capital was moving cleanly through the wire. Behind the scenes, the Euro-Grid Syndicate and speculative vulture funds used the chaos to orchestrate the total, targeted bankruptcy of global trade competitors. Infrastructure wasn't destroyed out of hatred; it was systematically devalued, liquidated, and auctioned off to corporate buyers for pennies on the dollar while the state entities were looking the wrong way.
+For the cartels it was a distraction with good timing. They let the supply chain snap on purpose. Prices went mad, rivals went bankrupt, and ports, pipelines and power plants were sold off for pennies while the generals were busy. Nobody blew up the infrastructure out of hate. They marked it down and bought it.
 
 > As a textbook authoritarian move, the first assets to be controlled were media outlets and companies, and while there were voices calling this out, this action was prepared in advance and was successful in masking dissent and create cover-up stories.
 
@@ -52,38 +50,38 @@ While blood spilled physically in the desert, the capital was moving cleanly thr
 
 ![The new order in action.](images/riconsolidation.webp)
 
-By the third year, the nation-states existed only on paper. Every major international treaty governing human rights, territorial sovereignty, and maritime freedom lay broken and trampled under the financial necessity of the crisis. Citizens worldwide, trapped in a state of absolute terror by engineered food shortages and the threat of total blackouts, begged for order at any cost.
+By the third year, countries existed only on letterhead. People were hungry, scared of the next blackout, and ready to sign anything. So they did.
 
-The cartels capitalized on this desperation by forcing governments to pass sweeping, identical "Global Security & Compliance Acts." These draconian laws effectively criminalized unmonitored human existence under the guise of stabilizing the global supply chain.
+Governments everywhere passed the same "Global Security & Compliance Acts", word for word. In plain language: if a machine can't see you, you're breaking the law. States paid for their credit lines with whatever they had left — turnstiles, fibre lines, water tables, birth registries.
 
-States traded away their municipal turnstiles, their fiber-optic trunks, their water tables, and their civil registries just to secure lines of credit from the Ledger. The war ended not with a peace treaty, but with a massive corporate audit. The old borders were erased, replaced by Logistics Sectors, Pristine Enclaves, and the unmonitored, decaying Grey Zones left behind to rot.
+The war ended without a peace treaty. It ended with an audit. The borders were redrawn as Logistics Sectors, Pristine Enclaves, and the Grey Zones — the parts nobody wanted to buy.
 
 ### II. THE TRAGEDY AS AN ASSET CLASS
 
-![The constant monitoring](images/monitoring_population.webp)
+![The constant monitoring](images/monitoring_population.webp){right half}
 
-The true horror of the Three Years War was how beautifully profitable it was for the entities that engineered it. Lobbies and vulture funds realized that physical instability and human terror are the ultimate drivers for systemic compliance.
+Here's the ugly part: the war was a fantastic investment. The people who arranged it learned that fear is the best product there is. A frightened customer never cancels.
 
 Corporation realized long ago that the human nature craves stability and safety through fear: fear became the final ruling system of society. Fear of war, fear of strangers, of inadequacy, of being unsuccessful. Crafted threats and desires created a society on constant hype and stress, that simply has no time to look around and realize how grey the existence has become.
 
-**The Eradication of Choice:** Before the war, an individual could survive outside the corporate ecosystem. After the global emergency laws were ratified, every piece of critical survival infrastructure—from the transit turnstile to the public water dispenser—was hardcoded into the Hive-Mind Subnets.
+**No way out.** Before the war you could live off the grid, if you were stubborn. After the emergency laws, everything you need to stay alive — the transit gate, the water tap — answers to the Hive-Mind Subnets.
 
-**The Debt Trait Integration:** The war turned poverty into a hardwired digital metric. If your family line belonged to a sector that defaulted during the Levantine Fracture, your descendants inherited a permanent, multi-generational Credit Score penalty logged into their Sub-Skin RFID Capsules. You were born into the Amber Static, pre-marked by the machine as a high-friction risk asset.
+**Debt you're born with.** If your family's sector defaulted during the Levantine Fracture, you inherited the bill: a Credit Score penalty written into the RFID capsule under your skin. You came into the world already flagged as a bad risk. Down here they call it being born in the Amber Static.
 
 > This was the anchor to people compliance through fear: fear of losing everything at any given moment due to an algorythm marking you. The "responsible citizen" concept was sanctified on the altar of the greater good by state media, when the reality was quite different... and everyone knew.
 
 ### III. THE WAR'S LEFTOVER FOOTPRINTS
 
-The Freelancers of the mid-21st century are the direct children of this conflict. They wear the Shield-Neck jackets originally lined with lead foil by resistance cells trying to dodge the early corporate Optic-Grids deployed during the global security crackdowns. They carry the Ceramic Blades that were forged in backyard kilns to bypass the weapon-detection arches of the occupying corporate stabilization forces.
+The freelancers of 2045 are the war's children, and they dress like it. The Shield-Neck jacket? Resistance cells lined them with lead foil to hide from the first Optic-Grids. Ceramic Blades were fired in backyard kilns to slip past the weapon arches at corporate checkpoints.
 
-When a freelancer patches a 40-Pin Umbilical Cable into a rusted wall socket in a dark alleyway, they are literally tapping into the scar tissue of the Three Years War. The ancient, rotting code that the Glass-Walkers dig out of abandoned server farms consists of the weaponized zero-days deployed during the Great Reconsolidation—ghosts of a war that humanity lost to the spreadsheet, still rattling around inside the wire.
+When a freelancer jacks a 40-Pin Umbilical Cable into a rusty socket in some alley, they're plugging into the war's scar tissue. The rotten code the Glass-Walkers dig out of dead server farms is the same weaponised code that won the Reconsolidation — still rattling around inside the wire.
 
 ## 1-3. The Illusion of Sovereignty {#sec-1-3}
 
 ![Corporations taking over governments.](images/illusion_of_sovereignty.webp)
 
-If you look at a map, the world appears reassuringly familiar. Traditional nation-states still exist. Their flags still fly over municipal buildings, their courts still gavel to order, and their underfunded standing armies still maintain formal border protocols. But this sovereignty exists purely on paper.
+Look at a map and nothing seems wrong. The countries are still there. Flags fly over town halls, judges still bang their gavels, and underpaid soldiers still check passports at the border.
 
-In reality, modern governments have been hollowed out, reduced to toothless, debt-paralyzed municipal administrators. They are tasked with the grueling, thankless logistics of managing crumbling mid-21st-century infrastructure while drowning in systemic deficits. They do not govern; they merely manage the decay.
+It's set dressing. Today's governments are debt-crippled building managers: they patch the roads, fight over the heating budget, and apologise for the trains. They don't rule anything. They just manage the decay.
 
-True structural power has shifted smoothly, legally, and entirely without a war. It is wielded by global corporate cartels through the boring, unyielding mechanics of hyper-optimized legal capitalism. They did not need to conquer the state; they simply bought the proprietary software, the automated logistics networks, the cloud-based financial systems, and the agricultural seed patents that society requires to draw its next breath. They control the grid, and therefore, they control the parameters of human survival.
+The real power changed hands legally, without a coup. The cartels didn't need to conquer the state. They bought what the state runs on — the software, the logistics, the payment systems, the seed patents. They own the grid. And whoever owns the grid decides whether you get to take your next breath.

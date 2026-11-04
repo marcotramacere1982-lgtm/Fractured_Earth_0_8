@@ -2,6 +2,7 @@
 // with a search that hides rows as you type (no redraw, so the field keeps its focus).
 
 import { html, raw, signed } from '../dom.js';
+import { enTerm } from '../term.js';
 import { counter, card, temp } from './parts.js';
 import { bonus } from '../../rules/stats.js';
 import { passiveScore } from '../../rules/checks.js';
@@ -42,7 +43,7 @@ export function skillsTab(c, s, data) {
     </div>
     <p class="hint">${t('attrs.hint')}</p>`, { sub: t('attrs.sub'), ref: 'attributes' });
 
-  const byCat = data.skills.categories.map((cat) => ({ cat, list: s.skills.filter((k) => k.category === cat.id).map((k) => ({ ...k, find: `${k.name} ${k.stats.join(' ')} ${cat.name}` })) }));
+  const byCat = data.skills.categories.map((cat) => ({ cat, list: s.skills.filter((k) => k.category === cat.id).map((k) => ({ ...k, find: `${k.name} ${k.nameEn ?? ''} ${k.stats.join(' ')} ${cat.name}` })) }));
   const anyShown = byCat.some(({ list }) => list.some((k) => matches(k.find)));
   const skills = card(t('skills.title'), html`
     <input class="input skills-search" type="search" placeholder="${t('skills.search')}" value="${query}" data-action="findSkill" aria-label="${t('skills.search')}">
@@ -55,7 +56,7 @@ export function skillsTab(c, s, data) {
             <div class="skill-row" data-find="${k.find}" ${matches(k.find) ? '' : raw('hidden')} ${hint('skill', k.id)}>
               <button class="skill" data-action="check" data-kind="skill" data-id="${k.id}" aria-label="${t('common.roll', { name: k.name })}">
                 <span class="icon">${raw(data.icons[k.id.replace(/_(db|pb)$/, '')] ?? '')}</span>
-                <span class="skill__name">${k.name}</span>
+                <span class="skill__name">${k.name}${enTerm(k)}</span>
                 <span class="skill__stats">${k.stats.join('+')}</span>
                 <span class="skill__tn">${temp(k.base, k.value)}</span>
                 <span class="skill__passive">${passiveScore(k.value, data.difficulty)}</span>

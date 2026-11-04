@@ -389,3 +389,29 @@
 .display-menu__panel { position: absolute; right: 0; top: calc(100% + var(--space-1)); z-index: 65; display: flex; flex-direction: column; gap: var(--space-2); min-width: 13rem; padding: var(--space-3); background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-md); box-shadow: var(--shadow-2); }
 .display-menu__row { justify-content: space-between; flex-wrap: nowrap; }
 .display-menu__now { min-width: 6.5rem; text-align: center; white-space: nowrap; }
+
+/* decision 243: a puzzle the GM sends (ui/puzzle-view.js) — on the sheets' messages and in the GM's preview */
+.pz { display: flex; flex-direction: column; gap: var(--space-2); }
+.pz__title { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: 0.04em; }
+.pz__intro { margin: 0; }
+.pz__lines { margin: 0; padding-left: var(--space-5); display: flex; flex-direction: column; gap: var(--space-1); }
+.pz-art { width: 100%; max-width: 26rem; height: auto; }
+.pz-keypad { max-width: 14rem; }
+.pz-casing { fill: var(--pz-casing); stroke: var(--pz-casing-edge); stroke-width: 4; }
+.pz-rail { fill: var(--pz-casing-edge); }
+.pz-screw { fill: var(--pz-metal); }
+.pz-wire { fill: none; stroke-width: 12; stroke-linecap: round; }
+.pz-stripe { fill: none; stroke-width: 5; stroke-dasharray: 10 10; stroke-linecap: butt; }
+.pz-wire.pz-c-black { stroke-width: 12; }
+.pz-c-red { stroke: var(--pz-red); } .pz-c-blue { stroke: var(--pz-blue); } .pz-c-yellow { stroke: var(--pz-yellow); }
+.pz-c-green { stroke: var(--pz-green); } .pz-c-white { stroke: var(--pz-white); } .pz-c-black { stroke: var(--pz-black); }
+.pz-num { fill: var(--pz-white); font-family: var(--font-mono); font-size: 14px; }
+.pz-screen { fill: var(--pz-screen); }
+.pz-key { fill: var(--pz-key); stroke: var(--pz-casing-edge); stroke-width: 2; }
+.pz-key--worn { fill: var(--pz-key-worn); filter: blur(0.4px); }
+.pz-keylabel { fill: var(--pz-ink); font-family: var(--font-mono); font-size: 20px; }
+.pz-keylabel--worn { opacity: 0.45; }
+.pz-cipher { font-family: var(--font-mono); font-size: var(--text-lg); letter-spacing: 0.12em; padding: var(--space-3); background: var(--color-surface-2); border: var(--border-width) dashed var(--color-border-strong); border-radius: var(--radius-md); margin: 0; overflow-wrap: anywhere; }
+.pz__warn { margin: 0; color: var(--color-warning); font-weight: 600; }
+.pz__lines--lock { list-style: none; padding-left: 0; }
+.pz-screentext { fill: var(--pz-white); font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.2em; }
