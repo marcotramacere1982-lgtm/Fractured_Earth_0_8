@@ -14,17 +14,19 @@ import { findSkill } from './skills.js';
 import { tacticalView } from './tactical.js';
 import { dossierTab, notesTab } from './dossier.js';
 import { openCheck, openShop, openChoice, openDialog, setTierLock } from './dialogs.js';
-import { withinReach } from '../../rules/interact.js';
+import { withinReach, knowsLocked } from '../../rules/interact.js';
 import { nameEn } from '../../data/index.js';
 import { bothNames } from '../term.js';
 import { flightOutcome, checkFlight } from '../../rules/drone.js';
 import { droneAbility } from '../../rules/field-drone.js';
 import { openWeaponMods } from './weapon-mods-dialog.js';
 import { bonus } from '../../rules/stats.js';
-import { formatRoll } from '../../rules/dice.js';
+import { formatRoll, roll as rollDice, typedRoll } from '../../rules/dice.js';
 import { turnStatus, newTurn, loadoutOpen } from '../../rules/turn.js';
 import { studyLevel, studiedEdge, intelFor } from '../../rules/intel.js';
 import { weaponFlow, hackFlow, locationTable } from './attack-flow.js';
+import { attackCrit, critUpTo, fumbleFrom, fumbleKind, jams } from '../../rules/crits.js';
+import { info as ruleInfo } from '../ref.js';
 import { againstMods } from '../../rules/conditions.js';
 import { openTrade } from './trade.js';
 import { startUseItem } from './use-item.js';
@@ -48,7 +50,9 @@ import { boostsFor } from './check-boosts.js';
 import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky, mapTarget, coverTo } from './map-tab.js';
 import { railOpen } from '../rails.js';
 import { loadoutOverlay, openSwap, closeSwap } from './loadout.js';
-import { hitOverlay } from './hits.js';
+import { hitOverlay, grantOverlay } from './hits.js';
+import { strainOverlay } from './strain.js'; // decision 266
+import { steadyAmount } from '../../rules/strain.js';
 import { contactOverlay, closeContact } from './contact.js';
 import { overwatchOverlay, closeOverwatch } from './overwatch.js';
 import { DIRS, reachOf } from '../../rules/overwatch.js';
@@ -59,15 +63,22 @@ import { forgetMap, noteMap } from '../../rules/map-memory.js';
 import { markHandlers, myMarkColor, myMarks } from './map-marks.js';
 import { carriesTorch, visionOf } from '../../rules/light.js';
 import { lightOptions, lightKind, squareLight } from '../../rules/darkness.js';
+import { siteTn } from '../../rules/site.js';
+import { helpFrom } from '../../rules/help.js';
+import { moveChecks } from '../../rules/chase.js'; // decision 275
+import { chaseBlock } from './chase.js';
+import { caseTab } from './case-tab.js'; // decisions 278–279
+import { caseHandlers, caseChanges } from './case-handlers.js';
 import { frameOf } from '../portrait.js';
 
-const rollText = (r) => `d20 ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}`;
+const rollText = (r) => `d20 ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}${r.site ? ` (${r.site.label} ${r.site.tn})` : ''}${r.help ? ` (${r.help.label} ${r.help.tn > 0 ? '+' : ''}${r.help.tn})` : ''}`; // decision 268: the site alert; 270: help
 
 const TABS = [
   { id: 'play', label: 'sheet.tab.sheet', view: sheetTab }, // decision 215: Setup + Gear → Sheet, folding sections (the id stays: links, tours)
   { id: 'dossier', label: 'sheet.tab.dossier', view: dossierTab },
   { id: 'notes', label: 'sheet.tab.notes', view: notesTab },
   { id: 'progress', label: 'sheet.tab.progress', view: progressTab },
+  { id: 'case', label: 'sheet.tab.case', view: caseTab }, // decisions 278–279: the crew's case (only at a table)
   { id: 'map', label: 'sheet.tab.tactical', view: mapTab }, // only while the GM has a map on the table (decision 64); the Tactical View (decision 162)
 ];
 
@@ -77,7 +88,7 @@ export function sheetView({ data, store, main, table }, route) {
   const asked = askedTab === 'skills' || askedTab === 'gear' ? 'play' : askedTab; // decision 164: old Skills links land on Setup
   const tableMap = () => (table?.state.joinedId === id ? table.state.map : null);
   // decision 162 → 232: with a map on the table the Tactical View is the tab next to Sheet; a sheet opens on Sheet
-  const tabs = () => { const rest = TABS.filter((x) => x.id !== 'map'); return tableMap() ? [rest[0], TABS.find((x) => x.id === 'map'), ...rest.slice(1)] : rest; };
+  const tabs = () => { const rest = TABS.filter((x) => x.id !== 'map' && (x.id !== 'case' || (table?.state.joinedId === id && table.state.case))); return tableMap() ? [rest[0], TABS.find((x) => x.id === 'map'), ...rest.slice(1)] : rest; };
   const tabId = asked ?? 'play';
   const tableMarks = () => (table?.state.joinedId === id ? table.state.marks : null); // decision 82
   const sendMark = (body) => (tableMap() ? table.mark(tableMap().id, body) : Promise.resolve(false));
@@ -105,6 +116,9 @@ export function sheetView({ data, store, main, table }, route) {
   // decision 134: on the Active map the status bar is one slim row unless opened (remembered per device)
   const STATUS = 'fe.sheet.mapStatusOpen';
   const statusOpen = () => { try { return localStorage.getItem(STATUS) === '1'; } catch { return false; } };
+  const SMALL = 'fe.sheet.statusSmall'; // the slim header on every tab (the Map tab keeps its own, decision 134)
+  const statusSmall = () => { try { return localStorage.getItem(SMALL) === '1'; } catch { return false; } };
+  let tabNow = null;
   const TIPS = 'fe.sheet.actionTips';
   const tipsOn = () => { try { return localStorage.getItem(TIPS) === '1'; } catch { return false; } };
   // decision 163: the Tactical View's class engine — compact (default) or full in the right column, remembered per device
@@ -117,9 +131,9 @@ export function sheetView({ data, store, main, table }, route) {
     const open = new Set([...main.querySelectorAll('details[data-keep][open]')].map((d) => d.dataset.keep));
     // decision 237: the table strip — the GM's environment, a timer for this character, the round countdowns shown
     const atTableNow = table?.state.joinedId === id;
-    const strip = atTableNow ? tableStrip(data, { env: table.state.environment, timer: table.state.timer, countdowns: table.state.combat?.countdowns ?? [] }) : '';
+    const strip = atTableNow ? html`${chaseBlock(table.state.chase, c, data)}${tableStrip(data, { env: table.state.environment, timer: table.state.timer, countdowns: table.state.combat?.countdowns ?? [] })}` : ''; // decision 275: a chase on top
     if (strip) startStripClock();
-    const ctx = { strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null };
+    const ctx = { strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null, caseState: table?.state.joinedId === id ? table.state.case : null, names: caseNames() };
     const tabNav = html`<nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
             ${tabs().map((x) => html`<a class="tab ${x.id === 'map' ? 'tab--live' : ''}" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
           </nav>`;
@@ -132,8 +146,9 @@ export function sheetView({ data, store, main, table }, route) {
           <div class="cluster">${tools}</div>
         </div>
 `;
-    const loadout = loadoutOverlay(c, s, withUniques(data, c), ctx.combat, table?.state.joinedId === id ? table.state.prepare : null) || hitOverlay(c, s, withUniques(data, c)) || (table?.state.joinedId === id ? contactOverlay(table.state.contact) : '') || (table?.state.joinedId === id ? overwatchOverlay(table.state.overwatchCall, c.play.overwatch) : '') || callOverlay(c, s, withUniques(data, c)); // decision 211: contact // decision 192: before a fight, or Swap abilities; then a hit (decision 207); then the GM's roll calls (decision 193)
+    const loadout = loadoutOverlay(c, s, withUniques(data, c), ctx.combat, table?.state.joinedId === id ? table.state.prepare : null) || hitOverlay(c, s, withUniques(data, c)) || grantOverlay(c, withUniques(data, c)) /* decision 276 */ || strainOverlay(c, s, data) || (table?.state.joinedId === id ? contactOverlay(table.state.contact) : '') || (table?.state.joinedId === id ? overwatchOverlay(table.state.overwatchCall, c.play.overwatch) : '') || callOverlay(c, s, withUniques(data, c)); // decision 211: contact // decision 192: before a fight, or Swap abilities; then a hit (decision 207); then the GM's roll calls (decision 193)
     const tactical = tab.id === 'map' && Boolean(tableMap());
+    const loadoutTop = main.querySelector('.loadout__body')?.scrollTop ?? 0; // the get-ready window keeps its place through a redraw (rolling initiative)
     if (toolsEl) render(toolsEl, tactical ? '' : tools);
     if (tactical) { // decision 162: the Tactical View has its own frame
       render(main, html`${tacticalView(c, s, withUniques(data, c), ctx, nav)}${loadout}`);
@@ -141,13 +156,19 @@ export function sheetView({ data, store, main, table }, route) {
       <div class="sheet">
         ${strip}
         ${table?.state.stale ? html`<p class="notice notice--warn sheet-stale">${t('table.stale')} <button class="btn btn--sm btn--primary" data-action="reloadApp">${t('table.reload')}</button></p>` : ''}
-        ${statusBar(c, s, data, { compact: tab.id === 'map' && !statusOpen(), tabs: tabNav })}${tab.id === 'map' && statusOpen() ? html`<button class="btn btn--sm btn--ghost sheet-status__less" data-action="statusOpen">${t('status.collapse')}</button>` : ''}
+        ${(() => { // the header collapses on every tab: ▴ on the full bar, ▾ on the slim one (remembered on the device)
+          tabNow = tab.id;
+          const small = tab.id === 'map' ? !statusOpen() : statusSmall();
+          return html`${statusBar(c, s, data, { compact: small, all: small && tab.id !== 'map', tabs: tabNav, atTable: table?.state.joinedId === id })}${small && tab.id !== 'map' ? html`<div class="sheet-status__tabs">${tabNav}<button class="btn btn--sm btn--ghost" data-action="statusOpen" title="${t('status.expand')}" aria-label="${t('status.expand')}">▾</button></div>` : html`<button class="btn btn--sm btn--ghost sheet-status__less" data-action="statusOpen" title="${t('status.collapse')}">${t('status.collapse')}</button>`}`;
+        })()}
         ${tableBanner(table, id, data)}
         ${tourDone('general') ? '' : html`<p class="notice tour-offer"><span>${t('tour.offer')}</span>
           <button class="btn btn--sm btn--primary" data-action="tour" data-id="general">${t('tour.offerStart')}</button>
           <button class="btn btn--sm btn--ghost" data-action="tourSkip">${t('tour.offerNo')}</button></p>`}
         <div class="sheet-body">${tab.view(c, s, withUniques(data, c), ctx)}</div>
       </div>${loadout}`);
+    const body = loadoutTop && main.querySelector('.loadout__body');
+    if (body) body.scrollTop = loadoutTop;
     document.documentElement.classList.toggle('tac-open', tab.id === 'map' && Boolean(tableMap())); // decision 162: on wide screens the page doesn't scroll under the Tactical View
     document.documentElement.classList.add('sheet-open'); // decision 216: the character sheet uses the whole window
     const bar = main.querySelector('.sheet-status')?.offsetHeight; // the Sheet tab's index sticks just under the status bar
@@ -177,24 +198,34 @@ export function sheetView({ data, store, main, table }, route) {
   };
   /**
    * Decision 241: Interact in a fight with a marker on the table map — a list of the doors, switches and devices
-   * within reach (or something else, for the GM). @returns false when there is nothing to pick (a plain Interact).
+   * within reach (or something else, for the GM). Decision 255: with nothing within reach it still asks (something
+   * else, or Cancel) so a tap never burns the action by mistake; a lock you found offers "try to open it" (asks the
+   * GM, no action). @returns false off the map (a plain Interact).
    */
   const interactPick = () => {
     const map = tableMap();
     const me = map?.tokens?.find((tk) => tk.key === id);
     if (!me || !tableCombat()?.active || doorUse() !== 'ok') return false;
     const near = withinReach(map, data, me);
-    if (!near.length) return false;
+    const c = character();
+    const lockedNow = (x) => (x.kind === 'door' || x.kind === 'open') && !x.open && knowsLocked(c, map.id, x.id);
     const side = (x) => ` (${t(`interact.side.${x.side}`)})`;
-    const label = (x) => (x.kind === 'door' ? `🚪 ${t('interact.door')}${side(x)} — ${t(x.open ? 'map.door.doClose' : 'map.door.doOpen')}`
+    const doorName = (x) => t(x.powered ? 'map.door.electric' : 'interact.door'); // decision 256
+    const label = (x) => (lockedNow(x) ? `🔒 ${x.kind === 'door' ? doorName(x) : x.name}${side(x)} — ${t('map.lock.try')}`
+      : x.kind === 'door' ? `🚪 ${doorName(x)}${side(x)} — ${t(x.open ? 'map.door.doClose' : 'map.door.doOpen')}`
       : x.kind === 'open' ? `🚪 ${x.name}${side(x)} — ${t(x.open ? 'map.door.doClose' : 'map.door.doOpen')}`
+      : x.kind === 'search' ? `🔍 ${x.name}${side(x)} — ${t('map.device.search')}` // decision 277
       : `💡 ${x.name}${side(x)} — ${x.kind === 'switch' ? t('map.device.flip') : x.kind === 'ask' ? t('map.device.ask') : t(x.on ? 'map.device.off' : 'map.device.on')}`);
-    openChoice(t('interact.title'), [...near.map((x, i) => ({ value: String(i), label: label(x) })), { value: 'other', label: t('interact.other') }], (v) => {
+    const choices = [...near.map((x, i) => ({ value: String(i), label: label(x), ...(lockedNow(x) ? { sub: t('map.lock.free') } : {}) })),
+      { value: 'other', label: t('interact.other') }, ...(near.length ? [] : [{ value: 'cancel', label: t('common.cancel'), quiet: true }])];
+    openChoice(t('interact.title'), choices, (v) => {
+      if (v === 'cancel') return;
       if (v === 'other') { run('act', { kind: 'interact', detail: '' }); return; }
       const x = near[Number(v)];
-      if (x.kind === 'door') clicks.mapDoor({ door: x.id, open: x.open ? '0' : '1' });
+      if (lockedNow(x)) clicks.mapLockTry({ kind: x.kind, target: x.id });
+      else if (x.kind === 'door') clicks.mapDoor({ door: x.id, open: x.open ? '0' : '1' });
       else clicks.mapDevice({ prop: x.id, kind: x.kind, on: x.kind === 'toggle' ? (x.on ? '0' : '1') : x.kind === 'open' ? (x.open ? '0' : '1') : '' });
-    });
+    }, { lead: near.length ? t('interact.hint') : t('interact.nothing') });
     return true;
   };
   /** Decision 250: Overwatch in a fight — pick the direction (8 points); the weapon in hand sets how far. */
@@ -253,6 +284,13 @@ export function sheetView({ data, store, main, table }, route) {
     return { dark, lit: Boolean(square?.lit) || (dark && torch), vision: visionOf(c, wd), target: targetSeen(map, id) };
   };
   const lightFor = (kind) => { const l = kind ? lightOptions(kind, darkCtx(), data) : null; return l ? { ...l, kind } : null; };
+  /** Decision 268: the site alert on the map you stand on — { level, tn } for a roll it bites (check: { kind: 'skill' | 'class', id }), else null. */
+  const siteFor = (check) => {
+    const map = tableMap();
+    if (!map?.site || !map.tokens?.some((tk) => tk.key === id)) return null;
+    const tn = siteTn(map.site, check, data.map.site);
+    return tn ? { level: map.site, tn } : null;
+  };
 
   /** Runs a sheet action against the store; errors become toasts. */
   const run = (name, args = {}, opts = {}) => {
@@ -279,6 +317,16 @@ export function sheetView({ data, store, main, table }, route) {
   };
 
   const tableCombat = () => (table?.state.joinedId === id ? table.state.combat : null);
+  // decision 279: who is who on the board (the editor's name) — the table's roster as the sheet knows it
+  let caseNameCache = {};
+  let caseNameAt = 0;
+  const caseNames = () => { if (Date.now() - caseNameAt < 20000) return caseNameCache; caseNameAt = Date.now(); table?.players?.().then((ps) => { const next = Object.fromEntries((ps ?? []).map((p) => [p.id, p.name])); if (JSON.stringify(next) !== JSON.stringify(caseNameCache)) { caseNameCache = next; draw(); } }).catch(() => {}); return caseNameCache; };
+  /** Decision 266: a breaking point's die — rolled by the app or typed from a physical die. */
+  const strainDie = (action, die, mode, e) => {
+    let r;
+    try { r = mode === 'roll' ? rollDice(die) : typedRoll(die, e.target.closest('.loadout__box')?.querySelector('[data-strain-typed]')?.value); } catch { toast(t('init.badRoll', { die }), 'danger'); return; }
+    run(action, { roll: r.total, rollText: formatRoll(r) });
+  };
   /** Damage steps after a successful ability: its weapon's dice (Called Shot, Kill Shot…) or a hack's own dice. */
   const abilityFlow = (c, sh, ability) => {
     const onDone = (o) => run('attackDamage', o);
@@ -312,10 +360,10 @@ export function sheetView({ data, store, main, table }, route) {
     const ping = async (r) => { // decision 170: the GM's console works out the list from the map
       if (!(await table?.ping(tableMap()?.id ?? null, { success: r.success, margin: r.margin }))) toast(t('ping.offline'), 'danger');
     };
-    if (ability.play) { playAbility({ c, sh, data, ability, resonant: Boolean(resonant), combat: tableCombat(), table, run, toast, rollText, tier: tableTier, ping, onMap: mapTarget() }); return; } // decision 155; onMap: decision 192
+    if (ability.play) { playAbility({ c, sh, data, ability, resonant: Boolean(resonant), combat: tableCombat(), table, run, toast, rollText, tier: tableTier, ping, onMap: mapTarget(), site: siteFor({ kind: 'class', id: c.classId }) }); return; } // decision 155; onMap: decision 192
     openCheck({ name: resonant ? `${ability.name} · ${t('engine.resonantCast')}` : ability.name, tn: sh.class.tn, sub: `Class TN · ${sh.class.subclass.name}` }, data,
       (r) => run('useRolled', { id: abilityId, success: r.success, rollText: rollText(r), resonant: Boolean(resonant) }),
-      { tier: tableTier(), once: true, flow: abilityFlow(c, sh, ability), after: (r) => (!r.success && data.classes.abilityRoll.onFailure !== 'nothing' ? html`<p class="hint">${t(`check.abilityFailed.${data.classes.abilityRoll.onFailure}`)}</p>` : '') });
+      { tier: tableTier(), once: true, site: siteFor({ kind: 'class', id: c.classId }), flow: abilityFlow(c, sh, ability), after: (r) => (!r.success && data.classes.abilityRoll.onFailure !== 'nothing' ? html`<p class="hint">${t(`check.abilityFailed.${data.classes.abilityRoll.onFailure}`)}</p>` : '') });
   };
 
   const clicks = {
@@ -373,6 +421,7 @@ export function sheetView({ data, store, main, table }, route) {
       if (!w || w.empty || (!overwatch && !actionAvailable(c, sh))) return; // decision 250: the overwatch shot needs no action
       if (w.usable === false) { toast(t(`weapons.unusable.${w.why}`), 'danger'); return; }
       if (w.magSize && w.rounds <= 0) { toast(t('attack.empty', { weapon: w.name }), 'danger'); return; }
+      if ((c.play.jams ?? []).includes(String(slot))) { toast(t('crit.jammedNo', { weapon: w.name }), 'danger'); return; } // decision 265
       // decision 97: one Attack button; where to aim (body, or ⌖ a location at −N TN) is chosen in the roll window
       const spec = { located: Boolean(located) || Boolean(c.play.aimed), aimed: Boolean(c.play.aimed) }; // decision 150: aimed → a location attack, picked for you
       const ammo = String(c.play.specialAmmo?.slot) === String(slot) ? c.play.specialAmmo.mode : null; // decision 155: Black-Market Ammo
@@ -399,11 +448,35 @@ export function sheetView({ data, store, main, table }, route) {
         const h = foes.find((x) => x.key === spec.target);
         table?.report({ target: spec.target ?? '', targetLabel: h ? `${h.letter} · ${h.name}` : '', weapon: w.name, ...extra });
       };
+      // decision 265: critical hits and fumbles — the odds before rolling, the banner after, the crit told to the GM
+      const crits = data.encounter.crits;
+      const span = (a, b) => (a >= b ? String(a) : `${a}–${b}`);
+      const odds = (eff) => html`<p class="check-odds">💥 ${t('crit.odds', { range: span(1, critUpTo(eff, w, crits)) })} · ${t('crit.fumbleOdds', { range: span(fumbleFrom(eff, crits), 20) })} ${ruleInfo('critical', t('crit.title'))}</p>`;
+      const banner = (r) => {
+        const k = attackCrit(r, w, crits);
+        if (k === 'crit') return html`<p class="notice notice--crit">${t(spec.located ? 'crit.hitLocated' : 'crit.hit')}</p>`;
+        if (k === 'fumble') return html`<p class="notice notice--danger">${fumbleKind(w) === 'jam' ? t('crit.fumbleJam', { die: crits.jamDie, weapon: w.name, n: w.reliability ?? 10 }) : fumbleKind(w) === 'lost' ? t('crit.fumbleLost', { weapon: w.name }) : t('crit.fumbleExposed')}</p>`;
+        return '';
+      };
+      const jamFlow = (r) => (attackCrit(r, w, crits) === 'fumble' && fumbleKind(w) === 'jam' ? {
+        next: (a) => (a.jam ? null : { id: 'jam', title: t('crit.jamTitle', { weapon: w.name }), hint: t('crit.jamHint', { n: w.reliability ?? 10 }), dice: [{ key: 'd', label: t('crit.jamDie'), expr: crits.jamDie }] }),
+        recap: (id, a) => `${t('crit.jamDie')}: ${formatRoll(a.d)}`,
+        summary: (a) => html`<p class="notice ${jams(w, a.jam.d.total) ? 'notice--danger' : 'notice--ok'}">${jams(w, a.jam.d.total) ? t('crit.jammed') : t('crit.holds')}</p>`,
+        complete: (a) => run('attackFumble', { slot, kind: 'jam', roll: a.jam.d.total, rollText: formatRoll(a.jam.d) }),
+      } : null);
       openCheck({ name: overwatch ? `🎯 ${t('overwatch.shotTitle', { weapon: w.name })}` : t('attack.title', { weapon: w.name }), tn: w.tn, sub: nameOfSkill(w.skill) }, data,
-        (r) => { spec.rollText = rollText(r); run('attack', { slot, hit: r.success, rollText: spec.rollText, located: spec.located, free: Boolean(overwatch) }); if (!r.success) report({ hit: false, roll: spec.rollText }); },
-        { tier: tableTier(), once: true, aim, notice: spec.aimed ? `🎯 ${t('attack.aimedNotice')}` : '', tools: toolsFor(c.play.inventory, data.items, { skill: w.skill, attack: isRanged(w) ? 'gun' : null }), light: lightFor('attack'), boosts: boostsFor(c, data, { kind: 'weapon', slot }),
-          after: (r) => (r.success ? '' : html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`),
-          foe, flow: weaponFlow({ c, sh, data, w, spec, exploit: true, combat: tableCombat(), onDone: (o) => { run('attackDamage', o); report({ hit: true, damage: o.damage, part: o.part, where: o.where, armorHalf: o.armorHalf, armor: o.armorHalf ? 'half' : '', roll: spec.rollText ?? '' }); } }) });
+        (r) => {
+          const k = attackCrit(r, w, crits);
+          spec.crit = k === 'crit';
+          spec.rollText = `${rollText(r)}${k === 'crit' ? ' · CRITICAL HIT' : k === 'fumble' ? ' · FUMBLE' : ''}`;
+          run('attack', { slot, hit: r.success, rollText: spec.rollText, located: spec.located, free: Boolean(overwatch) });
+          if (k === 'fumble' && fumbleKind(w) !== 'jam') run('attackFumble', { slot, kind: fumbleKind(w) });
+          if (!r.success) report({ hit: false, roll: spec.rollText });
+        },
+        { tier: tableTier(), once: true, aim, odds, narrative: false, notice: spec.aimed ? `🎯 ${t('attack.aimedNotice')}` : '', tools: toolsFor(c.play.inventory, data.items, { skill: w.skill, attack: isRanged(w) ? 'gun' : null }), light: lightFor('attack'), boosts: boostsFor(c, data, { kind: 'weapon', slot }),
+          after: (r) => html`${banner(r)}${r.success ? '' : html`<p class="hint">${w.magSize ? t('attack.missAmmo') : t('attack.miss')}</p>`}`,
+          missFlow: jamFlow,
+          foe, flow: weaponFlow({ c, sh, data, w, spec, exploit: true, combat: tableCombat(), onDone: (o) => { run('attackDamage', o); report({ hit: true, damage: o.damage, part: o.part, where: o.where, armorHalf: o.armorHalf, armor: spec.crit ? 'ignore' : o.armorHalf ? 'half' : '', crit: Boolean(spec.crit), roll: spec.rollText ?? '' }); } }) });
     },
     dodgeRoll: () => {
       const c = character();
@@ -503,9 +576,28 @@ export function sheetView({ data, store, main, table }, route) {
     declineDeal: ({ id: dealId }) => run('declineDeal', { id: dealId }),
     stashRename: () => { const name = prompt(t('stash.name'), character().play.stash?.name ?? ''); if (name !== null) run('stashName', { value: name }); }, // decision 144
     ...hitHandlers({ character, data, run, table, toast, rollText, tier: tableTier }), // decision 154
+    ...caseHandlers({ table, id, toast, redraw: () => draw(), character }), // decisions 278–279
     boonApply: ({ id: boonId }) => run('applyBoon', { id: boonId }), // decision 155: a card from an ally
     askSkip: ({ id: askId, name }) => run('rollAsked', { id: askId, name }), // decision 165
     clearScan: () => run('clearScan'), // decision 170
+    netDoorAsk: ({ net, name }) => { // decision 256: Door Control when equipped (its own roll, RAM, Heat); else ask the GM — a hack action in a fight, the GM calls the roll
+      const ops = ['unlock', 'lock', 'open', 'close'];
+      const viaAbility = character().play.abilities.includes('door_control');
+      openChoice(t('ping.doorTitle', { name: name || t('ping.doorOn', { key: net }) }), ops.map((op) => ({ value: op, label: t(`ping.op.${op}`) })), async (op) => {
+        const c = character();
+        if (viaAbility) {
+          if (c.play.turn?.inCombat && !actionAvailable(c, deriveSheet(c, data))) return;
+          if (!(await table?.netDoor(net, name, op, 'door_control'))) { toast(t('ping.offline'), 'danger'); return; }
+          rollAbility({ id: 'door_control' });
+          return;
+        }
+        if (c.play.turn?.inCombat) {
+          if (!actionAvailable(c, deriveSheet(c, data))) return;
+          try { store.update(id, (d) => { actions.act(d, withUniques(data, d), { kind: 'other', detail: `hack: ${op} ${name ? `the door “${name}”` : 'a door'} on network ${net} (remote)` }); }); } catch (err) { toast(ruleText(err), 'danger'); return; }
+        }
+        toast(await table?.netDoor(net, name, op) ? t('ping.doorAsked') : t('ping.offline'), 'success');
+      }, { lead: t(viaAbility ? 'ping.doorLeadAbility' : 'ping.doorLead') });
+    },
     ...initiativeHandlers({ character, sheet: () => deriveSheet(character(), data), data, run, table, toast }), // decision 148
     ...prepareHandlers({ character, sheet: () => deriveSheet(character(), data), data, run, table, toast }), // decision 232
     ...crewStashHandlers({ character, data, run, table, toast }), // decision 145: 📦 picks your stash or the crew's
@@ -570,7 +662,7 @@ export function sheetView({ data, store, main, table }, route) {
       if (tourId === 'map') railOpen('tac', 'right', 'map'); // the tour points at the Map bookmark (decision 192)
       if (tour) startTour(tour, { openTab: (tabId) => { if (location.hash !== href('sheet', id, tabId)) go('sheet', id, tabId); }, onClose: () => draw() });
     },
-    statusOpen: () => { try { localStorage.setItem(STATUS, statusOpen() ? '0' : '1'); } catch { /* private mode */ } draw(); },
+    statusOpen: () => { try { if (tabNow === 'map') localStorage.setItem(STATUS, statusOpen() ? '0' : '1'); else localStorage.setItem(SMALL, statusSmall() ? '0' : '1'); } catch { /* private mode */ } draw(); },
     loadoutOpen: () => { if (!loadoutOpen(character().play.turn)) { toast(t('rule.loadoutLocked'), 'danger'); return; } openSwap(); draw(); }, // decision 192: Swap abilities; 194: not mid-fight
     loadoutClose: () => { closeSwap(); draw(); },
     combatReady: () => { closeSwap(); run('combatReady'); },
@@ -641,6 +733,14 @@ export function sheetView({ data, store, main, table }, route) {
       const map = tableMap();
       const p = map?.props?.find((x) => x.id === prop);
       const name = p?.caption || data.props.props.find((x) => x.id === p?.prop)?.name || '';
+      if (kind === 'search') { // decision 277: searching a piece — an Interact action in a fight only; the GM's map says what's there
+        if (tableCombat()?.active) {
+          try { store.update(id, (d) => { actions.act(d, withUniques(data, d), { kind: 'interact', detail: `searches the ${name} on the map` }); }); } catch (err) { toast(ruleText(err), 'danger'); return; }
+        }
+        table.device(map.id, prop, undefined);
+        toast(t('map.device.searching', { name }), 'success');
+        return;
+      }
       if (kind === 'open') { // decision 248: like a door — an Interact action in a fight only
         if (tableCombat()?.active) {
           try { store.update(id, (d) => { actions.act(d, withUniques(data, d), { kind: 'interact', detail: `${on === '1' ? 'opens' : 'closes'} the ${name} on the map` }); }); } catch (err) { toast(ruleText(err), 'danger'); return; }
@@ -655,6 +755,12 @@ export function sheetView({ data, store, main, table }, route) {
       table.device(map.id, prop, kind === 'toggle' ? on === '1' : undefined);
       if (kind === 'ask') toast(t('map.device.asked', { name }), 'success');
     },
+    mapLockTry: ({ kind, target }) => { // decision 255: a lock this sheet found — ask the GM to try it (no action: the GM's roll decides what it costs)
+      const map = tableMap();
+      if (kind === 'door') table.door(map.id, target, true, true);
+      else table.device(map.id, target, true, true);
+      toast(t('map.lock.asked'), 'success');
+    },
     mapDoor: ({ door, open }) => { // a door next to the player's marker: an Interact action in combat; the GM console checks the lock
       if (tableCombat()?.active) {
         try {
@@ -665,17 +771,123 @@ export function sheetView({ data, store, main, table }, route) {
     },
     joinTable: () => table.join(id),
     leaveTable: () => table.leave(),
+    // decision 266: Strain — steady yourself (a Mental Strength roll halves it) or take it; the breaking point's dice
+    strainSteady: ({ id: askId }) => {
+      const target = checkTarget({ kind: 'attr', id: 'MST' });
+      openCheck(target, data, (r) => run('strainTake', { id: askId, steady: r.success, rollText: `${r.roll} vs ${r.effective}` }), { tier: tableTier(), once: true, tools: target.tools, boosts: target.boosts });
+    },
+    strainTake: ({ id: askId }) => run('strainTake', { id: askId }),
+    strainHand: ({ delta }) => run('strainHand', { delta: Number(delta) }),
+    breakRoll: ({ mode }, e) => strainDie('breakingRoll', data.strain.breaking.die, mode, e),
+    scarRoll: ({ mode }, e) => strainDie('scarRoll', data.strain.scars.die, mode, e),
+    breakSeen: () => run('breakingSeen'),
+    breathHold: () => openChoice(t('breath.hold'), [{ value: '0', label: t('breath.ready'), sub: t('breath.readySub', { n: deriveSheet(character(), data).attributes.CON }) }, { value: '1', label: t('breath.surprised'), sub: t('breath.surprisedSub') }],
+      (v) => run('breathStart', { surprised: v === '1', why: '' })), // decision 273
+    breathRound: () => run('breathTick'),
+    breathAir: () => run('breathEnd', { why: '' }),
+    breathRoll: () => {
+      const c = character();
+      const ask = c.play.breath?.ask;
+      if (ask?.kind !== 'check') return;
+      const con = deriveSheet(c, data).attributes.CON;
+      openCheck({ name: t('breath.checkTitle'), tn: con + ask.penalty, sub: `CON ${con} · −${Math.abs(ask.penalty)}` }, data, (r) => run('breathCheck', { success: r.success, rollText: rollText(r) }), { tier: tableTier(), once: true });
+    },
+    breathDrown: ({ mode }, e) => {
+      const die = character().play.breath?.ask?.dice ?? data.body.breath.drown;
+      let r;
+      try { r = mode === 'roll' ? rollDice(die) : typedRoll(die, e.target.closest('.breath-drown')?.querySelector('[data-breath-typed]')?.value); } catch { toast(t('init.badRoll', { die }), 'danger'); return; }
+      run('breathDrown', { n: r.total, rollText: formatRoll(r) });
+    },
+    chaseMove: ({ move }) => { // decision 275: one move this leg — one roll; it counts for its effect and for keeping pace
+      const ch = table?.state.chase;
+      const c = character();
+      if (!ch?.active || !ch.crew.includes(id)) return;
+      const s = deriveSheet(c, data);
+      const bonus = ch.crewBonus ?? 0;
+      const report = (r, extra = '') => {
+        store.update(id, (dd) => { dd.play.chaseMove = { chase: ch.id, leg: ch.leg, move, success: r.success }; log(dd, `Chase, leg ${ch.leg} — ${move}: ${rollText(r)} → ${r.success ? 'kept pace' : 'fell back'}${extra}`, r.success ? 'ok' : 'bad'); });
+        table.chaseMove({ chase: ch.id, leg: ch.leg, move, success: r.success, margin: r.margin, natural: r.natural, rollText: `${r.roll} vs ${r.effective}` }).then((ok) => { if (!ok) toast(t('crewStash.why.offline'), 'danger'); });
+      };
+      const roll = (target, extra = {}) => openCheck({ ...target, tn: target.tn + bonus, sub: `${target.sub ?? ''}${bonus ? ` · ${t('chase.bonus', { n: bonus })}` : ''}` }, data, (r) => report(r, extra.note ?? ''),
+        { tier: tableTier(), once: true, tools: target.tools ?? [], boosts: target.boosts ?? [], site: extra.site ?? null, light: extra.light ?? null });
+      const options = moveChecks(move, data.chase).flatMap((k) => {
+        if (k === 'weapon') { const w = s.weapons.find((x) => x.inHand && !x.empty); return w ? [{ value: 'weapon', label: w.name, sub: `TN ${w.tn}` }] : []; }
+        if (k.startsWith('class:')) return c.classId === k.slice(6) && s.class ? [{ value: 'class', label: `Class TN · ${s.class.subclass.name}`, sub: `TN ${s.class.tn}` }] : [];
+        if (k === 'any') return [{ value: 'any', label: t('chase.helpPick') }];
+        const [kind, cid] = k.split(':');
+        const tg = checkTarget({ kind: kind === 'attr' ? 'attr' : 'skill', id: cid });
+        return [{ value: k, label: tg.name, sub: `TN ${tg.tn}` }];
+      });
+      const go = (v) => {
+        if (v === 'weapon') {
+          const w = s.weapons.find((x) => x.inHand && !x.empty);
+          try { store.update(id, (dd) => { actions.chaseShot(dd, withUniques(data, dd), { slot: w.slot }); }); } catch (err) { toast(ruleText(err), 'danger'); return; }
+          roll({ name: `${t('chase.move.cover')} · ${w.name}`, tn: w.tn, sub: nameOfSkill(w.skill) });
+        } else if (v === 'class') roll({ name: t('chase.move.hack'), tn: s.class.tn, sub: `Class TN · ${s.class.subclass.name}` }, { site: siteFor({ kind: 'class', id: c.classId }) });
+        else if (v === 'any') clicks.helpCrew({ chase: true, then: (r) => report(r, ' (helped a crewmate)') });
+        else { const [kind, cid] = v.split(':'); const tg = checkTarget({ kind: kind === 'attr' ? 'attr' : 'skill', id: cid }); roll({ ...tg, name: `${t(`chase.move.${move}`)} · ${tg.name}` }, kind === 'skill' ? { site: siteFor({ kind: 'skill', id: cid }), light: lightFor(lightKind(cid)) } : {}); }
+      };
+      if (!options.length) { toast(t('chase.cant'), 'danger'); return; }
+      if (options.length === 1) go(options[0].value); else openChoice(t(`chase.move.${move}`), options, go);
+    },
+    grantAccept: ({ id: gid }) => { const got = run('acceptGrant', { id: gid }); if (got) toast(t('grant.taken', { what: got.join(', ') }), 'success'); }, // decision 276
+    helpCrew: async (opts = {}) => { // decision 270: say how you help, roll a related skill — +2 on their next check (a natural 20: −2); an action in a fight
+      const c = character();
+      const fight = Boolean(c.play.turn?.inCombat) && !opts.chase; // decision 275: in a chase, Help is the leg's move
+      const mates = table?.state.joinedId === id ? (await table.players()).filter((p) => p.id !== id && (!opts.chase || table.state.chase?.crew.includes(p.id))) : [];
+      if (!mates.length) { toast(t('strain.steadyNobody'), 'danger'); return; }
+      openChoice(t('help.pickMate'), mates.map((p) => ({ value: p.id, label: p.name })), (to) => {
+        const name = mates.find((p) => p.id === to)?.name ?? '';
+        const s = deriveSheet(character(), data);
+        const skills = [...s.skills].sort((a, b) => b.value - a.value);
+        openChoice(t('help.pickSkill', { name }), skills.map((k) => ({ value: k.id, label: bothNames(k), sub: `TN ${k.value}` })), (skillId) => {
+          if (fight) {
+            if (!actionAvailable(character(), deriveSheet(character(), data))) return;
+            try { store.update(id, (d) => { actions.act(d, withUniques(data, d), { kind: 'other', detail: `Help ${name}` }); }); } catch (err) { toast(ruleText(err), 'danger'); return; }
+          }
+          const target = checkTarget({ kind: 'skill', id: skillId });
+          openCheck({ ...target, name: t('help.title', { name }), sub: target.name }, data, async (r) => {
+            opts.then?.(r); // decision 275: a chase's Help move — its roll is the leg's move
+            const n = helpFrom(r, data.difficulty.help);
+            store.update(id, (d) => log(d, `Helped ${name} (${target.en ?? target.name}): ${rollText(r)} → ${n ? `${n > 0 ? '+' : ''}${n} on their next check` : 'no help this time'}`, n > 0 ? 'ok' : n < 0 ? 'bad' : ''));
+            if (!n) return;
+            const ok = await table.boon(to, { ability: 'Help', help: n, skill: target.en ?? target.name, note: '' });
+            toast(ok ? t(n > 0 ? 'help.sent' : 'help.fumbled', { name, n: `${n > 0 ? '+' : ''}${n}` }) : t('crewStash.why.offline'), ok && n > 0 ? 'success' : 'danger');
+          }, { tier: tableTier(), once: true, tools: target.tools, boosts: target.boosts, light: lightFor(lightKind(skillId)), site: siteFor({ kind: 'skill', id: skillId }),
+            after: (r) => html`<p class="notice ${helpFrom(r, data.difficulty.help) > 0 ? 'notice--ok' : helpFrom(r, data.difficulty.help) < 0 ? 'notice--danger' : ''}">${t(helpFrom(r, data.difficulty.help) > 0 ? 'help.outcomeOk' : helpFrom(r, data.difficulty.help) < 0 ? 'help.outcomeBad' : 'help.outcomeNone', { name })}</p>` });
+        });
+      });
+    },
+    steadyCrew: async () => { // a boon card on a crewmate's sheet: −1 Strain (−2 when the crew is Tight); an action in a fight
+      const c = character();
+      const fight = Boolean(c.play.turn?.inCombat);
+      const n = steadyAmount(table?.state.crew?.band ?? 'steady', fight, data.strain);
+      if (!n) { toast(t('strain.steadyNo'), 'danger'); return; }
+      const mates = table?.state.joinedId === id ? (await table.players()).filter((p) => p.id !== id) : [];
+      if (!mates.length) { toast(t('strain.steadyNobody'), 'danger'); return; }
+      openChoice(t('strain.steadyCrew'), mates.map((p) => ({ value: p.id, label: p.name, sub: t('strain.steadyGives', { n }) })), async (to) => {
+        const name = mates.find((p) => p.id === to)?.name ?? '';
+        if (fight) {
+          if (!actionAvailable(character(), deriveSheet(character(), data))) return;
+          try { store.update(id, (d) => { actions.act(d, withUniques(data, d), { kind: 'other', detail: `Steady ${name}` }); }); } catch (err) { toast(ruleText(err), 'danger'); return; }
+        }
+        toast(await table.boon(to, { ability: 'Steady', strain: -n, note: '' }) ? t('strain.steadySent', { name }) : t('crewStash.why.offline'), 'success');
+      });
+    },
     check: (d) => {
       const target = checkTarget(d);
       let answered = false;
+      const helpNow = character().play.help ?? null; // decision 270: a crewmate's help, spent on this check
       openCheck(target, data, (r) => store.update(id, (c) => {
+        if (helpNow && c.play.help?.id === helpNow.id) c.play.help = null;
         if (d.ask && !answered) { // decision 165: the GM asked for this roll — the first result goes back, the card goes
           answered = true;
           table?.rollResult({ ask: d.ask, name: target.en ?? target.name, roll: r.roll, tn: r.effective, success: r.success, margin: r.margin }).then((ok) => { if (!ok) toast(t('crewStash.why.offline'), 'danger'); });
           c.play.rollAsks = (c.play.rollAsks ?? []).filter((a) => a.id !== d.ask);
         }
-        log(c, `${target.en ?? target.name}${d.ask ? ' (GM asked)' : ''}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
-      }), { tier: tableTier(), tools: target.tools, boosts: target.boosts, light: d.kind === 'skill' ? lightFor(lightKind(d.id)) : null });
+        if (r.natural === 'crit-failure' && data.strain) actions.strainAsk(c, data, { id: `nat${Date.now()}`, n: data.strain.gains.fumble, why: `A natural 20 (${target.en ?? target.name})` }); // decision 266
+        log(c, `${target.en ?? target.name}${d.ask ? ' (GM asked)' : ''}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}${r.site ? ` (${r.site.label} ${r.site.tn})` : ''}${r.help ? ` (${r.help.label} ${r.help.tn > 0 ? '+' : ''}${r.help.tn})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
+      }), { tier: tableTier(), tools: target.tools, boosts: target.boosts, light: d.kind === 'skill' ? lightFor(lightKind(d.id)) : null, site: d.kind === 'skill' ? siteFor({ kind: 'skill', id: d.id }) : null, help: helpNow });
     },
     shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, withUniques(data, character()), ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
       if (method === 'free') { run('add', { kind: k, id: itemId }); return t('shop.added'); }
@@ -723,6 +935,7 @@ export function sheetView({ data, store, main, table }, route) {
   main.addEventListener('toggle', onToggle, true);
 
   const offChange = delegate(main, 'change', {
+    ...caseChanges(() => draw()), // decision 279: the board picker
     portraitFrame: ({ key }, e) => saveFrame({ [key]: Number(e.target.value) }),
     slot: (d, e) => run('slot', { slot: d.slot, value: e.target.value }),
     deck: (_, e) => run('deck', { value: e.target.value }),

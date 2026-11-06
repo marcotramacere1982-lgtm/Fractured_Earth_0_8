@@ -89,6 +89,42 @@
     },
     "enemy.sector_commander": {
       "desc": "Direttore aziendale di alto grado che coordina le reti di risposta tattica."
+    },
+    "enemy.stray_dog": {
+      "desc": "Un cane di strada magro e pieno di cicatrici, di un branco che vive dei bidoni delle Grey Zones."
+    },
+    "enemy.guard_dog": {
+      "desc": "Un cane da guardia addestrato con un giubbotto imbottito, tenuto affamato dietro la recinzione di uno sfasciacarrozze."
+    },
+    "enemy.rat_swarm": {
+      "desc": "Un tappeto vivo di ratti di fogna, cacciati fuori da un’alluvione, dal veleno o da qualcosa di peggio."
+    },
+    "enemy.feral_boar": {
+      "desc": "Un cinghiale sceso dal bordo della città, abituato a bidoni, auto e a nessuno che lo fermi."
+    },
+    "enemy.roach_tide": {
+      "desc": "Un’ondata frusciante di scarafaggi da un condotto di servizio rotto. Più panico che danni — di solito."
+    },
+    "enemy.failing_corp_k9": {
+      "desc": "Un cane da guardia aziendale scappato, con gli impianti che stanno morendo. Veloce, ferito e imprevedibile."
+    },
+    "enemy.patrol_quad": {
+      "desc": "Un robot di pattuglia a quattro zampe della Watch: testa con telecamera, lancia elettrica e una linea diretta con la centrale."
+    },
+    "enemy.courier_bot": {
+      "desc": "Un robot per le consegne a sei ruote da marciapiede, coperchio saldato e percorso riscritto da una gang."
+    },
+    "enemy.warehouse_agv": {
+      "desc": "Un carrello elevatore autonomo che non distingue più un bancale da una persona."
+    },
+    "enemy.pipe_crawler": {
+      "desc": "Un piccolo robot d’ispezione che vive nei condotti; qualcuno gli ha dato una torcia da taglio e un rancore."
+    },
+    "enemy.crop_sprayer": {
+      "desc": "Un drone agricolo irroratore ai margini della città, con il serbatoio riempito di qualcosa che non è concime."
+    },
+    "enemy.gnat_swarm": {
+      "desc": "Una nuvola di micro-droni grandi come un pollice, con dardi urticanti, che si muove come una cosa sola."
     }
   },
   "elites": {
@@ -121,6 +157,12 @@
     },
     "elite.watch_sector_overseer": {
       "desc": "Ufficiale di medio livello con un trench balistico da dirigente e comunicazioni tattiche di squadra."
+    },
+    "elite.pack_leader_ash": {
+      "desc": "Un enorme bastardo grigio con la cicatrice di un collare mai guarita. I randagi lo seguono; ha imparato che suono fanno le armi."
+    },
+    "elite.hive_carrier_drone": {
+      "desc": "Un drone pesante di Obsidian che trasporta e comanda uno sciame di micro-droni — il pulitore che manda i pulitori."
     }
   },
   "people": {

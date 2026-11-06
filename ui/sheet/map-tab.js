@@ -14,7 +14,7 @@ import { createMapViewer, focusBox } from '../map/viewer.js';
 import { createSkylineViewer, hasSkyline, tileAt } from '../map/skyline.js';
 import { marksButton, marksPanel, markHooks, marking, pickedMarkPanel } from './map-marks.js';
 import { reachable, checkMove, routeTo, lineOfSight, losCover, rangeCheck, nextToDoor } from '../../rules/map.js';
-import { interactKind, nextToProp } from '../../rules/interact.js';
+import { interactKind, nextToProp, knowsLocked, sideOf } from '../../rules/interact.js';
 import { watchedSquares } from '../../rules/overwatch.js';
 
 let viewer = null; // one per page: it keeps its zoom across the sheet's re-renders
@@ -24,6 +24,7 @@ let sky = false;
 let pending = null; // { base: the map message it was sent from, to } — shown until the next map message
 let target = null; // the marker tapped to check line of sight and range (step 4)
 let info = null; // { kind: 'prop' | 'laser', id } — a piece tapped to see what it is (decision 70)
+let lastSquare = ''; // where your marker was last drawn (map:x,y): arriving next to a door opens its line, however you got there
 
 /** What a tapped piece is: its name, its group and what it does physically — never its state (on, open, flags). */
 function infoPanel(map, data, id, doorUse) {
@@ -33,10 +34,11 @@ function infoPanel(map, data, id, doorUse) {
     const me = shown(map, id).find((tk) => tk.key === id); // the move just made counts
     const close = me && nextToDoor(me, w);
     const reason = !close ? t('map.door.far') : doorUse === 'gm' ? t('map.door.gm') : doorUse === 'wait' ? t('map.door.wait') : doorUse === 'noActions' ? t('map.door.noActions') : null;
-    return html`<section data-tour="map-target" class="map-target map-info"><div class="map-target__head"><strong>${t('map.door.title')}</strong>
+    return html`<section data-tour="map-target" class="map-target map-info"><div class="map-target__head"><strong>${t(w.powered ? 'map.door.electric' : 'map.door.title')}</strong>
         <span class="pill">${t(w.open ? 'map.door.isOpen' : 'map.door.isClosed')}</span>
         <button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button></div>
       ${reason ? html`<p class="muted map-target__why">${reason}</p>`
+        : lockedHere(map, w) ? html`<div class="cluster">${tryButton('door', w)}</div>`
         : html`<div class="cluster"><button class="btn btn--sm btn--primary" data-action="mapDoor" data-door="${w.id}" data-open="${w.open ? '0' : '1'}">${t(w.open ? 'map.door.doClose' : 'map.door.doOpen')}</button>
           ${doorUse === 'ok' && mapCombat ? html`<span class="muted st-small">${t('map.door.cost')}</span>` : ''}</div>`}
     </section>`;
@@ -57,7 +59,7 @@ function infoPanel(map, data, id, doorUse) {
       <button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button></div>
     ${p.caption ? html`<p class="muted st-small">${d.name}</p>` : ''}
     <p class="muted map-target__why">${traits.length ? traits.join(' · ') : t('map.info.nothing')}</p>
-    ${interactKind(d) ? html`<div class="cluster">${deviceRow(map, data, id, p, d, doorUse)}</div>` : ''}</section>`;
+    ${interactKind(d, p) ? html`<div class="cluster">${deviceRow(map, data, id, p, d, doorUse)}</div>` : ''}</section>`;
 }
 
 /**
@@ -65,17 +67,23 @@ function infoPanel(map, data, id, doorUse) {
  * doorUse: the sheet's 'ok' | 'gm' | 'wait' | 'noActions' (doors' rules); devices are worked in a fight only.
  */
 function deviceRow(map, data, id, p, d, doorUse) {
-  const kind = interactKind(d);
+  const kind = interactKind(d, p);
   if (!kind) return '';
   if (kind === 'light') return html`<span class="muted">· ${t('map.device.light')}</span>`;
   const me = shown(map, id).find((tk) => tk.key === id);
+  if (kind === 'search') { // decision 277: like opening — in or out of a fight, an Interact action in one
+    const no = !me ? t('map.notPlaced') : !nextToProp(me, p, data) ? t('map.device.far') : doorUse === 'gm' ? t('map.door.gm') : doorUse === 'wait' ? t('map.door.wait') : doorUse === 'noActions' ? t('map.door.noActions') : null;
+    if (no) return html`<span class="muted">· ${no}</span>`;
+    return html`<button class="btn btn--sm btn--primary" data-action="mapDevice" data-prop="${p.id}" data-kind="search">🔍 ${t('map.device.search')}</button>${mapCombat ? html`<span class="muted st-small">${t('map.door.cost')}</span>` : ''}`;
+  }
   if (kind === 'open') { // decision 248: like a door — in or out of a fight, an Interact action in one
     const no = !me ? t('map.notPlaced') : !nextToProp(me, p, data) ? t('map.device.far') : doorUse === 'gm' ? t('map.door.gm') : doorUse === 'wait' ? t('map.door.wait') : doorUse === 'noActions' ? t('map.door.noActions') : null;
     if (no) return html`<span class="muted">· ${no}</span>`;
+    if (lockedHere(map, p)) return tryButton('open', p);
     return html`<button class="btn btn--sm btn--primary" data-action="mapDevice" data-prop="${p.id}" data-kind="open" data-on="${p.open ? '0' : '1'}">${t(p.open ? 'map.door.doClose' : 'map.door.doOpen')}</button>
       ${mapCombat ? html`<span class="muted st-small">${t('map.door.cost')}</span>` : ''}`;
   }
-  const why = !me ? t('map.notPlaced') : !nextToProp(me, p, data) ? t('map.device.far') : doorUse === 'gm' || !mapCombat ? t('map.device.fight')
+  const why = !me ? t('map.notPlaced') : !nextToProp(me, p, data) ? t('map.device.far') : (doorUse === 'gm' || !mapCombat) && kind !== 'ask' ? t('map.device.fight')
     : doorUse === 'wait' ? t('map.door.wait') : doorUse === 'noActions' && kind !== 'ask' ? t('map.door.noActions') : null;
   if (why) return html`<span class="muted">· ${why}</span>`;
   const on = p.on !== false;
@@ -158,8 +166,12 @@ function contextLine(map, data, s, id, { doorUse, mapMove }) {
     if (w) {
       const me = shown(map, id).find((tk) => tk.key === id);
       const why = !(me && nextToDoor(me, w)) ? t('map.door.far') : doorUse === 'gm' ? t('map.door.gm') : doorUse === 'wait' ? t('map.door.wait') : doorUse === 'noActions' ? t('map.door.noActions') : null;
-      return line(html`<strong>🚪 ${t('map.door.title')}</strong><span class="muted">${t(w.open ? 'map.door.isOpen' : 'map.door.isClosed')}</span>
-        ${why ? html`<span class="muted">· ${why}</span>` : html`<button class="btn btn--sm btn--primary" data-action="mapDoor" data-door="${w.id}" data-open="${w.open ? '0' : '1'}">${t(w.open ? 'map.door.doClose' : 'map.door.doOpen')}</button>${doorUse === 'ok' && mapCombat ? html`<span class="muted st-small">${t('map.door.cost')}</span>` : ''}`}
+      // every door next to you, each named by its side (two doors on one square: you see which one you open)
+      const near = why ? [w] : map.walls.filter((x) => x.kind === 'door' && nextToDoor(me, x));
+      const side = (x) => (near.length > 1 ? ` (${t(`interact.side.${sideOf(me, { x: (x.a.x + x.b.x) / 2, y: (x.a.y + x.b.y) / 2 })}`)})` : '');
+      const one = (x) => html`<span class="map-ctx__door"><strong>🚪 ${t(x.powered ? 'map.door.electric' : 'map.door.title')}${side(x)}</strong><span class="muted">${t(x.open ? 'map.door.isOpen' : 'map.door.isClosed')}</span>
+        ${why ? html`<span class="muted">· ${why}</span>` : lockedHere(map, x) ? tryButton('door', x) : html`<button class="btn btn--sm btn--primary" data-action="mapDoor" data-door="${x.id}" data-open="${x.open ? '0' : '1'}">${t(x.open ? 'map.door.doClose' : 'map.door.doOpen')}</button>`}</span>`;
+      return line(html`${near.map(one)}${!why && doorUse === 'ok' && mapCombat ? html`<span class="muted st-small">${t('map.door.cost')}</span>` : ''}
         <button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
     }
   }
@@ -168,7 +180,7 @@ function contextLine(map, data, s, id, { doorUse, mapMove }) {
     const d = p && data.props.props.find((x) => x.id === p.prop);
     if (d) {
       const traits = [d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null, d.cover !== 'none' ? t(`map.cover.${d.cover}`) : null].filter(Boolean);
-      return line(html`<strong>${p.caption || d.name}</strong>${deviceState(d, p)}${interactKind(d) ? deviceRow(map, data, id, p, d, doorUse) : html`<span class="muted">${traits.join(' · ') || t('map.info.nothing')}</span>`}<button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
+      return line(html`<strong>${p.caption || d.name}</strong>${deviceState(d, p)}${interactKind(d, p) ? deviceRow(map, data, id, p, d, doorUse) : html`<span class="muted">${traits.join(' · ') || t('map.info.nothing')}</span>`}<button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
     }
   }
   if (info?.kind === 'laser') return line(html`<strong>${t('map.info.laser')}</strong><button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
@@ -196,6 +208,10 @@ function hint(map, move) {
 }
 
 let mapCombat = false; // in a fight: opening a door costs an action (shown on its button)
+let sheetNow = null; // the character drawn (decision 255: the locks it found)
+/** Decision 255: a closed door / piece this sheet found locked — the button asks the GM to try it (no action). */
+const lockedHere = (map, x) => !x.open && knowsLocked(sheetNow, map.id, x.id);
+const tryButton = (kind, x) => html`<span class="pill">🔒 ${t('map.lock.locked')}</span><button class="btn btn--sm btn--primary" data-action="mapLockTry" data-kind="${kind}" data-target="${x.id}">${t('map.lock.try')}</button><span class="muted st-small">${t('map.lock.free')}</span>`;
 
 /** Decision 123: the Top-down / Skyline switch, on maps with city tiles only. */
 export const skyButton = (map, data, action, on = sky) => (hasSkyline(map, data)
@@ -210,10 +226,11 @@ const skyNow = (map, data) => sky && hasSkyline(map, data);
  */
 export function mapTab(c, s, data, { map, id, combat, mapMove, doorUse = null, actions = null }) {
   mapCombat = Boolean(combat?.active);
+  sheetNow = c;
   if (!map) return html`<div class="card"><div class="empty"><div class="empty__title">${t('map.none')}</div></div></div>`;
   const mine = map.tokens.find((x) => x.key === id);
   return html`<section class="card map-card map-card--tactical ${marking() ? 'is-marking' : ''}">
-    <header class="card__head map-card__head"><h2 class="card__title">${map.name}${ruleInfo('map', t('sheet.tab.map'))}<small>${mine ? t('map.youAt', { col: mine.x + 1, row: mine.y + 1 }) : t('map.notPlaced')}</small></h2>
+    <header class="card__head map-card__head"><h2 class="card__title" title="${map.name}">${ruleInfo('map', t('sheet.tab.map'))}<small>${mine ? t('map.youAt', { col: mine.x + 1, row: mine.y + 1 }) : t('map.notPlaced')}</small></h2>
       ${actions ? html`<div class="map-card__actions">${actions}</div>` : ''}
       <div class="cluster">
         ${marksButton()}
@@ -235,6 +252,7 @@ export function mapTab(c, s, data, { map, id, combat, mapMove, doorUse = null, a
 
 /** The Map bookmark (decision 192): what you tapped, your marking tools and torch, who is on the board. */
 export function mapPanel(c, s, data, { map, id, combat, doorUse, torch = null, marks = null, myColor = null }) {
+  sheetNow = c;
   if (!map) return '';
   const band = (tk) => combat?.hostiles?.find((h) => h.key === tk.key)?.band;
   return html`<div class="stack map-panel">
@@ -294,6 +312,13 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
       }
     },
   });
+  // arriving next to a door by any way (spawned there, moved by the GM, a new map) opens its line, as your own move does
+  const here = me() ? `${map.id}:${me().x},${me().y}` : '';
+  if (here !== lastSquare) {
+    lastSquare = here;
+    const door = here && !info && !target ? map.walls.find((w) => w.kind === 'door' && nextToDoor(me(), w)) : null;
+    if (door) { info = { kind: 'door', id: door.id }; queueMicrotask(onIdle); }
+  }
   const hooks = markHooks({ map, data, id, marks, myColor, onIdle, send: onMark });
   Object.assign(viewer.on, hooks.on);
   const sight = sightTo(map, data, id, tokens);

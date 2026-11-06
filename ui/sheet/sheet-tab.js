@@ -16,6 +16,7 @@ import { skillsTab } from './skills.js';
 import { gearCards } from './gear.js';
 import { iconFor } from '../gear-icon.js';
 import { findGear } from '../../rules/economy.js';
+import { breathCard } from './breath.js'; // decision 273
 
 const KEY = 'fe.sheet.open';
 const read = () => { try { return new Set(JSON.parse(localStorage.getItem(KEY)) ?? []); } catch { return new Set(); } };
@@ -78,6 +79,7 @@ export function sheetTab(c, s, data, ctx = {}) {
   };
   return html`
     ${boonsCard(c, data)}
+    ${breathCard(c, s, data)}
     <div class="sheet-layout">
     <nav class="sheet-index" aria-label="${t('sheet.sections')}">
       ${SECTIONS.map((id) => html`<button class="sheet-index__item ${open.has(id) ? 'is-open' : ''}" data-action="secJump" data-id="${id}" aria-pressed="${open.has(id)}" title="${t(open.has(id) ? 'sheet.closeIt' : 'sheet.openIt')}">${t(`sheet.sec.${id}`)}</button>`)}

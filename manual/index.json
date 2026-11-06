@@ -16,7 +16,8 @@
         { "id": "ch-5", "file": "05-your-character.md", "title": "Your Character" },
         { "id": "ch-6", "file": "06-narrative-and-exploration.md", "title": "Narrative & Exploration" },
         { "id": "ch-7", "file": "07-combat.md", "title": "Combat" },
-        { "id": "ch-8", "file": "08-gear-and-money.md", "title": "Gear & Money" }
+        { "id": "ch-8", "file": "08-gear-and-money.md", "title": "Gear & Money" },
+        { "id": "ch-12", "file": "12-how-it-fits.md", "title": "How It Fits Together" }
       ]
     },
     {

@@ -3,6 +3,13 @@
   "attackDie": "1d20",
   "hostileLabel": "Hostile",
   "bloodiedAt": 0.5,
+  "crits": {
+    "margin": 10,
+    "minMargin": 7,
+    "fumbleMargin": 10,
+    "jamDie": "1d10",
+    "note": "Decision 265: attacks. A player's hit is critical on a natural 1 or when it succeeds by the weapon's crit margin (critMargin, else margin; a crit mod lowers it, never below minMargin); a critical hit ignores armor and cover (a location attack: that part's armor). A miss is a fumble on a natural 20 or a miss by fumbleMargin: a firearm rolls jamDie and jams above its reliability (Reload clears it, no magazine spent); melee and unarmed leave you Exposed; a thrown weapon is lost. Enemies crit and fumble on the natural roll only (1 / 20)."
+  },
   "note": "Enemy attacks hit on d20 <= attack TN (roll-under, like players). A location attack takes −4 TN and rolls a hit location. Damage minus the target’s armor is applied by the target. Reinforcements added mid-fight act last, then roll initiative at round end.",
   "challenge": {
     "note": "GM estimate (decision 43): ratio = rounds the party would last ÷ rounds to defeat the enemies. Bands are a starting point — tune after play.",

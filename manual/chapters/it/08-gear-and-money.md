@@ -21,6 +21,14 @@ Non serve portarsi tutto addosso. Scheda → Inventario → **Nascondigli** (ogn
 
 **Nascondigli della crew.** Al tavolo il GM può allestire nascondigli condivisi da tutta la crew — il furgone, un box, un punto di scambio. Compaiono nella scheda Equipaggiamento di tutti: chiunque può mettere dentro (📦 chiede quale nascondiglio) o prendere, e lo storico del nascondiglio mostra chi ha fatto cosa. Il punto è la fiducia. Il GM può **chiuderne** uno (lo vedi, non ci arrivi: è sorvegliato, o il furgone è sotto sequestro) o **saccheggiarlo** (tutto quello che c'è dentro sparisce).
 
+### Quello che ti dà il GM {#sec-8-gm-gives}
+
+La paga di un lavoro, un badge da un contatto, i contanti nella giacca di un morto: quando il GM ti dà qualcosa arriva come una finestra sulla tua scheda — **Dal GM**, con gli oggetti, i contanti, l'eventuale cambio di Credit Score e una riga sul perché. Niente è tuo finché non tocchi **Prendilo**; allora è nel tuo inventario e il tuo registro dice da dove viene. (Una multa funziona allo stesso modo: Credit Score giù, il motivo accanto.) Le cose per tutta la crew possono andare direttamente in un nascondiglio della crew.
+
+### Perquisire e contenitori {#sec-8-loot}
+
+Sulla mappa del tavolo, casse, armadietti, casseforti e bagagliai possono contenere qualcosa. **Apri** quello accanto a te, o **🔍 Perquisisci** un pezzo che il GM ha segnato come perquisibile (*Interact* — un'azione in uno scontro). Quello che c'è dentro compare come un nascondiglio che tutti al tavolo vedono — *🔍 Armadietto · trovato qui* — e chiunque prende quello che vuole, come da un nascondiglio della crew; sparisce quando è vuoto. Alcune cose non sono in vista: il GM può chiedere un tiro (Perception, spesso) per trovare quello che è nascosto — e quello che trovi può essere un indizio più che un oggetto. Quello che lasci lì resta lì.
+
 ### Il riciclatore {#sec-8-washer}
 
 Alcuni faccendieri spostano il denaro fra i due mondi. **Ripulire** trasforma i contanti in Credit Score: uno stipendio falso, un contratto falso, e il punteggio sale. **Monetizzare** fa il contrario: prendi in prestito sul tuo punteggio ed esci con contanti non tracciati, e il punteggio scende. Il faccendiere fissa un tasso (contanti per punto di Credit Score) e trattiene una commissione; l'offerta la fa il GM, compare in Equipaggiamento, e scegli quanti punti prendere — la scheda mostra il totale prima che tu accetti. Così il Credit Score non supera mai il suo massimo né scende sotto 0. Ogni accordo finisce nel registro: anche i libri di un faccendiere lasciano tracce.

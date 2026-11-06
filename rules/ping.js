@@ -5,6 +5,7 @@
 
 import { propDef } from './props.js';
 import { netRole, networkState, networkTags, NET_NODES } from './network.js';
+import { applyPower } from './power.js';
 
 export const PING_RANGE = 10; // squares, through walls
 export const SECURITY = { civil: 0, corp: 1, military: 2 }; // set on the uplink; Corporate when unset
@@ -13,8 +14,9 @@ const MOOD_MARGIN = 5; // a success by this much also tells the hacker how each 
 
 export const securityOf = (uplink) => (uplink?.security in SECURITY ? uplink.security : 'corp');
 export const traceLevel = (n) => [...TRACE_LEVELS].reverse().find((l) => (n ?? 0) >= l.from).id;
-/** What one ping adds to a network's Trace: 1 on a success, 2 on a failure, plus the network's security. */
-export const traceGain = (security, success) => (success ? 1 : 2) + (SECURITY[security] ?? SECURITY.corp);
+/** What one ping adds to the site's Trace (decision 268): 1 on a success, whatever the security; a failure 2 plus the
+ *  network's security (Civil 0 · Corp 1 · Military 2) — a careful hacker can work a site, a sloppy one tips it. */
+export const traceGain = (security, success) => (success ? 1 : 2 + (SECURITY[security] ?? SECURITY.corp));
 
 /** The map's networks, one per uplink, lettered A, B… in map order: [{ id, letter, name, security }]. */
 export function networksOf(map, data) {
@@ -28,7 +30,8 @@ const near = (p, c, range) => Math.hypot(p.x - c.x, p.y - c.y) <= range;
 /**
  * What answers a ping from square `at`: every node and device within range that is on a network and reporting
  * (offline, unpowered and lone pieces stay silent), grouped by network.
- * @returns [{ id, letter, name, security, nodes: [{ id, role, name }], devices: [{ id, name }] }] — GM-side, with ids.
+ * Decision 256: networked electric doors answer too — `doors: [{ id, name, locked }]` (name: the GM's, locked: closed and locked now).
+ * @returns [{ id, letter, name, security, nodes: [{ id, role, name }], devices: [{ id, name }], doors }] — GM-side, with ids.
  */
 export function pingScan(map, data, at, range = PING_RANGE) {
   const state = networkState(map, data);
@@ -37,8 +40,19 @@ export function pingScan(map, data, at, range = PING_RANGE) {
   const nets = networksOf(map, data);
   const c = centre(at);
   const found = new Map();
+  const walls = new Map((applyPower(map, data).walls ?? []).map((w) => [w.id, w])); // as powered now: a fail-secure door without power is locked
   for (const [id, s] of state) {
     if (s.status !== 'ok' && s.status !== 'fooled') continue;
+    if (s.door) { // decision 256
+      const w = walls.get(id);
+      if (!w || !near({ x: (w.a.x + w.b.x) / 2, y: (w.a.y + w.b.y) / 2 }, c, range)) continue;
+      const net = rootOf(id);
+      if (!nets.some((n) => n.id === net)) continue;
+      const bucket = found.get(net) ?? { nodes: [], devices: [] };
+      bucket.doors = [...(bucket.doors ?? []), { id, name: w.netName ?? null, locked: Boolean(w.locked) && !w.open }];
+      found.set(net, bucket);
+      continue;
+    }
     const p = props.get(id);
     if (!p || !near(p, c, range)) continue;
     const def = propDef(data, p.prop);
@@ -50,7 +64,7 @@ export function pingScan(map, data, at, range = PING_RANGE) {
     else bucket.devices.push({ id, name: def.name });
     found.set(net, bucket);
   }
-  return nets.filter((n) => found.has(n.id)).map((n) => ({ ...n, ...found.get(n.id) }));
+  return nets.filter((n) => found.has(n.id)).map((n) => ({ doors: [], ...n, ...found.get(n.id) }));
 }
 
 /** Which node heard the ping on each network: the nearest node of that network to the hacker (its name, else its tag). */
@@ -64,19 +78,17 @@ export function heardBy(map, data, at, scan) {
   }));
 }
 
-/** Trace after a ping: every network it touched gains traceGain. trace: { [uplinkId]: n } */
-export function applyPing(trace, scan, success) {
-  const next = { ...(trace ?? {}) };
-  for (const n of scan) next[n.id] = (next[n.id] ?? 0) + traceGain(n.security, success);
-  return next;
-}
+/** Decision 268: what a ping adds to the site's one Trace — nothing when no network heard it; else traceGain on the
+ *  best-guarded network it touched (the site is one meter, a ping counts once). */
+export const pingGain = (scan, success) => (scan.length ? Math.max(...scan.map((n) => traceGain(n.security, success))) : 0);
 
 /**
  * What the hacker's sheet gets: on a success, each network by letter (and name), its nodes by role (named ones by
  * name) and its devices counted by type; nothing about positions, security or Trace. A success by MOOD_MARGIN or more
- * adds each network's mood (its Trace level after this ping). A failure gets nothing.
+ * adds the site's mood (its Trace level after this ping, decision 268: one for the whole site). A failure gets nothing. Decision 256: doors counted, how
+ * many locked, and the ones the GM named by name (never where).
  */
-export function pingReport(scan, { success, margin = 0, trace = {} }) {
+export function pingReport(scan, { success, margin = 0, trace = 0 }) {
   if (!success) return { ok: false, networks: [] };
   const count = (list) => Object.entries(list.reduce((m, x) => ({ ...m, [x]: (m[x] ?? 0) + 1 }), {})).map(([name, n]) => ({ name, n }));
   return {
@@ -87,7 +99,8 @@ export function pingReport(scan, { success, margin = 0, trace = {} }) {
       nodes: count(n.nodes.map((x) => x.role)),
       named: n.nodes.filter((x) => x.name).map((x) => x.name),
       devices: count(n.devices.map((x) => x.name)),
-      ...(margin >= MOOD_MARGIN ? { mood: traceLevel(trace[n.id]) } : {}),
+      ...((n.doors ?? []).length ? { doors: { n: n.doors.length, locked: n.doors.filter((d) => d.locked).length, named: n.doors.filter((d) => d.name).map((d) => ({ name: d.name, locked: d.locked })) } } : {}),
+      ...(margin >= MOOD_MARGIN ? { mood: traceLevel(trace) } : {}),
     })),
   };
 }

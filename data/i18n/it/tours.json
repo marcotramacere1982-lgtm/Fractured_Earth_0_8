@@ -5,7 +5,7 @@
       "steps": {
         "status": {
           "title": "Il tuo stato",
-          "text": "Nome, classe e i numeri che guardi più spesso, sempre in alto; la seconda riga è Movimento, OFF, DEF e PER. Un valore in verde o rosso è cambiato da una condizione (quello normale è scritto piccolo accanto)."
+          "text": "Nome, classe e i numeri che guardi più spesso, sempre in alto; la seconda riga è Movimento, OFF e PER. Un valore in verde o rosso è cambiato da una condizione (quello normale è scritto piccolo accanto)."
         },
         "tabs": {
           "title": "Quattro schede",

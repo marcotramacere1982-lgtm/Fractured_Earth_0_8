@@ -58,6 +58,7 @@
 .map-preview--glass { stroke: var(--color-info); }
 .map-door { stroke: var(--color-accent); }
 .map-door--open { opacity: 0.8; }
+.map-door-slot { stroke: var(--color-surface); } /* decision 256: an electric door's slot */
 .map-sel { stroke: var(--color-accent); opacity: 0.35; }
 .map-handle { fill: var(--color-surface); stroke: var(--color-accent); stroke-width: 5; }
 .map-preview { stroke: var(--color-accent); opacity: 0.6; stroke-linecap: round; pointer-events: none; }
@@ -177,6 +178,18 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 .map-zone--trigger { color: var(--color-danger); }
 .map-zone--note { color: var(--color-private); }
 .map-zone--selected .map-zone__area { fill-opacity: 0.18; stroke-dasharray: none; }
+/* decision 258: hazard areas, by nature; GM screens fade the off ones */
+.map-hazard { pointer-events: none; }
+.map-hazard__area { fill: currentColor; fill-opacity: 0.22; stroke: currentColor; stroke-opacity: 0.8; }
+.map-hazard__tag { fill: currentColor; font-family: var(--font-display); letter-spacing: 0.04em; }
+.map-hazard--electric { color: var(--color-warning); }
+.map-hazard--gas, .map-hazard--poison { color: var(--color-success); }
+.map-hazard--steam, .map-hazard--cold { color: var(--color-info); }
+.map-hazard--fire, .map-hazard--heat { color: var(--color-danger); }
+.map-hazard--hum { color: var(--color-private); } /* decision 267: the Hum */
+.map-hazard--water, .map-hazard--submerged { color: var(--color-info); } /* decision 273: water */
+.map-hazard--off { opacity: 0.35; }
+.map-hazard--off .map-hazard__area { fill-opacity: 0.05; }
 .lm-zone-note { margin: 0; white-space: pre-line; }
 /* breakable walls (decision 83): weak = GM screens only; cracks = shown to players; broken = a breach */
 .map-wall-weak { stroke: var(--color-accent); }
@@ -296,3 +309,5 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 /* decision 250: squares someone on overwatch watches (the GM's map) */
 .map-watch { fill: var(--mp-accent-soft); stroke: var(--mp-accent); stroke-width: 1; stroke-opacity: 0.35; pointer-events: none; }
 .map-watch--own { fill: var(--mp-danger-soft); stroke: var(--mp-danger); } /* decision 251: where you are looking (your overwatch) */
+.map-sensed { fill: var(--mp-danger-soft); stroke: none; opacity: 0.55; pointer-events: none; } /* decision 269: what the sensors cover (GM) */
+.map-ctx__door { display: inline-flex; align-items: center; gap: var(--space-2); } /* one door in the context line (two doors: one each, by side) */

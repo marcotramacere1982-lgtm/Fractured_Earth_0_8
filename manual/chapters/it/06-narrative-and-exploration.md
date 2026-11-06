@@ -68,6 +68,20 @@ Quando due personaggi attivi si oppongono direttamente — per esempio un Operat
 
 - **Doppio fallimento:** se falliscono entrambi (> TN), la situazione resta com'è, oppure l'azione finisce in uno stallo caotico (per esempio i due hacker si chiudono fuori a vicenda per un po').
 
+### Aiutare un compagno {#sec-6-2-help}
+
+Un compagno può aiutare la prova di un altro — se sa dire **come**: tenendo la luce, leggendo lo schema, facendo da palo, intrattenendo la guardia. Chi aiuta tira un'abilità adatta a quello che fa:
+
+- **Successo:** l'altro ha **+2 TN** alla sua prossima prova di abilità o attributo.
+- **Un 20 naturale:** è stato d'intralcio — **−2 TN** invece.
+- **Qualsiasi altro fallimento:** non cambia niente.
+
+Solo **un aiutante** alla volta: un secondo non aggiunge niente. In uno scontro, aiutare costa un'azione a chi aiuta. Al tavolo, *🤝 Aiuta un compagno* (accanto al tuo Strain) sceglie chi e come, tira, e il bonus aspetta sulla sua scheda — compare come riga a sé nella sua prossima finestra di prova, e una nuova scena lo cancella.
+
+### Prove di gruppo {#sec-6-2-group}
+
+Quando tutta la crew fa la stessa cosa — attraversare un atrio senza farsi notare, scavalcare una recinzione, tenere in piedi una copertura — **tirano tutti**, e **il gruppo riesce se almeno metà riesce** (2 su 3, 2 su 4, 3 su 5). I più forti si portano dietro i più deboli, ma non all'infinito. L'aiuto funziona anche dentro una prova di gruppo. Al tavolo il GM chiede il tiro come *Group check*: la tua carta lo dice, e il GM riceve il conteggio quando l'ultimo di voi ha tirato.
+
 ### Prove passive e soglie fisse
 
 Quando un Operatore non sta dichiarando un'azione, ma la sua attenzione di fondo o il suo addestramento potrebbero fargli notare una minaccia nascosta (una mina dormiente nel pavimento, un'imboscata imminente, una bugia), il GM usa una **soglia passiva**:
@@ -145,6 +159,14 @@ A seconda del tempo concesso dal GM, gli Operatori possono preparare mosse decis
 Se il gruppo ottiene una sorpresa totale (per esempio tendendo un agguato a una pattuglia ignara), gli Operatori hanno una fase di preparazione completa più un **round di sorpresa** in cui i bersagli non possono reagire. Se invece un Operatore fallisce una prova di preparazione decisiva (per esempio fa scattare un allarme a metà di un hack), la fase di preparazione finisce subito, scattano gli allarmi e tutti i partecipanti tirano normalmente l'**iniziativa**.
 
 **Al tavolo dal vivo** il GM apre la fase di preparazione con *Head start* (decisione 233): la tua scheda entra nello scontro al **round 0** con le azioni di preparazione che ti ha dato (prima la solita finestra di preparazione). Usale in qualsiasi ordine — i nemici non agiscono; *Move* ti fa percorrere i tuoi quadretti; posture, coperture, ping e abilità funzionano come in uno scontro e restano nel round 1. Poi tiri l'iniziativa, e il round 1 parte con un pool di azioni nuovo. Con la sorpresa totale la tua scheda dice *Surprise round* per tutto il round 1.
+
+### L'allerta del sito {#sec-6-4-alert}
+
+La sicurezza moderna non vive solo di guardie. Le pattuglie hanno visori AR e radio, telecamere e sensori trasmettono a un'IA locale, e qualcuno legge quello che l'IA segnala. Ogni sito che il GM mette sul tavolo ha **un solo livello di allerta** per tutto questo — *Calm*, *Twitchy*, *Alert*, *Lockdown* — e lo gira il GM, in base a quello che fate: una guardia che smette di fare rapporto, una zona che va al buio, una porta forzata, spari vicino a un microfono. Ping e droni vengono sentiti dalle reti e lo spingono da soli.
+
+Telecamere, sensori di movimento e linee laser avvisano il GM quando ci entri — a meno che siano spenti, tagliati dalla loro rete o messi in loop prima da un hacker. Il quadrante non lo vedi. Vedi il sito cambiare: le guardie smettono di girovagare e sorvegliano le loro postazioni, le pattuglie vanno in coppia, un tecnico viene a guardare la telecamera che hai accecato, le porte che hai attraversato un minuto fa ora sono bloccate. Il ping riuscito bene di un hacker ne legge l'umore.
+
+**In Alert il lavoro silenzioso è più difficile.** Finché sei su quella mappa, **Stealth**, **Sleight of Hand**, **Electronics & Security** e **Computers & Hacking** sono a **−1 TN**, e così i tiri di **Class TN** di un Hacker; in **Lockdown, −2**. La finestra del tiro lo mostra come una riga a sé (*Sito · In Alert −1*). Il livello non scende mai da solo: solo il tempo, molto più avanti, o una buona storia calmano un sito.
 
 ## 6-5. Economia, debito e leva sociale {#sec-6-5}
 
@@ -239,3 +261,100 @@ Aggiungi una frase personale con parole tue (*"Nessun ragazzino finirà come mio
 Un Drive non viene mai valutato né giudicato. Quando agisci seguendolo in un momento che ti costa, il GM può assegnarti XP di **Spotlight** (5-9). I Drive che tirano in direzioni diverse dentro la stessa squadra sono da dove nascono gli Unity Check, e le scene migliori.
 
 > In nessun caso il disaccordo del gruppo deve fermarti, se senti che quello che stai facendo è assolutamente la scelta giusta: a volte vedi oltre quello che succede adesso, e scommetti sul futuro. Fai attenzione, però, a non allontanare la tua squadra: è l'unica cosa che può salvarti.
+
+## 6-7. Strain: cosa il mondo fa alla tua testa {#sec-6-7}
+
+Gli HP sono quello che il mondo fa al tuo corpo. Lo **Strain** (0–10, accanto agli HP sulla scheda) è quello che fa alla tua testa — il peso del secolo, il debito, le cose che hai visto e che non dovrebbero essere possibili (decisione 266).
+
+**Cosa lo alza.** Quasi tutto lo fa l'app: scendere sotto metà HP (+1), un fumble o un 20 naturale (+1), un compagno che cade (+2 a tutti gli altri al tavolo), il debito al suo peggio quando comincia una missione (+1), e certi posti — quelli che non dovrebbero essere possibili — ti entrano in testa (+1, da soli). Il resto lo aggiunge il GM — qualcosa di duro da reggere (+1), qualcosa di orribile (+2).
+
+**Reggi il colpo.** Ogni aumento arriva come una carta: **Reggi il colpo** — un tiro di **Mental Strength**; se riesce l'aumento si dimezza (per difetto, quindi +1 diventa niente) — oppure **Incassa**.
+
+**Cosa fa:**
+
+| Strain | Stato | Effetto |
+|---|---|---|
+| 0–3 | **Calmo** | — |
+| 4–6 | **Scosso** | −1 TN alle prove di abilità |
+| 7–9 | **Logorato** | −2 TN alle prove di abilità; il GM può farti notare cose che gli altri non vedono |
+| 10 | **Punto di rottura** | tira un d6 (o scrivi il tuo dado): ti blocchi, esplodi, scappi, senti il tuo nome nel rumore, perdi dieci minuti — oppure una **cicatrice**, un segno che resta, tirata con un suo d6. Poi lo Strain scende a 6. |
+
+Gli attacchi non ne risentono: sotto il fuoco comanda l'addestramento. Le **cicatrici** restano sulla scheda (sotto lo Strain) finché il GM non dice altrimenti.
+
+**Cosa lo abbassa.** Un **momento tranquillo** — la nuova scena del GM con il tempo di respirare: −1 a tutti. Lo **Steady** di un compagno (*Calma un compagno* sotto il suo Strain): −1, o −2 se la squadra è *Tight*; in uno scontro costa un'azione, e una squadra *Fractured* non può farlo sotto il fuoco. Il **riposo**: qualche giorno −2, qualche settimana −4, circa un mese −6, diversi mesi −10 — e una casa migliore aiuta (+1 per ogni livello sopra la stanza in un caseggiato).
+
+Se quello che hai visto era reale, il gioco non lo dice mai.
+
+## 6-8. Cadute, aria e acqua {#sec-6-8}
+
+La città è verticale e tenuta male: trombe delle scale senza ringhiera, scantinati allagati, stanze dove l'aria è andata a male. Queste regole dicono cosa fa l'ambiente a un corpo quando nessuno sta sparando.
+
+Tutto il resto che fa male — una lastra di vetro, un involucro sotto tensione, uno schizzo chimico — arriva allo stesso modo: una finestra sulla scheda che dice quanto costa e, quando il GM lo concede, un tiro **per evitarlo** o **per dimezzarlo**. Quel tiro non costa mai azioni.
+
+### Cadere {#sec-6-8-fall}
+
+- **Fino a 3 m** (un piano, 2 quadretti): nessun danno — tira **Agility & Athletics** per atterrare in piedi; un fallimento ti lascia **Prone**.
+- **Più in alto:** **1d6 ogni 3 m pieni** (6 m: 2d6, 9 m: 3d6, 15 m: 5d6), al massimo 10d6.
+- **Atterrare bene:** tira **Agility & Athletics** — un successo **dimezza** il danno (per difetto). Un fallimento lo prende tutto e ti lascia **Prone**; un **20 naturale** ti azzoppa anche una gamba.
+- **Poi conta l'armatura**, come su ogni colpo. La copertura mai.
+
+Essere spinti o lanciati giù funziona allo stesso modo. Al tavolo il GM manda la caduta dalla tua carta (*⤓ Fall…*) con i dadi già tirati: la tua scheda mostra quanto risparmieresti atterrando bene, e tu tiri o la prendi e basta.
+
+### Aria {#sec-6-8-air}
+
+Fumo, gas, un corridoio allagato, una stanza sigillata: quando non puoi respirare, trattieni il fiato.
+
+- **Resisti CON round** — circa un minuto — se l'hai visto arrivare; **la metà** (per difetto) se ti ha colto di sorpresa.
+- **Poi un tiro di CON a ogni round**, a **−1, poi −2, −3…** Un fallimento e **svieni** (*Incapacitated*).
+- **Svenuto, senz'aria:** **1d6 a round**, direttamente dagli HP — l'armatura non aiuta mai — finché qualcuno non ti tira fuori.
+- **Torna l'aria:** ti riprendi tossendo (se ti restano HP).
+
+In uno scontro un round passa all'inizio di ogni tuo turno; fuori, decide il tavolo (*Passa un round* sulla scheda). Trattenere il respiro nel gas vuol dire che il gas non entra — finché non devi respirare. *🫁 Trattieni il respiro* è nella carta Salute; una zona **Submerged** lo fa partire da sola.
+
+### Acqua {#sec-6-8-water}
+
+- **High water** (acqua alla vita o al petto): guadi o nuoti — **ogni quadretto costa 2**, come ogni terreno difficile. Nessun danno da sola.
+- **Submerged:** lo stesso, e **trattieni il respiro** dal momento in cui vai sotto; riemergere ti dà aria. La scheda conta i round.
+
+Entrambe compaiono sulla tua mappa come gli altri pericoli, quando il GM le mostra.
+
+## 6-9. Inseguimenti {#sec-6-9}
+
+Qualcuno scappa — tra mercati, trombe delle scale, traffico — e la questione è la distanza, non il danno. Un inseguimento è un **percorso astratto**: il **distacco**, da **0** (presi) a **6** (seminati). Di solito parte da 3.
+
+Un inseguimento procede a **tratti** — un pezzo di corsa ciascuno. A ogni tratto:
+
+1. **Il GM descrive il tratto** — e magari un **imprevisto** (un mercato affollato, una saracinesca che scende, una porta a vetri che non si apre).
+2. **Ognuno di voi sceglie una mossa** e fa **un tiro**. Conta due volte: per il suo effetto, e per **tenere il passo**.
+
+| Mossa | Tiro | Se riesce |
+|---|---|---|
+| **Corri** | Agility & Athletics | tieni il passo |
+| **Guida** | Streetwise o Perception | tieni il passo, e la crew ha **+2** al prossimo tratto |
+| **Fuoco di copertura** | la tua arma (una raffica spesa) | tieni il passo; gli inseguitori hanno **−2** al prossimo tratto — e il loro fuoco arriva prima a te |
+| **Hack** | Computers & Hacking, o la Class TN di un Hacker | tieni il passo; il loro **drone** cade, o feed e autopiloti inciampano (**−2** al prossimo tratto) |
+| **Trucco** | Deception, Sleight of Hand o Mechanics | tieni il passo; una bancarella giù, una saracinesca abbassata — un imprevisto per *loro* |
+| **Aiuta** | l'abilità adatta | il tiro di un compagno in questo tratto ha **+2** se riesci |
+| **Nasconditi** | Stealth — solo da distacco 3, senza droni sopra | se tutti si nascondono e metà riesce, sparite |
+
+3. **Gli inseguitori agiscono**: inseguono (un tiro per il gruppo; i più veloci hanno +2), o **si fermano a sparare** — allora non accorciano il distacco, ma chi ha fatto fuoco di copertura (o ha fallito) può essere colpito.
+4. **Il distacco cambia.** La crew tiene il passo quando **almeno metà** di voi riesce:
+
+| | Loro restano indietro | Loro tengono il passo |
+|---|---|---|
+| **Voi tenete il passo** | distacco **+1** (+2 se ce l'avete fatta tutti) | resta uguale |
+| **Voi no** | resta uguale — e l'imprevisto colpisce chi ha fallito | distacco **−1** (−2 se per loro è stato facile) |
+
+**Restare indietro.** Fallisci due tratti di fila e il GM può lasciarti indietro — qualcuno dovrà tornare a prenderti. **Stancarsi.** Dal **5° tratto**, ogni fallimento costa anche **+1 Strain** e un **tiro di CON** (se lo fallisci sei *Slowed*). A un certo punto, voltarsi e combattere è una scelta.
+
+**La fine.** Distacco 6, o un Nasconditi riuscito: li avete seminati. Distacco 0: presi — è uno scontro, sulla mappa. Un vicolo cieco, un cancello chiuso, il bordo di un tetto: il GM può fermare l'inseguimento lì e portarlo su una mappa tattica.
+
+Al tavolo l'inseguimento compare in cima alla tua scheda: il percorso, il tratto, e i pulsanti per la tua mossa di questo tratto.
+
+## 6-10. Il caso: fascicolo e lavagna {#sec-6-10}
+
+Al tavolo la tua scheda ha una scheda **Caso**: una per missione, prima quella in corso, le passate da sfogliare, e una **Generale** per quello che attraversa tutta la campagna.
+
+**Il fascicolo** è quello che la crew sa per certo, tenuto dal GM: gli **obiettivi** (il principale sempre; uno secondario quando il GM ve lo dice — completarlo non lo rivela), le **immagini, i documenti, gli enigmi e i messaggi** mandati a tutti durante la missione, e le **persone e i luoghi** che il GM ha rivelato. Nessuno deve più chiedere "chi aveva la foto?".
+
+**La lavagna** è vostra: un fascicolo che costruisce la crew — schede su una griglia (un nome, un luogo, un indizio, una pista, una domanda, un documento; tre misure; un'immagine su quelle grandi — dal fascicolo, o un handout che hai ricevuto tu, anche privato: appenderlo lo condivide), e **collegamenti** tra loro con una parola sul filo (*pagato*, *ha mentito*, *stesso furgone*). Uno di voi **ha la penna** e la modifica — aggiunge (o **📌 appende** una voce del fascicolo direttamente sulla lavagna), sposta, collega, modifica, stacca (le schede staccate aspettano in un cassetto, non si perde niente); tutti gli altri la leggono e mandano **✋ suggerimenti** a chi ha la penna. La penna gira: passala a un compagno, o prendila quando non ce l'ha nessuno. Il GM vede tutto, e ogni tanto compare una scheda segnata **soffiata anonima** — se fidarsi sta a voi.

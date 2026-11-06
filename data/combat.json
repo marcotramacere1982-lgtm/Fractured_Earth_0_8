@@ -8,7 +8,6 @@
       "met": 150,
       "off": -1,
       "act": 2,
-      "def": 2,
       "per": 2
     },
     {
@@ -18,7 +17,6 @@
       "met": 175,
       "off": 0,
       "act": 3,
-      "def": 3,
       "per": 3
     },
     {
@@ -28,7 +26,6 @@
       "met": 225,
       "off": 1,
       "act": 3,
-      "def": 4,
       "per": 4
     },
     {
@@ -38,7 +35,6 @@
       "met": 275,
       "off": 2,
       "act": 4,
-      "def": 5,
       "per": 5
     },
     {
@@ -48,7 +44,6 @@
       "met": 325,
       "off": 3,
       "act": 5,
-      "def": 6,
       "per": 6
     },
     {
@@ -58,7 +53,6 @@
       "met": 400,
       "off": 4,
       "act": 6,
-      "def": 7,
       "per": 7
     },
     {
@@ -68,7 +62,6 @@
       "met": 500,
       "off": 5,
       "act": 7,
-      "def": 8,
       "per": 8
     }
   ],
@@ -112,16 +105,6 @@
         "DEX"
       ],
       "use": "How many actions you get each combat round. Stunned leaves you with 1. Dodging spends actions from the next round."
-    },
-    {
-      "id": "def",
-      "name": "Defensive Bonus",
-      "desc": "Base modifier applied to evasion/defense",
-      "stats": [
-        "INT",
-        "DEX"
-      ],
-      "use": "Your defensive edge against incoming attacks. How it applies to enemy attack rolls is still an open rule — the GM decides for now."
     },
     {
       "id": "per",

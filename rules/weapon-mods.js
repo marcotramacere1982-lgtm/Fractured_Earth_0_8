@@ -1,7 +1,8 @@
 // Weapon mods (decision 173): small, simple upgrades so the Soldier and the Smuggler have something to build. A weapon
 // has mod slots by rarity (F/E 1 · D/C 2 · B 3 · A 4; fists and the stun gun none; a record may say its own `modSlots`).
 // One mod of each kind per weapon: melee — balanced hilt (+1 TN), sharpened edge (+1 damage); firearms — grip (+1 TN),
-// heavy barrel (+1 damage), improved sights (+25% range), extended magazine (+50%, at least +1). Out of a fight only,
+// heavy barrel (+1 damage), improved sights (+25% range), extended magazine (+50%, at least +1); decision 265: keen edge
+// (melee) and match trigger (firearms) lower the crit margin by 1. Out of a fight only,
 // free, and only a Soldier or a Tech Wizard installs them. A modded copy is its own record (and inventory row): its
 // stock weapon plus its mods, worked out here. Pure.
 
@@ -47,6 +48,7 @@ export function moddedWeapon(stock, installed, modsData) {
     if (!ty) continue;
     w.mods.push(id);
     if (ty.adds === 'tn') w.tnBonus = (w.tnBonus ?? 0) + m.amount;
+    if (ty.adds === 'crit') w.critBonus = (w.critBonus ?? 0) + m.amount; // decision 265: the crit margin, one lower
     if (ty.adds === 'damage') w.damage = addFlat(w.damage, m.amount);
     if (ty.adds === 'range') w.range.max = Math.floor(w.range.max * (1 + m.amount / 100));
     if (ty.adds === 'mag' && w.magSize) w.magSize += Math.max(1, Math.floor(w.magSize * (m.amount / 100)));

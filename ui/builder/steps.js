@@ -26,7 +26,7 @@ function summary(c, data) {
       ${data.attributes.attributes.map((a) => html`<span class="b-summary__item"><span class="label">${a.id}</span><span class="mono">${c.attributes[a.id]}</span></span>`)}
       <span class="b-summary__sep"></span>
       <span class="b-summary__item"><span class="label">HP</span><span class="mono">${s.hp.max}</span></span>
-      ${['sqr', 'off', 'act', 'def', 'per'].map((k) => html`<span class="b-summary__item"><span class="label">${k}</span><span class="mono">${k === 'off' ? signed(s.combat[k].value) : s.combat[k].value}</span></span>`)}
+      ${['sqr', 'off', 'act', 'per'].map((k) => html`<span class="b-summary__item"><span class="label">${k}</span><span class="mono">${k === 'off' ? signed(s.combat[k].value) : s.combat[k].value}</span></span>`)}
       <span class="b-summary__item"><span class="label">${t('common.age')}</span><span class="mono">${c.age}</span></span>
     </div>`;
 }

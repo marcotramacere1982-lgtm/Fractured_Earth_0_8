@@ -125,7 +125,35 @@ export const inventoryActions = {
     return kind === 'custom' ? { kind, id: uid(), name: row.name, note: row.note ?? '' } : { kind, id, official };
   },
   /** A gift from another sheet (durable `gift` message). Returns the item's name, or null if it isn't valid. */
-  receiveItem(c, data, { msg }) {
+  /** Decision 276: the GM's 🎁 Give — waits as a card until the player accepts it. @returns true when new. */
+  receiveGrant(c, data, { msg }) {
+    c.play.grants ??= [];
+    if (!msg?.id || c.play.grants.some((g) => g.id === msg.id) || (c.play.grantsTaken ?? []).includes(msg.id)) return false;
+    const txt = (v, n) => String(v ?? '').slice(0, n);
+    const items = (Array.isArray(msg.items) ? msg.items : []).slice(0, 30).map((it) => ({ kind: txt(it.kind, 12), id: txt(it.id, 80), name: txt(it.name, 60), note: txt(it.note, 200), qty: Math.max(1, Math.min(99, Math.round(Number(it.qty) || 1))), ...(it.unique && typeof it.unique === 'object' ? { unique: it.unique } : {}) }));
+    c.play.grants.push({ id: txt(msg.id, 40), items, cash: Math.max(0, Math.round(Number(msg.cash) || 0)), crs: Math.max(-20, Math.min(20, Math.round(Number(msg.crs) || 0))), note: txt(msg.note, 160) });
+    return true;
+  },
+  /** Decision 276: taking the GM's grant — items, cash, Credit Score; one log line explains it all to the audit. */
+  acceptGrant(c, data, { id }) {
+    const g = (c.play.grants ?? []).find((x) => x.id === id);
+    if (!g) return null;
+    c.play.grants = c.play.grants.filter((x) => x !== g);
+    c.play.grantsTaken = [...(c.play.grantsTaken ?? []), g.id].slice(-30);
+    const got = [];
+    for (const it of g.items) {
+      if (it.unique && /^u\.[\w-]{1,64}$/.test(it.id)) { actions.receiveItem(c, data, { msg: { from: 'gm', fromName: 'the GM', item: { kind: it.kind, id: it.id, unique: it.unique } }, quiet: true }); got.push(it.unique.name ?? it.name); continue; }
+      if (it.kind === 'custom') { for (let n = 0; n < it.qty; n++) c.play.inventory.push({ kind: 'custom', id: uid(), name: it.name || 'Something', note: it.note, qty: 1 }); got.push(`${it.name}${it.qty > 1 ? ` ×${it.qty}` : ''}`); continue; }
+      if (!findGear(it.kind, it.id, data)) continue;
+      addItem(c, it.kind, it.id, it.qty);
+      got.push(`${findGear(it.kind, it.id, data).name}${it.qty > 1 ? ` ×${it.qty}` : ''}`);
+    }
+    if (g.cash) { c.play.cash += g.cash; got.push(`$${g.cash}`); }
+    if (g.crs) { const before = c.attributes.CRS; c.attributes.CRS = Math.max(0, Math.min(data.attributes.creation.crs.max, before + g.crs)); got.push(`CRS ${g.crs > 0 ? '+' : ''}${c.attributes.CRS - before}`); }
+    log(c, `From the GM: ${got.join(', ') || 'nothing'}${g.note ? ` — ${g.note}` : ''}`, 'ok');
+    return got;
+  },
+  receiveItem(c, data, { msg, quiet = false }) { // quiet: part of the GM's grant (decision 276), which logs it once
     const it = msg.item ?? {};
     if (it.unique && ['weapon', 'armor', 'item', 'deck', 'optic'].includes(it.kind) && /^u\.[\w-]{1,64}$/.test(it.id ?? '')) {
       if (!c.play.inventory.some((x) => x.id === it.id)) c.play.inventory.push({ kind: it.kind, id: it.id, qty: 1, unique: { ...it.unique, unique: true } });
@@ -139,7 +167,7 @@ export const inventoryActions = {
       addItem(c, it.kind, it.id, 1, { official: it.official === true });
     }
     const name = itemName(it, data);
-    log(c, `Received ${name} from ${String(msg.fromName ?? 'another player').slice(0, 40)}`);
+    if (!quiet) log(c, `Received ${name} from ${String(msg.fromName ?? 'another player').slice(0, 40)}`);
     return name;
   },
 };

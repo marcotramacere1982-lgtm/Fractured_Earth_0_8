@@ -39,10 +39,9 @@
       "roll": 5,
       "id": "dimwitted",
       "name": "DIMWITTED",
-      "text": "Your Defensive and Perception Bonuses should always be read one line above the normal in the Combat Statistics Table.",
+      "text": "Your Perception Bonus should always be read one line above the normal in the Combat Statistics Table.",
       "effects": {
         "rowOffsets": {
-          "def": -1,
           "per": -1
         }
       }

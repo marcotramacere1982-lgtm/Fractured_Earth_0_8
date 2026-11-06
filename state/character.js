@@ -1,5 +1,6 @@
 // Character model (schema v1) and full sheet derivation.
 
+import { bandOf, strainTn } from '../rules/strain.js'; // decision 266
 import { computeSkills, computeCombat, initiative, weaponTN } from '../rules/stats.js';
 import { maxHp, armorTotals } from '../rules/body.js';
 import { limbs, movement, usableWeapons } from '../rules/injuries.js';
@@ -60,6 +61,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       sparesGranted: true, // decision 55: guns bought from now on come with spare magazines
       naturalFists: true, // decision 147: fists aren't an item; an empty slot is your fists
       lifestyle: [], // lifestyle entry ids (rent tier, plans, bills)
+      strain: 0, // decision 266: the stress track (0–10) — strainAsks, breaking and scars live beside it
       worn: [], // armor ids currently worn
       slots: { 1: null, 2: null }, // weapon ids
       hand: 1, // the slot in hand (decision 56): in combat only it can attack; swapping costs an action
@@ -74,6 +76,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       conditions: [],
       turn: { inCombat: false, round: 1, used: 0, reserved: 0, spent: [] },
       inbox: [], // unread GM transmissions { id, t, text, private }
+      pictures: [], // decision 279: every handout picture received, kept after its message is dismissed { image, title, t } (newest first, 40)
       talentUses: {}, // talent id -> uses this round / combat / mission
     },
     progress: emptyProgress(), // XP, bought talents, GM gifts, attribute raises, level-up open (decision 44)
@@ -166,7 +169,10 @@ export function deriveSheet(character, data) {
   const sub = character.subclassId ? findSubclass(data.classes, character.subclassId) : null;
   const skillsBase = computeSkills(a, data.skills).map((k) => (fx.skills?.[k.id] ? { ...k, value: k.value + fx.skills[k.id], talent: fx.skills[k.id] } : k))
     .map((k) => (uniq.skills[k.id] ? { ...k, value: k.value + uniq.skills[k.id], unique: uniq.skills[k.id] } : k));
-  const skills = cm.skillTn ? skillsBase.map((k) => ({ ...k, value: k.value + cm.skillTn, base: k.value })) : skillsBase; // Sharp: skill checks, not attacks
+  const strainNow = data.strain ? { value: character.play.strain ?? 0, band: bandOf(character.play.strain ?? 0, data.strain), tn: strainTn(character.play.strain ?? 0, data.strain) } : { value: 0, band: null, tn: 0 }; // decision 266
+  const skillMod = (cm.skillTn ?? 0) + strainNow.tn;
+  const modOf = (k) => skillMod + (k.id === 'avoid_reflexes' ? cm.dodgeTn ?? 0 : 0); // Guarded: Dodge only (decision 282)
+  const skills = skillsBase.map((k) => (modOf(k) ? { ...k, value: k.value + modOf(k), base: k.value } : k)); // Sharp, Strain: skill checks, not attacks
   const weapon = (id) => data.weapons.find((w) => w.id === id);
   const deck = data.decks.find((d) => d.id === character.play.deck) ?? null;
   const optic = character.classId === 'scavenger' ? data.optics.find((o) => o.id === character.play.optic) ?? null : null;
@@ -208,6 +214,7 @@ export function deriveSheet(character, data) {
       return { ...upkeep, tiers: Object.fromEntries(data.lifestyle.categories.map((k) => [k.id, tierOf(k.id)])) };
     })(),
     combat,
+    strain: strainNow, // decision 266
     zone,
     move: halvedMove(movement(combat.sqr.value + zone.squares, injured.legs), cm.moveHalf), // squares per Move action (Prone: halved)
     moveBase: movement(combat.sqr.value + zone.squares, injured.legs),

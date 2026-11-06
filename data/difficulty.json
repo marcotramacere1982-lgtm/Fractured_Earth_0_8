@@ -17,5 +17,7 @@
     { "id": 0, "name": "No cover", "armor": 0, "prop": "none" },
     { "id": 2, "name": "Partial cover", "armor": 2, "prop": "half" },
     { "id": 4, "name": "Full cover", "armor": 4, "prop": "full" }
-  ]
+  ],
+  "help": { "note": "Decision 270: one crewmate helps a check — they say how and roll a related skill. Success: the other gets `success` on their next skill or attribute check; a natural 20: they got in the way (`fumble`); any other failure: nothing. One helper at a time; an action in a fight.", "success": 2, "fumble": -2 },
+  "group": { "note": "Decision 271: a group check — everyone the GM asks rolls; the group succeeds when at least this share of them succeed (rounded up). Help works inside it.", "need": 0.5 }
 }

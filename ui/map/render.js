@@ -57,7 +57,8 @@ function segment(w, data) {
   }
   if (w.kind === 'door') return gap + (w.open
     ? line('map-door map-door--open', W * 0.6, 'butt', `stroke-dasharray="${U * 0.15} ${U * 0.1}"`)
-    : line(`map-door${w.locked ? ' map-door--locked' : ''}`, W * 0.8)); // locked: only on GM screens (players never get it)
+    : line(`map-door${w.locked ? ' map-door--locked' : ''}`, W * 0.8)) // locked: only on GM screens (players never get it)
+    + (w.powered ? line('map-door-slot', W * (w.open ? 0.2 : 0.26), 'butt', `stroke-dasharray="${U * 0.1} ${U * 0.06}"`) : ''); // decision 256: electric — sliding, no handle
   if (w.broken) return line('map-wall map-wall--broken', W * 0.6, 'butt', `stroke-dasharray="${U * 0.12} ${U * 0.1}"`); // a breach (decision 83)
   return line('map-wall', W, 'square')
     + (w.cracks ? line('map-wall-crack', W * 0.45, 'butt', `stroke-dasharray="${U * 0.05} ${U * 0.13}"`) : '') // the GM showed players it's weak

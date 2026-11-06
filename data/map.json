@@ -220,9 +220,26 @@
         "id": "note",
         "name": "Note",
         "tag": "N"
+      },
+      {
+        "id": "hazard",
+        "name": "Hazard",
+        "tag": "H"
       }
     ],
-    "note": "Decision 83: GM-only event zones on a map, rectangles of whole squares with a label and a note. Reminders only: no rule reads them and players never get them. Triggers are numbered T1, T2… per map."
+    "hazards": [
+      { "id": "electric", "name": "Electric", "icon": "⚡", "dice": "1d8", "skill": "electronics_security", "hint": "Sparks and live metal. Cut its power, or don't touch it." },
+      { "id": "gas", "name": "Gas", "icon": "☁", "dice": "1d4", "skill": "mechanics_fabrication", "hint": "A leak: every breath hurts, and a flame turns it into fire." },
+      { "id": "poison", "name": "Poison", "icon": "☠", "dice": "1d6", "skill": "mechanics_fabrication", "hint": "Toxic fumes or a chemical spill." },
+      { "id": "steam", "name": "Steam", "icon": "♨", "dice": "1d6", "skill": "mechanics_fabrication", "hint": "Scalding steam from a burst line; hard to see through." },
+      { "id": "fire", "name": "Fire", "icon": "🔥", "dice": "1d8", "skill": "mechanics_fabrication", "hint": "Burning: anything that burns nearby catches." },
+      { "id": "heat", "name": "Heat", "icon": "🌡", "dice": "1d4", "skill": "mechanics_fabrication", "hint": "Hot surfaces, a furnace mouth, a vent." },
+      { "id": "cold", "name": "Cold", "icon": "❄", "dice": "1d4", "skill": "mechanics_fabrication", "hint": "A cryo leak, a freezer room." },
+      { "id": "water", "name": "High water", "icon": "≈", "dice": "", "difficult": true, "hint": "Waist- to chest-deep: you wade or swim — every square costs 2. No damage by itself." },
+      { "id": "submerged", "name": "Submerged", "icon": "🌊", "dice": "", "difficult": true, "breath": true, "hint": "Under the surface: whoever goes in holds their breath at once (CON rounds), then CON rolls, then drowning (1d6 a round). Their sheet counts; leaving gives them air." },
+      { "id": "hum", "name": "The Hum", "icon": "〰", "dice": "", "strain": 1, "hidden": true, "hint": "Something in the signals. Nobody else hears it. Whoever steps in or starts a turn there gets +1 Strain — a Mental Strength roll halves it (to nothing). Sent by itself, once per zone; hidden from players unless you show it." }
+    ],
+    "note": "Decision 83: GM-only event zones on a map, rectangles of whole squares with a label and a note. Reminders only: no rule reads them and players never get them. Triggers are numbered T1, T2… per map. Decision 258: Hazard zones (H1, H2…) — a nature (above: icon, suggested dice, the skill to shut it off), on / off, shown to players or hidden, and an optional control piece; players see only the ones on and shown. Damage is never automatic: the GM's Activity line offers the hit. Decision 273: water — High water and Submerged are difficult ground (each square costs 2, rules/props.js → difficultSquares); Submerged starts a breath hold on the sheet by itself and ends it when they leave. Decision 267: the Hum hurts the mind instead — its Strain is sent by itself (a card the player steadies with Mental Strength), once per zone and character; it starts hidden."
   },
   "marks": {
     "tools": [
@@ -252,10 +269,16 @@
       "min": 1,
       "max": 20
     },
-    "note": "Sensors (decision 69): drawn only, no rules yet. Placed lasers and sensor props keep on (starting state) and tripped_<sense> / disconnected_<sense> flags for a later implementation. Off and the flags are GM-only."
+    "note": "Sensors (decision 69): placed lasers and sensor props keep on (starting state) and tripped_<sense> / disconnected_<sense> flags. Off and the flags are GM-only. Decision 269: reporting sensors notice players — cameras an arc out to their range (in sight, not dark), motion a line, audio a circle; lasers that are on trip when crossed — a line for the GM, never a consequence (rules/sensors.js). reach: min / max a piece can be set to."
   },
   "floors": {
     "linkCost": 2,
     "note": "Decision 184: floors side by side; stepping through a linked staircase or lift costs this many squares of movement."
+  },
+  "site": {
+    "note": "Decision 268: the site alert — one meter per live map (the old per-network Trace, merged). Pings and drones add to it by themselves (rules/ping.js → pingGain), the GM moves it however the story says, it never drops by itself. Levels Calm 0 · Twitchy 3 · Alert 5 · Lockdown 7 (rules/ping.js → TRACE_LEVELS). tn: the TN change on that map for the listed skills and the listed classes' Class TN rolls, shown as its own row in the check window. Players are told only a level that has a tn.",
+    "tn": { "alert": -1, "lockdown": -2 },
+    "skills": ["stealth", "sleight_of_hand", "electronics_security", "computers_hacking"],
+    "classes": ["hacker"]
   }
 }

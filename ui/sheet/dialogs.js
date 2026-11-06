@@ -53,28 +53,33 @@ export function openDialog(draw, handlers, { wide = false, cls = '' } = {}) {
  * with the suggested option chosen; the player can change it.
  */
 /** aim (decision 97): { options: [{ id, tn, label }], pick, onPick(id) } — Body / ⌖ Location for an attack. */
+/** site (decision 268): { level: 'alert' | 'lockdown', tn } — the site alert on the map you stand on; a fixed row, like the GM's difficulty. */
+/** help (decision 270): { from, tn, skill } — a crewmate's help on this check; a fixed row. */
 /** Decision 204: the target's cover as the map shows it — information like the GM's difficulty, never added to the roll. */
 const coverLine = (c, data) => html`<p class="check-cover"><span class="label">${t('attack.cover')}${info('cover', t('attack.cover'))}</span>
   <strong>${c.armor ? `${data.difficulty.cover.find((x) => x.armor === c.armor)?.name ?? ''} +${c.armor}` : t('attack.coverNone')}</strong>${c.text ? html` <span class="muted st-small">· ${c.text}</span>` : ''}
   ${c.armor ? html`<span class="muted st-small">· ${t('attack.coverGm')}</span>` : ''}</p>`;
 
 /** foe (decision 153): { options: [{ id, label, cover }], pick, onPick(id) } — which enemy an attack goes at (told to the GM). */
-export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, tools = [], light = null, boosts = [], aim = null, notice = '', foe = null } = {}) {
+/** Decision 265: odds(rollUnder) → a line under the TN before rolling (crit / fumble ranges); missFlow(result) → a flow after a miss (the jam check); narrative: false for attacks (their own crit rules replace the skill checks' natural 1 / 20 line). */
+export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, missFlow = null, odds = null, narrative = true, tools = [], light = null, boosts = [], aim = null, notice = '', foe = null, site = null, help = null } = {}) {
   const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false,
     tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null, aim: aim?.pick ?? null, foe: foe?.pick ?? '' };
   const aimOpt = () => aim?.options.find((o) => o.id === state.aim) ?? null;
   const tool = () => tools.find((x) => x.id === state.tool) ?? null;
   const lightOpt = () => light?.options.find((o) => o.id === state.light) ?? null;
   const foeOpt = () => foe?.options.find((o) => o.id === (state.foe ?? '')) ?? null;
-  const tn = () => target.tn + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0) + (aimOpt()?.tn ?? 0) + (foeOpt()?.tn ?? 0); // foe: its conditions (decision 158)
-  const flowOn = () => Boolean(flow && state.result?.success);
-  const step = () => (flowOn() ? flow.next(state.answers) : null);
-  const finish = () => { if (flowOn() && !step() && !state.finished) { state.finished = true; flow.complete(state.answers); } };
+  const tn = () => target.tn + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0) + (aimOpt()?.tn ?? 0) + (foeOpt()?.tn ?? 0) + (site?.tn ?? 0) + (help?.tn ?? 0); // foe: its conditions (decision 158); site: decision 268; help: decision 270
+  const cur = () => (state.result?.success ? flow : state.missFlow); // decision 265: a miss may have its own steps
+  const flowOn = () => Boolean(state.result && cur());
+  const step = () => (flowOn() ? cur().next(state.answers) : null);
+  const finish = () => { if (flowOn() && !step() && !state.finished) { state.finished = true; cur().complete(state.answers); } };
   const tiers = data.difficulty.tiers;
   const resolve = (value, dice = null) => {
     if (once && state.result) return;
     const lo = lightOpt();
-    state.result = { ...resolveCheck(tn(), value, state.tier, data.difficulty), dice, tool: tool(), light: lo?.tn ? { tn: lo.tn, label: t(`light.${light.kind}.${lo.id}`) } : null };
+    state.result = { ...resolveCheck(tn(), value, state.tier, data.difficulty), dice, tool: tool(), light: lo?.tn ? { tn: lo.tn, label: t(`light.${light.kind}.${lo.id}`) } : null, site: site?.tn ? { tn: site.tn, label: `site ${site.level}` } : null, help: help?.tn ? { tn: help.tn, label: `help from ${help.from}` } : null };
+    state.missFlow = !state.result.success && missFlow ? missFlow(state.result) : null;
     state.extra = after ? after(state.result) : '';
     onResult(state.result);
     finish();
@@ -83,7 +88,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
   const answer = (value) => { state.answers[step().id] = value; state.typed = {}; state.flowError = ''; finish(); d.redraw(); };
   const flowView = () => {
     if (!flowOn()) return '';
-    const done = Object.entries(state.answers).map(([id, a]) => flow.recap?.(id, a)).filter(Boolean);
+    const done = Object.entries(state.answers).map(([id, a]) => cur().recap?.(id, a)).filter(Boolean);
     const s = step();
     return html`
       ${done.length ? html`<ul class="flow-done">${done.map((x) => html`<li class="mono">${x}</li>`)}</ul>` : ''}
@@ -97,7 +102,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
           <div class="cluster"><button class="btn btn--primary" data-action="flowRoll">${t('flow.roll')}</button>
             <button class="btn" data-action="flowEnter">${t('flow.enter')}</button><span class="hint">${t('flow.typedHint')}</span></div>
           ${state.flowError ? html`<p class="notice notice--danger">${state.flowError}</p>` : ''}` : ''}
-      </div>` : flow.summary(state.answers)}`;
+      </div>` : cur().summary(state.answers)}`;
   };
   /** Dice step: typed totals where given, the app rolls the rest (enter = typed only). */
   const diceAnswer = (typedOnly) => {
@@ -118,7 +123,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
     }
   };
   /** Decision 156: once rolled, the setup folds into one line — the flow below needs the room. */
-  const summaryLine = () => [foe ? foe.options.find((o) => o.id === (state.foe ?? ''))?.label : '', aimOpt()?.label, tool()?.name, light ? t(`light.${light.kind}.${state.light}`) : '',
+  const summaryLine = () => [foe ? foe.options.find((o) => o.id === (state.foe ?? ''))?.label : '', aimOpt()?.label, tool()?.name, light ? t(`light.${light.kind}.${state.light}`) : '', site ? `${t(`site.${site.level}`)} ${site.tn}` : '', help ? `${t('help.row')} ${help.tn > 0 ? '+' : ''}${help.tn}` : '',
     tiers.find((x) => x.id === state.tier)?.name].filter(Boolean).join(' · ');
   const draw = () => {
     const tier = tiers.find((x) => x.id === state.tier);
@@ -132,6 +137,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
           <div class="stat"><span class="label">${t('check.difficulty')}</span><span class="stat__value ${tier.penalty > 0 ? 'stat__value--danger' : tier.penalty < 0 ? 'text-success' : ''}">${signed(-tier.penalty)}</span></div>
           <div class="stat"><span class="label">${t('check.rollUnder')}</span><span class="stat__value stat__value--accent">${tn() - tier.penalty}</span></div>
         </div>
+        ${odds && !r ? odds(tn() - tier.penalty) : ''}
         ${boosts.length ? html`<p class="check-boosts"><span class="label">${t('check.inPlay')}</span> ${boosts.map((b) => html`<span class="pill ${b.delta > 0 ? 'pill--success' : 'pill--danger'}">${b.name} ${b.delta > 0 ? '+' : '−'}${Math.abs(b.delta)}</span>`)}
           <span class="hint">${t('check.inPlayHint')}</span></p>` : ''}
         ${once && r ? html`<p class="check-summary muted">${summaryLine()}</p>` : html`<div class="check-setup">
@@ -148,6 +154,10 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
             <span><strong>${x.name} +${x.tn}</strong> <span class="muted">· ${x.when}</span></span></label>`)}</div></div>` : ''}
         ${light ? html`<div class="stack stack--tight"><span class="label">${t('light.title')}${info('darkness', t('light.title'))}</span>
           <div class="segmented" role="group" aria-label="${t('light.title')}">${light.options.map((o) => html`<button class="segmented__opt" data-action="light" data-id="${o.id}" aria-pressed="${state.light === o.id}" title="${t('light.suggested', { option: t(`light.${light.kind}.${light.pick}`) })}">${t(`light.${light.kind}.${o.id}`)}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div></div>` : ''}
+        ${help ? html`<div class="stack stack--tight"><span class="label">${t('help.row')}${info('help', t('help.row'))}</span>
+          <span class="check-tier ${help.tn < 0 ? 'check-tier--hard' : 'check-tier--help'}"><strong>${help.tn > 0 ? '+' : '−'}${Math.abs(help.tn)}</strong> <span class="muted st-small">· ${t('help.from', { from: help.from, skill: help.skill })}</span></span></div>` : ''}
+        ${site ? html`<div class="stack stack--tight"><span class="label">${t('site.title')}${info('site-alert', t('site.title'))}</span>
+          <span class="check-tier check-tier--hard" title="${t('site.hint')}"><strong>${t(`site.${site.level}`)} (−${Math.abs(site.tn)})</strong> <span class="muted st-small">· ${t('site.hint')}</span></span></div>` : ''}
         ${tierLocked() ? html`<div class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
           <span class="check-tier ${tier.penalty > 0 ? 'check-tier--hard' : ''}" title="${tier.example}"><strong>${tier.name}${tier.penalty ? ` (${signed(-tier.penalty)})` : ''}</strong> <span class="muted st-small">· ${t('check.tierByGm')}</span></span></div>`
         : html`<label class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
@@ -163,7 +173,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
           <span class="roll__die">${r.roll}</span>
           <div class="stack stack--tight">
             <strong>${r.success ? t('check.success') : t('check.failure')} · ${t('check.margin')} ${r.margin >= 0 ? '+' : ''}${r.margin}</strong>
-            <span class="muted">${r.natural === 'crit-success' ? t('check.nat1') : r.natural === 'crit-failure' ? t('check.nat20') : r.nearMiss ? t('check.nearMiss') : r.bigSuccess ? t('check.big') : ''}</span>
+            <span class="muted">${narrative && r.natural === 'crit-success' ? t('check.nat1') : narrative && r.natural === 'crit-failure' ? t('check.nat20') : r.nearMiss ? t('check.nearMiss') : narrative && r.bigSuccess ? t('check.big') : ''}</span>
             ${r.dice ? html`<span class="mono muted">${formatRoll(r.dice)}</span>` : ''}
           </div></div>${state.extra}${flowView()}${once && (!flowOn() || state.finished) ? html`<button class="btn btn--primary btn--block" data-action="close">${t('common.done')}</button>` : ''}` : ''}
       </div>`;
@@ -192,11 +202,11 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
 }
 
 /** A small choice (Reload / swap…): choices [{ value, label, why }] — a choice with a `why` shows disabled with it. */
-export function openChoice(title, choices, onPick) {
+export function openChoice(title, choices, onPick, { lead = '' } = {}) { // lead: a line above the choices; ch.quiet: a plain button (Cancel)
   const d = openDialog(() => html`
     <header class="card__head"><h2 class="card__title">${title}</h2><button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
-    <div class="dialog__body stack">${choices.map((ch) => html`
-      <button class="btn btn--block choice ${ch.why ? '' : 'btn--primary'}" data-action="pick" data-value="${ch.value}" ${ch.why ? 'disabled' : ''}>${ch.label}${ch.sub ? html`<small class="choice__sub">${ch.sub}</small>` : ''}</button>
+    <div class="dialog__body stack">${lead ? html`<p class="hint">${lead}</p>` : ''}${choices.map((ch) => html`
+      <button class="btn btn--block choice ${ch.why || ch.quiet ? '' : 'btn--primary'}" data-action="pick" data-value="${ch.value}" ${ch.why ? 'disabled' : ''}>${ch.label}${ch.sub ? html`<small class="choice__sub">${ch.sub}</small>` : ''}</button>
       ${ch.why ? html`<p class="hint">${ch.why}</p>` : ''}`)}</div>`, {
     click: { pick: ({ value }) => { d.close(); onPick(value); } },
   });

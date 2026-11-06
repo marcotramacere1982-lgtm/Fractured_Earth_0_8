@@ -596,6 +596,7 @@
 
 /* decision 134: more room for the Active map — a slim status row, a side panel that folds */
 .sheet-status--compact { flex-wrap: nowrap; gap: var(--space-3); padding: var(--space-2) var(--space-3); overflow-x: auto; }
+.sheet .sheet-status--compact { flex-wrap: wrap; overflow-x: visible; gap: var(--space-2) var(--space-3); } /* the slim header on the other tabs: wraps instead of scrolling */
 .sheet-status--compact > * { flex: none; }
 .sheet-status__name--sm { font-family: var(--font-display); font-size: var(--text-lg); letter-spacing: 0.03em; white-space: nowrap; }
 .sheet-status__hp { display: flex; align-items: center; gap: var(--space-2); }
@@ -650,6 +651,9 @@
 .cond-grid--bare .cond, .cond-grid--bare .cond--on { grid-column: auto; flex-direction: row; align-items: center; justify-content: center; padding: var(--space-1); min-height: var(--touch); }
 .cond-grid--bare .cond--limb { grid-column: span 3; flex-wrap: nowrap; justify-content: space-between; gap: var(--space-1); }
 .cond-grid--bare .cond--limb .cluster { margin-top: 0; flex-wrap: nowrap; gap: var(--space-1); }
+.tac__turn .your-turn { margin-top: var(--space-1); padding: var(--space-1) var(--space-2); font-size: var(--text-md); letter-spacing: 0.04em; } /* the turn drawer: a slim band, not a banner */
+.cond-grid--bare .term-en, .cond-grid--bare .cond__fx { display: none; } /* the drawer's chips: icons only (names and effects in the tooltip) */
+.sheet-status__tabs { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
 .cond-grid--bare .cond__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .cond-grid--bare .ico { width: 1.5rem; height: 1.5rem; margin: 0; }
 .cond-grid--bare .cond--limb .btn { min-width: 1.9rem; padding: 0 var(--space-1); }
@@ -694,6 +698,7 @@
 /* decision 170: the hacker's last ping */
 .hk-scan { display: grid; gap: var(--space-1); padding: var(--space-2); border: var(--border-width) solid var(--color-info); border-radius: var(--radius-md); }
 .hk-scan__net { display: grid; gap: 2px; }
+.hk-scan__doors { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-1); } /* decision 256 */
 
 /* decision 172: the Tech Wizard's drone */
 .twd-stats.is-wrecked .chip-stat__v { color: var(--color-danger); }
@@ -893,3 +898,12 @@
 .ow-pick__dir { width: 4rem; height: 4rem; border-radius: 50%; border: var(--border-width) solid var(--color-border-strong); background: var(--color-surface-2); color: var(--color-text); font-size: var(--text-xl); cursor: pointer; }
 .ow-pick__dir:hover, .ow-pick__dir:focus-visible { border-color: var(--color-danger); color: var(--color-danger); }
 .ow-pick__me { width: 4rem; height: 4rem; display: grid; place-items: center; font-size: var(--text-lg); }
+/* decision 266: Strain beside HP, its windows */
+.stat--strain .cluster { flex-wrap: nowrap; }
+.stat--strain .stat__value { font-size: var(--text-lg); }
+.strain-scars summary { cursor: pointer; }
+.strain-scars ul { margin: var(--space-1) 0 0; padding-left: var(--space-4); font-size: var(--text-sm); }
+.strain-table { margin: 0; padding-left: 0; list-style: none; display: grid; gap: var(--space-1); }
+.strain-table .mono { display: inline-block; min-width: 1.5em; color: var(--color-accent); }
+.strain-die { justify-content: center; }
+.meter__fill--warning { background: var(--color-warning); }

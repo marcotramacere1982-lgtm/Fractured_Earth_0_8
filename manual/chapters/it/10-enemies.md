@@ -28,6 +28,8 @@ Una scheda qui mostra un tipo e com'è fatto. **I numeri qui sotto non sono stam
 
 **Come si gioca.** La maggior parte dei nemici di strada non è pagata abbastanza per morire. Un'abitudine, non una regola: i nemici normali pensano a scappare quando sono *Bloodied*, quando cade il loro capo, o quando lo scontro gli gira chiaramente contro. Si arrendono, fuggono, o chiamano rinforzi che possono arrivare in due round. Fanatici e macchine no. Gli élite decidono da sé, e i migliori tornano.
 
+**Bestie e sciami** (decisione 259). Non ogni minaccia è una persona: i cani randagi cacciano in branco, un cinghiale carica in linea retta, un K9 aziendale scappato va in tilt. Uno **sciame** — ratti, scarafaggi, una nuvola di micro-droni — è centinaia di piccoli corpi su una sola carta: divide i quadretti con chiunque, proiettili e lame gli fanno 1 danno a colpo, mentre fuoco, gas, esplosioni e scarponi fanno danno pieno. Ripuliscilo con quello che riempie un quadretto, o levati di mezzo.
+
 **Nella console del GM (scheda Scene).**
 
 - **Aggiungere nemici** dalla libreria: cerca, scegli quante copie, *Add*. Oppure scrivine uno personalizzato nell'ultima riga.
@@ -50,7 +52,7 @@ Una scheda qui mostra un tipo e com'è fatto. **I numeri qui sotto non sono stam
 
 ## 10-4. Nemici normali {#sec-10-4}
 
-Le persone e le macchine che una squadra incontra più spesso: dal vicolo al piano aziendale, più o meno in ordine crescente di guai. I nemici normali arrivano in gruppo. Sono pericolosi per il numero e per la tattica che gli dà il GM, non per un trucco tutto loro.
+Le persone e le macchine che una squadra incontra più spesso: dal vicolo al piano aziendale, più o meno in ordine crescente di guai. I nemici normali arrivano in gruppo. Sono pericolosi per il numero e per la tattica che gli dà il GM, non per un trucco tutto loro. Sono elencati per chi li paga.
 
 ::table[enemies]
 

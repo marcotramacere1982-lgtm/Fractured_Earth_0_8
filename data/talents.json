@@ -391,7 +391,7 @@
     "tree": "hacker",
     "tier": 2,
     "kind": "auto",
-    "desc": "Backdoor also lowers that network's Trace by 2 (tell the GM), and Cascade makes 1 heat less.",
+    "desc": "Backdoor also lowers the site's Trace by 2 (tell the GM), and Cascade makes 1 heat less.",
     "branch": "master",
     "effects": {
       "abilities": {

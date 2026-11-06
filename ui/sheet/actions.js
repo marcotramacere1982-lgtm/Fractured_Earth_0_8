@@ -2,7 +2,7 @@
 // Game logic lives in rules/; this file only wires player intent to rules and state.
 
 import { nameEn } from '../../data/index.js'; // decision 242: logs stay English
-import { logHandHp } from '../../rules/hand-edits.js';
+import { logHandHp, logHandAmmo } from '../../rules/hand-edits.js';
 import { stamp, stampNew, atTurnEnd, atRoundEnd, atFightEnd, prune } from '../../rules/condition-time.js'; // decision 236
 import { abilityContext, failAbility, canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, openingChoice, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
 import { buy, magazineId, addItem } from '../../rules/economy.js';
@@ -23,6 +23,10 @@ import { stashActions } from './stash-actions.js';
 import { abilityActions } from './ability-actions.js';
 import { itemActions, tickItemEffects, endItemEffects } from './item-actions.js';
 import { wornGrants } from '../../rules/body.js';
+import { strainActions } from './strain-actions.js'; // decision 266
+import { breathActions } from './breath-actions.js'; // decision 273
+import { landing } from '../../rules/falling.js'; // decision 272
+import { harmOutcome } from '../../rules/harm.js'; // decision 274
 
 /** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
 export function spend(c, data, what) {
@@ -145,13 +149,16 @@ export const actions = {
    * that gets through adds the location's condition; armor that stops it all cracks by 1.
    * @returns the outcome, for the screen to describe
    */
-  takeHit(c, data, { damage, loc = '', cover = null }) {
+  takeHit(c, data, { damage, loc = '', cover = null, crit = false, pierce = false }) { // pierce (decision 274): armor doesn't help, without being a critical
     c.play.injuries ??= [];
     const s = deriveSheet(c, data);
     const dmg = Math.max(0, Number(damage) || 0);
-    const outcome = hitOutcome(s, { damage: dmg, loc, cover }, data.body);
+    const exposed = c.play.conditions.includes('exposed'); // decision 265: a fumble's Exposed — used up by this hit
+    const outcome = hitOutcome(s, { damage: dmg, loc, cover, crit: crit || pierce, exposed }, data.body);
+    if (exposed) { c.play.conditions = c.play.conditions.filter((x) => x !== 'exposed'); c.play.condTimes = prune(c.play.conditions, c.play.condTimes); }
     const hpNow = s.hp.current - outcome.taken;
     c.play.hp = hpNow >= s.hp.max ? null : hpNow;
+    if (data.strain && s.hp.current >= s.hp.max / 2 && hpNow < s.hp.max / 2 && hpNow > 0) strainActions.strainAsk(c, data, { id: `hp${Date.now()}`, n: data.strain.gains.halfHp, why: 'Dropped below half HP' }); // decision 266
     const sync = hurt(c, data, outcome.taken);
     let effect = '';
     if (outcome.condition) {
@@ -161,7 +168,7 @@ export const actions = {
     }
     if (outcome.crack) { c.play.armorDamage = (c.play.armorDamage ?? 0) + outcome.crack; effect = ` · armor cracked −${outcome.crack}`; }
     const where = loc ? ` to the ${data.body.locations.find((l) => l.id === loc)?.name ?? loc}` : '';
-    log(c, `Hit${where}: ${dmg} damage − ${outcome.armor} armor${cover != null ? ` (cover +${cover})` : ''} → ${outcome.taken} HP${effect}${sync}`, 'bad');
+    log(c, `${crit ? 'CRITICAL hit' : 'Hit'}${where}: ${dmg} damage − ${outcome.armor} armor${pierce ? ' (armor doesn’t help)' : crit ? ' (a critical: armor and cover ignored)' : exposed ? ' (Exposed: −2)' : cover != null ? ` (cover +${cover})` : ''} → ${outcome.taken} HP${effect}${sync}`, 'bad');
     return outcome;
   },
   /** Armor cracked by an effect (or fixed by hand): 0 … worn. */
@@ -212,7 +219,9 @@ export const actions = {
   },
   ammo(c, data, { slot, delta }) {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
-    c.play.ammo[slot] = clamp((c.play.ammo[slot] ?? 0) + Number(delta), 0, w?.magSize ?? 0);
+    const from = c.play.ammo[slot] ?? 0;
+    c.play.ammo[slot] = clamp(from + Number(delta), 0, w?.magSize ?? 0);
+    if (c.play.ammo[slot] !== from) c.play.log = logHandAmmo(c.play.log ?? [], { slot, weapon: w?.name ?? 'Weapon', from, to: c.play.ammo[slot] }).slice(0, 40); // decision 208: the GM sees and confirms it
   },
   /** Takes a weapon in hand (decision 56): free out of combat, 1 action in combat. */
   hand(c, data, { slot }) {
@@ -227,6 +236,12 @@ export const actions = {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
     if (!w?.magSize) return;
     if (c.play.turn?.inCombat && String(deriveSheet(c, data).handSlot) !== String(slot)) throw new RuleError('notInHand', { weapon: w.name }, `The ${w.name} isn't in your hand: swap to it first.`);
+    if ((c.play.jams ?? []).includes(String(slot))) { // decision 265: a jam clears with a reload's action, no magazine spent
+      const prefix = spend(c, data, { kind: 'reload', name: w.name });
+      c.play.jams = c.play.jams.filter((x) => x !== String(slot));
+      log(c, `${prefix}Cleared the jam: ${w.name}`, 'ok');
+      return;
+    }
     const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.moddedFrom ?? w.id)); // decision 173
     if (!mags?.qty) throw new RuleError('noMagazine', { weapon: w.name }, `No spare magazines for the ${w.name}: buy some, or ask the GM.`);
     const prefix = spend(c, data, { kind: 'reload', name: w.name });
@@ -449,7 +464,8 @@ export const actions = {
   receivePing(c, _d, { msg }) {
     const clean = (n) => ({ key: String(n.key ?? '?').slice(0, 2), name: n.name ? String(n.name).slice(0, 30) : null, mood: n.mood ?? null,
       nodes: (n.nodes ?? []).slice(0, 8).map((x) => ({ name: String(x.name), n: Number(x.n) || 0 })), named: (n.named ?? []).slice(0, 12).map(String),
-      devices: (n.devices ?? []).slice(0, 40).map((x) => ({ name: String(x.name).slice(0, 40), n: Number(x.n) || 0 })) });
+      devices: (n.devices ?? []).slice(0, 40).map((x) => ({ name: String(x.name).slice(0, 40), n: Number(x.n) || 0 })),
+      ...(n.doors?.n ? { doors: { n: Number(n.doors.n) || 0, locked: Number(n.doors.locked) || 0, named: (n.doors.named ?? []).slice(0, 12).map((d) => ({ name: String(d.name).slice(0, 30), locked: Boolean(d.locked) })) } } : {}) }); // decision 256
     if (msg.wipe) {
       if (!c.play.netScan) return false;
       c.play.netScan = { ...c.play.netScan, networks: c.play.netScan.networks.filter((n) => n.key !== msg.wipe) };
@@ -457,7 +473,7 @@ export const actions = {
       return true;
     }
     c.play.netScan = { at: Date.now(), ok: Boolean(msg.ok), networks: msg.ok ? (msg.networks ?? []).slice(0, 8).map(clean) : [] };
-    log(c, msg.ok ? `Ping: ${c.play.netScan.networks.map((n) => `${n.key} (${n.devices.reduce((k, d) => k + d.n, 0)} devices)`).join(', ') || 'no networks in range'}` : 'Ping: no answer', msg.ok ? 'ok' : 'bad');
+    log(c, msg.ok ? `Ping: ${c.play.netScan.networks.map((n) => `${n.key} (${n.devices.reduce((k, d) => k + d.n, 0)} devices${n.doors ? `, ${n.doors.n} doors` : ''})`).join(', ') || 'no networks in range'}` : 'Ping: no answer', msg.ok ? 'ok' : 'bad');
     return true;
   },
   clearScan(c) { c.play.netScan = null; },
@@ -509,6 +525,7 @@ export const actions = {
     c.play.condTimes = stampNew(c.play.conditions, c.play.condTimes, { round: c.play.turn.round, own: Boolean(c.play.turn.onTurn) }, data);
     if (msg.current === c.id) {
       if (c.play.overwatch && !c.play.turn.onTurn) { c.play.overwatch = null; log(c, 'Overwatch ends'); } // decision 250: until the start of your next turn
+      if (!c.play.turn.onTurn && c.play.breath) breathActions.breathTick(c, data); // decision 273: a round passes at your turn's start
       c.play.turn = { ...c.play.turn, onTurn: true };
     }
     else if (c.play.turn.onTurn) {
@@ -677,6 +694,28 @@ export const actions = {
    * The damage step of an attack or ability, once every die is in (app-rolled or typed): logs it, and for
    * the Scavenger spends the Tells used for Exploit on that enemy.
    */
+  /** Decision 265: a fumble — a firearm's jam check (jammed over its reliability), Exposed after a melee one, a thrown weapon lost. */
+  /** Decision 275: cover fire in a chase — the weapon in hand fires (ammo spent), no action economy. */
+  chaseShot(c, data, { slot }) {
+    const w = data.weapons.find((x) => x.id === c.play.slots[slot]);
+    if (!w) return;
+    if (w.magSize && (c.play.ammo[slot] ?? 0) <= 0) throw new RuleError('weaponEmpty', { weapon: w.name }, `${w.name} is empty — reload first.`);
+    if (w.magSize) c.play.ammo[slot] = Math.max(0, c.play.ammo[slot] - (w.burst ?? 1));
+  },
+  attackFumble(c, data, { slot, kind, roll = null, rollText = '' }) {
+    const w = deriveSheet(c, data).weapons.find((x) => String(x.slot) === String(slot));
+    if (data.strain) strainActions.strainAsk(c, data, { id: `fu${Date.now()}`, n: data.strain?.gains.fumble, why: 'A fumble' }); // decision 266: once per fumble
+    const name = w?.name ?? 'weapon';
+    if (kind === 'jam') {
+      const jammed = roll > (w?.reliability ?? 10);
+      if (jammed) c.play.jams = [...new Set([...(c.play.jams ?? []), String(slot)])];
+      log(c, `  → Fumble · jam check ${rollText} vs reliability ${w?.reliability ?? 10}: ${jammed ? `${name} JAMMED (Reload clears it)` : 'it holds'}`, jammed ? 'bad' : 'warn');
+    } else if (kind === 'exposed') {
+      if (!c.play.conditions.includes('exposed')) c.play.conditions = [...c.play.conditions, 'exposed'];
+      c.play.condTimes = stampNew(c.play.conditions, c.play.condTimes, { round: c.play.turn?.round ?? 0, own: true }, data);
+      log(c, '  → Fumble: you overextend — Exposed (the next hit on you ignores 2 armor)', 'bad');
+    } else log(c, `  → Fumble: the ${name} is lost — the GM says where it lands`, 'bad');
+  },
   attackDamage(c, data, { text, exploit = null }) {
     if (exploit?.n) {
       ensureResources(c);
@@ -702,7 +741,8 @@ export const actions = {
     const text = (v, n) => String(v ?? '').slice(0, n);
     c.play.hits.push({ id: text(msg.id, 40), from: text(msg.from, 40), attack: text(msg.attack, 60), damage: Math.max(0, Math.round(Number(msg.damage) || 0)),
       dmgText: text(msg.dmgText, 80), loc: text(msg.loc, 12), where: text(msg.where, 40), roll: text(msg.roll, 40),
-      cover: msg.cover == null ? null : Math.max(0, Math.round(Number(msg.cover) || 0)) }); // decision 204: the cover the GM counted
+      cover: msg.cover == null ? null : Math.max(0, Math.round(Number(msg.cover) || 0)), ...(msg.crit === true ? { crit: true } : {}), ...(Number(msg.fall) > 0 ? { fall: Math.min(100, Math.round(Number(msg.fall))) } : {}),
+      ...(msg.harm && typeof msg.harm === 'object' ? { harm: { save: ['avoid', 'halve'].includes(msg.harm.save) ? msg.harm.save : 'none', armor: msg.harm.armor !== false, check: text(msg.harm.check, 50), condition: /^[a-z_]{1,24}$/.test(msg.harm.condition ?? '') ? msg.harm.condition : '', note: text(msg.harm.note, 160) } } : {}) }); // decision 204: the cover the GM counted; 265: a critical hit; 272: a fall; 274: harm
     return true;
   },
   applyHit(c, data, { id }) {
@@ -710,7 +750,30 @@ export const actions = {
     if (!h) return null;
     c.play.hits = c.play.hits.filter((x) => x !== h);
     log(c, `${h.from} hit you with ${h.attack}`, 'bad');
-    return actions.takeHit(c, data, { damage: h.damage, loc: h.loc, cover: h.cover ?? null });
+    return actions.takeHit(c, data, { damage: h.damage, loc: h.loc, cover: h.cover ?? null, crit: Boolean(h.crit) });
+  },
+  /** Decision 272: a fall lands — result: the landing roll, or null (taken without one). Halved on a success; Prone on a failure; a natural 20 cripples a leg; armor applies. */
+  applyFall(c, data, { id, result = null }) {
+    const h = (c.play.hits ?? []).find((x) => x.id === id);
+    if (!h) return null;
+    c.play.hits = c.play.hits.filter((x) => x !== h);
+    const l = landing(result, h.damage, data.body.falling);
+    log(c, `Fell ${h.fall} m${result ? ` — landing ${result.success ? 'held' : 'failed'} (${result.roll} vs ${result.effective})` : ' — took it'}${l.halved ? ': damage halved' : ''}`, l.halved ? 'ok' : 'bad');
+    const out = l.damage ? actions.takeHit(c, data, { damage: l.damage, cover: 0 }) : null;
+    if (l.prone && !c.play.conditions.includes('prone')) c.play.conditions.push('prone');
+    if (l.crippled) { c.play.injuries ??= []; const leg = ['rleg', 'lleg'].find((x) => !c.play.injuries.includes(x)); if (leg) { c.play.injuries.push(leg); log(c, `Landed badly: ${injuryName(data, leg)}`, 'bad'); } }
+    return { ...l, taken: out?.taken ?? 0 };
+  },
+  /** Decision 274: harm the GM sent — result: their roll (avoid / halve), or null (taken). Armor counts or doesn't; a failure brings the condition. */
+  applyHarm(c, data, { id, result = null }) {
+    const h = (c.play.hits ?? []).find((x) => x.id === id);
+    if (!h?.harm) return null;
+    c.play.hits = c.play.hits.filter((x) => x !== h);
+    const o = harmOutcome(h.harm, h.damage, result);
+    log(c, `${h.from}${h.harm.note ? ` — ${h.harm.note}` : ''}${result ? ` · rolled ${result.roll} vs ${result.effective}: ${o.saved || 'failed'}` : ''}`, o.saved ? 'ok' : 'bad');
+    const out = o.damage ? actions.takeHit(c, data, { damage: o.damage, cover: 0, pierce: !h.harm.armor }) : null;
+    if (o.condition && !c.play.conditions.includes(o.condition)) { c.play.conditions.push(o.condition); log(c, `${nameEn(data.conditions.find((k) => k.id === o.condition)) || o.condition}`, 'bad'); }
+    return { ...o, taken: out?.taken ?? 0 };
   },
   dodgedHit(c, _d, { id }) {
     const h = (c.play.hits ?? []).find((x) => x.id === id);
@@ -735,6 +798,8 @@ export const actions = {
   },
   ...progressActions,
   ...downtimeActions,
+  ...strainActions,
+  ...breathActions,
   ...storyActions,
   ...inventoryActions,
   ...washerActions, // decision 143

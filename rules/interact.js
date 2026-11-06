@@ -16,14 +16,31 @@ export const REACH = 1.3; // squares from the centre of your square to the piece
  * 'toggle' (on / off, the state players see), 'ask' (a breaker or a power source: the GM decides),
  * 'light' (a light not worked by hand: use its switch), or null (nothing to work).
  */
-export function interactKind(def) {
+export function interactKind(def, p = null) {
   if (!def || def.gmOnly) return null;
   if (def.openable && def.interact !== false) return 'open';
+  if (p?.search) return 'search'; // decision 277: the GM marked it searchable (what's in it stays the GM's)
+  if (def.control) return 'ask'; // decision 258: a valve or shut-off — the GM decides (it may control a hazard)
   const role = circuitRole(def);
   if (role === 'switch') return 'switch';
   if (role === 'breaker' || role === 'source') return 'ask';
   if (powerOf(def) === 'public') return def.interact === false ? (def.category === 'light' ? 'light' : null) : 'toggle';
   return null;
+}
+
+/**
+ * Decision 255: the locks a character found by trying them (a door or a piece, by map) — there the sheet offers
+ * "Locked — try to open it", which asks the GM (no action) instead of spending one on the handle again.
+ */
+export const lockKey = (mapId, id) => `${mapId}:${id}`;
+export const knowsLocked = (c, mapId, id) => (c?.play?.locks ?? []).includes(lockKey(mapId, id));
+/** The character's known locks after the GM's answer: { locked } adds one, { unlocked } takes it off (kept to the last 40). */
+export function noteLock(locks, { locked = null, unlocked = null } = {}) {
+  const ok = (x) => x && typeof x.map === 'string' && typeof x.id === 'string';
+  let out = [...(locks ?? [])];
+  if (ok(unlocked)) out = out.filter((k) => k !== lockKey(unlocked.map, unlocked.id));
+  if (ok(locked) && !out.includes(lockKey(locked.map, locked.id))) out = [...out, lockKey(locked.map, locked.id)].slice(-40);
+  return out;
 }
 
 /** Is a placed piece within reach of someone standing on `square` ({ x, y } of the square's corner)? */
@@ -53,10 +70,10 @@ export function sideOf(square, pt) {
  */
 export function withinReach(map, data, square) {
   if (!map || !square) return [];
-  const doors = (map.walls ?? []).filter((w) => w.kind === 'door' && nextToDoor(square, w)).map((w) => ({ kind: 'door', id: w.id, open: Boolean(w.open), side: sideOf(square, { x: (w.a.x + w.b.x) / 2, y: (w.a.y + w.b.y) / 2 }) }));
+  const doors = (map.walls ?? []).filter((w) => w.kind === 'door' && nextToDoor(square, w)).map((w) => ({ kind: 'door', id: w.id, open: Boolean(w.open), ...(w.powered ? { powered: true } : {}), side: sideOf(square, { x: (w.a.x + w.b.x) / 2, y: (w.a.y + w.b.y) / 2 }) }));
   const pieces = (map.props ?? []).flatMap((p) => {
     const def = propDef(data, p.prop);
-    const kind = interactKind(def);
+    const kind = interactKind(def, p);
     if (!kind || kind === 'light' || !nextToProp(square, p, data)) return [];
     return [{ kind, id: p.id, prop: p.prop, name: p.caption || def.name, side: sideOf(square, p), ...(kind === 'toggle' ? { on: p.on !== false } : {}), ...(kind === 'open' ? { open: Boolean(p.open) } : {}) }];
   });

@@ -42,6 +42,8 @@ export const DATA_FILES = {
   talents: 'talents.json',
   downtime: 'downtime.json',
   crew: 'crew.json',
+  strain: 'strain.json', // decision 266
+  chase: 'chase.json', // decision 275
   tours: 'tours.json',
   map: 'map.json',
   props: 'props.json',

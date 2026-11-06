@@ -21,6 +21,14 @@ Not everything has to be on you. Sheet → Inventory → **Stashes** (each stash
 
 **Crew stashes.** At the table the GM can set up stashes the whole crew shares — the van, a lock-up, a dead drop. They show on everyone's Gear tab: anyone can put things in (📦 asks which stash) or take them out, and the stash's history shows who did what. Trust is the point. The GM can **lock** one (you see it, you can't reach it: it's being watched, or the van is impounded) or **raid** it (everything in it is gone).
 
+### What the GM gives you {#sec-8-gm-gives}
+
+Pay from a job, a key card from a contact, the cash in a dead man's jacket: when the GM hands you something it arrives as a window on your sheet — **From the GM**, with the items, the cash, any change to your Credit Score and a line on why. Nothing is yours until you tap **Take it**; then it's in your inventory and your log says where it came from. (A fine works the same way: Credit Score down, the reason beside it.) Things for the whole crew can go straight into a crew stash instead.
+
+### Searching and containers {#sec-8-loot}
+
+On the table map, crates, lockers, safes and car boots can hold things. **Open** one next to you, or **🔍 Search** a piece the GM marked as searchable (*Interact* — an action in a fight). What's inside turns up as a stash everyone at the table can see — *🔍 Locker · found here* — and anyone takes what they want, as with a crew stash; it disappears once it's empty. Some things aren't in plain sight: the GM may ask for a roll (Perception, often) to find what's tucked away — and what you find may be a clue rather than gear. Whatever you leave behind stays there.
+
 ### The washer {#sec-8-washer}
 
 Some fixers move money between the two worlds. **Washing** turns cash into Credit Score: a fake salary, a fake contract, and your score goes up. **Cashing out** goes the other way: you borrow against your score and walk out with untraced cash, and your score goes down. The fixer names a rate (cash per Credit Score point) and takes a commission; the GM makes the offer, it appears in Gear, and you choose how many points to take — the sheet shows the sum before you agree. Credit Score never goes above its cap or below 0 this way. Every deal is logged: a fixer's books are a trail of their own.

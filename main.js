@@ -58,6 +58,9 @@ async function boot() {
     hit: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveHit(c, data, { msg }); }); return out; }, // decision 154
     initiative: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.askInitiative(c, data, { msg }); }); return out; }, // decision 148
     scene: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.newScene(c, data, { msg }); }); return out; }, // decision 180
+    grant: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveGrant(c, data, { msg }); }); return out; }, // decision 276
+    breath: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveBreath(c, data, { msg }); }); return out; }, // decision 273
+    strain: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveStrain(c, data, { msg }); }); return out; }, // decision 266
     ping: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receivePing(c, data, { msg }); }); return out; }, // decision 170
     ask: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.askRoll(c, data, { msg }); }); return out; }, // decision 165
     deal: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveDeal(c, data, { msg }); }); return out; }, // decision 143

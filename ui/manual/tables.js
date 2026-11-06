@@ -54,6 +54,12 @@ const rarity = (r) => `<span class="md-badge ${['A', 'B'].includes(r) ? 'md-badg
 const events = (tbl, data) => table(['Roll', 'Event', 'What happens', 'Mechanics'],
   tbl.events.map((ev) => [`<span class="mono">${ev.roll}</span>`, `<strong>${e(ev.name)}</strong>`, e(ev.text), describeEffects(ev.effects, data)]), 'md-table--events');
 
+/** Decision 257: cards grouped under their faction (in the library's order), those without one last. */
+const byFaction = (list, draw) => {
+  const names = [...new Set(list.map((x) => x.faction ?? ''))].sort((a, b) => Number(!a) - Number(!b));
+  return names.length < 2 && !names[0] ? draw(list) : names.map((f) => `<h4 class="md-cards__group">${e(f || 'Other')}</h4>${draw(list.filter((x) => (x.faction ?? '') === f))}`).join('');
+};
+
 /** The collection (decision 81): cards to browse. Decision 197: no numbers — what an enemy can do is learned in play (Intel). */
 const TAG_BADGE = { synthetic: 'md-badge--info', cybernetic: 'md-badge--warn', organic: '' };
 const fighterCard = (x) => `<article class="md-card${x.kind === 'elite' ? ' md-card--elite' : ''}">
@@ -144,8 +150,8 @@ const TABLES = {
     [...d.drones].sort((a, b) => a.cost.cr - b.cost.cr).map((k) => [`<strong>${e(k.name)}</strong><br><span class="muted">${e(k.desc)}</span>`, k.reach, k.hp, k.armor, e(k.damage), k.modSlots, `${k.visibility}/5`, rarity(k.rarity), k.cost.cr || '—', k.cost.cr ? crs(k, 'drone', d) : '—']), 'md-table--dense'),
   'drone-mods': (d) => table(['Mod', 'Type', 'Adds', 'Rarity', 'List $', 'CRS'],
     d.droneMods.mods.map((m) => [`<strong>${e(m.name)}</strong>`, e(nameOf(d.droneMods.types, m.type)), `+${m.amount} ${e(d.droneMods.types.find((x) => x.id === m.type)?.adds ?? '')}`, rarity(m.rarity), m.cost.cr, crs(m, 'droneMod', d)])),
-  enemies: (d) => cards(d.collection.enemies.map((x) => fighterCard(x)).join('')),
-  elites: (d) => cards(d.collection.elites.map((x) => fighterCard(x)).join('')),
+  enemies: (d) => byFaction(d.collection.enemies, (list) => cards(list.map((x) => fighterCard(x)).join(''))), // decision 257
+  elites: (d) => byFaction(d.collection.elites, (list) => cards(list.map((x) => fighterCard(x)).join(''))),
   people: (d) => [...new Set(d.collection.people.map((p) => p.faction))].map((f) => `<h4 class="md-cards__group">${e(f)}</h4>${cards(d.collection.people.filter((p) => p.faction === f).map(personCard).join(''))}`).join(''),
   lifestyle: (d) => table(['Category', 'Entry', 'Tier', '$ / month', 'CRS / month'],
     d.lifestyle.entries.map((x) => [e(nameOf(d.lifestyle.categories, x.category)), `<strong>${e(x.name)}</strong><br><span class="muted">${e(x.desc)}</span>`, x.tier ?? '—', x.cost.cr, crs(x, 'lifestyle', d)])),

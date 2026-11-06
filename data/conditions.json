@@ -294,11 +294,11 @@
     "targets": "Operators",
     "positive": true,
     "effects": [
-      "+1 DEF."
+      "+2 TN on Dodge (Avoid / Reflexes)."
     ],
     "clear": "Until the GM ends it (usually at the end of the scene).",
     "mods": {
-      "def": 1
+      "dodgeTn": 2
     },
     "icon": "cond_guarded",
     "lasts": "scene"
@@ -394,8 +394,7 @@
   {
     "id": "exposed",
     "name": "Exposed",
-    "targets": "Enemies",
-    "enemyOnly": true,
+    "targets": "All entities",
     "effects": [
       "The next hit against it ignores 2 armor."
     ],

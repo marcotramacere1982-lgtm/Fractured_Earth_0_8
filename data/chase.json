@@ -1,0 +1,19 @@
+{
+  "note": "Decision 275: chases on foot. An abstract track: the gap runs 0 (caught) to `gap.max` (lost them), starting at `gap.start`. A chase runs in legs; in each leg every crew member makes one move (one roll — it counts for its own effect and towards keeping pace) and the pursuers make one move (the GM rolls once). The crew keeps pace as a group check (decision 271: half must succeed). Crew succeeds / pursuers fail: +1 (+2 if everyone succeeded); crew fails / pursuers succeed: −1 (−2 on the pursuers' margin of `bigMargin` or more); both succeed: it holds; both fail: it holds and the complication bites whoever failed. Pursuers who shoot don't close the gap that leg. A successful Lead gives the crew `lead` on next leg's rolls; a successful Cover fire or Hack gives the pursuers `spoil` next leg (a Hack takes out their drone first). Hide works from a gap of `gap.hideFrom` with no drone overhead, when everyone hides and the group succeeds. Failing `behindAfter` legs in a row: the GM may leave someone behind. From leg `fatigue.fromLeg` every failure also costs +`fatigue.strain` Strain and a CON roll (failure: `fatigue.fail`). A faster pursuer gets `fast`. Rules: rules/chase.js.",
+  "gap": { "start": 3, "max": 6, "hideFrom": 3 },
+  "bigMargin": 5,
+  "lead": 2,
+  "spoil": -2,
+  "fast": 2,
+  "behindAfter": 2,
+  "fatigue": { "fromLeg": 5, "strain": 1, "check": "attr:CON", "fail": "slowed" },
+  "moves": [
+    { "id": "run", "icon": "🏃", "checks": ["skill:agility_athletics"] },
+    { "id": "lead", "icon": "🧭", "checks": ["skill:streetwise_dealing", "skill:perception_awareness"] },
+    { "id": "cover", "icon": "🔫", "checks": ["weapon"] },
+    { "id": "hack", "icon": "📡", "checks": ["skill:computers_hacking", "class:hacker"] },
+    { "id": "trick", "icon": "🪤", "checks": ["skill:deception_conning", "skill:sleight_of_hand", "skill:mechanics_fabrication"] },
+    { "id": "help", "icon": "🤝", "checks": ["any"] },
+    { "id": "hide", "icon": "🫥", "checks": ["skill:stealth"] }
+  ]
+}

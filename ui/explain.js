@@ -16,7 +16,7 @@ export function explain(kind, id = '', label = '') {
   return html`<button type="button" class="info" data-explain="${kind}:${id}" aria-label="${t('ref.about', { name: label || id || kind })}" aria-expanded="false">i</button>`;
 }
 
-/** Hover-only: put inside an element's opening tag, e.g. <div class="stat" ${hint('combat', 'def')}>. */
+/** Hover-only: put inside an element's opening tag, e.g. <div class="stat" ${hint('combat', 'per')}>. */
 export const hint = (kind, id = '') => raw(`data-hint="${escape(`${kind}:${id}`)}"`);
 
 const e = escape;

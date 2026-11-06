@@ -2,286 +2,438 @@
   "note": "A snapshot of the GM library for the manual (chapters 10-11), made by tools/export-collection.mjs from local/gm/bestiary.json. Edit the library, then run the tool again.",
   "enemies": [
     {
-      "id": "enemy.street_mugger",
-      "kind": "regular",
-      "name": "Street Mugger",
-      "desc": "Desperate low-tier drifter armed with a rusted blade and zero survival skills.",
-      "tag": "organic"
-    },
-    {
-      "id": "enemy.junk_drone",
-      "kind": "regular",
-      "name": "Junk Drone",
-      "desc": "A clunky, modified household drone carrying a rigged shock taser.",
-      "tag": "synthetic"
-    },
-    {
-      "id": "enemy.alley_pusher",
-      "kind": "regular",
-      "name": "Alley Pusher",
-      "desc": "Low-level drug runner protected by a loose gang of local toughs.",
-      "tag": "organic"
-    },
-    {
-      "id": "enemy.tenement_enforcer",
-      "kind": "regular",
-      "name": "Tenement Enforcer",
-      "desc": "Heavy-set brute shaking down local residents for Avalon-Collins Stables rent.",
-      "tag": "organic"
-    },
-    {
-      "id": "enemy.syndicate_scrapper",
-      "kind": "regular",
-      "name": "Syndicate Scrapper",
-      "desc": "Aggressive street thug sporting tribal aesthetic markers and a blunt pipe.",
-      "tag": "organic"
-    },
-    {
-      "id": "enemy.ledger_zealot",
-      "kind": "regular",
-      "name": "Ledger Zealot",
-      "desc": "Fanatical neo-religious thug defending a local glowing digital ATM sanctuary.",
-      "tag": "organic"
-    },
-    {
-      "id": "enemy.street_splicer",
-      "kind": "regular",
-      "name": "Street Splicer",
-      "desc": "Demented rogue tech-user firing erratic, homemade hardware sparks.",
-      "tag": "cybernetic"
-    },
-    {
       "id": "enemy.guard_recruit",
       "kind": "regular",
       "name": "Guard Recruit",
       "desc": "Overworked low-cost security guard relying entirely on local subnet prompts.",
-      "tag": "cybernetic"
+      "tag": "cybernetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
     },
     {
       "id": "enemy.watch_patrolman",
       "kind": "regular",
       "name": "Watch Patrolman",
       "desc": "Standard Centurion-Vanguard guard policing transit lines and urban canyons.",
-      "tag": "cybernetic"
+      "tag": "cybernetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
     },
     {
       "id": "enemy.watch_scout_drone",
       "kind": "regular",
       "name": "Watch Scout Drone",
       "desc": "Small automated aerial unit transmitting live threat updates to the subnet.",
-      "tag": "synthetic"
+      "tag": "synthetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
     },
     {
       "id": "enemy.watch_riot_guard",
       "kind": "regular",
       "name": "Watch Riot Guard",
       "desc": "Heavy front-line guard carrying a ballistic shield and shock baton.",
-      "tag": "cybernetic"
+      "tag": "cybernetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
     },
     {
       "id": "enemy.watch_sniper",
       "kind": "regular",
       "name": "Watch Sniper",
       "desc": "Long-range contract specialist covering gray zone entry points.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "enemy.grid_enforcer",
-      "kind": "regular",
-      "name": "Grid Enforcer",
-      "desc": "Corporate utility thug protecting fiber-optic trunks from copper thieves.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "enemy.optic_drone",
-      "kind": "regular",
-      "name": "Optic Drone",
-      "desc": "Humming utility drone capable of deploying blinding flash payloads.",
-      "tag": "synthetic"
-    },
-    {
-      "id": "enemy.syndicate_subnet_throttler",
-      "kind": "regular",
-      "name": "Syndicate Subnet Throttler",
-      "desc": "Corporate data-cop deploying local network interference fields.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "enemy.trf_operator",
-      "kind": "regular",
-      "name": "TRF Operator",
-      "desc": "Elite Obsidian Response tactical cleaner in sealed respirators and AR lenses.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "enemy.trf_breach_specialist",
-      "kind": "regular",
-      "name": "TRF Breach Specialist",
-      "desc": "Heavy tactical combatant armed with kinetic entry breach charges.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "enemy.trf_recon_drone",
-      "kind": "regular",
-      "name": "TRF Recon Drone",
-      "desc": "Stealth military-grade hovering unit hunting in synchronized four-man packs.",
-      "tag": "synthetic"
-    },
-    {
-      "id": "enemy.trf_sniper",
-      "kind": "regular",
-      "name": "TRF Sniper",
-      "desc": "High-tier asset recovery specialist utilizing frequency dampeners.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "enemy.trf_heavy_gunner",
-      "kind": "regular",
-      "name": "TRF Heavy Gunner",
-      "desc": "Armored corporate soldier suppressing escape routes with heavy kinetic fire.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "enemy.glitch_anarchist",
-      "kind": "regular",
-      "name": "Glitch Anarchist",
-      "desc": "Reckless street-level saboteur throwing homemade EMP charges.",
-      "tag": "organic"
+      "tag": "cybernetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
     },
     {
       "id": "enemy.barricade_drone",
       "kind": "regular",
       "name": "Barricade Drone",
       "desc": "Heavy hovering unit deploying physical steel riot barriers in narrow alleys.",
-      "tag": "synthetic"
-    },
-    {
-      "id": "enemy.neo_luddite_zealot",
-      "kind": "regular",
-      "name": "Neo-Luddite Zealot",
-      "desc": "Fanatical anti-tech zealot armed with heavy low-tech kinetic clubs.",
-      "tag": "organic"
-    },
-    {
-      "id": "enemy.ashram_archer",
-      "kind": "regular",
-      "name": "Ashram Archer",
-      "desc": "Stealthy mountain hunter utilizing silent compound bows and tripwires.",
-      "tag": "organic"
-    },
-    {
-      "id": "enemy.ghost_chaser_scavenger",
-      "kind": "regular",
-      "name": "Ghost-Chaser Scavenger",
-      "desc": "Delusional cultist searching server stacks for ancestral voice data.",
-      "tag": "organic"
-    },
-    {
-      "id": "enemy.stalking_relay_drone",
-      "kind": "regular",
-      "name": "Stalking Relay Drone",
-      "desc": "Autonomous wire-mesh drone hovering near high-voltage transmission towers.",
-      "tag": "synthetic"
-    },
-    {
-      "id": "enemy.glass_walker_saboteur",
-      "kind": "regular",
-      "name": "Glass-Walker Saboteur",
-      "desc": "Elusive rogue operator executing high-yield infrastructure disruptions.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "enemy.autonomous_strike_unit",
-      "kind": "regular",
-      "name": "Autonomous Strike Unit",
-      "desc": "Experimental corporate security drone firing lethal suppression rounds.",
-      "tag": "synthetic"
-    },
-    {
-      "id": "enemy.terminal_clean_up_bot",
-      "kind": "regular",
-      "name": "Terminal Clean-Up Bot",
-      "desc": "Heavy industrial maintenance droid repurposed for lethal asset sanitation.",
-      "tag": "synthetic"
+      "tag": "synthetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
     },
     {
       "id": "enemy.sector_commander",
       "kind": "regular",
       "name": "Sector Commander",
       "desc": "High-ranking corporate asset director coordinating tactical response grids.",
-      "tag": "cybernetic"
+      "tag": "cybernetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
+    },
+    {
+      "id": "enemy.patrol_quad",
+      "kind": "regular",
+      "name": "Patrol Quad",
+      "desc": "A four-legged Watch patrol robot: camera head, shock lance, and a straight line to the dispatcher.",
+      "tag": "synthetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
+    },
+    {
+      "id": "enemy.trf_operator",
+      "kind": "regular",
+      "name": "TRF Operator",
+      "desc": "Elite Obsidian Response tactical cleaner in sealed respirators and AR lenses.",
+      "tag": "cybernetic",
+      "faction": "Obsidian Response Group"
+    },
+    {
+      "id": "enemy.trf_breach_specialist",
+      "kind": "regular",
+      "name": "TRF Breach Specialist",
+      "desc": "Heavy tactical combatant armed with kinetic entry breach charges.",
+      "tag": "cybernetic",
+      "faction": "Obsidian Response Group"
+    },
+    {
+      "id": "enemy.trf_recon_drone",
+      "kind": "regular",
+      "name": "TRF Recon Drone",
+      "desc": "Stealth military-grade hovering unit hunting in synchronized four-man packs.",
+      "tag": "synthetic",
+      "faction": "Obsidian Response Group"
+    },
+    {
+      "id": "enemy.trf_sniper",
+      "kind": "regular",
+      "name": "TRF Sniper",
+      "desc": "High-tier asset recovery specialist utilizing frequency dampeners.",
+      "tag": "cybernetic",
+      "faction": "Obsidian Response Group"
+    },
+    {
+      "id": "enemy.trf_heavy_gunner",
+      "kind": "regular",
+      "name": "TRF Heavy Gunner",
+      "desc": "Armored corporate soldier suppressing escape routes with heavy kinetic fire.",
+      "tag": "cybernetic",
+      "faction": "Obsidian Response Group"
+    },
+    {
+      "id": "enemy.syndicate_scrapper",
+      "kind": "regular",
+      "name": "Syndicate Scrapper",
+      "desc": "Aggressive street thug sporting tribal aesthetic markers and a blunt pipe.",
+      "tag": "organic",
+      "faction": "The Euro-Grid Syndicate"
+    },
+    {
+      "id": "enemy.grid_enforcer",
+      "kind": "regular",
+      "name": "Grid Enforcer",
+      "desc": "Corporate utility thug protecting fiber-optic trunks from copper thieves.",
+      "tag": "cybernetic",
+      "faction": "The Euro-Grid Syndicate"
+    },
+    {
+      "id": "enemy.optic_drone",
+      "kind": "regular",
+      "name": "Optic Drone",
+      "desc": "Humming utility drone capable of deploying blinding flash payloads.",
+      "tag": "synthetic",
+      "faction": "The Euro-Grid Syndicate"
+    },
+    {
+      "id": "enemy.syndicate_subnet_throttler",
+      "kind": "regular",
+      "name": "Syndicate Subnet Throttler",
+      "desc": "Corporate data-cop deploying local network interference fields.",
+      "tag": "cybernetic",
+      "faction": "The Euro-Grid Syndicate"
+    },
+    {
+      "id": "enemy.stalking_relay_drone",
+      "kind": "regular",
+      "name": "Stalking Relay Drone",
+      "desc": "Autonomous wire-mesh drone hovering near high-voltage transmission towers.",
+      "tag": "synthetic",
+      "faction": "The Euro-Grid Syndicate"
+    },
+    {
+      "id": "enemy.tenement_enforcer",
+      "kind": "regular",
+      "name": "Tenement Enforcer",
+      "desc": "Heavy-set brute shaking down local residents for Avalon-Collins Stables rent.",
+      "tag": "organic",
+      "faction": "The Avalon-Collins Liquidity Ledger"
+    },
+    {
+      "id": "enemy.ledger_zealot",
+      "kind": "regular",
+      "name": "Ledger Zealot",
+      "desc": "Fanatical neo-religious thug defending a local glowing digital ATM sanctuary.",
+      "tag": "organic",
+      "faction": "The Avalon-Collins Liquidity Ledger"
+    },
+    {
+      "id": "enemy.neo_luddite_zealot",
+      "kind": "regular",
+      "name": "Neo-Luddite Zealot",
+      "desc": "Fanatical anti-tech zealot armed with heavy low-tech kinetic clubs.",
+      "tag": "organic",
+      "faction": "The Un-Networked Operators (Air-Gappers)"
+    },
+    {
+      "id": "enemy.ashram_archer",
+      "kind": "regular",
+      "name": "Ashram Archer",
+      "desc": "Stealthy mountain hunter utilizing silent compound bows and tripwires.",
+      "tag": "organic",
+      "faction": "The Un-Networked Operators (Air-Gappers)"
+    },
+    {
+      "id": "enemy.ghost_chaser_scavenger",
+      "kind": "regular",
+      "name": "Ghost-Chaser Scavenger",
+      "desc": "Delusional cultist searching server stacks for ancestral voice data.",
+      "tag": "organic",
+      "faction": "The Hum-Singers"
+    },
+    {
+      "id": "enemy.glitch_anarchist",
+      "kind": "regular",
+      "name": "Glitch Anarchist",
+      "desc": "Reckless street-level saboteur throwing homemade EMP charges.",
+      "tag": "organic",
+      "faction": "Glitch-Front"
+    },
+    {
+      "id": "enemy.glass_walker_saboteur",
+      "kind": "regular",
+      "name": "Glass-Walker Saboteur",
+      "desc": "Elusive rogue operator executing high-yield infrastructure disruptions.",
+      "tag": "cybernetic",
+      "faction": "Glass-Walkers"
+    },
+    {
+      "id": "enemy.street_mugger",
+      "kind": "regular",
+      "name": "Street Mugger",
+      "desc": "Desperate low-tier drifter armed with a rusted blade and zero survival skills.",
+      "tag": "organic",
+      "faction": "Street"
+    },
+    {
+      "id": "enemy.junk_drone",
+      "kind": "regular",
+      "name": "Junk Drone",
+      "desc": "A clunky, modified household drone carrying a rigged shock taser.",
+      "tag": "synthetic",
+      "faction": "Street"
+    },
+    {
+      "id": "enemy.alley_pusher",
+      "kind": "regular",
+      "name": "Alley Pusher",
+      "desc": "Low-level drug runner protected by a loose gang of local toughs.",
+      "tag": "organic",
+      "faction": "Street"
+    },
+    {
+      "id": "enemy.street_splicer",
+      "kind": "regular",
+      "name": "Street Splicer",
+      "desc": "Demented rogue tech-user firing erratic, homemade hardware sparks.",
+      "tag": "cybernetic",
+      "faction": "Street"
+    },
+    {
+      "id": "enemy.courier_bot",
+      "kind": "regular",
+      "name": "Hijacked Courier Bot",
+      "desc": "A six-wheeled sidewalk delivery robot, its lid welded shut and its route rewritten by a gang.",
+      "tag": "synthetic",
+      "faction": "Street"
+    },
+    {
+      "id": "enemy.autonomous_strike_unit",
+      "kind": "regular",
+      "name": "Autonomous Strike Unit",
+      "desc": "Experimental corporate security drone firing lethal suppression rounds.",
+      "tag": "synthetic",
+      "faction": "Rogue machines"
+    },
+    {
+      "id": "enemy.terminal_clean_up_bot",
+      "kind": "regular",
+      "name": "Terminal Clean-Up Bot",
+      "desc": "Heavy industrial maintenance droid repurposed for lethal asset sanitation.",
+      "tag": "synthetic",
+      "faction": "Rogue machines"
+    },
+    {
+      "id": "enemy.warehouse_agv",
+      "kind": "regular",
+      "name": "Warehouse AGV",
+      "desc": "An autonomous forklift that no longer tells a pallet from a person.",
+      "tag": "synthetic",
+      "faction": "Rogue machines"
+    },
+    {
+      "id": "enemy.pipe_crawler",
+      "kind": "regular",
+      "name": "Pipe Crawler",
+      "desc": "A small inspection robot that lives in the ducts; someone gave it a cutting torch and a grudge.",
+      "tag": "synthetic",
+      "faction": "Rogue machines"
+    },
+    {
+      "id": "enemy.crop_sprayer",
+      "kind": "regular",
+      "name": "Crop-Sprayer Drone",
+      "desc": "An agricultural spray drone on the city fringe, its tank refilled with something that is not fertiliser.",
+      "tag": "synthetic",
+      "faction": "Rogue machines"
+    },
+    {
+      "id": "enemy.gnat_swarm",
+      "kind": "regular",
+      "name": "Gnat Swarm",
+      "desc": "A cloud of thumb-sized micro-drones with stinging darts, moving as one.",
+      "tag": "synthetic",
+      "faction": "Rogue machines"
+    },
+    {
+      "id": "enemy.stray_dog",
+      "kind": "regular",
+      "name": "Stray Dog",
+      "desc": "A lean, scarred street dog from a pack that lives off the Grey Zone bins.",
+      "tag": "organic",
+      "faction": "Wildlife & strays"
+    },
+    {
+      "id": "enemy.guard_dog",
+      "kind": "regular",
+      "name": "Guard Dog",
+      "desc": "A trained yard dog in a padded vest, kept hungry behind a scrapyard fence.",
+      "tag": "organic",
+      "faction": "Wildlife & strays"
+    },
+    {
+      "id": "enemy.rat_swarm",
+      "kind": "regular",
+      "name": "Rat Swarm",
+      "desc": "A living carpet of sewer rats, driven out by flood, poison or something worse.",
+      "tag": "organic",
+      "faction": "Wildlife & strays"
+    },
+    {
+      "id": "enemy.feral_boar",
+      "kind": "regular",
+      "name": "Feral Boar",
+      "desc": "A wild boar down from the edge of the city, used to bins, cars and nobody stopping it.",
+      "tag": "organic",
+      "faction": "Wildlife & strays"
+    },
+    {
+      "id": "enemy.roach_tide",
+      "kind": "regular",
+      "name": "Roach Tide",
+      "desc": "A rustling flood of cockroaches from a broken service duct. More panic than harm — usually.",
+      "tag": "organic",
+      "faction": "Wildlife & strays"
+    },
+    {
+      "id": "enemy.failing_corp_k9",
+      "kind": "regular",
+      "name": "Failing Corp K9",
+      "desc": "An escaped corporate guard dog whose implants are dying. Fast, hurt and unpredictable.",
+      "tag": "cybernetic",
+      "faction": "Wildlife & strays"
     }
   ],
   "elites": [
-    {
-      "id": "elite.kaelen_the_carver_vane",
-      "kind": "elite",
-      "name": "Kaelen 'The Carver' Vane",
-      "desc": "Notorious Grey Zone loan shark enforcer who uses a modified heavy industrial nailer and an arc-blade to collect organ debts.",
-      "tag": "organic"
-    },
     {
       "id": "elite.centurion_shield_lead",
       "kind": "elite",
       "name": "Centurion Shield-Lead",
       "desc": "Hardened PMC squad leader outfitted with a heavy riot shield and automated squad-linking HUD optics.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "elite.ghost_chaser_preacher_malachai",
-      "kind": "elite",
-      "name": "Ghost-Chaser 'Preacher' Malachai",
-      "desc": "Deranged cult leader wearing stripped server-rack plating, broadcasting high-frequency auditory static.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "elite.obsidian_vanguard_trf_pointman",
-      "kind": "elite",
-      "name": "Obsidian Vanguard TRF Pointman",
-      "desc": "Heavily armored corporate cleaner deployed to scrub high-risk security breaches.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "elite.rogue_tech_splicer_nix",
-      "kind": "elite",
-      "name": "Rogue Tech-Splicer 'Nix'",
-      "desc": "Former Euro-Grid maintenance engineer turned black-market hardware modifier with cybernetic arm implants.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "elite.ledger_reclamation_officer",
-      "kind": "elite",
-      "name": "Ledger Reclamation Officer",
-      "desc": "Cold corporate audit specialist authorized to execute immediate asset repossessions in the field.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "elite.heavy_cargo_security_unit_apex_hsu",
-      "kind": "elite",
-      "name": "Heavy Cargo Security Unit (Apex HSU)",
-      "desc": "Repurposed quadrupedal industrial security drone firing lethal suppression bursts.",
-      "tag": "synthetic"
-    },
-    {
-      "id": "elite.syndicate_pit_boss_jax",
-      "kind": "elite",
-      "name": "Syndicate 'Pit Boss' Jax",
-      "desc": "Cybernetically augmented arena brawler ruling over an illegal Grey Zone gambling ring.",
-      "tag": "cybernetic"
-    },
-    {
-      "id": "elite.neo_luddite_elder_hunter",
-      "kind": "elite",
-      "name": "Neo-Luddite Elder Hunter",
-      "desc": "Veteran tracker armed with a heavy composite bow and un-networked camouflage gear.",
-      "tag": "organic"
+      "tag": "cybernetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
     },
     {
       "id": "elite.watch_sector_overseer",
       "kind": "elite",
       "name": "Watch Sector Overseer",
       "desc": "Mid-level officer wearing an executive ballistic trench coat, equipped with tactical squad comms.",
-      "tag": "cybernetic"
+      "tag": "cybernetic",
+      "faction": "Centurion-Vanguard (\"The Watch\")"
+    },
+    {
+      "id": "elite.obsidian_vanguard_trf_pointman",
+      "kind": "elite",
+      "name": "Obsidian Vanguard TRF Pointman",
+      "desc": "Heavily armored corporate cleaner deployed to scrub high-risk security breaches.",
+      "tag": "cybernetic",
+      "faction": "Obsidian Response Group"
+    },
+    {
+      "id": "elite.hive_carrier_drone",
+      "kind": "elite",
+      "name": "Hive Carrier Drone",
+      "desc": "An Obsidian heavy drone that carries and commands a gnat swarm — the cleaner that sends the cleaners.",
+      "tag": "synthetic",
+      "faction": "Obsidian Response Group"
+    },
+    {
+      "id": "elite.syndicate_pit_boss_jax",
+      "kind": "elite",
+      "name": "Syndicate 'Pit Boss' Jax",
+      "desc": "Cybernetically augmented arena brawler ruling over an illegal Grey Zone gambling ring.",
+      "tag": "cybernetic",
+      "faction": "The Euro-Grid Syndicate"
+    },
+    {
+      "id": "elite.kaelen_the_carver_vane",
+      "kind": "elite",
+      "name": "Kaelen 'The Carver' Vane",
+      "desc": "Notorious Grey Zone loan shark enforcer who uses a modified heavy industrial nailer and an arc-blade to collect organ debts.",
+      "tag": "organic",
+      "faction": "The Avalon-Collins Liquidity Ledger"
+    },
+    {
+      "id": "elite.ledger_reclamation_officer",
+      "kind": "elite",
+      "name": "Ledger Reclamation Officer",
+      "desc": "Cold corporate audit specialist authorized to execute immediate asset repossessions in the field.",
+      "tag": "cybernetic",
+      "faction": "The Avalon-Collins Liquidity Ledger"
+    },
+    {
+      "id": "elite.neo_luddite_elder_hunter",
+      "kind": "elite",
+      "name": "Neo-Luddite Elder Hunter",
+      "desc": "Veteran tracker armed with a heavy composite bow and un-networked camouflage gear.",
+      "tag": "organic",
+      "faction": "The Un-Networked Operators (Air-Gappers)"
+    },
+    {
+      "id": "elite.ghost_chaser_preacher_malachai",
+      "kind": "elite",
+      "name": "Ghost-Chaser 'Preacher' Malachai",
+      "desc": "Deranged cult leader wearing stripped server-rack plating, broadcasting high-frequency auditory static.",
+      "tag": "cybernetic",
+      "faction": "The Hum-Singers"
+    },
+    {
+      "id": "elite.rogue_tech_splicer_nix",
+      "kind": "elite",
+      "name": "Rogue Tech-Splicer 'Nix'",
+      "desc": "Former Euro-Grid maintenance engineer turned black-market hardware modifier with cybernetic arm implants.",
+      "tag": "cybernetic",
+      "faction": "Street"
+    },
+    {
+      "id": "elite.heavy_cargo_security_unit_apex_hsu",
+      "kind": "elite",
+      "name": "Heavy Cargo Security Unit (Apex HSU)",
+      "desc": "Repurposed quadrupedal industrial security drone firing lethal suppression bursts.",
+      "tag": "synthetic",
+      "faction": "Rogue machines"
+    },
+    {
+      "id": "elite.pack_leader_ash",
+      "kind": "elite",
+      "name": "Pack Leader 'Ash'",
+      "desc": "A huge grey mongrel with a half-healed collar scar. The strays follow it; it has learned what guns sound like.",
+      "tag": "organic",
+      "faction": "Wildlife & strays"
     }
   ],
   "people": [
@@ -326,7 +478,7 @@
     },
     {
       "id": "npc.commander_kaelen_voss",
-      "name": "Commander Kaelen Voss",
+      "name": "Commander Odile Rask",
       "faction": "Obsidian Response Group",
       "corpo": "Obsidian Response Group (TRF)",
       "disposition": "Hostile",

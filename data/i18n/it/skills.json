@@ -114,7 +114,7 @@
     },
     "avoid_reflexes": {
       "desc": "Schivare i pericoli in arrivo, tuffarsi al riparo.",
-      "name": "Schivata / Riflessi (DB)"
+      "name": "Schivata / Riflessi"
     },
     "perception_awareness": {
       "desc": "Accorgersi di chi ti segue, notare le anomalie, attenzione all'ambiente.",

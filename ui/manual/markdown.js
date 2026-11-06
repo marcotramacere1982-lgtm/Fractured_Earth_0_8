@@ -1,6 +1,6 @@
 // Minimal Markdown renderer for the manual (no dependencies, pure: string in, string out).
 // Supports: # headings {#id}, paragraphs, - lists, 1. lists, > callouts, ![caption](src) figures (+ {left|right half|third}),
-// pipe tables, ``` code blocks, **bold**, *italic*, `code`, [text](link), and ::table[name] directives.
+// pipe tables, --- rules, ``` code blocks, **bold**, *italic*, `code`, [text](link), and ::table[name] directives.
 
 const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ESC[c]);
@@ -33,7 +33,7 @@ export function renderMarkdown(md, hooks = {}) {
   const toc = [];
   let i = 0;
 
-  const isBlockStart = (l) => /^(#{1,6} |[-*] |\d+\. |> |!\[|\||```|::table\[)/.test(l) || l.trim() === '';
+  const isBlockStart = (l) => /^(#{1,6} |[-*] |\d+\. |> |!\[|\||```|::table\[|-{3,}\s*$)/.test(l) || l.trim() === '';
 
   while (i < lines.length) {
     const line = lines[i];
@@ -49,6 +49,9 @@ export function renderMarkdown(md, hooks = {}) {
       out.push(`<pre><code>${esc(body.join('\n'))}</code></pre>`);
       continue;
     }
+
+    // a rule: --- (the GM's notes use them between parts)
+    if (/^-{3,}\s*$/.test(line)) { out.push('<hr>'); i++; continue; }
 
     // heading
     const h = line.match(/^(#{1,6}) (.*?)(?:\s*\{#([\w-]+)\})?\s*$/);

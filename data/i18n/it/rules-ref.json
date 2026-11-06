@@ -18,7 +18,7 @@
     },
     "combat-values": {
       "title": "Valori di combattimento",
-      "text": "Movimento, attacco, azioni, difesa e percezione nascono dalla somma grezza di due attributi, cercata nella tabella di combattimento. Alcuni eventi di vita spostano un valore di una riga."
+      "text": "Movimento, attacco, azioni e percezione nascono dalla somma grezza di due attributi, cercata nella tabella di combattimento. Alcuni eventi di vita spostano un valore di una riga."
     },
     "initiative": {
       "title": "Iniziativa",
@@ -175,6 +175,30 @@
     "washer": {
       "title": "Il riciclatore",
       "text": "Un faccendiere trasforma i contanti in Credit Score (stipendi falsi) o il Credit Score in contanti (prestiti sul tuo punteggio), al tasso e con la commissione decisi dal GM. Il Credit Score resta tra 0 e il suo massimo."
+    },
+    "help": {
+      "title": "Aiuto",
+      "text": "Un compagno che sa dire come aiuta tira un'abilità adatta: un successo +2 alla tua prossima prova, un 20 naturale −2 (è stato d'intralcio), altrimenti niente. Un aiutante alla volta; in uno scontro è un'azione; una nuova scena lo cancella."
+    },
+    "falling": {
+      "title": "Cadere",
+      "text": "Fino a 3 m: nessun danno, tira Agility & Athletics o finisci Prone. Più in alto: 1d6 ogni 3 m pieni (al massimo 10d6). Atterrare bene (Agility & Athletics) dimezza il danno; un fallimento: Prone; un 20 naturale: una gamba azzoppata. L'armatura conta, la copertura no."
+    },
+    "breath": {
+      "title": "Aria",
+      "text": "Trattenere il respiro dura CON round (metà se colto di sorpresa). Poi un tiro di CON a ogni round, −1 in più ogni volta; un fallimento: svieni (Incapacitated). Svenuto senz'aria: 1d6 a round, l'armatura non aiuta mai. Torna l'aria: ti riprendi."
+    },
+    "chase": {
+      "title": "Inseguimento",
+      "text": "Il distacco va da 0 (presi) a 6 (seminati). A ogni tratto fai una mossa — Corri, Guida, Fuoco di copertura, Hack, Trucco, Aiuta, Nasconditi — un tiro che conta anche per tenere il passo (metà della crew deve riuscire). Gli inseguitori tirano una volta. Dal tratto 5 ogni fallimento costa Strain e un tiro di CON."
+    },
+    "case": {
+      "title": "Il caso",
+      "text": "Per missione: il fascicolo che tiene il GM (obiettivi, quello che è stato mandato a tutti, persone e luoghi rivelati) e la lavagna che costruisce la crew — un giocatore ha la penna e modifica, gli altri suggeriscono; passatevi la penna quando volete."
+    },
+    "site-alert": {
+      "title": "Allerta del sito",
+      "text": "Qui la sicurezza sta all'erta. In Alert, Stealth, Sleight of Hand, Electronics & Security, Computers & Hacking e la Class TN di un Hacker sono a −1 TN finché sei su questa mappa; in Lockdown −2. Lo gira il GM; ping e droni lo spingono."
     },
     "darkness": {
       "title": "Il buio",

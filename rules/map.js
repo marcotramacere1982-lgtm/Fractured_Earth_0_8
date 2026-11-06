@@ -2,11 +2,12 @@
 // windows as straight segments in square coordinates ({ x, y } = corners, 0,0 top-left). Pure: shared by the
 // GM map builder and, later, the sheet's map view. Every change returns a new map.
 
-import { normalizeZones } from './zones.js';
+import { normalizeZones, publicHazards } from './zones.js';
 import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
 import { FAIL_MODES } from './power.js';
 import { normalizeAllWires } from './network.js';
 import { floorEdges, linkJumps, normalizeFloors, stairLanding } from './floors.js';
+import { cleanLoot } from './loot.js'; // decision 277
 
 export const MAP_SCHEMA = 1;
 const FREE_STEP = 0.05; // snap off: positions still round to 1/20 of a square
@@ -68,7 +69,8 @@ export function setWall(map, id, fields) {
   const wasLaser = w.kind === 'laser';
   Object.assign(w, fields);
   if (w.kind === 'door') { w.open = !!w.open; w.locked = !!w.locked; } else { delete w.open; delete w.locked; } // locked: GM-only (decision 73)
-  if (w.kind === 'door' && w.powered) w.fail = FAIL_MODES.includes(w.fail) ? w.fail : 'secure'; else { delete w.powered; delete w.fail; } // electric doors (decision 127)
+  if (w.kind === 'door' && w.powered) w.fail = FAIL_MODES.includes(w.fail) ? w.fail : 'secure'; else { delete w.powered; delete w.fail; delete w.netName; } // electric doors (decision 127)
+  if (w.netName === undefined || w.netName === '') delete w.netName; // decision 256: a networked door's name (a ping shows it)
   if (w.kind === 'laser' && !wasLaser) Object.assign(w, laserState(), fields.hidden != null ? { hidden: fields.hidden } : {});
   if (w.kind !== 'laser') for (const k of LASER_KEYS) if (!(isLink(w) && k === 'hidden')) delete w[k]; // links keep `hidden`
   if (isLink(w)) { w.hidden = Boolean(w.hidden); w.cut = Boolean(w.cut); } else delete w.cut;
@@ -142,7 +144,7 @@ export function normalizeMap(raw, data) {
     const laser = w.kind === 'laser' ? Object.fromEntries(Object.entries(laserState()).map(([k, v]) => [k, typeof w[k] === 'boolean' ? w[k] : v])) : {};
     const weak = WEAKABLE.has(w.kind) ? Object.fromEntries(WEAK_KEYS.filter((k) => w[k] === true).map((k) => [k, true])) : {};
     const link = isLink(w) ? { hidden: w.hidden === true, cut: w.cut === true } : {};
-    const electric = w.kind === 'door' && w.powered === true ? { powered: true, fail: FAIL_MODES.includes(w.fail) ? w.fail : 'secure' } : {}; // decision 127
+    const electric = w.kind === 'door' && w.powered === true ? { powered: true, fail: FAIL_MODES.includes(w.fail) ? w.fail : 'secure', ...(typeof w.netName === 'string' && w.netName.trim() ? { netName: w.netName.trim().slice(0, 30) } : {}) } : {}; // decision 127; 256: its network name
     walls.push({ id: idFor(w.id), a, b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open === true, locked: w.locked === true } : {}), ...electric, ...laser, ...weak, ...link });
   }
   // props (decision 68): known library pieces only, ids kept like walls
@@ -159,7 +161,7 @@ export function normalizeMap(raw, data) {
     const { min, max } = data.map.sensor.reach;
     const reach = Object.fromEntries(Object.entries(q.reach ?? {}).filter(([k, n]) => def.sensor?.reach?.[k] != null && Number.isFinite(n)).map(([k, n]) => [k, Math.max(min, Math.min(max, Math.round(n)))]));
     const text = (k, max) => (typeof q[k] === 'string' && q[k].trim() ? { [k]: q[k].trim().slice(0, max) } : {}); // GM label / note (decision 99)
-    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(['uplink', 'router', 'ap', 'repeater'].includes(def.net) ? text('netName', 30) : {}), ...(def.net === 'uplink' && ['civil', 'corp', 'military'].includes(q.security) ? { security: q.security } : {}), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}) });
+    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(['uplink', 'router', 'ap', 'repeater'].includes(def.net) ? text('netName', 30) : {}), ...(def.net === 'uplink' && ['civil', 'corp', 'military'].includes(q.security) ? { security: q.security } : {}), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}), ...(q.search === true ? { search: true } : {}), ...(cleanLoot(q.loot) ? { loot: cleanLoot(q.loot) } : {}) }); // decision 277: searchable, and what's in it
   }
   const wires = normalizeAllWires(raw.wires, { walls, props }, data); // decisions 127, 129: GM-only power wiring and data links
   const floors = normalizeFloors(raw, { cols: base.cols, rows: base.rows, props }, data); // decision 184
@@ -202,9 +204,10 @@ export function publicMap(live, people, data) {
   return {
     type: 'map', id: live.id, ...(live.mapId ? { mapId: live.mapId } : {}), name: m.name, cols: m.cols, rows: m.rows, canMove: live.playersMove !== false,
     // hidden lasers and props stay with the GM; so do on / off and the sensor flags (players never know if a sensor is live)
-    walls: m.walls.filter((w) => !w.hidden).map((w) => ({ id: w.id, a: w.a, b: w.b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open } : {}),
+    walls: m.walls.filter((w) => !w.hidden).map((w) => ({ id: w.id, a: w.a, b: w.b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open } : {}), ...(w.kind === 'door' && w.powered ? { powered: true } : {}), // decision 256: an electric door looks it (never its lock, wiring or name)
       ...(w.broken ? { broken: true } : {}), ...(w.cracks ? { cracks: true } : {}), ...(isLink(w) && w.cut ? { cut: true } : {}) })), // a weak wall's `breakable` never leaves the GM (decision 83)
     props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.reach ? { reach: p.reach } : {}), ...(p.caption ? { caption: p.caption } : {}), ...(p.height != null ? { height: p.height } : {}), ...publicState(p, propDef(data, p.prop)) })), // a caption travels; label and note never do
+    ...((m.zones ?? []).some((z) => z.type === 'hazard') ? { hazards: publicHazards(m) } : {}), // decision 258: on and shown only
     ...(m.floors?.length ? { floors: m.floors, floorLinks: (m.floorLinks ?? []).filter((l) => [l.a, l.b].every((id) => activeProps(m).some((p) => p.id === id))) } : {}), // decision 184: the building's floors
     tokens: people.filter((p) => !p.hidden && live.tokens[p.key]).map((p) => ({
       key: p.key, kind: p.kind, label: p.label, name: p.name, x: live.tokens[p.key].x, y: live.tokens[p.key].y, down: Boolean(p.down), current: Boolean(p.current),

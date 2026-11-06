@@ -121,7 +121,7 @@
       "desc": "Una rete di telecamere mostra un loop vuoto finché regge — in combattimento o fuori."
     },
     "clean_logs": {
-      "desc": "Una volta per missione, fuori dal combattimento: ripulisci i log di una rete — la sua Trace scende di 2."
+      "desc": "Una volta per missione, fuori dal combattimento: ripulisci i log di una rete — la Trace del sito scende di 2."
     },
     "backdoor": {
       "desc": "Fuori dal combattimento: lasci un accesso in una rete che hai pingato. Il tuo prossimo ping lì non aggiunge Trace, e gli hack sui suoi dispositivi hanno +2 TN in questa missione."

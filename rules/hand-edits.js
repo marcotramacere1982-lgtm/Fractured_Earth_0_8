@@ -1,5 +1,5 @@
 // Hand edits (decision 208): play-state changes a player makes by hand on the sheet — HP with − / +, a condition or a
-// boost toggled, a broken arm or crippled leg marked or treated. The sheet writes one log line for each, carrying
+// boost toggled, a broken arm or crippled leg marked or treated, Strain fixed with − / + (decision 266), a magazine's rounds with − / +. The sheet writes one log line for each, carrying
 // `hand` (what changed), so the GM sees it in the table feed and confirms it: Accept, or Revert just that change
 // (the fight's real damage since then stays). Pure: codes and values, no wording.
 
@@ -23,6 +23,19 @@ export function logHandHp(log, { from, to, now = Date.now(), windowMs = 60000 })
 }
 
 /**
+ * The ammo − / + on a weapon slot, the same way: taps on one slot within `windowMs` make one line
+ * ("By hand: Kurogane 45 Heavy ammo 10 → 7"); taps that cancel out remove it.
+ */
+export function logHandAmmo(log, { slot, weapon, from, to, now = Date.now(), windowMs = 60000 }) {
+  const last = log[0];
+  const merge = last?.hand?.kind === 'ammo' && String(last.hand.slot) === String(slot) && now - last.t < windowMs;
+  const start = merge ? last.hand.from : from;
+  const rest = merge ? log.slice(1) : log;
+  if (start === to) return rest;
+  return [{ t: merge ? last.t : now, text: `By hand: ${weapon} ammo ${start} → ${to}`, kind: 'warn', hand: { kind: 'ammo', slot: String(slot), from: start, to } }, ...rest];
+}
+
+/**
  * What reverting one hand edit puts back, as `restore` values (paths → values), from the sheet as it is now:
  * HP moves back by the change (never above max: full HP is stored as null); a condition or an injury goes back
  * to how it was. maxHp: the character's maximum HP now.
@@ -37,6 +50,8 @@ export function revertHandEdit(c, hand, maxHp) {
     const list = (c.play.conditions ?? []).filter((x) => x !== hand.id);
     return { 'play.conditions': hand.on ? list : [...list, hand.id] };
   }
+  if (hand.kind === 'ammo') return { [`play.ammo.${hand.slot}`]: Math.max(0, (c.play.ammo?.[hand.slot] ?? 0) - (hand.to - hand.from)) }; // the rounds put back as they were
+  if (hand.kind === 'strain') return { 'play.strain': Math.max(0, (c.play.strain ?? 0) - (hand.to - hand.from)) }; // decision 266
   if (hand.kind === 'injury') {
     const list = (c.play.injuries ?? []).filter((x) => x !== hand.loc);
     return { 'play.injuries': hand.on ? list : [...list, hand.loc] };

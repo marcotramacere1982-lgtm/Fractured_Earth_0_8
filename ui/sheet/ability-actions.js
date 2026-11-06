@@ -36,10 +36,16 @@ export const abilityActions = {
   /** A card from another sheet (durable `boon`). @returns true when new. */
   receiveBoon(c, _d, { msg }) {
     c.play.boons ??= [];
-    if (!msg?.id || c.play.boons.some((b) => b.id === msg.id)) return false;
+    if (!msg?.id || c.play.boons.some((b) => b.id === msg.id) || c.play.help?.id === msg.id) return false;
+    if (Number(msg.help)) { // decision 270: a crewmate's help — waits for your next skill or attribute check; one helper at a time
+      if (c.play.help) { log(c, `${text(msg.fromName, 40)} tried to help too — someone already is`); return false; }
+      c.play.help = { id: text(msg.id, 40), from: text(msg.fromName, 40), tn: Math.max(-3, Math.min(3, Math.round(Number(msg.help)))), skill: text(msg.skill, 40) };
+      log(c, `${c.play.help.from} is helping (${c.play.help.skill}): ${c.play.help.tn > 0 ? '+' : ''}${c.play.help.tn} on the next check`, c.play.help.tn > 0 ? 'ok' : 'bad');
+      return true;
+    }
     c.play.boons.push({ id: text(msg.id, 40), from: text(msg.fromName, 40), ability: text(msg.ability, 60), heal: Number.isFinite(Number(msg.heal)) && msg.heal != null ? Math.max(0, Math.round(Number(msg.heal))) : null,
       healText: text(msg.healText, 80), conditions: (msg.conditions ?? []).filter((id) => /^[a-z_]{1,24}$/.test(id)).slice(0, 4), lasts: msg.lasts && typeof msg.lasts === 'object' ? msg.lasts : {}, clear: (msg.clear ?? []).filter((id) => /^[a-z_]{1,24}$/.test(id)).slice(0, 4),
-      cracks: Math.max(0, Math.min(10, Math.round(Number(msg.cracks) || 0))), note: text(msg.note, 300) });
+      cracks: Math.max(0, Math.min(10, Math.round(Number(msg.cracks) || 0))), note: text(msg.note, 300), strain: Math.max(-3, Math.min(0, Math.round(Number(msg.strain) || 0))) }); // decision 266: a Steady
     return true;
   },
   /** Takes a card (one received, or `boon` given directly when the caster picked themself). */
@@ -55,8 +61,9 @@ export const abilityActions = {
     const t = c.play.turn;
     c.play.condTimes = prune(out.conditions, stamp(c.play.condTimes, b.conditions ?? [], { round: t?.inCombat ? t.round : 0, own: Boolean(t?.onTurn), lasts: b.lasts ?? {} }, data));
     c.play.armorDamage = out.armorDamage;
+    if (b.strain < 0) c.play.strain = Math.max(0, (c.play.strain ?? 0) + b.strain); // decision 266: steadied by a crewmate
     const parts = [out.gained ? `+${out.gained} HP${b.healText ? ` (${b.healText})` : ''}` : '', ...(b.conditions ?? []).map((k) => condName(data, k)),
-      ...(b.clear ?? []).map((k) => `no longer ${condName(data, k)}`), b.cracks ? `${b.cracks} armor cracks mended` : '', b.note].filter(Boolean);
+      ...(b.clear ?? []).map((k) => `no longer ${condName(data, k)}`), b.cracks ? `${b.cracks} armor cracks mended` : '', b.strain < 0 ? `Strain ${b.strain}` : '', b.note].filter(Boolean);
     log(c, `${b.from ? `${b.from}'s ` : ''}${b.ability}: ${parts.join(' · ') || 'taken'}`, 'ok');
     return out;
   },

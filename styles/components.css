@@ -381,6 +381,7 @@
 /* decision 192: the GM's difficulty, shown read-only in the roll window at the table */
 .check-tier { display: inline-flex; align-items: baseline; gap: var(--space-1); min-height: var(--touch); padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface-2); }
 .check-tier--hard { border-color: var(--color-danger); }
+.check-tier--help { border-color: var(--color-success); } /* decision 270: a crewmate's help */
 
 /* decision 199: the Display menu (Aa) — UI size and day / night, per device */
 .display-menu { position: relative; }
@@ -415,3 +416,67 @@
 .pz__warn { margin: 0; color: var(--color-warning); font-weight: 600; }
 .pz__lines--lock { list-style: none; padding-left: 0; }
 .pz-screentext { fill: var(--pz-white); font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.2em; }
+.pz-keysub { fill: var(--pz-ink); font-family: var(--font-mono); font-size: 10px; opacity: 0.7; }
+/* decision 252: the keyword grid (26 × 26), scrolls on narrow screens */
+.pz-square { overflow: auto; max-width: 100%; max-height: 22rem; border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); }
+.pz-square table { border-collapse: collapse; font-family: var(--font-mono); font-size: var(--text-xs); }
+.pz-square th, .pz-square td { width: 1.4em; height: 1.4em; text-align: center; padding: 0; }
+.pz-square th { color: var(--color-accent); position: sticky; top: 0; background: var(--color-surface-2); }
+.pz-square tbody th { left: 0; }
+.pz-square tbody tr:nth-child(even) td { background: var(--color-surface-2); }
+/* decision 265: critical hits — the odds before an attack roll, the banner after */
+.check-odds { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); display: flex; align-items: center; gap: var(--space-1); flex-wrap: wrap; }
+.notice--crit { border-color: var(--color-accent); background: var(--color-accent-soft, var(--color-surface-2)); color: var(--color-text); font-weight: 600; }
+
+/* decision 275: a chase — the gap as a row of cells (sheet strip and GM window) */
+.chase-strip { display: grid; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--color-danger); border-radius: var(--radius-md); background: var(--color-danger-soft); margin-bottom: var(--space-3); }
+.chase-strip--end { border-color: var(--color-border); background: var(--color-surface-2); }
+.chase-track { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: var(--space-1); }
+.chase-track__cell { display: grid; place-items: center; min-height: 2rem; border-radius: var(--radius-sm); background: var(--color-surface-2); font-size: var(--text-md); }
+.chase-track__cell.is-gap { background: var(--color-info-soft); }
+.chase-track__cell.is-them { background: var(--color-danger-soft); }
+.chase-track__cell.is-crew { background: var(--color-success-soft); outline: 2px solid var(--color-success); }
+.chase-moves { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.chase-moves .btn { min-height: 40px; }
+
+/* decision 276: the GM's 🎁 Give, waiting to be taken */
+.grant-box__list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); font-size: var(--text-lg); }
+
+/* decisions 278–279: the crew's case — a clean "case file" board from the theme's tokens */
+.case-head { justify-content: space-between; }
+.case-objectives { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); }
+.case-obj--success { opacity: 0.8; }
+.case-entries { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); }
+.case-entry { display: grid; gap: var(--space-1); text-align: left; padding: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-2); color: inherit; font: inherit; min-height: 40px; cursor: pointer; }
+.case-entry img { width: 100%; max-height: 9rem; object-fit: cover; border-radius: var(--radius-sm); }
+.case-scroll { overflow: auto; max-width: 100%; border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.case-board { display: block; }
+.case-board__bg { fill: var(--color-surface); }
+.case-grid { stroke: var(--color-border); stroke-width: 1; opacity: 0.5; }
+.case-cell { fill: transparent; cursor: pointer; }
+.case-cell:hover { fill: var(--color-accent); fill-opacity: 0.12; }
+.case-card { cursor: pointer; }
+.case-card__paper { fill: var(--color-surface-2); stroke: var(--color-border); stroke-width: 2; }
+.case-card.is-selected .case-card__paper { stroke: var(--color-accent); stroke-width: 4; }
+.case-card__stripe { fill: var(--color-info); }
+.case-card--person .case-card__stripe { fill: var(--color-accent); }
+.case-card--place .case-card__stripe { fill: var(--color-success); }
+.case-card--clue .case-card__stripe { fill: var(--color-info); }
+.case-card--lead .case-card__stripe { fill: var(--color-warning); }
+.case-card--question .case-card__stripe { fill: var(--color-danger); }
+.case-card--document .case-card__stripe { fill: var(--color-text-muted); }
+.case-card--tip .case-card__paper { stroke-dasharray: 6 4; }
+.case-card__text { font: var(--text-sm) var(--font-ui); color: var(--color-text); line-height: 1.25; overflow: hidden; height: 100%; display: flex; flex-direction: column; gap: 2px; }
+.case-card__text span { color: var(--color-text-muted); overflow: hidden; }
+.case-card__text em { color: var(--color-warning); font-size: var(--text-xs); }
+.case-link { pointer-events: none; }
+.case-link line { stroke: var(--color-danger); stroke-width: 3; stroke-opacity: 0.85; }
+.case-link text { fill: var(--color-text); font: var(--text-md) var(--font-ui); paint-order: stroke; stroke: var(--color-surface); stroke-width: 4; }
+.case-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.case-list .is-on { outline: 2px solid var(--color-accent); }
+.case-pics { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.case-pic { width: 5rem; height: 5rem; padding: 0; border: 2px solid var(--color-border); border-radius: var(--radius-sm); background: none; cursor: pointer; overflow: hidden; }
+.case-pic.is-on { border-color: var(--color-accent); }
+.case-pic img, .case-full { width: 100%; height: 100%; object-fit: cover; }
+.case-full { height: auto; max-height: 70vh; object-fit: contain; border-radius: var(--radius-md); }
+.case-fulltext { white-space: pre-wrap; }

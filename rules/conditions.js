@@ -1,9 +1,10 @@
 // What conditions do to the numbers on the sheet (decision 54). Each condition may carry `mods` in data:
-//   act (actions per round), attackTn (weapon attacks), skillTn (skill checks), off, def, armor,
+//   act (actions per round), attackTn (weapon attacks), skillTn (skill checks), dodgeTn (Avoid / Reflexes only:
+//   Guarded, decision 282), off, armor,
 //   meleeDamage (added to melee hits), moveHalf (squares per move halved, minimum 1).
 // Stunned and Slowed work per round through rules/turn.js → allowance. Everything else stays table text.
 
-const NUMERIC = ['act', 'attackTn', 'skillTn', 'off', 'def', 'armor', 'meleeDamage'];
+const NUMERIC = ['act', 'attackTn', 'skillTn', 'dodgeTn', 'off', 'armor', 'meleeDamage'];
 
 /** The summed effect of the active conditions. Unknown ids are ignored. */
 export function conditionMods(ids, conditionsData, extra = {}) {

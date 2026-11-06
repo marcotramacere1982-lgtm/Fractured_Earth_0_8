@@ -24,6 +24,12 @@ function heatBar(heat, cap) {
   return html`<div class="hk-bar hk-bar--heat" role="meter" aria-label="Heat" aria-valuenow="${heat}" aria-valuemin="0" aria-valuemax="${cap}">${cells}</div>`;
 }
 
+/** Decision 256: the network's electric doors — how many, how many locked, the named ones — each one to ask the GM about. */
+const doorsLine = (n) => html`<div class="hk-scan__doors">
+    <span class="st-small">🚪 ${t('ping.doors', { n: n.doors.n })}${n.doors.locked ? html` · <strong>${t('ping.doorsLocked', { n: n.doors.locked })}</strong>` : ''}</span>
+    <span class="cluster">${n.doors.named.map((d) => html`<button class="btn btn--sm" data-action="netDoorAsk" data-net="${n.key}" data-name="${d.name}">${d.locked ? '🔒 ' : ''}${d.name}</button>`)}
+      <button class="btn btn--sm btn--ghost" data-action="netDoorAsk" data-net="${n.key}" data-name="">${n.doors.named.length ? t('ping.doorOther') : t('ping.doorAny')}</button></span></div>`;
+
 /** Decision 170: what the last ping found — networks by letter, their nodes and devices by type; never where. */
 function scanBlock(c, data) {
   const scan = c.play.netScan;
@@ -36,7 +42,8 @@ function scanBlock(c, data) {
       : scan.networks.map((n) => html`<div class="hk-scan__net">
         <strong>${t('ping.network', { key: n.key })}${n.name ? ` · ${n.name}` : ''}</strong>${n.mood ? html` <span class="pill ${n.mood === 'calm' ? '' : n.mood === 'twitchy' ? 'pill--info' : 'pill--danger'}">${t(`ping.mood.${n.mood}`)}</span>` : ''}
         <div class="muted st-small">${n.nodes.map((x) => `${x.n} ${role(x.name)}`).join(' · ')}${n.named.length ? ` — ${n.named.join(', ')}` : ''}</div>
-        <div class="st-small">${n.devices.length ? n.devices.map((x) => `${x.n > 1 ? `${x.n}× ` : ''}${x.name}`).join(' · ') : '—'}</div></div>`)}
+        <div class="st-small">${n.devices.length ? n.devices.map((x) => `${x.n > 1 ? `${x.n}× ` : ''}${x.name}`).join(' · ') : '—'}</div>
+        ${n.doors ? doorsLine(n) : ''}</div>`)}
   </div>`;
 }
 

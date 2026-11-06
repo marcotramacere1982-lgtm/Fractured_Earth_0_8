@@ -9,7 +9,7 @@ import { loadProps } from './props.js';
 import { hitProp, smallPropNear } from '../../rules/props.js';
 import { createCamera } from './camera.js';
 import { marksSvg, nextFade, markAt } from './marks.js';
-import { zonesSvg } from './zones.js';
+import { zonesSvg, hazardsSvg } from './zones.js';
 import { zoneAt } from '../../rules/zones.js';
 import { squareAt, onBoard, squaresBetween, doorAt, hitWall } from '../../rules/map.js';
 
@@ -69,9 +69,11 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
       propsKey = pk;
       render(propsLayer, propsSvg(next.map.props, data, { selected: next.selectedProp, links }));
     }
-    zonesLayer.innerHTML = next.map.zones?.length ? zonesSvg(next.map.zones, data, { selected: next.selectedZone }) : ''; // GM only: players' maps carry no zones
+    zonesLayer.innerHTML = next.map.zones?.length ? zonesSvg(next.map.zones, data, { selected: next.selectedZone }) // GM only: players' maps carry no zones —
+      : next.map.hazards?.length ? hazardsSvg(next.map.hazards, data) : ''; // decision 258: but the hazards on and shown
     render(tokensLayer, tokensSvg(next.tokens, data, next));
-    losLayer.innerHTML = (next.watch?.length ? watchSvg(next.watch, next.watchOwn) : '') + (next.sight ? sightSvg(next.sight) : ''); // decision 250: overwatch areas (GM); 251: your own, red
+    losLayer.innerHTML = (next.coverage?.length ? next.coverage.map((s) => `<rect class="map-sensed" x="${s.x * U}" y="${s.y * U}" width="${U}" height="${U}"/>`).join('') : '') // decision 269: the sensors' coverage (GM)
+      + (next.watch?.length ? watchSvg(next.watch, next.watchOwn) : '') + (next.sight ? sightSvg(next.sight) : ''); // decision 250: overwatch areas (GM); 251: your own, red
     fogLayer.innerHTML = next.fog ? fogSvg(next.map, next.fog) : '';
     drawMarks();
     settle();

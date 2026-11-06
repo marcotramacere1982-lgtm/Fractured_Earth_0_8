@@ -1,6 +1,7 @@
 // Player-side link to the GM's live table server. Only active when the app is served by that server
 // (GitHub Pages builds simply never find /api/ping and keep working offline).
 
+import { noteLock } from '../rules/interact.js';
 import { cleanPuzzle, cleanClue } from '../ui/puzzle-view.js'; // decisions 243, 247
 import { uid } from '../state/id.js';
 import { t } from '../i18n/index.js';
@@ -63,6 +64,7 @@ export function createTableLink(store, hooks) {
         store.update(id, (c) => {
           const mid = msg.mid ?? uid();
           if ((c.play.inbox ?? []).some((m) => m.id === mid || (m.clueMids ?? []).includes(mid))) return;
+          if (msg.locked || msg.unlocked) c.play.locks = noteLock(c.play.locks, msg); // decision 255: a lock found (or gone)
           const pc = msg.puzzleClue && cleanClue(msg.puzzleClue.clue);
           const host = pc && (c.play.inbox ?? []).find((m) => m.puzzle?.id && m.puzzle.id === String(msg.puzzleClue.id ?? ''));
           if (host) { // decision 247: a clue they earned joins its puzzle (moved back to the top, so it shows again)
@@ -77,6 +79,9 @@ export function createTableLink(store, hooks) {
             image: typeof msg.image === 'string' && msg.image.startsWith('/api/table/handout?') ? msg.image : null,
             ...(cleanPuzzle(msg.puzzle) ? { puzzle: cleanPuzzle(msg.puzzle) } : {}),
             ...(pc ? { puzzleClue: { kind: String(msg.puzzleClue.kind ?? ''), clue: pc } } : {}) }, ...(c.play.inbox ?? [])].slice(0, 20); // decision 243: a puzzle to solve; 247: a clue whose puzzle they closed
+          if (typeof msg.image === 'string' && msg.image.startsWith('/api/table/handout?')) { // decision 279: kept for the board after the message is dismissed
+            c.play.pictures = [{ image: msg.image, title: String(msg.text ?? '').split(/\r?\n/)[0].slice(0, 60), t: Date.now() }, ...(c.play.pictures ?? []).filter((p) => p.image !== msg.image)].slice(0, 40);
+          }
           hooks.log(c, `${msg.tone === 'hit' ? 'HIT' : msg.private ? 'GM (private)' : 'GM'}: ${[msg.text, msg.image ? '[image]' : '', msg.puzzle ? `[puzzle: ${msg.puzzle.kind}]` : ''].filter(Boolean).join(' ')}`, msg.tone === 'hit' ? 'bad' : 'warn');
         });
         hooks.notify?.(msg.tone === 'hit' ? 'hit' : 'message');
@@ -120,13 +125,16 @@ export function createTableLink(store, hooks) {
         if (out) hooks.notify?.('message');
         break;
       }
+      case 'grant': // decision 276: the GM's 🎁 Give — a card to accept, like a message
+        if (id && hooks.grant?.(id, msg)) { hooks.toast(t('grant.toast'), 'success'); hooks.notify?.('message'); }
+        break;
       case 'gift': { // another player handed you something (decision 55)
         const name = id ? hooks.gift?.(id, msg) : null;
         if (name) { hooks.toast(t('trade.received', { item: name, from: msg.fromName ?? '' }), 'success'); hooks.notify?.('message'); }
         break;
       }
       case 'boon': // an ally's ability for you: Apply on the Play tab (decision 155)
-        if (id && hooks.boon?.(id, msg)) { hooks.toast(t('boon.toast', { from: msg.fromName ?? '', ability: msg.ability ?? '' }), 'success'); hooks.notify?.('message'); }
+        if (id && hooks.boon?.(id, msg)) { hooks.toast(msg.help ? t('help.received', { from: msg.fromName ?? '', n: `${msg.help > 0 ? '+' : ''}${msg.help}` }) : t('boon.toast', { from: msg.fromName ?? '', ability: msg.ability ?? '' }), msg.help < 0 ? 'danger' : 'success'); hooks.notify?.('message'); } // decision 270: help
         break;
       case 'hit': // an enemy hit you: Apply or Dodge on the Play tab (decision 154)
         if (id && hooks.hit?.(id, msg)) hooks.notify?.('hit'); // decision 207: the hit window says it; the sound still plays
@@ -147,6 +155,12 @@ export function createTableLink(store, hooks) {
         hooks.notify?.('message');
         emit();
         break;
+      case 'breath': // decision 273: a Submerged zone — a hold starts (or air, when they leave)
+        if (id && hooks.breath?.(id, msg)) { hooks.toast(t(msg.end ? 'breath.toastAir' : 'breath.toastStart'), msg.end ? 'success' : 'danger'); hooks.notify?.('message'); }
+        break;
+      case 'strain': // decision 266: the GM adds Strain — a card to answer on the sheet
+        if (id && hooks.strain?.(id, msg)) hooks.notify?.('message');
+        break;
       case 'scene': // the GM starts a new scene (decision 180)
         if (id && hooks.scene?.(id, msg)) hooks.toast(t('scene.toast'), 'success');
         break;
@@ -156,6 +170,20 @@ export function createTableLink(store, hooks) {
       case 'version': { // decision 234: the table runs another app than this tab (opened before an update): reload
         const mine = document.querySelector('meta[name="fe-table"]')?.content;
         state.stale = Boolean(msg.v && mine && mine !== '1' && msg.v !== mine);
+        emit();
+        break;
+      }
+      case 'case': { // decisions 278–279: the crew's case — missions, dossiers, boards (sticky)
+        const { type: _t, ...rest } = msg;
+        state.case = rest;
+        emit();
+        break;
+      }
+      case 'chase': { // decision 275: the chase on the table — the gap, the leg, who's in it (sticky)
+        const was = state.chase;
+        state.chase = msg.active || msg.ended ? msg : null;
+        if (state.chase?.active && (!was || was.id !== msg.id)) { hooks.notify?.('turn'); hooks.toast(t('chase.toastStart', { who: msg.pursuers ?? '' }), 'danger'); }
+        else if (state.chase?.active && was?.leg !== msg.leg) hooks.notify?.('turn');
         emit();
         break;
       }
@@ -291,18 +319,26 @@ export function createTableLink(store, hooks) {
       } catch { return false; }
     },
     /** Decision 241: works a switch or a device next to this sheet's marker (on: the state asked for, for a device); the GM console decides. */
-    async device(mapId, propId, on) {
+    async device(mapId, propId, on, attempt = false) { // attempt (decision 255): a known lock — ask the GM to try it
       if (!state.joinedId) return false;
       try {
-        const res = await fetch('/api/table/device', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, prop: propId, ...(typeof on === 'boolean' ? { on } : {}) }) });
+        const res = await fetch('/api/table/device', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, prop: propId, ...(typeof on === 'boolean' ? { on } : {}), ...(attempt ? { attempt: true } : {}) }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 256: asks the GM to work a networked door remotely (network letter, the door's name or null, op). */
+    async netDoor(net, name, op, via = null) { // via: 'door_control' — the hacker's ability rolls on the sheet
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/netdoor', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, net, name: name || null, op, ...(via ? { via } : {}) }) });
         return res.ok;
       } catch { return false; }
     },
     /** Asks to open or close a door next to this sheet's marker (decision 73); the GM console decides. */
-    async door(mapId, doorId, open) {
+    async door(mapId, doorId, open, attempt = false) { // attempt (decision 255): a known lock — ask the GM to try it
       if (!state.joinedId) return false;
       try {
-        const res = await fetch('/api/table/door', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, door: doorId, open }) });
+        const res = await fetch('/api/table/door', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, door: doorId, open, ...(attempt ? { attempt: true } : {}) }) });
         return res.ok;
       } catch { return false; }
     },
@@ -390,6 +426,22 @@ export function createTableLink(store, hooks) {
       } catch { return false; }
     },
     /** Decision 165: the answer to the GM's ask — what was rolled, against what. @returns true when sent. */
+    /** Decisions 278–279: a change to the crew's board. @returns the server's answer ({ ok, why? }). */
+    async caseOp(op) {
+      if (!state.joinedId) return { ok: false, why: 'offline' };
+      try {
+        const res = await fetch('/api/table/case', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, ...op }) });
+        return await res.json();
+      } catch { return { ok: false, why: 'offline' }; }
+    },
+    /** Decision 275: my move in this chase leg (the roll already made on the sheet). */
+    async chaseMove(m) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/chase-move', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, ...m }) });
+        return res.ok;
+      } catch { return false; }
+    },
     async rollResult(r) {
       if (!state.joinedId) return false;
       try {

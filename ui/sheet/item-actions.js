@@ -7,6 +7,7 @@ import { effectFrom, tickEffects, endCombatEffects } from '../../rules/items.js'
 import { deriveSheet } from '../../state/character.js';
 import { uid } from '../../state/id.js';
 import { log, spend, actions } from './actions.js';
+import { strainActions } from './strain-actions.js'; // decision 266
 
 /** After effects change, HP above the (new) maximum is lost; full stays full. */
 function fitHp(c, data) {
@@ -47,7 +48,13 @@ export const itemActions = {
     if (ended.length) fitHp(c, data);
     c.play.droneFlat = false;
     c.play.sceneUses = {};
+    c.play.help = null; // decision 270: help is for this moment
     log(c, `New scene${ended.length ? ` — ended: ${ended.map((e) => e.name).join(', ')}` : ''}`);
+    if (data.strain && msg.safe) strainActions.strainRelief(c, data, { n: data.strain.safeScene, why: 'a safe moment' }); // decision 266
+    if (data.strain && msg.mission && c.debtId && (c.downtime?.pressure ?? 0) >= data.downtime.debt.max && c.play.debtStrainFor !== msg.mission) {
+      c.play.debtStrainFor = String(msg.mission).slice(0, 40); // once per mission
+      strainActions.strainAsk(c, data, { id: `debt${msg.id}`, n: data.strain.gains.debt, why: 'Your debt at its worst' });
+    }
     return true;
   },
   /**

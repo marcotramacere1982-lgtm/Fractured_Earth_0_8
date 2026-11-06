@@ -24,6 +24,7 @@ import { classBar } from './class-bar.js';
 import { icon } from './parts.js';
 import { displayMenu } from '../scale.js';
 import { boonsCard } from './hits.js';
+import { breathCard } from './breath.js'; // decision 273
 
 const time = (ms) => new Date(ms).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -45,7 +46,7 @@ export function tacticalView(c, s, data, ctx, nav) {
   const torch = ctx.torch == null ? '' : html`<button class="action-btn action-btn--k-torch ${ctx.torch ? 'action-btn--on' : ''}" data-action="mapTorch" data-on="${ctx.torch ? '0' : '1'}" aria-pressed="${ctx.torch}" data-tour="map-gear"
     title="${t(ctx.torch ? 'map.torch.on' : 'map.torch.off')} — ${t('map.torch.hint')}"><span class="action-btn__name">${icon(data, 'sun')}<span class="action-btn__label">${t(ctx.torch ? 'map.torch.on' : 'map.torch.off')}</span></span></button>`;
   const { head, actors, grid } = turnPieces(c, s, data, ctx.combat, { hint: false, bare: true, strip: true, atTable: ctx.atTable, extra: torch });
-  const waiting = [boonsCard(c, data)].filter(Boolean); // initiative, roll calls (decision 193) and hits (decision 207) come mid-screen
+  const waiting = [boonsCard(c, data), breathCard(c, s, data)].filter(Boolean); // decision 273: holding your breath // initiative, roll calls (decision 193) and hits (decision 207) come mid-screen
   const ico = (id) => data.icons[id] ?? '';
   const conds = (c.play.conditions ?? []).length;
   const left = [

@@ -258,7 +258,7 @@
     },
     {
       "id": "avoid_reflexes",
-      "name": "Avoid / Reflexes (DB)",
+      "name": "Avoid / Reflexes",
       "category": "special",
       "stats": [
         "DEX",

@@ -1,5 +1,7 @@
 // Status bar and the sheet's cards (health, body, weapons, conditions); the Sheet tab places them (decision 215).
 
+import { strainStat } from './strain.js'; // decision 266
+import { critMargin } from '../../rules/crits.js'; // decision 265
 import { iconFor } from '../gear-icon.js';
 import { html, raw, signed } from '../dom.js';
 import { counter, meter, card, segmented, nameOf, temp, icon } from './parts.js';
@@ -10,7 +12,7 @@ import { t, tn } from '../../i18n/index.js';
 import { portraitImg } from '../portrait.js';
 import { enTerm, bothNames } from '../term.js';
 
-export function statusBar(c, s, data, { compact = false, all = false, tabs = '' } = {}) {
+export function statusBar(c, s, data, { compact = false, all = false, tabs = '', atTable = false } = {}) {
   const hpKind = s.hp.current <= 0 ? 'danger' : s.hp.current <= s.hp.max / 3 ? 'danger' : 'success';
   if (compact) return compactStatus(c, s, data, hpKind, { all });
   return html`
@@ -34,6 +36,7 @@ export function statusBar(c, s, data, { compact = false, all = false, tabs = '' 
           <div class="cluster">${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span></div>
           ${meter(s.hp.current, s.hp.max, hpKind)}
         </div>
+        ${strainStat(c, s, data, { atTable })}
         <div class="stat"><span class="label">${t('stat.armor')}${info('armor', t('stat.armor'))}</span><span class="stat__value stat__value--info">${temp(s.armor.general - s.armor.condition, s.armor.general)}</span></div>
         <div class="stat"><span class="label">${t('stat.init')}${explain('initiative', '', t('explain.feeds.initiative'))}</span><span class="stat__value">${signed(s.initiative)}</span></div>
         <div class="stat"><span class="label">${t('stat.actions')}${explain('combat', 'act', t('stat.actions'))}</span><span class="stat__value">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></div>
@@ -42,7 +45,7 @@ export function statusBar(c, s, data, { compact = false, all = false, tabs = '' 
       <div class="sheet-status__row2">${tabs}
       <div class="sheet-status__combat" data-tour="combat-line">
         <span class="chip-stat" ${hint('combat', 'sqr')}><span class="label">${t('stat.move')}${explain('combat', 'sqr', t('stat.move'))}</span><span class="chip-stat__v">${temp(s.moveBase, s.move)}</span><span class="chip-stat__u">${t('stat.squares')}</span></span>
-        ${['off', 'def', 'per'].map((id) => html`<span class="chip-stat" ${hint('combat', id)}><span class="label">${id.toUpperCase()}${explain('combat', id, data.combat.derived.find((d) => d.id === id)?.name ?? id)}</span><span class="chip-stat__v">${temp(s.combat[id].base, s.combat[id].value, id === 'off' ? signed : (x) => x)}</span></span>`)}
+        ${['off', 'per'].map((id) => html`<span class="chip-stat" ${hint('combat', id)}><span class="label">${id.toUpperCase()}${explain('combat', id, data.combat.derived.find((d) => d.id === id)?.name ?? id)}</span><span class="chip-stat__v">${temp(s.combat[id].base, s.combat[id].value, id === 'off' ? signed : (x) => x)}</span></span>`)}
       </div>
       </div>
     </div>`;
@@ -57,11 +60,12 @@ function compactStatus(c, s, data, hpKind, { all = false } = {}) {
   return html`<div class="sheet-status sheet-status--compact" data-tour="status">
     ${portraitImg(c.portrait, 'avatar avatar--xs')}<strong class="sheet-status__name sheet-status__name--sm">${c.name || t('common.unnamed')}</strong>
     <div class="sheet-status__hp">${icon(data, 'hp', 'ico--hp')}${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span>${meter(s.hp.current, s.hp.max, hpKind)}</div>
+    ${s.strain.band ? html`<span class="chip-stat" title="${t('strain.label')}"><span class="label">🧠 ${t('strain.label')}</span><span class="chip-stat__v ${s.strain.tn ? 'stat__value--danger' : ''}">${s.strain.value}</span>${s.strain.tn ? html`<span class="chip-stat__u">${t(`strain.band.${s.strain.band.id}`)}</span>` : ''}</span>` : ''}
     <span class="chip-stat"><span class="label">${icon(data, 'armor')}${t('stat.armor')}</span><span class="chip-stat__v stat__value--info">${temp(s.armor.general - s.armor.condition, s.armor.general)}</span></span>
     <span class="chip-stat"><span class="label">${icon(data, 'ini')}${t('stat.init')}</span><span class="chip-stat__v">${signed(s.initiative)}</span></span>
     <span class="chip-stat"><span class="label">${icon(data, 'act')}${t('stat.actions')}</span><span class="chip-stat__v">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></span>
     <span class="chip-stat"><span class="label">${icon(data, 'sqr')}${t('stat.move')}</span><span class="chip-stat__v">${temp(s.moveBase, s.move)}</span><span class="chip-stat__u">${t('stat.squares')}</span></span>
-    ${all ? html`${['off', 'def', 'per'].map((id) => html`<span class="chip-stat"><span class="label">${icon(data, id)}${id.toUpperCase()}${explain('combat', id, data.combat.derived.find((d) => d.id === id)?.name ?? id)}</span><span class="chip-stat__v">${temp(s.combat[id].base, s.combat[id].value, id === 'off' ? signed : (x) => x)}</span></span>`)}
+    ${all ? html`${['off', 'per'].map((id) => html`<span class="chip-stat"><span class="label">${icon(data, id)}${id.toUpperCase()}${explain('combat', id, data.combat.derived.find((d) => d.id === id)?.name ?? id)}</span><span class="chip-stat__v">${temp(s.combat[id].base, s.combat[id].value, id === 'off' ? signed : (x) => x)}</span></span>`)}
       ${s.class ? html`<span class="chip-stat"><span class="label">${icon(data, data.icons[c.classId] ? c.classId : 'class_tn')}Class TN</span><span class="chip-stat__v stat__value--accent">${s.class.tn}</span></span>` : ''}` : ''}
     ${conds.length ? html`<span class="pill pill--danger" title="${conds.join(' · ')}">${conds.length === 1 ? conds[0] : tn('status.conditions', conds.length)}</span>` : ''}
     ${all ? '' : html`<button class="btn btn--sm btn--ghost sheet-status__more" data-action="statusOpen" title="${t('status.expand')}" aria-label="${t('status.expand')}">▾</button>`}
@@ -96,7 +100,7 @@ export function conditionsGrid(c, s, data, { tips = false, bare = false } = {}) 
   const conds = data.conditions.filter((k) => !k.enemyOnly && !k.positive && !k.transient); // transient: set by the sheet (Unsteady), shown only while on you
   const boosts = data.conditions.filter((k) => k.positive);
   const sides = (bp) => data.body.locations.filter((l) => l.bp === bp);
-  const icons = bare && !tips;
+  const icons = bare; // the drawer stays icons only, tips or not (they live in each chip's tooltip)
   const grid = `cond-grid ${tips ? '' : 'cond-grid--compact'} ${icons ? 'cond-grid--bare' : ''}`;
   const name = (text) => html`<span class="cond__label">${text}</span>`;
   const side = (l) => (icons ? t(l.id.startsWith('r') ? 'body.sideR' : 'body.sideL') : l.name);
@@ -140,7 +144,8 @@ export function healthCard(c, s, data, { tips = false } = {}) {
         <span class="label">${t('body.cover')}${info('cover', t('body.cover'))}</span>
         ${segmented('cover', data.difficulty.cover.map((x) => ({ value: x.armor, label: x.armor ? `${x.name.split(' ')[0]} +${x.armor}` : t('body.coverNone') })), c.play.cover)}
       </div>
-      <button class="btn btn--sm" data-action="heal">${t('body.heal')}</button>
+      <span class="cluster"><button class="btn btn--sm" data-action="heal">${t('body.heal')}</button>
+        ${c.play.breath ? '' : html`<button class="btn btn--sm btn--ghost" data-action="breathHold" title="${t('breath.holdHint')}">🫁 ${t('breath.hold')}</button>`}</span>
     </div>
     <div class="spread spread--wrap armor-row">
       <div class="cluster">
@@ -203,7 +208,8 @@ export function weaponsCard(c, s, data) {
                 ${w.burst > 1 ? html`<span class="pill">${t('weapons.burst', { n: w.burst, left: w.attacksLeft })}</span>` : ''}</div>
             </div>` : ''}
             ${w.usable === false ? html`<p class="notice notice--warn">${t(`weapons.unusable.${w.why}`)}</p>` : ''}
-            ${w.unarmed ? html`<p class="hint">${owned.length ? t('weapons.fistsHint') : t('weapons.none')}</p>` : html`<div class="cluster"><span class="pill">${w.type}</span>${w.hands === 2 ? html`<span class="pill">${t('weapons.twoHanded')}</span>` : ''}<span class="pill">${t('weapons.reliability')} ${w.reliability}/10</span><span class="pill">${w.rarity}</span></div>`}`}
+            ${(c.play.jams ?? []).includes(String(w.slot)) ? html`<p class="notice notice--danger">${t('crit.jammedNo', { weapon: w.name })}</p>` : ''}
+            ${w.unarmed ? html`<p class="hint">${owned.length ? t('weapons.fistsHint') : t('weapons.none')}</p>` : html`<div class="cluster"><span class="pill">${w.type}</span>${w.hands === 2 ? html`<span class="pill">${t('weapons.twoHanded')}</span>` : ''}<span class="pill">${t('weapons.reliability')} ${w.reliability}/10</span>${critMargin(w, data.encounter.crits) < data.encounter.crits.margin ? html`<span class="pill pill--accent" title="${t('crit.marginHint')}">💥 ${t('crit.margin', { n: critMargin(w, data.encounter.crits) })}</span>` : ''}<span class="pill">${w.rarity}</span></div>`}`}
         </div>`)}
     </div>`;
   return card(t('weapons.title'), body, { ref: 'weapon-tn', tour: 'weapons' });

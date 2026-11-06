@@ -770,10 +770,10 @@
       "sustained": false,
       "outOfCombat": true,
       "perMission": 1,
-      "desc": "Once per mission, out of a fight: scrub a network's logs — its Trace drops by 2.",
+      "desc": "Once per mission, out of a fight: scrub a network's logs — the site's Trace drops by 2.",
       "play": {
         "target": "none",
-        "gm": "Clean Logs: lower the network's Trace by 2 (Deploy → Networks · Trace)."
+        "gm": "Clean Logs: lower the site's Trace by 2 (Scene → 🚨 Site alert, −)."
       }
     },
     {

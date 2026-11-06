@@ -10,7 +10,7 @@
     },
     "severe_concussion": {
       "name": "COMMOZIONE GRAVE",
-      "text": "Non ti sei mai ripreso del tutto dall'ultimo colpo alla testa. I Bonus difensivo e percezione si leggono sempre una riga sopra il normale nella tabella di combattimento."
+      "text": "Non ti sei mai ripreso del tutto dall'ultimo colpo alla testa. Il Bonus percezione si legge sempre una riga sopra il normale nella tabella di combattimento."
     },
     "involved_in_serious_crime": {
       "name": "COINVOLTO IN UN REATO GRAVE",

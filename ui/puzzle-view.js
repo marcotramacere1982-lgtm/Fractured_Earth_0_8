@@ -74,15 +74,33 @@ function keypadArt(p) {
     }).join('')}</svg>`);
 }
 
+/** Decision 252: an old phone's keypad, letters on the keys (for phone-key messages). */
+function phoneKeysArt() {
+  const keys = [['1', ''], ['2', 'ABC'], ['3', 'DEF'], ['4', 'GHI'], ['5', 'JKL'], ['6', 'MNO'], ['7', 'PQRS'], ['8', 'TUV'], ['9', 'WXYZ'], ['*', ''], ['0', '␣'], ['#', '']];
+  return raw(`<svg class="pz-art pz-keypad" viewBox="0 0 200 230" role="img" aria-label="${t('puzzle.cipher.keypadArt')}">
+    <rect class="pz-casing" x="4" y="4" width="192" height="222" rx="14"/>
+    ${keys.map(([k, l], i) => { const x = 22 + (i % 3) * 54; const y = 18 + Math.floor(i / 3) * 52;
+      return `<rect class="pz-key" x="${x}" y="${y}" width="46" height="44" rx="6"/><text class="pz-keylabel" x="${x + 23}" y="${y + 22}" text-anchor="middle">${k}</text><text class="pz-keysub" x="${x + 23}" y="${y + 37}" text-anchor="middle">${l}</text>`; }).join('')}</svg>`);
+}
+/** Decision 252: the keyword grid — 26 alphabets, each shifted one more (row = key letter, column = message letter). */
+function squareArt() {
+  const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const row = (r) => `<tr><th>${A[r]}</th>${[...A].map((_, c) => `<td>${A[(r + c) % 26]}</td>`).join('')}</tr>`;
+  return raw(`<div class="pz-square" role="img" aria-label="${t('puzzle.cipher.squareArt')}"><table><thead><tr><th></th>${[...A].map((c) => `<th>${c}</th>`).join('')}</tr></thead><tbody>${[...A].map((_, r) => row(r)).join('')}</tbody></table></div>`);
+}
+
 /** The puzzle as players see it: the opening line, the picture, what is at the lock, then what they've found. */
 export function puzzleView(p) {
   if (!p) return '';
   const open = p.open ? t(`puzzle.${p.kind}.${p.open.k}`, { ...p.open.v, digits: (p.worn ?? []).join(' · '), who: p.who ?? '' }) : '';
   const art = p.kind === 'wires' ? wiresArt(p) : p.kind === 'keypad' || p.kind === 'helpers' ? keypadArt(p) : '';
   const note = p.kind === 'cipher' ? html`<p class="pz-cipher">${p.texts[getLang()] || p.texts.en}</p>` : '';
+  // decision 252: the helper pictures arrive with the clue that names them
+  const has = (k) => (p.found ?? []).some((x) => x.k === k);
+  const aid = p.kind === 'cipher' ? (has('keypad') ? phoneKeysArt() : has('keyword') ? squareArt() : '') : '';
   return html`<div class="pz">
     <strong class="pz__title">🧩 ${t(`puzzle.title.${p.kind}`)}</strong>
-    ${open ? html`<p class="pz__intro">${open}</p>` : ''}${art}${note}
+    ${open ? html`<p class="pz__intro">${open}</p>` : ''}${art}${note}${aid}
     ${p.lock?.length ? html`<ul class="pz__lines pz__lines--lock">${p.lock.map((x) => html`<li>${clueLine(p.kind, x)}</li>`)}</ul>` : ''}
     ${p.warn ? html`<p class="pz__warn">⚠ ${t('puzzle.warn')}</p>` : ''}
     ${p.found?.length ? html`<span class="label">${t('puzzle.found')}</span><ol class="pz__lines">${p.found.map((x) => html`<li>${clueLine(p.kind, x)}</li>`)}</ol>`

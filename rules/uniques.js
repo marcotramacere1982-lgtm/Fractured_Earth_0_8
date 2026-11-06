@@ -13,7 +13,7 @@ export function bonusTargets(data) {
     ...data.attributes.attributes.filter((a) => a.id !== 'CRS').map((a) => ({ id: `attr:${a.id}`, group: 'attribute', label: a.id })),
     ...data.skills.skills.map((k) => ({ id: `skill:${k.id}`, group: 'skill', label: k.name })),
     { id: 'armor', group: 'combat', label: 'Armor' }, { id: 'act', group: 'combat', label: 'Actions per round' },
-    { id: 'off', group: 'combat', label: 'OFF (damage bonus)' }, { id: 'def', group: 'combat', label: 'DEF' }, { id: 'init', group: 'combat', label: 'Initiative' },
+    { id: 'off', group: 'combat', label: 'OFF (damage bonus)' }, { id: 'init', group: 'combat', label: 'Initiative' },
   ];
 }
 

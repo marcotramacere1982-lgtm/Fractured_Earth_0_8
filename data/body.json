@@ -117,5 +117,7 @@
       "chest": "stunned",
       "head": "blinded"
     }
-  }
+  },
+  "falling": { "note": "Decision 272: up to `free` metres a fall costs nothing but a landing roll; beyond that a d`die` per full `per` metres (a floor is about 3 m), at most `max` dice. Landing: `skill` halves it (rounded down); a failure leaves you Prone; a natural 20 cripples a leg. Then armor applies, never cover.", "free": 3, "per": 3, "die": 6, "max": 10, "skill": "agility_athletics" },
+  "breath": { "note": "Decision 273: holding your breath lasts CON rounds (half, rounded down, when caught by surprise; at least 1). Then a CON roll each round at −`step` more every round; a failure: Incapacitated. Out with no air: `drown` a round, straight off HP. Air back: you come round. A round passes at the start of your turn in a fight, or by hand out of one.", "step": 1, "drown": "1d6" }
 }

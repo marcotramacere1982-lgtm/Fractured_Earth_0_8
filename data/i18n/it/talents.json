@@ -96,7 +96,7 @@
     "desc": "+1 RAM."
   },
   "thermal_discipline": {
-    "desc": "Backdoor abbassa anche di 2 la Trace di quella rete (dillo al GM), e Cascade produce 1 heat in meno."
+    "desc": "Backdoor abbassa anche di 2 la Trace del sito (dillo al GM), e Cascade produce 1 heat in meno."
   },
   "chain_reaction": {
     "desc": "Feedback Loop rimbalza su un bersaglio cibernetico o sintetico adiacente, con metà dei danni."

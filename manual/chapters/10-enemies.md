@@ -28,6 +28,8 @@ A card here shows a type and what it looks like. **The numbers below are not pri
 
 **How it plays.** Most enemies on the street aren't paid enough to die. A habit, not a rule: regular enemies think about running once they're *Bloodied*, when their leader drops, or when the fight turns obviously against them. They surrender, flee, or call for backup that may arrive in two rounds. Fanatics and machines don't. Elites decide for themselves, and the good ones come back.
 
+**Beasts and swarms** (decision 259). Not every threat is a person: stray dogs hunt in packs, a boar charges in a straight line, an escaped corporate K9 glitches. A **swarm** — rats, roaches, a cloud of micro-drones — is hundreds of small bodies on one card: it shares squares with anyone, bullets and blades do it 1 damage a hit, while fire, gas, blasts and boots do full damage. Clear it with what fills a square, or get out of its way.
+
 **In the GM console (Scene tab).**
 
 - **Add enemies** from the library: search, choose how many copies, *Add*. Or type a custom one on the last line.
@@ -50,7 +52,7 @@ A card here shows a type and what it looks like. **The numbers below are not pri
 
 ## 10-4. Regular enemies {#sec-10-4}
 
-The people and machines a crew meets most: from the alley to the corporate floor, roughly in rising order of trouble. Regular enemies come in groups. They are dangerous in numbers and through the tactics the GM gives them, not because of any trick of their own.
+The people and machines a crew meets most: from the alley to the corporate floor, roughly in rising order of trouble. Regular enemies come in groups. They are dangerous in numbers and through the tactics the GM gives them, not because of any trick of their own. They are listed by who they work for.
 
 ::table[enemies]
 

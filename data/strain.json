@@ -1,0 +1,37 @@
+{
+  "note": "Decision 266: Strain — what the world does to your head, beside HP. 0–10; bands give a TN penalty on skill checks (not attacks). Gains come from the app (dropping below half HP, a fumble, a crewmate going down, debt at its worst when a mission starts) or the GM's button; a Mental Strength roll halves one (rounded down). At the maximum: a breaking point (a d6 on the table below; a Scar rolls a second d6), then Strain drops to afterBreak. Relief: a safe new scene −1, a crewmate's Steady (more when the crew is Tight), downtime by its length plus a better home. Scars last until the owner decides otherwise.",
+  "max": 10,
+  "afterBreak": 6,
+  "bands": [
+    { "id": "steady", "from": 0, "name": "Calm", "tn": 0 },
+    { "id": "shaken", "from": 4, "name": "Shaken", "tn": -1 },
+    { "id": "fraying", "from": 7, "name": "Fraying", "tn": -2 },
+    { "id": "breaking", "from": 10, "name": "Breaking", "tn": -2 }
+  ],
+  "gains": { "halfHp": 1, "fumble": 1, "crewDown": 2, "debt": 1 },
+  "safeScene": 1,
+  "steady": { "base": 1, "tight": 2, "noFightIn": ["broken", "fractured"] },
+  "downtime": { "days": 2, "weeks": 4, "month": 6, "months": 10, "homeFrom": 3 },
+  "breaking": {
+    "die": "1d6",
+    "results": [
+      { "roll": 1, "id": "freeze", "condition": "stunned", "text": "You freeze. The world goes very far away for a moment." },
+      { "roll": 2, "id": "lashOut", "text": "You lash out — at the nearest thing, or person. The GM says what that costs." },
+      { "roll": 3, "id": "bolt", "text": "You bolt: away from it, by the shortest way out, until someone stops you or you reach cover." },
+      { "roll": 4, "id": "name", "text": "You hear your name in the static. Nobody else did." },
+      { "roll": 5, "id": "lostTime", "text": "You lose ten minutes you can't account for. Your hands are steady now. Too steady." },
+      { "roll": 6, "id": "scar", "text": "It leaves a mark: roll for a Scar." }
+    ]
+  },
+  "scars": {
+    "die": "1d6",
+    "list": [
+      { "roll": 1, "id": "hum", "text": "The hum of fridges, servers and substations sets your teeth on edge." },
+      { "roll": 2, "id": "dark", "text": "You don't sleep with the lights off any more." },
+      { "roll": 3, "id": "count", "text": "You count exits. Every room, every time, out loud if you're tired." },
+      { "roll": 4, "id": "screens", "text": "You turn screens face down. You don't like what looks back." },
+      { "roll": 5, "id": "hands", "text": "Your hands shake until something goes wrong. Then they're very still." },
+      { "roll": 6, "id": "voice", "text": "Sometimes you answer a voice nobody else heard." }
+    ]
+  }
+}

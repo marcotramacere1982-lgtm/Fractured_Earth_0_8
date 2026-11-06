@@ -17,7 +17,7 @@ function section(s, data, { key, icon, off, crew = '' }) {
   const cash = crew ? 'crewCash' : 'stashCash';
   const take = crew ? 'crewTake' : 'stashTake';
   return html`<details class="details stash" data-keep="${key}">
-    <summary class="stash__summary"><span>${icon} <strong>${s.name || t('stash.title')}</strong></span>
+    <summary class="stash__summary"><span>${s.temp ? '🔍' : icon} <strong>${s.name || t('stash.title')}</strong>${s.temp ? html` <span class="pill pill--info">${t('stash.temp')}</span>` : ''}</span>
       <span class="mono muted">$${s.cash} · ${t('stash.items', { n: count(s.items) })}</span></summary>
     <div class="stack stash__body">
       <div class="cluster stash-cash">

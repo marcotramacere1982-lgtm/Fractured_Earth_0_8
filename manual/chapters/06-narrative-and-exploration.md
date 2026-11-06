@@ -68,6 +68,20 @@ When two active characters directly oppose each other—such as an Operator atte
 
 - **Dual Failure:** If both participants fail their rolls (> TN), the situational status quo remains unchanged, or the action results in a chaotic neutral stall (e.g., both hackers lock each other out temporarily).
 
+### Helping a crewmate {#sec-6-2-help}
+
+One crewmate can help another's check — if they can say **how**: holding the light, reading out the schematic, keeping watch, talking the guard's ear off. The helper rolls a skill that fits what they do:
+
+- **Success:** the other gets **+2 TN** on their next skill or attribute check.
+- **A natural 20:** they got in the way — **−2 TN** instead.
+- **Any other failure:** nothing changes.
+
+Only **one helper** at a time: a second one adds nothing. In a fight, helping costs the helper an action. At the table, *🤝 Help a crewmate* (beside your Strain) picks who and how, rolls, and the bonus waits on their sheet — it shows as its own row in their next check window, and a new scene clears it.
+
+### Group checks {#sec-6-2-group}
+
+When the whole crew does the same thing — sneaking through a lobby, climbing a fence, keeping a cover story straight — **everyone rolls**, and **the group succeeds if at least half of them succeed** (2 of 3, 2 of 4, 3 of 5). Strong members carry weak ones, but not forever. Help works inside a group check. At the table the GM asks for the roll as a *Group check*: your card says so, and the GM gets the tally when the last of you has rolled.
+
 ### Passive Checks & Static Thresholds
 
 When an Operator is not actively declaring an action, but their background awareness or passive training might notice a hidden threat (such as spotting a dormant floor mine, sensing an ambush, or catching a lie), the GM uses a **Passive Threshold**:
@@ -145,6 +159,14 @@ Depending on the time granted by the GM, Operators can execute critical setups a
 If the party achieves complete surprise (e.g., ambushing an unaware patrol), the Operators gain a full Prep Phase plus a **Surprise Round** where targets cannot take reaction actions. Conversely, if an Operator fails a critical prep check (such as triggering an alarm mid-hack), the Prep Phase terminates immediately, alarms sound, and all participating entities roll standard **Initiative**.
 
 **At the live table** the GM opens the Prep Phase with *Head start* (decision 233): your sheet enters the fight at **round 0** with the prep actions you were given (the usual get-ready window first). Spend them in any order — the enemies don't act; *Move* walks your squares; stances, cover, pings and abilities work as in a fight and carry into round 1. Then you roll initiative, and round 1 starts with a fresh pool of actions. With complete surprise your sheet says *Surprise round* through round 1.
+
+### The site's alert {#sec-6-4-alert}
+
+Modern security doesn't run on guards alone. Patrols wear AR feeds and radios, cameras and sensors stream to a local AI, and somebody reads what the AI flags. Every site the GM puts on the table has **one alert level** for all of that — *Calm*, *Twitchy*, *Alert*, *Lockdown* — and the GM turns it, by what you do: a guard who stops checking in, a zone that goes dark, a forced door, gunfire near a microphone. Pings and drones are heard by the networks and push it by themselves.
+
+Cameras, motion sensors and laser lines report to the GM when you walk into them — unless they are off, cut from their network or looped by a hacker first. You don't see the dial. You see the site change: guards stop wandering and watch their posts, patrols go in pairs, a technician comes to look at the camera you blinded, doors you walked through a minute ago are now locked. A hacker's strong ping reads the mood.
+
+**On Alert, quiet work gets harder.** While you stand on that map, **Stealth**, **Sleight of Hand**, **Electronics & Security** and **Computers & Hacking** are at **−1 TN**, and a Hacker's **Class TN** rolls too; on **Lockdown, −2**. Your check window shows it as its own row (*Site · On Alert −1*). The level never drops by itself: only time, a long way off, or a good story calms a site down.
 
 ## 6-5. Economy, Debt & Social Leverage {#sec-6-5}
 
@@ -239,3 +261,100 @@ Add a personal line in your own words — *"No kid ends up like my brother."*, *
 A Drive is never scored or judged. When you act on it at a moment that costs you, the GM may award **Spotlight** XP (5-9). Drives that pull different ways inside one crew are where Unity Checks come from — and where the best scenes are.
 
 > By no means should a group disagreeing with you stop you if you feel that what you are doing is absolutely the right choice: sometimes you see beyond what is happening now, and bet on the future. Be mindful, however, not to alienate your crew — they are the only thing that can save you.
+
+## 6-7. Strain: what the world does to your head {#sec-6-7}
+
+HP is what the world does to your body. **Strain** (0–10, beside HP on your sheet) is what it does to your head — the weight of the century, the debt, the things you saw that shouldn't be possible (decision 266).
+
+**What raises it.** The app does most of it: dropping below half HP (+1), a fumble or a natural 20 (+1), a crewmate going down (+2 to everyone else at the table), your debt at its worst when a mission starts (+1), and some places — the ones that shouldn't be possible — get into your head (+1, by themselves). The GM adds the rest — something hard to take (+1), something horrific (+2).
+
+**Steady yourself.** Every gain arrives as a card: **Steady yourself** — a **Mental Strength** roll; on a success the gain is halved (rounded down, so +1 becomes nothing) — or **Take it**.
+
+**What it does:**
+
+| Strain | State | Effect |
+|---|---|---|
+| 0–3 | **Calm** | — |
+| 4–6 | **Shaken** | −1 TN on skill checks |
+| 7–9 | **Fraying** | −2 TN on skill checks; the GM may let you notice things the others don't |
+| 10 | **Breaking point** | roll a d6 (or type your die): freeze, lash out, bolt, hear your name in the static, lose ten minutes — or a **Scar**, a lasting mark rolled on its own d6. Then Strain drops to 6. |
+
+Attacks are not affected: under fire, training takes over. **Scars** stay on your sheet (under Strain) until the GM says otherwise.
+
+**What brings it down.** A **safe moment** — the GM's new scene with time to breathe: −1 to everyone. A crewmate's **Steady** (*Steady a crewmate* under their Strain): −1, or −2 when the crew is *Tight*; it costs an action in a fight, and a *Fractured* crew can't do it under fire. **Downtime**: a few days −2, a few weeks −4, about a month −6, several months −10 — and a better home clears more (+1 for each tier above a tenement room).
+
+Whether what you saw was real, the game never says.
+
+## 6-8. Falls, air and water {#sec-6-8}
+
+The city is vertical and badly maintained: stairwells without rails, flooded basements, rooms where the air has gone bad. These rules cover what the environment does to a body when nobody is shooting.
+
+Anything else that hurts — a pane of glass, a live casing, a chemical splash — arrives the same way: a window on your sheet that says what it costs, and, when the GM allows one, a roll **to avoid it** or **to halve it**. That roll never costs an action.
+
+### Falling {#sec-6-8-fall}
+
+- **Up to 3 m** (a floor, 2 squares): no damage — roll **Agility & Athletics** to land on your feet; a failure leaves you **Prone**.
+- **Higher:** **1d6 per full 3 m** (6 m: 2d6, 9 m: 3d6, 15 m: 5d6), at most 10d6.
+- **Landing it:** roll **Agility & Athletics** — a success **halves** the damage (rounded down). A failure takes it all and leaves you **Prone**; a **natural 20** also cripples a leg.
+- **Then armor applies**, like on any hit. Cover never does.
+
+Being pushed or thrown off something works the same way. At the table the GM sends the fall from your card (*⤓ Fall…*) with the dice already rolled: your sheet shows what landing it would save, and you roll or just take it.
+
+### Air {#sec-6-8-air}
+
+Smoke, gas, a flooded corridor, a sealed room: when you can't breathe, you hold it.
+
+- **You last CON rounds** — about a minute — if you saw it coming; **half that** (rounded down) if it caught you by surprise.
+- **Then a CON roll every round**, at **−1, then −2, −3…** A failure and you **black out** (*Incapacitated*).
+- **Out, with no air:** **1d6 a round**, straight off HP — armor never helps — until someone drags you out.
+- **Air back:** you come round, coughing (if you still have HP).
+
+In a fight a round passes at the start of each of your turns; out of one, the table decides (*A round passes* on your sheet). Holding your breath in gas means the gas can't get in — until you have to breathe. *🫁 Hold your breath* is in your Health card; a **Submerged** zone starts it by itself.
+
+### Water {#sec-6-8-water}
+
+- **High water** (waist- to chest-deep): you wade or swim — **every square costs 2**, like any difficult ground. No damage by itself.
+- **Submerged:** the same, and you're **holding your breath** from the moment you go under; coming up gives you air. Your sheet counts the rounds.
+
+Both show on your map like other hazards, when the GM shows them.
+
+## 6-9. Chases {#sec-6-9}
+
+Somebody runs — through markets, stairwells, traffic — and the question is distance, not damage. A chase is an **abstract track**: the **gap**, from **0** (caught) to **6** (you've lost them). It usually starts at 3.
+
+A chase runs in **legs** — one stretch of running each. In every leg:
+
+1. **The GM frames the stretch** — and maybe a **complication** (a crowded market, a shutter coming down, a glass door that doesn't open).
+2. **Each of you picks one move** and makes **one roll**. It counts twice: for its own effect, and towards **keeping pace**.
+
+| Move | Roll | If it works |
+|---|---|---|
+| **Run** | Agility & Athletics | you keep pace |
+| **Lead** | Streetwise or Perception | you keep pace, and the crew gets **+2** next leg |
+| **Cover fire** | your weapon (a burst spent) | you keep pace; the pursuers get **−2** next leg — and their fire comes to you first |
+| **Hack** | Computers & Hacking, or a Hacker's Class TN | you keep pace; their **drone** goes down, or their feeds and autopilots stumble (**−2** next leg) |
+| **Trick** | Deception, Sleight of Hand or Mechanics | you keep pace; a stall over, a shutter down — a complication for *them* |
+| **Help** | the skill that fits | a crewmate's roll this leg gets **+2** on a success |
+| **Hide** | Stealth — only from gap 3, with no drone overhead | if everyone hides and half succeed, you're gone |
+
+3. **The pursuers act**: they chase (one roll for the pack; faster ones get +2), or **stop and shoot** — then they don't close the gap, but whoever gave cover fire (or failed) may be hit.
+4. **The gap moves.** The crew keeps pace when **at least half** of you succeed:
+
+| | They fall back | They keep up |
+|---|---|---|
+| **You keep pace** | gap **+1** (+2 if everyone made it) | it holds |
+| **You don't** | it holds — and the complication bites whoever failed | gap **−1** (−2 if they did it easily) |
+
+**Falling behind.** Fail two legs in a row and the GM may leave you behind — someone will have to come back for you. **Tiring.** From the **5th leg**, every failure also costs **+1 Strain** and a **CON roll** (fail it and you're *Slowed*). At some point, turning to fight is a choice.
+
+**The end.** Gap 6, or a successful Hide: you've lost them. Gap 0: caught — it's a fight, on the map. A dead end, a locked gate, a rooftop edge: the GM can stop the chase there and take it to a tactical map.
+
+At the table the chase shows on top of your sheet: the track, the stretch, and your move buttons for this leg.
+
+## 6-10. The case: dossier and board {#sec-6-10}
+
+At the table your sheet has a **Case** tab: one per mission, the current one first, past ones to browse, and a **General** one for what runs through the whole campaign.
+
+**The dossier** is what the crew knows for sure, kept by the GM: the **objectives** (the main one always; a secondary one when the GM tells you about it — doing it doesn't reveal it), the **pictures, documents, puzzles and messages** sent to everyone during the mission, and the **people and places** the GM has revealed. Nobody has to ask "who got the photo?" again.
+
+**The board** is yours: a case file the crew builds — cards on a grid (a name, a place, a clue, a lead, a question, a document; three sizes; a picture on the big ones — from the dossier, or a handout you got yourself, even a private one: pinning it shares it), and **links** between them with a word on the string (*paid*, *lied*, *same van*). One of you **holds the pen** and edits it — add (or **📌 pin** a dossier entry straight onto the board), move, link, edit, unpin (unpinned cards wait in a drawer, nothing is lost); everyone else reads it and sends **✋ suggestions** to whoever holds the pen. The pen goes round: pass it to a crewmate, or pick it up when nobody has it. The GM sees it all, and sometimes a card turns up marked **anonymous tip** — whether to trust it is up to you.

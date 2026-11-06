@@ -124,7 +124,7 @@ export function weaponFlow({ c, sh, data, w, spec = {}, exploit = false, combat 
       return html`<div class="roll-extra">
         ${dmg ? html`<div class="roll-extra__main"><span class="label">${t('attack.damage')} · ${w.name}</span><span class="roll-extra__n">${dmg.total}</span><span class="mono muted">${damageBreakdown(dmg)}</span></div>` : ''}
         ${loc ? loc.html : ''}
-        <p class="hint">${spec.armorHalf ? t('attack.armorHalf') : t('attack.armorNote')}</p></div>`;
+        <p class="hint">${spec.crit ? t('attack.armorCrit') : spec.armorHalf ? t('attack.armorHalf') : t('attack.armorNote')}</p></div>`;
     },
     complete(a) {
       const { dmg, loc } = result(a);

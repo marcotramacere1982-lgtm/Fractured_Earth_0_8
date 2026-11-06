@@ -35,7 +35,7 @@ const fail = (why) => ({ ok: false, why });
 /**
  * One change to the table's stashes. by: the character's name, or 'GM'. now: the time.
  * Player ops: put { stash, unit, label } · take { stash, kind, id, label } · putCash / takeCash { stash, amount }.
- * GM ops (gm: true): create { name } · rename { stash, name } · lock { stash, on } · raid { stash } · remove { stash }.
+ * GM ops (gm: true): create { name, temp? { map, prop } (decision 277: a container's contents, gone when emptied) } · rename { stash, name } · lock { stash, on } · raid { stash } · remove { stash }.
  * @returns { ok, why?, book (a new one), unit? (taken), amount?, stash? (its name) } — why: unknown | locked | noItem | noCash | name | gm
  */
 export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId = () => `s-${now.toString(36)}` } = {}) {
@@ -43,13 +43,20 @@ export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId
   const s = next.stashes.find((x) => x.id === op?.stash);
   const line = (entry) => { s.history = [{ t: now, by, ...entry }, ...s.history].slice(0, HISTORY_MAX); };
   const done = (extra = {}) => ({ ok: true, book: next, stash: s?.name, ...extra });
+  // decision 277: a container's stash goes when it's empty (kept in `removed`, like any other)
+  const emptied = (out) => {
+    if (s?.temp && !s.items.length && !s.cash) { next.stashes = next.stashes.filter((x) => x !== s); next.removed = [{ ...s, removedAt: now }, ...(next.removed ?? [])]; return { ...out, gone: true }; }
+    return out;
+  };
   const GM_OPS = ['create', 'rename', 'lock', 'raid', 'remove'];
   if (GM_OPS.includes(op?.op) && !gm) return fail('gm');
   if (op?.op === 'create') {
     const name = text(op.name, 40);
     if (!name) return fail('name');
-    next.stashes.push({ id: newId(), name, locked: false, cash: 0, items: [], history: [{ t: now, by, op: 'create' }] });
-    return { ok: true, book: next, stash: name };
+    const id = newId();
+    const temp = op.temp && typeof op.temp === 'object' ? { map: text(op.temp.map, 80), prop: text(op.temp.prop, 40) } : null; // decision 277: a container's contents on the table
+    next.stashes.push({ id, name, locked: false, cash: 0, items: [], history: [{ t: now, by, op: 'create' }], ...(temp ? { temp } : {}) });
+    return { ok: true, book: next, stash: name, id };
   }
   if (!s) return fail('unknown');
   switch (op.op) {
@@ -91,7 +98,7 @@ export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId
       const unit = takeUnit(s.items, op.kind, op.id);
       if (!unit) return fail('noItem');
       line({ op: 'take', what: text(op.label, 60) || unit.name || unit.unique?.name || unit.id });
-      return done({ unit });
+      return emptied(done({ unit }));
     }
     case 'putCash':
       if (amount <= 0) return fail('noCash');
@@ -102,7 +109,7 @@ export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId
       if (amount <= 0 || amount > s.cash) return fail('noCash');
       s.cash -= amount;
       line({ op: 'takeCash', amount });
-      return done({ amount });
+      return emptied(done({ amount }));
     default:
       return fail('unknown');
   }

@@ -23,7 +23,7 @@
     },
     "combat-values": {
       "title": "Combat values",
-      "text": "Movement, offense, actions, defense and perception come from the raw sum of two attributes looked up in the combat table. Some life events shift a value one row.",
+      "text": "Movement, offense, actions and perception come from the raw sum of two attributes looked up in the combat table. Some life events shift a value one row.",
       "anchor": "sec-5-3-combat"
     },
     "initiative": {
@@ -55,6 +55,16 @@
       "title": "Location attack",
       "text": "−4 TN, then d20: 1–4 leg (Crippled leg), 5–8 arm (Broken arm), 9–13 abdomen (Prone), 14–18 chest (Slowed), 19–20 head (Stunned; Incapacitated at half HP or less). Aim (+1 action) shifts the d20 ±5.",
       "anchor": "sec-7-5"
+    },
+    "strain": {
+      "title": "Strain",
+      "text": "What the world does to your head (0–10). Shaken (4+) −1 TN on skill checks, Fraying (7+) −2; at 10 a breaking point (a d6), then 6. Each gain: steady yourself with Mental Strength (halved) or take it. Down: a safe scene −1, a crewmate's Steady, downtime.",
+      "anchor": "sec-6-7"
+    },
+    "critical": {
+      "title": "Critical hits & fumbles",
+      "text": "Critical: a natural 1, or a hit by 10+ (keen weapons 8): it ignores armor and cover. Fumble: a natural 20, or a miss by 10+: a firearm's jam check (d10 over its reliability jams it; Reload clears it), melee leaves you Exposed. Enemies: natural 1 / 20 only.",
+      "anchor": "sec-7-5-crit"
     },
     "location-attack": {
       "title": "Location attack",
@@ -103,7 +113,7 @@
     },
     "gm.askRoll": {
       "title": "Ask for a roll",
-      "text": "Pick a skill or attribute (or tap a row in Who's best at…), tick one player or a group, Ask. Each sheet gets a card; the result comes back here. Your table difficulty applies.",
+      "text": "Pick a skill or attribute (or tap a row in Who's best at…), tick one player or a group, Ask. Each sheet gets a card; the result comes back here. Your table difficulty applies. 👥 Group check: everyone ticked rolls, the group succeeds when at least half succeed — one line in Activity when the last answer is in.",
       "anchor": "sec-9-5"
     },
     "gm.explore": {
@@ -198,7 +208,7 @@
     },
     "gm.zones": {
       "title": "Event zones",
-      "text": "GM-only rectangles: Entry, Trigger (numbered T1, T2…), Exit, Note — each with a label and a note. Reminders only: no rule reads them and players never see them. Tap one on the Play tab to read its note.",
+      "text": "GM-only rectangles: Entry, Trigger (numbered T1, T2…), Exit, Note — each with a label and a note; reminders only. Hazards (H1, H2…: electric, gas, steam, fire…) can be shown to players, switched on and off, controlled by a valve or breaker; their damage goes out from Activity, never by itself.",
       "anchor": "sec-9-7"
     },
     "gm.marks": {
@@ -210,6 +220,11 @@
       "title": "People on the map",
       "text": "Not fighting: pick a role and Add — players see Worker 1 until you rename it. Party: several characters moving as one on a big map. Each has a private note.",
       "anchor": "sec-9-8"
+    },
+    "gm.notes": {
+      "title": "Notes",
+      "text": "Your Markdown: notes in local/gm/notes/ plus the campaign documents. Autosaves. 🔎 Lens: a name or term → its sections, then every mention in every file.",
+      "anchor": "sec-9-9"
     },
     "gm.story": {
       "title": "Missions & session log",
@@ -245,6 +260,36 @@
       "title": "Archive",
       "text": "Finished characters, missions and session logs move to local/archive/. Restore brings them back; nothing is deleted.",
       "anchor": "sec-9-14"
+    },
+    "help": {
+      "title": "Help",
+      "text": "A crewmate who can say how they help rolls a related skill: success +2 on your next check, a natural 20 −2 (they got in the way), otherwise nothing. One helper at a time; an action in a fight; a new scene clears it.",
+      "anchor": "sec-6-2-help"
+    },
+    "falling": {
+      "title": "Falling",
+      "text": "Up to 3 m: no damage, roll Agility & Athletics or end up Prone. Higher: 1d6 per full 3 m (max 10d6). Landing it (Agility & Athletics) halves the damage; a failure: Prone; a natural 20: a crippled leg. Armor applies, cover doesn't.",
+      "anchor": "sec-6-8-fall"
+    },
+    "breath": {
+      "title": "Air",
+      "text": "Holding your breath lasts CON rounds (half if caught by surprise). Then a CON roll each round, −1 more every round; a failure: you black out (Incapacitated). Out with no air: 1d6 a round, armor never helps. Air back: you come round.",
+      "anchor": "sec-6-8-air"
+    },
+    "chase": {
+      "title": "Chase",
+      "text": "The gap runs 0 (caught) to 6 (lost them). Each leg you make one move — Run, Lead, Cover fire, Hack, Trick, Help, Hide — one roll that also counts towards keeping pace (half the crew must succeed). The pursuers roll once. From leg 5 every failure costs Strain and a CON roll.",
+      "anchor": "sec-6-9"
+    },
+    "case": {
+      "title": "The case",
+      "text": "Per mission: the dossier the GM keeps (objectives, what everyone was sent, people and places revealed) and the board the crew builds — one player holds the pen and edits, the others suggest; pass the pen when you like.",
+      "anchor": "sec-6-10"
+    },
+    "site-alert": {
+      "title": "Site alert",
+      "text": "Security here is paying attention. On Alert, Stealth, Sleight of Hand, Electronics & Security, Computers & Hacking and a Hacker's Class TN are −1 TN while you're on this map; on Lockdown −2. The GM turns it; pings and drones push it.",
+      "anchor": "sec-6-4-alert"
     },
     "darkness": {
       "title": "Darkness",

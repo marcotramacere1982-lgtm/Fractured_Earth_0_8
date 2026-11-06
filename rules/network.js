@@ -6,6 +6,8 @@
 // Two things travel downstream: connection (a node taken offline, or without power, cuts everything behind it)
 // and truth (a tampered node makes everything behind it report false data). Per device: reporting, offline,
 // fooled, no power, or not networked. Players never see any of it. Pure.
+// Decision 256: an electric door can be a networked device too — only by a link drawn to it (cable or Wi-Fi, never
+// joined by itself): a ping finds it, a hacker can ask the GM to work it remotely.
 
 import { propDef } from './props.js';
 import { applyPower, normalizeWires } from './power.js';
@@ -15,14 +17,21 @@ const WIRELESS = ['ap', 'repeater'];
 
 /** A library piece's place on the network: a node role, 'wifi' / 'both' for a device, or null. */
 export const netRole = (def) => def?.net ?? null;
-const isDevice = (r) => r === 'wifi' || r === 'both';
+const isDevice = (r) => r === 'wifi' || r === 'both' || r === 'door';
+const isNetDoor = (w) => w?.kind === 'door' && w.powered === true;
+/** The network role of anything on the map by id: a piece's (netRole), 'door' for an electric door (decision 256), or null. */
+export function roleIn(map, data, id) {
+  const p = (map.props ?? []).find((x) => x.id === id);
+  if (p) return netRole(propDef(data, p.prop));
+  return isNetDoor((map.walls ?? []).find((w) => w.id === id)) ? 'door' : null;
+}
 
 /** Can this link exist? from: a node; a cable reaches routers, access points, repeaters and cable devices;
  *  Wi-Fi goes from an access point or repeater to a repeater or any device. */
 export function linkAllowed(fromRole, toRole, wifi) {
   if (!NET_NODES.includes(fromRole) || !toRole || toRole === 'uplink') return false;
   if (wifi) return WIRELESS.includes(fromRole) && (toRole === 'repeater' || isDevice(toRole));
-  return toRole === 'router' || toRole === 'ap' || toRole === 'repeater' || toRole === 'both';
+  return toRole === 'router' || toRole === 'ap' || toRole === 'repeater' || toRole === 'both' || toRole === 'door';
 }
 
 const nextId = (map) => {
@@ -31,8 +40,7 @@ const nextId = (map) => {
 };
 /** A new data link; the same map when it isn't allowed or already there. */
 export function addDataLink(map, data, from, to, wifi = false) {
-  const role = (id) => netRole(propDef(data, (map.props ?? []).find((p) => p.id === id)?.prop));
-  if (from === to || !linkAllowed(role(from), role(to), wifi)) return map;
+  if (from === to || !linkAllowed(roleIn(map, data, from), roleIn(map, data, to), wifi)) return map;
   if ((map.wires ?? []).some((w) => w.net === 'data' && w.from === from && w.to === to)) return map;
   return { ...map, wires: [...(map.wires ?? []), { id: nextId(map), from, to, net: 'data', ...(wifi ? { wifi: true } : {}) }] };
 }
@@ -73,13 +81,14 @@ export function networkState(map, data) {
   const role = (id) => netRole(propDef(data, props.get(id)?.prop));
   const up = (id) => { const p = props.get(id); return p && p.on !== false && !p.wrecked && !p.netOff; };
   const links = [...(m.wires ?? []).filter((w) => w.net === 'data' && !w.cut), ...autoJoins(m, data)];
+  const doors = new Map((m.walls ?? []).filter(isNetDoor).map((w) => [w.id, w])); // decision 256: networked doors
   // a path from an uplink to everything, ignoring what is down, remembering the parent: to say where a cut is
   const parent = new Map();
   const queue = [...props.keys()].filter((id) => role(id) === 'uplink');
   for (const id of queue) parent.set(id, null);
   while (queue.length) {
     const id = queue.shift();
-    for (const w of links) if (w.from === id && props.has(w.to) && !parent.has(w.to)) { parent.set(w.to, id); if (NET_NODES.includes(role(w.to))) queue.push(w.to); }
+    for (const w of links) if (w.from === id && (props.has(w.to) || doors.has(w.to)) && !parent.has(w.to)) { parent.set(w.to, id); if (NET_NODES.includes(role(w.to))) queue.push(w.to); }
   }
   const out = new Map();
   for (const [id, p] of props) {
@@ -99,7 +108,27 @@ export function networkState(map, data) {
     else if (fooled) out.set(id, { status: 'fooled', at: fooled, since: since(fooled), parent: up1 });
     else out.set(id, { status: 'ok', parent: up1 });
   }
+  for (const [id, w] of doors) { // decision 256: a door hangs from its node; no power (applyPower) or no link in → not reporting
+    if (!parent.has(id)) continue; // never linked: not on a network (not listed, so no "?" on every electric door)
+    if (w.unpowered) { out.set(id, { status: 'nopower', door: true }); continue; }
+    let cut = null;
+    let fooled = null;
+    for (let x = parent.get(id); x != null; x = parent.get(x)) {
+      if (!up(x) && !cut) cut = x;
+      if (props.get(x)?.tampered && !fooled) fooled = x;
+    }
+    out.set(id, { status: cut ? 'offline' : fooled ? 'fooled' : 'ok', door: true, parent: parent.get(id), ...(cut || fooled ? { at: cut ?? fooled } : {}) });
+  }
   return out;
+}
+
+/** Decision 256: the uplink (network) a node, device or door reports to, or null when it is on none. state: networkState's, if at hand. */
+export function uplinkOf(map, data, id, state = networkState(map, data)) {
+  const s = state.get(id);
+  if (!s || s.status === 'alone' || s.status === 'nopower') return roleIn(map, data, id) === 'uplink' ? id : null;
+  let x = id;
+  for (let n = 0; state.get(x)?.parent && n < 500; n += 1) x = state.get(x).parent;
+  return x === id && roleIn(map, data, id) !== 'uplink' ? null : x;
 }
 
 /** What taking a node offline / tampering would change: [{ id, from, to }] statuses that differ. */
@@ -134,7 +163,7 @@ export function setNet(map, id, { offline, tampered }, now, round = null) {
 
 /** Keeps a data link only where linkAllowed says it can be; drops repeats. */
 export function normalizeDataLinks(raw, map, data) {
-  const role = (id) => netRole(propDef(data, (map.props ?? []).find((p) => p.id === id)?.prop));
+  const role = (id) => roleIn(map, data, id); // decision 256: electric doors too
   const seen = new Set();
   return (Array.isArray(raw) ? raw : []).filter((w) => w?.net === 'data').slice(0, 3000).filter((w) => {
     const k = `${w.from}>${w.to}`;

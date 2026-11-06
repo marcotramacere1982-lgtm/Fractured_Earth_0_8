@@ -10,7 +10,7 @@
           "tab": "play",
           "target": "status",
           "title": "Your status",
-          "text": "Name, class and the numbers you check most, always at the top; the second line is Move, OFF, DEF and PER. A value in green or red is changed by a condition (the normal one is shown small beside it)."
+          "text": "Name, class and the numbers you check most, always at the top; the second line is Move, OFF and PER. A value in green or red is changed by a condition (the normal one is shown small beside it)."
         },
         {
           "id": "tabs",

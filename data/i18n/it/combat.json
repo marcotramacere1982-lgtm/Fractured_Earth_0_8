@@ -20,11 +20,6 @@
       "desc": "Azioni tattiche disponibili in un turno",
       "use": "Quante azioni hai in ogni round di combattimento. Da stordito ne hai 1. Schivare usa le azioni del round successivo."
     },
-    "def": {
-      "name": "Bonus difensivo",
-      "desc": "Modificatore di base per schivare e difendersi",
-      "use": "Il tuo vantaggio difensivo contro gli attacchi. Come si applica ai tiri dei nemici è ancora una regola aperta: per ora decide il GM."
-    },
     "per": {
       "name": "Bonus percezione",
       "desc": "Modificatore per individuare trappole e furtività",

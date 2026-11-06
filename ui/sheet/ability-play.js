@@ -129,7 +129,7 @@ export async function playAbility(ctx) {
         if (specs.some((s) => s.ping)) ctx.ping?.(r); // decision 170: success or not, the networks hear it — the GM's console answers
         if (r.success && !flow) dispatch({});
       },
-      { tier: ctx.tier(), once: true, flow,
+      { tier: ctx.tier(), once: true, flow, site: ctx.site ?? null, // decision 268: the site alert
         after: (r) => (r.success ? html`<div class="stack stack--tight">${specs.flatMap((s, i) => whatHappens(s, picks[i], data)).map((l) => html`<p class="hint">${l}</p>`)}
             ${askGm([...new Set(specs.map((s) => s.gm).filter(Boolean))], data, Boolean(combat && table))}</div>`
           : data.classes.abilityRoll.onFailure !== 'nothing' ? html`<p class="hint">${t(`check.abilityFailed.${data.classes.abilityRoll.onFailure}`)}</p>` : '') });

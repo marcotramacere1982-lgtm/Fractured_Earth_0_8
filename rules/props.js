@@ -51,7 +51,7 @@ export function propState(def) {
 
 /** The state players may see: lights' on / off and open / closed. Sensors' and the keypad's state stay with the GM. */
 export function publicState(p, def) {
-  return { ...(powerOf(def) === 'public' ? { on: p.on !== false } : {}), ...(def?.openable ? { open: Boolean(p.open) } : {}), ...(def?.wreckable ? { wrecked: Boolean(p.wrecked) } : {}) };
+  return { ...(powerOf(def) === 'public' ? { on: p.on !== false } : {}), ...(def?.openable ? { open: Boolean(p.open) } : {}), ...(def?.wreckable ? { wrecked: Boolean(p.wrecked) } : {}), ...(p.search ? { search: true } : {}) }; // search: decision 277 — players may search it
 }
 
 /** Decision 99: an open gate (openPasses) lets people — and sight — through; everything else as its record says. */
@@ -216,6 +216,12 @@ export function shellEdges(p, data) {
  */
 export function difficultSquares(map, data) {
   const out = new Set();
+  // decision 273: water zones (High water, Submerged) — from the GM's zones or the hazards the players' map carries
+  const wet = (n) => data.map?.zones?.hazards?.find((h) => h.id === n)?.difficult;
+  for (const z of [...(map.zones ?? []).filter((q) => q.type === 'hazard' && q.on), ...(map.hazards ?? [])]) {
+    if (!wet(z.nature)) continue;
+    for (let x = z.x; x < z.x + z.w; x++) for (let y = z.y; y < z.y + z.h; y++) out.add(`${x},${y}`);
+  }
   for (const p of activeProps(map)) {
     if (!propDef(data, p.prop)?.difficult) continue;
     const c = propCorners(p, data);

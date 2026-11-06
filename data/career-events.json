@@ -26,10 +26,9 @@
       "roll": 4,
       "id": "severe_concussion",
       "name": "SEVERE CONCUSSION",
-      "text": "You never quite healed from that last blow to your head. Your Defensive and Perception Bonuses should always be read one line above the normal in the Combat Statistics Table.",
+      "text": "You never quite healed from that last blow to your head. Your Perception Bonus should always be read one line above the normal in the Combat Statistics Table.",
       "effects": {
         "rowOffsets": {
-          "def": -1,
           "per": -1
         }
       }

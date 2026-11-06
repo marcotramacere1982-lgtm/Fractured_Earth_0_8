@@ -5,6 +5,9 @@
 import { RuleError } from '../../rules/messages.js';
 import { emptyDowntime, stageOf } from '../../rules/downtime.js';
 import { log } from './actions.js';
+import { strainActions } from './strain-actions.js'; // decision 266
+import { downtimeRelief } from '../../rules/strain.js';
+import { lifestyleUpkeep } from '../../rules/economy.js';
 
 const SEEN_MAX = 60;
 const TIMELINE_MAX = 80;
@@ -26,6 +29,10 @@ export const downtimeActions = {
     const treated = msg.healInjuries ? (c.play.injuries ?? []).length : 0;
     if (msg.healInjuries) c.play.injuries = [];
     if (Number.isInteger(msg.pressure)) c.downtime.pressure = Math.max(0, Math.min(data.downtime.debt.max, msg.pressure));
+    if (data.strain && c.play.strain) { // decision 266: rest — by how long, and a better home helps
+      const home = lifestyleUpkeep(c.play.lifestyle ?? [], data).entries.find((x) => x.category === 'housing')?.tier ?? 0;
+      strainActions.strainRelief(c, data, { n: downtimeRelief(msg.duration, home, data.strain), why: `downtime (${msg.durationName ?? msg.duration})` });
+    }
     const t = Date.now();
     for (const [kind, e] of [['event', msg.event], ['crew', msg.crew]]) {
       if (e) c.downtime.timeline = [...c.downtime.timeline, { t, kind, id: e.id ?? null, title: e.title, text: e.text, options: e.options ?? [] }].slice(-TIMELINE_MAX);

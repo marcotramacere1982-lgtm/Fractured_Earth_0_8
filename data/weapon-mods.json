@@ -1,5 +1,5 @@
 {
-  "note": "Decision 173: weapon mods. Slots by rarity (a weapon may set its own modSlots); one mod of each kind per weapon; installed out of a fight by a Soldier or a Tech Wizard. range / mag amounts are percentages. PROVISIONAL prices: owner to tune.",
+  "note": "Decision 173: weapon mods. Slots by rarity (a weapon may set its own modSlots); one mod of each kind per weapon; installed out of a fight by a Soldier or a Tech Wizard. range / mag amounts are percentages; crit (decision 265) lowers the crit margin by its amount. PROVISIONAL prices: owner to tune.",
   "slotsByRarity": {
     "F": 1,
     "E": 1,
@@ -44,6 +44,18 @@
       "name": "Magazine",
       "for": "ranged",
       "adds": "mag"
+    },
+    {
+      "id": "keen",
+      "name": "Keen",
+      "for": "melee",
+      "adds": "crit"
+    },
+    {
+      "id": "trigger",
+      "name": "Trigger",
+      "for": "ranged",
+      "adds": "crit"
     }
   ],
   "mods": [
@@ -110,6 +122,28 @@
       "rarity": "E",
       "cost": {
         "cr": 350
+      },
+      "provisional": true
+    },
+    {
+      "id": "keen_edge",
+      "name": "Keen Edge",
+      "type": "keen",
+      "amount": 1,
+      "rarity": "D",
+      "cost": {
+        "cr": 600
+      },
+      "provisional": true
+    },
+    {
+      "id": "match_trigger",
+      "name": "Match Trigger",
+      "type": "trigger",
+      "amount": 1,
+      "rarity": "C",
+      "cost": {
+        "cr": 800
       },
       "provisional": true
     }
