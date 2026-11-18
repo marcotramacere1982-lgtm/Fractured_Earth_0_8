@@ -39,7 +39,7 @@ export function renderHeader(el, route) {
     <div class="app-actions">
       <div class="app-actions__page" id="page-tools"></div><!-- decision 220: a page's own tools (the sheet: message the GM, sound, tour, table, export) -->
       <div class="lang-switch" role="group" aria-label="${t('nav.language')}">${LANGS.map((l) => html`<button class="lang-switch__opt" data-action="lang" data-id="${l.id}" aria-pressed="${l.id === getLang()}" title="${l.name}">${l.label}</button>`)}</div>
-      ${displayMenu()}
+      ${displayMenu({ sound: true })}
     </div>`);
   if (!bound) {
     el.addEventListener('click', (e) => {

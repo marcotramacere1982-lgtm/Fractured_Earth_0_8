@@ -7,7 +7,9 @@
 Every purchase can be made in two ways, and the choice matters.
 
 - **Official channels — Credit Score.** Corporate shops never take your money; they extend you debt. The item's Credit Score cost is subtracted from your Credit Score, and the purchase is **logged against your identity**. Cheap for groceries and rent, ruinous for anything that matters on a job: the more attention an item draws, the steeper its cost.
-- **The street — physical cash.** Untraceable, illegal, and expensive: the listed price **×3 to ×10**, depending on local risk (the GM sets the markup). No trace.
+- **The street — physical cash.** Untraceable, illegal, and expensive: the listed price, from **no markup to ×10**, depending on local risk — the GM sets the markup for the whole table (×3 when nobody set it). No trace.
+
+**Essentials.** The market opens on its *Essentials* tab: the cheapest gear that covers every base before going out — a gun, a blade, something to wear, a trauma kit, a prepaid burner phone, an ID Scramble Kit, a torch, rope and a multi-tool — each with what it's for, and a ✓ on what you already carry. Specialist tools (lockpicks, RFID kits…) are in their own tabs.
 
 **Rarity** runs from **F** (everyday) to **A** (prototype). The two rarest tiers, **A and B**, never appear in official shops: street cash only.
 
@@ -27,7 +29,11 @@ Pay from a job, a key card from a contact, the cash in a dead man's jacket: when
 
 ### Searching and containers {#sec-8-loot}
 
-On the table map, crates, lockers, safes and car boots can hold things. **Open** one next to you, or **🔍 Search** a piece the GM marked as searchable (*Interact* — an action in a fight). What's inside turns up as a stash everyone at the table can see — *🔍 Locker · found here* — and anyone takes what they want, as with a crew stash; it disappears once it's empty. Some things aren't in plain sight: the GM may ask for a roll (Perception, often) to find what's tucked away — and what you find may be a clue rather than gear. Whatever you leave behind stays there.
+On the table map, crates, lockers, safes and car boots can hold things. **Open** one next to you, or **🔍 Search** a piece the GM marked as searchable (*Interact* — an action in a fight). What's inside turns up as a stash everyone at the table can see — *🔍 Locker · found here* — and anyone takes what they want, as with a crew stash; it disappears once it's empty. Some things aren't in plain sight: the GM may ask for a roll (Perception, often) to find what's tucked away — and what you find may be a clue rather than gear. Whatever you leave behind stays there. When it's opened for you, a **window** shows what's inside straight away (decision 320): each thing with its note, **Take**, **Give…** (take it and hand it to someone), the cash, **Take everything** — no digging through your stashes.
+
+**Loot** (decision 317) is what you find or steal and can't buy: junk from a dumpster, materials stripped from ruins, barter goods out of drawers and clinics, valuables lifted from flats and offices, contraband. It sits in its own *Loot & valuables* group, stacks, goes into stashes and passes between players like anything else; some missions ask you to bring a few back. A fence pays **half its street value** (*Sell*). Some things are **📡 traced** — a passport, a staff keycard, AR glasses, a phone: hot by themselves, because the system can trace them back to their owner. Carrying them is a risk the GM will remember.
+
+::table[loot]
 
 ### The washer {#sec-8-washer}
 
@@ -41,7 +47,7 @@ Every weapon attacks with a skill: knives, batons and stun guns use **Melee / CQ
 
 ### Weapon mods {#sec-8-2-mods}
 
-Weapons take small upgrades in **mod slots** by rarity: F and E 1, D and C 2, B 3, A 4 (fists and the stun gun none). **One mod of each kind per weapon.** Melee: a *Balanced Hilt* (+1 TN) and a *Sharpened Edge* (+1 damage). Firearms: a *Custom Grip* (+1 TN), a *Heavy Barrel* (+1 damage), *Improved Sights* (+25% maximum range) and an *Extended Magazine* (+50%, at least one more round). Anyone can buy them; **a Soldier or a Tech Wizard installs and removes them**, out of a fight, for free — *🔧* on the weapon's Gear row. A modded weapon becomes its own item (marked *Modded*): its mods go with it when you sell, trade, stash or give it, and it still loads its stock magazines. Taking off the last mod makes it a stock weapon again. Prices are provisional.
+Weapons take small upgrades in **mod slots** by rarity: F and E 1, D and C 2, B 3, A 4 (fists and the stun gun none). **One mod of each kind per weapon.** Melee: a *Balanced Hilt* (+1 TN) and a *Sharpened Edge* (+1 damage). Firearms: a *Custom Grip* (+1 TN), a *Heavy Barrel* (+1 damage), *Improved Sights* (+25% maximum range) and an *Extended Magazine* (+50%, at least one more round). Anyone can buy them; **a Soldier or a Tech Wizard installs and removes them**, out of a fight, for free — *🔧* on the weapon's Gear row. A modded weapon becomes its own item (marked *Modded*): its mods go with it when you sell, trade, stash or give it, and it still loads its stock magazines. So does a **unique** weapon the GM forged from a catalog gun: it shares that gun's spare magazines (decision 311). Taking off the last mod makes it a stock weapon again. Prices are provisional.
 
 ::table[weapon-mods]
 
@@ -99,6 +105,6 @@ An optic sets the Scavenger's **Range**, **Track** and **mode** (5-6). Anyone ca
 
 ## 8-6. Lifestyle {#sec-8-6}
 
-The monthly cost of existing. Operators start at the bottom; moving up is something you earn. Pick yours in the market's Lifestyle tab with **Choose**: it charges nothing. Some categories hold **one** choice and a new one replaces it — housing, data plan, food: a new flat replaces the old one. Others **add up** — bills, transport, fees, a club — except where two entries are alternatives of each other (basic or premium medical, plain or ad-free streams). Each market row says which (*adds to the others* / *replaces the one you have*); ✕ removes one. The sheet shows the monthly upkeep in $ (or ≈ Credit Score if paid officially); the GM's downtime report shows it for the time that passed, and the table settles it however it likes. It has no other mechanical effect yet.
+The monthly cost of existing. Operators start at the bottom; moving up is something you earn. Pick yours in the market's Lifestyle tab with **Choose**: it charges nothing. Some categories hold **one** choice and a new one replaces it — housing, data plan, food: a new flat replaces the old one. Others **add up** — bills, transport, fees, a club — except where two entries are alternatives of each other (basic or premium medical, plain or ad-free streams). Each market row says which (*adds to the others* / *replaces the one you have*); ✕ removes one. The sheet shows the monthly upkeep in $ (or ≈ Credit Score if paid officially); after a downtime you pay it for the time that passed — cash, Credit Score or half and half (5-10). The cheapest plans have a catch: the **ad-supported data plan** clutters your lens (−1 *Perception / Awareness*); **company bodega rations** wear you down (1 less Strain recovered in downtime); a **capsule bunk** is the home that recovers least.
 
 ::table[lifestyle]

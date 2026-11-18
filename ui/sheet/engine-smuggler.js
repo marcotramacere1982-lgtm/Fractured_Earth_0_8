@@ -12,8 +12,10 @@ const ico = (data, id) => html`<span class="pend-ico">${raw(data.icons[id] ?? ''
 const ZONE_ICON = { cold: 'zone_cold', composure: 'zone_composure', hot: 'zone_hot' };
 
 /** The zone's bonuses as icon chips; `zone` is the derived sheet's zoneBonus (talents already in). */
-function zoneChips(data, z, zb) {
-  if (z.id === 'cold') return html`<span class="pend-chip">${ico(data, 'reticle')}${t('engine.pendColdBonus', { n: signed(z.bonus.rangedTn) })}</span>`;
+function zoneChips(data, z, zb, sub = null) {
+  // sub (decision 186): a subclass's own extra in this zone — { damage, name }, e.g. the Trafficker's +1 damage in Cold
+  const extra = sub?.damage ? html`<span class="pend-chip">${ico(data, 'exploit')}${t('engine.pendSubDamage', { n: signed(sub.damage), sub: sub.name })}</span>` : '';
+  if (z.id === 'cold') return html`<span class="pend-chip">${ico(data, 'reticle')}${t('engine.pendColdBonus', { n: signed(z.bonus.rangedTn) })}</span>${extra}`;
   if (z.id === 'hot') return html`<span class="pend-chip">${ico(data, 'exploit')}${t('engine.pendHotDamage', { n: signed(zb?.zone === 'hot' ? zb.damage : z.bonus.damage) })}</span>
     <span class="pend-chip">${ico(data, 'sqr')}${t('engine.pendHotMove', { n: signed(z.bonus.squares) })}</span>`;
   return html`<span class="pend-chip muted">${t('engine.pendNoBonus')}</span>`;
@@ -29,7 +31,7 @@ export function smugglerPanel(c, s, data, r, cls) {
     aria-pressed="${v === p}" aria-label="${t('engine.pendSet', { n: signed(v) })}"><span class="pend-stop__val">${signed(v)}</span></button>`;
   const legend = (z) => html`<div class="pend-zone pend-zone--${z.id} ${zone?.id === z.id ? 'is-on' : ''}">
       <span class="pend-zone__name">${ico(data, ZONE_ICON[z.id])}${z.name}</span>
-      <span class="pend-zone__fx">${zoneChips(data, z, s.zone)}</span></div>`;
+      <span class="pend-zone__fx">${zoneChips(data, z, s.zone, z.id === 'hot' ? null : { damage: cls.resources.subclassZones?.[c.subclassId]?.[z.id]?.damage ?? 0, name: s.class?.subclass?.name ?? '' })}</span></div>`;
   return html`
     <div class="pendulum-slider" role="group" aria-label="${t('engine.pendTitle')}">
       <div class="pend-track">${STOPS.map(stop)}</div>

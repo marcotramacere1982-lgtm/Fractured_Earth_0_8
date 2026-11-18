@@ -1807,7 +1807,7 @@
       "name": "Campus ospedaliero e universitario"
     },
     "city_watch": {
-      "name": "Fortezza della Watch"
+      "name": "HQ (quartier generale)"
     },
     "city_rail_yard": {
       "name": "Scalo ferroviario"
@@ -2168,6 +2168,90 @@
     },
     "scrap_cover": {
       "name": "Copertura di fortuna"
+    },
+    "city_dense_half": {
+      "name": "Edilizia densa ½"
+    },
+    "city_dense_quarter": {
+      "name": "Edilizia densa ¼"
+    },
+    "city_tenements_half": {
+      "name": "Cintura dei casermoni ½"
+    },
+    "city_tenements_quarter": {
+      "name": "Cintura dei casermoni ¼"
+    },
+    "city_business_half": {
+      "name": "Quartiere degli affari ½"
+    },
+    "city_business_quarter": {
+      "name": "Quartiere degli affari ¼"
+    },
+    "city_industrial_half": {
+      "name": "Cintura industriale ½"
+    },
+    "city_industrial_quarter": {
+      "name": "Cintura industriale ¼"
+    },
+    "city_old_town_half": {
+      "name": "Centro storico ½"
+    },
+    "city_old_town_quarter": {
+      "name": "Centro storico ¼"
+    },
+    "city_slum_half": {
+      "name": "Distesa di baracche ½"
+    },
+    "city_slum_quarter": {
+      "name": "Distesa di baracche ¼"
+    },
+    "city_residential_half": {
+      "name": "Quartiere residenziale ½"
+    },
+    "city_residential_quarter": {
+      "name": "Quartiere residenziale ¼"
+    },
+    "city_suburb_half": {
+      "name": "Periferia residenziale ½"
+    },
+    "city_suburb_quarter": {
+      "name": "Periferia residenziale ¼"
+    },
+    "city_park_large": {
+      "name": "Parco cittadino (grande)"
+    },
+    "city_dense_ruined": {
+      "name": "Edilizia densa (in rovina)"
+    },
+    "city_tenements_ruined": {
+      "name": "Cintura dei casermoni (in rovina)"
+    },
+    "city_landmark": {
+      "name": "Torre simbolo"
+    },
+    "city_waterfront": {
+      "name": "Lungomare"
+    },
+    "city_shore_curve": {
+      "name": "Riva: curva"
+    },
+    "city_shore_inlet": {
+      "name": "Riva: insenatura"
+    },
+    "city_shore_diagonal": {
+      "name": "Riva: diagonale"
+    },
+    "city_checkpoint": {
+      "name": "Posto di blocco"
+    },
+    "city_highway_elevated": {
+      "name": "Superstrada sopraelevata"
+    },
+    "city_garrison": {
+      "name": "Guarnigione"
+    },
+    "city_fob": {
+      "name": "FOB (base avanzata)"
     }
   }
 }

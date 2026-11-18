@@ -5,6 +5,8 @@ import { html, raw } from '../dom.js';
 import { card, nameOf } from './parts.js';
 import { sanitizeHtml } from '../sanitize.js';
 import { debtPressure, timelineCard } from './timeline.js';
+import { downtimeCard } from './downtime-card.js'; // decision 332
+import { jobOf, payFor } from '../../rules/jobs.js'; // decision 331
 import { driveEditor } from './drive.js';
 import { t } from '../../i18n/index.js';
 import { storyPrompt, portraitPrompt } from '../builder/prompts.js';
@@ -45,6 +47,7 @@ export function dossierTab(c, s, data, ctx = {}) {
       <label class="field"><span class="label">${t('common.age')}</span><input class="input input--num" type="number" value="${c.age}" data-action="field" data-path="age" data-number="1"></label>
     </div>
     <p class="muted"><span class="label">${t('stat.travel')}${explain('combat', 'met', t('stat.travel'))}</span> ${t('stat.travelValue', { n: s.combat.met.value })}</p>
+    ${ctx.crew ? html`<p><span class="label">${t('dossier.crew')}</span> <strong>${ctx.crew.name}</strong>${ctx.crew.guest ? html` <span class="pill pill--info">${t('dossier.guestTonight')}</span>` : ''}</p>` : ''}
     ${sub ? html`<p class="hint">${sub.desc}</p>` : ''}
     ${driveEditor(c, data, 'sheet')}`);
 
@@ -73,6 +76,13 @@ export function dossierTab(c, s, data, ctx = {}) {
         const k = data.careers.careers.find((x) => x.id === h.careerId);
         return k ? `${k.category}${k.name !== 'Standard' ? ` — ${k.name}` : ''}` : h.careerId;
       }).join(' → ') : '—'}</dd>
+      ${data.jobs ? (() => { // decision 331: official work — what it pays a month, the failures at it
+        const job = jobOf(c, data);
+        const pay = payFor(job, data);
+        const k = data.careers.careers.find((x) => x.id === job.careerId);
+        const fails = job.failures?.[job.careerId ?? job.status] ?? 0;
+        return html`<dt>${t('dossier.job')}</dt><dd>${t(`job.status.${job.status}`)}${k ? ` · ${k.category}` : ''} <span class="muted">${t('dossier.jobPay', { crs: pay.crs, cash: pay.cash })}${job.set ? '' : ` · ${t('dossier.jobSuggested')}`}</span>${fails ? html` <span class="pill pill--danger">${t('dossier.jobFailures', { n: fails })}</span>` : ''}</dd>`;
+      })() : ''}
     </dl>`);
 
   const motivator = card(t('dossier.debt'), html`
@@ -106,7 +116,7 @@ export function dossierTab(c, s, data, ctx = {}) {
   return html`
     <div class="sheet-grid sheet-grid--dossier">
       <div class="stack dossier__info">${identity}${background}${motivator}${intelCard(c, s, data, ctx)}</div>
-      <div class="stack dossier__story">${story}${timelineCard(c)}</div>
+      <div class="stack dossier__story">${downtimeCard(c, s, data, ctx)}${story}${timelineCard(c)}</div>
       <div class="stack dossier__photo">${portrait}${card(t('look.title'), lookFields(c.narrative.look ?? {}), { tour: 'look' })}</div>
     </div>`;
 }

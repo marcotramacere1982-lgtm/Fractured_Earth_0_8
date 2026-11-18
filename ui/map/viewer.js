@@ -3,17 +3,23 @@
 // Screens re-render with innerHTML, so the host slots `node` back in after each render (attach) and holds its
 // redraws while a finger is down (isBusy); `on.idle` tells it when to catch up.
 
-import { render } from '../dom.js';
-import { boardSvg, wallsSvg, tokensSvg, propsSvg } from './render.js';
+import { render, html } from '../dom.js';
+import { boardSvg, wallsSvg, tokensSvg, propsSvg, areasSvg } from './render.js';
 import { loadProps } from './props.js';
-import { hitProp, smallPropNear } from '../../rules/props.js';
+import { hitProp, smallPropNear, propsUnder, propDef } from '../../rules/props.js';
+import { isDistrict } from '../../rules/districts.js';
+import { createTapCycle } from './tap-cycle.js'; // decision 301
 import { createCamera } from './camera.js';
 import { marksSvg, nextFade, markAt } from './marks.js';
 import { zonesSvg, hazardsSvg } from './zones.js';
 import { zoneAt } from '../../rules/zones.js';
 import { squareAt, onBoard, squaresBetween, doorAt, hitWall } from '../../rules/map.js';
+import { floorOf } from '../../rules/floors.js';
+import { openSquares, floorBelow } from '../../rules/vertical.js';
+import { t } from '../../i18n/index.js';
 
 const DRAG_PX = 6;
+const escapeHtml = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const DOOR_PX = 22;
 const SMALL_PX = 14; // decision 135: how near a tap must be to a small piece (a switch, a socket) to take it // decision 124: was 16 — doors, lasers and links are thin
 
@@ -31,11 +37,15 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   const U = data.map.square.units;
   const node = document.createElement('div');
   node.className = 'map-view';
-  node.innerHTML = `<svg class="map-view__svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img"><g data-board></g><g data-props></g><g data-walls></g><g data-zones></g><g data-fog></g><g data-los></g><g data-tokens></g><g data-marks></g><g data-ghost></g></svg>
-    <p class="map-view__readout mono" hidden></p>`;
+  // decision 287: a building's floors stacked — the world is drawn once (data-world), shown through the current
+  // floor's frame (data-stack, clipped), and again through that floor's openings, shifted up from the floor below
+  node.innerHTML = `<svg class="map-view__svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img"><defs data-defs></defs><g data-stack><g data-world id="${prefix}-world"><g data-board></g><g data-props></g><g data-walls></g><g data-zones></g><g data-fog></g><g data-los></g><g data-tokens></g><g data-marks></g></g></g><g data-under></g><g data-ghost></g></svg>
+    <p class="map-view__readout mono" hidden></p><div class="map-floors" data-floors hidden></div>`;
   const svg = node.querySelector('svg');
   const board = node.querySelector('[data-board]');
   const propsLayer = node.querySelector('[data-props]');
+  const cycle = createTapCycle(); // decision 301: tap again for what lies underneath
+  let lastProp = null;
   const wallsLayer = node.querySelector('[data-walls]');
   const tokensLayer = node.querySelector('[data-tokens]');
   const losLayer = node.querySelector('[data-los]');
@@ -43,6 +53,15 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   const ghost = node.querySelector('[data-ghost]');
   const marksLayer = node.querySelector('[data-marks]');
   const zonesLayer = node.querySelector('[data-zones]');
+  const defs = node.querySelector('[data-defs]');
+  const stack = node.querySelector('[data-stack]');
+  const under = node.querySelector('[data-under]');
+  const floorsBar = node.querySelector('[data-floors]');
+  const MODE = `fe.map.floors.${prefix}`; // decision 287: stacked (one floor) or side by side, per device and view
+  let stacked = (() => { try { return localStorage.getItem(MODE) !== 'side'; } catch { return true; } })();
+  let floorId = null; // the floor shown when stacked
+  let followed = null; // the floor of the marker the view follows, last time
+  let floorKey = '';
   let fadeTimer = null;
   const readout = node.querySelector('.map-view__readout');
   let state = null; // { key, map: { cols, rows, walls, props }, tokens, you, selected, selectedProp, sight: { from, to, result } | null }
@@ -57,10 +76,10 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   function update(next) {
     if (next.key !== state?.key) fitted = false;
     state = next;
-    const key = JSON.stringify([next.map.cols, next.map.rows, next.map.walls]);
+    const key = JSON.stringify([next.map.cols, next.map.rows, next.map.walls, next.map.areas ?? null]);
     if (key !== boardKey) {
       boardKey = key;
-      render(board, boardSvg(next.map, data, prefix));
+      render(board, html`${boardSvg(next.map, data, prefix)}${areasSvg(next.map.areas, data, prefix)}`); // decision 294: floor areas on the board
       render(wallsLayer, wallsSvg(next.map, data));
     }
     const links = (next.map.walls ?? []).filter((w) => w.kind.startsWith('link_')); // drawn with the pieces (decision 119)
@@ -76,7 +95,80 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
       + (next.watch?.length ? watchSvg(next.watch, next.watchOwn) : '') + (next.sight ? sightSvg(next.sight) : ''); // decision 250: overwatch areas (GM); 251: your own, red
     fogLayer.innerHTML = next.fog ? fogSvg(next.map, next.fog) : '';
     drawMarks();
+    drawFloors();
     settle();
+  }
+
+  // ------------------------------------------------------------------ floors (decision 287)
+
+  const floorsOf = () => [...(state?.map.floors ?? [])].sort((a, b) => (b.level ?? 0) - (a.level ?? 0));
+  const current = () => (stacked ? floorsOf().find((f) => f.id === floorId) ?? null : null);
+  /** Which floor to show: the followed marker's when it changes floor, else the one picked, else where most markers are. */
+  function pickFloor() {
+    const floors = floorsOf();
+    if (!floors.length) { floorId = null; return; }
+    const mine = state.follow ? state.tokens?.find((tk) => tk.key === state.follow) : null;
+    const mf = mine ? floorOf(state.map, mine) : null;
+    if (mf && mf.id !== followed) { followed = mf.id; floorId = mf.id; return; }
+    const count = (f) => (state.tokens ?? []).filter((tk) => floorOf(state.map, tk) === f && tk.kind === 'player').length;
+    if (state.crowd) { const top = [...floors].sort((a, b) => count(b) - count(a))[0]; if (count(top) > 0 || !floors.some((f) => f.id === floorId)) floorId = top.id; return; } // the TV: where most of the crew is
+    if (floors.some((f) => f.id === floorId)) return;
+    floorId = [...floors].sort((a, b) => count(b) - count(a))[0].id;
+  }
+  function clearFloors() { stack.removeAttribute('clip-path'); under.innerHTML = ''; defs.innerHTML = ''; }
+  function drawFloors() {
+    const floors = floorsOf();
+    if (!floors.length) { floorsBar.hidden = true; clearFloors(); return; }
+    pickFloor();
+    const f = current();
+    const shownFloor = f ?? floorsOf().find((fl) => fl.id === floorId);
+    const tokensOn = (fl) => (state.tokens ?? []).filter((tk) => floorOf(state.map, tk) === fl);
+    const you = state.you ? state.tokens?.find((tk) => tk.key === state.you) : null;
+    floorsBar.hidden = Boolean(state.crowd); // the TV follows the crew by itself
+    floorsBar.innerHTML = `${floors.map((fl) => {
+      const n = tokensOn(fl).length;
+      const here = you && floorOf(state.map, you) === fl;
+      return `<button class="map-floors__btn${stacked && fl.id === shownFloor?.id ? ' is-on' : ''}" data-floor="${fl.id}" title="${escapeHtml(fl.name)}${here ? ` · ${escapeHtml(t('map.floorYou'))}` : ''}"><span class="mono">${fl.level ?? 0}</span>${here ? '<span class="map-floors__you">●</span>' : n ? `<span class="map-floors__n">${n}</span>` : ''}</button>`;
+    }).join('')}<button class="map-floors__btn map-floors__mode" data-floor-mode title="${escapeHtml(t(stacked ? 'map.floorsAll' : 'map.floorsOne'))}">${stacked ? '◫' : '▤'}</button>`;
+    if (!f) { clearFloors(); return; }
+    const open = openSquares(state.map, data);
+    const holes = [...open.keys()].map((k) => k.split(',').map(Number)).filter(([x, y]) => x >= f.x && y >= f.y && x < f.x + f.w && y < f.y + f.h);
+    const below = floorBelow(state.map, f);
+    const holePath = holes.map(([x, y]) => `M${x * U} ${y * U}h${U}v${U}h${-U}z`).join('');
+    defs.innerHTML = `<clipPath id="${prefix}-floor-clip"><rect x="${f.x * U}" y="${f.y * U}" width="${f.w * U}" height="${f.h * U}"/></clipPath>`
+      + (holes.length && below ? `<clipPath id="${prefix}-open-clip"><path d="${holePath}"/></clipPath>` : '');
+    stack.setAttribute('clip-path', `url(#${prefix}-floor-clip)`);
+    under.innerHTML = holes.length && below
+      ? `<g clip-path="url(#${prefix}-open-clip)"><g transform="translate(${(f.x - below.x) * U} ${(f.y - below.y) * U})"><use href="#${prefix}-world"/></g><path class="map-open-depth" d="${holePath}"/></g>`
+      : '';
+    const k = `${f.id}|${state.key}`;
+    if (k !== floorKey && cam.rect().width) { floorKey = k; cam.fit({ x: f.x, y: f.y, w: f.w, h: f.h }); fitted = true; }
+  }
+  floorsBar.addEventListener('click', (e) => {
+    const b = e.target.closest('button');
+    if (!b || !state) return;
+    if (b.hasAttribute('data-floor-mode')) {
+      stacked = !stacked;
+      try { localStorage.setItem(MODE, stacked ? 'stack' : 'side'); } catch { /* private mode */ }
+      floorKey = '';
+      drawFloors();
+      if (!stacked) cam.fit();
+      return;
+    }
+    floorId = b.dataset.floor;
+    if (!stacked) { stacked = true; try { localStorage.setItem(MODE, 'stack'); } catch { /* private mode */ } }
+    floorKey = '';
+    drawFloors();
+  });
+  /** Decision 287: a point the view shows — on the current floor, or seen through one of its openings (then the floor below). */
+  function shownAt(p) {
+    const f = current();
+    if (!f) return p;
+    if (p.x < f.x || p.y < f.y || p.x >= f.x + f.w || p.y >= f.y + f.h) return null;
+    const s = squareAt(p);
+    const below = floorBelow(state.map, f);
+    if (below && openSquares(state.map, data).has(`${s.x},${s.y}`)) return { x: p.x - f.x + below.x, y: p.y - f.y + below.y, through: true };
+    return p;
   }
   /** Marks (decision 82): state.marks = { list, skew, selected }; redrawn by itself when one starts to fade or goes. */
   function drawMarks() {
@@ -90,11 +182,13 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   /** Fits the first time the element has a size (it may be updated before it is on screen): to the focus when there is one. */
   function settle() {
     if (!state || !cam.rect().width) return;
-    if (!fitted) { cam.fit(state.focus ?? null); fitted = true; framed = state.focus ? 'focus' : 'all'; } else cam.keepAspect();
+    const f = current();
+    const due = f && floorKey !== `${f.id}|${state.key}`; // decision 293: a floor change that came while the map was off screen (the sheet redrawing round it)
+    if (!fitted || due) { cam.fit(f ? { x: f.x, y: f.y, w: f.w, h: f.h } : state.focus ?? null); fitted = true; framed = state.focus ? 'focus' : 'all'; if (f) floorKey = `${f.id}|${state.key}`; } else cam.keepAspect();
   }
   new ResizeObserver(settle).observe(svg);
   // the prop drawings arrive once; until then props show as outlines
-  loadProps(data).then(() => { propsKey = ''; if (state) update(state); });
+  loadProps(data).then(() => { propsKey = ''; boardKey = ''; if (state) update(state); }); // areas fill with the drawings too
 
   /**
    * Fog of war (decision 71) and light (decision 191), four levels kept apart at a glance: never seen (covered —
@@ -155,11 +249,13 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   function drawGhost(g) {
     const { from, to, reach } = g;
     const c = (s) => `${(s.x + 0.5) * U},${(s.y + 0.5) * U}`;
-    const shade = reach ? [...reach.keys()].map((k) => { const [x, y] = k.split(',').map(Number); return `<rect class="map-reach" x="${x * U}" y="${y * U}" width="${U}" height="${U}"/>`; }).join('') : '';
+    // decision 293: the reachable squares are drawn once per drag; only the route and the ring follow the finger
+    if (!g.shade) g.shade = reach ? [...reach.keys()].map((k) => { const [x, y] = k.split(',').map(Number); return `<rect class="map-reach" x="${x * U}" y="${y * U}" width="${U}" height="${U}"/>`; }).join('') : '';
+    if (!ghost.querySelector(':scope > [data-shade]')) ghost.innerHTML = `<g data-shade>${g.shade}</g><g data-route></g>`;
     const route = on.route ? on.route(g.key, to) : [from, to];
     const out = Boolean(on.route) && !route;
     const path = route ?? [from, to];
-    ghost.innerHTML = `${shade}<polyline class="map-ghost__path ${out ? 'map-ghost__path--out' : ''}" points="${path.map(c).join(' ')}" stroke-width="${U * 0.08}" fill="none"/>`
+    ghost.querySelector(':scope > [data-route]').innerHTML = `<polyline class="map-ghost__path ${out ? 'map-ghost__path--out' : ''}" points="${path.map(c).join(' ')}" stroke-width="${U * 0.08}" fill="none"/>`
       + `<circle class="map-ghost ${out ? 'map-ghost--out' : ''}" cx="${(to.x + 0.5) * U}" cy="${(to.y + 0.5) * U}" r="${U * 0.42}"/>`;
     const n = route ? route.length - 1 : squaresBetween(from, to);
     showReadout(out ? (on.readout?.(null) ?? '—') : (on.readout?.(n) ?? `${n} sq · ${n * data.map.square.metres} m`));
@@ -206,7 +302,7 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     else if (g.kind === 'token') {
       if (Math.hypot(e.clientX - g.sx, e.clientY - g.sy) > DRAG_PX) g.moved = true;
       const s = squareAt(cam.toMap(e));
-      if (onBoard(state.map, s)) g.to = s;
+      if (onBoard(state.map, s) && shownAt(cam.toMap(e))) g.to = s; // stacked: only squares of the floor shown (an opening: the drop)
       if (g.moved) drawGhost(g);
     }
   }
@@ -229,8 +325,12 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
       } else if (g.kind === 'pan' && !g.moved && interactive && on.wantsSquare?.() && onBoard(state.map, squareAt(cam.toMap(e)))) {
         on.tapSquare?.(squareAt(cam.toMap(e))); // placing a marker (or editing fog): the square, whatever lies on it
       } else if (g.kind === 'pan' && !g.moved && interactive) {
-        const p = cam.toMap(e);
+        const seen = shownAt(cam.toMap(e)); // decision 287: off the shown floor, nothing; through an opening, the floor below
+        if (!seen) { if (!pointers.size) on.idle?.(); return; }
+        const p = seen.through ? seen : cam.toMap(e);
         const tk = on.tapToken ? tokenAt(p) : null;
+        const again = !tk && on.tapProp ? cycle.next(p, propsUnder(state.map, data, p, { tolerance: cam.pxToSq(SMALL_PX), floors: false }), lastProp) : null; // decision 301
+        if (again) { lastProp = again; on.tapProp(again); if (!pointers.size) on.idle?.(); return; }
         // decision 135: small pieces first when the tap is on one, and within reach when nothing else is hit
         const small = !tk && on.tapProp ? smallPropNear(state.map, data, p, cam.pxToSq(SMALL_PX)) : null;
         // markers, then furniture, then doors and lasers, then the floor under it all
@@ -241,15 +341,20 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
         const weak = !tk && !prop && !door && !laser && on.tapWall ? hitWall({ ...state.map, walls: state.map.walls.filter((w) => w.breakable || w.broken) }, p, cam.pxToSq(DOOR_PX)) : null; // GM: breakable walls (decision 83)
         // terrain and outlines last; floor textures never (on the table they are only looks)
         const ground = !tk && !prop && !door && !laser && on.tapProp ? hitProp(state.map, data, p, { ground: 'only', floors: false }) : null;
+        // decision 301: on a city map a road, rail or river drawn over a district never hides it — the district first (tap again: the road)
+        const overDistrict = (id) => { const d = id && propDefOf(id); return d?.category === 'city' && d.decal ? propsUnder(state.map, data, p, { floors: false }).find((x) => isDistrict(propDefOf(x))) ?? id : id; };
+        const propDefOf = (id) => propDef(data, state.map.props.find((x) => x.id === id)?.prop);
+        const groundPick = overDistrict(ground);
+        lastProp = tk ? null : small?.on ? small.id : doorOnLine ? null : small ? small.id : overDistrict(prop) ?? (door || laser || weak ? null : groundPick);
         if (tk) on.tapToken(tk.key);
         else if (small?.on) on.tapProp(small.id);
         else if (doorOnLine) on.tapDoor(doorOnLine);
         else if (small) on.tapProp(small.id);
-        else if (prop) on.tapProp(prop);
+        else if (prop) on.tapProp(overDistrict(prop));
         else if (door) on.tapDoor(door);
         else if (laser) on.tapLaser(laser);
         else if (weak) on.tapWall(weak);
-        else if (ground) on.tapProp(ground);
+        else if (ground) on.tapProp(groundPick);
         else if (on.tapZone && zoneAt(state.map, p)) on.tapZone(zoneAt(state.map, p)); // GM event zones (decision 83)
         else if (onBoard(state.map, squareAt(p))) on.tapSquare?.(squareAt(p));
       }
@@ -274,7 +379,13 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     settle();
   }
 
-  return { node, update, attach, on, isBusy: () => pointers.size > 0, fit: () => { const f = state?.focus; if (f && framed !== 'focus') { cam.fit(f); framed = 'focus'; } else { cam.fit(); framed = 'all'; } }, zoom: (dir) => cam.zoomStep(dir) };
+  return { node, update, attach, on, isBusy: () => pointers.size > 0,
+    fit: () => { const cf = current(); if (cf) { cam.fit({ x: cf.x, y: cf.y, w: cf.w, h: cf.h }); return; } const f = state?.focus; if (f && framed !== 'focus') { cam.fit(f); framed = 'focus'; } else { cam.fit(); framed = 'all'; } },
+    zoom: (dir) => cam.zoomStep(dir),
+    pan: (fx, fy) => cam.nudge(fx, fy), // decision 337: the GM's arrows for the TV
+    floors: () => floorsOf().map((f) => ({ id: f.id, name: f.name ?? '' })),
+    /** Decision 287: the floor shown (null: side by side or no floors), and show one. */
+    floor: () => current(), showFloor: (id) => { floorId = id; floorKey = ''; drawFloors(); } };
 }
 
 /**

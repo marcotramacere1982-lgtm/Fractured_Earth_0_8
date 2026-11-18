@@ -3,6 +3,7 @@
 // recipe and height (skyline-recipes.js), drawn back to front; markers stand as pins. Look only: pan, zoom and tap
 // a square (on.tapSquare) — moving, sight lines and marks stay in the top-down view.
 
+import { propDef } from '../../rules/props.js';
 import { escape } from '../dom.js';
 import { boardSvg, propsSvg, wallsSvg, tintOf } from './render.js';
 import { tileBoxes } from './skyline-recipes.js';
@@ -11,7 +12,7 @@ import { createCamera } from './camera.js';
 const TAP_PX = 6;
 
 /** Does this map have anything that grows a skyline? (the switch shows only then) */
-export const hasSkyline = (map, data) => (map?.props ?? []).some((p) => data.props.props.find((d) => d.id === p.prop)?.skyline);
+export const hasSkyline = (map, data) => (map?.props ?? []).some((p) => propDef(data, p.prop)?.skyline);
 
 /** The projection for a map: ground squares (x, y) and a height z → view units, and back. */
 export function projection(map, data) {
@@ -67,7 +68,7 @@ export function skylineSvg(state, data, prefix = 'sky') {
   // every box of every tile, in ground squares, then back to front
   const boxes = [];
   for (const p of map.props ?? []) {
-    const def = data.props.props.find((d) => d.id === p.prop);
+    const def = propDef(data, p.prop);
     if (!def?.skyline) continue;
     const turned = (p.rot ?? 0) % 180 !== 0;
     const W = turned ? def.size.h : def.size.w;
@@ -105,16 +106,52 @@ export function skylineSvg(state, data, prefix = 'sky') {
 }
 
 /** The city tile under a ground square (for a tap), or null. */
-export function tileAt(map, data, sq) {
+export const tileAt = (map, data, sq) => tilesAt(map, data, sq)[0] ?? null;
+/** Every city tile under a ground point, topmost first. */
+export function tilesAt(map, data, sq) {
+  const out = [];
   for (const p of [...(map.props ?? [])].reverse()) {
-    const def = data.props.props.find((d) => d.id === p.prop);
+    const def = propDef(data, p.prop);
     if (def?.category !== 'city' || def.decal) continue;
     const turned = (p.rot ?? 0) % 180 !== 0;
     const W = turned ? def.size.h : def.size.w;
     const H = turned ? def.size.w : def.size.h;
-    if (sq.x >= p.x - W / 2 && sq.x < p.x + W / 2 && sq.y >= p.y - H / 2 && sq.y < p.y + H / 2) return p.id;
+    if (sq.x >= p.x - W / 2 && sq.x < p.x + W / 2 && sq.y >= p.y - H / 2 && sq.y < p.y + H / 2) out.push(p.id);
   }
-  return null;
+  return out;
+}
+
+/** Decision 301: the convex hull of some screen points (monotone chain), for a tile's silhouette. */
+function hull(points) {
+  const s = [...points].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const half = (list) => { const h = []; for (const p of list) { while (h.length >= 2 && cross(h[h.length - 2], h[h.length - 1], p) <= 0) h.pop(); h.push(p); } h.pop(); return h; };
+  return [...half(s), ...half(s.reverse())];
+}
+const inside = (poly, x, y) => poly.length > 2 && poly.every((a, i) => { const b = poly[(i + 1) % poly.length]; return (b[0] - a[0]) * (y - a[1]) - (b[1] - a[1]) * (x - a[0]) >= 0; });
+
+/**
+ * Decision 301: the city tiles a tap on the skyline could mean — every tile whose drawing (ground and buildings) covers
+ * the screen point, frontmost first (what is drawn on top), so a tap on a tower picks the tower, not the ground behind it.
+ */
+export function tilesUnderScreen(map, data, P, sx, sy) {
+  const hits = [];
+  for (const p of map.props ?? []) {
+    const def = propDef(data, p.prop);
+    if (def?.category !== 'city' || def.decal) continue;
+    const turned = (p.rot ?? 0) % 180 !== 0;
+    const W = turned ? def.size.h : def.size.w;
+    const H = turned ? def.size.w : def.size.h;
+    const x0 = p.x - W / 2;
+    const y0 = p.y - H / 2;
+    const at = (poly) => inside(poly, sx, sy) || inside([...poly].reverse(), sx, sy);
+    const ground = hull([[x0, y0], [x0 + W, y0], [x0 + W, y0 + H], [x0, y0 + H]].map(([x, y]) => P.at(x, y, 0)));
+    // each building as drawn: its own footprint, from the ground to its roof
+    const boxes = def.skyline ? turn(tileBoxes({ ...p, rot: 0 }, def), p.rot, def.size.w, def.size.h) : [];
+    const solid = boxes.some((b) => { const bx = x0 + b.x; const by = y0 + b.y; const c = [[bx, by], [bx + b.w, by], [bx + b.w, by + b.h], [bx, by + b.h]]; return at(hull([...c.map(([x, y]) => P.at(x, y, b.z0)), ...c.map(([x, y]) => P.at(x, y, b.z1))])); });
+    if (solid || at(ground)) hits.push({ id: p.id, depth: x0 + W / 2 + y0 + H / 2, solid });
+  }
+  return hits.sort((a, b) => b.depth - a.depth).map((h) => h.id); // what is drawn on top first
 }
 
 /**
@@ -175,7 +212,7 @@ export function createSkylineViewer({ data, prefix = 'sky', on = {} }) {
       const m = cam.toMap(e); // view units ÷ U
       const sq = P.ground(m.x * P.U, m.y * P.U);
       const at = { x: Math.floor(sq.x), y: Math.floor(sq.y) };
-      if (at.x >= 0 && at.y >= 0 && at.x < state.map.cols && at.y < state.map.rows) on.tapSquare?.(at);
+      if (at.x >= 0 && at.y >= 0 && at.x < state.map.cols && at.y < state.map.rows) on.tapSquare?.(at, { pt: sq, tiles: tilesUnderScreen(state.map, data, P, m.x * P.U, m.y * P.U) }); // decision 301: what the tap could mean
     }
     if (!pointers.size) on.idle?.();
   };

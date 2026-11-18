@@ -8,11 +8,12 @@ import { emptyProgress, progressStatus, talentEffects } from '../rules/progress.
 import { emptyDowntime } from '../rules/downtime.js';
 import { findSubclass, classTN, deckCapacity, deckStatus } from '../rules/classes.js';
 import { zoneBonus, isRanged, opticStats, stanceOf } from '../rules/engines.js';
-import { lifestyleUpkeep, magazineId, addItem } from '../rules/economy.js';
+import { lifestyleUpkeep, magazineId, magazineFor, addItem } from '../rules/economy.js';
 import { conditionMods, halvedMove } from '../rules/conditions.js';
 import { allowance, roundAllowance } from '../rules/turn.js';
 import { effectTotals } from '../rules/items.js';
 import { withUniques, uniqueBonuses } from '../rules/uniques.js';
+import { catchSkills } from '../rules/jobs.js';
 import { emptyStash } from '../rules/stash.js';
 import { uid } from './id.js';
 import { droneProfile, STARTER_DRONE } from '../rules/field-drone.js';
@@ -116,6 +117,15 @@ export function upgradeSave(c, data = null) {
     c.play.droneGranted = true;
   }
   c.play.droneMods ??= [];
+  if (data?.weapons) { // decision 311: spares kept for one unique gun join the magazines of the gun it came from
+    for (const row of c.play.inventory.filter((x) => x.kind === 'weapon' && x.unique)) {
+      const own = magazineId(row.id), shared = magazineFor({ ...row.unique, id: row.id }, data);
+      const spare = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === own);
+      if (!spare || own === shared) continue;
+      c.play.inventory = c.play.inventory.filter((x) => x !== spare);
+      if (spare.qty > 0) addItem(c, 'ammo', shared, spare.qty);
+    }
+  }
   if (data?.abilities && c.classId && Array.isArray(c.play.abilities)) { // decision 176: gone (Release Payload) or housekeeping — out of the slots
     const list = data.abilities[c.classId] ?? [];
     c.play.abilities = c.play.abilities.filter((id) => list.some((a) => a.id === id && !a.housekeeping));
@@ -167,8 +177,10 @@ export function deriveSheet(character, data) {
   armor.condition = cm.armor;
   const injured = limbs(character.play.injuries ?? [], data.body);
   const sub = character.subclassId ? findSubclass(data.classes, character.subclassId) : null;
+  const lifeCatch = data.jobs ? catchSkills(character, data) : {};
   const skillsBase = computeSkills(a, data.skills).map((k) => (fx.skills?.[k.id] ? { ...k, value: k.value + fx.skills[k.id], talent: fx.skills[k.id] } : k))
-    .map((k) => (uniq.skills[k.id] ? { ...k, value: k.value + uniq.skills[k.id], unique: uniq.skills[k.id] } : k));
+    .map((k) => (uniq.skills[k.id] ? { ...k, value: k.value + uniq.skills[k.id], unique: uniq.skills[k.id] } : k))
+    .map((k) => (lifeCatch[k.id] ? { ...k, value: k.value + lifeCatch[k.id], lifestyle: lifeCatch[k.id] } : k)); // decision 331: the cheapest plans' catch
   const strainNow = data.strain ? { value: character.play.strain ?? 0, band: bandOf(character.play.strain ?? 0, data.strain), tn: strainTn(character.play.strain ?? 0, data.strain) } : { value: 0, band: null, tn: 0 }; // decision 266
   const skillMod = (cm.skillTn ?? 0) + strainNow.tn;
   const modOf = (k) => skillMod + (k.id === 'avoid_reflexes' ? cm.dodgeTn ?? 0 : 0); // Guarded: Dodge only (decision 282)
@@ -187,7 +199,7 @@ export function deriveSheet(character, data) {
       const zoneTn = isRanged(w) ? zone.rangedTn : 0; // Smuggler Cold: steadier aim
       const tn = weaponTN(w, skillsBase) + zoneTn + stanceTn + (w.tnBonus ?? 0); // a unique's own TN bonus
       const rounds = character.play.ammo[slot] ?? 0;
-      const spares = w.magSize ? character.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.moddedFrom ?? w.id))?.qty ?? 0 : 0; // a modded copy loads its stock magazines (decision 173)
+      const spares = w.magSize ? character.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineFor(w, data))?.qty ?? 0 : 0; // a modded copy or a Forge unique loads its stock magazines (decisions 173, 311)
       return { slot, ...w, tn: tn + cm.attackTn, base: cm.attackTn ? tn : undefined, zoneTn, stanceTn, rounds, spares, // Focused / Blinded; only a condition sets `base`, never a record field
         burst: w.burst ?? 1, attacksLeft: w.magSize ? Math.ceil(rounds / (w.burst ?? 1)) : null, // automatic weapons fire 3-round bursts
         inHand: slot === handSlot };

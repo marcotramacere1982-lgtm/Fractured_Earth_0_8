@@ -281,7 +281,7 @@ export function engineCard(c, s, data, combat = null, opts = {}) {
   // decision 174: housekeeping — always at hand, outside the slots; in a fight each costs an action
   const chores = data.abilities[c.classId].filter((a) => a.housekeeping && a.subclasses.includes(c.subclassId)).map((a) => ({ ...a, check: canUse(c.classId, a, r, ctx) }));
   const choreButton = (a) => html`<button class="btn btn--sm" data-action="abilityRoll" data-id="${a.id}" ${a.check.ok ? '' : 'disabled'} title="${a.check.ok ? a.desc : ruleText(a.check)}">${a.name}</button>`;
-  const choresStrip = chores.length ? html`<div class="chores"><span class="label">${t('engine.housekeeping')}${info('housekeeping', t('engine.housekeeping'))}</span><span class="cluster">${chores.map(choreButton)}</span></div>` : '';
+  const choresStrip = chores.length ? html`<div class="chores" data-tour="engine-chores"><span class="label">${t('engine.housekeeping')}${info('housekeeping', t('engine.housekeeping'))}</span><span class="cluster">${chores.map(choreButton)}</span></div>` : '';
   // Equipped = the loadout the player chose (swap between combats, capped by brain fog).
   // Ready = equipped AND the class criteria are met right now (computed live, never stored).
   const equipped = c.play.abilities.map((id) => all.find((a) => a.id === id)).filter(Boolean)

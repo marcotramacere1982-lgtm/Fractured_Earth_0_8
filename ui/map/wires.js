@@ -31,14 +31,28 @@ export function wireAt(map, p, tolerance) {
   return best?.id ?? null;
 }
 
+/**
+ * Decision 291: is a wire leaving `from` hidden? hidden holds feeders / nodes whose wiring the GM hid — a wire is
+ * hidden when it leaves one of them or anything below one (edges: the wires, from → to).
+ */
+export function hiddenBelow(edges, hidden) {
+  if (!hidden?.size) return () => false;
+  const parent = new Map(edges.map((w) => [w.to, w.from]));
+  return (id) => { let x = id; for (let n = 0; x && n < 500; n += 1) { if (hidden.has(x)) return true; x = parent.get(x); } return false; };
+}
+
 /** opts: armed (the feeder a run of wires starts from), selected (a wire id). */
-export function wiresSvg(map, data, { armed = null } = {}) {
+export function wiresSvg(map, data, { armed = null, hidden = null } = {}) {
   const U = data.map.square.units;
   if (!(map.wires ?? []).some((w) => w.net !== 'data') && !armed) return raw('');
   const { via } = powerState(map, data);
   const sources = [...new Set([...via.values()])];
   const tags = circuitTags(map, data);
-  const lines = (map.wires ?? []).filter((w) => w.net !== 'data').map((w) => { // data links: networkSvg
+  const power = (map.wires ?? []).filter((w) => w.net !== 'data');
+  const below = hiddenBelow(power, hidden); // decision 291: a hidden feeder's wiring isn't drawn, nor anything under it
+  const parent = new Map(power.map((w) => [w.to, w.from]));
+  for (const id of [...tags.keys()]) if (!hidden?.has(id) && below(parent.get(id))) tags.delete(id); // the hidden one keeps its tag
+  const lines = power.filter((w) => !below(w.from)).map((w) => { // data links: networkSvg
     const a = wireEnd(map, w.from);
     const b = wireEnd(map, w.to);
     if (!a || !b) return '';
@@ -58,15 +72,19 @@ export function wiresSvg(map, data, { armed = null } = {}) {
  * dotted and faint, each access point's range as a faint ring; tags N1, R1, W1, RP1; a "?" on a networked device
  * that reaches no network. opts: armed (the node a run of links starts from).
  */
-export function networkSvg(map, data, { armed = null } = {}) {
+export function networkSvg(map, data, { armed = null, hidden = null } = {}) {
   const U = data.map.square.units;
   const nodes = (map.props ?? []).filter((p) => NET_NODES.includes(netRole(propDef(data, p.prop))));
   if (!nodes.length) return raw('');
   const line = (w, cls) => { const a = wireEnd(map, w.from); const b = wireEnd(map, w.to); return a && b ? `<line class="map-net ${cls}" x1="${a.x * U}" y1="${a.y * U}" x2="${b.x * U}" y2="${b.y * U}" stroke-width="${U * 0.03}"/>` : ''; };
-  const links = (map.wires ?? []).filter((w) => w.net === 'data').map((w) => line(w, `${w.wifi ? 'map-net--wifi' : 'map-net--cable'}${w.cut ? ' map-net--cut' : ''}`)).join('');
-  const joins = autoJoins(map, data).map((w) => line(w, 'map-net--auto')).join('');
-  const rings = nodes.map((p) => { const r = propDef(data, p.prop)?.wifi?.radius; return r ? `<circle class="map-net__range" cx="${p.x * U}" cy="${p.y * U}" r="${(r + 0.5) * U}" stroke-width="${U * 0.02}"/>` : ''; }).join('');
+  const edges = [...(map.wires ?? []).filter((w) => w.net === 'data'), ...autoJoins(map, data)];
+  const gone = hiddenBelow(edges, hidden); // decision 291: a hidden node's links aren't drawn, nor anything under it
+  const up = new Map(edges.map((w) => [w.to, w.from]));
+  const links = (map.wires ?? []).filter((w) => w.net === 'data' && !gone(w.from)).map((w) => line(w, `${w.wifi ? 'map-net--wifi' : 'map-net--cable'}${w.cut ? ' map-net--cut' : ''}`)).join('');
+  const joins = autoJoins(map, data).filter((w) => !gone(w.from)).map((w) => line(w, 'map-net--auto')).join('');
+  const rings = nodes.filter((p) => !gone(p.id)).map((p) => { const r = propDef(data, p.prop)?.wifi?.radius; return r ? `<circle class="map-net__range" cx="${p.x * U}" cy="${p.y * U}" r="${(r + 0.5) * U}" stroke-width="${U * 0.02}"/>` : ''; }).join('');
   const tags = networkTags(map, data);
+  for (const id of [...tags.keys()]) if (!hidden?.has(id) && gone(up.get(id))) tags.delete(id); // the hidden one keeps its tag
   const label = (id, text, cls) => { const e = wireEnd(map, id); const below = text === '?' && tags.has(id) ? U * 0.22 : 0; return e ? `<text class="map-wire__tag map-net__tag ${cls}" x="${e.x * U + U * 0.18}" y="${e.y * U + U * 0.3 + below}" font-size="${U * 0.2}">${escape(text)}</text>` : ''; };
   const state = networkState(map, data);
   const matters = (id) => { const d = propDef(data, (map.props ?? []).find((q) => q.id === id)?.prop); return NET_NODES.includes(netRole(d)) || d?.battery || d?.sensor || d?.category === 'sensor' || d?.category === 'security'; };

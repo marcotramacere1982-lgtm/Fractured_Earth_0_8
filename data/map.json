@@ -9,7 +9,7 @@
       "rows": 20
     },
     "min": 4,
-    "max": 120
+    "max": 200
   },
   "move": {
     "explore": 30,

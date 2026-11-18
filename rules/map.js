@@ -3,13 +3,19 @@
 // GM map builder and, later, the sheet's map view. Every change returns a new map.
 
 import { normalizeZones, publicHazards } from './zones.js';
-import { activeProps, propDef, propEdges, insideProp, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
+import { isDistrict, cleanDistrict } from './districts.js'; // decision 301
+import { activeProps, propDef, propEdges, insideProp, propCorners, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
 import { FAIL_MODES } from './power.js';
 import { normalizeAllWires } from './network.js';
-import { floorEdges, linkJumps, normalizeFloors, stairLanding } from './floors.js';
+import { floorEdges, linkJumps, normalizeFloors } from './floors.js';
 import { cleanLoot } from './loot.js'; // decision 277
+import { normalizeGuides } from './guides.js'; // decision 290
+import { indexOf } from './seg-index.js'; // decision 293
+import { normalizeAreas } from './areas.js'; // decision 294
+import { openSquares, crossSight, squaresAcross, coverFromAbove, dropLanding } from './vertical.js'; // decision 287
 
 export const MAP_SCHEMA = 1;
+export const MAX_PROPS = 8000; // decision 292: was 2000 — a floor laid in tiles passes that
 const FREE_STEP = 0.05; // snap off: positions still round to 1/20 of a square
 const clone = (x) => structuredClone(x);
 const round = (n, step) => Number((Math.round(n / step) * step).toFixed(2));
@@ -73,6 +79,7 @@ export function setWall(map, id, fields) {
   if (w.netName === undefined || w.netName === '') delete w.netName; // decision 256: a networked door's name (a ping shows it)
   if (w.kind === 'laser' && !wasLaser) Object.assign(w, laserState(), fields.hidden != null ? { hidden: fields.hidden } : {});
   if (w.kind !== 'laser') for (const k of LASER_KEYS) if (!(isLink(w) && k === 'hidden')) delete w[k]; // links keep `hidden`
+  if (w.kind !== 'laser' || !w.silent) delete w.silent; // decision 298
   if (isLink(w)) { w.hidden = Boolean(w.hidden); w.cut = Boolean(w.cut); } else delete w.cut;
   if (!WEAKABLE.has(w.kind)) for (const k of WEAK_KEYS) delete w[k];
   for (const k of WEAK_KEYS) if (w[k] === false) delete w[k]; // kept only when true: old maps and files stay the same
@@ -145,13 +152,13 @@ export function normalizeMap(raw, data) {
     const weak = WEAKABLE.has(w.kind) ? Object.fromEntries(WEAK_KEYS.filter((k) => w[k] === true).map((k) => [k, true])) : {};
     const link = isLink(w) ? { hidden: w.hidden === true, cut: w.cut === true } : {};
     const electric = w.kind === 'door' && w.powered === true ? { powered: true, fail: FAIL_MODES.includes(w.fail) ? w.fail : 'secure', ...(typeof w.netName === 'string' && w.netName.trim() ? { netName: w.netName.trim().slice(0, 30) } : {}) } : {}; // decision 127; 256: its network name
-    walls.push({ id: idFor(w.id), a, b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open === true, locked: w.locked === true } : {}), ...electric, ...laser, ...weak, ...link });
+    walls.push({ id: idFor(w.id), a, b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open === true, locked: w.locked === true } : {}), ...electric, ...laser, ...(w.kind === 'laser' && w.silent === true ? { silent: true } : {}), ...weak, ...link }); // decision 298: a silent laser (GM-only)
   }
   // props (decision 68): known library pieces only, ids kept like walls
   const props = [];
   const pUsed = new Set();
   let pn = 0;
-  for (const q of (Array.isArray(raw.props) ? raw.props : []).slice(0, 2000)) {
+  for (const q of (Array.isArray(raw.props) ? raw.props : []).slice(0, MAX_PROPS)) {
     if (!propDef(data, q?.prop) || !Number.isFinite(q.x) || !Number.isFinite(q.y) || Math.abs(q.x) > limit || Math.abs(q.y) > limit) continue;
     let id = /^p\d{1,6}$/.test(q.id ?? '') && !pUsed.has(q.id) ? q.id : null;
     while (!id || pUsed.has(id)) id = `p${++pn}`;
@@ -161,11 +168,13 @@ export function normalizeMap(raw, data) {
     const { min, max } = data.map.sensor.reach;
     const reach = Object.fromEntries(Object.entries(q.reach ?? {}).filter(([k, n]) => def.sensor?.reach?.[k] != null && Number.isFinite(n)).map(([k, n]) => [k, Math.max(min, Math.min(max, Math.round(n)))]));
     const text = (k, max) => (typeof q[k] === 'string' && q[k].trim() ? { [k]: q[k].trim().slice(0, max) } : {}); // GM label / note (decision 99)
-    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(['uplink', 'router', 'ap', 'repeater'].includes(def.net) ? text('netName', 30) : {}), ...(def.net === 'uplink' && ['civil', 'corp', 'military'].includes(q.security) ? { security: q.security } : {}), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}), ...(q.search === true ? { search: true } : {}), ...(cleanLoot(q.loot) ? { loot: cleanLoot(q.loot) } : {}) }); // decision 277: searchable, and what's in it
+    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(['uplink', 'router', 'ap', 'repeater'].includes(def.net) ? text('netName', 30) : {}), ...(def.net === 'uplink' && ['civil', 'corp', 'military'].includes(q.security) ? { security: q.security } : {}), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}), ...(q.search === true ? { search: true } : {}), ...(q.silent === true && def.sensor ? { silent: true } : {}), /* decision 298: a silent sensor (GM-only) */ ...(isDistrict(def) && Object.keys(cleanDistrict(q.district, data)).length ? { district: cleanDistrict(q.district, data) } : {}), /* decision 301: a district's defaults (GM-only) */ ...(cleanLoot(q.loot) ? { loot: cleanLoot(q.loot) } : {}) }); // decision 277: searchable, and what's in it
   }
   const wires = normalizeAllWires(raw.wires, { walls, props }, data); // decisions 127, 129: GM-only power wiring and data links
   const floors = normalizeFloors(raw, { cols: base.cols, rows: base.rows, props }, data); // decision 184
-  return { ...base, walls, props, ...(wires.length ? { wires } : {}), ...(floors.floors.length ? floors : {}), zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
+  const guides = normalizeGuides(raw.guides); // decision 290: construction guides (the builder's only)
+  const areas = normalizeAreas(raw.areas, base, data); // decision 294: floor areas
+  return { ...base, walls, props, ...(wires.length ? { wires } : {}), ...(floors.floors.length ? floors : {}), ...(guides.length ? { guides } : {}), ...(areas.length ? { areas } : {}), zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
 }
 
 /** Counts by kind, for the builder's summary. */
@@ -208,6 +217,7 @@ export function publicMap(live, people, data) {
       ...(w.broken ? { broken: true } : {}), ...(w.cracks ? { cracks: true } : {}), ...(isLink(w) && w.cut ? { cut: true } : {}) })), // a weak wall's `breakable` never leaves the GM (decision 83)
     props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.reach ? { reach: p.reach } : {}), ...(p.caption ? { caption: p.caption } : {}), ...(p.height != null ? { height: p.height } : {}), ...publicState(p, propDef(data, p.prop)) })), // a caption travels; label and note never do
     ...((m.zones ?? []).some((z) => z.type === 'hazard') ? { hazards: publicHazards(m) } : {}), // decision 258: on and shown only
+    ...(m.areas?.length ? { areas: m.areas } : {}), // decision 294: floor areas (the players' fog covers what they haven't seen)
     ...(m.floors?.length ? { floors: m.floors, floorLinks: (m.floorLinks ?? []).filter((l) => [l.a, l.b].every((id) => activeProps(m).some((p) => p.id === id))) } : {}), // decision 184: the building's floors
     tokens: people.filter((p) => !p.hidden && live.tokens[p.key]).map((p) => ({
       key: p.key, kind: p.kind, label: p.label, name: p.name, x: live.tokens[p.key].x, y: live.tokens[p.key].y, down: Boolean(p.down), current: Boolean(p.current),
@@ -273,7 +283,8 @@ export function solidSegments(map) {
  * round the end of a wall but never through a room's corner.
  */
 function stepClear(a, b, blockers) {
-  const straight = (p, q) => !blockers.some((w) => meet(centre(p), centre(q), w.a, w.b));
+  const near = blockers.length > 40 ? indexOf(blockers).box(a, b, 1.5) : blockers; // decision 293: only the walls near the step
+  const straight = (p, q) => !near.some((w) => meet(centre(p), centre(q), w.a, w.b));
   if (a.x === b.x || a.y === b.y) return straight(a, b);
   const c1 = { x: b.x, y: a.y };
   const c2 = { x: a.x, y: b.y };
@@ -281,7 +292,9 @@ function stepClear(a, b, blockers) {
 }
 
 /** Everything that stops a step: walls, windows, closed doors, and props that block movement (decision 68). */
-const moveBlockers = (map, data) => [
+const blockMemo = new WeakMap(); // decision 293: one list per map state (the index is built once per list)
+const moveBlockers = (map, data) => { let l = blockMemo.get(map); if (!l) { l = moveBlockersOf(map, data); blockMemo.set(map, l); } return l; };
+const moveBlockersOf = (map, data) => [
   ...solidSegments(map).filter((w) => blocksMove(w, data)),
   ...activeProps(map).filter((p) => propBlocksMove(propDef(data, p.prop), p)).flatMap((p) => propEdges(p, data)),
   ...activeProps(map).flatMap((p) => blockedEdges(p, data)), // stairs and elevators: invisible side walls (decision 72)
@@ -302,6 +315,7 @@ function walk(map, data, from, max) {
   const rough = difficultSquares(map, data);
   const jumps = linkJumps(map, data); // decision 184: a linked staircase leads to its partner
   const jumpCost = data.map.floors?.linkCost ?? 2;
+  const open = openSquares(map, data); // decision 287: no slab — step in and drop one floor (railed: no way in)
   const steps = new Map([[`${from.x},${from.y}`, 0]]);
   const prev = new Map();
   const buckets = [[from]];
@@ -311,6 +325,13 @@ function walk(map, data, from, max) {
       for (const [dx, dy] of STEPS) {
         const t = { x: s.x + dx, y: s.y + dy };
         const k = `${t.x},${t.y}`;
+        if (open.has(k)) { // decision 287: an opening is never stood on — stepping in lands one floor down
+          const land = onBoard(map, t) && stepClear(s, t, blockers) ? dropLanding(map, open, t) : null;
+          const lk = land && `${land.x},${land.y}`;
+          const lc = cost + jumpCost;
+          if (land && lc <= max && !(steps.has(lk) && steps.get(lk) <= lc)) { steps.set(lk, lc); prev.set(lk, s); (buckets[lc] ??= []).push(land); }
+          continue;
+        }
         const c = cost + (rough.has(k) ? 2 : 1);
         if (c > max || (steps.has(k) && steps.get(k) <= c) || !onBoard(map, t) || !stepClear(s, t, blockers)) continue;
         steps.set(k, c);
@@ -333,6 +354,15 @@ function walk(map, data, from, max) {
 /** Squares reachable from `from` in at most `max` steps, walking round walls: Map "x,y" → steps. */
 export const reachable = (map, data, from, max) => walk(map, data, from, max).steps;
 
+/**
+ * Decision 293: every route from one square at once — { steps (Map "x,y" → cost), route(to) → squares or null } — so a
+ * drag works the walk out once and then only reads it, however often the finger moves.
+ */
+export function routesFrom(map, data, from, max) {
+  const { steps, prev } = walk(map, data, from, max);
+  return { steps, route: (to) => (steps.has(`${to.x},${to.y}`) ? pathFrom(prev, to) : null) };
+}
+
 /** The squares a marker walks through from → to (both included), round walls; null if not within `max`. */
 export function routeTo(map, data, from, to, max) {
   const { steps, prev } = walk(map, data, from, max);
@@ -352,20 +382,24 @@ export function routeCost(map, data, path) {
 
 /**
  * Can a marker go from → to in at most `max` squares? occupied: squares with another marker.
- * Ending on a linked staircase lands on its partner (`to` is where the marker ends, `crossed` true).
+ * Owner hotfix 2026-11-14: ending on a linked staircase no longer takes you across by itself — the sheet asks (Go up /
+ * down, or stay: `rules/floors.js → stairsAt`) and moves you to its partner square, a route through the link.
  * @returns { ok, steps, path, to, crossed? } or { ok: false, code: 'offBoard' | 'occupied' | 'tooFar' | 'blocked', max }
  */
 export function checkMove(map, data, from, to, max, occupied = []) {
   if (!onBoard(map, to)) return { ok: false, code: 'offBoard', max };
+  const open = (map.floors ?? []).length ? openSquares(map, data) : null;
+  if (open?.has(`${to.x},${to.y}`)) { // decision 287: onto an opening — the drop, landing one floor down (or no way in)
+    const land = dropLanding(map, open, to);
+    if (!land) return { ok: false, code: 'blocked', max };
+    const r = checkMove(map, data, from, land, max, occupied);
+    return r.ok ? { ...r, crossed: true, dropped: true } : r;
+  }
   if (occupied.some((s) => s.x === to.x && s.y === to.y)) return { ok: false, code: 'occupied', max };
   const { steps, prev } = walk(map, data, from, max);
   const cost = steps.get(`${to.x},${to.y}`);
   if (cost == null) return { ok: false, code: squaresBetween(from, to) > max ? 'tooFar' : 'blocked', max };
   const path = pathFrom(prev, to);
-  // decision 187: stopping on a linked staircase takes you up (or down) to its partner when the move still allows it
-  const walkedOn = path.length > 1 && squaresBetween(path[path.length - 2], to) <= 1; // not just come across the link
-  const land = walkedOn && cost + (data.map.floors?.linkCost ?? 2) <= max ? stairLanding(map, data, to, occupied) : null;
-  if (land) return { ok: true, steps: cost + (data.map.floors?.linkCost ?? 2), path: [...path, land], to: land, crossed: true };
   return { ok: true, steps: cost, path, to };
 }
 
@@ -406,7 +440,9 @@ const EDGE = 0.2; // a trace this close to a wall's end "grazes a structural edg
 const SHIFT = 0.01; // the trace is tested a hair to each side, so a room's corner blocks but a wall's tip doesn't
 
 /** Everything sight stops at: walls, closed doors, and pieces that block sight (hidden pieces don't count). */
-export const sightSegments = (map, data) => [...solidSegments(map).filter((w) => blocksSight(w, data)),
+const sightMemo = new WeakMap(); // decision 293: one list per map state, so its index is built once
+export const sightSegments = (map, data) => { let l = sightMemo.get(map); if (!l) { l = sightSegmentsOf(map, data); sightMemo.set(map, l); } return l; };
+const sightSegmentsOf = (map, data) => [...solidSegments(map).filter((w) => blocksSight(w, data)),
   ...activeProps(map).filter((p) => propBlocksSight(propDef(data, p.prop), p)).flatMap((p) => propEdges(p, data)),
   ...activeProps(map).flatMap((p) => shellEdges(p, data)), // a closed container hides who is inside (decision 85)
   ...floorEdges(map)]; // decision 184: nobody sees from one floor into another
@@ -416,7 +452,8 @@ export function sightHits(A, B, segs) {
   const len = Math.hypot(B.x - A.x, B.y - A.y) || 1;
   const nx = (-(B.y - A.y) / len) * SHIFT;
   const ny = ((B.x - A.x) / len) * SHIFT;
-  const hit = (sign) => segs.find((w) => crosses({ x: A.x + nx * sign, y: A.y + ny * sign }, { x: B.x + nx * sign, y: B.y + ny * sign }, w.a, w.b));
+  const pool = segs.length > 40 ? indexOf(segs).along(A, B) : segs; // decision 293: only the walls the line passes near
+  const hit = (sign) => pool.find((w) => crosses({ x: A.x + nx * sign, y: A.y + ny * sign }, { x: B.x + nx * sign, y: B.y + ny * sign }, w.a, w.b));
   return [hit(1), hit(-1)];
 }
 
@@ -428,32 +465,76 @@ export function sightHits(A, B, segs) {
  * others: [{ key, x, y }] the other markers. @returns { result: 'clear'|'cover'|'blocked', by?, reasons: [{ code, key? }], squares }
  */
 export function lineOfSight(map, data, from, to, others = []) {
+  const segs = sightSegments(map, data);
+  if ((map.floors ?? []).length) { // decision 287: between floors — over the edge of an opening, or not at all
+    const blocked = (a, b) => { const [l, r] = sightHits(a, b, segs); return Boolean(l && r); };
+    const x = crossSight(map, openSquares(map, data), from, to, blocked);
+    if (x) {
+      const squares = squaresAcross(map, from, to);
+      if (!x.ok) return { result: 'blocked', by: 'floor', reasons: [], squares, between: true };
+      // cover is what stands round the target on its own floor, the line coming in over the edge of the opening
+      const portalOnTarget = x.above === 'to' ? centre(x.portal) : { x: x.portal.x + 0.5 - floorDelta(map, x.portal, to).x, y: x.portal.y + 0.5 - floorDelta(map, x.portal, to).y };
+      const near = coverReasons(map, data, portalOnTarget, centre(to), from, to, others, segs, false);
+      return { result: near.length ? 'cover' : 'clear', reasons: near, squares, between: true, above: x.above === 'from' };
+    }
+  }
   const A = centre(from);
   const B = centre(to);
   const squares = squaresBetween(from, to);
   const props = activeProps(map);
-  const segs = sightSegments(map, data);
   const [left, right] = sightHits(A, B, segs);
   if (left && right) {
     const by = [left, right].find((w) => w.kind === 'prop') ?? [left, right].find((w) => w.kind === 'door') ?? left;
     return { result: 'blocked', by: by.kind === 'prop' ? 'prop' : by.kind === 'door' ? 'door' : 'wall', ...(by.kind === 'prop' ? { prop: by.prop } : {}), reasons: [], squares };
   }
   const reasons = [];
+  if (left || right) reasons.push({ code: 'edge' });
+  reasons.push(...coverReasons(map, data, A, B, from, to, others, segs, true, Boolean(left || right), props));
+  return { result: reasons.length ? 'cover' : 'clear', reasons, squares };
+}
+
+/** Decision 287: how a floor frame sits against another — the offset from the floor of `a` to the floor of `b`. */
+function floorDelta(map, a, b) {
+  const fa = (map.floors ?? []).find((f) => a.x >= f.x && a.y >= f.y && a.x < f.x + f.w && a.y < f.y + f.h);
+  const fb = (map.floors ?? []).find((f) => b.x >= f.x && b.y >= f.y && b.x < f.x + f.w && b.y < f.y + f.h);
+  return { x: (fa?.x ?? 0) - (fb?.x ?? 0), y: (fa?.y ?? 0) - (fb?.y ?? 0) };
+}
+
+/**
+ * Decision 324 (owner, from a player's idea): a cover piece protects the character nearest to it, and only within 1
+ * square: the piece is on their square or on the next one. squaresFromProp = the empty squares between (0 = touching).
+ */
+export const COVER_REACH = 1;
+function squaresFromProp(p, data, sq) {
+  const c = propCorners(p, data);
+  const gap = (lo, hi, at) => Math.max(0, lo - (at + 1), at - hi);
+  return Math.max(gap(Math.min(...c.map((q) => q.x)), Math.max(...c.map((q) => q.x)), sq.x), gap(Math.min(...c.map((q) => q.y)), Math.max(...c.map((q) => q.y)), sq.y));
+}
+const coversTarget = (p, data, from, to) => { const t = squaresFromProp(p, data, to); return t < COVER_REACH - 1e-9 && t <= squaresFromProp(p, data, from) + 1e-9; }; // on their square or the next one
+
+/**
+ * What gives cover along the line A→B (points, squares' centres): a wall's edge it grazes, another character's square,
+ * a prop that gives cover. leaving: A is the shooter's centre (props in their own square don't count).
+ * Decision 324: a prop counts only when it is within COVER_REACH of the target and no nearer the shooter.
+ */
+function coverReasons(map, data, A, B, from, to, others, segs, leaving, grazed = false, props = activeProps(map)) {
+  const reasons = [];
   const nearEnd = (w) => [w.a, w.b].some((p) => distanceToWall(p, { a: A, b: B }) < EDGE);
-  if (left || right || segs.some(nearEnd)) reasons.push({ code: 'edge' });
+  if (!grazed && segs.some(nearEnd)) reasons.push({ code: 'edge' });
   for (const o of others) {
     if ((o.x === from.x && o.y === from.y) || (o.x === to.x && o.y === to.y)) continue;
     if (throughSquare(A, B, o, 0.15)) reasons.push({ code: 'character', key: o.key });
   }
   // props that give cover (a table): the line passes through them after leaving the shooter's own square
-  const exit = 0.5 / Math.max(Math.abs(B.x - A.x), Math.abs(B.y - A.y), 1e-9);
+  const exit = leaving ? 0.5 / Math.max(Math.abs(B.x - A.x), Math.abs(B.y - A.y), 1e-9) : 0;
   const A2 = { x: A.x + (B.x - A.x) * Math.min(1, exit), y: A.y + (B.y - A.y) * Math.min(1, exit) };
   for (const p of props) {
     const def = propDef(data, p.prop);
     if (!def || def.blocksSight || def.cover === 'none') continue;
+    if (!coversTarget(p, data, from, to)) continue; // decision 324: nearest only, within 1 square
     if (insideProp(B, p, data) || insideProp(A2, p, data) || propEdges(p, data).some((e) => meet(A2, B, e.a, e.b))) reasons.push({ code: 'prop', prop: p.prop, cover: def.cover });
   }
-  return { result: reasons.length ? 'cover' : 'clear', reasons, squares };
+  return reasons;
 }
 
 /**
@@ -464,8 +545,9 @@ export function lineOfSight(map, data, from, to, others = []) {
 export function losCover(los, coverData) {
   if (!los || los.result === 'blocked') return null;
   const levelOf = (r) => (r.code === 'prop' ? r.cover : 'half');
-  const level = los.reasons.some((r) => levelOf(r) === 'full') ? 'full' : los.reasons.length ? 'half' : 'none';
-  return { armor: coverData.find((x) => x.prop === level)?.armor ?? 0, level, why: los.reasons.filter((r) => levelOf(r) === level) };
+  const found = los.reasons.some((r) => levelOf(r) === 'full') ? 'full' : los.reasons.length ? 'half' : 'none';
+  const level = los.above && found !== 'none' ? coverFromAbove(found) : found; // decision 287: shot from above — one step down
+  return { armor: coverData.find((x) => x.prop === level)?.armor ?? 0, level, why: los.reasons.filter((r) => levelOf(r) === found), ...(level !== found ? { fromAbove: true } : {}) };
 }
 
 /**

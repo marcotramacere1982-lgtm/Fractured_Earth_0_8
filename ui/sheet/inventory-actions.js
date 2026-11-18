@@ -1,7 +1,7 @@
 // Inventory actions (decision 55): custom items, trash, sell, gifts between players. Logs stay English and
 // explain every change to the GM's audit ("Dropped …", "Sold …", "Gave …", "Received …", "Added …").
 
-import { findGear, sellPrice, addItem, nextIsOfficial, magazineId, lifestyleSlot } from '../../rules/economy.js';
+import { findGear, sellPrice, addItem, nextIsOfficial, magazineFor, lifestyleSlot } from '../../rules/economy.js';
 import { RuleError } from '../../rules/messages.js';
 import { flightOutcome, checkFlight } from '../../rules/drone.js';
 import { checkInstall, moddedWeapon, INSTALLERS } from '../../rules/weapon-mods.js';
@@ -98,6 +98,39 @@ export const inventoryActions = {
     return outcome;
   },
   droneCharge(c) { c.play.droneFlat = false; log(c, 'Drone: recharged'); },
+  /** Decision 313: the GM's +1 / −1 / throw away on one row, from the console. Once per message id; logged for the audit. */
+  gmInventory(c, data, { msg }) {
+    c.play.gmEdits ??= [];
+    if (!msg?.id || c.play.gmEdits.includes(msg.id)) return null;
+    c.play.gmEdits = [String(msg.id).slice(0, 40), ...c.play.gmEdits].slice(0, 30);
+    if (msg.op === 'lifeChoose' || msg.op === 'lifeDrop') { // owner 2026-11-15: the GM manages a forgotten subscription
+      const e = data.lifestyle?.entries.find((x) => x.id === msg.item);
+      if (!e) return null;
+      if (msg.op === 'lifeDrop') {
+        if (!(c.play.lifestyle ?? []).includes(e.id)) return null;
+        c.play.lifestyle = c.play.lifestyle.filter((x) => x !== e.id);
+        log(c, `From the GM: lifestyle — dropped ${e.name}`, 'warn');
+        return `− ${e.name}`;
+      }
+      actions.chooseLifestyle(c, data, { id: e.id });
+      c.play.log[0].text = `From the GM: ${c.play.log[0].text}`;
+      return `+ ${e.name}`;
+    }
+    const row = rowOf(c, msg.kind, msg.item);
+    if (!row) return null;
+    const name = itemName(row, data);
+    if (msg.op === 'trash') {
+      const n = row.qty;
+      actions.qty(c, data, { kind: row.kind, id: row.id, delta: -n });
+      log(c, `From the GM: removed ${name}${n > 1 ? ` ×${n}` : ''}`, 'warn');
+      return `−${n > 1 ? `${n} ` : ''}${name}`;
+    }
+    const d = Number(msg.delta) > 0 ? 1 : -1;
+    if (d > 0 && row.unique) return null; // one of a kind
+    actions.qty(c, data, { kind: row.kind, id: row.id, delta: d });
+    log(c, `From the GM: ${d > 0 ? '+1' : '−1'} ${name}`, d > 0 ? 'ok' : 'warn');
+    return `${d > 0 ? '+1' : '−1'} ${name}`;
+  },
   trash(c, data, { kind, id }) {
     const row = takeOne(c, data, kind, id);
     log(c, `Dropped ${itemName(row, data)}`);
@@ -149,7 +182,7 @@ export const inventoryActions = {
       got.push(`${findGear(it.kind, it.id, data).name}${it.qty > 1 ? ` ×${it.qty}` : ''}`);
     }
     if (g.cash) { c.play.cash += g.cash; got.push(`$${g.cash}`); }
-    if (g.crs) { const before = c.attributes.CRS; c.attributes.CRS = Math.max(0, Math.min(data.attributes.creation.crs.max, before + g.crs)); got.push(`CRS ${g.crs > 0 ? '+' : ''}${c.attributes.CRS - before}`); }
+    if (g.crs) { const before = c.attributes.CRS; c.attributes.CRS = Math.max(data.attributes.crsScale.min, Math.min(data.attributes.crsScale.max, before + g.crs)); /* decision 316: the play scale, not the creation cap */ got.push(`CRS ${g.crs > 0 ? '+' : ''}${c.attributes.CRS - before}`); }
     log(c, `From the GM: ${got.join(', ') || 'nothing'}${g.note ? ` — ${g.note}` : ''}`, 'ok');
     return got;
   },
@@ -158,7 +191,7 @@ export const inventoryActions = {
     if (it.unique && ['weapon', 'armor', 'item', 'deck', 'optic'].includes(it.kind) && /^u\.[\w-]{1,64}$/.test(it.id ?? '')) {
       if (!c.play.inventory.some((x) => x.id === it.id)) c.play.inventory.push({ kind: it.kind, id: it.id, qty: 1, unique: { ...it.unique, unique: true } });
       // a gun forged by the GM comes with its spare magazines, like any gun; a hand-me-down doesn't make new ones
-      if (msg.from === 'gm' && it.kind === 'weapon' && it.unique.magSize) addItem(c, 'ammo', magazineId(it.id), data.economy.magazine.startSpares);
+      if (msg.from === 'gm' && it.kind === 'weapon' && it.unique.magSize) addItem(c, 'ammo', magazineFor({ ...it.unique, id: it.id }, data), data.economy.magazine.startSpares); // decision 311: the base gun's magazines
     } else if (it.kind === 'custom') {
       if (!String(it.name ?? '').trim()) return null;
       c.play.inventory.push({ kind: 'custom', id: uid(), name: String(it.name).slice(0, 60), note: String(it.note ?? '').slice(0, 200), qty: 1 });

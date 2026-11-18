@@ -78,5 +78,8 @@ export function createCamera(svg, { units: U, size }) {
     set({ ...view, x: view.x - (m.x - g.mid.x) * k, y: view.y - (m.y - g.mid.y) * k });
   }
 
-  return { fit, keepAspect, zoomAt, zoomStep, wheel, toMap, pxToSq, panStart, panMove, pinchStart, pinchMove, rect, get ready() { return Boolean(view); } };
+  /** Decision 337: pan by a share of the view (the GM's arrows for the TV): fx, fy in view widths / heights. */
+  function nudge(fx, fy) { if (view) set({ ...view, x: view.x + fx * view.w, y: view.y + fy * view.h }); }
+
+  return { fit, keepAspect, zoomAt, zoomStep, nudge, wheel, toMap, pxToSq, panStart, panMove, pinchStart, pinchMove, rect, get ready() { return Boolean(view); } };
 }

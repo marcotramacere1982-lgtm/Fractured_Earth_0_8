@@ -1,0 +1,73 @@
+{
+  "notices": {
+    "compliant": {
+      "name": "Conforme"
+    },
+    "rioting": {
+      "name": "Disordini"
+    },
+    "ops": {
+      "name": "Operazioni in corso"
+    },
+    "lockdown": {
+      "name": "Isolamento"
+    },
+    "military": {
+      "name": "Zona militare"
+    },
+    "hazard": {
+      "name": "Zona a rischio sanitario"
+    }
+  },
+  "jurisdictions": {
+    "watch": {
+      "name": "The Watch"
+    },
+    "trf": {
+      "name": "TRF"
+    },
+    "corporate": {
+      "name": "Sicurezza aziendale"
+    },
+    "none": {
+      "name": "Nessuno"
+    }
+  },
+  "response": {
+    "1": {
+      "name": "Minima"
+    },
+    "2": {
+      "name": "Bassa"
+    },
+    "3": {
+      "name": "Normale"
+    },
+    "4": {
+      "name": "Alta"
+    },
+    "5": {
+      "name": "Saturazione"
+    }
+  },
+  "checkpoints": {
+    "0": {
+      "name": "Nessuno"
+    },
+    "1": {
+      "name": "Rari"
+    },
+    "2": {
+      "name": "Alcuni"
+    },
+    "3": {
+      "name": "Frequenti"
+    },
+    "4": {
+      "name": "Fitti"
+    },
+    "5": {
+      "name": "A ogni isolato"
+    }
+  }
+}

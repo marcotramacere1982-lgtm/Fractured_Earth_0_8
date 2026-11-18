@@ -4,7 +4,7 @@
 
 import { html, raw, escape } from '../dom.js';
 import { propMarkup } from './props.js';
-import { sensesOf, reachOf, GROUND } from '../../rules/props.js';
+import { sensesOf, reachOf, GROUND, propDef } from '../../rules/props.js';
 
 const ORDER = { wall: 0, window: 1, door: 2, laser: 3 }; // doors and windows sit on top of the walls they cut; lasers over all
 
@@ -83,6 +83,26 @@ export function wallsSvg(map, data, { selected = null } = {}) {
  * opts: you (this sheet's key), selected (GM), armed (GM, waiting to be placed — not drawn).
  * tk.color: a player's chosen colour (decision 82), the same as their marks.
  */
+/**
+ * Decision 294: floor areas — each texture (and turn) a pattern of its library drawing, each area one rectangle filled
+ * with it. prefix: keeps the pattern ids apart when several maps share a page. selected: an area id (builder).
+ */
+export function areasSvg(areas, data, prefix = 'map', { selected = null } = {}) {
+  if (!areas?.length) return raw('');
+  const U = data.map.square.units;
+  const pid = (a) => `${prefix}-area-${a.tex}-${a.rot ?? 0}`;
+  const pats = new Map();
+  for (const a of areas) {
+    if (pats.has(pid(a))) continue;
+    const m = propMarkup(a.tex);
+    const def = propDef(data, a.tex);
+    const body = m ? `<svg x="0" y="0" width="${U}" height="${U}" viewBox="${m.viewBox}" overflow="visible">${m.inner}</svg>` : `<rect class="map-prop__outline" width="${U}" height="${U}"/>`;
+    pats.set(pid(a), `<pattern id="${pid(a)}" patternUnits="userSpaceOnUse" width="${U}" height="${U}"><g class="map-prop map-prop--${def?.category ?? 'floor'}" transform="rotate(${a.rot ?? 0} ${U / 2} ${U / 2})">${body}</g></pattern>`);
+  }
+  const rects = areas.map((a) => `<rect class="map-area${a.id === selected ? ' is-selected' : ''}" x="${a.x * U}" y="${a.y * U}" width="${a.w * U}" height="${a.h * U}" fill="url(#${pid(a)})"/>`).join('');
+  return raw(`<defs>${[...pats.values()].join('')}</defs><g class="map-areas">${rects}</g>`);
+}
+
 export function tokensSvg(tokens, data, { you = null, selected = null } = {}) {
   const U = data.map.square.units;
   return raw(tokens.map((tk) => {
@@ -108,16 +128,16 @@ export const tintOf = (def) => def.tint ?? (!sensesOf(def).length ? null : sense
  *  over terrain and city tiles and into a node instead of over it. */
 export function propsSvg(props, data, { selected = null, links = null } = {}) {
   const U = data.map.square.units;
-  const cat = (p) => data.props.props.find((d) => d.id === p.prop)?.category;
-  const def = (p) => data.props.props.find((d) => d.id === p.prop);
   // floor textures, city tiles (decision 121), decals on them (drains, stains, highways), links, darkness zones, terrain
   // and outlines, pieces that tuck under furniture (chairs), then the rest — each layer keeps the placing order (decision 102)
-  const layer = (p) => (cat(p) === 'floor' ? (def(p)?.decal ? 0.5 : 0) : cat(p) === 'city' ? (def(p)?.decal ? 0.5 : 0.25) : cat(p) === 'zone' ? 1 : GROUND.has(cat(p)) ? 2 : def(p)?.under ? 2.5 : 3);
+  const layerOf = (d) => { const cat = d?.category; return cat === 'floor' ? (d.decal ? 0.5 : 0) : cat === 'city' ? (d.decal ? 0.5 : 0.25) : cat === 'zone' ? 1 : GROUND.has(cat) ? 2 : d?.under ? 2.5 : 3; };
+  const lv = new Map((props ?? []).map((p) => [p, layerOf(propDef(data, p.prop))])); // decision 292: once per piece, not per comparison
+  const layer = (p) => lv.get(p);
   const ordered = [...(props ?? [])].sort((a, b) => layer(a) - layer(b));
   const linkMarkup = (links ?? []).filter((w) => w.kind.startsWith('link_')).map((w) => segment(w, data)).join('');
   const at = ordered.findIndex((p) => layer(p) >= 1);
   const parts = ordered.map((p) => {
-    const def = data.props.props.find((d) => d.id === p.prop);
+    const def = propDef(data, p.prop);
     if (!def) return '';
     const w = def.size.w * U;
     const h = def.size.h * U;

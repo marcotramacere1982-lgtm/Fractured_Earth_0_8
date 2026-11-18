@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+  <!-- A garrison: a walled compound, barracks, corner towers. Half a square. City scale: laid inside a district. -->
+  <path d="M6 6 H94 V44 H6 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+  <path class="detail" d="M6 6 H94 V44 H6 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M2 2 H10 V10 H2 Z M86 2 H94 V10 H86 Z M2 36 H10 V44 H2 Z M86 36 H94 V44 H86 Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+  <path class="solid" d="M16 14 H44 V23 H16 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M16 27 H44 V36 H16 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M54 14 H84 V36 H54 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="3 2"/>
+  <path class="detail" d="M44 44 H56" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.4"/>
+</svg>

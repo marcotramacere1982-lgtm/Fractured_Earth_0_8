@@ -5,7 +5,7 @@ import { nameEn } from '../../data/index.js'; // decision 242: logs stay English
 import { logHandHp, logHandAmmo } from '../../rules/hand-edits.js';
 import { stamp, stampNew, atTurnEnd, atRoundEnd, atFightEnd, prune } from '../../rules/condition-time.js'; // decision 236
 import { abilityContext, failAbility, canUse, useAbility, roundEnd, combatStart, releasePayload, defaultResources, switchMode, openingChoice, disruptSync, upgradeTechResources, weaponHit, abilityWeapon, newTells, placeTells, pruneTells, spendTells, stanceAfterAction, stanceOf } from '../../rules/engines.js';
-import { buy, magazineId, addItem } from '../../rules/economy.js';
+import { buy, magazineId, magazineFor, addItem } from '../../rules/economy.js';
 import { deriveSheet } from '../../state/character.js';
 import { newTurn, startCombat, endCombat, endRound, spendAction, borrowAction, allowance, checkLoadout, roundAllowance } from '../../rules/turn.js';
 import { checkDroneMod } from '../../rules/field-drone.js';
@@ -49,7 +49,7 @@ function fieldStrip(c, data) {
   const done = [];
   for (const w of deriveSheet(c, data).weapons.filter((x) => !x.empty && x.magSize)) {
     if ((c.play.ammo[w.slot] ?? 0) >= w.magSize) continue;
-    const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.moddedFrom ?? w.id));
+    const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineFor(w, data));
     if (!mags?.qty) continue;
     actions.qty(c, data, { kind: 'ammo', id: mags.id, delta: -1 });
     c.play.ammo[w.slot] = w.magSize;
@@ -199,9 +199,9 @@ export const actions = {
   },
 
   // ---------------- attributes & money
-  attr(c, _d, { key, delta }) {
+  attr(c, data, { key, delta }) {
     const v = c.attributes[key] + Number(delta);
-    c.attributes[key] = key === 'CRS' ? clamp(v, 0, 100) : Math.max(0, v);
+    c.attributes[key] = key === 'CRS' ? clamp(v, data.attributes.crsScale.min, data.attributes.crsScale.max) : Math.max(0, v); // decision 316
   },
   cash(c, _d, { value }) { c.play.cash = Math.max(0, Math.round(Number(value) || 0)); },
 
@@ -242,7 +242,7 @@ export const actions = {
       log(c, `${prefix}Cleared the jam: ${w.name}`, 'ok');
       return;
     }
-    const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineId(w.moddedFrom ?? w.id)); // decision 173
+    const mags = c.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineFor(w, data)); // decision 173
     if (!mags?.qty) throw new RuleError('noMagazine', { weapon: w.name }, `No spare magazines for the ${w.name}: buy some, or ask the GM.`);
     const prefix = spend(c, data, { kind: 'reload', name: w.name });
     actions.qty(c, data, { kind: 'ammo', id: mags.id, delta: -1 });
@@ -479,11 +479,19 @@ export const actions = {
   clearScan(c) { c.play.netScan = null; },
   /** Decision 165: the GM asks for a skill or attribute roll (durable `ask`); a card waits on Setup / Tactical. */
   askRoll(c, data, { msg }) {
+    const asks = c.play.rollAsks ?? [];
+    if (asks.some((a) => a.id === msg.id)) return false;
+    const base = { id: String(msg.id ?? '').slice(0, 40), note: String(msg.note ?? '').slice(0, 120) };
+    if (msg.kind === 'help') { // decision 321: the GM asks this character to help another one's roll
+      if (typeof msg.helpTo !== 'string' || !msg.helpTo) return false;
+      c.play.rollAsks = [...asks, { ...base, kind: 'help', helpTo: msg.helpTo.slice(0, 60), helpName: String(msg.helpName ?? '').slice(0, 40), helpSkill: String(msg.helpSkill ?? '').slice(0, 40) }].slice(-5);
+      return true;
+    }
     const kind = msg.kind === 'attr' ? 'attr' : 'skill';
     const known = kind === 'attr' ? data.attributes.attributes.some((a) => a.id === msg.target) : data.skills.skills.some((k) => k.id === msg.target);
-    const asks = c.play.rollAsks ?? [];
-    if (!known || asks.some((a) => a.id === msg.id)) return false;
-    c.play.rollAsks = [...asks, { id: String(msg.id ?? '').slice(0, 40), kind, target: msg.target, note: String(msg.note ?? '').slice(0, 120) }].slice(-5);
+    if (!known) return false;
+    const tier = data.difficulty.tiers.some((x) => x.id === msg.tier) ? { tier: msg.tier } : {}; // decision 321: the GM's difficulty for this roll
+    c.play.rollAsks = [...asks, { ...base, kind, target: msg.target, ...tier }].slice(-5);
     return true;
   },
   /** Put aside without rolling: the card goes (rolling clears it in the check handler). */

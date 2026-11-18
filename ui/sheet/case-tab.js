@@ -37,6 +37,7 @@ function dossierView(cs, key, mission) {
   return html`<div class="stack">
     ${objectives}
     ${people.length ? card(t('case.people'), html`<div class="case-entries">${people.map((e) => entry(e))}</div>`) : ''}
+    ${of('document').length ? card(t('case.documents'), html`<div class="case-entries">${of('document').map((e) => entry(e))}</div>`) : ''}
     ${of('handout').length ? card(t('case.handouts'), html`<div class="case-entries case-entries--pics">${of('handout').map((e) => entry(e))}</div>`) : ''}
     ${of('puzzle').length || of('message').length ? card(t('case.messages'), html`<div class="case-entries">${[...of('puzzle'), ...of('message')].map((e) => entry(e))}</div>`) : ''}
     ${!mission && !entries.length ? html`<p class="muted">${t('case.empty')}</p>` : ''}
@@ -44,7 +45,7 @@ function dossierView(cs, key, mission) {
 }
 
 const entry = (e) => html`<button class="case-entry" data-action="caseEntry" data-id="${e.id}">
-  ${e.image ? html`<img src="${e.image}" alt="" loading="lazy">` : ''}<strong>${e.kind === 'person' ? '👤 ' : e.kind === 'place' ? '📍 ' : ''}${e.title}</strong>${e.text && !e.image ? html`<span class="muted st-small">${e.text.slice(0, 140)}</span>` : ''}</button>`;
+  ${e.image ? html`<img src="${e.image}" alt="" loading="lazy">` : ''}<strong>${e.kind === 'person' ? '👤 ' : e.kind === 'place' ? '📍 ' : e.kind === 'document' ? '📄 ' : ''}${e.title}</strong>${e.text && !e.image ? html`<span class="muted st-small">${e.text.slice(0, 140)}</span>` : ''}</button>`;
 
 function boardView(c, cs, key, ctx) {
   const b = boardOf(cs, key);

@@ -8,8 +8,30 @@ import { activeProps, propDef, squaresUnder } from './props.js';
 const MAX_FLOORS = 8;
 const int = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.round(Number(v) || 0)));
 
-/** Pieces that can carry a floor link: stairs, ramps, ladders, lifts. */
-export const isStairs = (def) => Boolean(def) && (def.category === 'level' || /stair|elevator|lift|ladder/i.test(def.id));
+/** Pieces that can carry a floor link: stairs, ramps, ladders — and any piece marked `floorLink` in props.json
+ * (decision 285: manholes, hatches, floor vents and holes, skylights, a rooftop hut, scaffolding — the ways in that
+ * aren't stairs). Decision 289: lifts don't — a lift serves many floors, can be stopped, called, held; until it is a
+ * device of its own, the GM moves whoever rides it. */
+export const isLift = (def) => /elevator|lift/i.test(def?.id ?? '');
+export const isStairs = (def) => Boolean(def) && !isLift(def) && (def.floorLink === true || def.category === 'level' || /stair|ladder/i.test(def.id));
+
+/** Decision 286: what one floor of height costs a signal crossing it, in squares (3 m and a concrete slab). */
+export const FLOOR_SQUARES = 4;
+
+/**
+ * Decision 286: the distance a signal travels between two points (squares, piece centres) — ping, wireless links,
+ * audio sensors. On a map with floors, both are placed on their own floor: the same spot on each floor lines up (floors
+ * are drawn in frames side by side), and each floor of difference adds FLOOR_SQUARES. A point outside every floor never
+ * reaches one inside (the gap between frames isn't a place). Without floors: the plain distance.
+ */
+export function spaceDistance(map, a, b) {
+  if (!(map.floors ?? []).length) return Math.hypot(a.x - b.x, a.y - b.y);
+  const fa = floorOf(map, a);
+  const fb = floorOf(map, b);
+  if (!fa || !fb) return fa || fb ? Infinity : Math.hypot(a.x - b.x, a.y - b.y);
+  const dz = Math.abs((fa.level ?? 0) - (fb.level ?? 0)) * FLOOR_SQUARES;
+  return Math.hypot((a.x - fa.x) - (b.x - fb.x), (a.y - fa.y) - (b.y - fb.y), dz);
+}
 
 /** The floor a square lies on, or null (outside every floor). */
 export const floorOf = (map, s) => (map.floors ?? []).find((f) => s.x >= f.x && s.y >= f.y && s.x < f.x + f.w && s.y < f.y + f.h) ?? null;
@@ -54,6 +76,21 @@ export function stairLanding(map, data, sq, occupied = []) {
   return null;
 }
 
+/**
+ * Owner hotfix 2026-11-14: standing on a linked staircase — where it leads, to ask the player (Go up / down, or stay):
+ * { land, from, to, dir: 'up' | 'down' | 'across' } (from / to: the floors), or null (not on one, or its partner is full).
+ */
+export function stairsAt(map, data, sq, occupied = []) {
+  if (!sq) return null;
+  const land = stairLanding(map, data, sq, occupied);
+  if (!land) return null;
+  const from = floorOf(map, sq);
+  const to = floorOf(map, land);
+  const lv = (f) => f?.level ?? (map.floors ?? []).indexOf(f); // a floor with no level: its place in the list
+  const d = lv(to) - lv(from);
+  return { land, from, to, dir: d > 0 ? 'up' : d < 0 ? 'down' : 'across' };
+}
+
 /** The piece a linked piece leads to, or null. */
 export const partnerOf = (map, propId) => {
   const l = (map.floorLinks ?? []).find((x) => x.a === propId || x.b === propId);
@@ -69,6 +106,39 @@ export function splitFloors(map, n) {
   return { ...map, floors: Array.from({ length: count }, (_, i) => ({ id: `f${i + 1}`, name: i === 0 ? 'Ground floor' : `Floor ${i}`, x: i * (w + 1), y: 0, w, h: map.rows })) };
 }
 
+/** A floor's default name from its level. */
+export const levelName = (level) => (level < -1 ? `Basement ${-level}` : level === -1 ? 'Basement' : level === 0 ? 'Ground floor' : `Floor ${level}`);
+
+/**
+ * Decision 288: one more floor, the same size as the first, framed to the right of the others (the map grows to fit;
+ * the first time, the whole map becomes the ground floor). `below`: one level under the lowest, else over the highest.
+ * Returns the map, or null when there's no room (maxCols) or already MAX_FLOORS.
+ */
+export function addFloor(map, { below = false, maxCols = 200 } = {}) {
+  const now = map.floors?.length ? map.floors : [{ id: 'f1', name: levelName(0), x: 0, y: 0, w: map.cols, h: map.rows, level: 0 }];
+  if (now.length >= MAX_FLOORS) return null;
+  const base = now[0];
+  const x = Math.max(...now.map((f) => f.x + f.w)) + 1;
+  if (x + base.w > maxCols) return null;
+  const levels = now.map((f) => f.level ?? 0);
+  const level = below ? Math.min(...levels) - 1 : Math.max(...levels) + 1;
+  const used = new Set(now.map((f) => f.id));
+  let n = now.length + 1;
+  while (used.has(`f${n}`)) n++;
+  return { ...map, cols: Math.max(map.cols, x + base.w), floors: [...now, { id: `f${n}`, name: levelName(level), x, y: base.y, w: base.w, h: base.h, level }] };
+}
+
+/** Decision 288: takes a floor's frame away (what is drawn there stays); the last one left goes too. Links on it go. */
+export function removeFloor(map, id, data) {
+  const gone = (map.floors ?? []).find((f) => f.id === id);
+  if (!gone) return map;
+  const rest = map.floors.filter((f) => f.id !== id);
+  if (rest.length < 2) return { ...map, floors: [], floorLinks: [] };
+  const props = new Map((map.props ?? []).map((p) => [p.id, p]));
+  const onGone = (pid) => { const p = props.get(pid); return p && floorOf({ floors: [gone] }, squaresUnder(p, data)[0] ?? { x: -1, y: -1 }); };
+  return { ...map, floors: rest, floorLinks: (map.floorLinks ?? []).filter((l) => !onGone(l.a) && !onGone(l.b)) };
+}
+
 /** Links one stair piece to another (each piece has at most one partner); `to` null unlinks. */
 export function linkStairs(map, propId, to) {
   const keep = (map.floorLinks ?? []).filter((l) => l.a !== propId && l.b !== propId && (!to || (l.a !== to && l.b !== to)));
@@ -80,7 +150,7 @@ export function normalizeFloors(raw, map, data) {
   const floors = (Array.isArray(raw?.floors) ? raw.floors : []).slice(0, MAX_FLOORS).map((f, i) => {
     const x = int(f?.x, 0, map.cols - 2);
     const y = int(f?.y, 0, map.rows - 2);
-    return { id: `f${i + 1}`, name: String(f?.name ?? '').trim().slice(0, 30) || `Floor ${i + 1}`, x, y, w: int(f?.w, 2, map.cols - x), h: int(f?.h, 2, map.rows - y) };
+    return { id: `f${i + 1}`, name: String(f?.name ?? '').trim().slice(0, 30) || `Floor ${i + 1}`, x, y, w: int(f?.w, 2, map.cols - x), h: int(f?.h, 2, map.rows - y), level: int(f?.level ?? i, -9, 9) }; // decision 286: its level (−1 the basement, 0 the ground…)
   });
   const ids = new Set((map.props ?? []).filter((p) => isStairs(propDef(data, p.prop))).map((p) => p.id));
   const used = new Set();

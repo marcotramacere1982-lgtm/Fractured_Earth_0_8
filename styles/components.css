@@ -221,6 +221,30 @@
 .roll__die { font-family: var(--font-mono); font-weight: 600; font-size: var(--text-2xl); min-width: 2.5ch; text-align: center; }
 .roll--success .roll__die { color: var(--color-success); }
 .roll--failure .roll__die { color: var(--color-danger); }
+/* decision 314: the rolling d20 beside a check's numbers — suspense, not information */
+.check-die { margin-left: auto; display: flex; align-items: center; }
+.die { display: inline-flex; width: calc(var(--touch) * 1.4); height: calc(var(--touch) * 1.4); padding: 0; border: 0; background: none; color: var(--color-text-muted); }
+.die svg { width: 100%; height: 100%; overflow: visible; }
+.die__body { fill: var(--color-surface-2); stroke: currentColor; stroke-width: 3; stroke-linejoin: round; }
+.die__edge { fill: none; stroke: currentColor; stroke-width: 1.5; opacity: 0.5; }
+.die__face { fill: currentColor; font-family: var(--font-mono); font-weight: 700; font-size: 32px; }
+.die--idle { opacity: 0.45; }
+.die--rolling { color: var(--color-accent); cursor: pointer; animation: die-tumble 0.85s var(--ease) both; }
+.die--success { color: var(--color-success); }
+.die--failure { color: var(--color-danger); }
+.die--landed { color: var(--color-accent); } /* decision 315: initiative and damage — no success or failure */
+.die--small { width: calc(var(--touch) * 1.2); height: calc(var(--touch) * 1.2); }
+.dice-tray { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; padding: var(--space-2) 0; border: 0; background: none; color: inherit; font: inherit; }
+button.dice-tray { cursor: pointer; }
+.dice-tray__more { color: var(--color-text-muted); }
+@keyframes die-tumble {
+  0% { transform: rotate(0deg) scale(0.85); }
+  30% { transform: rotate(250deg) scale(1.1); }
+  60% { transform: rotate(420deg) scale(0.95); }
+  85% { transform: rotate(470deg) scale(1.03); }
+  100% { transform: rotate(480deg) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .die--rolling { animation: none; } }
 
 /* ---------- empty state ---------- */
 .empty { padding: var(--space-6) var(--space-4); text-align: center; color: var(--color-text-muted); }
@@ -389,6 +413,7 @@
 .display-menu__btn::-webkit-details-marker { display: none; }
 .display-menu__panel { position: absolute; right: 0; top: calc(100% + var(--space-1)); z-index: 65; display: flex; flex-direction: column; gap: var(--space-2); min-width: 13rem; padding: var(--space-3); background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-md); box-shadow: var(--shadow-2); }
 .display-menu__row { justify-content: space-between; flex-wrap: nowrap; }
+.display-menu__check { display: flex; gap: var(--space-2); min-height: var(--touch); align-items: center; } /* decision 314 */
 .display-menu__now { min-width: 6.5rem; text-align: center; white-space: nowrap; }
 
 /* decision 243: a puzzle the GM sends (ui/puzzle-view.js) — on the sheets' messages and in the GM's preview */

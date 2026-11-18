@@ -29,6 +29,22 @@ export function spendAction(turn, max, what = { kind: 'other' }) {
   return { ...turn, used: turn.used + 1, spent: [...(turn.spent ?? []), what] };
 }
 
+/**
+ * Owner hotfix 2026-11-14: the GM's − / + on a player's actions (a ruling, a mistake). +1 gives back this round's last
+ * spent action, else a borrowed one; −1 takes one of this round's, else borrows from next round. Never past the limits.
+ */
+export function adjustActions(turn, max, d) {
+  const t = { ...turn, spent: [...(turn.spent ?? [])] };
+  if (d > 0) {
+    if (t.used > 0) { t.used -= 1; t.spent.pop(); } else if (t.reserved > 0) t.reserved -= 1;
+    else return turn;
+  } else if (d < 0) {
+    if (t.used < max) { t.used += 1; t.spent.push({ kind: 'other', name: 'GM' }); } else if (t.reserved < max) t.reserved += 1;
+    else return turn;
+  } else return turn;
+  return t;
+}
+
 /** Proactive defense: borrow an action from next round. Max one round's worth can be borrowed. */
 export function borrowAction(turn, max) {
   if (turn.reserved >= max) throw new RuleError('nextRoundFull', {}, 'Next round is already fully committed.');

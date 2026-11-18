@@ -1,7 +1,7 @@
 // Skyline view (decision 123): what rises from each city tile. A recipe turns a tile's footprint (W × H squares),
 // its height (0–4) and a seed (its position, so two downtown tiles never match) into boxes:
 // { x, y, w, h } on the ground in squares from the footprint's corner, z0 / z1 in storeys of the view,
-// and an optional look: 'frame' (scaffolding, outline only) or 'green' (trees). Drawing is skyline.js's job.
+// and an optional look: 'frame' (scaffolding, outline only), 'green' (trees) or 'ruin' (a broken building, decision 306). Drawing is skyline.js's job.
 
 /** How tall each height level may grow, in view units (1 ≈ the width of a square). */
 export const LEVEL = [0, 0.14, 0.32, 0.62, 1.15];
@@ -88,13 +88,39 @@ export const RECIPES = {
   airport: (W, H, top) => [box(0.6, 0.66, 0.8, 0.22, top), box(1.5, 0.7, 0.06, 0.06, top * 4)],
   port: (W, H, top, r) => [...[0.1, 0.42, 0.74].flatMap((x) => [box(x + 0.04, 0.42, 0.03, 0.03, top * 3), box(x - 0.06, 0.42, 0.24, 0.03, top * 3.1, top * 2.9)]),
     ...cells(W, 0.36, 4, 0.04, (c) => [box(c.x, c.y + 0.04, c.w, c.h, vary(r, top * 0.6, 0.4))])],
-  park: (W, H, top, r) => Array.from({ length: 14 }, () => { const x = 0.06 + r() * 0.84; const y = 0.06 + r() * 0.84; return Math.hypot(x - 0.62, y - 0.6) < 0.25 ? null : box(x, y, 0.06, 0.06, 0.05 + r() * 0.04, 0, 'green'); }).filter(Boolean),
+  park: (W, H, top, r) => Array.from({ length: Math.round(14 * W * H) }, () => { const x = (0.06 + r() * 0.84) * W; const y = (0.06 + r() * 0.84) * H; return Math.hypot((x / W - 0.62) * W, (y / H - 0.6) * H) < 0.25 * Math.min(W, H) ? null : box(x, y, 0.06, 0.06, 0.05 + r() * 0.04, 0, 'green'); }).filter(Boolean), // decision 306: a 2 × 2 park too
   stadium: (W, H, top) => [box(0.08, 0.12, 0.64, 0.12, top), box(0.08, 0.56, 0.64, 0.12, top), box(0.08, 0.24, 0.12, 0.32, top), box(0.6, 0.24, 0.12, 0.32, top),
     box(0.76, 0.14, 0.18, 0.18, top * 0.8), box(0.76, 0.44, 0.18, 0.18, top * 0.8)],
   cemetery: (W, H, top) => [box(0.44, 0.44, 0.12, 0.12, top * 2)],
   ruins: (W, H, top, r) => [[0.08, 0.08], [0.4, 0.08], [0.7, 0.12], [0.08, 0.42], [0.7, 0.46], [0.1, 0.74], [0.44, 0.72]]
     .map(([x, y]) => box(x, y, 0.22, 0.22, vary(r, top * 2.4, 0.2), 0, r() < 0.4 ? 'frame' : undefined)),
+  // decision 306: the ruined living tiles — the same blocks, some gone, some shells (frames), the rest broken low; rubble between
+  courtsRuined: (W, H, top, r) => ruin(RECIPES.courts(W, H, top * 1.3, r), r, W, H),
+  megaRuined: (W, H, top, r) => ruin(RECIPES.mega(W, H, top, r), r, W, H),
+  landmark: (W, H, top) => [box(0.2 * W, 0.2 * H, 0.6 * W, 0.6 * H, top * 0.35), box(0.32 * W, 0.32 * H, 0.36 * W, 0.36 * H, top * 2.1, top * 0.35), box(0.47 * W, 0.47 * H, 0.06 * W, 0.06 * H, top * 2.9, top * 2.1)],
+  waterfront: (W, H, top, r) => [0.06, 0.3, 0.54, 0.78].flatMap((x) => [box(x * W, 0.08 * H, 0.16 * W, 0.18 * H, vary(r, top, 0.6)), box((x + 0.02) * W, 0.32 * H, 0.12 * W, 0.14 * H, vary(r, top * 0.6, 0.6))]),
+  checkpoint: (W, H, top) => [box(0.3 * W, 0.4 * H, 0.1 * W, 0.14 * H, top * 2), box(0.6 * W, 0.46 * H, 0.1 * W, 0.14 * H, top * 2), box(0.4 * W, 0.45 * H, 0.18 * W, 0.02 * H, top * 1.2, top), box(0.42 * W, 0.57 * H, 0.18 * W, 0.02 * H, top * 1.2, top)],
+  elevated: (W, H, top) => [box(0.42 * W, 0, 0.16 * W, H, top, top * 0.85), ...[0.12, 0.47, 0.82].map((y) => box(0.46 * W, y * H, 0.08 * W, 0.06 * H, top * 0.85))],
+  // decision 307: a garrison (1 × ½) and a FOB (½ × ½), laid inside a district
+  garrison: (W, H, top) => [box(0.06 * W, 0.06 * H, 0.88 * W, 0.06 * H, top * 0.6), box(0.06 * W, 0.82 * H, 0.88 * W, 0.06 * H, top * 0.6), box(0.06 * W, 0.12 * H, 0.03 * W, 0.7 * H, top * 0.6), box(0.91 * W, 0.12 * H, 0.03 * W, 0.7 * H, top * 0.6),
+    ...[[0.02, 0.04], [0.86, 0.04], [0.02, 0.72], [0.86, 0.72]].map(([x, y]) => box(x * W, y * H, 0.08 * W, 0.16 * H, top * 1.1)), box(0.16 * W, 0.28 * H, 0.28 * W, 0.18 * H, top * 0.8), box(0.16 * W, 0.54 * H, 0.28 * W, 0.18 * H, top * 0.8)],
+  fob: (W, H, top) => [box(0.12 * W, 0.12 * H, 0.76 * W, 0.08 * H, top * 0.5), box(0.12 * W, 0.8 * H, 0.76 * W, 0.08 * H, top * 0.5), box(0.12 * W, 0.2 * H, 0.08 * W, 0.6 * H, top * 0.5), box(0.8 * W, 0.2 * H, 0.08 * W, 0.6 * H, top * 0.5),
+    box(0.22 * W, 0.24 * H, 0.2 * W, 0.12 * H, top), box(0.32 * W, 0.42 * H, 0.06 * W, 0.06 * H, top * 3.5)],
+  wall: (W, H, top) => [box(0.47 * W, 0, 0.06 * W, H, top * 0.7), ...[0.1, 0.5, 0.9].map((y) => box(0.44 * W, (y - 0.04) * H, 0.12 * W, 0.08 * H, top))],
 };
+
+/** Decision 306: a living tile's boxes, ruined — some gone, some shells, the rest broken low — and rubble. */
+function ruin(boxes, r, W, H) {
+  const out = [];
+  for (const b of boxes) {
+    const k = r();
+    if (k < 0.22) continue;
+    if (k < 0.45) out.push({ ...b, look: 'frame' });
+    else out.push({ ...b, z1: b.z0 + (b.z1 - b.z0) * (0.2 + r() * 0.5), look: 'ruin' });
+  }
+  for (let i = 0; i < Math.round(18 * W * H); i++) out.push(box(r() * (W - 0.05), r() * (H - 0.05), 0.03 + r() * 0.03, 0.03 + r() * 0.03, 0.01 + r() * 0.03));
+  return out;
+}
 
 /** The boxes for one placed tile: its recipe, its height (the piece's own, or the tile's default), seeded by where it is. */
 export function tileBoxes(p, def) {

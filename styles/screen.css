@@ -1,6 +1,7 @@
-/* The TV screen (decision 132): a bar on top, the map filling everything else. Never scrolls. */
-.tv { height: 100dvh; margin: 0; overflow: hidden; display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--color-bg); }
-.tv-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); padding: var(--space-2) var(--space-4); background: var(--color-surface); border-bottom: var(--border-width) solid var(--color-border); }
+/* The TV screen (decision 132): the map or a scene picture filling the screen, a bar floating on top that fades when
+   nobody touches it (decision 336). Never scrolls. */
+.tv { height: 100dvh; margin: 0; overflow: hidden; position: relative; background: var(--color-bg); }
+.tv-bar { position: absolute; inset: 0 0 auto 0; z-index: 2; transition: opacity var(--dur-fast) var(--ease); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); padding: var(--space-2) var(--space-4); background: var(--color-surface); border-bottom: var(--border-width) solid var(--color-border); }
 .tv-bar__id { display: flex; align-items: baseline; gap: var(--space-3); min-width: 0; }
 .tv-bar__brand { font-family: var(--font-display); font-size: var(--text-lg); color: var(--color-accent); letter-spacing: 0.04em; white-space: nowrap; }
 .tv-bar__map { font-family: var(--font-display); font-size: var(--text-xl); color: var(--color-text); letter-spacing: 0.04em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -9,6 +10,41 @@
 .tv-bar__link--lost, .tv-bar__link--static { color: var(--color-danger); }
 .tv-bar__tools { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
 .tv-bar__sep { width: var(--border-width); align-self: stretch; background: var(--color-border); margin: 0 var(--space-1); }
-.tv-stage { display: flex; min-height: 0; }
+.tv--quiet .tv-bar { opacity: 0; pointer-events: none; }
+.tv--quiet { cursor: none; }
+.tv-stage { position: absolute; inset: 0; display: flex; filter: brightness(var(--tv-brightness, 1)); }
+.tv-layer { flex: 1; display: flex; min-width: 0; min-height: 0; }
+.tv-layer[hidden] { display: none; }
 .tv-stage .map-view { flex: 1; }
+.tv-bar__bright { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-text-muted); }
+/* decision 336: the scene picture, fitted; zoom and pan move the image inside */
+.tv-pic { position: relative; overflow: hidden; background: var(--color-bg); touch-action: none; cursor: grab; }
+.tv-pic { container-type: size; align-items: center; justify-content: center; }
+.tv-pic__frame { position: relative; line-height: 0; transform-origin: center; }
+.tv-pic__img { display: block; max-width: 100cqw; max-height: 100cqh; width: auto; height: auto; user-select: none; }
+/* decision 338: the players' pins — big enough for the room, the same size at any zoom */
+.tv-pic__pins { position: absolute; inset: 0; pointer-events: none; }
+.tv-pin { position: absolute; width: var(--space-6); height: var(--space-6); border-radius: 50%; border: calc(var(--border-width) * 3) solid var(--color-bg); box-shadow: var(--shadow-1); transform: translate(-50%, -50%) scale(calc(1 / var(--tv-zoom, 1))); }
+.tv-pin__name { position: absolute; left: 50%; top: 100%; transform: translateX(-50%); margin-top: var(--space-1); white-space: nowrap; font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: 0.04em; line-height: normal; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); }
+.tv-pin--c-magenta { background: var(--color-mark-magenta); }
+.tv-pin--c-coral { background: var(--color-mark-coral); }
+.tv-pin--c-lime { background: var(--color-mark-lime); }
+.tv-pin--c-periwinkle { background: var(--color-mark-periwinkle); }
+.tv-pin--c-sand { background: var(--color-mark-sand); }
+.tv-pin--c-white { background: var(--color-mark-white); }
+.tv-pic__caption { position: absolute; inset: auto 0 0 0; margin: 0; padding: var(--space-3) var(--space-4); font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: 0.04em; color: var(--color-text); background: var(--color-surface); text-align: center; }
 .tv-empty { flex: 1; display: grid; place-items: center; }
+/* decision 339: the split party — up to four pictures, each labelled with who's there */
+.tv-tiles { display: grid; gap: var(--space-2); padding: var(--space-2); grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); }
+.tv-tiles[hidden] { display: none; }
+.tv-tiles[data-n='2'] { grid-template-rows: minmax(0, 1fr); }
+.tv-tiles[data-n='3'] .tv-tile:first-child { grid-row: span 2; }
+.tv-tile { margin: 0; position: relative; min-height: 0; display: flex; background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+.tv-tile img { flex: 1; min-width: 0; min-height: 0; width: 100%; height: 100%; object-fit: contain; }
+.tv-tile__label { position: absolute; inset: auto 0 0 0; padding: var(--space-2) var(--space-3); background: var(--color-surface); font-size: var(--text-lg); text-align: center; }
+.tv-tile__label strong { font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: 0.04em; color: var(--color-accent); }
+/* decision 340: a map piece's card over the map — big enough to read from the sofa */
+.tv-info { position: absolute; left: var(--space-4); bottom: var(--space-4); z-index: 1; width: min(32rem, 40vw); font-size: var(--text-lg); }
+.tv-info[hidden] { display: none; }
+.tv-info .card__title { font-size: var(--text-2xl); }
+.tv-info__body { display: flex; flex-direction: column; gap: var(--space-2); }

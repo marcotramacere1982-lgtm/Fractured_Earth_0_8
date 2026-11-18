@@ -4,7 +4,8 @@
 
 import { html } from '../dom.js';
 import { card } from './parts.js';
-import { roll, typedRoll } from '../../rules/dice.js';
+import { roll, typedRoll, parseDice } from '../../rules/dice.js';
+import { dieView, tumbleIn } from '../dice-roll.js'; // decision 315: the initiative die tumbles too
 import { t } from '../../i18n/index.js';
 
 const signedText = (n) => `${n >= 0 ? '+' : '−'} ${Math.abs(n)}`;
@@ -19,6 +20,7 @@ export function initiativeCard(c, s, data) {
       <span class="muted">${t('init.or')}</span>
       <input class="input input--num" type="number" min="1" max="20" step="1" inputmode="numeric" aria-label="${t('init.typed')}" placeholder="${die}">
       <button class="btn" data-action="initTyped">${t('init.send')}</button>
+      <span class="check-die" data-init-die>${dieView(null, 'idle', parseDice(die).sides)}</span>
     </div>
   </div>`, { ref: 'initiative' });
 }
@@ -35,7 +37,13 @@ export function initiativeHandlers({ character, sheet, data, run, table, toast }
     toast(t('init.sent', { roll: text }), 'success');
   }
   return {
-    initRoll: () => send(roll(data.encounter.initiativeDie)),
+    initRoll: async (_, e) => { // decision 315: roll first, the die performs it, then it goes to the GM
+      const slot = e.target.closest('.init-ask')?.querySelector('[data-init-die]');
+      if (slot?.querySelector('.die--rolling')) return; // already rolling: one roll per tap
+      const r = roll(data.encounter.initiativeDie);
+      await tumbleIn(slot, r.total, parseDice(r.expr).sides);
+      send(r);
+    },
     initTyped: (_, e) => {
       const v = e.target.closest('.init-ask')?.querySelector('input')?.value;
       try { send(typedRoll(data.encounter.initiativeDie, v)); } catch { toast(t('init.badRoll', { die: data.encounter.initiativeDie }), 'danger'); }
@@ -58,7 +66,13 @@ export function prepareHandlers({ character, sheet, data, run, table, toast }) {
     run('prepareRolled', { id, roll: r.total, text });
   }
   return {
-    prepRoll: () => send(roll(data.encounter.initiativeDie)),
+    prepRoll: async (_, e) => { // decision 315
+      const slot = e.target.closest('.init-ask')?.querySelector('[data-init-die]');
+      if (slot?.querySelector('.die--rolling')) return; // already rolling: one roll per tap
+      const r = roll(data.encounter.initiativeDie);
+      await tumbleIn(slot, r.total, parseDice(r.expr).sides);
+      send(r);
+    },
     prepTyped: (_, e) => {
       const v = e.target.closest('.init-ask')?.querySelector('input')?.value;
       try { send(typedRoll(data.encounter.initiativeDie, v)); } catch { toast(t('init.badRoll', { die: data.encounter.initiativeDie }), 'danger'); }

@@ -66,6 +66,30 @@
         "abilities": {
           "title": "Le mosse finali",
           "text": "Le ability costano TP e ti spostano tra le stance: ogni carta mostra da dove parte e dove ti porta, e la stance in cui sei adesso è evidenziata. Equipaggiane fino a 3; verde vuol dire pronta. Usarla tira la tua Class TN e spende un'azione."
+        },
+        "role": {
+          "title": "Il Soldier",
+          "text": "Tieni la linea e chiudi gli scontri. I colpi normali accumulano Tactical Points, la stance decide quanto rischi, e le mosse finali spendono i TP. Grunt (STR / CON): ravvicinato, pesante, duro da abbattere. Officer (DEX / INT): posiziona la squadra e spara con precisione."
+        },
+        "loadout": {
+          "title": "Il tuo equipaggiamento",
+          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+        },
+        "roll": {
+          "title": "Il tiro di Class TN",
+          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 TP (se ne costa). Mai il prezzo pieno. Cover Me è una reazione: quando un alleato in vista viene attaccato, usala fuori dal tuo turno — si paga come una Schivata."
+        },
+        "chores": {
+          "title": "Manutenzione",
+          "text": "Sempre a portata di mano, fuori dai tuoi 3 posti: Shift Stance (un passo tra Defensive e Attack, senza TP — Unsteady, −2 agli attacchi, fino a fine round) e Field Strip (fuori dal combattimento: sblocca un inceppamento e ricarica entrambe le armi dai caricatori di scorta). In combattimento ognuna costa un'azione."
+        },
+        "bar": {
+          "title": "In combattimento: la scheda Tattica",
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+        },
+        "outside": {
+          "title": "Fuori dal combattimento",
+          "text": "Hard Stare sostituisce Interrogatorio / Intimidazione una volta per missione; Battle Plan (una volta per missione) dà +2 all'iniziativa a ogni alleato e a te 2 TP all'inizio del prossimo scontro. Quando il GM mostra un'immagine della scena sono nella sua riga *Cosa puoi fare qui*, e quando il GM chiede un tiro a cui una di loro può rispondere, la richiesta la propone."
         }
       }
     },
@@ -82,6 +106,30 @@
         "abilities": {
           "title": "Gli hack",
           "text": "Ogni carta mostra il costo con le icone: il chip per la RAM che richiede (un lucchetto quando un hack sustained la tiene), il termometro per l'heat che aggiunge (verde quando lo smaltisce), e dove arriverebbe il tuo heat dopo — in rosso se vuol dire Blue Screen. La maggior parte degli hack tocca solo bersagli cybernetic o synthetic."
+        },
+        "role": {
+          "title": "L'Hacker",
+          "text": "Combatti attraverso la rete: un ping per sapere cosa c'è, poi prendi il controllo, accechi o spegni i dispositivi e tutto ciò che è cibernetico o sintetico — i nemici organici solo attraverso il loro equipaggiamento. Portata: un dispositivo in vista, o entro 10 quadretti su una rete che hai pingato. Scammer (INT / CHA): falsificazioni e ordini fasulli. Master (INT / WIS): intrusione profonda, cascate, blocchi."
+        },
+        "loadout": {
+          "title": "Il tuo equipaggiamento",
+          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+        },
+        "roll": {
+          "title": "Il tiro di Class TN",
+          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 di calore (se l'hack ne produce). Mai il prezzo pieno."
+        },
+        "chores": {
+          "title": "Manutenzione",
+          "text": "Sempre a portata di mano, fuori dai tuoi 3 posti: Thermal Dump (sfoga 3 di calore; niente hack offensivi per il resto del turno) e System Hard Reboot (azzera RAM e calore — il deck resta spento questo round e il prossimo). Nessun tiro. In combattimento ognuna costa un'azione."
+        },
+        "bar": {
+          "title": "In combattimento: la scheda Tattica",
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+        },
+        "outside": {
+          "title": "Fuori dal combattimento",
+          "text": "Ping Sweep funziona anche fuori dal combattimento — le reti lo sentono (Trace). Phish sostituisce Inganno o Persuasione una volta per missione; Clean Logs abbassa la Trace del sito di 2 (una volta per missione); Backdoor rende silenzioso il tuo prossimo ping su quella rete e dà +2 sui suoi dispositivi. Quando il GM mostra un'immagine della scena sono nella sua riga *Cosa puoi fare qui*, e quando il GM chiede un tiro a cui una di loro può rispondere, la richiesta la propone."
         }
       }
     },
@@ -98,6 +146,34 @@
         "abilities": {
           "title": "Le abilità",
           "text": "I pallini su una carta sono la Sync che serve (●●○○ = Warm o più). Le mosse Brownout spengono l'apparato fino alla fine del prossimo round — gli anelli diventano grigi e tratteggiati. Tieni il tuo Tech Wizard al riparo."
+        },
+        "role": {
+          "title": "Il Tech Wizard",
+          "text": "Tieni in vita la squadra e prepari il terreno. Ogni ability ha due facce — Mend (ripara, cura, copre) e Surge (toglie armatura, folgora, trappole) — e la Sync sale finché lavori nello stesso modo. Mechanic (CON / WIS): medicina da campo e fortificazioni. Engineer (DEX / WIS): droni e sabotaggio."
+        },
+        "drone": {
+          "title": "Il tuo drone",
+          "text": "Scegli qui il drone che possiedi (lo compri nella scheda Droni del Mercato). Alcune ability partono da lui e usano la sua portata — la carta dice fin dove. Se viene distrutto, Patch the Drone lo ripara fuori dal combattimento."
+        },
+        "loadout": {
+          "title": "Il tuo equipaggiamento",
+          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+        },
+        "roll": {
+          "title": "Il tiro di Class TN",
+          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: Sync −1. Mai il prezzo pieno."
+        },
+        "chores": {
+          "title": "Manutenzione",
+          "text": "Sempre a portata di mano, fuori dai tuoi 3 posti: Recalibrate (+1 Sync, nessun tiro — in combattimento quel round non puoi cambiare modo) e Patch the Drone (fuori dal combattimento: ripara il drone distrutto). In combattimento ognuna costa un'azione."
+        },
+        "bar": {
+          "title": "In combattimento: la scheda Tattica",
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+        },
+        "outside": {
+          "title": "Fuori dal combattimento",
+          "text": "Una volta per missione ciascuna, Steady Hands sostituisce Medicina / Primo soccorso e Calibrate Meccanica o Elettronica. Quando il GM mostra un'immagine della scena sono nella sua riga *Cosa puoi fare qui*, e quando il GM chiede un tiro a cui una di loro può rispondere, la richiesta la propone."
         }
       }
     },
@@ -114,6 +190,30 @@
         "rhythm": {
           "title": "Il ritmo",
           "text": "Pianifica in Cold, prendi un colpo, passa a Hot, incassa con una mossa spericolata, ricadi in Cold. Desperate Gamble punta tutto."
+        },
+        "role": {
+          "title": "Lo Smuggler",
+          "text": "Vivi di nervi. Il pendolo oscilla tra Cold (mira calma: +2 agli attacchi con armi da fuoco) e Hot (adrenalina: +1 ai danni, +1 quadretto); le ability lo spingono da una parte o dall'altra, e le mosse migliori vogliono una zona. Dealer (DEX / CHA): mani veloci, lingua veloce. Trafficker (WIS / CHA): rotte, contatti, coordinamento — e +1 ai danni in Cold."
+        },
+        "loadout": {
+          "title": "Il tuo equipaggiamento",
+          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+        },
+        "roll": {
+          "title": "Il tiro di Class TN",
+          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: il pendolo si sposta di un passo verso 0. Mai il prezzo pieno. Duck & Weave è una reazione: usala quando vieni attaccato — si paga come una Schivata."
+        },
+        "chores": {
+          "title": "Manutenzione",
+          "text": "Sempre a portata di mano, fuori dai tuoi 3 posti: Breathe (sposta il pendolo di un passo, più freddo o più caldo, nessun tiro) e Palm It (fuori dal combattimento: nascondi un oggetto o un'arma a una perquisizione). In combattimento ognuna costa un'azione."
+        },
+        "bar": {
+          "title": "In combattimento: la scheda Tattica",
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+        },
+        "outside": {
+          "title": "Fuori dal combattimento",
+          "text": "Fast Talk sostituisce Persuasione o Inganno una volta per missione; Price Tag ti dice quanto vale una cosa e chi la comprerebbe; Know a Guy (una volta per missione) chiama un contatto; Cover Story dà alla squadra +2 alla prossima bugia ai funzionari. Quando il GM mostra un'immagine della scena sono nella sua riga *Cosa puoi fare qui*, e quando il GM chiede un tiro a cui una di loro può rispondere, la richiesta la propone."
         }
       }
     },
@@ -134,6 +234,30 @@
         "abilities": {
           "title": "Le abilità",
           "text": "Spendono i Tell del bersaglio: 1 per un piccolo vantaggio, 2 per uno grosso, 3 per il colpo finale. Close Study e Case the Room piazzano altri Tell."
+        },
+        "role": {
+          "title": "Lo Scavenger",
+          "text": "Osservi, poi colpisci dove fa male. A ogni turno metti Tells sui nemici che vedi attraverso l'ottica — di più quando sei Unseen — e li spendi su un colpo (+1d4 ciascuno) o sulle ability. Prowler (DEX / CON): ravvicinato, rapido, sfuggente. Stalker (CON / INT): paziente, a lunga distanza, legge gli schemi."
+        },
+        "loadout": {
+          "title": "Il tuo equipaggiamento",
+          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+        },
+        "roll": {
+          "title": "Il tiro di Class TN",
+          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 Tell sul bersaglio (se l'ability ne spende). Mai il prezzo pieno. Sidestep è una reazione: quando il nemico accanto a te attacca — si paga come una Schivata."
+        },
+        "chores": {
+          "title": "Manutenzione",
+          "text": "Sempre a portata di mano, fuori dai tuoi 3 posti: Scan (+1 Tell sul bersaglio, nessun tiro — ti scopri: niente Unseen il prossimo round) e Scrounge (fuori dal combattimento, una volta per scena: perquisisci una stanza o un corpo; il GM dice cosa trovi). In combattimento ognuna costa un'azione."
+        },
+        "bar": {
+          "title": "In combattimento: la scheda Tattica",
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+        },
+        "outside": {
+          "title": "Fuori dal combattimento",
+          "text": "Read the Room sostituisce Percezione o Indagine una volta per missione; Long Look, Track, Plant a Bug, Pickpocket e Lead the Way sono i tuoi occhi e le tue mani. Quando il GM mostra un'immagine della scena sono nella sua riga *Cosa puoi fare qui*, e quando il GM chiede un tiro a cui una di loro può rispondere, la richiesta la propone."
         }
       }
     },

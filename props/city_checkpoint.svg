@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- A checkpoint on a road (top to bottom): booths, barrier arms, spikes. Laid over any tile. City scale: a square is a district. -->
+  <path class="detail" d="M50 0 V100" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.35"/>
+  <path class="solid" d="M30 40 H40 V54 H30 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="solid" d="M60 46 H70 V60 H60 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path class="detail" d="M40 46 H58 M42 58 H60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M36 64 H64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="2 2"/>
+</svg>

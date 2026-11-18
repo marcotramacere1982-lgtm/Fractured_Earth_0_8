@@ -45,7 +45,7 @@ The app is a smart paper sheet: it does the maths, keeps the rules one tap away 
 
 ### Playing at the table
 
-The GM can run the app from a laptop on the table's Wi-Fi: every tablet opens the same address and works even without internet. At the table the sheet plays a soft sound when your combat turn starts, when the GM sends you something and when you are hit; the 🔔 button in the sheet header switches it off on that device. (Browsers only allow sound after your first tap on the page.) Opening the files directly by double-click does not work — the app must be served from a computer (ask your GM).
+The GM can run the app from a laptop on the table's Wi-Fi: every tablet opens the same address and works even without internet. At the table the sheet plays a soft sound when your combat turn starts, when the GM sends you something, when you are hit and when someone is spotted — and short interface sounds for what you just did: a toggle, an action that went through, a refusal (no magazine, no actions left), a roll's success or failure, cash and items coming in. When you roll in the app, the dice tumble for under a second and land on your result (tap them to skip): the d20 beside a check's numbers, your initiative die, and the real damage dice in their own shapes (d4 triangle, d6 square, d8 diamond, d10, d12, d20). The 🔔 button in the sheet header switches all sound off on that device; the **Display** menu sets the volume, turns the interface sounds off (the alerts stay) and turns the rolling die off. (Browsers only allow sound after your first tap on the page.) Opening the files directly by double-click does not work — the app must be served from a computer (ask your GM).
 
 **Play as… — your characters on any device.** At the table, the characters page starts with **At the table · Play as**: pick your name (or *New player…* the first time). The list then shows only your characters (other players' on the same tablet fold behind a switch). Your characters at the table appear there, even ones made on another tablet — *Open here* copies one onto this device. Opening a character joins the table with it; characters you create or import while playing as yourself are saved to the table too, under your name. If two devices have played the same character, the newest save wins (the table keeps every earlier copy, so the GM can always go back); if it is open on another device right now, you're asked first. **Delete** while playing as yourself takes the character off the table too (it isn't open on another device): it goes to the GM's archive, so the GM can bring it back. Without a table nothing changes: your sheets stay in this browser, and Export / Import work as always.
 
@@ -98,7 +98,7 @@ Normal attacks never crack armor. Broken arms and crippled legs stay until treat
 
 ### Building your Operator {#sec-5-3-buy}
 
-At creation every attribute starts at **6** and you have **20 points** to spend. No attribute may go above **14** at this stage (life events and careers can push it higher later). Credit Score starts at **20**: you can lower it to gain points, but you can never raise it above 20 during creation.
+At creation every attribute starts at **6** and you have **20 points** to spend. No attribute may go above **14** at this stage (life events and careers can push it higher later). Credit Score starts at **20**: you can lower it to gain points, but you can never raise it above 20 during creation. In play it runs **0–100** like everyone's: the GM, a washer or a talent can take it past 20 (decision 316).
 
 - **Avoid min-maxing.** A 6 CON operator collapses under minimal damage; a 6 WIS operator is constantly blindsided. Balanced builds survive longer.
 - **Not sure?** Take the playstyle quiz in the builder: six questions, one at a time (tap a number to go back to one). It suggests a class and a ready-made attribute spread. From then on an **Aiming for** bar follows you through attributes, youth, careers and class: the class you're building towards (change it any time), the two stats it rolls on and its Class TN right now. Those two stats are marked on the attributes step, and the class step marks the subclasses with the best TN. On the last step you can take a **starter kit** for your subclass — three abilities and cheap gear (a lousy gun, very little armor), free — or none. On the sheet, the engine card's *Suggested loadouts* swap in a kit's abilities at any time (the gear stays as it is).
@@ -359,11 +359,29 @@ Between missions, when the crew is somewhere quiet, the GM can call a **downtime
 When downtime ends, each player gets a **report**:
 
 - **Rest:** HP and armor come back. Broken arms and crippled legs heal too, if enough time passed.
-- **Upkeep:** what your lifestyle costs for the period. It is **shown, not charged** — settle it with the GM: pay, sell something, negotiate.
-- **A story event:** something from *your* life — your debt, your old career, your past, or the state you're in. The options are ideas, never automatic: talk it through with the GM and choose.
+- **Payday:** if you have official work, it pays for the time that passed (below).
+- **Upkeep:** what your lifestyle costs for the period. Pay it on your Dossier: all **cash**, all **Credit Score** (paid officially), or **half and half**.
+- **A story event:** something from *your* life — your debt, your old career, your past, or the state you're in. Talk it through with the GM, then **tick one option** on your Dossier. Once ticked it is locked (the GM can reopen it). If it costs money, you pay the same three ways. If it asks for a roll, roll it there. If it says the debt pressure eases, it eases by itself. Anything else the option says is the GM's call.
+- **A crew event** (sometimes): something that happens to all of you. Everyone **votes** for an option on the Dossier, in secret — you can change your vote until the GM decides. The GM sees only the count, talks it through with you and confirms what the crew does.
 - **Level-up** usually opens at the same time (5-9).
 
-Every event goes into **Story so far** on your Dossier, so your character's life between jobs builds up over the campaign.
+The GM sees every choice, roll and payment as it happens. The Dossier card keeps a **receipt** of everything this downtime did — rest, payday, your choice, upkeep, work — and stays until you tap **Got it**. Every event goes into **Story so far** on your Dossier, with what you chose, so your character's life between jobs builds up over the campaign.
+
+### Work and payday {#sec-5-10-work}
+
+The system pays just enough to keep you in it. Staying in it costs about **7 Credit Score a month**, and a job never quite covers that. It slows the slide; it doesn't stop it. The way up is still the work you do with the crew.
+
+Your **job** comes from the last career on your life path (the GM can change it):
+
+- **Employed** — a registered job. It pays each month by career: office, science or media **+6 CRS and $300**; security or military **+5 and $350**; wage work **+4 and $250**.
+- **Gig** — short, registered work anyone can get: **+3 CRS and $150** a month. A criminal record turns a job into a gig.
+- **Student** — a stipend: **+2 CRS** a month.
+- **Unregistered** — criminal or unemployed: no official income.
+- **Flagged** — a Credit Score under 10: no official income, and every official step is watched.
+
+**Changing it.** Once per downtime, the card on your Dossier asks about your work: **keep it**, take **gig work**, **quit**, or **look for a job**. Looking sends an **application** to the GM, who sees what the career asks for (its requirements, as in your life path — the age limit doesn't count here) and answers: **an entry roll** (you roll it on your Dossier), **hired**, or **turned down**. With a criminal record, a good entry roll still only gets you gig work — unless the GM hires you anyway. Too long away from a job can be noticed: the GM may ask for a roll to cover it, and a failure means a warning or the sack. Each failure at a job stays on record.
+
+**Trust:** every 2 unbroken months in the same job adds +1 CRS a month, up to +2. **Garnish:** a debt takes **20%** of the cash wage before you see it (the predatory education lien takes 80%). A few days of downtime pay a quarter of a month, a few weeks half.
 
 ### Debt pressure {#sec-5-10-debt}
 
@@ -373,4 +391,4 @@ Your debt doesn't wait. Its **pressure** goes from 0 to 3 and rises by **1 at ev
 - **2 · Escalation** — things get worse. Instalment **$800**.
 - **3 · Crisis** — the threat is here, and it usually becomes a mission. Instalment **$2,000**. Once the crisis is dealt with, pressure goes back to 1.
 
-Paying is **your choice**: the *Pay instalment* button on the Dossier takes the cash and lowers pressure by one step. The story can lower it too — a deal, a favour, a mission — and a few hard story paths can end a debt for good.
+Paying is **your choice**: the *Pay instalment* button on the Dossier lowers pressure by one step — pay it in cash, Credit Score or half and half. A downtime event's option can lower it too (5-10). The story can lower it too — a deal, a favour, a mission — and a few hard story paths can end a debt for good.

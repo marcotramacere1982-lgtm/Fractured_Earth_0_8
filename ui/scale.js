@@ -1,15 +1,17 @@
 // UI scale (decision 199): the whole interface grows or shrinks together — text, panels, tiles, icons, spacing — by
 // changing the root font size every `rem` hangs from (the way browser zoom felt right on small screens). *Auto* picks
 // from the window's height (the tight dimension on 13" laptops and 10" tablets); − / + override it in 5 % steps,
-// 85–120 %, remembered per device. Touch targets keep a floor (tokens.css → --touch). One Display menu (Aa) holds the
+// 70–120 %, remembered per device. Touch targets keep a floor (tokens.css → --touch). One Display menu (Aa) holds the
 // size and the day / night switch, in the player app and the GM console alike.
 
 import { html } from './dom.js';
 import { t } from '../i18n/index.js';
 import { THEMES, setTheme, theme } from './themes.js';
+import { volume, feedbackOn } from './sound.js';
+import { diceRow } from './dice-roll.js';
 
 const KEY = 'fe.uiScale';
-export const STEPS = [0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15, 1.2];
+export const STEPS = [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15, 1.2]; // 70–80 % on request (2026-11-13): small screens, more on view
 
 let pref = (() => { try { const v = localStorage.getItem(KEY); return v && v !== 'auto' && STEPS.includes(Number(v)) ? Number(v) : 'auto'; } catch { return 'auto'; } })();
 
@@ -59,7 +61,7 @@ export function installScale() {
  * The Display menu: size − / + / Auto, and the theme (decision 219). A <details>, so it opens and closes without code.
  * themes: the theme ids offered (all of them by default). Decision 225: the theme is one dropdown.
  */
-export const displayMenu = ({ themes = THEMES.map((x) => x.id) } = {}) => html`<details class="display-menu" data-keep="display-menu">
+export const displayMenu = ({ themes = THEMES.map((x) => x.id), sound = false } = {}) => html`<details class="display-menu" data-keep="display-menu">
   <summary class="btn btn--sm display-menu__btn" title="${t('display.title')}" aria-label="${t('display.title')}">${t('display.button')}</summary>
   <div class="display-menu__panel">
     <span class="label">${t('display.size')}</span>
@@ -71,5 +73,9 @@ export const displayMenu = ({ themes = THEMES.map((x) => x.id) } = {}) => html`<
     <button type="button" class="btn btn--sm btn--ghost" data-ui-scale="auto">${t('display.useAuto')}</button>
     <label class="field"><span class="label">${t('display.theme')}</span>
       <select class="input display-menu__select" data-ui-theme-pick aria-label="${t('display.theme')}">${themes.map((id) => html`<option value="${id}" ${theme() === id ? 'selected' : ''}>${t(`theme.${id}`)}</option>`)}</select></label>
+    ${sound ? html`<span class="label">${t('display.sound')}</span>
+    <label class="field"><span class="muted">${t('display.volume')}</span><input type="range" min="0" max="100" step="5" value="${Math.round(volume() * 100)}" data-ui-sound-volume aria-label="${t('display.volume')}"></label>
+    <label class="display-menu__check"><input type="checkbox" data-ui-sound-feedback ${feedbackOn() ? 'checked' : ''}><span>${t('display.uiSounds')}</span></label>
+    ${diceRow()}` : ''}
   </div>
 </details>`;

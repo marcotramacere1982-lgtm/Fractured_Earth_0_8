@@ -6,6 +6,7 @@ import { maxHp } from './body.js';
 import { classTN, findSubclass } from './classes.js';
 import { passiveScore } from './checks.js';
 import { talentEffects } from './progress.js';
+import { catchSkills } from './jobs.js';
 
 const fxOf = (character, data) => (data.talents ? talentEffects(character, data) : {});
 
@@ -30,8 +31,9 @@ export function explainAttribute(id, character, data) {
 export function explainSkill(id, character, data) {
   const skill = data.skills.skills.find((k) => k.id === id);
   const talent = fxOf(character, data).skills?.[id] ?? 0; // e.g. Street Smarts
-  const value = skillValue(skill, character.attributes) + talent;
-  return { kind: 'skill', id, name: skill.name, desc: skill.desc, stats: statParts(skill.stats, character, data), talent, value, passive: passiveScore(value, data.difficulty) };
+  const lifestyle = data.jobs ? catchSkills(character, data)[id] ?? 0 : 0; // decision 331: an ad-cluttered lens
+  const value = skillValue(skill, character.attributes) + talent + lifestyle;
+  return { kind: 'skill', id, name: skill.name, desc: skill.desc, stats: statParts(skill.stats, character, data), talent, lifestyle, value, passive: passiveScore(value, data.difficulty) };
 }
 
 /** A combat value: raw sum of two attributes → table row (± row shifts from life events) → value. */

@@ -4,7 +4,7 @@
 
 /** Fields grouped by how they may legitimately change. */
 const WATCHED = [
-  { path: 'attributes', label: 'Attribute', explain: [/^Level-up: [A-Z]+ \+1/, /Clean Slate/, /^Washer: /, /^From the GM: /] }, // decision 276: the GM's Give moves CRS // the washer moves CRS (decision 143) // GM rulings, aging, level-up raises
+  { path: 'attributes', label: 'Attribute', explain: [/^Level-up: [A-Z]+ \+1/, /Clean Slate/, /^Washer: /, /^From the GM: /, /^Payday /, /^Downtime (choice|roll) /, /^Upkeep paid /, /^Debt instalment paid/] }, // decisions 331–332: payday, downtime payments in Credit Score // decision 276: the GM's Give moves CRS // the washer moves CRS (decision 143) // GM rulings, aging, level-up raises
   { path: 'rowOffsets', label: 'Combat row', explain: [] },
   { path: 'mods', label: 'Body modifier', explain: [] },
   { path: 'age', label: 'Age', explain: [] },
@@ -13,11 +13,11 @@ const WATCHED = [
   { path: 'tags', label: 'Notable', explain: [] },
   { path: 'subclassId', label: 'Subclass', explain: [] },
   { path: 'play.maxAbilities', label: 'Brain fog limit', explain: [] },
-  { path: 'play.cash', label: 'Cash', explain: [/^From the GM: /, /^Bought .* on the street/, /^Debt instalment paid/, /^Sold /, /^Washer: /, /^Stash: /, /^Crew stash /] },
+  { path: 'play.cash', label: 'Cash', explain: [/^From the GM: /, /^Bought .* on the street/, /^Debt instalment paid/, /^Sold /, /^Washer: /, /^Stash: /, /^Crew stash /, /^Payday /, /^Downtime (choice|roll) /, /^Upkeep paid /] },
   { path: 'play.inventory', label: 'Inventory', explain: [/^From the GM: /, /^Bought /, /^Dropped /, /^Sold /, /^Gave /, /^Received /, /^Added /, /(^|· )Reload /, /(^|· )Used /, /^Stash: /, /^Crew stash /, /^Fists: /, /^Drone: /, /^Mod: /, /^Starter kit: /] }, // a toy drone shot down (decision 171)
   { path: 'play.stash.cash', label: 'Stash cash', explain: [/^Stash: /] }, // decision 144
   { path: 'play.stash.items', label: 'Stash', explain: [/^Stash: /] },
-  { path: 'play.lifestyle', label: 'Lifestyle', explain: [/^Bought /, /^Lifestyle: /] },
+  { path: 'play.lifestyle', label: 'Lifestyle', explain: [/^Bought /, /^Lifestyle: /, /^From the GM: lifestyle/i] }, // owner 2026-11-15: the GM's own changes
   // advancement (decision 44): XP and gifts come from the GM; talents and raises only while level-up is open
   { path: 'progress.xp', label: 'XP', explain: [/^XP [+−-]/] },
   { path: 'progress.talents', label: 'Talents', explain: [/^Talent: /] },
@@ -25,7 +25,7 @@ const WATCHED = [
   { path: 'progress.raises', label: 'Attribute raises', explain: [/^Level-up: /] },
   { path: 'progress.open', label: 'Level-up open', explain: [/^The GM (opened|closed) level-up/] },
   // downtime (decision 46): pressure moves with the GM's downtime, an instalment, or the GM
-  { path: 'downtime.pressure', label: 'Debt pressure', explain: [/^Downtime \(/, /^Debt instalment paid/, /^Debt pressure set by the GM/] },
+  { path: 'downtime.pressure', label: 'Debt pressure', explain: [/^Downtime \(/, /^Debt instalment paid/, /^Debt pressure set by the GM/, /^Downtime (choice|roll) /] },
 ];
 
 const get = (obj, path) => path.split('.').reduce((o, k) => o?.[k], obj);
@@ -64,7 +64,7 @@ export function auditChanges(prev, next) {
       // a field the accepted baseline never had: an app update added it, not the player — adopt it quietly
       if (from === undefined) continue;
       let reason = fresh.find((t) => w.explain.some((re) => re.test(t))) ?? null;
-      if (path === 'attributes.CRS' && to < from) reason = fresh.find((t) => /^Bought .* officially/.test(t) || /^Washer: cashed out/.test(t) || /^From the GM: .*CRS −?-/.test(t)) ?? null;
+      if (path === 'attributes.CRS' && to < from) reason = fresh.find((t) => /^Bought .* officially/.test(t) || /^Washer: cashed out/.test(t) || /^From the GM: .*CRS −?-/.test(t) || /^Downtime (choice|roll) .*CRS/.test(t) || /^Upkeep paid .*CRS/.test(t) || /^Debt instalment paid.*CRS/.test(t)) ?? null;
       changes.push({ path, label: w.label + (path.includes('.') && w.path !== path ? ` ${path.split('.').pop()}` : ''), from, to, explained: Boolean(reason), reason });
     }
   }

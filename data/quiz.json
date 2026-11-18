@@ -278,65 +278,135 @@
     }
   ],
   "suggestedStats": {
-    "soldier": {
+    "grunt": {
+      "classId": "soldier",
       "stats": {
         "STR": 14,
-        "CON": 10,
         "DEX": 8,
+        "CON": 12,
         "INT": 6,
         "WIS": 8,
-        "CHA": 8,
+        "CHA": 6,
         "MST": 8
       },
-      "description": "Built for frontline resilience, heavy physical capability, and tactical focus."
+      "description": "Front line: strength and the body to take hits."
     },
-    "hacker": {
+    "officer": {
+      "classId": "soldier",
       "stats": {
         "STR": 6,
-        "CON": 6,
+        "DEX": 14,
+        "CON": 8,
+        "INT": 12,
+        "WIS": 8,
+        "CHA": 6,
+        "MST": 8
+      },
+      "description": "Quick hands and a tactical mind; tough enough to stay up."
+    },
+    "scammer": {
+      "classId": "hacker",
+      "stats": {
+        "STR": 6,
         "DEX": 8,
+        "CON": 6,
         "INT": 14,
         "WIS": 8,
         "CHA": 12,
         "MST": 8
       },
-      "description": "Cerebral specialist prioritizing digital mastery, social leverage, and mental fortitude."
+      "description": "Code and charm: gets in through the system or through people."
     },
-    "techwiz": {
+    "master": {
+      "classId": "hacker",
       "stats": {
         "STR": 6,
-        "CON": 12,
         "DEX": 8,
+        "CON": 8,
+        "INT": 14,
+        "WIS": 12,
+        "CHA": 6,
+        "MST": 8
+      },
+      "description": "Deep in the machine: knowledge and a cool head."
+    },
+    "mechanic": {
+      "classId": "techwiz",
+      "stats": {
+        "STR": 6,
+        "DEX": 8,
+        "CON": 12,
         "INT": 8,
         "WIS": 14,
         "CHA": 6,
         "MST": 8
       },
-      "description": "Pragmatic technician with deep environmental insight and technical resilience."
+      "description": "Hands-on and hard-wearing: fixes things under fire."
     },
-    "smuggler": {
+    "engineer": {
+      "classId": "techwiz",
       "stats": {
         "STR": 6,
+        "DEX": 12,
         "CON": 8,
+        "INT": 8,
+        "WIS": 14,
+        "CHA": 6,
+        "MST": 8
+      },
+      "description": "Precise and observant: the drone is an extension of the hand."
+    },
+    "dealer": {
+      "classId": "smuggler",
+      "stats": {
+        "STR": 6,
         "DEX": 14,
+        "CON": 8,
         "INT": 6,
         "WIS": 8,
         "CHA": 12,
         "MST": 8
       },
-      "description": "Agile operator relying on quick reflexes, sharp social leverage, and street smarts."
+      "description": "Fast hands, fast talk."
     },
-    "scavenger": {
+    "trafficker": {
+      "classId": "smuggler",
       "stats": {
         "STR": 6,
+        "DEX": 8,
+        "CON": 8,
+        "INT": 6,
+        "WIS": 12,
+        "CHA": 14,
+        "MST": 8
+      },
+      "description": "Reads people and the street; the deal is the weapon."
+    },
+    "prowler": {
+      "classId": "scavenger",
+      "stats": {
+        "STR": 6,
+        "DEX": 14,
         "CON": 12,
-        "DEX": 12,
-        "INT": 10,
+        "INT": 8,
         "WIS": 8,
         "CHA": 6,
         "MST": 8
       },
-      "description": "Hard to kill and hard to read: quick hands, patience and a mind for patterns."
+      "description": "Light on their feet and hard to put down."
+    },
+    "stalker": {
+      "classId": "scavenger",
+      "stats": {
+        "STR": 6,
+        "DEX": 8,
+        "CON": 12,
+        "INT": 14,
+        "WIS": 8,
+        "CHA": 6,
+        "MST": 8
+      },
+      "description": "Patient and sharp: sees the pattern, waits for it."
     }
   }
 }

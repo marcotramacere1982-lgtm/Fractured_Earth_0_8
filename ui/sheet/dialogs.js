@@ -4,13 +4,15 @@ import { iconFor, gearIcon, allGearIcons } from '../gear-icon.js';
 import { html, raw, render, delegate, cleanup, signed } from '../dom.js';
 import { segmented } from './parts.js';
 import { resolveCheck } from '../../rules/checks.js';
-import { roll, formatRoll, typedRoll } from '../../rules/dice.js';
+import { roll, formatRoll, typedRoll, parseDice } from '../../rules/dice.js';
 import { priceOptions, findGear, magazineId, creditScoreCost, lifestyleSlot } from '../../rules/economy.js';
 import { catalog, describe, kindLabel } from './gear.js';
 import { marketGroups } from './market-groups.js';
 import { info } from '../ref.js';
 import { t } from '../../i18n/index.js';
 import { ruleText } from '../rule-text.js';
+import { cue } from '../sound.js';
+import { dieView, diceTray, flicker, tumbles, TUMBLE_MS } from '../dice-roll.js'; // decisions 314–315
 
 // Decision 192: at the table the difficulty is the GM's — the roll window shows it, nobody else changes it.
 let tierLocked = () => false;
@@ -83,8 +85,30 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
     state.extra = after ? after(state.result) : '';
     onResult(state.result);
     finish();
+    const r = state.result; // decision 314: the result in sound — natural 1 / 20 first
+    cue(r.natural === 'crit-success' ? 'crit' : r.natural === 'crit-failure' ? 'fumble' : r.success ? 'success' : 'fail');
     d.redraw();
   };
+  /** Decision 314: the app's roll tumbles on the die first (under a second, tap to skip), then resolves as before. */
+  const rollApp = () => {
+    if (state.rolling || (once && state.result)) return;
+    const dice = roll('1d20');
+    if (!tumbles()) { resolve(dice.total, dice); return; }
+    state.rolling = { dice, stop: null, timer: null };
+    d.redraw();
+    cue('dice');
+    state.rolling.stop = flicker(d.el);
+    state.rolling.timer = setTimeout(land, TUMBLE_MS);
+  };
+  const land = () => {
+    const rl = state.rolling;
+    if (!rl) return;
+    rl.stop?.();
+    clearTimeout(rl.timer);
+    state.rolling = null;
+    resolve(rl.dice.total, rl.dice);
+  };
+  const die = () => (state.rolling ? dieView('?', 'rolling') : state.result ? dieView(state.result.roll, state.result.success ? 'success' : 'failure') : dieView(null));
   const answer = (value) => { state.answers[step().id] = value; state.typed = {}; state.flowError = ''; finish(); d.redraw(); };
   const flowView = () => {
     if (!flowOn()) return '';
@@ -92,6 +116,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
     const s = step();
     return html`
       ${done.length ? html`<ul class="flow-done">${done.map((x) => html`<li class="mono">${x}</li>`)}</ul>` : ''}
+      ${state.trayRoll ? diceTray(state.trayRoll.groups, true) : state.tray ? diceTray(state.tray) : ''}
       ${s ? html`<div class="flow-step">
         <span class="label">${s.title}</span>
         ${s.hint ? html`<p class="hint">${s.hint}</p>` : ''}
@@ -99,13 +124,14 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
         ${s.dice ? html`
           <div class="flow-dice">${s.dice.map((g) => html`<label class="flow-dice__row"><span>${g.label} <span class="mono muted">${g.expr}</span></span>
             <input class="input input--num" type="number" inputmode="numeric" value="${state.typed[g.key] ?? ''}" data-action="flowTyped" data-key="${g.key}" aria-label="${t('flow.typedLabel', { dice: g.expr })}" placeholder="—"></label>`)}</div>
-          <div class="cluster"><button class="btn btn--primary" data-action="flowRoll">${t('flow.roll')}</button>
+          <div class="cluster"><button class="btn btn--primary" data-action="flowRoll" ${state.trayRoll ? 'disabled' : ''}>${t('flow.roll')}</button>
             <button class="btn" data-action="flowEnter">${t('flow.enter')}</button><span class="hint">${t('flow.typedHint')}</span></div>
           ${state.flowError ? html`<p class="notice notice--danger">${state.flowError}</p>` : ''}` : ''}
       </div>` : cur().summary(state.answers)}`;
   };
   /** Dice step: typed totals where given, the app rolls the rest (enter = typed only). */
   const diceAnswer = (typedOnly) => {
+    if (state.trayRoll) return;
     const s = step();
     try {
       const out = {};
@@ -116,11 +142,27 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
           out[g.key] = roll(g.expr);
         } else out[g.key] = typedRoll(g.expr, v);
       }
-      answer(out);
+      // decision 315: the dice the app rolled tumble in a tray first (typed ones don't), then the step moves on
+      const groups = s.dice.filter((g) => !out[g.key].typed && out[g.key].rolls.length).map((g) => ({ sides: parseDice(g.expr).sides, rolls: out[g.key].rolls }));
+      if (!groups.length || !tumbles()) { state.tray = groups.length ? groups : null; answer(out); return; }
+      state.trayRoll = { groups, out, stop: null, timer: null };
+      d.redraw();
+      cue('dice');
+      state.trayRoll.stop = flicker(d.el);
+      state.trayRoll.timer = setTimeout(landTray, TUMBLE_MS);
     } catch (err) {
       state.flowError = err instanceof RangeError && /: \d+–/.test(err.message) ? t('flow.outOfRange', { range: err.message }) : err.message;
       d.redraw();
     }
+  };
+  const landTray = () => {
+    const tr = state.trayRoll;
+    if (!tr) return;
+    tr.stop?.();
+    clearTimeout(tr.timer);
+    state.trayRoll = null;
+    state.tray = tr.groups; // stays in view, landed, until the next dice
+    answer(tr.out);
   };
   /** Decision 156: once rolled, the setup folds into one line — the flow below needs the room. */
   const summaryLine = () => [foe ? foe.options.find((o) => o.id === (state.foe ?? ''))?.label : '', aimOpt()?.label, tool()?.name, light ? t(`light.${light.kind}.${state.light}`) : '', site ? `${t(`site.${site.level}`)} ${site.tn}` : '', help ? `${t('help.row')} ${help.tn > 0 ? '+' : ''}${help.tn}` : '',
@@ -136,6 +178,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
           <div class="stat"><span class="label">TN</span><span class="stat__value">${tn()}</span>${tool() ? html`<span class="stat__sub text-success">+${tool().tn} ${tool().name}</span>` : ''}</div>
           <div class="stat"><span class="label">${t('check.difficulty')}</span><span class="stat__value ${tier.penalty > 0 ? 'stat__value--danger' : tier.penalty < 0 ? 'text-success' : ''}">${signed(-tier.penalty)}</span></div>
           <div class="stat"><span class="label">${t('check.rollUnder')}</span><span class="stat__value stat__value--accent">${tn() - tier.penalty}</span></div>
+          <span class="check-die">${die()}</span>
         </div>
         ${odds && !r ? odds(tn() - tier.penalty) : ''}
         ${boosts.length ? html`<p class="check-boosts"><span class="label">${t('check.inPlay')}</span> ${boosts.map((b) => html`<span class="pill ${b.delta > 0 ? 'pill--success' : 'pill--danger'}">${b.name} ${b.delta > 0 ? '+' : '−'}${Math.abs(b.delta)}</span>`)}
@@ -164,7 +207,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
           <select class="select" data-action="tierPick" aria-label="${t('table.difficulty')}" title="${tier.example}">${tiers.map((x) => html`<option value="${x.id}" ${x.id === state.tier ? raw('selected') : ''}>${x.name}${x.penalty ? ` (${signed(-x.penalty)})` : ''}</option>`)}</select></label>`}
         </div>`}
         ${once && r ? '' : html`<div class="cluster">
-          <button class="btn btn--primary" data-action="roll">${t('check.roll')}</button>
+          <button class="btn btn--primary" data-action="roll" ${state.rolling ? 'disabled' : ''}>${t('check.roll')}</button>
           <span class="muted">${t('check.physical')}</span>
           <input class="input input--num" type="number" min="1" max="20" inputmode="numeric" value="${state.manual}" data-action="manual" aria-label="${t('check.physicalLabel')}">
           <button class="btn" data-action="enter">${t('check.resolve')}</button>
@@ -181,8 +224,9 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
   const d = openDialog(draw, {
     click: {
       tier: ({ value }) => { if (tierLocked() || (once && state.result)) return; state.tier = Number(value); state.result = null; d.redraw(); },
-      roll: () => { const dice = roll('1d20'); resolve(dice.total, dice); },
-      enter: () => { const v = Number(state.manual); if (v >= 1 && v <= 20) resolve(v); },
+      roll: () => rollApp(),
+      dieSkip: () => (state.trayRoll ? landTray() : land()), // decisions 314–315: a tap lands the dice at once
+      enter: () => { if (state.rolling) return; const v = Number(state.manual); if (v >= 1 && v <= 20) resolve(v); },
       tool: ({ id }) => { if (once && state.result) return; state.tool = state.tool === id ? null : id; state.result = null; d.redraw(); },
       light: ({ id }) => { if (once && state.result) return; state.light = id; state.result = null; d.redraw(); },
       foePick: ({ id }) => { if (once && state.result) return; state.foe = id; foe.onPick?.(id); state.result = null; d.redraw(); }, // decision 153
@@ -212,10 +256,15 @@ export function openChoice(title, choices, onPick, { lead = '' } = {}) { // lead
   });
 }
 
-/** Market dialog. free = add without paying (GM-granted gear). onBuy({kind,id,method,multiplier}) may throw. */
-export function openShop({ kind = 'weapon', free = false }, character, data, onBuy) {
-  const state = { kind, query: '', multiplier: data.economy.cash.defaultMultiplier, message: '', custom: { name: '', note: '', qty: 1 } };
-  const kinds = free ? ['weapon', 'weaponMod', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'drone', 'droneMod', 'optic', 'custom'] : ['weapon', 'weaponMod', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'drone', 'droneMod', 'optic', 'lifestyle', 'custom'];
+/**
+ * Market dialog. free = add without paying (GM-granted gear). onBuy({kind,id,method,multiplier}) may throw.
+ * markup() → the GM's street markup for the table, or null (not at a table / never set: the usual, economy.cash.defaultMultiplier).
+ */
+export function openShop({ kind = 'weapon', free = false, markup = () => null }, character, data, onBuy) {
+  const state = { kind, query: '', message: '', custom: { name: '', note: '', qty: 1 } };
+  const gmMarkup = () => markup() ?? null; // owner hotfix 2026-11-14: only the GM sets it
+  Object.defineProperty(state, 'multiplier', { get: () => gmMarkup() ?? data.economy.cash.defaultMultiplier });
+  const kinds = free ? ['weapon', 'weaponMod', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'drone', 'droneMod', 'optic', 'custom'] : ['essentials', 'weapon', 'weaponMod', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'drone', 'droneMod', 'optic', 'lifestyle', 'custom'];
   /** + Custom (decision 55): a misc item with no price and no rules. */
   const customForm = () => html`<div class="stack">
     <p class="hint">${t('shop.customHint')}</p>
@@ -227,9 +276,9 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
     <button class="btn btn--primary" data-action="addCustom">${t('shop.customAdd')}</button></div>`;
   /** The list price means nothing to players (they see CRS and $): weapons show a spare magazine's street price instead,
    *  lifestyle its monthly upkeep. */
-  const metaPrice = (e) => {
-    if (state.kind === 'lifestyle') return ` · ${t('shop.monthly', { cash: e.cost.cr, crs: creditScoreCost(e, 'lifestyle', data.economy) ?? '—' })}`;
-    if (state.kind !== 'weapon' || !e.magSize) return '';
+  const metaPrice = (e, kind = state.kind) => {
+    if (kind === 'lifestyle') return ` · ${t('shop.monthly', { cash: e.cost.cr, crs: creditScoreCost(e, 'lifestyle', data.economy) ?? '—' })}`;
+    if (kind !== 'weapon' || !e.magSize) return '';
     const mag = findGear('ammo', magazineId(e.id), data);
     return mag ? ` · ${t('shop.spareMag', { cash: priceOptions(mag, 'ammo', data.economy, state.multiplier).cash.cash })}` : '';
   };
@@ -241,38 +290,44 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
     const cls = data.classes.classes.find((k) => k.id === c.classId) ?? null;
     const need = (k) => Boolean(cls?.market?.need.includes(k));
     const skip = (k) => Boolean(cls?.market?.skip.includes(k));
-    const guns = new Set(c.play.inventory.filter((x) => x.kind === 'weapon').map((x) => x.id));
+    const guns = new Set(c.play.inventory.filter((x) => x.kind === 'weapon').flatMap((x) => [x.id, x.unique?.moddedFrom, x.unique?.forgedFrom].filter(Boolean))); // decision 311: a modded / Forge gun takes its base gun's magazines
     const fits = (e) => state.kind === 'ammo' && guns.has(e.weaponId);
+    // owner hotfix 2026-11-14: a modded gun (an Extended Magazine…) loads its base gun's magazines and fills to its own size
+    const bigger = (e) => c.play.inventory.filter((x) => x.kind === 'weapon' && x.unique?.moddedFrom === e.weaponId && x.unique.magSize && x.unique.magSize !== e.magSize).map((x) => t('shop.fitsModded', { name: x.unique.name, n: x.unique.magSize }));
     const list = state.kind === 'custom' ? [] : catalog(state.kind, data)
-      .filter((e) => !state.query || `${e.name} ${e.type ?? ''} ${e.category ?? ''} ${e.ammo ?? ''}`.toLowerCase().includes(state.query.toLowerCase()))
-      .sort((a, b) => (fits(b) - fits(a)) || a.cost.cr - b.cost.cr); // ammo: magazines for your guns first
+      .filter((e) => free || e.market !== false) // decision 317: loot is found or stolen, never bought (the GM-granted Add still lists it)
+      .filter((e) => !state.query || state.kind === 'essentials' || `${e.name} ${e.type ?? ''} ${e.typeName ?? ''} ${e.category ?? ''} ${e.ammo ?? ''}`.toLowerCase().includes(state.query.toLowerCase()))
+      .sort((a, b) => (state.kind === 'essentials' ? 0 : (fits(b) - fits(a)) || a.cost.cr - b.cost.cr)); // ammo: magazines for your guns first; Essentials keep their order
     return html`
       <header class="card__head"><h2 class="card__title">${free ? t('shop.addGear') : t('shop.market')}<small>${free ? t('shop.freeSub') : `${t('stat.cash')} $${c.play.cash} · CRS ${c.attributes.CRS}`}</small></h2>
         <button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
       <div class="dialog__body stack">
         <div class="tabs tabs--wrap dialog__sticky" role="tablist">${kinds.map((k) => html`<button class="tab ${need(k) ? 'tab--need' : skip(k) ? 'tab--skip' : ''}" role="tab" data-action="kind" data-value="${k}" aria-selected="${k === state.kind}" title="${need(k) ? t('shop.needHint', { cls: cls?.name ?? '' }) : skip(k) ? t('shop.skipHint', { cls: cls?.name ?? '' }) : ''}">${need(k) ? '★ ' : ''}${kindLabel(k)}</button>`)}</div>
+        ${state.kind === 'essentials' ? html`<p class="hint">${t('shop.essHint')}</p>` : ''}
         ${need(state.kind) ? html`<p class="notice notice--ok">★ ${t('shop.needHint', { cls: cls.name })}</p>` : skip(state.kind) ? html`<p class="notice">${t('shop.skipHint', { cls: cls.name })}</p>` : ''}
         <div class="cluster cluster--gap">
           <input class="input" type="search" placeholder="${t('common.search')}…" value="${state.query}" data-action="query" aria-label="${t('common.search')}">
-          ${free || state.kind === 'lifestyle' ? '' : html`<div class="cluster"><span class="label">${t('shop.markup')}</span>${segmented('mult', [3, 5, 7, 10].map((m) => ({ value: m, label: `×${m}` })), state.multiplier)}</div>`}
+          ${free || state.kind === 'lifestyle' ? '' : html`<span class="pill" title="${t('shop.markupHint')}">${t('shop.markup')} ${state.multiplier === 1 ? t('shop.noMarkup') : `×${state.multiplier}`} · ${t(gmMarkup() == null ? 'shop.markupUsual' : 'shop.markupGm')}</span>`}
         </div>
         ${state.message ? html`<p class="notice ${state.message.startsWith('✓') ? 'notice--ok' : 'notice--danger'}">${state.message}</p>` : ''}
         ${state.kind === 'custom' ? customForm() : html`<div class="rows">
           ${marketGroups(state.kind, list, data, fits).map((g) => html`${g.label ? html`<h3 class="market-group">${g.label} <span class="muted">· ${g.items.length}</span></h3>` : ''}
           ${g.items.map((e) => {
-            const p = priceOptions(e, state.kind, data.economy, state.multiplier);
-            return html`<div class="row row--wrap">
-              ${iconFor(state.kind, e, data, 'gi--row')}
+            const k = e._kind ?? state.kind; // Essentials mix the shelves
+            const p = priceOptions(e, k, data.economy, state.multiplier);
+            const have = e._role && c.play.inventory.some((x) => x.kind === k && x.id === e.id);
+            return html`<div class="row row--wrap ${have ? 'row--done' : ''}">
+              ${iconFor(k, e, data, 'gi--row')}
               <div class="row__main">
                 <div class="row__title">${e.name} ${fits(e) ? html`<span class="pill pill--success">${t('shop.fits')}</span>` : ''}${e.rarity ? html`<span class="pill ${['A', 'B'].includes(e.rarity) ? 'pill--danger' : ''}">${e.rarity}</span>` : ''}${e.provisional ? html` <span class="pill">${t('shop.provisional')}</span>` : ''}</div>
-                <div class="row__meta">${describe(state.kind, e, data)}${metaPrice(e)}${state.kind === 'lifestyle' ? ` · ${t(addsUp(e) ? 'shop.addsUp' : 'shop.replaces')}` : ''}</div>
+                <div class="row__meta">${e._role ? html`<strong>${t(`shop.ess.${e._role}`)}</strong>${have ? html` <span class="pill pill--success">✓ ${t('shop.haveOne')}</span>` : ''} · ` : ''}${describe(k, e, data)}${fits(e) ? bigger(e).map((s) => ` · ${s}`) : ''}${metaPrice(e, k)}${state.kind === 'lifestyle' ? ` · ${t(addsUp(e) ? 'shop.addsUp' : 'shop.replaces')}` : ''}</div>
               </div>
               <div class="cluster">${state.kind === 'lifestyle' ? (c.play.lifestyle ?? []).includes(e.id)
                 ? html`<span class="pill pill--success">✓ ${t('shop.current')}</span><button class="btn btn--sm btn--ghost" data-action="dropLife" data-id="${e.id}" aria-label="${t('common.remove')}: ${e.name}">✕</button>`
                 : html`<button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="choose">${t('shop.choose')}</button>`
               : free ? html`<button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="free">${t('common.add')}</button>` : html`
-                <button class="btn btn--sm" data-action="buy" data-id="${e.id}" data-method="official" ${p.official ? '' : 'disabled'} title="${p.official ? t('shop.officialHint') : t('shop.blackOnly')}">${p.official ? `${p.official.crs} CRS` : t('shop.noOfficial')}</button>
-                <button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-method="cash" title="${t('shop.streetPrice', { n: p.cash.multiplier })}">$${p.cash.cash}</button>`}
+                <button class="btn btn--sm" data-action="buy" data-id="${e.id}" data-kind="${k}" data-method="official" ${p.official ? '' : 'disabled'} title="${p.official ? t('shop.officialHint') : t('shop.blackOnly')}">${p.official ? `${p.official.crs} CRS` : t('shop.noOfficial')}</button>
+                <button class="btn btn--sm btn--primary" data-action="buy" data-id="${e.id}" data-kind="${k}" data-method="cash" title="${t('shop.streetPrice', { n: p.cash.multiplier })}">$${p.cash.cash}</button>`}
               </div></div>`;
           })}`)}
           ${list.length ? '' : html`<p class="muted">${t('common.noMatch')}</p>`}
@@ -282,7 +337,6 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
   const d = openDialog(draw, {
     click: {
       kind: ({ value }) => { state.kind = value; state.message = ''; d.redraw(); d.toTop(); }, // a new list starts at the top
-      mult: ({ value }) => { state.multiplier = Number(value); d.redraw(); },
       cIcon: ({ id }) => { state.custom.icon = id; d.redraw(); }, // decision 223: a misc item's icon
       addCustom: () => {
         try { state.message = `✓ ${onBuy({ kind: 'custom', method: 'custom', ...state.custom })}`; state.custom = { name: '', note: '', qty: 1 }; }
@@ -290,8 +344,8 @@ export function openShop({ kind = 'weapon', free = false }, character, data, onB
         d.redraw();
       },
       dropLife: ({ id }) => { try { state.message = `✓ ${onBuy({ kind: 'lifestyle', id, method: 'drop' })}`; } catch (err) { state.message = ruleText(err); } d.redraw(); },
-      buy: ({ id, method }) => {
-        try { state.message = `✓ ${onBuy({ kind: state.kind, id, method, multiplier: state.multiplier })}`; }
+      buy: ({ id, method, kind: k }) => {
+        try { state.message = `✓ ${onBuy({ kind: k || state.kind, id, method, multiplier: state.multiplier })}`; }
         catch (err) { state.message = ruleText(err); }
         d.redraw();
       },

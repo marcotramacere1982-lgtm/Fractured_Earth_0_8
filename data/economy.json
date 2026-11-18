@@ -6,6 +6,7 @@
     "divisor": 10,
     "scrutiny": {
       "lifestyle": 0.5,
+      "downtime": 0.5,
       "item": 0.5,
       "armor": 1,
       "deckMod": 1,
@@ -25,10 +26,17 @@
   },
   "cash": {
     "pays": "cash",
-    "minMultiplier": 3,
+    "minMultiplier": 1,
     "maxMultiplier": 10,
     "defaultMultiplier": 3,
-    "note": "Street purchases cost the listed Cr price x3 to x10 in physical cash (GM decides by local contraband risk). No trace."
+    "note": "Street purchases cost the listed Cr price x1 (no markup) to x10 in physical cash. The GM sets the markup for the whole table (owner 2026-11-14); x3 when nobody set it.",
+    "steps": [
+      1,
+      3,
+      5,
+      7,
+      10
+    ]
   },
   "rarity": {
     "scale": [
@@ -62,5 +70,55 @@
     },
     "commission": 20,
     "max": 3
+  },
+  "essentials": {
+    "note": "Owner 2026-11-14: the market's first tab — the most basic gear covering every base before going out (one each). Not specialist tools (lockpicks, RFID kits). role → shop.ess.<role> (why it's there).",
+    "list": [
+      {
+        "role": "gun",
+        "kind": "weapon",
+        "id": "zip_9_junk_pistol"
+      },
+      {
+        "role": "blade",
+        "kind": "weapon",
+        "id": "combat_knife"
+      },
+      {
+        "role": "armor",
+        "kind": "armor",
+        "id": "reinforced_work_trousers"
+      },
+      {
+        "role": "medkit",
+        "kind": "item",
+        "id": "basic_trauma_kit"
+      },
+      {
+        "role": "phone",
+        "kind": "item",
+        "id": "prepaid_burner_phone"
+      },
+      {
+        "role": "mask",
+        "kind": "armor",
+        "id": "id_scramble_kit"
+      },
+      {
+        "role": "light",
+        "kind": "item",
+        "id": "tactical_torch_2000lm"
+      },
+      {
+        "role": "rope",
+        "kind": "item",
+        "id": "paracord_rope_30m"
+      },
+      {
+        "role": "tools",
+        "kind": "item",
+        "id": "multi_tool_utility_pliers"
+      }
+    ]
   }
 }

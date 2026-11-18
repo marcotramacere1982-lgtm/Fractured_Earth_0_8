@@ -29,12 +29,14 @@ export const DATA_FILES = {
   optics: 'optics.json',
   economy: 'economy.json',
   lifestyle: 'lifestyle.json',
+  jobs: 'jobs.json', // decision 331: official work between missions
   difficulty: 'difficulty.json',
   conditions: 'conditions.json',
   icons: 'icons.json',
   gearIcons: 'gear-icons.json', // decision 222: inventory icons (which silhouette for which gear)
   uiIcons: 'ui-icons.json', // decision 229: the detailed icons that replace line ones in icons.json
   environment: 'environment.json', // decision 237: the table environment's weather and hazards
+  districts: 'districts.json', // decision 301: a city map's districts — what the GM sets, the words players read
   refs: 'rules-ref.json',
   actions: 'actions.json',
   encounter: 'encounter.json',
@@ -70,6 +72,18 @@ function keepEnglishNames(key, base, out) {
   const add = (list) => list.map((r) => ({ ...r, nameEn: en.get(r.id) ?? r.name }));
   return key === 'skills' ? { ...out, skills: add(out.skills) } : add(out);
 }
+/**
+ * Weapons' and armor's `type` is a key the code reads (icons, market groups) — an overlay may translate it for the
+ * screen, so the translation moves to `typeName` and `type` stays English. Show `typeName ?? type` (`typeLabel`).
+ */
+const TYPE_KEYED = ['weapons', 'armor'];
+export function keepEnglishTypes(key, base, out) {
+  if (!TYPE_KEYED.includes(key) || !Array.isArray(base)) return out;
+  const en = new Map(base.map((r) => [r.id, r.type]));
+  return out.map((r) => (en.has(r.id) && r.type !== en.get(r.id) ? { ...r, type: en.get(r.id), typeName: r.type } : r));
+}
+/** A weapon's or armor's type as the screen shows it (translated when the language has it). */
+export const typeLabel = (rec) => rec?.typeName ?? rec?.type ?? '';
 /** A skill's or condition's English name (what logs and the table use), whatever the language on screen. */
 export const nameEn = (rec) => rec?.nameEn ?? rec?.name ?? '';
 
@@ -88,7 +102,7 @@ export async function loadData({ lang = 'en', base = new URL('./', import.meta.u
         getJson(new URL(file, base)),
         listed.includes(file) ? getJson(new URL(`i18n/${lang}/${file}`, base), true).catch(() => null) : null,
       ]);
-      return [key, keepEnglishNames(key, table, applyOverlay(table, overlay))];
+      return [key, keepEnglishTypes(key, table, keepEnglishNames(key, table, applyOverlay(table, overlay)))];
     }),
   );
   const tables = Object.fromEntries(entries);

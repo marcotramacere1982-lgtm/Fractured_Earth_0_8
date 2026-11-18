@@ -45,7 +45,7 @@ const RENDER = {
     return {
       title: x.name,
       html: p(x.desc)
-        + calc(`${parts(x.stats, 'bonus').join(' + ')}${x.talent ? ` ${sign(x.talent)} (${e(t('explain.talents'))})` : ''} = <strong>${x.value}</strong> <span class="muted">(${e(t('explain.halfEach'))})</span>`)
+        + calc(`${parts(x.stats, 'bonus').join(' + ')}${x.talent ? ` ${sign(x.talent)} (${e(t('explain.talents'))})` : ''}${x.lifestyle ? ` ${sign(x.lifestyle)} (${e(t('explain.lifestyle'))})` : ''} = <strong>${x.value}</strong> <span class="muted">(${e(t('explain.halfEach'))})</span>`)
         + p(t('explain.skillRoll', { tn: x.value, passive: x.passive })),
       anchor: data.refs.refs['skill-check']?.anchor,
     };

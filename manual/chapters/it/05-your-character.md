@@ -45,7 +45,7 @@ L'app è una scheda di carta intelligente: fa i conti, ti tiene le regole a un t
 
 ### Giocare al tavolo
 
-Il GM può far girare l'app da un portatile sul Wi-Fi del tavolo: ogni tablet apre lo stesso indirizzo e funziona anche senza internet. Al tavolo la scheda emette un suono discreto quando inizia il tuo turno di combattimento, quando il GM ti invia qualcosa e quando vieni colpito; il pulsante 🔔 nell'intestazione della scheda lo spegne su quel dispositivo. (I browser permettono i suoni solo dopo il primo tocco sulla pagina.) Aprire i file con un doppio clic non funziona: l'app deve essere servita da un computer (chiedi al tuo GM).
+Il GM può far girare l'app da un portatile sul Wi-Fi del tavolo: ogni tablet apre lo stesso indirizzo e funziona anche senza internet. Al tavolo la scheda emette un suono discreto quando inizia il tuo turno di combattimento, quando il GM ti invia qualcosa, quando vieni colpito e quando qualcuno viene avvistato — e brevi suoni dell'interfaccia per quello che hai appena fatto: un interruttore, un'azione andata a buon fine, un rifiuto (niente caricatore, niente azioni rimaste), il successo o il fallimento di un tiro, contanti e oggetti in arrivo. Quando tiri nell'app, i dadi rotolano per meno di un secondo e si fermano sul tuo risultato (toccali per saltare): il d20 accanto ai numeri di una prova, il dado dell'iniziativa e i veri dadi dei danni, ognuno con la sua forma (d4 triangolo, d6 quadrato, d8 rombo, d10, d12, d20). Il pulsante 🔔 nell'intestazione della scheda spegne tutti i suoni su quel dispositivo; il menu **Display** regola il volume, spegne i suoni dell'interfaccia (gli avvisi restano) e spegne il dado che rotola. (I browser permettono i suoni solo dopo il primo tocco sulla pagina.) Aprire i file con un doppio clic non funziona: l'app deve essere servita da un computer (chiedi al tuo GM).
 
 **Gioca come… — i tuoi personaggi su qualsiasi dispositivo.** Al tavolo, la pagina dei personaggi inizia con **Al tavolo · Gioca come**: scegli il tuo nome (o *Nuovo giocatore…* la prima volta). L'elenco mostra allora solo i tuoi personaggi (quelli degli altri giocatori sullo stesso tablet restano dietro un interruttore). Lì compaiono i tuoi personaggi al tavolo, anche quelli creati su un altro tablet — *Apri qui* ne copia uno su questo dispositivo. Aprire un personaggio ti unisce al tavolo con quello; i personaggi che crei o importi mentre giochi come te stesso vengono salvati anche al tavolo, a tuo nome. Se due dispositivi hanno giocato lo stesso personaggio, vince il salvataggio più recente (il tavolo tiene tutte le copie precedenti, quindi il GM può sempre tornare indietro); se è aperto su un altro dispositivo in quel momento, ti viene chiesto prima. **Elimina** mentre giochi come te stesso toglie il personaggio anche dal tavolo (se non è aperto su un altro dispositivo): finisce nell'archivio del GM, che può recuperarlo. Senza un tavolo non cambia niente: le tue schede restano in questo browser, ed Esporta / Importa funzionano come sempre.
 
@@ -98,7 +98,7 @@ Gli attacchi normali non incrinano mai l'armatura. Braccia rotte e gambe azzoppa
 
 ### Costruire il tuo Operatore {#sec-5-3-buy}
 
-Alla creazione ogni attributo parte da **6** e hai **20 punti** da spendere. In questa fase nessun attributo può superare **14** (eventi di vita e carriere potranno spingerlo più in alto). Il Credit Score parte da **20**: puoi abbassarlo per guadagnare punti, ma durante la creazione non puoi mai portarlo sopra 20.
+Alla creazione ogni attributo parte da **6** e hai **20 punti** da spendere. In questa fase nessun attributo può superare **14** (eventi di vita e carriere potranno spingerlo più in alto). Il Credit Score parte da **20**: puoi abbassarlo per guadagnare punti, ma durante la creazione non puoi mai portarlo sopra 20. In gioco va da **0 a 100** come per tutti: il GM, un riciclatore o un talento possono portarlo oltre 20 (decisione 316).
 
 - **Evita il min-maxing.** Un operatore con CON 6 crolla al minimo danno; uno con WIS 6 viene preso alla sprovvista di continuo. I personaggi equilibrati sopravvivono più a lungo.
 - **Non sei sicuro?** Fai il quiz sullo stile di gioco nella Creazione: sei domande, una alla volta (tocca un numero per tornare a una). Ti suggerisce una classe e una distribuzione di attributi già pronta. Da lì una barra **Punti a** ti segue in attributi, giovinezza, carriere e classe: la classe verso cui costruisci (la cambi quando vuoi), le due statistiche su cui tira e la sua Class TN in quel momento. Quelle due statistiche sono segnate al passo degli attributi, e il passo della classe segna le sottoclassi con la TN migliore. All'ultimo passo puoi prendere un **kit di partenza** per la tua sottoclasse — tre ability e attrezzatura economica (un'arma scadente, pochissima armatura), gratis — oppure nessuno. Sulla scheda, i *Loadout suggeriti* del motore di classe mettono in un attimo le ability di un kit (l'attrezzatura resta com'è).
@@ -359,11 +359,29 @@ Tra una missione e l'altra, quando la squadra è in un posto tranquillo, il GM p
 Alla fine del downtime ogni giocatore riceve un **resoconto**:
 
 - **Riposo:** tornano HP e armatura. Guariscono anche braccia rotte e gambe azzoppate, se è passato abbastanza tempo.
-- **Spese di vita:** quanto costa il tuo stile di vita per quel periodo. Viene **mostrato, non addebitato**: sistematelo con il GM, pagando, vendendo qualcosa, trattando.
-- **Un evento della tua storia:** qualcosa della *tua* vita: il tuo debito, la tua vecchia carriera, il tuo passato, o la situazione in cui sei. Le opzioni sono idee, mai automatiche: parlatene con il GM e scegliete.
+- **Stipendio:** se hai un lavoro ufficiale, paga per il tempo passato (vedi sotto).
+- **Spese di vita:** quanto costa il tuo stile di vita per quel periodo. Le paghi nel Dossier: tutto in **contanti**, tutto in **Credit Score** (pagamento ufficiale), oppure **metà e metà**.
+- **Un evento della tua storia:** qualcosa della *tua* vita: il tuo debito, la tua vecchia carriera, il tuo passato, o la situazione in cui sei. Parlatene con il GM, poi **spunta un'opzione** nel Dossier. Una volta spuntata resta bloccata (il GM può riaprirla). Se costa denaro, paghi negli stessi tre modi. Se chiede un tiro, lo fai lì. Se dice che la pressione del debito cala, cala da sola. Tutto il resto che l'opzione dice lo decide il GM.
+- **Un evento della squadra** (a volte): qualcosa che capita a tutti voi. Ognuno **vota** un'opzione nel Dossier, in segreto: puoi cambiare voto finché il GM non decide. Il GM vede solo il conteggio, ne parla con voi e conferma cosa fa la squadra.
 - Di solito si apre anche il **level-up** (5-9).
 
-Ogni evento finisce in **La storia finora** nel tuo Dossier, così la vita del personaggio tra un lavoro e l'altro si costruisce lungo la campagna.
+Il GM vede ogni scelta, tiro e pagamento mentre succede. La scheda nel Dossier tiene una **ricevuta** di tutto quello che il downtime ha fatto — riposo, stipendio, la tua scelta, mantenimento, lavoro — e resta finché non tocchi **Ok, visto**. Ogni evento finisce in **La storia finora** nel tuo Dossier, con quello che hai scelto, così la vita del personaggio tra un lavoro e l'altro si costruisce lungo la campagna.
+
+### Lavoro e stipendio {#sec-5-10-work}
+
+Il sistema paga quanto basta per tenerti dentro. Restarci costa circa **7 Credit Score al mese**, e un lavoro non basta mai a coprirli. Rallenta la discesa, non la ferma. La strada per salire resta il lavoro che fai con la squadra.
+
+Il tuo **lavoro** viene dall'ultima carriera del tuo percorso di vita (il GM può cambiarlo):
+
+- **Employed** — un lavoro registrato. Paga ogni mese secondo la carriera: ufficio, scienza o media **+6 CRS e $300**; sicurezza o militare **+5 e $350**; lavoro salariato **+4 e $250**.
+- **Gig** — lavoro breve e registrato che chiunque può trovare: **+3 CRS e $150** al mese. Una fedina penale sporca trasforma un lavoro in un gig.
+- **Student** — una borsa: **+2 CRS** al mese.
+- **Unregistered** — criminale o disoccupato: nessun reddito ufficiale.
+- **Flagged** — un Credit Score sotto 10: nessun reddito ufficiale, e ogni passo ufficiale è sorvegliato.
+
+**Cambiarlo.** Una volta per downtime, la scheda nel Dossier ti chiede del lavoro: **tenerlo**, prendere **lavoretti (gig)**, **licenziarti**, o **cercarne uno**. Cercare manda una **candidatura** al GM, che vede cosa chiede la carriera (i requisiti, come nel percorso di vita — il limite d'età qui non conta) e risponde: **un tiro d'ingresso** (lo fai nel Dossier), **assunto**, o **respinto**. Con la fedina sporca, un buon tiro d'ingresso ti procura solo lavoretti — a meno che il GM non ti assuma comunque. Sparire troppo a lungo dal lavoro può dare nell'occhio: il GM può chiedere un tiro per coprirti, e un fallimento significa un richiamo o il licenziamento. Ogni fallimento in un lavoro resta agli atti.
+
+**Fiducia:** ogni 2 mesi di fila nello stesso lavoro aggiungono +1 CRS al mese, fino a +2. **Pignoramento:** un debito si prende il **20%** dello stipendio in contanti prima che tu lo veda (il prestito predatorio per gli studi si prende l'80%). Pochi giorni di downtime pagano un quarto di mese, qualche settimana la metà.
 
 ### La pressione del debito {#sec-5-10-debt}
 
@@ -373,4 +391,4 @@ Il tuo debito non aspetta. La sua **pressione** va da 0 a 3 e sale di **1 a ogni
 - **2 · Escalation**: le cose peggiorano. Rata da **$800**.
 - **3 · Crisis**: la minaccia è arrivata, e di solito diventa una missione. Rata da **$2.000**. Superata la crisi, la pressione torna a 1.
 
-Pagare è **una tua scelta**: il pulsante *Paga una rata* nel Dossier prende i contanti e abbassa la pressione di un gradino. Anche la storia può abbassarla (un accordo, un favore, una missione), e alcune strade narrative difficili possono chiudere un debito per sempre.
+Pagare è **una tua scelta**: il pulsante *Paga una rata* nel Dossier abbassa la pressione di un gradino: la paghi in contanti, Credit Score o metà e metà. Anche un'opzione di un evento di downtime può abbassarla (5-10). Anche la storia può abbassarla (un accordo, un favore, una missione), e alcune strade narrative difficili possono chiudere un debito per sempre.

@@ -9,7 +9,7 @@ export function dronePanel(c, s, data) {
   const owned = c.play.inventory.filter((x) => x.kind === 'drone');
   const ownedMods = c.play.inventory.filter((x) => x.kind === 'droneMod');
   const p = s.drone;
-  const pick = html`<div class="engine-row"><span class="label">${t('twd.title')}${info('drone', t('twd.title'))}</span>
+  const pick = html`<div class="engine-row" data-tour="engine-item"><span class="label">${t('twd.title')}${info('drone', t('twd.title'))}</span>
     <select class="select" data-action="droneSel" aria-label="${t('twd.title')}">
       <option value="">— ${t('twd.none')} —</option>
       ${owned.map((o) => html`<option value="${o.id}" ${c.play.drone === o.id ? raw('selected') : ''}>${nameOf(data.drones, o.id)}</option>`)}

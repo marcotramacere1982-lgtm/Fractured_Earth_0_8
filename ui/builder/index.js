@@ -12,7 +12,7 @@ import { setExplainSource } from '../explain.js';
 import { t, getLang } from '../../i18n/index.js';
 import { storyPrompt, portraitPrompt } from './prompts.js';
 import { shrinkImage } from '../../state/store.js';
-import { runAdolescence, runCareerTerm, resolveChoice, nextQuestion, scoreQuiz } from '../../rules/builder.js';
+import { runAdolescence, runCareerTerm, resolveChoice, nextQuestion } from '../../rules/builder.js';
 import { findSubclass } from '../../rules/classes.js';
 import { takeKit } from '../../rules/kits.js';
 
@@ -145,10 +145,11 @@ export function builderView({ data, store, main, table, library }) {
     storyMode: ({ mode }) => commit((d) => { d.storyMode = mode; }),
     pickKit: ({ id: kit }) => commit((d) => { d.kit = kit || null; }), // decision 183
     attr: ({ key, delta }) => commit((d) => { d.character.attributes[key] += Number(delta); }),
-    suggest: ({ class: cls }) => commit((d) => {
-      Object.assign(d.character.attributes, data.quiz.suggestedStats[cls].stats, { CRS: data.attributes.creation.crs.start });
-      // decision 169: the class you load stats for becomes what you aim at (the quiz's subclass of it, else its first)
-      if (!d.character.subclassId) d.target = scoreQuiz(d.quiz, data.quiz).find((r) => r.classId === cls)?.subclassId ?? data.classes.classes.find((k) => k.id === cls)?.subclasses[0]?.id ?? d.target;
+    suggest: ({ sub }) => commit((d) => { // the spread is per subclass: its two class stats come first
+      const pick = data.quiz.suggestedStats[sub];
+      if (!pick) return;
+      Object.assign(d.character.attributes, pick.stats, { CRS: data.attributes.creation.crs.start });
+      if (!d.character.subclassId) d.target = sub; // decision 169: the spread you load becomes what you aim at
     }),
     rollYouth: () => commit((d) => {
       d.snapshots.youth = structuredClone(d.character);

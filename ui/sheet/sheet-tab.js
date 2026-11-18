@@ -5,6 +5,7 @@
 // device (any opening counts: a tap, a chip, a guided tour).
 
 import { html } from '../dom.js';
+import { href } from '../router.js';
 import { t } from '../../i18n/index.js';
 import { info } from '../ref.js';
 import { boonsCard } from './hits.js';
@@ -24,6 +25,8 @@ const write = (set) => { try { localStorage.setItem(KEY, JSON.stringify([...set]
 
 export const SECTIONS = ['health', 'weapons', 'class', 'actions', 'skills', 'inventory', 'money'];
 const SINGLE = ['health', 'weapons', 'actions']; // one card inside: its own title would repeat the section's
+/** Owner hotfix 2026-11-14: in a fight these are played on the Tactical tab only — here they lock, so nobody tries them. */
+export const FIGHT_LOCKED = ['health', 'class', 'actions'];
 /** Opens or closes sections (a chip, Open all, a link to the old Gear tab). */
 export function setOpen(ids, on = true) {
   const open = read();
@@ -55,6 +58,8 @@ function summaries(c, s, data) {
 
 export function sheetTab(c, s, data, ctx = {}) {
   const open = read();
+  const fight = Boolean(c.play.turn?.inCombat);
+  const locked = (id) => fight && FIGHT_LOCKED.includes(id);
   const sum = summaries(c, s, data);
   const gear = gearCards(c, s, data, ctx);
   const bodies = {
@@ -80,12 +85,14 @@ export function sheetTab(c, s, data, ctx = {}) {
   return html`
     ${boonsCard(c, data)}
     ${breathCard(c, s, data)}
+    ${fight ? html`<p class="notice notice--warn sheet-fight"><span>${t('sheet.fightNotice')}</span> <a class="btn btn--sm btn--primary" href="${href('sheet', ctx.id ?? c.id, 'map')}">${t('sheet.toTactical')}</a></p>` : ''}
     <div class="sheet-layout">
     <nav class="sheet-index" aria-label="${t('sheet.sections')}">
-      ${SECTIONS.map((id) => html`<button class="sheet-index__item ${open.has(id) ? 'is-open' : ''}" data-action="secJump" data-id="${id}" aria-pressed="${open.has(id)}" title="${t(open.has(id) ? 'sheet.closeIt' : 'sheet.openIt')}">${t(`sheet.sec.${id}`)}</button>`)}
+      ${SECTIONS.map((id) => html`<button class="sheet-index__item ${open.has(id) && !locked(id) ? 'is-open' : ''}" data-action="secJump" data-id="${id}" aria-pressed="${open.has(id) && !locked(id)}" ${locked(id) ? 'disabled' : ''} title="${locked(id) ? t('sheet.fightLocked') : t(open.has(id) ? 'sheet.closeIt' : 'sheet.openIt')}">${t(`sheet.sec.${id}`)}</button>`)}
       <span class="sheet-index__all"><button class="btn btn--sm btn--ghost" data-action="secAll" data-on="1">${t('sheet.openAll')}</button><button class="btn btn--sm btn--ghost" data-action="secAll" data-on="0">${t('sheet.closeAll')}</button></span>
     </nav>
-    <div class="sheet-secs">${SECTIONS.map((id) => html`<details class="sheet-sec ${SINGLE.includes(id) ? 'sheet-sec--single' : ''}" id="sec-${id}" data-sec="${id}" ${open.has(id) ? 'open' : ''}>
+    <div class="sheet-secs">${SECTIONS.map((id) => locked(id) ? html`<div class="sheet-sec sheet-sec--locked" id="sec-${id}">
+      <div class="sheet-sec__head"><span class="sheet-sec__title">${t(`sheet.sec.${id}`)}</span><span class="sheet-sec__sum">⚔ ${t('sheet.fightLocked')}</span></div></div>` : html`<details class="sheet-sec ${SINGLE.includes(id) ? 'sheet-sec--single' : ''}" id="sec-${id}" data-sec="${id}" ${open.has(id) ? 'open' : ''}>
       <summary class="sheet-sec__head"><span class="sheet-sec__title">${t(`sheet.sec.${id}`)}</span>${refs[id] ? info(refs[id], t(`sheet.sec.${id}`)) : ''}
         <span class="sheet-sec__sum">${pictures[id] || sum[id].filter(Boolean).join(' · ')}</span></summary>
       <div class="sheet-sec__body">${bodies[id]}</div>

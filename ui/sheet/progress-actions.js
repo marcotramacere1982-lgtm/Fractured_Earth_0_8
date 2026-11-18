@@ -6,6 +6,7 @@ import { RuleError } from '../../rules/messages.js';
 import { roll, formatRoll } from '../../rules/dice.js';
 import { talentStatus, canRaise, progressStatus, emptyProgress } from '../../rules/progress.js';
 import { deriveSheet } from '../../state/character.js';
+import { adjustActions, roundAllowance } from '../../rules/turn.js';
 import { log, spend } from './actions.js';
 
 const SEEN_MAX = 60;
@@ -25,10 +26,10 @@ export function resetUses(c, data, scope) {
 }
 
 /** One-off effects of taking a talent (Clean Slate). */
-function onTake(c, t) {
+function onTake(c, t, data) {
   const fx = t.effects?.onBuy;
   if (!fx) return '';
-  if (fx.crs) c.attributes.CRS = Math.min(100, c.attributes.CRS + fx.crs);
+  if (fx.crs) c.attributes.CRS = Math.min(data.attributes.crsScale.max, c.attributes.CRS + fx.crs); // decision 316
   if (fx.clearRecord) c.criminalRecord = false;
   return ` (Credit Score +${fx.crs ?? 0}${fx.clearRecord ? ', record cleared' : ''})`;
 }
@@ -41,7 +42,7 @@ export const progressActions = {
     const st = talentStatus(c, t, data);
     if (!st.ok) throw new RuleError(`talent${cap(st.code)}`, st.vars, `${t.name}: not available (${st.code}).`);
     c.progress.talents.push(id);
-    log(c, `Talent: ${t.name}${onTake(c, t)}`, 'ok');
+    log(c, `Talent: ${t.name}${onTake(c, t, data)}`, 'ok');
   },
   /** Spends an attribute point at level-up (+1, normal caps and aging still apply later). */
   raiseAttribute(c, data, { key }) {
@@ -102,7 +103,7 @@ export const progressActions = {
       if (!progressStatus(c, data).owned.includes(t.id)) {
         c.progress.gifts.push(t.id);
         out.gift = t.name;
-        log(c, `Talent gift from the GM: ${t.name}${onTake(c, t)}`, 'ok');
+        log(c, `Talent gift from the GM: ${t.name}${onTake(c, t, data)}`, 'ok');
       }
     }
     if ('open' in msg) {
@@ -114,6 +115,15 @@ export const progressActions = {
       c.downtime ??= { pressure: 0, timeline: [], seen: [] };
       c.downtime.pressure = Math.max(0, Math.min(data.downtime.debt.max, msg.debtPressure));
       log(c, `Debt pressure set by the GM: ${c.downtime.pressure}`, 'warn');
+    }
+    if ((msg.acts === 1 || msg.acts === -1) && c.play.turn?.inCombat) { // owner hotfix 2026-11-14: the GM's − / + on your actions
+      const s = deriveSheet(c, data);
+      const next = adjustActions(c.play.turn, roundAllowance(c.play.turn, s.combat.act.value, c.play.conditions, data.actions), msg.acts);
+      if (next !== c.play.turn) {
+        c.play.turn = next;
+        log(c, msg.acts > 0 ? `The GM gave you back an action (round ${next.round})` : `The GM took an action (round ${next.round})`, msg.acts > 0 ? 'ok' : 'warn');
+        out.acts = msg.acts;
+      }
     }
     if (msg.refill && c.play.turn?.inCombat) { // decision 160: the GM gives back this round's actions (and clears borrowed ones)
       c.play.turn = { ...c.play.turn, used: 0, reserved: 0, spent: [] };

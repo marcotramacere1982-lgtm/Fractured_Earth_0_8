@@ -96,6 +96,25 @@ export function powerState(map, data) {
   return { fed, wired, via };
 }
 
+/**
+ * Decision 291: which circuit each piece belongs to as drawn — Map id → the id of the source (or mains breaker) its
+ * wires lead back to, whatever is switched off or cut. For the builder's per-circuit "hide its wiring".
+ */
+export function circuitRoots(map, data) {
+  const props = new Map((map.props ?? []).map((p) => [p.id, p]));
+  const role = (id) => (props.has(id) ? circuitRole(propDef(data, props.get(id).prop)) : null);
+  const wires = powerWires(map.wires);
+  const wired = new Set(wires.map((w) => w.to));
+  const out = new Map();
+  const queue = [];
+  for (const [id, p] of props) if (role(id) === 'source' || (role(id) === 'breaker' && !wired.has(id) && !propDef(data, p.prop)?.subboard)) { out.set(id, id); queue.push(id); }
+  while (queue.length) {
+    const id = queue.shift();
+    for (const w of wires) if (w.from === id && !out.has(w.to)) { out.set(w.to, out.get(id)); queue.push(w.to); }
+  }
+  return out;
+}
+
 const battery = (p, def) => Boolean(p.battery ?? def?.battery);
 
 /**

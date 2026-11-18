@@ -6,6 +6,8 @@
 
 import { html, raw } from '../dom.js';
 import { t } from '../../i18n/index.js';
+import { dieView } from '../dice-roll.js'; // decision 315
+import { parseDice } from '../../rules/dice.js';
 import { icon, counter } from './parts.js';
 import { weaponsCard } from './play.js';
 import { kitButtons, abilityChips, abilityLine } from './engine.js';
@@ -62,13 +64,14 @@ function initiativePart(c, s, data, prepId) {
   const die = data.encounter.initiativeDie;
   const init = `${s.initiative >= 0 ? '+' : '−'} ${Math.abs(s.initiative)}`;
   return html`<section class="stack init-ask"><h3 class="label">${c.classId ? 3 : 2} · ${t('init.title')}</h3>
-    ${done ? html`<p class="text-success"><strong>✓ ${done.text}</strong></p>`
+    ${done ? html`<div class="cluster"><p class="text-success"><strong>✓ ${done.text}</strong></p><span class="check-die">${dieView(done.roll, 'landed', parseDice(die).sides)}</span></div>`
       : html`<p>${t('prep.rollFirst', { die, init })}</p>
       <div class="cluster">
         <button class="btn btn--primary" data-action="prepRoll">🎲 ${t('init.roll')}</button>
         <span class="muted">${t('init.or')}</span>
         <input class="input input--num" type="number" min="1" max="20" step="1" inputmode="numeric" aria-label="${t('init.typed')}" placeholder="${die}">
         <button class="btn" data-action="prepTyped">${t('init.send')}</button>
+        <span class="check-die" data-init-die>${dieView(null, 'idle', parseDice(die).sides)}</span>
       </div>`}
   </section>`;
 }

@@ -291,6 +291,11 @@
     "effect": "Chiamate non rintracciabili",
     "desc": "Telefono usa e getta, non tracciabile, con minuti prepagati."
   },
+  "prepaid_burner_phone": {
+    "effectType": "Utilità",
+    "effect": "Chiamate e messaggi · non cifrato",
+    "desc": "Un mattoncino prepagato da poco: chiamate e messaggi, niente app, niente che valga la pena di bucare. Non cifrato — cambialo spesso."
+  },
   "tactical_ar_glasses": {
     "effectType": "Potenziamento",
     "effect": "Perception / Awareness (PB) +2 · indossati: ogni prova di Perception",
@@ -526,5 +531,100 @@
         "when": "al buio"
       }
     }
+  },
+  "loot_junk": {
+    "desc": "Gadget rotti, uno schermo incrinato, tappi di bottiglia, mezzo caricatore. Qualcuno, da qualche parte, lo vuole.",
+    "effectType": "Bottino · rottame",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_trinket": {
+    "desc": "Un giocattolo, una medaglia, una foto in una cornice da poco. Vale poco — a meno che non conti per qualcuno.",
+    "effectType": "Bottino · rottame",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_copper": {
+    "desc": "Strappato dai muri di un palazzo morto. Nelle Grey Zones il rame è denaro.",
+    "effectType": "Bottino · materiale",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_circuits": {
+    "desc": "Tolte da macchine morte: terre rare e chip che un Tech Wizard può usare o un riciclatore compra.",
+    "effectType": "Bottino · materiale",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_alloy": {
+    "desc": "Metallo strutturale pulito, tagliato per essere portato. Pesante, onesto, sempre richiesto.",
+    "effectType": "Bottino · materiale",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_blister": {
+    "desc": "Antidolorifici, antibiotici, qualcosa senza etichetta. Moneta delle Grey Zones: nessuno chiede un portafoglio.",
+    "effectType": "Bottino · baratto",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_water_tabs": {
+    "desc": "Una striscia di pastiglie che rendono bevibile l'acqua cattiva. Baratto dove i rubinetti danno acqua marrone.",
+    "effectType": "Bottino · baratto",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_ration_chits": {
+    "desc": "Buoni razione Stables delle corporazioni. Scambiati, venduti, falsificati — raramente mangiati da chi li ha guadagnati.",
+    "effectType": "Bottino · baratto",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_jewellery": {
+    "desc": "Un anello d'oro, una catenina, una pietra in una vecchia montatura. Di prima della Guerra — vera, pesante, non tracciabile.",
+    "effectType": "Bottino · valore",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_watch": {
+    "desc": "Niente batteria, niente rete, niente tracciamento. I collezionisti pagano bene un oggetto che dice solo l'ora.",
+    "effectType": "Bottino · valore",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_designer_bag": {
+    "desc": "Pelle, una firma vera, quasi nuova. Qualcuno in una torre illuminata la sta cercando.",
+    "effectType": "Bottino · valore",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_sealed_bottle": {
+    "desc": "Liquore vero, ancora sigillato. Un regalo per un faccendiere, una mazzetta, o una notte molto buona.",
+    "effectType": "Bottino · valore",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_coffee": {
+    "desc": "Chicchi veri, non sintetici. Chi non ha niente scambia ancora per questo.",
+    "effectType": "Bottino · valore",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_dampeners": {
+    "desc": "Farmaci per la Clinical Static, dosati e registrati. In strada vanno via in fretta — e qualcuno nota che mancano.",
+    "effectType": "Bottino · contrabbando",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_data_drive": {
+    "desc": "Un vecchio drive che nessuno ha cancellato. Vale più per un hacker o un faccendiere che per un ricettatore.",
+    "effectType": "Bottino · contrabbando",
+    "effect": "Si vende a un ricettatore per metà del valore di strada"
+  },
+  "loot_passport": {
+    "desc": "Un passaporto vero con la faccia e il chip di qualcun altro. Tracciato: il sistema sa di chi è.",
+    "effectType": "Bottino · contrabbando",
+    "effect": "Si vende a un ricettatore per metà del valore di strada · tracciato"
+  },
+  "loot_keycard": {
+    "desc": "Un badge d'accesso funzionante per un palazzo o un'azienda. Tracciato: ogni porta che apre viene registrata.",
+    "effectType": "Bottino · contrabbando",
+    "effect": "Si vende a un ricettatore per metà del valore di strada · tracciato"
+  },
+  "loot_ar_glasses": {
+    "desc": "Lenti buone, registrate a un proprietario. Tracciati: chiamano casa appena li accendi.",
+    "effectType": "Bottino · contrabbando",
+    "effect": "Si vende a un ricettatore per metà del valore di strada · tracciato"
+  },
+  "loot_phone": {
+    "desc": "Il telefono di qualcuno, ancora bloccato. Tracciato: segnala l'account del proprietario finché non viene cancellato.",
+    "effectType": "Bottino · contrabbando",
+    "effect": "Si vende a un ricettatore per metà del valore di strada · tracciato"
   }
 }

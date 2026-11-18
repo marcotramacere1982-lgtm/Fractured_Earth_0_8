@@ -4,7 +4,7 @@
 import { normalizeDeal, dealQuote } from '../../rules/washer.js';
 import { log } from './actions.js';
 
-const cap = (data) => data.attributes.creation.crs.max;
+const cap = (data) => data.attributes.crsScale.max; // decision 316: the play scale, not the creation cap
 
 export const washerActions = {
   /** A durable `deal` message from the GM: kept until the player answers (the same offer twice is kept once). */

@@ -247,6 +247,11 @@ function scavengerUse(a, r, ctx = {}) {
 
 // ------------------------------------------------------------------ public API
 
+/** Decision 322: works out of a fight — flagged so, or the Ping (it works anywhere). */
+export const outOfFight = (a) => Boolean(a?.outOfCombat || a?.play?.ping);
+/** Decision 322: the ability may stand in for a roll on this skill (Read the Room for Perception…). */
+export const standsIn = (a, skillId) => (a?.standsFor ?? []).includes(skillId);
+
 /** @returns {{ok: boolean, reason: string|null}} ctx.arms: broken arms (both → no hands abilities); ctx.talents: talent effects. */
 export function canUse(classId, base, resources, ctx = {}) {
   const ability = tunedAbility(base, ctx.talents);

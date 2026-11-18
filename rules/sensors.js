@@ -11,6 +11,7 @@
 import { propDef, sensesOf, reachOf } from './props.js';
 import { lineOfSight } from './map.js';
 import { networkState, uplinkOf } from './network.js';
+import { spaceDistance, floorOf } from './floors.js';
 
 const key = (s) => `${s.x},${s.y}`;
 const rad = (deg) => (deg * Math.PI) / 180;
@@ -56,12 +57,13 @@ export function coversSquare(map, data, p, sq, isDark = () => false) {
       if ((from.x !== sq.x || from.y !== sq.y) && lineOfSight(map, data, from, sq).result === 'blocked') continue;
       out.push('video');
     } else if (sense === 'motion' && reach) {
+      if ((map.floors ?? []).length && floorOf(map, p) !== floorOf(map, c)) continue; // decision 286: a beam stays on its floor
       // the beam: from the piece's front edge straight ahead; a square counts when the beam passes within half a square of its centre
       const along = v.x * f.x + v.y * f.y;
       const across = Math.abs(v.x * f.y - v.y * f.x);
       if (along >= 0 && along <= reach + (def.size?.h ?? 0) / 2 + 0.5 && across <= 0.5) out.push('motion');
-    } else if (sense === 'audio' && reach) {
-      if (dist <= reach + 0.5) out.push('audio');
+    } else if (sense === 'audio' && reach) { // decision 286: footsteps through a ceiling, muffled by the floor's 4 squares
+      if (spaceDistance(map, p, c) <= reach + 0.5) out.push('audio');
     }
   }
   return out;

@@ -11,6 +11,7 @@
 
 import { propDef } from './props.js';
 import { applyPower, normalizeWires } from './power.js';
+import { spaceDistance } from './floors.js';
 
 export const NET_NODES = ['uplink', 'router', 'ap', 'repeater'];
 const WIRELESS = ['ap', 'repeater'];
@@ -45,7 +46,6 @@ export function addDataLink(map, data, from, to, wifi = false) {
   return { ...map, wires: [...(map.wires ?? []), { id: nextId(map), from, to, net: 'data', ...(wifi ? { wifi: true } : {}) }] };
 }
 
-const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 const rangeOf = (def) => def?.wifi?.radius ?? 0;
 
 /** The automatic Wi-Fi joins: [{ from, to }] for Wi-Fi-capable pieces with no data link in, to the nearest access
@@ -55,14 +55,15 @@ export function autoJoins(map, data) {
   const linked = new Set((map.wires ?? []).filter((w) => w.net === 'data').map((w) => w.to));
   const role = (p) => netRole(propDef(data, p.prop));
   const out = [];
+  const hubs = props.filter((q) => ['ap', 'repeater'].includes(role(q))); // decision 292: the only pieces anything joins
   for (const p of props) {
     const r = role(p);
     if (linked.has(p.id) || !(r === 'wifi' || r === 'both' || r === 'repeater')) continue;
     let best = null;
-    for (const q of props) {
+    for (const q of hubs) {
       const rq = role(q);
       if (q.id === p.id || !(rq === 'ap' || (rq === 'repeater' && r !== 'repeater'))) continue;
-      const d = dist(p, q);
+      const d = spaceDistance(map, p, q); // decision 286: Wi-Fi reaches through floors (4 squares each), never sideways into the next frame
       if (d <= rangeOf(propDef(data, q.prop)) + 0.5 && (!best || d < best.d)) best = { q, d };
     }
     if (best) out.push({ from: best.q.id, to: p.id, auto: true });
@@ -129,6 +130,22 @@ export function uplinkOf(map, data, id, state = networkState(map, data)) {
   let x = id;
   for (let n = 0; state.get(x)?.parent && n < 500; n += 1) x = state.get(x).parent;
   return x === id && roleIn(map, data, id) !== 'uplink' ? null : x;
+}
+
+/**
+ * Decision 291: which network each node or device belongs to as drawn — Map id → its uplink's id, following data
+ * cables, Wi-Fi links and automatic Wi-Fi joins whatever is offline or cut. For the builder's per-network "hide".
+ */
+export function networkRoots(map, data) {
+  const edges = [...(map.wires ?? []).filter((w) => w.net === 'data'), ...autoJoins(map, data)];
+  const out = new Map();
+  const queue = [];
+  for (const p of map.props ?? []) if (netRole(propDef(data, p.prop)) === 'uplink') { out.set(p.id, p.id); queue.push(p.id); }
+  while (queue.length) {
+    const id = queue.shift();
+    for (const w of edges) if (w.from === id && !out.has(w.to)) { out.set(w.to, out.get(id)); queue.push(w.to); }
+  }
+  return out;
 }
 
 /** What taking a node offline / tampering would change: [{ id, from, to }] statuses that differ. */

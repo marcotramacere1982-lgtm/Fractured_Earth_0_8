@@ -302,7 +302,7 @@ Most of the game happens in one loop. Each stage has its own pressures; the syst
 
 **What it's for.** Nobody takes these jobs for fun. Every Operator owes someone, and the debt is the engine of the campaign: it's why you say yes.
 
-**The rule in one line.** Credit Score is your debt allowance (official purchases spend it, traced); cash is street money (×3 to ×10, untraced); between missions downtime heals you, debt pressure rises by 1, and an instalment brings it down.
+**The rule in one line.** Credit Score is your debt allowance (official purchases spend it, traced); cash is street money (list price to ×10, the GM's markup, untraced); between missions downtime heals you, debt pressure rises by 1, and an instalment brings it down.
 
 **Who decides.**
 - **The GM** sends downtime (how long, an event for each player and the crew) and sets debt pressure when the story pushes.

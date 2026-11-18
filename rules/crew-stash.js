@@ -24,6 +24,9 @@ export function cleanUnit(raw) {
   };
 }
 
+/** Decision 326: can a character of this home crew (or none) use this stash? */
+export const stashFor = (s, crew) => !s?.crews?.length || !crew || s.crews.includes(crew);
+
 /** The table's stashes as the server keeps them. */
 export const emptyStashes = () => ({ stashes: [], removed: [] });
 
@@ -35,10 +38,12 @@ const fail = (why) => ({ ok: false, why });
 /**
  * One change to the table's stashes. by: the character's name, or 'GM'. now: the time.
  * Player ops: put { stash, unit, label } · take { stash, kind, id, label } · putCash / takeCash { stash, amount }.
- * GM ops (gm: true): create { name, temp? { map, prop } (decision 277: a container's contents, gone when emptied) } · rename { stash, name } · lock { stash, on } · raid { stash } · remove { stash }.
- * @returns { ok, why?, book (a new one), unit? (taken), amount?, stash? (its name) } — why: unknown | locked | noItem | noCash | name | gm
+ * GM ops (gm: true): create { name, temp? { map, prop } (decision 277: a container's contents, gone when emptied), crews? } · rename { stash, name } · lock { stash, on } · raid { stash } · remove { stash } · crews { stash, crews }.
+ * Decision 326: a stash belongs to crews (`crews`, ids; none = everyone): a new one to `crewsNow` (the crews at the table) unless
+ * the GM names them; a player whose home `crew` isn't one of them can't touch it (why: crew).
+ * @returns { ok, why?, book (a new one), unit? (taken), amount?, stash? (its name) } — why: unknown | locked | noItem | noCash | name | gm | crew
  */
-export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId = () => `s-${now.toString(36)}` } = {}) {
+export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId = () => `s-${now.toString(36)}`, crew = null, crewsNow = [] } = {}) {
   const next = structuredClone(book);
   const s = next.stashes.find((x) => x.id === op?.stash);
   const line = (entry) => { s.history = [{ t: now, by, ...entry }, ...s.history].slice(0, HISTORY_MAX); };
@@ -48,14 +53,16 @@ export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId
     if (s?.temp && !s.items.length && !s.cash) { next.stashes = next.stashes.filter((x) => x !== s); next.removed = [{ ...s, removedAt: now }, ...(next.removed ?? [])]; return { ...out, gone: true }; }
     return out;
   };
-  const GM_OPS = ['create', 'rename', 'lock', 'raid', 'remove'];
+  const GM_OPS = ['create', 'rename', 'lock', 'raid', 'remove', 'crews'];
+  const crewIds = (v) => [...new Set((Array.isArray(v) ? v : []).filter((x) => /^[a-z]$/.test(x)))];
   if (GM_OPS.includes(op?.op) && !gm) return fail('gm');
   if (op?.op === 'create') {
     const name = text(op.name, 40);
     if (!name) return fail('name');
     const id = newId();
     const temp = op.temp && typeof op.temp === 'object' ? { map: text(op.temp.map, 80), prop: text(op.temp.prop, 40) } : null; // decision 277: a container's contents on the table
-    next.stashes.push({ id, name, locked: false, cash: 0, items: [], history: [{ t: now, by, op: 'create' }], ...(temp ? { temp } : {}) });
+    const crews = crewIds(Array.isArray(op.crews) ? op.crews : crewsNow); // decision 326
+    next.stashes.push({ id, name, locked: false, cash: 0, items: [], history: [{ t: now, by, op: 'create' }], ...(temp ? { temp } : {}), ...(crews.length ? { crews } : {}) });
     return { ok: true, book: next, stash: name, id };
   }
   if (!s) return fail('unknown');
@@ -78,6 +85,11 @@ export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId
       s.cash = 0;
       return done();
     }
+    case 'crews': { // decision 326: whose it is
+      const crews = crewIds(op.crews);
+      if (crews.length) s.crews = crews; else delete s.crews;
+      return done();
+    }
     case 'remove':
       next.stashes = next.stashes.filter((x) => x !== s);
       next.removed = [{ ...s, removedAt: now }, ...(next.removed ?? [])];
@@ -85,6 +97,7 @@ export function applyStashOp(book, op, { by, gm = false, now = Date.now(), newId
     default:
   }
   if (s.locked && !gm) return fail('locked');
+  if (!gm && !stashFor(s, crew)) return fail('crew'); // decision 326: another crew's
   const amount = Math.floor(Number(op.amount) || 0);
   switch (op.op) {
     case 'put': {

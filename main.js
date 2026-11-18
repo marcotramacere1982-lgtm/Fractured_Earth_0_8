@@ -1,7 +1,9 @@
 // Entry point: load data, create the store, start the router.
 
+import { dropPending } from './ui/sheet/map-tab.js'; // decision 293
 import { installScale } from './ui/scale.js';
-import { cue } from './ui/sound.js';
+import { cue, installSoundControls } from './ui/sound.js';
+import { installDiceControls } from './ui/dice-roll.js';
 import { loadData } from './data/index.js';
 import { loadI18n, t, getLang } from './i18n/index.js';
 import { createStore } from './state/store.js';
@@ -36,6 +38,7 @@ async function boot() {
     return;
   }
   installScale(); // decision 199: the UI's size — Auto by the window, − / + in the Display menu
+  installSoundControls(); installDiceControls(); // decision 314: volume, interface sounds, the rolling die (Display menu)
   installRefs(data.refs, { manual: { href: '#/manual/', newTab: true } }); // decision 160: tap only; Learn more opens the manual beside the sheet
   installExplain(data);
   const store = createStore({ data });
@@ -48,6 +51,7 @@ async function boot() {
     progress: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyProgress(c, data, { msg }); }); return out; },
     downtime: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.applyDowntime(c, data, { msg }); }); return out; },
     notify: cue,
+    moveRefused: () => dropPending(), // decision 293
     map: (id, msg) => { // decision 122: map memories; quiet, the table's own redraw shows them
       const c = store.get(id);
       const next = c && rememberMap(c.play.mapMemories, msg, Date.now());
@@ -58,6 +62,7 @@ async function boot() {
     hit: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveHit(c, data, { msg }); }); return out; }, // decision 154
     initiative: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.askInitiative(c, data, { msg }); }); return out; }, // decision 148
     scene: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.newScene(c, data, { msg }); }); return out; }, // decision 180
+    gmInventory: (id, msg) => { let out = null; store.update(id, (c) => { out = actions.gmInventory(c, data, { msg }); }); return out; }, // decision 313
     grant: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveGrant(c, data, { msg }); }); return out; }, // decision 276
     breath: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveBreath(c, data, { msg }); }); return out; }, // decision 273
     strain: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveStrain(c, data, { msg }); }); return out; }, // decision 266

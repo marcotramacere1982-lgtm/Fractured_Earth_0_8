@@ -654,6 +654,20 @@
     "story": true
   },
   {
+    "id": "prepaid_burner_phone",
+    "name": "Prepaid Burner Phone",
+    "icon": "phone",
+    "desc": "A cheap prepaid brick: calls and texts, no apps, nothing worth hacking. Not encrypted — swap it often.",
+    "effectType": "Utility",
+    "effect": "Calls and texts · not encrypted",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 15
+    },
+    "story": true
+  },
+  {
     "id": "tactical_ar_glasses",
     "legacyId": 27,
     "name": "Tactical AR Glasses",
@@ -1209,5 +1223,294 @@
         "when": "going down a line"
       }
     ]
+  },
+  {
+    "id": "loot_junk",
+    "name": "Junk",
+    "icon": "trash",
+    "desc": "Broken gadgets, a cracked screen, bottle caps, half a charger. Someone, somewhere, wants it.",
+    "effectType": "Loot · junk",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 3
+    },
+    "market": false,
+    "loot": "junk"
+  },
+  {
+    "id": "loot_trinket",
+    "name": "Odd trinket",
+    "icon": "box",
+    "desc": "A child's toy, a medal, a photo in a cheap frame. Worth little — unless it matters to someone.",
+    "effectType": "Loot · junk",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 15
+    },
+    "market": false,
+    "loot": "junk"
+  },
+  {
+    "id": "loot_copper",
+    "name": "Copper wire spool",
+    "icon": "coil",
+    "desc": "Stripped from a dead building's walls. Copper is money in the Grey Zones.",
+    "effectType": "Loot · material",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "E",
+    "cost": {
+      "cr": 40
+    },
+    "market": false,
+    "loot": "material"
+  },
+  {
+    "id": "loot_circuits",
+    "name": "Salvaged circuit boards",
+    "icon": "circuits",
+    "desc": "Pulled from dead machines: rare earths and chips a Tech Wizard can use or a recycler will buy.",
+    "effectType": "Loot · material",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "E",
+    "cost": {
+      "cr": 60
+    },
+    "market": false,
+    "loot": "material"
+  },
+  {
+    "id": "loot_alloy",
+    "name": "Scrap alloy",
+    "icon": "metal",
+    "desc": "Clean structural metal, cut to carry. Heavy, honest, always wanted.",
+    "effectType": "Loot · material",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 25
+    },
+    "market": false,
+    "loot": "material"
+  },
+  {
+    "id": "loot_blister",
+    "name": "Blister pack (meds)",
+    "icon": "pills",
+    "desc": "Painkillers, antibiotics, something unlabelled. Grey Zone currency: nobody asks for a wallet.",
+    "effectType": "Loot · barter",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "E",
+    "cost": {
+      "cr": 30
+    },
+    "market": false,
+    "loot": "barter"
+  },
+  {
+    "id": "loot_water_tabs",
+    "name": "Water purification tablets",
+    "icon": "flask",
+    "desc": "A strip of tablets that make bad water drinkable. Barter where the taps run brown.",
+    "effectType": "Loot · barter",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 20
+    },
+    "market": false,
+    "loot": "barter"
+  },
+  {
+    "id": "loot_ration_chits",
+    "name": "Ration chits",
+    "icon": "ticket",
+    "desc": "Corporate Stables ration vouchers. Traded, sold, forged — rarely eaten by whoever earned them.",
+    "effectType": "Loot · barter",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 15
+    },
+    "market": false,
+    "loot": "barter"
+  },
+  {
+    "id": "loot_jewellery",
+    "name": "Pre-war jewellery",
+    "icon": "ring",
+    "desc": "A gold ring, a chain, a stone in an old setting. From before the War — real, heavy, untraceable.",
+    "effectType": "Loot · valuable",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "C",
+    "cost": {
+      "cr": 250
+    },
+    "market": false,
+    "loot": "valuable"
+  },
+  {
+    "id": "loot_watch",
+    "name": "Mechanical watch",
+    "icon": "watch",
+    "desc": "No battery, no network, no tracking. Collectors pay well for a thing that only tells the time.",
+    "effectType": "Loot · valuable",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "C",
+    "cost": {
+      "cr": 180
+    },
+    "market": false,
+    "loot": "valuable"
+  },
+  {
+    "id": "loot_designer_bag",
+    "name": "Designer bag",
+    "icon": "bag",
+    "desc": "Leather, a real label, barely used. Someone in a lit tower is missing it.",
+    "effectType": "Loot · valuable",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 150
+    },
+    "market": false,
+    "loot": "valuable"
+  },
+  {
+    "id": "loot_sealed_bottle",
+    "name": "Sealed pre-war bottle",
+    "icon": "bottle",
+    "desc": "Real liquor, still sealed. A fixer's gift, a bribe, or one very good night.",
+    "effectType": "Loot · valuable",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 120
+    },
+    "market": false,
+    "loot": "valuable"
+  },
+  {
+    "id": "loot_coffee",
+    "name": "Tin of real coffee",
+    "icon": "coffee",
+    "desc": "Real beans, not the synthetic. People who have nothing will still trade for this.",
+    "effectType": "Loot · valuable",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 60
+    },
+    "market": false,
+    "loot": "valuable"
+  },
+  {
+    "id": "loot_dampeners",
+    "name": "Neural dampener packets",
+    "icon": "tablet",
+    "desc": "Clinical Static meds, dosed and logged. On the street they sell fast — and somebody notices they're missing.",
+    "effectType": "Loot · contraband",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "C",
+    "cost": {
+      "cr": 80
+    },
+    "market": false,
+    "loot": "contraband"
+  },
+  {
+    "id": "loot_data_drive",
+    "name": "Unwiped data drive",
+    "icon": "usb",
+    "desc": "An old drive nobody wiped. Worth more to a hacker or a fixer than to a fence.",
+    "effectType": "Loot · contraband",
+    "effect": "Sell to a fence for half its street value",
+    "skillBonus": "None",
+    "rarity": "C",
+    "cost": {
+      "cr": 120
+    },
+    "market": false,
+    "loot": "contraband"
+  },
+  {
+    "id": "loot_passport",
+    "name": "Passport (not yours)",
+    "icon": "passport",
+    "desc": "A real passport with somebody else's face and chip. Traced: the system knows whose it is.",
+    "effectType": "Loot · contraband",
+    "effect": "Sell to a fence for half its street value · traced",
+    "skillBonus": "None",
+    "rarity": "B",
+    "cost": {
+      "cr": 400
+    },
+    "market": false,
+    "loot": "contraband",
+    "traced": true
+  },
+  {
+    "id": "loot_keycard",
+    "name": "Staff keycard",
+    "icon": "keycard",
+    "desc": "A working access card for a building or a company. Traced: every door it opens is logged.",
+    "effectType": "Loot · contraband",
+    "effect": "Sell to a fence for half its street value · traced",
+    "skillBonus": "None",
+    "rarity": "C",
+    "cost": {
+      "cr": 150
+    },
+    "market": false,
+    "loot": "contraband",
+    "traced": true
+  },
+  {
+    "id": "loot_ar_glasses",
+    "name": "AR glasses",
+    "icon": "sunglasses",
+    "desc": "Good lenses, registered to an owner. Traced: they call home the moment they're switched on.",
+    "effectType": "Loot · contraband",
+    "effect": "Sell to a fence for half its street value · traced",
+    "skillBonus": "None",
+    "rarity": "C",
+    "cost": {
+      "cr": 300
+    },
+    "market": false,
+    "loot": "contraband",
+    "traced": true
+  },
+  {
+    "id": "loot_phone",
+    "name": "Locked phone",
+    "icon": "phone",
+    "desc": "Somebody's phone, still locked. Traced: it pings its owner's account until it's wiped.",
+    "effectType": "Loot · contraband",
+    "effect": "Sell to a fence for half its street value · traced",
+    "skillBonus": "None",
+    "rarity": "D",
+    "cost": {
+      "cr": 90
+    },
+    "market": false,
+    "loot": "contraband",
+    "traced": true
   }
 ]

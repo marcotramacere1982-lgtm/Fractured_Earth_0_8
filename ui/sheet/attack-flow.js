@@ -12,7 +12,7 @@ import { tellTargets } from './engine.js';
 
 /** Breakdown of a damage roll: dice, second roll, bonus dice, Exploit, OFF, Hot, stance multiplier. */
 export const damageBreakdown = (d) => [formatRoll(d.base ?? d), d.second ? `+ ${formatRoll(d.second)}` : '', d.extra ? `+ ${formatRoll(d.extra)}` : '', d.exploit ? `+ Exploit ${formatRoll(d.exploit)}` : '',
-  d.off ? `${d.off > 0 ? '+' : '−'} OFF ${Math.abs(d.off)}` : '', d.flat ? `+ ${d.flat} Hot` : '', ...(d.extras ?? []).map((x) => `+ ${x.n} ${x.label}`), d.multiplier !== 1 ? `× ${d.multiplier}` : ''].filter(Boolean).join(' ');
+  d.off ? `${d.off > 0 ? '+' : '−'} OFF ${Math.abs(d.off)}` : '', d.flat ? `+ ${d.flat} ${d.flatLabel ?? 'Hot'}` : '', ...(d.extras ?? []).map((x) => `+ ${x.n} ${x.label}`), d.multiplier !== 1 ? `× ${d.multiplier}` : ''].filter(Boolean).join(' ');
 
 const upTo = (n) => Array.from({ length: n }, (_, i) => i + 1);
 
@@ -105,6 +105,7 @@ export function weaponFlow({ c, sh, data, w, spec = {}, exploit = false, combat 
     const dmg = expr ? damageFrom({ base: a.damage.base, second: a.damage.second ?? null, extra: a.damage.extra ?? null, exploit: a.exploit?.dice ?? null },
       sh.combat.off.value, { multiplier: stanceMultiplier(c.classId, c.play.resources, data.classes), flat: sh.zone.damage,
         extras: !isRanged(w) && sh.conditionMods.meleeDamage ? [{ n: sh.conditionMods.meleeDamage, label: 'Enraged' }] : [] }) : null;
+    if (dmg?.flat) dmg.flatLabel = sh.zone.zone === 'cold' ? 'Cold' : 'Hot'; // the pendulum's damage: Hot, or a Trafficker's Cold (decision 186)
     return { dmg, loc: a.loc ? located(Number(a.shift ?? a.loc.d20.total), data, spec.targetTag) : null };
   };
 

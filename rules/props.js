@@ -7,7 +7,13 @@ const clone = (x) => structuredClone(x);
 const round = (n, step) => Number((Math.round(n / step) * step).toFixed(2));
 const FREE_STEP = 0.05;
 
-export const propDef = (data, id) => data.props.props.find((p) => p.id === id) ?? null;
+const defIndex = new WeakMap(); // decision 292: the library by id, built once per loaded list
+export const propDef = (data, id) => {
+  const list = data.props.props;
+  let byId = defIndex.get(list);
+  if (!byId) { byId = new Map(list.map((p) => [p.id, p])); defIndex.set(list, byId); }
+  return byId.get(id) ?? null;
+};
 /** Ground pieces (floor textures, terrain, chalk outlines): drawn under everything, picked last by a tap. */
 export const GROUND = new Set(['floor', 'zone', 'terrain', 'scene', 'city']); // city tiles too: links and walls on them stay clickable (decision 124)
 export const isGround = (data, p) => GROUND.has(propDef(data, p.prop)?.category);
@@ -170,6 +176,29 @@ export function hitProp(map, data, pt, { withHidden = true, ground = true, floor
 }
 
 /**
+ * Decision 301: every piece a tap could mean, in the order a tap picks them — small pieces within reach (nearest first),
+ * then pieces under the point (topmost first), then ground pieces (topmost first). For tapping again to cycle.
+ */
+export function propsUnder(map, data, pt, { tolerance = 0, withHidden = true, floors = true } = {}) {
+  const all = withHidden ? map.props ?? [] : activeProps(map);
+  const small = [];
+  for (const p of all) {
+    const def = propDef(data, p.prop);
+    if (!def || isGround(data, p) || Math.max(def.size.w, def.size.h) > 0.5) continue;
+    const a = (-normRot(p.rot) * Math.PI) / 180;
+    const dx = pt.x - p.x;
+    const dy = pt.y - p.y;
+    const lx = Math.abs(dx * Math.cos(a) - dy * Math.sin(a)) - def.size.w / 2;
+    const ly = Math.abs(dx * Math.sin(a) + dy * Math.cos(a)) - def.size.h / 2;
+    const d = Math.hypot(Math.max(lx, 0), Math.max(ly, 0));
+    if (d <= tolerance) small.push({ id: p.id, d });
+  }
+  const under = [...all].reverse().filter((p) => insideProp(pt, p, data) && (floors || !isFloorTile(data, p)));
+  const ids = [...small.sort((a, b) => a.d - b.d).map((x) => x.id), ...under.filter((p) => !isGround(data, p)).map((p) => p.id), ...under.filter((p) => isGround(data, p)).map((p) => p.id)];
+  return [...new Set(ids)];
+}
+
+/**
  * Decision 135: small pieces (a wall switch, a socket, a keypad, a camera) are hard to hit. The small piece nearest to
  * the point within `tolerance` squares — 0 when the point is on it; the smaller one when two are as near.
  * small: no side longer than `max` squares. Ground pieces never count.
@@ -221,6 +250,10 @@ export function difficultSquares(map, data) {
   for (const z of [...(map.zones ?? []).filter((q) => q.type === 'hazard' && q.on), ...(map.hazards ?? [])]) {
     if (!wet(z.nature)) continue;
     for (let x = z.x; x < z.x + z.w; x++) for (let y = z.y; y < z.y + z.h; y++) out.add(`${x},${y}`);
+  }
+  for (const a of map.areas ?? []) { // decision 294: a floor area of a difficult texture
+    if (!propDef(data, a.tex)?.difficult) continue;
+    for (let x = a.x; x < a.x + a.w; x++) for (let y = a.y; y < a.y + a.h; y++) out.add(`${x},${y}`);
   }
   for (const p of activeProps(map)) {
     if (!propDef(data, p.prop)?.difficult) continue;

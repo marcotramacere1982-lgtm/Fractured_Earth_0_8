@@ -7,8 +7,11 @@
 import { sightSegments, sightHits, onBoard, squareAt } from './map.js';
 import { lightTest, lightState } from './light.js';
 import { activeProps, propDef, propBlocksSight, propCorners, insideProp, propEdges, shellEdges, squaresUnder } from './props.js';
+import { openSquares, crossSight } from './vertical.js';
+import { floorOf } from './floors.js';
 
 const key = (s) => `${s.x},${s.y}`;
+const GROUND_TILES = new Set(['floor', 'city', 'terrain', 'zone', 'scene']); // decision 293
 let memo = { key: '', value: null };
 let pieceMemo = { key: '', value: null };
 
@@ -23,8 +26,10 @@ export function visibleSquares(map, data, eyes) {
     if (!onBoard(map, e)) continue;
     out.add(key(e));
     const A = { x: e.x + 0.5, y: e.y + 0.5 };
-    for (let x = 0; x < map.cols; x++) {
-      for (let y = 0; y < map.rows; y++) {
+    const f = (map.floors ?? []).length ? floorOf(map, e) : null; // decision 293: its own floor only — frame edges stop sight anyway
+    const [x0, x1, y0, y1] = f ? [f.x, f.x + f.w, f.y, f.y + f.h] : [0, map.cols, 0, map.rows];
+    for (let x = x0; x < x1; x++) {
+      for (let y = y0; y < y1; y++) {
         const k2 = `${x},${y}`;
         if (out.has(k2)) continue;
         if (!light(e, x, y)) continue;
@@ -33,8 +38,36 @@ export function visibleSquares(map, data, eyes) {
       }
     }
   }
+  if ((map.floors ?? []).length) seeAcross(map, data, segs, light, eyes, out);
   memo = { key: k, value: out };
   return out;
+}
+
+/**
+ * Decision 287: what eyes see on other floors, through openings (rules/vertical.js). Looking down, the eye must stand
+ * at an opening's edge; looking up, only someone at an opening's edge is in view. Adds to `out`.
+ */
+function seeAcross(map, data, segs, light, eyes, out) {
+  const open = openSquares(map, data);
+  if (!open.size) return;
+  const blocked = (a, b) => { const [l, r] = sightHits(a, b, segs); return Boolean(l && r); };
+  const atEdge = (s) => { for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) if ((dx || dy) && open.has(`${s.x + dx},${s.y + dy}`)) return true; return false; };
+  for (const e of eyes) {
+    const fe = floorOf(map, e);
+    if (!fe) continue;
+    const lookDown = atEdge(e);
+    for (const f of map.floors) {
+      const below = (f.level ?? 0) < (fe.level ?? 0);
+      if (f === fe || (f.level ?? 0) === (fe.level ?? 0) || (below && !lookDown)) continue;
+      for (let x = f.x; x < f.x + f.w; x++) {
+        for (let y = f.y; y < f.y + f.h; y++) {
+          const k = `${x},${y}`;
+          if (out.has(k) || open.has(k) || (!below && !atEdge({ x, y })) || !light(e, x, y)) continue;
+          if (crossSight(map, open, e, { x, y }, blocked)?.ok) out.add(k);
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -56,17 +89,26 @@ export function piecesSeen(map, data, eyes, visible) {
   // the same blockers as sightSegments, each tagged with the piece it belongs to, so one piece can be left out
   const walls = sightSegments({ ...map, props: [] }, data);
   const owned = activeProps(map).flatMap((p) => [...(propBlocksSight(propDef(data, p.prop), p) ? propEdges(p, data) : []), ...shellEdges(p, data)].map((w) => ({ ...w, owner: p.id })));
+  const eyeFloors = new Set(on.map((e) => floorOf(map, e)));
   for (const p of activeProps(map)) {
     const def = propDef(data, p.prop);
     if (!def || visible.has(key(squareAt(p)))) continue;
+    // decision 293: floor tiles and the like show by their square (propSeen); only pieces that stand in the way are traced
+    if (GROUND_TILES.has(def.category) && !propBlocksSight(def, p) && !def.shell) continue;
+    if ((map.floors ?? []).length && !eyeFloors.has(floorOf(map, p))) continue; // another floor: through an opening, by its square
     const own = propBlocksSight(def, p) || def.shell; // its own edges are among the blockers
     const others = own ? [...walls, ...owned.filter((w) => w.owner !== p.id)] : segs;
     const c = propCorners(p, data);
     const mid = { x: c.reduce((n, q) => n + q.x, 0) / c.length, y: c.reduce((n, q) => n + q.y, 0) / c.length };
     const inward = (q) => ({ x: q.x + (mid.x - q.x) * 0.1, y: q.y + (mid.y - q.y) * 0.1 });
-    const points = [mid, ...c.map(inward), ...c.map((q, i) => inward({ x: (q.x + c[(i + 1) % c.length].x) / 2, y: (q.y + c[(i + 1) % c.length].y) / 2 }))];
+    // decision 295: only the parts of the piece inside its own squares — a switch or a box hung on a wall pokes a sliver
+    // through it, and that sliver must not make a room's square seen from the corridor
+    const mine = new Set(squaresUnder(p, data).map(key));
+    if (!mine.size) mine.add(key(squareAt(p)));
+    const points = [mid, ...c.map(inward), ...c.map((q, i) => inward({ x: (q.x + c[(i + 1) % c.length].x) / 2, y: (q.y + c[(i + 1) % c.length].y) / 2 }))]
+      .filter((pt) => mine.has(key(squareAt(pt))));
     const sees = (e, pt) => onBoard(map, { x: Math.floor(pt.x), y: Math.floor(pt.y) }) && light(e, Math.floor(pt.x), Math.floor(pt.y))
-      && !sightHits({ x: e.x + 0.5, y: e.y + 0.5 }, pt, others).every(Boolean);
+      && !sightHits({ x: e.x + 0.5, y: e.y + 0.5 }, pt, others).some(Boolean); // decision 295: a clean line — a point a hair from a wall must not slip past it
     if (!on.some((e) => points.some((pt) => sees(e, pt)))) continue;
     const under = squaresUnder(p, data).filter((s) => onBoard(map, s));
     if (propBlocksSight(def, p) && !def.shell) under.forEach((s) => see.add(key(s)));
@@ -156,11 +198,12 @@ export function applyFog(msg, live, people, data) {
   if (!live.fog?.on) return msg;
   const { visible, seen } = seenNow(live, people, data);
   const hot = thermalSquares(live.map, data, eyesOf(live, people));
+  const linked = new Set((msg.floorLinks ?? []).flatMap((l) => [l.a, l.b]));
   const at = (t) => `${t.x},${t.y}`;
   return {
     ...msg,
     walls: clipWalls(msg.walls, seen),
-    props: msg.props.filter((p) => propSeen(p, seen)),
+    props: msg.props.filter((p) => propSeen(p, seen) || linked.has(p.id)), // decision 293: both ends of a floor link (the building's layout is public, decision 184)
     // people: seen, or picked up by thermal in the dark (shown as a heat signature)
     tokens: msg.tokens.filter((t) => t.kind === 'player' || visible.has(at(t)) || hot.has(at(t)))
       .map((t) => (t.kind !== 'player' && !visible.has(at(t)) ? { ...t, thermal: true } : t)),

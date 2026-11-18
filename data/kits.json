@@ -1,5 +1,5 @@
 {
-  "note": "Decision 183: starter kits — 3 abilities and deliberately cheap gear (lousy guns, very little armor), picked once in the builder; on the engine card the same kits only swap abilities. Gear rows: [kind, id, qty].",
+  "note": "Decision 183: starter kits — 3 abilities and deliberately cheap gear (lousy guns, very little armor), picked once in the builder; on the engine card the same kits only swap abilities. Gear rows: [kind, id, qty]. Owner hotfix 2026-11-14: each kit also carries one item that helps the subclass's own rolls or shows how it plays.",
   "kits": [
     {
       "id": "grunt.breacher",
@@ -29,6 +29,11 @@
         [
           "item",
           "basic_trauma_kit",
+          1
+        ],
+        [
+          "item",
+          "crowbar_and_mini_pry_set",
           1
         ]
       ]
@@ -62,6 +67,11 @@
           "armor",
           "low_profile_bump_cap",
           1
+        ],
+        [
+          "item",
+          "smelling_salts_capsule",
+          1
         ]
       ]
     },
@@ -88,6 +98,11 @@
         [
           "item",
           "basic_trauma_kit",
+          1
+        ],
+        [
+          "item",
+          "chemical_flare_sticks_x5",
           1
         ]
       ]
@@ -116,6 +131,11 @@
           "item",
           "chemical_flare_sticks_x5",
           1
+        ],
+        [
+          "item",
+          "laser_distance_tape",
+          1
         ]
       ]
     },
@@ -142,6 +162,11 @@
         [
           "armor",
           "scavenger_leather_doublet",
+          1
+        ],
+        [
+          "item",
+          "fiber_optic_scope",
           1
         ]
       ]
@@ -170,6 +195,11 @@
           "armor",
           "scavenger_leather_doublet",
           1
+        ],
+        [
+          "item",
+          "pocket_rfid_skimmer",
+          1
         ]
       ]
     },
@@ -196,6 +226,11 @@
         [
           "armor",
           "scavenger_leather_doublet",
+          1
+        ],
+        [
+          "item",
+          "electric_screwdriver_set",
           1
         ]
       ]
@@ -224,6 +259,11 @@
           "armor",
           "scavenger_leather_doublet",
           1
+        ],
+        [
+          "item",
+          "bug_and_tap_detector",
+          1
         ]
       ]
     },
@@ -250,6 +290,11 @@
         [
           "item",
           "basic_trauma_kit",
+          1
+        ],
+        [
+          "item",
+          "field_suture_kit",
           1
         ]
       ]
@@ -278,6 +323,11 @@
           "item",
           "multi_tool_utility_pliers",
           1
+        ],
+        [
+          "item",
+          "portable_butane_torch",
+          1
         ]
       ]
     },
@@ -304,6 +354,11 @@
         [
           "item",
           "multi_tool_utility_pliers",
+          1
+        ],
+        [
+          "item",
+          "laser_distance_tape",
           1
         ]
       ]
@@ -332,6 +387,11 @@
           "item",
           "electric_screwdriver_set",
           1
+        ],
+        [
+          "item",
+          "pneumatic_punch_tool",
+          1
         ]
       ]
     },
@@ -358,6 +418,11 @@
         [
           "armor",
           "scavenger_leather_doublet",
+          1
+        ],
+        [
+          "item",
+          "laser_sight_calibrator",
           1
         ]
       ]
@@ -386,6 +451,11 @@
           "armor",
           "scavenger_leather_doublet",
           1
+        ],
+        [
+          "item",
+          "mechanical_lockpick_set",
+          1
         ]
       ]
     },
@@ -412,6 +482,11 @@
         [
           "item",
           "smoke_canisters_x2",
+          1
+        ],
+        [
+          "item",
+          "folding_grappling_hook",
           1
         ]
       ]
@@ -440,6 +515,11 @@
           "item",
           "paracord_rope_30m",
           1
+        ],
+        [
+          "item",
+          "parabolic_listening_mic",
+          1
         ]
       ]
     },
@@ -466,6 +546,11 @@
         [
           "armor",
           "improvised_forearm_shin_guards",
+          1
+        ],
+        [
+          "item",
+          "glass_cutter_kit",
           1
         ]
       ]
@@ -494,6 +579,11 @@
           "armor",
           "scavenger_leather_doublet",
           1
+        ],
+        [
+          "item",
+          "crowbar_and_mini_pry_set",
+          1
         ]
       ]
     },
@@ -521,6 +611,11 @@
           "armor",
           "scavenger_leather_doublet",
           1
+        ],
+        [
+          "item",
+          "laser_sight_calibrator",
+          1
         ]
       ]
     },
@@ -547,6 +642,11 @@
         [
           "armor",
           "reinforced_work_trousers",
+          1
+        ],
+        [
+          "item",
+          "e_tagger_darts_x5",
           1
         ]
       ]

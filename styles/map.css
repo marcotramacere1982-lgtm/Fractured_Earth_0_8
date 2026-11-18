@@ -68,6 +68,13 @@
 .map-view { position: relative; display: flex; flex: 1; min-height: 0; }
 .map-view__svg { flex: 1; width: 100%; min-height: 0; display: block; touch-action: none; user-select: none; background: var(--color-surface-2); }
 .map-view__readout { position: absolute; top: var(--space-2); left: var(--space-2); margin: 0; padding: var(--space-1) var(--space-2); border-radius: var(--radius-md); background: var(--color-surface); border: var(--border-width) solid var(--color-accent); font-size: var(--text-sm); pointer-events: none; }
+.map-floors { position: absolute; top: 50%; right: var(--space-2); transform: translateY(-50%); display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-1); border-radius: var(--radius-md); background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong); } /* decision 287: the floor selector */
+.map-floors__btn { position: relative; min-width: 2.75rem; min-height: 2.75rem; display: grid; place-items: center; border: var(--border-width) solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); font: inherit; cursor: pointer; }
+.map-floors__btn.is-on { border-color: var(--color-accent); background: var(--color-accent-soft); color: var(--color-accent); }
+.map-floors__mode { margin-top: var(--space-1); }
+.map-floors__n, .map-floors__you { position: absolute; top: 1px; right: 3px; font-size: var(--text-xs); line-height: 1; color: var(--color-text-muted); }
+.map-floors__you { color: var(--color-info); }
+.map-open-depth { fill: var(--color-map-shadow); opacity: 0.35; pointer-events: none; } /* decision 287: the floor below, seen through an opening, a little darker */
 .map-token__disc { stroke-width: 5; }
 .map-token--player .map-token__disc { fill: var(--color-info-soft); stroke: var(--color-info); }
 .map-token--enemy .map-token__disc { fill: var(--color-danger-soft); stroke: var(--color-danger); }
@@ -273,6 +280,7 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 .sky-box--green polygon { stroke: var(--color-success); }
 .sky-box--yellow polygon { stroke: var(--color-warning); }
 .sky .sky-box--frame polygon { fill: none; stroke-dasharray: 3 2; }
+.sky .sky-box--ruin polygon { fill-opacity: 0.45; stroke: var(--color-warning); stroke-opacity: 0.7; stroke-dasharray: 2 2; } /* decision 306: a broken building — burnt, half fallen */
 .sky-box--hidden { opacity: 0.4; }
 .sky-pin { stroke: var(--color-text); stroke-width: 2; }
 .sky-pin__foot { fill: var(--color-text); opacity: 0.35; }
@@ -311,3 +319,6 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 .map-watch--own { fill: var(--mp-danger-soft); stroke: var(--mp-danger); } /* decision 251: where you are looking (your overwatch) */
 .map-sensed { fill: var(--mp-danger-soft); stroke: none; opacity: 0.55; pointer-events: none; } /* decision 269: what the sensors cover (GM) */
 .map-ctx__door { display: inline-flex; align-items: center; gap: var(--space-2); } /* one door in the context line (two doors: one each, by side) */
+
+/* decision 301: a district's card on the sheet's map */
+.district-card { margin: var(--space-1) 0 0; font-size: var(--text-sm); }

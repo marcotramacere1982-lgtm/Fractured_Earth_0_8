@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- Open to below, 4 x 4 (decision 287): no slab here. On a stacked floor the floor below shows through; drawn flat it is a dark drop with a dashed edge. Stepping in drops one floor. -->
+  <path class="solid" d="M0 0 H400 V400 H0 Z" fill="currentColor" fill-opacity="0.35" stroke="none"/>
+  <path class="detail" d="M25 0 L0 25 M50 0 L0 50 M75 0 L0 75 M100 0 L0 100 M125 0 L0 125 M150 0 L0 150 M175 0 L0 175 M200 0 L0 200 M225 0 L0 225 M250 0 L0 250 M275 0 L0 275 M300 0 L0 300 M325 0 L0 325 M350 0 L0 350 M375 0 L0 375 M400 0 L0 400 M425 0 L0 425 M450 0 L0 450 M475 0 L0 475 M500 0 L0 500 M525 0 L0 525 M550 0 L0 550 M575 0 L0 575 M600 0 L0 600 M625 0 L0 625 M650 0 L0 650 M675 0 L0 675 M700 0 L0 700 M725 0 L0 725 M750 0 L0 750 M775 0 L0 775" fill="none" stroke="currentColor" stroke-width="1" stroke-opacity="0.35" clip-path="none"/>
+  <path class="solid" d="M3 3 H397 V397 H3 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="10 7"/>
+</svg>

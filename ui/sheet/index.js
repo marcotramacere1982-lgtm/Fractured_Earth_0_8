@@ -14,6 +14,10 @@ import { findSkill } from './skills.js';
 import { tacticalView } from './tactical.js';
 import { dossierTab, notesTab } from './dossier.js';
 import { openCheck, openShop, openChoice, openDialog, setTierLock } from './dialogs.js';
+import { optionMeta, payWays } from '../../rules/downtime-choice.js'; // decision 332
+import { applyFor } from '../../rules/jobs.js'; // decision 334
+import { stageOf } from '../../rules/downtime.js';
+import { wayLabel } from './downtime-card.js';
 import { withinReach, knowsLocked } from '../../rules/interact.js';
 import { nameEn } from '../../data/index.js';
 import { bothNames } from '../term.js';
@@ -43,10 +47,11 @@ import { playAbility, detonate } from './ability-play.js';
 import { findGear, sellPrice, nextIsOfficial } from '../../rules/economy.js';
 import { t, tn, getLang } from '../../i18n/index.js';
 import { storyPrompt } from '../builder/prompts.js';
-import { soundOn, setSound } from '../sound.js';
+import { soundOn, setSound, cue } from '../sound.js';
 import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 import { boostsFor } from './check-boosts.js';
+import { paintedRect, placePins, takeStairs } from './map-tab.js'; // decision 320: pins on the scene picture
 import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky, mapTarget, coverTo } from './map-tab.js';
 import { railOpen } from '../rails.js';
 import { loadoutOverlay, openSwap, closeSwap } from './loadout.js';
@@ -70,6 +75,19 @@ import { chaseBlock } from './chase.js';
 import { caseTab } from './case-tab.js'; // decisions 278–279
 import { caseHandlers, caseChanges } from './case-handlers.js';
 import { frameOf } from '../portrait.js';
+import { openLootWindow } from './loot-window.js'; // decision 320
+import { crewLabel, isGuest } from '../../rules/crews.js'; // decision 326
+
+/** Decision 314: which sheet actions make a sound — a toggle (equip, wear, slot…) or "it went through". Hand edits
+ *  (HP, ammo, cash, resources) and anything not listed stay silent; a refusal always sounds (in run). */
+const TOGGLE = ['wear', 'equip', 'slot', 'hand', 'optic', 'deck', 'deckMod', 'droneSel', 'droneMod', 'techMode', 'torch', 'cover', 'inDark', 'markAdd', 'markRemove', 'mapTag', 'mapColor'];
+const DONE = ['act', 'attack', 'useItem', 'useTalent', 'reload', 'trash', 'installMod', 'removeMod', 'repairArmor', 'heal', 'payInstalment', 'stashPut', 'stashTake', 'crewPut', 'crewTake', 'equipKit', 'abilitySelf', 'study', 'overwatch', 'overwatchPass', 'dodge', 'dodgedHit', 'release', 'releaseAll', 'combatReady', 'prepareReady', 'buyTalent', 'raiseAttribute', 'chooseLifestyle', 'applyBoon', 'acceptDeal', 'droneFlight', 'droneCharge', 'useRolled', 'chooseDowntime', 'payUpkeep', 'downtimeWork'];
+const SOUND_OF = {
+  ...Object.fromEntries(TOGGLE.map((k) => [k, 'toggle'])),
+  ...Object.fromEntries(DONE.map((k) => [k, 'done'])),
+  stashCash: 'cash', crewCash: 'cash',
+  acceptGrant: (got) => (Array.isArray(got) && got.some((x) => String(x).startsWith('$')) ? 'cash' : 'item'), // the GM's 🎁
+};
 
 const rollText = (r) => `d20 ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}${r.site ? ` (${r.site.label} ${r.site.tn})` : ''}${r.help ? ` (${r.help.label} ${r.help.tn > 0 ? '+' : ''}${r.help.tn})` : ''}`; // decision 268: the site alert; 270: help
 
@@ -82,13 +100,21 @@ const TABS = [
   { id: 'map', label: 'sheet.tab.tactical', view: mapTab }, // only while the GM has a map on the table (decision 64); the Tactical View (decision 162)
 ];
 
+/** Decision 319: per character, the last scene picture already opened and whether it is shown big — kept outside the
+ *  screen, which is rebuilt on every tab change (else every tab click looked like a new picture). */
+const SCENE = new Map();
+/** Decision 320: the found-loot window — the last one opened (per device) and the window itself, to redraw. */
+const LOOT = { seen: null, win: null };
+
 export function sheetView({ data, store, main, table }, route) {
   const [id, askedTab] = route.params;
   if (askedTab === 'gear') setOpen(['inventory', 'money']); // decision 215: the old Gear tab is the Sheet's Inventory and Money
   const asked = askedTab === 'skills' || askedTab === 'gear' ? 'play' : askedTab; // decision 164: old Skills links land on Setup
   const tableMap = () => (table?.state.joinedId === id ? table.state.map : null);
+  const tableView = () => (table?.state.joinedId === id ? table.state.view : null); // decision 319: the GM's scene image
+  const sceneMem = SCENE.get(id) ?? SCENE.set(id, { seen: null, big: true }).get(id); // per character, across tab changes
   // decision 162 → 232: with a map on the table the Tactical View is the tab next to Sheet; a sheet opens on Sheet
-  const tabs = () => { const rest = TABS.filter((x) => x.id !== 'map' && (x.id !== 'case' || (table?.state.joinedId === id && table.state.case))); return tableMap() ? [rest[0], TABS.find((x) => x.id === 'map'), ...rest.slice(1)] : rest; };
+  const tabs = () => { const rest = TABS.filter((x) => x.id !== 'map' && (x.id !== 'case' || (table?.state.joinedId === id && table.state.case))); return tableMap() || tableView() ? [rest[0], TABS.find((x) => x.id === 'map'), ...rest.slice(1)] : rest; };
   const tabId = asked ?? 'play';
   const tableMarks = () => (table?.state.joinedId === id ? table.state.marks : null); // decision 82
   const sendMark = (body) => (tableMap() ? table.mark(tableMap().id, body) : Promise.resolve(false));
@@ -124,6 +150,18 @@ export function sheetView({ data, store, main, table }, route) {
   // decision 163: the Tactical View's class engine — compact (default) or full in the right column, remembered per device
   const draw = () => {
     if (mapBusy() || memoryBusy()) return; // a finger on the map: it redraws when the finger lifts
+    const view = tableView();
+    if (view && view.id !== sceneMem.seen) { // decision 319: a new scene image opens the Tactical tab once, big
+      sceneMem.seen = view.id;
+      sceneMem.big = true;
+      if (tabId !== 'map') { location.hash = href('sheet', id, 'map'); return; }
+    }
+    const found = table?.state.joinedId === id ? table.state.loot : null;
+    if (found && found.n !== LOOT.seen) { // decision 320: a container / story point opened here — its window
+      LOOT.seen = found.n;
+      LOOT.win?.close();
+      LOOT.win = openLootWindow(found, { table, character, data, run, toast, give: (kind, itemId) => clicks.trade({ kind, id: itemId }) });
+    } else if (LOOT.win?.el.isConnected) LOOT.win.redraw();
     const tab = tabs().find((x) => x.id === tabId) ?? TABS[0];
     const c = character();
     const s = deriveSheet(c, data);
@@ -131,9 +169,11 @@ export function sheetView({ data, store, main, table }, route) {
     const open = new Set([...main.querySelectorAll('details[data-keep][open]')].map((d) => d.dataset.keep));
     // decision 237: the table strip — the GM's environment, a timer for this character, the round countdowns shown
     const atTableNow = table?.state.joinedId === id;
-    const strip = atTableNow ? html`${chaseBlock(table.state.chase, c, data)}${tableStrip(data, { env: table.state.environment, timer: table.state.timer, countdowns: table.state.combat?.countdowns ?? [] })}` : ''; // decision 275: a chase on top
+    const strip = atTableNow ? html`${chaseBlock(table.state.chase, c, data)}${tableStrip(data, { env: table.state.environment, timer: table.state.timer, turns: table.state.turns, countdowns: table.state.combat?.countdowns ?? [] })}` : ''; // decision 275: a chase on top
     if (strip) startStripClock();
-    const ctx = { strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null, caseState: table?.state.joinedId === id ? table.state.case : null, names: caseNames() };
+    const crewsNow = atTableNow ? table.state.crews : null; // decision 326: this character's crew, and whether it's a guest tonight
+    const homeCrew = crewsNow?.list?.find((k) => k.id === crewsNow.home?.[id]) ?? null;
+    const ctx = { crew: homeCrew ? { name: crewLabel(homeCrew), guest: isGuest(crewsNow.home, crewsNow.tonight, id) } : null, view: tableView(), pins: (tableView() && table.state.viewPins?.[tableView().id]) || [], sceneBig: sceneMem.big, strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null, caseState: table?.state.joinedId === id ? table.state.case : null, names: caseNames(), joined: atTableNow, crewVote: (batch) => (atTableNow ? table.state.crewVotes?.[batch] : undefined) /* decision 333 */ };
     const tabNav = html`<nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
             ${tabs().map((x) => html`<a class="tab ${x.id === 'map' ? 'tab--live' : ''}" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
           </nav>`;
@@ -173,6 +213,7 @@ export function sheetView({ data, store, main, table }, route) {
     document.documentElement.classList.add('sheet-open'); // decision 216: the character sheet uses the whole window
     const bar = main.querySelector('.sheet-status')?.offsetHeight; // the Sheet tab's index sticks just under the status bar
     if (bar) main.style.setProperty('--status-h', `${bar}px`);
+    if (tab.id === 'map') placePins(main); // decision 320
     if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark, overwatch: c.play.overwatch }); // decision 251
     if (tab.id === 'notes') attachMemory(main, data, c, draw); // decision 122
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
@@ -186,7 +227,7 @@ export function sheetView({ data, store, main, table }, route) {
     const map = tableMap();
     if (!map?.canMove || !map.tokens.some((tk) => tk.key === id)) return null;
     const combat = tableCombat();
-    if (!combat?.active) return { max: data.map.move.explore, combat: false };
+    if (!combat?.active) return { max: map.careful ? deriveSheet(character(), data).move : data.map.move.explore, combat: false }; // decision 296: a guarded map — each drag reaches your Move
     if (combat.current !== id && combat.round !== 0) return { why: 'notTurn' }; // decision 233: in a head start everyone moves
     const c = character();
     const s = deriveSheet(c, data);
@@ -297,12 +338,20 @@ export function sheetView({ data, store, main, table }, route) {
     let result;
     try {
       store.update(id, (draft) => { result = actions[name](draft, withUniques(data, draft), args); }, opts); // uniques read like catalog entries
+      const sound = SOUND_OF[name]; // decision 314: what you just did, in sound — hand edits stay silent
+      if (sound) cue(typeof sound === 'function' ? sound(result) : sound);
     } catch (err) {
+      cue('refused');
       toast(ruleText(err), 'danger');
     }
     return result;
   };
 
+  /** Decision 332: how to pay a downtime cost — cash, Credit Score, half and half — then go(way). */
+  const payFirst = (label, cost, go) => {
+    const ways = payWays(cost, character(), data);
+    openChoice(t('downtime.payTitle', { cr: cost }), ways.map((w) => ({ value: w.id, label: wayLabel(w), why: w.ok ? '' : t('downtime.cantPay') })), go, { lead: label });
+  };
   const checkTarget = ({ kind, id: targetId }) => {
     const c = character();
     const s = deriveSheet(c, data);
@@ -366,17 +415,78 @@ export function sheetView({ data, store, main, table }, route) {
       { tier: tableTier(), once: true, site: siteFor({ kind: 'class', id: c.classId }), flow: abilityFlow(c, sh, ability), after: (r) => (!r.success && data.classes.abilityRoll.onFailure !== 'nothing' ? html`<p class="hint">${t(`check.abilityFailed.${data.classes.abilityRoll.onFailure}`)}</p>` : '') });
   };
 
+  /** A section's title just under the sticky status bar (decision 215). */
+  const toSection = (el) => {
+    if (!el) return;
+    const bar = main.querySelector('.sheet-status')?.getBoundingClientRect().bottom ?? 0;
+    window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - Math.max(0, bar) - 8, behavior: 'smooth' });
+  };
+
   const clicks = {
     hp: ({ delta }) => run('hp', { delta }),
     heal: () => run('heal'),
     repairArmor: () => run('repairArmor'),
     buyTalent: (d) => run('buyTalent', d),
     driveType: ({ value }) => run('field', { path: 'drive.type', value }),
-    payInstalment: () => {
-      const out = run('payInstalment');
-      if (out) toast(t('downtime.paid', { cr: out.paid, n: out.pressure }), 'success');
+    payInstalment: () => { // owner 2026-11-16: cash, Credit Score or half and half
+      const stage = stageOf(character().downtime?.pressure ?? 0, data);
+      if (!stage) return;
+      payFirst(t('downtime.payInstalmentTitle'), stage.instalment, (way) => {
+        const out = run('payInstalment', { way });
+        if (out) { toast(t('downtime.paidWay', { how: wayLabel({ id: way, cash: out.cash, crs: out.crs }), n: out.pressure }), 'success'); table?.downtimeNote?.(`Debt instalment paid: ${[out.cash ? `$${out.cash}` : '', out.crs ? `${out.crs} CRS` : ''].filter(Boolean).join(' + ')}, pressure now ${out.pressure}`); }
+      });
     },
-    raiseAttribute: (d) => run('raiseAttribute', d),
+    // decision 332: the downtime's choices — tick one option (pay what it costs now), roll what it asks, pay the upkeep;
+    // each step goes to the GM's Activity and session log
+    dtChoose: ({ mid, kind, index }) => {
+      const e = (character().downtime?.timeline ?? []).find((x) => x.mid === mid && x.kind === kind);
+      if (!e || e.chosen) return;
+      const m = optionMeta(e.options[Number(index)], data);
+      const go = (way) => { const line = run('chooseDowntime', { mid, kind, index: Number(index), way }); if (line) { table?.downtimeNote(line); toast(t('downtime.stepDone'), 'success'); } };
+      if (m.cost && m.costWhen === 'always') payFirst(m.label, m.cost, go);
+      else go();
+    },
+    dtRoll: ({ mid, kind, skill }) => {
+      const e = (character().downtime?.timeline ?? []).find((x) => x.mid === mid && x.kind === kind);
+      if (!e?.chosen || e.chosen.roll) return;
+      const m = optionMeta(e.options[e.chosen.i], data);
+      const target = checkTarget({ kind: 'skill', id: skill });
+      openCheck(target, data, (r) => {
+        // the roll is kept first; a cost it brings is owed until paid (here, or later from the card)
+        const line = run('downtimeRoll', { mid, kind, skill, success: r.success, rollText: rollText(r) });
+        if (line) table?.downtimeNote(line);
+        const owe = (character().downtime?.timeline ?? []).find((x) => x.mid === mid && x.kind === kind)?.chosen?.owe;
+        if (owe) payFirst(m.label, owe, (way) => clicks.dtPay({ mid, kind, way }));
+      }, { tier: tableTier(), once: true, tools: target.tools, boosts: target.boosts });
+    },
+    dtPay: ({ mid, kind, way }) => { const line = run('payDowntime', { mid, kind, way }); if (line) { table?.downtimeNote(line); toast(t('downtime.stepDone'), 'success'); } },
+    dtVote: ({ batch, index }) => { // decision 333: a secret vote on the crew's event — it can change until the GM confirms
+      if (table?.state.joinedId !== id) return;
+      table.crewVote(batch, Number(index)).then((ok) => { cue(ok ? 'toggle' : 'refused'); if (!ok) toast(t('crewStash.why.offline'), 'danger'); });
+    },
+    dtWork: ({ what }) => { // decision 334: look for a job (requirements + entry roll), gig, quit, keep
+      const go = (args) => { const line = run('downtimeWork', args); if (line) { table?.downtimeNote(line); toast(t('downtime.stepDone'), 'success'); } };
+      if (what === 'quit') { openChoice(t('downtime.work.quit'), [{ value: 'yes', label: t('downtime.work.quitSure') }, { value: 'no', label: t('common.cancel'), quiet: true }], (v) => { if (v === 'yes') go({ what }); }); return; }
+      if (what !== 'look') { go({ what }); return; }
+      // owner 2026-11-16: an application — the GM answers (ask the roll · hire · turn down); what's missing is shown, not blocking
+      const list = data.careers.careers.map((k) => ({ k, a: applyFor(character(), k.id, data) })).filter(({ a }) => a.reason !== 'offBooks').sort((x, y) => Number(y.a.ok) - Number(x.a.ok));
+      openChoice(t('downtime.work.lookTitle'), list.map(({ k, a }) => ({
+        value: k.id, quiet: !a.ok, label: `${k.category}${k.name !== 'Standard' ? ` — ${k.name}` : ''}`,
+        sub: a.ok ? (a.roll ? t('downtime.work.entry', { tn: a.roll.tn, stat: a.roll.stat }) : t('downtime.work.noRoll')) : t('downtime.work.notMet', { list: a.checks.filter((x) => !x.met).map((x) => x.label).join(', ') }),
+      })), (careerId) => {
+        if (table?.state.joinedId !== id) { toast(t('downtime.work.needTable'), 'danger'); return; }
+        const line = run('downtimeWork', { what, careerId });
+        if (line) { table.jobApply(careerId); toast(t('downtime.work.sent'), 'success'); }
+      }, { lead: t('downtime.work.lookLead') });
+    },
+    dtJobRoll: ({ tn, stat }) => { // the GM asked for the entry roll
+      openCheck({ name: t('downtime.work.entryTitle'), tn: Number(tn), sub: stat }, data, (r) => {
+        const line = run('jobRolled', { success: r.success, rollText: rollText(r) });
+        if (line) { table?.downtimeNote(line); toast(t(r.success ? 'downtime.work.hiredToast' : 'downtime.work.downToast'), r.success ? 'success' : 'danger'); }
+      }, { tier: tableTier(), once: true });
+    },
+    dtDone: () => run('closeDowntime'),
+    dtUpkeep: ({ way }) => { const line = run('payUpkeep', { way }); if (line) { table?.downtimeNote(line); toast(t('downtime.stepDone'), 'success'); } },
     useTalent: (d) => {
       const out = run('useTalent', d);
       if (out?.rolled) toast(t('progress.healed', { roll: formatRoll(out.rolled) }), 'success');
@@ -579,6 +689,22 @@ export function sheetView({ data, store, main, table }, route) {
     ...caseHandlers({ table, id, toast, redraw: () => draw(), character }), // decisions 278–279
     boonApply: ({ id: boonId }) => run('applyBoon', { id: boonId }), // decision 155: a card from an ally
     askSkip: ({ id: askId, name }) => run('rollAsked', { id: askId, name }), // decision 165
+    abilityAsk: ({ id: abilityId, ask: askId }) => { // decision 322: an ability stands in for the skill the GM asked for — the Class TN answers
+      const c = character();
+      const sh = deriveSheet(c, data);
+      const ability = (data.abilities[c.classId] ?? []).find((a) => a.id === abilityId);
+      const ask = (c.play.rollAsks ?? []).find((a) => a.id === askId);
+      if (!ability || !ask || !sh.class || !actionAvailable(c, sh)) return;
+      const target = checkTarget({ kind: ask.kind, id: ask.target });
+      let answered = false;
+      openCheck({ name: `${ability.name} · ${target.name}`, tn: sh.class.tn, sub: `Class TN · ${sh.class.subclass.name}` }, data, (r) => {
+        run('useRolled', { id: abilityId, success: r.success, rollText: rollText(r) });
+        if (answered) return;
+        answered = true;
+        table?.rollResult({ ask: askId, name: `${target.en ?? target.name} (${ability.name})`, roll: r.roll, tn: r.effective, success: r.success, margin: r.margin }).then((ok) => { if (!ok) toast(t('crewStash.why.offline'), 'danger'); });
+        store.update(id, (d) => { d.play.rollAsks = (d.play.rollAsks ?? []).filter((a) => a.id !== askId); });
+      }, { tier: ask.tier ?? tableTier(), once: true, site: siteFor({ kind: 'class', id: c.classId }) });
+    },
     clearScan: () => run('clearScan'), // decision 170
     netDoorAsk: ({ net, name }) => { // decision 256: Door Control when equipped (its own roll, RAM, Heat); else ask the GM — a hack action in a fight, the GM calls the roll
       const ops = ['unlock', 'lock', 'open', 'close'];
@@ -662,6 +788,16 @@ export function sheetView({ data, store, main, table }, route) {
       if (tourId === 'map') railOpen('tac', 'right', 'map'); // the tour points at the Map bookmark (decision 192)
       if (tour) startTour(tour, { openTab: (tabId) => { if (location.hash !== href('sheet', id, tabId)) go('sheet', id, tabId); }, onClose: () => draw() });
     },
+    scenePin: async (_, e) => { // decision 320: a tap on the picture puts your pin there (one per player)
+      const v = tableView();
+      if (!v) return;
+      const r = paintedRect(e.target);
+      const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      if (x < 0 || x > 1 || y < 0 || y > 1) return; // on the bars beside the picture
+      if (!(await table.viewPin(v.id, x, y))) toast(t('crewStash.why.offline'), 'danger');
+    },
+    sceneUnpin: () => { const v = tableView(); if (v) table.viewPin(v.id, null, null); },
+    sceneSwap: () => { sceneMem.big = !sceneMem.big; draw(); window.dispatchEvent(new Event('resize')); }, // decision 319: the picture or the map big
     statusOpen: () => { try { if (tabNow === 'map') localStorage.setItem(STATUS, statusOpen() ? '0' : '1'); else localStorage.setItem(SMALL, statusSmall() ? '0' : '1'); } catch { /* private mode */ } draw(); },
     loadoutOpen: () => { if (!loadoutOpen(character().play.turn)) { toast(t('rule.loadoutLocked'), 'danger'); return; } openSwap(); draw(); }, // decision 192: Swap abilities; 194: not mid-fight
     loadoutClose: () => { closeSwap(); draw(); },
@@ -672,11 +808,10 @@ export function sheetView({ data, store, main, table }, route) {
     owPass: ({ at, label }) => { closeOverwatch(at); run('overwatchPass', { name: label }); },
     secJump: ({ id: sec }) => { // decision 215: open it and bring its title just under the sticky status bar; decision 216: tapped again, it closes
       if (isOpen(sec)) { setOpen([sec], false); draw(); return; }
+      setOpen(SECTIONS, false); // owner hotfix 2026-11-14: one section at a time — the others close
       setOpen([sec]);
       draw();
-      const el = main.querySelector(`#sec-${sec}`);
-      const bar = main.querySelector('.sheet-status')?.getBoundingClientRect().bottom ?? 0;
-      if (el) window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - Math.max(0, bar) - 8, behavior: 'smooth' });
+      toSection(main.querySelector(`#sec-${sec}`));
     },
     secAll: ({ on }) => { setOpen(SECTIONS, on === '1'); draw(); }, // the pre-fight window: once per fight (decision 195)
     tourSkip: ({ id: tourId }) => { markTourDone(tourId ?? 'general'); draw(); },
@@ -725,6 +860,8 @@ export function sheetView({ data, store, main, table }, route) {
     mapZoom: ({ dir }) => mapZoom(dir),
     mapTarget: () => { clearTarget(); draw(); },
     mapInfoClose: () => { clearTarget(); draw(); },
+    mapStairs: () => takeStairs(), // owner hotfix 2026-11-14
+    mapCross: async ({ id: prop }) => { toast(await table?.cross(table.state.map?.mapId ?? table.state.map?.id, prop) ? t('district.crossSent') : t('ping.offline'), 'success'); }, // decision 303: the GM decides
     mapTorch: ({ on }) => run('torch', { on: on === '1' }),
     fixStance: ({ value }) => run('fixStance', { value }), // decision 88: a hand correction, logged
     ...markHandlers({ draw, run, send: sendMark, mine: () => myMarks(tableMarks(), tableMap(), id) }),
@@ -836,7 +973,8 @@ export function sheetView({ data, store, main, table }, route) {
       const fight = Boolean(c.play.turn?.inCombat) && !opts.chase; // decision 275: in a chase, Help is the leg's move
       const mates = table?.state.joinedId === id ? (await table.players()).filter((p) => p.id !== id && (!opts.chase || table.state.chase?.crew.includes(p.id))) : [];
       if (!mates.length) { toast(t('strain.steadyNobody'), 'danger'); return; }
-      openChoice(t('help.pickMate'), mates.map((p) => ({ value: p.id, label: p.name })), (to) => {
+      const pickMate = (fn) => (opts.to && mates.some((p) => p.id === opts.to) ? fn(opts.to) : openChoice(t('help.pickMate'), mates.map((p) => ({ value: p.id, label: p.name })), fn)); // decision 321: the GM named who to help
+      pickMate((to) => {
         const name = mates.find((p) => p.id === to)?.name ?? '';
         const s = deriveSheet(character(), data);
         const skills = [...s.skills].sort((a, b) => b.value - a.value);
@@ -848,6 +986,7 @@ export function sheetView({ data, store, main, table }, route) {
           const target = checkTarget({ kind: 'skill', id: skillId });
           openCheck({ ...target, name: t('help.title', { name }), sub: target.name }, data, async (r) => {
             opts.then?.(r); // decision 275: a chase's Help move — its roll is the leg's move
+            if (opts.ask) store.update(id, (d) => { d.play.rollAsks = (d.play.rollAsks ?? []).filter((a) => a.id !== opts.ask); }); // decision 321: the GM's help card goes
             const n = helpFrom(r, data.difficulty.help);
             store.update(id, (d) => log(d, `Helped ${name} (${target.en ?? target.name}): ${rollText(r)} → ${n ? `${n > 0 ? '+' : ''}${n} on their next check` : 'no help this time'}`, n > 0 ? 'ok' : n < 0 ? 'bad' : ''));
             if (!n) return;
@@ -887,15 +1026,16 @@ export function sheetView({ data, store, main, table }, route) {
         }
         if (r.natural === 'crit-failure' && data.strain) actions.strainAsk(c, data, { id: `nat${Date.now()}`, n: data.strain.gains.fumble, why: `A natural 20 (${target.en ?? target.name})` }); // decision 266
         log(c, `${target.en ?? target.name}${d.ask ? ' (GM asked)' : ''}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}${r.site ? ` (${r.site.label} ${r.site.tn})` : ''}${r.help ? ` (${r.help.label} ${r.help.tn > 0 ? '+' : ''}${r.help.tn})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
-      }), { tier: tableTier(), tools: target.tools, boosts: target.boosts, light: d.kind === 'skill' ? lightFor(lightKind(d.id)) : null, site: d.kind === 'skill' ? siteFor({ kind: 'skill', id: d.id }) : null, help: helpNow });
+      }), { tier: (d.ask && character().play.rollAsks?.find((a) => a.id === d.ask)?.tier) ?? tableTier(), /* decision 321: the GM's difficulty for this roll */ tools: target.tools, boosts: target.boosts, light: d.kind === 'skill' ? lightFor(lightKind(d.id)) : null, site: d.kind === 'skill' ? siteFor({ kind: 'skill', id: d.id }) : null, help: helpNow });
     },
-    shop: ({ kind, free }) => openShop({ kind, free: Boolean(free) }, character, withUniques(data, character()), ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
+    shop: ({ kind, free }) => openShop({ kind, free: Boolean(free), markup: () => (table?.state.joinedId === id ? table.state.market : null) }, character, withUniques(data, character()), ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
       if (method === 'free') { run('add', { kind: k, id: itemId }); return t('shop.added'); }
       if (method === 'choose') { run('chooseLifestyle', { id: itemId }); return t('shop.chosen'); }
       if (method === 'drop') { run('dropLifestyle', { id: itemId }); return t('shop.dropped'); }
       if (method === 'custom') { store.update(id, (draft) => { actions.addCustom(draft, data, rest); }); return t('shop.added'); }
       let notice;
-      store.update(id, (draft) => { notice = actions.buy(draft, data, { kind: k, id: itemId, method, multiplier }); });
+      try { store.update(id, (draft) => { notice = actions.buy(draft, data, { kind: k, id: itemId, method, multiplier }); }); } catch (err) { cue('refused'); throw err; }
+      cue('done'); // decision 314
       return ruleText(notice);
     }),
   };
@@ -933,6 +1073,15 @@ export function sheetView({ data, store, main, table }, route) {
   main.addEventListener('pointerdown', onFrameDown);
   const onToggle = (e) => { if (e.target.matches?.('details.sheet-sec')) onSectionToggle(e.target); }; // decision 215: remember what is open
   main.addEventListener('toggle', onToggle, true);
+  /** Owner hotfix 2026-11-14: a section opened by its title closes the others (Open all and the tours still open many). */
+  const onSecHead = (e) => {
+    const head = e.target.closest?.('summary.sheet-sec__head');
+    if (!head || e.target.closest('button, a') || head.parentElement.open) return;
+    const sec = head.parentElement;
+    for (const o of main.querySelectorAll('details.sheet-sec[open]')) if (o !== sec) o.open = false;
+    requestAnimationFrame(() => toSection(sec));
+  };
+  main.addEventListener('click', onSecHead);
 
   const offChange = delegate(main, 'change', {
     ...caseChanges(() => draw()), // decision 279: the board picker
@@ -969,7 +1118,7 @@ export function sheetView({ data, store, main, table }, route) {
   const offTable = table?.subscribe(() => draw());
 
   draw();
-  return cleanup(offClick, offChange, offInput, unsubscribe, offTable, () => main.removeEventListener('pointerdown', onFrameDown), () => main.removeEventListener('toggle', onToggle, true),
+  return cleanup(offClick, offChange, offInput, unsubscribe, offTable, () => main.removeEventListener('pointerdown', onFrameDown), () => main.removeEventListener('toggle', onToggle, true), () => main.removeEventListener('click', onSecHead),
     () => document.documentElement.classList.remove('sheet-open', 'tac-open'), // decision 216: other pages keep their reading width
     () => offTools?.()); // decision 220: the header re-renders the slot empty on other pages; clearing it here would wipe the next sheet's tools (the cleanup can run after it drew)
 }

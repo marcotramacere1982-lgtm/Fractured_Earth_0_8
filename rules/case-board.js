@@ -8,7 +8,9 @@ export const GRID = { cols: 16, rows: 12 };
 export const SIZES = { s: [1, 1], w: [2, 1], b: [2, 2] };
 export const TYPES = ['person', 'place', 'clue', 'lead', 'question', 'document'];
 export const GENERAL = 'general';
-const ENTRY_KINDS = ['handout', 'puzzle', 'message', 'person', 'place'];
+const ENTRY_KINDS = ['handout', 'puzzle', 'message', 'person', 'place', 'document']; // decision 299: a document handout
+/** A shared document's address (decision 299). */
+const docUrl = (v) => (typeof v === 'string' && /^\/api\/table\/handout\?name=[\w.%-]{1,120}\.md$/.test(v) ? v : null);
 const text = (v, n) => String(v ?? '').replace(/[ \t]+/g, ' ').trim().slice(0, n);
 
 export const emptyCase = () => ({ missions: [], active: null, boards: {}, dossier: {} });
@@ -33,6 +35,7 @@ function cleanCard(raw) {
     text: String(raw?.text ?? '').slice(0, 600),
     ...(typeof raw?.image === 'string' && /^\/api\/table\/handout\?name=[\w.%-]{1,120}$/.test(raw.image) ? { image: raw.image } : {}),
     ...(typeof raw?.entry === 'string' ? { entry: text(raw.entry, 40) } : {}),
+    ...(docUrl(raw?.doc) ? { doc: raw.doc } : {}), // decision 299: a pinned document
   };
 }
 
@@ -57,7 +60,7 @@ export function applyCaseOp(book, op, who, { now = Date.now(), newId = () => `k$
     if (op.op === 'forget') { d.entries = d.entries.filter((e) => e.id !== op.entry); return done(); }
     const e = op.entry ?? {};
     if (!ENTRY_KINDS.includes(e.kind) || !text(e.title, 80)) return fail('name');
-    d.entries.push({ id: newId(), kind: e.kind, title: text(e.title, 80), text: String(e.text ?? '').slice(0, 800), ...(typeof e.image === 'string' ? { image: e.image.slice(0, 200) } : {}), t: now });
+    d.entries.push({ id: newId(), kind: e.kind, title: text(e.title, 80), text: String(e.text ?? '').slice(0, 800), ...(typeof e.image === 'string' ? { image: e.image.slice(0, 200) } : {}), ...(docUrl(e.doc) ? { doc: e.doc } : {}), t: now });
     return done();
   }
   if (!key) return fail('unknown');

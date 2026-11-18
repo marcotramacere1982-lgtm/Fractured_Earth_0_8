@@ -287,6 +287,7 @@
     },
     {
       "id": "hard_stare",
+      "standsFor": ["interrogation_intimidation"],
       "name": "Hard Stare",
       "subclasses": [
         "grunt",
@@ -696,6 +697,7 @@
     },
     {
       "id": "phish",
+      "standsFor": ["deception_conning", "persuasion_social"],
       "name": "Phish",
       "subclasses": [
         "scammer"
@@ -1275,6 +1277,7 @@
     },
     {
       "id": "steady_hands",
+      "standsFor": ["medicine_first_aid"],
       "name": "Steady Hands",
       "subclasses": [
         "mechanic"
@@ -1363,6 +1366,7 @@
     },
     {
       "id": "calibrate",
+      "standsFor": ["mechanics_fabrication", "electronics_security"],
       "name": "Calibrate",
       "subclasses": [
         "engineer"
@@ -1704,6 +1708,7 @@
     },
     {
       "id": "fast_talk",
+      "standsFor": ["persuasion_social", "deception_conning"],
       "name": "Fast Talk",
       "subclasses": [
         "dealer"
@@ -2066,6 +2071,7 @@
     },
     {
       "id": "read_the_room",
+      "standsFor": ["perception_awareness", "forensics_investigation"],
       "name": "Read the Room",
       "subclasses": [
         "prowler",

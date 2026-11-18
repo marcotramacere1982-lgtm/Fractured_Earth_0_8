@@ -122,20 +122,35 @@
     }
   },
   "suggestedStats": {
-    "soldier": {
-      "description": "Costruito per resistere in prima linea, con grande capacità fisica e lucidità tattica."
+    "grunt": {
+      "description": "In prima linea: forza e un corpo che regge i colpi."
     },
-    "hacker": {
-      "description": "Specialista cerebrale: padronanza digitale, leva sociale e tenuta mentale."
+    "officer": {
+      "description": "Mani svelte e testa tattica; abbastanza duro da restare in piedi."
     },
-    "techwiz": {
-      "description": "Tecnico pragmatico con un profondo intuito per l'ambiente e grande resistenza tecnica."
+    "scammer": {
+      "description": "Codice e fascino: entra dal sistema o dalle persone."
     },
-    "smuggler": {
-      "description": "Operatore agile che conta su riflessi pronti, leva sociale e furbizia di strada."
+    "master": {
+      "description": "Dentro la macchina: conoscenza e sangue freddo."
     },
-    "scavenger": {
-      "description": "Duro da uccidere e difficile da leggere: mani svelte, pazienza e testa per gli schemi."
+    "mechanic": {
+      "description": "Pratico e resistente: aggiusta le cose sotto il fuoco."
+    },
+    "engineer": {
+      "description": "Preciso e attento: il drone è un prolungamento della mano."
+    },
+    "dealer": {
+      "description": "Mani veloci, lingua veloce."
+    },
+    "trafficker": {
+      "description": "Legge le persone e la strada; l'affare è l'arma."
+    },
+    "prowler": {
+      "description": "Passo leggero e duro da abbattere."
+    },
+    "stalker": {
+      "description": "Paziente e acuto: vede lo schema e lo aspetta."
     }
   }
 }

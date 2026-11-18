@@ -3,25 +3,35 @@
 // it, drag your own marker: in combat on your turn (one Move action, up to your move, round walls), otherwise
 // freely. The GM console checks the move again before it applies it.
 
+import { openSquares, dropLanding } from '../../rules/vertical.js'; // decision 287
 import { intelFactsView } from './intel.js';
 import { intelFor } from '../../rules/intel.js';
-import { html } from '../dom.js';
+import { html, raw } from '../dom.js';
 import { t } from '../../i18n/index.js';
 import { toast } from '../shell.js';
 import { tourDone } from '../tour.js';
 import { info as ruleInfo } from '../ref.js';
 import { createMapViewer, focusBox } from '../map/viewer.js';
 import { createSkylineViewer, hasSkyline, tileAt } from '../map/skyline.js';
+import { districtTitle, districtBody } from '../map/district-card.js'; // decision 301
+import { createTapCycle } from '../map/tap-cycle.js';
+const skyCycle = createTapCycle();
 import { marksButton, marksPanel, markHooks, marking, pickedMarkPanel } from './map-marks.js';
-import { reachable, checkMove, routeTo, lineOfSight, losCover, rangeCheck, nextToDoor } from '../../rules/map.js';
+import { checkMove, routeTo, routesFrom, lineOfSight, losCover, rangeCheck, nextToDoor } from '../../rules/map.js';
 import { interactKind, nextToProp, knowsLocked, sideOf } from '../../rules/interact.js';
 import { watchedSquares } from '../../rules/overwatch.js';
+import { sceneAbilities } from './scene-abilities.js'; // decision 322
+import { stairsAt } from '../../rules/floors.js';
+import { openChoice } from './dialogs.js';
 
 let viewer = null; // one per page: it keeps its zoom across the sheet's re-renders
 let skyView = null; // decision 123: the skyline, look only
 let sky = false;
 
-let pending = null; // { base: the map message it was sent from, to } — shown until the next map message
+let pending = null; // decision 293: { to, t } — shown until the table shows you there, refuses the move, or 8 s pass (any other map update meanwhile no longer puts you back)
+const PENDING_MS = 8000;
+/** Decision 293: the console refused your move — show where the table has you. */
+export const dropPending = () => { pending = null; };
 let target = null; // the marker tapped to check line of sight and range (step 4)
 let info = null; // { kind: 'prop' | 'laser', id } — a piece tapped to see what it is (decision 70)
 let lastSquare = ''; // where your marker was last drawn (map:x,y): arriving next to a door opens its line, however you got there
@@ -52,6 +62,13 @@ function infoPanel(map, data, id, doorUse) {
   const p = info?.kind === 'prop' ? (map.props ?? []).find((x) => x.id === info.id) : null;
   const d = p && data.props.props.find((x) => x.id === p.prop);
   if (!d) return null;
+  const dist = map.districts?.[p.id]; // decision 301: a district — what the crew knows about it
+  if (dist) {
+    return html`<section data-tour="map-target" class="map-target map-info"><div class="map-target__head"><strong>🏙 ${districtTitle(dist)}</strong>
+        <button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button></div>
+      ${dist.name ? html`<p class="muted st-small">${dist.kind}</p>` : ''}${districtBody(dist, data)}
+      <div class="cluster"><button class="btn btn--sm" data-action="mapCross" data-id="${p.id}" title="${t('district.crossHint')}">🚧 ${t('district.cross')}</button></div></section>`;
+  }
   const traits = [d.shell ? t('map.info.shell') : null, d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null,
     d.cover !== 'none' ? t(`map.cover.${d.cover}`) : null].filter(Boolean);
   return html`<section data-tour="map-target" class="map-target map-info"><div class="map-target__head"><strong>${p.caption || d.name}</strong>
@@ -126,7 +143,7 @@ function sightTo(map, data, id, tokens) {
   if (!me || !tgt) return null;
   return { me, tgt, los: lineOfSight(map, data, me, tgt, tokens.filter((tk) => tk.key !== id && tk.key !== target)) };
 }
-const shown = (map, id) => map.tokens.map((tk) => (pending && pending.base === map && tk.key === id ? { ...tk, ...pending.to } : tk));
+const shown = (map, id) => map.tokens.map((tk) => (pending && tk.key === id ? { ...tk, ...pending.to } : tk));
 
 /** Under the map: the tapped marker — distance, line of sight, and which of your weapons reach it (info only). */
 function targetPanel(map, data, s, id, combat = null, intel = null) {
@@ -178,6 +195,8 @@ function contextLine(map, data, s, id, { doorUse, mapMove }) {
   if (info?.kind === 'prop') {
     const p = (map.props ?? []).find((x) => x.id === info.id);
     const d = p && data.props.props.find((x) => x.id === p.prop);
+    const dist = d && map.districts?.[p.id]; // decision 301
+    if (dist) return line(html`<strong>🏙 ${districtTitle(dist)}</strong>${districtBody(dist, data)}<button class="btn btn--sm" data-action="mapCross" data-id="${p.id}" title="${t('district.crossHint')}">🚧 ${t('district.cross')}</button><button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
     if (d) {
       const traits = [d.blocksMove ? t('map.info.blocksMove') : d.difficult ? t('map.info.difficult') : null, d.blocksSight ? t('map.info.blocksSight') : null, d.cover !== 'none' ? t(`map.cover.${d.cover}`) : null].filter(Boolean);
       return line(html`<strong>${p.caption || d.name}</strong>${deviceState(d, p)}${interactKind(d, p) ? deviceRow(map, data, id, p, d, doorUse) : html`<span class="muted">${traits.join(' · ') || t('map.info.nothing')}</span>`}<button class="btn btn--sm btn--ghost" data-action="mapInfoClose" aria-label="${t('map.info.close')}">✕</button>`);
@@ -193,7 +212,11 @@ function contextLine(map, data, s, id, { doorUse, mapMove }) {
       ${weapons.map((w) => { const r = rangeCheck(w.range, los.squares, data); return html`<span class="map-ctx__weapon map-range--${r.status}" title="${t(`map.range.${r.status}`)}">${w.name} ${r.status === 'in' ? '✓' : '✗'}</span>`; })}
       <button class="btn btn--sm btn--ghost" data-action="mapTarget" aria-label="${t('map.target.clear')}">✕</button>`, `map-ctx--${los.result}`);
   }
-  return line(html`<span class="${mapMove && !mapMove.why ? 'is-go' : 'muted'}">${skyNow(map, data) ? t('map.sky.hint') : hint(map, mapMove)}</span>`);
+  // owner hotfix 2026-11-14: standing on a linked staircase — take it from here
+  const meNow = shown(map, id).find((tk) => tk.key === id);
+  const st = meNow && mapMove && !mapMove.why ? stairsAt(map, data, meNow, shown(map, id).filter((tk) => tk.key !== id)) : null;
+  const stairsBtn = st ? html`<button class="btn btn--sm btn--primary" data-action="mapStairs" title="${t('map.stairs.cost', { n: stairCostNow })}">${st.dir === 'down' ? '⇩' : '⇧'} ${stairWord(st)}</button>` : '';
+  return line(html`<span class="${mapMove && !mapMove.why ? 'is-go' : 'muted'}">${skyNow(map, data) ? t('map.sky.hint') : hint(map, mapMove)}</span>${stairsBtn}`);
 }
 
 /** The hint under the map: what this player can do right now. move: from moveState() */
@@ -204,8 +227,21 @@ function hint(map, move) {
   if (move.why === 'noActions') return t('map.hint.noActions');
   if (move.why === 'pressMove') return t('map.hint.pressMove', { n: move.move }); // decision 161
   if (move.combat && move.left) return t('map.hint.budget', { left: move.left, n: move.max });
-  return move.combat ? t('map.hint.turn', { n: move.max }) : t('map.hint.free');
+  return move.combat ? t('map.hint.turn', { n: move.max }) : map.careful ? t('map.hint.careful', { n: move.max }) : t('map.hint.free'); // decision 296
 }
+
+/** Owner hotfix 2026-11-14: the stairs, asked — never taken by themselves. */
+const stairWord = (st) => t(`map.stairs.${st.dir}`, { floor: st.to?.name ?? '' });
+function askStairs(st, spent, max, then, withStay) {
+  openChoice(t('map.stairs.title'), [
+    { value: 'go', label: `${st.dir === 'down' ? '⇩' : '⇧'} ${stairWord(st)}`, sub: t('map.stairs.cost', { n: stairCostNow }), why: spent + stairCostNow > max ? t('map.stairs.short') : '' },
+    ...(withStay ? [{ value: 'stay', label: t('map.stairs.stay'), quiet: true }] : []),
+  ], (v) => then(v === 'go'), { lead: withStay ? t('map.stairs.lead') : '' });
+}
+let stairCostNow = 2; // set by attachMap from the data (the context line and the window share it)
+let stairsNow = null; // attachMap's: take the staircase you stand on
+/** The context line's ⇅ button (index.js → mapStairs). */
+export const takeStairs = () => stairsNow?.();
 
 let mapCombat = false; // in a fight: opening a door costs an action (shown on its button)
 let sheetNow = null; // the character drawn (decision 255: the locks it found)
@@ -224,15 +260,48 @@ const skyNow = (map, data) => sky && hasSkyline(map, data);
  * one-line chip saying what you can do now. What you
  * tap (a marker, a piece, a door, a mark) shows in the Map bookmark beside it — mapPanel — never over the map.
  */
-export function mapTab(c, s, data, { map, id, combat, mapMove, doorUse = null, actions = null }) {
+/** Decision 319: the GM's scene picture — big over the map card, or small in its corner; the header's button swaps them.
+ *  Decision 320: big, a tap puts your pin on it (pins: everyone's on this picture, placed after drawing by placePins). */
+// Owner 2026-11-16: pins drifted from where the player tapped — they were measured in pixels before the card had its
+// final size. Now, big, the picture sits in a frame exactly its painted size (`scene-view__frame`, sized by the figure's
+// container units) and the pins sit there by percent: no measuring, no timing.
+const sceneFigure = (view, big, pins = []) => (big
+  ? html`<figure class="scene-view scene-view--pins">
+    <span class="scene-view__frame"><img src="${view.image}" alt="${view.caption || t('scene.alt')}" loading="eager" data-action="scenePin">
+    ${pins.map((p) => html`<span class="scene-pin scene-pin--c-${p.color}" data-x="${p.x}" data-y="${p.y}" title="${p.name}"><span class="scene-pin__name">${p.name}</span></span>`)}</span>
+    ${view.caption ? html`<figcaption class="scene-view__caption">${view.caption}</figcaption>` : ''}
+  </figure>`
+  : html`<figure class="scene-view"><img src="${view.image}" alt="${view.caption || t('scene.alt')}" loading="eager"></figure>`);
+
+/** Where the picture is painted: the <img> is the picture now (no bars), so its own box. */
+export function paintedRect(img) {
+  return img.getBoundingClientRect();
+}
+/** Puts the pins on the picture, by percent of the frame (which is exactly the picture): right at any size. */
+export function placePins(root) {
+  for (const pin of root.querySelectorAll('.scene-view__frame .scene-pin')) {
+    pin.style.left = `${Number(pin.dataset.x) * 100}%`;
+    pin.style.top = `${Number(pin.dataset.y) * 100}%`;
+  }
+}
+/** The swap, in the card's header: always reachable (touches on the small picture went to the map underneath). */
+const sceneButton = (scene) => html`<button class="btn btn--sm ${scene === 'small' ? 'btn--primary' : ''}" data-action="sceneSwap" title="${t('scene.toMap')}">${scene === 'big' ? `🗺 ${t('scene.map')}` : `🖼 ${t('scene.picture')}`}</button>`;
+
+export function mapTab(c, s, data, { map, id, combat, mapMove, doorUse = null, actions = null, view = null, sceneBig = true, pins = [] }) {
   mapCombat = Boolean(combat?.active);
   sheetNow = c;
+  // owner 2026-11-16: the button is always there (disabled without a pin), so the picture never moves under the finger
+  const pinned = view && pins.some((p) => p.by === id);
+  const myPin = view ? html`<button class="btn btn--sm btn--ghost" data-action="sceneUnpin" title="${t('scene.unpinHint')}" ${pinned ? '' : raw('disabled')}>📍 ${t('scene.unpin')}</button>` : '';
+  if (!map && view) return html`<section class="card map-card scene-only"><div class="cluster scene-only__bar"><span class="hint">${t('scene.pinHint')}</span>${myPin}</div>${sceneAbilities(c, s, data)}${sceneFigure(view, true, pins)}</section>`; // no map on the table: the image alone · decision 322: the abilities strip
   if (!map) return html`<div class="card"><div class="empty"><div class="empty__title">${t('map.none')}</div></div></div>`;
+  const scene = view && !combat?.active ? (sceneBig ? 'big' : 'small') : null; // a fight: the map, always
   const mine = map.tokens.find((x) => x.key === id);
-  return html`<section class="card map-card map-card--tactical ${marking() ? 'is-marking' : ''}">
-    <header class="card__head map-card__head"><h2 class="card__title" title="${map.name}">${ruleInfo('map', t('sheet.tab.map'))}<small>${mine ? t('map.youAt', { col: mine.x + 1, row: mine.y + 1 }) : t('map.notPlaced')}</small></h2>
+  return html`<section class="card map-card map-card--tactical ${marking() ? 'is-marking' : ''} ${scene ? `map-card--scene-${scene}` : ''}">
+    <header class="card__head map-card__head"><h2 class="card__title" title="${map.name}">${ruleInfo('map', t('sheet.tab.map'))}<small>${mine ? t('map.youAt', { col: mine.x + 1, row: mine.y + 1 }) : map.fog && !map.fog.seen?.length ? t('map.fogNothing') : t('map.notPlaced')}</small></h2>
       ${actions ? html`<div class="map-card__actions">${actions}</div>` : ''}
       <div class="cluster">
+        ${scene ? sceneButton(scene) : ''}${scene === 'big' ? myPin : ''}
         ${marksButton()}
         <button class="btn btn--sm btn--ghost" data-action="tour" data-id="map" title="${t('map.tourHint')}" aria-label="${t('map.tourHint')}">?</button>
         <button class="btn btn--sm" data-action="mapZoom" data-dir="out" aria-label="${t('map.zoomOut')}">−</button>
@@ -244,7 +313,9 @@ export function mapTab(c, s, data, { map, id, combat, mapMove, doorUse = null, a
       <button class="btn btn--sm btn--primary" data-action="tour" data-id="map">${t('tour.offerStart')}</button>
       <button class="btn btn--sm btn--ghost" data-action="tourSkip" data-id="map">${t('tour.offerNo')}</button></p>`}
     ${contextLine(map, data, s, id, { doorUse, mapMove })}
+    ${scene === 'big' ? sceneAbilities(c, s, data) : ''}
     <div class="map-card__body map-card__body--folded">
+      ${scene ? sceneFigure(view, scene === 'big', pins) : ''}
       <div class="map-card__stage" data-map-slot data-tour="map-stage"></div>
     </div>
   </section>`;
@@ -276,17 +347,23 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   if (skyNow(map, data)) { // look only: a tap shows the district under it
     skyView ??= createSkylineViewer({ data, prefix: 'sheetsky' });
     skyView.on.idle = onIdle;
-    skyView.on.tapSquare = (sq) => { const pid = tileAt(map, data, sq); target = null; info = pid && info?.id !== pid ? { kind: 'prop', id: pid } : null; onIdle(); };
+    skyView.on.tapSquare = (sq, hit) => { const next = hit && skyCycle.next(hit.pt, hit.tiles, info?.id); const pid = next ?? hit?.tiles[0] ?? tileAt(map, data, sq); target = null; info = pid && (next || info?.id !== pid) ? { kind: 'prop', id: pid } : null; onIdle(); }; // decision 301: tap again for the next one
     skyView.update({ key: map.id, map, tokens: map.tokens, fog: map.fog ? { mode: 'player', ...map.fog } : null });
     keepFitted(main);
     skyView.attach(main);
     return;
   }
   viewer ??= createMapViewer({ data, prefix: 'sheet', interactive: true });
-  if (pending && pending.base !== map) pending = null; // the GM answered (accepted or put it back)
+  if (pending) { // decision 293: the table has you there (accepted), or it's been too long
+    const there = map.tokens.find((tk) => tk.key === id);
+    const moved = there && (there.x !== pending.from.x || there.y !== pending.from.y); // the table has you somewhere new: its answer wins (a staircase may land you elsewhere)
+    if (!there || moved || Date.now() - pending.t > PENDING_MS) pending = null;
+  }
   const tokens = shown(map, id);
   if (target && !tokens.some((tk) => tk.key === target)) target = null; // gone from the map (or hidden again)
   const me = () => tokens.find((tk) => tk.key === id);
+  let routes = null; // decision 293: this drag's walk
+  const open = map.floors?.length ? openSquares(map, data) : null;
   const others = () => tokens.filter((tk) => tk.key !== id);
   Object.assign(viewer.on, {
     idle: onIdle,
@@ -296,22 +373,42 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
     tapDoor(wid) { info = info?.id === wid ? null : { kind: 'door', id: wid }; onIdle(); },
     tapLaser(wid) { info = info?.id === wid ? null : { kind: 'laser', id: wid }; onIdle(); },
     tapSquare() { if (target || info) { target = null; info = null; onIdle(); } },
-    reach: () => reachable(map, data, me(), move().max),
-    route: (_key, to) => (others().some((o) => o.x === to.x && o.y === to.y) ? null : routeTo(map, data, me(), to, move().max)),
+    reach: () => { routes = routesFrom(map, data, me(), move().max); return routes.steps; }, // decision 293: worked out once per drag
+    route: (_key, to) => { // decision 287: onto an opening — the route to where you land, one floor down
+      const land = map.floors?.length ? dropLanding(map, open, to) : null;
+      const at = land ?? to;
+      if (others().some((o) => o.x === at.x && o.y === at.y)) return null;
+      return routes ? routes.route(at) : routeTo(map, data, me(), at, move().max);
+    },
     readout: (n) => (n == null ? t('map.cantReach') : t('map.distance', { n, m: n * data.map.square.metres })),
     moveToken(_key, to) {
       const m = move();
       const check = m?.max ? checkMove(map, data, me(), to, m.max, others()) : { ok: false, code: 'blocked', max: 0 };
       if (!check.ok) { toast(t(`map.err.${check.code}`, { max: check.max }), 'danger'); return; }
-      to = check.to; // a linked staircase carries you to the other floor (decision 187)
-      if (onMove(to, check.steps, m.combat)) {
+      const go = (dest, steps) => {
+        if (!onMove(dest, steps, m.combat)) return;
         // decision 163: end a move beside a door and its panel opens by itself (a door left behind closes its panel)
-        const door = map.walls.find((w) => w.kind === 'door' && nextToDoor(to, w));
+        const door = map.walls.find((w) => w.kind === 'door' && nextToDoor(dest, w));
         if (door) info = { kind: 'door', id: door.id }; else if (info?.kind === 'door') info = null;
-        pending = { base: map, to }; onIdle();
-      }
+        pending = { to: dest, from: { x: me().x, y: me().y }, t: Date.now() }; onIdle();
+      };
+      // owner hotfix 2026-11-14: ending on a linked staircase asks — up / down, or stay here
+      const stairs = check.dropped ? null : stairsAt(map, data, check.to, others());
+      if (!stairs) { go(check.to, check.steps); return; }
+      askStairs(stairs, check.steps, m.max, (take) => (take ? go(stairs.land, check.steps + stairCostNow) : go(check.to, check.steps)), true);
     },
   });
+  // owner hotfix 2026-11-14: already on a staircase — the context line's ⇅ button takes it (its cost in squares)
+  stairCostNow = data.map.floors?.linkCost ?? 2;
+  stairsNow = () => {
+    const m = move();
+    const st = stairsAt(map, data, me(), others());
+    if (!st || !m?.max) return;
+    askStairs(st, 0, m.max, (take) => {
+      if (!take || !onMove(st.land, stairCostNow, m.combat)) return;
+      pending = { to: st.land, from: { x: me().x, y: me().y }, t: Date.now() }; onIdle();
+    }, false);
+  };
   // arriving next to a door by any way (spawned there, moved by the GM, a new map) opens its line, as your own move does
   const here = me() ? `${map.id}:${me().x},${me().y}` : '';
   if (here !== lastSquare) {
@@ -324,7 +421,7 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   const sight = sightTo(map, data, id, tokens);
   const mine = tokens.find((tk) => tk.key === id);
   const watch = overwatch?.dir && mine ? watchedSquares(map, data, mine, overwatch.dir, overwatch.reach) : []; // decision 251: where you are looking
-  viewer.update({ key: map.id, map, tokens, you: id, watch, watchOwn: true, fog: map.fog ? { mode: 'player', ...map.fog, light: map.light ?? null } : null, focus: focusBox(map, map.fog?.seen, tokens), sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
+  viewer.update({ key: map.id, map, tokens, you: id, follow: id, /* decision 287: the floor you're on */ watch, watchOwn: true, fog: map.fog ? { mode: 'player', ...map.fog, light: map.light ?? null } : null, focus: focusBox(map, map.fog?.seen, tokens), sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
   keepFitted(main); // before attaching, so the viewer fits the final size
   viewer.attach(main);
 }

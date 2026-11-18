@@ -82,7 +82,7 @@ export function classBar(c, s, data) {
   if (!c.classId || !s.class) return '';
   const { r, equipped, chores } = engineSnapshot(c, s, data);
   const ready = equipped.filter((a) => a.check.ok).length;
-  return html`<section class="cbar ${folded ? 'is-folded' : ''}" aria-label="${t('cbar.title')}" data-tour="engine-resource">
+  return html`<section class="cbar ${folded ? 'is-folded' : ''}" aria-label="${t('cbar.title')}" data-tour="class-bar">
     <div class="cbar__meter">${meter(c, s, data, r)}</div>
     ${folded ? html`<span class="cbar__count muted st-small">${t('cbar.ready', { n: ready, of: equipped.length })}</span>` : html`
       <div class="cbar__tiles">${equipped.length ? equipped.map((a) => tile(c, s, data, a, r)) : html`<p class="muted st-small">${t('engine.nothingEquipped', { n: s.abilityLimit, resource: '' })}</p>`}</div>

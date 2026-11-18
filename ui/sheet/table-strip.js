@@ -4,6 +4,7 @@
 
 import { html, raw } from '../dom.js';
 import { t, tn } from '../../i18n/index.js';
+import { band } from '../../rules/turn-counters.js'; // decision 318
 
 const ico = (data, id) => (data.icons[id] ? html`<span class="ico" aria-hidden="true">${raw(data.icons[id])}</span>` : '');
 const mmss = (ms) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
@@ -12,7 +13,7 @@ const mmss = (ms) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${Ma
 export const timerLeft = (timer) => (timer?.state === 'running' ? (timer.endsAt ?? 0) - (Date.now() - (timer.skew ?? 0)) : timer?.state === 'paused' ? timer.leftMs ?? 0 : 0);
 
 /** env: the table's environment (or null) · timer: the table's timer, if it's for this character · countdowns: from the fight. */
-export function tableStrip(data, { env = null, timer = null, countdowns = [] } = {}) {
+export function tableStrip(data, { env = null, timer = null, turns = null, countdowns = [] } = {}) {
   const weather = env?.weather && data.environment.weather.find((w) => w.id === env.weather);
   const hazards = (env?.hazards ?? []).map((id) => data.environment.hazards.find((h) => h.id === id)).filter(Boolean);
   const when = [env?.date, env?.time].filter(Boolean).join(' · ');
@@ -24,6 +25,7 @@ export function tableStrip(data, { env = null, timer = null, countdowns = [] } =
     hazards.length ? html`<span class="strip__item strip__hazards">${hazards.map((h) => html`<span class="strip__hazard" title="${h.name}">${ico(data, `haz_${h.id}`)}<span class="strip__word">${h.name}</span></span>`)}</span>` : '',
     timer && timer.state !== 'off' ? html`<span class="strip__item strip__timer ${timer.state === 'done' || (timer.state === 'running' && timerLeft(timer) <= 0) ? 'is-up' : ''}">${ico(data, 'timer')}<strong>${timer.label}</strong>
       <span class="mono strip__left" ${timer.state === 'running' ? raw(`data-ends="${timer.endsAt}" data-skew="${timer.skew ?? 0}"`) : ''}>${timer.state === 'done' ? t('strip.timeUp') : mmss(timerLeft(timer))}</span>${timer.state === 'paused' ? html`<span class="muted">${t('strip.paused')}</span>` : ''}</span>` : '',
+    turns ? html`<span class="strip__item strip__turns strip__turns--${band(turns.value)}">${ico(data, 'countdown')}<strong>${turns.label}</strong> <span class="mono">${tn('strip.turns', turns.value)}</span></span>` : '', // decision 318
     ...countdowns.map((c) => html`<span class="strip__item strip__countdown">${ico(data, 'countdown')}${tn('strip.rounds', c.left)} — <strong>${c.label}</strong></span>`),
   ].filter(Boolean);
   return parts.length ? html`<div class="strip" role="status" aria-label="${t('strip.label')}">${parts}</div>` : '';

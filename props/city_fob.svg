@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <!-- A forward operating base: a sandbag ring, a pad, a mast. A quarter of a square. City scale: laid inside a district. -->
+  <path d="M5 25 A20 20 0 1 0 45 25 A20 20 0 1 0 5 25 Z" fill="currentColor" fill-opacity="0.12" stroke="none"/>
+  <path class="detail" d="M5 25 A20 20 0 1 0 45 25 A20 20 0 1 0 5 25 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 2"/>
+  <path class="detail" d="M22 30 A8 8 0 1 0 38 30 A8 8 0 1 0 22 30 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M27 30 H33 M30 27 V33" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="solid" d="M11 12 H21 V18 H11 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  <path class="solid" d="M16 21 H19 V24 H16 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+</svg>

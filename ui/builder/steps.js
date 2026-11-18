@@ -137,17 +137,19 @@ export const STEPS = [
       const c = draft.character;
       const rules = data.attributes.creation;
       const left = pointsRemaining(c.attributes, rules);
-      const ranked = recs(draft, data);
-      // quiz picks first, then every other class
-      const suggestions = [...ranked.map((r) => r.classId), ...Object.keys(data.quiz.suggestedStats)]
-        .filter((v, i, list) => list.indexOf(v) === i);
+      // a spread per subclass (its two class stats first): what you aim at and its sibling; with no aim, every one
+      const aimed = aim(draft, data);
+      const suggestions = Object.entries(data.quiz.suggestedStats)
+        .filter(([, v]) => !aimed || v.classId === aimed.cls.id)
+        .sort(([a], [b]) => (b === aimed?.sub.id) - (a === aimed?.sub.id))
+        .map(([sub, v]) => ({ sub, ...v, label: `${nameOf(data.classes.classes, v.classId)} · ${findSubclass(data.classes, sub)?.sub.name ?? sub}` }));
       const s = deriveSheet(c, data);
       const key = aim(draft, data)?.sub.stats ?? []; // decision 169: the two stats the class rolls on
       return html`
         <div class="b-attr-layout">
           <div class="stack">
             <div class="b-pool ${left === 0 ? 'is-done' : left < 0 ? 'is-over' : ''}"><span class="label">${t('builder.pointsLeft')}</span><span class="b-pool__n">${left}</span></div>
-            <div class="cluster"><span class="label">${t('builder.suggested')}</span>${suggestions.map((id, i) => html`<button class="btn btn--sm ${i < ranked.length && ranked.length ? 'btn--primary' : ''}" data-action="suggest" data-class="${id}">${nameOf(data.classes.classes, id)}</button>`)}</div>
+            <div class="cluster"><span class="label">${t('builder.suggested')}</span>${suggestions.map((x) => html`<button class="btn btn--sm ${x.sub === aimed?.sub.id ? 'btn--primary' : ''}" data-action="suggest" data-sub="${x.sub}" title="${x.description}">${x.label}</button>`)}</div>
             <div class="b-attrs">
               ${data.attributes.attributes.map((a) => html`
                 <div class="b-attr ${key.includes(a.id) ? 'b-attr--key' : ''}" ${hint('attr', a.id)}>

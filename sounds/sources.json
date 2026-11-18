@@ -1,0 +1,16 @@
+{
+  "toggle": "Kenney/UI/switch13.ogg",
+  "done": "Kenney/UI/switch6.ogg",
+  "refused": "Kenney/Digital/lowRandom.ogg",
+  "success": "Kenney/Digital/powerUp6.ogg",
+  "fail": "Kenney/Digital/phaserDown3.ogg",
+  "crit": "Kenney/Digital/zapThreeToneUp.ogg",
+  "fumble": "Kenney/Digital/zapThreeToneDown.ogg",
+  "cash": "Kenney/RPG/handleCoins.ogg",
+  "item": "Kenney/RPG/bookPlace1.ogg",
+  "dice": "Kenney/RPG/handleSmallLeather2.ogg",
+  "turn": "Kenney/Digital/threeTone1.ogg",
+  "message": "Kenney/Digital/pepSound2.ogg",
+  "hit": "Kenney/Impact/impactPunch_medium_000.ogg",
+  "spotted": "Kenney/Sci_fi/forceField_000.ogg"
+}

@@ -46,7 +46,7 @@
     },
     "cover": {
       "title": "Copertura",
-      "text": "La copertura è armatura: parziale +2, totale +4, su ogni colpo. Non si incrina mai. Chi è preso di fianco la perde."
+      "text": "La copertura è armatura: parziale +2, totale +4, su ogni colpo. Un elemento copre solo chi ci sta subito dietro (sul suo quadretto o su quello accanto, e non più vicino all'attaccante). Non si incrina mai. Chi è preso di fianco la perde."
     },
     "armor": {
       "title": "Armatura",
@@ -134,7 +134,7 @@
     },
     "downtime": {
       "title": "Downtime",
-      "text": "Tra una missione e l'altra: tornano HP e armatura (anche le ferite, se passa abbastanza tempo), le spese di vita vengono mostrate da sistemare al tavolo, e ogni giocatore riceve un evento della sua storia. La pressione del debito sale di 1 a ogni downtime; una rata la abbassa."
+      "text": "Tra una missione e l'altra: tornano HP e armatura (anche le ferite, se passa abbastanza tempo), il lavoro ufficiale paga, e ogni giocatore riceve un evento della sua storia: spunta un'opzione nel Dossier e paga lì le spese di vita (contanti, Credit Score o metà e metà). La pressione del debito sale di 1 a ogni downtime; una rata o un'opzione la abbassano."
     },
     "crew": {
       "title": "Squadra e Unity",

@@ -323,6 +323,13 @@
 .dt-event__title { font-family: var(--font-ui); font-weight: 700; }
 .dt-event__text { margin: 0; }
 .dt-event__options { margin: var(--space-1) 0 0; padding-left: var(--space-4); font-size: var(--text-sm); }
+.dt-choice { align-items: stretch; text-align: left; white-space: normal; font-weight: 400; } /* decision 332: an option to tick */
+.dt-choice__text { display: block; }
+.dt-wallet { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); } /* owner 2026-11-16: what you can pay with */
+.dt-receipt { margin: 0; padding: var(--space-2) var(--space-3); list-style: none; display: flex; flex-direction: column; gap: var(--space-1); border-left: 3px solid var(--color-success); background: var(--color-success-soft); border-radius: var(--radius-sm); font-size: var(--text-sm); } /* owner 2026-11-16: what this downtime did */
+.dt-choice.is-on { border-color: var(--color-accent); background: var(--color-accent-soft); } /* decision 333: my crew vote */
+.dt-chosen { margin: 0; padding: var(--space-2); border-left: 3px solid var(--color-success); background: var(--color-success-soft); border-radius: var(--radius-sm); }
+.dt-event__options .is-chosen { color: var(--color-success); font-weight: 600; }
 .dt-report { margin: var(--space-2) 0 0; padding-left: var(--space-4); font-size: var(--text-sm); }
 .dt-pressure { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-3); }
 .dt-pressure__track { display: inline-flex; gap: var(--space-1); }
@@ -606,6 +613,36 @@
 .avatar--xs { width: 2rem; height: 2rem; }
 .map-card__body { position: relative; }
 .map-card__body--folded { grid-template-columns: minmax(0, 1fr); }
+/* decision 320: a found thing's note in the loot window */
+/* decision 320, step 3: players' pins on the scene picture */
+.scene-view img[data-action="scenePin"] { cursor: crosshair; }
+.scene-pin { position: absolute; width: var(--space-4); height: var(--space-4); margin: calc(var(--space-4) / -2) 0 0 calc(var(--space-4) / -2); border-radius: 50%; border: calc(var(--border-width) * 2) solid var(--color-bg); box-shadow: var(--shadow-1); pointer-events: none; z-index: 1; }
+.scene-pin__name { position: absolute; left: 50%; top: 100%; transform: translateX(-50%); margin-top: var(--space-1); white-space: nowrap; font-size: var(--text-xs); padding: 0 var(--space-1); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--color-bg) 80%, transparent); color: var(--color-text); }
+.scene-only__bar { margin: var(--space-2); }
+/* decision 322: what you can do here — the out-of-fight abilities under the scene picture's header */
+.scene-abilities { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin: 0 var(--space-2) var(--space-2); }
+.scene-pin--c-magenta { background: var(--color-mark-magenta); }
+.scene-pin--c-coral { background: var(--color-mark-coral); }
+.scene-pin--c-lime { background: var(--color-mark-lime); }
+.scene-pin--c-periwinkle { background: var(--color-mark-periwinkle); }
+.scene-pin--c-sand { background: var(--color-mark-sand); }
+.scene-pin--c-white { background: var(--color-mark-white); }
+.loot-note { font-style: italic; }
+/* decision 319: the GM's scene image — big with the live map in a corner, or a thumbnail over the map */
+.scene-view { margin: 0; position: relative; background: var(--color-surface-2); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.scene-view img { width: 100%; height: 100%; object-fit: contain; display: block; }
+/* owner 2026-11-16: big, the frame is exactly the painted picture (container units of the figure), pins by percent */
+.scene-view--pins { container-type: size; }
+.scene-view__frame { position: relative; display: block; line-height: 0; }
+.scene-view--pins .scene-view__frame img { width: auto; height: auto; max-width: 100cqw; max-height: 100cqh; object-fit: fill; }
+.scene-view__caption { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--space-2) var(--space-3); background: color-mix(in srgb, var(--color-bg) 75%, transparent); font-size: var(--text-lg); }
+.map-card.map-card--scene-big .map-card__body { height: var(--map-fit, clamp(18rem, calc(100dvh - var(--header-h) - 17rem), 52rem)); }
+.map-card--scene-big .scene-view { height: 100%; }
+.map-card.map-card--scene-big .map-card__stage, .map-card.map-card--scene-small .scene-view { position: absolute; right: var(--space-2); bottom: var(--space-2); width: min(30%, 20rem); height: min(32%, 14rem); z-index: 2; border: var(--border-width) solid var(--color-accent); border-radius: var(--radius-md); box-shadow: var(--shadow-1); overflow: hidden; }
+.map-card--scene-big .scene-view__caption { right: calc(min(30%, 20rem) + var(--space-3)); }
+.map-card--scene-small .scene-view { pointer-events: none; } /* a thumbnail: the header button swaps */
+.map-card--scene-small .scene-view img { object-fit: cover; }
+.scene-only .scene-view { height: calc(100dvh - var(--header-h) - 10rem); min-height: 18rem; }
 .map-card__float { position: absolute; top: var(--space-2); right: var(--space-2); z-index: 5; width: min(20rem, 60%); max-height: calc(100% - var(--space-4)); overflow-y: auto; background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); }
 .map-card__float > :first-child { border-top: none; }
 /* decision 168: placed beside the tap (or where you dragged it); the title row is the handle */
@@ -866,6 +903,12 @@
 .sheet-secs { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
 .sheet-sec { border: var(--border-width) var(--panel-border-style) var(--panel-border); border-radius: var(--radius-lg); background: var(--panel-deco), var(--panel-bg); box-shadow: var(--panel-shadow); scroll-margin-top: var(--space-6); }
 .sheet-sec[open] { border-color: var(--color-border-strong); }
+/* owner hotfix 2026-11-14: in a fight, what is played on the Tactical tab is locked here */
+.sheet-sec--locked { opacity: 0.6; }
+.sheet-sec--locked > .sheet-sec__head { cursor: default; }
+.sheet-sec--locked > .sheet-sec__head::before { content: '🔒'; }
+.sheet-index__item:disabled { opacity: 0.5; cursor: not-allowed; }
+.sheet-fight { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); }
 .sheet-sec__head { display: flex; align-items: baseline; flex-wrap: nowrap; gap: var(--space-1) var(--space-3); min-height: var(--touch); padding: var(--space-2) var(--space-4); cursor: pointer; list-style: none; }
 .sheet-sec__head::-webkit-details-marker { display: none; }
 .sheet-sec__head::before { content: '▸'; color: var(--color-text-muted); }
@@ -891,6 +934,9 @@
 .strip__timer { color: var(--color-accent); }
 .strip__timer.is-up { color: var(--color-danger); font-weight: 700; }
 .strip__countdown { color: var(--color-warning); }
+.strip__turns--ok { color: var(--color-success); } /* decision 318: the GM's turn counter — 3+ green, 2 yellow, 1–0 red */
+.strip__turns--warn { color: var(--color-warning); }
+.strip__turns--danger { color: var(--color-danger); font-weight: 700; }
 @media (max-width: 720px) { .strip__word { display: none; } } /* small screens: icons, the names on hover */
 
 /* decision 251: the overwatch direction — eight arrows round your marker */
@@ -907,3 +953,9 @@
 .strain-table .mono { display: inline-block; min-width: 1.5em; color: var(--color-accent); }
 .strain-die { justify-content: center; }
 .meter__fill--warning { background: var(--color-warning); }
+
+/* decision 299: a document handout — set out like the manual, framed like paper */
+.doc-paper { max-width: 70ch; margin-inline: auto; padding: var(--space-4) var(--space-5); background: var(--color-surface-2); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-1); }
+.transmission__doc { margin-top: var(--space-2); }
+/* owner 2026-11-14: Essentials — a basic you already carry */
+.row--done { opacity: 0.7; }

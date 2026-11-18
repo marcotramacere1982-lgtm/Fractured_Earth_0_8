@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Water in the bottom-right corner behind a curved bank. City scale: a square is a district. -->
+  <path d="M0 0 H100 V100 H0 Z" fill="currentColor" fill-opacity="0.14" stroke="none"/>
+  <path d="M100 35 C62 35 35 62 35 100 H100 Z" fill="currentColor" fill-opacity="0.4" stroke="none"/>
+  <path class="detail" d="M100 35 C62 35 35 62 35 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M70 75 C74 72 78 78 82 75" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

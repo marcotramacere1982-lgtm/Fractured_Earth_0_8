@@ -1,0 +1,21 @@
+{
+  "note": "Decision 331 (owner, 2026-11-15): official work. A job never quite pays for a normal life — it slows the Credit Score's bleed, nothing more (the bare minimum to stay in the system is ~7 CRS a month). Pay per month of downtime, by career family; Gig work anyone can take (half pay, no trust); trust builds with unbroken in-world months on the books. Debts take a share of the cash wage (`garnish`, a debt may set its own). Numbers are the owner's to tune.",
+  "statuses": [
+    { "id": "employed", "name": "Employed", "desc": "On the books: a registered job." },
+    { "id": "gig", "name": "Gig", "desc": "Registered, short-term work — anyone can get it; half pay, no trust." },
+    { "id": "student", "name": "Student", "desc": "Enrolled: a small stipend." },
+    { "id": "unregistered", "name": "Unregistered", "desc": "Off the books: no official income." },
+    { "id": "flagged", "name": "Flagged", "desc": "The system is watching: no official income, and every official step is scrutinised." }
+  ],
+  "families": [
+    { "id": "office", "name": "Office · science · media", "categories": ["Administration / Economy / Law", "Science / Construction", "Media"], "crs": 6, "cash": 300 },
+    { "id": "security", "name": "Security · military", "categories": ["Security / Investigation", "Military / Law Enforcement", "Military Special Force"], "crs": 5, "cash": 350 },
+    { "id": "wage", "name": "Wage work", "categories": ["Franchiser / Wage Slave"], "crs": 4, "cash": 250 },
+    { "id": "student", "name": "Study", "categories": ["Student"], "crs": 2, "cash": 0 },
+    { "id": "street", "name": "Off the books", "categories": ["Criminal", "Unemployed"], "crs": 0, "cash": 0 }
+  ],
+  "gig": { "crs": 3, "cash": 150 },
+  "trust": { "everyMonths": 2, "step": 1, "max": 2 },
+  "garnish": 0.2,
+  "flaggedBelow": 10
+}

@@ -4,12 +4,14 @@
 import { noteLock } from '../rules/interact.js';
 import { cleanPuzzle, cleanClue } from '../ui/puzzle-view.js'; // decisions 243, 247
 import { uid } from '../state/id.js';
+import { stashFor } from '../rules/crew-stash.js'; // decision 326
 import { t } from '../i18n/index.js';
 
 const JOINED = 'fe.table.joined';
 const TURN_CUE = 'fe.table.turnCue'; // last turn chimed (combat:round), so a reload or reconnect doesn't chime again
 const MAP_CUE = 'fe.table.mapCue'; // last table map announced, so a reconnect doesn't announce it again
 const SYNC_DELAY = 700;
+const LAZY_DELAY = 15000; // decision 293: map memories
 
 const setPath = (obj, path, value) => {
   const keys = path.split('.');
@@ -27,7 +29,17 @@ export function createTableLink(store, hooks) {
   // crew: the shared trust track; unity: the open Unity Check; myVotes: this sheet's ballot per check (decision 47)
   // map: the table map the GM is showing (decision 64), already filtered by the server-side public view
   // light: the GM's table-wide switch, true = dark (decision 76)
-  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {}, marks: null, stashes: [], prepare: null, environment: null, timer: null }; // marks: { map, list, skew } (decision 82; skew = this clock − the server's)
+  // decision 326: what this sheet sees depends on its home crew — its crew's trust track, its crew's stashes
+  let allStashes = [];
+  let crewMsg = null;
+  const myCrew = () => state.crews?.home?.[state.joinedId] ?? null;
+  function mine() {
+    const h = myCrew();
+    state.stashes = allStashes.filter((s) => stashFor(s, h));
+    const tr = h && crewMsg?.tracks?.[h];
+    state.crew = crewMsg ? (tr ? { value: tr.value, band: tr.band } : { value: crewMsg.value, band: crewMsg.band }) : null;
+  }
+  const state = { available: false, joinedId: null, online: false, difficulty: null, combat: null, crew: null, unity: null, map: null, light: false, myVotes: {}, crewVotes: (() => { try { return JSON.parse(localStorage.getItem('fe.crewVotes')) ?? {}; } catch { return {}; } })(), /* decision 333 */ marks: null, stashes: [], prepare: null, environment: null, timer: null, turns: null, view: null, loot: null, viewPins: {}, market: null, crews: null }; // market: the GM's street markup (owner hotfix 2026-11-14) // marks: { map, list, skew } (decision 82; skew = this clock − the server's)
   const listeners = new Set();
   const handled = new Set(); // message ids already applied (the server re-sends until acknowledged)
   let source = null;
@@ -43,7 +55,10 @@ export function createTableLink(store, hooks) {
       await fetch('/api/table/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character, app: document.querySelector('meta[name="fe-table"]')?.content ?? null }) });
     } catch { /* server gone: EventSource reconnect will re-sync */ }
   }
-  const schedule = () => { clearTimeout(timer); timer = setTimeout(push, SYNC_DELAY); };
+  const schedule = () => { clearTimeout(timer); dueAt = Date.now() + SYNC_DELAY; timer = setTimeout(push, SYNC_DELAY); };
+  let dueAt = 0;
+  /** Decision 293: a quiet change (map memories, after every map update) goes with the next real one, or in 15 s. */
+  const scheduleLazy = () => { if (timer && dueAt > Date.now()) return; dueAt = Date.now() + LAZY_DELAY; clearTimeout(timer); timer = setTimeout(push, LAZY_DELAY); };
 
   const ack = (id, mid) => fetch('/api/table/ack', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, mids: [mid] }) })
     .catch(() => { /* not confirmed: the server re-sends on reconnect and `handled` drops the copy */ });
@@ -77,12 +92,13 @@ export function createTableLink(store, hooks) {
           }
           c.play.inbox = [{ id: mid, t: Date.now(), text: msg.text ?? '', private: Boolean(msg.private), tone: msg.tone === 'hit' ? 'hit' : null,
             image: typeof msg.image === 'string' && msg.image.startsWith('/api/table/handout?') ? msg.image : null,
+            ...(typeof msg.doc === 'string' && msg.doc.startsWith('/api/table/handout?') ? { doc: msg.doc, docTitle: String(msg.docTitle ?? '').slice(0, 80) } : {}), // decision 299: a document
             ...(cleanPuzzle(msg.puzzle) ? { puzzle: cleanPuzzle(msg.puzzle) } : {}),
             ...(pc ? { puzzleClue: { kind: String(msg.puzzleClue.kind ?? ''), clue: pc } } : {}) }, ...(c.play.inbox ?? [])].slice(0, 20); // decision 243: a puzzle to solve; 247: a clue whose puzzle they closed
           if (typeof msg.image === 'string' && msg.image.startsWith('/api/table/handout?')) { // decision 279: kept for the board after the message is dismissed
             c.play.pictures = [{ image: msg.image, title: String(msg.text ?? '').split(/\r?\n/)[0].slice(0, 60), t: Date.now() }, ...(c.play.pictures ?? []).filter((p) => p.image !== msg.image)].slice(0, 40);
           }
-          hooks.log(c, `${msg.tone === 'hit' ? 'HIT' : msg.private ? 'GM (private)' : 'GM'}: ${[msg.text, msg.image ? '[image]' : '', msg.puzzle ? `[puzzle: ${msg.puzzle.kind}]` : ''].filter(Boolean).join(' ')}`, msg.tone === 'hit' ? 'bad' : 'warn');
+          hooks.log(c, `${msg.tone === 'hit' ? 'HIT' : msg.private ? 'GM (private)' : 'GM'}: ${[msg.text, msg.image ? '[image]' : '', msg.doc ? `[document: ${String(msg.docTitle ?? '').slice(0, 80)}]` : '', msg.puzzle ? `[puzzle: ${msg.puzzle.kind}]` : ''].filter(Boolean).join(' ')}`, msg.tone === 'hit' ? 'bad' : 'warn');
         });
         hooks.notify?.(msg.tone === 'hit' ? 'hit' : 'message');
         break;
@@ -122,7 +138,13 @@ export function createTableLink(store, hooks) {
         if (out?.gift) hooks.toast(t('progress.giftToast', { name: out.gift }), 'success');
         if (out?.open) hooks.toast(t('progress.openToast'), 'success');
         if (out?.refill) hooks.toast(t('progress.refillToast'), 'success');
+        if (out?.acts) hooks.toast(t(out.acts > 0 ? 'progress.actGiven' : 'progress.actTaken'), out.acts > 0 ? 'success' : 'danger'); // owner hotfix 2026-11-14
         if (out) hooks.notify?.('message');
+        break;
+      }
+      case 'gmInventory': { // decision 313: the GM added / took / threw away something in this sheet's inventory
+        const what = id ? hooks.gmInventory?.(id, msg) : null;
+        if (what) hooks.toast(t('table.gmInventory', { what }), 'success');
         break;
       }
       case 'grant': // decision 276: the GM's 🎁 Give — a card to accept, like a message
@@ -150,9 +172,12 @@ export function createTableLink(store, hooks) {
         hooks.notify?.('turn');
         emit();
         break;
+      case 'hold': // decision 296: something picked someone up — everyone holds until the GM lets them go on
+        if (id) { hooks.toast(t('map.hold'), 'danger'); hooks.notify?.('message'); }
+        break;
       case 'contact': // decision 211: a waiting enemy was seen — the GM stops movement; the sheet shows it mid-screen
         state.contact = Number(msg.at) || Date.now();
-        hooks.notify?.('message');
+        hooks.notify?.('spotted'); // decision 314
         emit();
         break;
       case 'breath': // decision 273: a Submerged zone — a hold starts (or air, when they leave)
@@ -166,6 +191,9 @@ export function createTableLink(store, hooks) {
         break;
       case 'ping': // what your ping found, from the GM's console (decision 170)
         if (id && hooks.ping?.(id, msg)) { hooks.toast(t(msg.wipe ? 'ping.wiped' : msg.ok ? 'ping.toast' : 'ping.nothing'), msg.ok || msg.wipe ? 'success' : 'danger'); hooks.notify?.('message'); }
+        break;
+      case 'campaign': // decision 284: the GM switched campaign — start again from the new one's table state
+        location.reload();
         break;
       case 'version': { // decision 234: the table runs another app than this tab (opened before an update): reload
         const mine = document.querySelector('meta[name="fe-table"]')?.content;
@@ -203,8 +231,34 @@ export function createTableLink(store, hooks) {
         emit();
         break;
       }
+      case 'viewPins': // decision 320, step 3: the players' pins on a scene picture
+        state.viewPins = { ...state.viewPins, [msg.view]: Array.isArray(msg.list) ? msg.list : [] };
+        emit();
+        break;
+      case 'loot': // decision 320: the GM opened a container / a story point here — a window with what's in it
+        state.loot = { stash: msg.stash, name: msg.name ?? '', n: Date.now() };
+        hooks.notify?.('item');
+        emit();
+        break;
+      case 'view': { // decision 319: the scene image the GM shows this character — big on the Map tab, the map in a corner
+        const was = state.view;
+        state.view = msg.state === 'off' || !msg.image ? null : { id: msg.id, image: msg.image, caption: msg.caption ?? '' };
+        if (state.view && was?.id !== state.view.id) hooks.notify?.('message');
+        emit();
+        break;
+      }
+      case 'turns': { // decision 318: the GM's main turn counter — for everyone, or for some characters
+        const mine = id && msg.state === 'on' && (!msg.to || msg.to.includes(id));
+        const was = state.turns;
+        state.turns = mine ? { label: msg.label, value: msg.value, start: msg.start } : null;
+        if (state.turns && !was) { hooks.notify?.('turn'); hooks.toast(t('strip.turnsToast', { label: msg.label, n: msg.value }), 'success'); }
+        emit();
+        break;
+      }
       case 'moveRefused': // decision 232: your move arrived after the GM stopped movement (or it isn't your turn): the marker went back
-        if (id) hooks.toast(t(msg.why === 'turn' ? 'map.refused.turn' : 'map.refused.stopped'), 'danger');
+        hooks.moveRefused?.(); // decision 293: the marker goes back to where the table has it
+        if (id) hooks.toast(t(msg.why === 'turn' ? 'map.refused.turn' : msg.why === 'stopped' ? 'map.refused.stopped' : 'map.refused.blocked'), 'danger');
+        emit();
         break;
       case 'prepare': { // decision 232: the GM prepares a fight — the get-ready window, with initiative; gm: the sheets the GM took over
         const was = state.prepare;
@@ -224,14 +278,21 @@ export function createTableLink(store, hooks) {
         if (id && hooks.backstory?.(id, msg)) { hooks.toast(t('table.backstoryToast'), 'success'); hooks.notify?.('message'); }
         break;
       case 'downtime': // the GM's downtime report (decision 46)
-        if (id && hooks.downtime?.(id, msg)) { hooks.toast(t('downtime.toast'), 'success'); hooks.notify?.('message'); }
+        if (id && hooks.downtime?.(id, msg)) { hooks.toast(t(msg.op === 'jobAnswer' ? `downtime.work.answer.${msg.answer}` : msg.op ? 'downtime.updateToast' : 'downtime.toast'), msg.answer === 'down' ? 'danger' : 'success'); hooks.notify?.('message'); } // decision 333: op = the GM's crew result / a reopened choice
         break;
       case 'stashes': // the crew's shared stashes (decision 145)
-        state.stashes = Array.isArray(msg.list) ? msg.list : [];
+        allStashes = Array.isArray(msg.list) ? msg.list : [];
+        mine();
         emit();
         break;
       case 'crew':
-        state.crew = { value: msg.value, band: msg.band };
+        crewMsg = msg;
+        mine();
+        emit();
+        break;
+      case 'crews': // decision 326: the campaign's crews, who's home where, tonight's roster
+        state.crews = { list: Array.isArray(msg.list) ? msg.list : [], home: msg.home && typeof msg.home === 'object' ? msg.home : {}, tonight: msg.tonight ?? null };
+        mine();
         emit();
         break;
       case 'unity':
@@ -240,6 +301,10 @@ export function createTableLink(store, hooks) {
         break;
       case 'light':
         state.light = msg.dark === true;
+        emit();
+        break;
+      case 'market': // owner hotfix 2026-11-14: the street markup, set by the GM for the whole table
+        state.market = Number.isFinite(msg.markup) ? msg.markup : null;
         emit();
         break;
       case 'map': {
@@ -346,6 +411,11 @@ export function createTableLink(store, hooks) {
      * A crew stash (decision 145): { op: put | take | putCash | takeCash, stash, unit | kind + id, label, amount }.
      * @returns the server's answer ({ ok, unit?, amount?, stash?, why? }); why 'offline' when it can't be reached.
      */
+    /** Decision 320: this character's pin on the scene picture (x, y: 0–1), or off (null). */
+    async viewPin(view, x = null, y = null) {
+      if (!state.joinedId) return false;
+      try { return (await fetch('/api/table/view-pin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, view, x, y }) })).ok; } catch { return false; }
+    },
     async stash(op) {
       if (!state.joinedId) return { ok: false, why: 'offline' };
       try {
@@ -390,6 +460,14 @@ export function createTableLink(store, hooks) {
       if (!state.joinedId) return false;
       try {
         const res = await fetch('/api/table/whisper', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, text }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 303: try to cross into a district on the city map — the GM decides. @returns true when sent. */
+    async cross(map, prop) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/cross', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, map, prop }) });
         return res.ok;
       } catch { return false; }
     },
@@ -442,6 +520,22 @@ export function createTableLink(store, hooks) {
         return res.ok;
       } catch { return false; }
     },
+    /** Owner 2026-11-16: a job application — the GM answers from Activity or the Downtime window. */
+    async jobApply(careerId) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/job-apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, careerId }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 332: a downtime choice / roll / payment, to the GM's Activity and session log. */
+    async downtimeNote(text) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/downtime-note', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, text }) });
+        return res.ok;
+      } catch { return false; }
+    },
     async rollResult(r) {
       if (!state.joinedId) return false;
       try {
@@ -457,6 +551,17 @@ export function createTableLink(store, hooks) {
       } catch { return false; }
     },
 
+    /** Decision 333: a secret vote on the crew's downtime event (an option's index); it can change until the GM confirms. */
+    async crewVote(batch, index) {
+      if (!state.joinedId) return false;
+      state.crewVotes = { ...state.crewVotes, [batch]: index };
+      try { localStorage.setItem('fe.crewVotes', JSON.stringify(state.crewVotes)); } catch { /* private mode */ }
+      emit();
+      try {
+        const res = await fetch('/api/table/crew-vote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ character: state.joinedId, batch, index }) });
+        return res.ok;
+      } catch { return false; }
+    },
     /** A secret Unity Check ballot: back · object · abstain. It can change until the GM reveals the tally. */
     async vote(check, vote) {
       state.myVotes = { ...state.myVotes, [check]: vote };
@@ -504,6 +609,7 @@ export function createTableLink(store, hooks) {
     },
     connect(id) {
       state.joinedId = id;
+      mine(); // decision 326: this character's crew decides its track and stashes
       try { sessionStorage.setItem(JOINED, id); } catch { /* private mode */ }
       connect(id);
       unsubscribe?.();
@@ -512,7 +618,7 @@ export function createTableLink(store, hooks) {
       unsubscribe = store.subscribe((change) => {
         if (change.id !== id) return;
         const line = store.get(id)?.play?.log?.[0]?.t ?? null;
-        if (line !== lastLine) { lastLine = line; clearTimeout(timer); push(); } else schedule();
+        if (line !== lastLine) { lastLine = line; clearTimeout(timer); push(); } else if (change.silent) scheduleLazy(); else schedule(); // decision 293: map memories wait
       });
       emit();
     },

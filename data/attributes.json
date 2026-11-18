@@ -53,6 +53,11 @@
     },
     "lifePathMax": 18
   },
+  "crsScale": {
+    "min": 0,
+    "max": 100,
+    "note": "Decision 309 / 316: in play, Credit Score runs 0–100 for ordinary people (elites — never player characters — go higher). The creation cap (20) applies only in the builder."
+  },
   "play": {
     "min": 0,
     "crs": {

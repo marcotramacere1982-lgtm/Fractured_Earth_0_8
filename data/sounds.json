@@ -1,0 +1,103 @@
+{
+  "_about": "Decision 314: the sheet's sounds — one per table moment. `source` is the raw file under assets/audio_raw/ (Kenney packs, CC0); `node tools/sounds.mjs` turns each into app/sounds/<id>.wav (mono, 22 kHz: every tablet plays it). To swap one: change its `source`, run the tool. group: `alert` (your turn, a GM message, a hit, spotted — what you must not miss) or `feedback` (what you just did); each group can be switched off per device. gain: 0–1, to even out loud and quiet files.",
+  "cues": [
+    {
+      "id": "toggle",
+      "group": "feedback",
+      "gain": 0.7,
+      "source": "Kenney/UI/switch13.ogg",
+      "when": "equip, wear, slot an ability, tick a box"
+    },
+    {
+      "id": "done",
+      "group": "feedback",
+      "gain": 1,
+      "source": "Kenney/UI/switch6.ogg",
+      "when": "an action went through: an attack logged, an ability used, a purchase"
+    },
+    {
+      "id": "refused",
+      "group": "feedback",
+      "gain": 0.5,
+      "source": "Kenney/Digital/lowRandom.ogg",
+      "when": "the sheet said no: no magazine, no actions left"
+    },
+    {
+      "id": "success",
+      "group": "feedback",
+      "gain": 0.55,
+      "source": "Kenney/Digital/powerUp6.ogg",
+      "when": "a roll succeeded"
+    },
+    {
+      "id": "fail",
+      "group": "feedback",
+      "gain": 0.55,
+      "source": "Kenney/Digital/phaserDown3.ogg",
+      "when": "a roll failed"
+    },
+    {
+      "id": "crit",
+      "group": "feedback",
+      "gain": 0.45,
+      "source": "Kenney/Digital/zapThreeToneUp.ogg",
+      "when": "a natural 1 (roll under: the best)"
+    },
+    {
+      "id": "fumble",
+      "group": "feedback",
+      "gain": 0.45,
+      "source": "Kenney/Digital/zapThreeToneDown.ogg",
+      "when": "a natural 20"
+    },
+    {
+      "id": "cash",
+      "group": "feedback",
+      "gain": 1,
+      "source": "Kenney/RPG/handleCoins.ogg",
+      "when": "cash came in"
+    },
+    {
+      "id": "item",
+      "group": "feedback",
+      "gain": 0.5,
+      "source": "Kenney/RPG/bookPlace1.ogg",
+      "when": "an item came in"
+    },
+    {
+      "id": "dice",
+      "group": "feedback",
+      "gain": 1,
+      "source": "Kenney/RPG/handleSmallLeather2.ogg",
+      "when": "the d20 tumbles"
+    },
+    {
+      "id": "turn",
+      "group": "alert",
+      "gain": 0.6,
+      "source": "Kenney/Digital/threeTone1.ogg",
+      "when": "your turn starts"
+    },
+    {
+      "id": "message",
+      "group": "alert",
+      "gain": 0.55,
+      "source": "Kenney/Digital/pepSound2.ogg",
+      "when": "a GM message, a card to answer"
+    },
+    {
+      "id": "hit",
+      "group": "alert",
+      "gain": 0.7,
+      "source": "Kenney/Impact/impactPunch_medium_000.ogg",
+      "when": "you were hit"
+    },
+    {
+      "id": "spotted",
+      "group": "alert",
+      "gain": 0.6,
+      "source": "Kenney/Sci_fi/forceField_000.ogg",
+      "when": "Contact! — someone was spotted"
+    }
+  ]
+}

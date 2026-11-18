@@ -37,6 +37,7 @@
   {
     "id": "the_predatory_education_lien",
     "legacyId": 6,
+    "garnish": 0.8,
     "name": "The Predatory Education Lien",
     "debt": "The character attended a corporate-sponsored vocational academy, incurring a specialized predatory loan that garnishes 80% of all legal income.",
     "threat": "Working a standard, legal job will never clear the interest. Only off-the-books, high-risk mercenary work provides unmonitored cash to pay down the principal under the radar."

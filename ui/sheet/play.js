@@ -6,6 +6,7 @@ import { iconFor } from '../gear-icon.js';
 import { html, raw, signed } from '../dom.js';
 import { counter, meter, card, segmented, nameOf, temp, icon } from './parts.js';
 import { carriedProtections } from '../../rules/tools.js';
+import { addFlat } from '../../rules/dice.js'; // the pendulum's damage in the weapon's dice (decision 318)
 import { info } from '../ref.js';
 import { explain, hint } from '../explain.js';
 import { t, tn } from '../../i18n/index.js';
@@ -100,7 +101,7 @@ export function conditionsGrid(c, s, data, { tips = false, bare = false } = {}) 
   const conds = data.conditions.filter((k) => !k.enemyOnly && !k.positive && !k.transient); // transient: set by the sheet (Unsteady), shown only while on you
   const boosts = data.conditions.filter((k) => k.positive);
   const sides = (bp) => data.body.locations.filter((l) => l.bp === bp);
-  const icons = bare; // the drawer stays icons only, tips or not (they live in each chip's tooltip)
+  const icons = bare && !tips; // the drawer: icons only — with the descriptions on, names and effects (owner hotfix 2026-11-14: the button did nothing there)
   const grid = `cond-grid ${tips ? '' : 'cond-grid--compact'} ${icons ? 'cond-grid--bare' : ''}`;
   const name = (text) => html`<span class="cond__label">${text}</span>`;
   const side = (l) => (icons ? t(l.id.startsWith('r') ? 'body.sideR' : 'body.sideL') : l.name);
@@ -194,7 +195,7 @@ export function weaponsCard(c, s, data) {
               <button class="stat stat--button" data-action="check" data-kind="skill" data-id="${w.skill}" title="${t('weapons.rollAttack')}">
                 <span class="label">${t('weapons.attackTn')}</span><span class="stat__value stat__value--accent">${temp(w.base, w.tn)}</span><span class="stat__sub">${w.zoneTn ? html`<span class="text-info">+${w.zoneTn} Cold</span> · ` : ''}${w.stanceTn ? html`<span class="text-danger">+${w.stanceTn} Attack</span> · ` : ''}${nameOf(data.skills.skills, w.skill)}</span>
               </button>
-              <div class="stat"><span class="label">${t('attack.damage')}</span><span class="stat__value">${w.damage}</span><span class="stat__sub">+ OFF ${temp(s.combat.off.base, s.combat.off.value, signed)}${s.conditionMods.meleeDamage && !(w.range?.max > 1) ? ` +${s.conditionMods.meleeDamage}` : ''}</span></div>
+              <div class="stat"><span class="label">${t('attack.damage')}</span><span class="stat__value">${s.zone?.damage ? addFlat(w.damage, s.zone.damage) : w.damage}</span><span class="stat__sub">+ OFF ${temp(s.combat.off.base, s.combat.off.value, signed)}${s.zone?.damage ? html` · <span class="${s.zone.zone === 'cold' ? 'text-info' : 'text-danger'}">${t('weapons.zoneIncl', { n: signed(s.zone.damage), zone: t(s.zone.zone === 'cold' ? 'engine.zoneCold' : 'engine.zoneHot') })}</span>` : ''}${s.conditionMods.meleeDamage && !(w.range?.max > 1) ? ` +${s.conditionMods.meleeDamage}` : ''}</span></div>
               <div class="stat"><span class="label">${t('weapons.range')}</span><span class="stat__value">${w.range.max}m</span><span class="stat__sub">min ${w.range.min}m</span></div>
             </div>
             ${w.magSize ? html`<div class="ammo">

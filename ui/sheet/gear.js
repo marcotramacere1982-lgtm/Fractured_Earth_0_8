@@ -4,12 +4,13 @@
 import { iconFor } from '../gear-icon.js';
 import { html, raw } from '../dom.js';
 import { card, counter, nameOf } from './parts.js';
-import { CATALOGS, findGear, magazines } from '../../rules/economy.js';
+import { CATALOGS, findGear, magazines, sellPrice } from '../../rules/economy.js';
 import { weaponSlots } from '../../rules/weapon-mods.js';
 import { bonusText } from '../../rules/uniques.js';
 import { t } from '../../i18n/index.js';
 import { dealQuote } from '../../rules/washer.js';
 import { stashesCard } from './stashes-card.js';
+import { typeLabel } from '../../data/index.js'; // the type on screen (translated), never the key
 
 /** Translated name of a gear category. */
 export const kindLabel = (kind) => t(`gear.kind.${kind}`);
@@ -22,8 +23,8 @@ function describe(kind, e, data) {
 
 function baseDescribe(kind, e, data) {
   switch (kind) {
-    case 'weapon': return `${e.type} · ${e.damage} · ${e.range.min}–${e.range.max}m${e.magSize ? ` · ${t('gear.mag')} ${e.magSize}` : ''}`;
-    case 'armor': return `${e.type} · ${t('stat.armor')} +${e.maxHits} · ${t('gear.visibility')} ${e.visibility}/5`;
+    case 'weapon': return `${typeLabel(e)} · ${e.damage} · ${e.range.min}–${e.range.max}m${e.magSize ? ` · ${t('gear.mag')} ${e.magSize}` : ''}`;
+    case 'armor': return `${typeLabel(e)} · ${t('stat.armor')} +${e.maxHits} · ${t('gear.visibility')} ${e.visibility}/5`;
     case 'item': return e.story && !e.light ? `${t('gear.storyOnly')} · ${e.effect}` : e.effect; // a torch works on the map: not story-only (decision 223) // story items: no dice effect, the GM rules on them (decision 77)
     case 'deck': return `RAM ${e.ram} · heat cap ${e.heatCap} · ${e.modSlots} mod slot · ${t('gear.battery')} ${e.battery.idle} idle / ${e.battery.usage} use`;
     case 'deckMod': return `+${e.amount} ${e.type === 'ram' ? 'RAM' : 'heat cap'}`;
@@ -41,7 +42,7 @@ function baseDescribe(kind, e, data) {
 function offersCard(c, data) {
   const offers = c.play.offers ?? [];
   if (!offers.length) return '';
-  const cap = data.attributes.creation.crs.max;
+  const cap = data.attributes.crsScale.max; // decision 316: the play scale, not the creation cap
   return card(t('washer.title'), html`<div class="stack">${offers.map((o) => {
     const q = dealQuote(o, o.points ?? 1, { cash: c.play.cash, crs: c.attributes.CRS }, cap);
     return html`<div class="washer">
@@ -67,16 +68,20 @@ export function gearCards(c, s, data, ctx = {}) {
       <label class="field"><span class="label">${t('gear.cash')}</span>
         <input class="input input--num" type="number" min="0" step="1" value="${c.play.cash}" data-action="cash" inputmode="numeric"></label>
       <div class="stat"><span class="label">Credit Score</span><span class="stat__value">${c.attributes.CRS}</span><span class="stat__sub">${t('gear.crsSub')}</span></div>
-      <button class="btn btn--primary" data-action="shop" data-kind="weapon">${t('gear.openMarket')}</button>
+      <button class="btn btn--primary" data-action="shop" data-kind="essentials">${t('gear.openMarket')}</button>
     </div>
     <p class="hint">${t('gear.marketHint')}</p>`, { ref: 'market', tour: 'market' });
 
-  const inventory = kinds.map((kind) => {
-    const rows = c.play.inventory.filter((x) => x.kind === kind);
+  // decision 317: loot (items you find or steal, never buy) gets its own group after the items
+  const isLoot = (r) => r.kind === 'item' && Boolean(findGear('item', r.id, data)?.loot);
+  const groups = kinds.flatMap((kind) => (kind === 'item'
+    ? [{ key: 'item', kind, rows: c.play.inventory.filter((x) => x.kind === 'item' && !isLoot(x)) }, { key: 'loot', kind, rows: c.play.inventory.filter(isLoot) }]
+    : [{ key: kind, kind, rows: c.play.inventory.filter((x) => x.kind === kind) }]));
+  const inventory = groups.map(({ key, kind, rows }) => {
     if (!rows.length) return '';
     return html`
       <div class="inv-group">
-        <h3 class="label">${kindLabel(kind)}</h3>
+        <h3 class="label">${kindLabel(key)}</h3>
         <div class="rows">
           ${rows.map((r) => {
             const e = kind === 'custom' ? r : findGear(kind, r.id, data);
@@ -84,7 +89,7 @@ export function gearCards(c, s, data, ctx = {}) {
             const worn = kind === 'armor' && c.play.worn.includes(r.id);
             return html`<div class="row row--wrap ${r.unique ? 'row--unique' : ''}">
               ${iconFor(kind, e, data, 'gi--row')}
-              <div class="row__main"><div class="row__title">${e.name}${r.unique?.moddedFrom ? html` <span class="pill pill--info">${t('wmod.modded')}</span>` : r.unique ? html` <span class="pill pill--unique">${t('gear.unique')}</span>` : e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}${r.official ? html` <span class="pill pill--info" title="${t('gear.registeredHint')}">${t('gear.registered', { n: r.official })}</span>` : ''}</div><div class="row__meta">${describe(kind, e, data)}</div></div>
+              <div class="row__main"><div class="row__title">${e.name}${r.unique?.moddedFrom ? html` <span class="pill pill--info">${t('wmod.modded')}</span>` : r.unique ? html` <span class="pill pill--unique">${t('gear.unique')}</span>` : e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}${r.official ? html` <span class="pill pill--info" title="${t('gear.registeredHint')}">${t('gear.registered', { n: r.official })}</span>` : ''}${e.traced ? html` <span class="pill pill--warning" title="${t('gear.tracedHint')}">📡 ${t('gear.traced')}</span>` : ''}</div><div class="row__meta">${e.loot ? t('gear.lootMeta', { value: e.cost.cr, fence: sellPrice(e, data.economy) }) : describe(kind, e, data)}</div></div>
               ${kind === 'item' && e.story ? html`<button class="btn btn--sm" data-action="storyUse" data-id="${r.id}" title="${t('use.storyHint')}">${t('use.use')}</button>` : ''}
               ${kind === 'item' && e.drone ? (c.play.droneFlat
                 ? html`<button class="btn btn--sm" data-action="droneCharge" title="${t('drone.rechargeHint')}">🔋 ${t('drone.recharge')}</button>`
@@ -124,6 +129,8 @@ export function gearCards(c, s, data, ctx = {}) {
 
 export const catalog = (kind, data) => {
   if (kind === 'ammo') return magazines(data);
+  // owner 2026-11-14: Essentials — the basics from every shelf, each row carrying its own kind and why it's there
+  if (kind === 'essentials') return (data.economy.essentials?.list ?? []).map((x) => { const e = findGear(x.kind, x.id, data); return e && { ...e, _kind: x.kind, _role: x.role }; }).filter(Boolean);
   const tbl = data[CATALOGS[kind]];
   return (Array.isArray(tbl) ? tbl : tbl.mods ?? tbl.entries).filter((e) => !e.unique && !e.modded && !e.natural); // uniques are never for sale; fists aren't an item (decision 147)
 };

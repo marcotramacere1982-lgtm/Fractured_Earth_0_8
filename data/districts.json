@@ -1,0 +1,33 @@
+{
+  "_about": "Decision 301 (303: a checkpoint density's `tier` is the difficulty step a crossing roll suggests; null: no checkpoint to beat): a district on a city map (a city tile that grows a skyline). What the GM can set on it, and the words the players read. Game terms (TRF, the Watch) stay English.",
+  "fields": ["name", "notice", "response", "jurisdiction", "curfew", "checkpoints", "minCrs"],
+  "notices": [
+    { "id": "compliant", "name": "Compliant" },
+    { "id": "rioting", "name": "Rioting" },
+    { "id": "ops", "name": "Operations in progress" },
+    { "id": "lockdown", "name": "Lockdown" },
+    { "id": "military", "name": "Military zone" },
+    { "id": "hazard", "name": "Health hazard zone" }
+  ],
+  "jurisdictions": [
+    { "id": "watch", "name": "The Watch" },
+    { "id": "trf", "name": "TRF" },
+    { "id": "corporate", "name": "Corporate security" },
+    { "id": "none", "name": "Nobody" }
+  ],
+  "response": [
+    { "id": "1", "n": 1, "name": "Minimal" },
+    { "id": "2", "n": 2, "name": "Low" },
+    { "id": "3", "n": 3, "name": "Standard" },
+    { "id": "4", "n": 4, "name": "High" },
+    { "id": "5", "n": 5, "name": "Saturation" }
+  ],
+  "checkpoints": [
+    { "id": "0", "n": 0, "name": "None", "tier": null },
+    { "id": "1", "n": 1, "name": "Rare", "tier": -1 },
+    { "id": "2", "n": 2, "name": "Some", "tier": 0 },
+    { "id": "3", "n": 3, "name": "Frequent", "tier": 1 },
+    { "id": "4", "n": 4, "name": "Dense", "tier": 2 },
+    { "id": "5", "n": 5, "name": "Every block", "tier": 3 }
+  ]
+}

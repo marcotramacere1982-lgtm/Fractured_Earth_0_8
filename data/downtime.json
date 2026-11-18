@@ -1,5 +1,5 @@
 {
-  "note": "Downtime (decision 46): time passes between missions. Healing and armor repair are automatic; upkeep and every event option are shown, never applied — players and GM settle them.",
+  "note": "Downtime (decision 46): time passes between missions. Healing, armor repair and payday (decision 331) are automatic; each player ticks one event option and pays the upkeep on their sheet — cash, Credit Score or both; the debt pressure moves where the option says so (decision 332). Anything else in an option is the GM's call.",
   "durations": [
     {
       "id": "days",

@@ -7,7 +7,9 @@
 Ogni acquisto si può fare in due modi, e la scelta conta.
 
 - **Canali ufficiali — Credit Score.** I negozi delle corporazioni non prendono mai i tuoi soldi: ti concedono debito. Il costo in Credit Score dell'oggetto viene sottratto dal tuo Credit Score, e l'acquisto viene **registrato a tuo nome**. Conveniente per la spesa e l'affitto, rovinoso per tutto ciò che conta in un lavoro: più attenzione attira un oggetto, più sale il prezzo.
-- **La strada — contanti.** Irrintracciabili, illegali e cari: il prezzo di listino **×3 fino a ×10**, a seconda del rischio locale (il ricarico lo decide il GM). Nessuna traccia.
+- **La strada — contanti.** Irrintracciabili, illegali e cari: il prezzo di listino, da **nessun ricarico fino a ×10**, a seconda del rischio locale — il ricarico lo decide il GM per tutto il tavolo (×3 se nessuno l'ha deciso). Nessuna traccia.
+
+**Essenziali.** Il mercato si apre sulla scheda *Essenziali*: l'equipaggiamento più economico che copre tutte le basi prima di uscire — una pistola, una lama, qualcosa da indossare, un kit traumi, un telefono usa e getta prepagato, un ID Scramble Kit, una torcia, una corda e un multiattrezzo — ognuno con a cosa serve, e una ✓ su quello che hai già. Gli attrezzi da specialista (grimaldelli, kit RFID…) sono nelle loro schede.
 
 La **rarità** va da **F** (roba di tutti i giorni) ad **A** (prototipo). I due livelli più rari, **A e B**, non compaiono mai nei negozi ufficiali: solo contanti, solo in strada.
 
@@ -27,7 +29,11 @@ La paga di un lavoro, un badge da un contatto, i contanti nella giacca di un mor
 
 ### Perquisire e contenitori {#sec-8-loot}
 
-Sulla mappa del tavolo, casse, armadietti, casseforti e bagagliai possono contenere qualcosa. **Apri** quello accanto a te, o **🔍 Perquisisci** un pezzo che il GM ha segnato come perquisibile (*Interact* — un'azione in uno scontro). Quello che c'è dentro compare come un nascondiglio che tutti al tavolo vedono — *🔍 Armadietto · trovato qui* — e chiunque prende quello che vuole, come da un nascondiglio della crew; sparisce quando è vuoto. Alcune cose non sono in vista: il GM può chiedere un tiro (Perception, spesso) per trovare quello che è nascosto — e quello che trovi può essere un indizio più che un oggetto. Quello che lasci lì resta lì.
+Sulla mappa del tavolo, casse, armadietti, casseforti e bagagliai possono contenere qualcosa. **Apri** quello accanto a te, o **🔍 Perquisisci** un pezzo che il GM ha segnato come perquisibile (*Interact* — un'azione in uno scontro). Quello che c'è dentro compare come un nascondiglio che tutti al tavolo vedono — *🔍 Armadietto · trovato qui* — e chiunque prende quello che vuole, come da un nascondiglio della crew; sparisce quando è vuoto. Alcune cose non sono in vista: il GM può chiedere un tiro (Perception, spesso) per trovare quello che è nascosto — e quello che trovi può essere un indizio più che un oggetto. Quello che lasci lì resta lì. Quando viene aperto per te, una **finestra** mostra subito cosa c'è dentro (decisione 320): ogni cosa con la sua nota, **Prendi**, **Dai…** (prendila e dalla a qualcuno), i contanti, **Prendi tutto** — senza cercare tra i nascondigli.
+
+Il **bottino** (decisione 317) è ciò che trovi o rubi e non puoi comprare: rottami da un cassonetto, materiali strappati alle rovine, merci di baratto da cassetti e cliniche, oggetti di valore presi da appartamenti e uffici, contrabbando. Sta nel suo gruppo *Bottino e valori*, si accumula, va nei nascondigli e passa da un giocatore all'altro come tutto il resto; alcune missioni chiedono di riportarne qualcuno. Un ricettatore paga **metà del valore di strada** (*Vendi*). Alcune cose sono **📡 tracciate** — un passaporto, un badge del personale, occhiali AR, un telefono: scottano di per sé, perché il sistema può risalire al proprietario. Portarle con sé è un rischio che il GM ricorderà.
+
+::table[loot]
 
 ### Il riciclatore {#sec-8-washer}
 
@@ -41,7 +47,7 @@ Ogni arma attacca con un'abilità: coltelli, manganelli e storditori usano **Mel
 
 ### Mod per armi {#sec-8-2-mods}
 
-Le armi accettano piccole migliorie negli **slot mod** in base alla rarità: F ed E 1, D e C 2, B 3, A 4 (pugni e storditore nessuno). **Una mod per tipo su ogni arma.** Mischia: un *Balanced Hilt* (+1 TN) e uno *Sharpened Edge* (+1 danni). Armi da fuoco: un *Custom Grip* (+1 TN), un *Heavy Barrel* (+1 danni), *Improved Sights* (+25% gittata massima) e un *Extended Magazine* (+50%, almeno un colpo in più). Chiunque può comprarle; **le monta e le smonta un Soldier o un Tech Wizard**, fuori dal combattimento, gratis — *🔧* sulla riga dell'arma in Equipaggiamento. Un'arma modificata diventa un oggetto a sé (segnata *Modificata*): le sue mod restano con lei quando la vendi, la scambi, la metti nella scorta o la regali, e usa ancora i caricatori dell'arma di serie. Togliendo l'ultima mod torna un'arma di serie. I prezzi sono provvisori.
+Le armi accettano piccole migliorie negli **slot mod** in base alla rarità: F ed E 1, D e C 2, B 3, A 4 (pugni e storditore nessuno). **Una mod per tipo su ogni arma.** Mischia: un *Balanced Hilt* (+1 TN) e uno *Sharpened Edge* (+1 danni). Armi da fuoco: un *Custom Grip* (+1 TN), un *Heavy Barrel* (+1 danni), *Improved Sights* (+25% gittata massima) e un *Extended Magazine* (+50%, almeno un colpo in più). Chiunque può comprarle; **le monta e le smonta un Soldier o un Tech Wizard**, fuori dal combattimento, gratis — *🔧* sulla riga dell'arma in Equipaggiamento. Un'arma modificata diventa un oggetto a sé (segnata *Modificata*): le sue mod restano con lei quando la vendi, la scambi, la metti nella scorta o la regali, e usa ancora i caricatori dell'arma di serie. Lo stesso vale per un'arma **unica** che il GM ha forgiato da un'arma del catalogo: condivide i caricatori di ricambio di quell'arma (decisione 311). Togliendo l'ultima mod torna un'arma di serie. I prezzi sono provvisori.
 
 ::table[weapon-mods]
 
@@ -99,6 +105,6 @@ L'ottica determina **Portata**, **Track** e **modalità** dello Scavenger (5-6).
 
 ## 8-6. Stile di vita {#sec-8-6}
 
-Il costo mensile dell'esistere. Gli operatori partono dal fondo; salire è qualcosa che ci si guadagna. Scegli il tuo nella sezione Stile di vita del mercato con **Scegli**: non costa nulla. Alcune categorie tengono **una** sola scelta e una nuova la sostituisce — casa, piano dati, cibo: un nuovo appartamento sostituisce il vecchio. Altre **si sommano** — bollette, trasporti, tasse, un club — tranne quando due voci sono alternative tra loro (assicurazione medica base o premium, streaming con o senza pubblicità). Ogni riga del mercato dice quale (*si somma alle altre* / *sostituisce quella che hai*); ✕ ne toglie una. La scheda mostra il mantenimento mensile in $ (o ≈ Credit Score se pagato ufficialmente); il resoconto di downtime del GM lo mostra per il tempo trascorso, e il tavolo lo sistema come preferisce. Per ora non ha altri effetti di gioco.
+Il costo mensile dell'esistere. Gli operatori partono dal fondo; salire è qualcosa che ci si guadagna. Scegli il tuo nella sezione Stile di vita del mercato con **Scegli**: non costa nulla. Alcune categorie tengono **una** sola scelta e una nuova la sostituisce — casa, piano dati, cibo: un nuovo appartamento sostituisce il vecchio. Altre **si sommano** — bollette, trasporti, tasse, un club — tranne quando due voci sono alternative tra loro (assicurazione medica base o premium, streaming con o senza pubblicità). Ogni riga del mercato dice quale (*si somma alle altre* / *sostituisce quella che hai*); ✕ ne toglie una. La scheda mostra il mantenimento mensile in $ (o ≈ Credit Score se pagato ufficialmente); dopo un downtime lo paghi per il tempo trascorso: contanti, Credit Score o metà e metà (5-10). I piani più economici hanno un prezzo nascosto: il **piano dati con pubblicità** ti riempie la lente (−1 a *Perception / Awareness*); le **razioni dell'emporio aziendale** ti logorano (1 Strain in meno recuperato in downtime); una **cuccetta a capsula** è la casa che fa recuperare meno.
 
 ::table[lifestyle]

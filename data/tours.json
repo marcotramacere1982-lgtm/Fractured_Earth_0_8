@@ -96,6 +96,11 @@
       "name": "Soldier",
       "steps": [
         {
+          "id": "role",
+          "title": "The Soldier",
+          "text": "You hold the line and finish fights. Plain hits build Tactical Points, your stance sets how much risk you take, and finishers spend the TP. Grunt (STR / CON): close, heavy, hard to drop. Officer (DEX / INT): places the crew and shoots precisely."
+        },
+        {
           "id": "tp",
           "tab": "play",
           "target": "engine-resource",
@@ -115,6 +120,37 @@
           "target": "engine-abilities",
           "title": "Finishers",
           "text": "Abilities cost TP and move you between stances: each card shows where it starts and where it takes you, and the stance you're in now is lit. Equip up to 3; green means ready now. Use rolls your Class TN and spends an action."
+        },
+        {
+          "id": "loadout",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Your loadout",
+          "text": "Equip up to 3 abilities between fights (⇄ Swap abilities, or Equip / Unequip on each card); a starter kit swaps all three at once. When a fight starts they're set until it ends — the get-ready window is the last chance to change. Abilities you haven't equipped stay listed, so you can plan."
+        },
+        {
+          "id": "roll",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "The Class TN roll",
+          "text": "Use rolls a d20 against your Class TN — the number on the button, from your two class stats; equal or under succeeds, and the GM's difficulty counts. A miss still spends the action and costs one step of your engine: 1 TP (if it costs any). Never the full price. Cover Me is a reaction: when an ally in sight is attacked, use it outside your turn — it pays like a Dodge."
+        },
+        {
+          "id": "chores",
+          "tab": "play",
+          "target": "engine-chores",
+          "title": "Housekeeping",
+          "text": "Always at hand, outside your 3 slots: Shift Stance (one step between Defensive and Attack, no TP — Unsteady, −2 on attacks, until the round ends) and Field Strip (out of a fight: clear a jam and top up both guns from your spares). In a fight each one takes an action."
+        },
+        {
+          "id": "bar",
+          "title": "In a fight: the Tactical tab",
+          "text": "At the table, fights are played on the Tactical tab: under the map the class bar shows your meter and one tile per equipped ability, lit when you can use it — tap it. The Sheet tab's class, actions and health sections lock while you fight, so nothing gets played twice."
+        },
+        {
+          "id": "outside",
+          "title": "Out of a fight",
+          "text": "Hard Stare stands in for Interrogation / Intimidation once per mission; Battle Plan (once per mission) gives every ally +2 initiative and you 2 TP at the start of the next fight. When the GM shows a scene picture they're on its *What you can do here* row, and when the GM asks for a roll one of them can answer, the roll card offers it."
         }
       ]
     },
@@ -122,6 +158,11 @@
       "id": "class.hacker",
       "name": "Hacker",
       "steps": [
+        {
+          "id": "role",
+          "title": "The Hacker",
+          "text": "You fight through the network: ping to learn what's there, then hijack, blind or shut down devices and anything cybernetic or synthetic — organic enemies only through their gear. Range: a device in sight, or within 10 squares on a network you've pinged. Scammer (INT / CHA): spoofing and false orders. Master (INT / WIS): deep intrusion, cascades, lockouts."
+        },
         {
           "id": "deck",
           "tab": "play",
@@ -142,6 +183,37 @@
           "target": "engine-abilities",
           "title": "Hacks",
           "text": "Each card shows its cost as icons: the chip for RAM it needs (a padlock when a sustained hack keeps it), the thermometer for heat it adds (green when it vents), and where your heat would be after it — red if that means Blue Screen. Most hacks only touch cybernetic or synthetic targets."
+        },
+        {
+          "id": "loadout",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Your loadout",
+          "text": "Equip up to 3 abilities between fights (⇄ Swap abilities, or Equip / Unequip on each card); a starter kit swaps all three at once. When a fight starts they're set until it ends — the get-ready window is the last chance to change. Abilities you haven't equipped stay listed, so you can plan."
+        },
+        {
+          "id": "roll",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "The Class TN roll",
+          "text": "Use rolls a d20 against your Class TN — the number on the button, from your two class stats; equal or under succeeds, and the GM's difficulty counts. A miss still spends the action and costs one step of your engine: 1 heat (if the hack makes any). Never the full price."
+        },
+        {
+          "id": "chores",
+          "tab": "play",
+          "target": "engine-chores",
+          "title": "Housekeeping",
+          "text": "Always at hand, outside your 3 slots: Thermal Dump (vent 3 heat; no offensive hacks for the rest of the turn) and System Hard Reboot (clear all RAM and heat — the deck is offline this round and the next). No roll. In a fight each one takes an action."
+        },
+        {
+          "id": "bar",
+          "title": "In a fight: the Tactical tab",
+          "text": "At the table, fights are played on the Tactical tab: under the map the class bar shows your meter and one tile per equipped ability, lit when you can use it — tap it. The Sheet tab's class, actions and health sections lock while you fight, so nothing gets played twice."
+        },
+        {
+          "id": "outside",
+          "title": "Out of a fight",
+          "text": "Ping Sweep works out of a fight too — the networks hear it (Trace). Phish stands in for Deception or Persuasion once per mission; Clean Logs drops the site's Trace by 2 (once per mission); Backdoor makes your next ping on that network silent and gives +2 on its devices. When the GM shows a scene picture they're on its *What you can do here* row, and when the GM asks for a roll one of them can answer, the roll card offers it."
         }
       ]
     },
@@ -149,6 +221,18 @@
       "id": "class.techwiz",
       "name": "Tech Wizard",
       "steps": [
+        {
+          "id": "role",
+          "title": "The Tech Wizard",
+          "text": "You keep the crew alive and the ground rigged. Every ability has two faces — Mend (repair, heal, cover) and Surge (strip armor, shock, traps) — and Sync climbs while you keep working in one mode. Mechanic (CON / WIS): field medicine and fortification. Engineer (DEX / WIS): drones and sabotage."
+        },
+        {
+          "id": "drone",
+          "tab": "play",
+          "target": "engine-item",
+          "title": "Your drone",
+          "text": "Pick the drone you own here (buy one in the Market's Drones tab). Some abilities fly from it and use its reach — the card says how far. If it's wrecked, Patch the Drone fixes it out of a fight."
+        },
         {
           "id": "mode",
           "tab": "play",
@@ -169,6 +253,37 @@
           "target": "engine-abilities",
           "title": "Abilities",
           "text": "The dots on a card are the Sync it needs (●●○○ = Warm or better). Brownout moves take the rig offline until the end of next round — the rings go grey and dashed. Keep your Tech Wizard behind cover."
+        },
+        {
+          "id": "loadout",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Your loadout",
+          "text": "Equip up to 3 abilities between fights (⇄ Swap abilities, or Equip / Unequip on each card); a starter kit swaps all three at once. When a fight starts they're set until it ends — the get-ready window is the last chance to change. Abilities you haven't equipped stay listed, so you can plan."
+        },
+        {
+          "id": "roll",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "The Class TN roll",
+          "text": "Use rolls a d20 against your Class TN — the number on the button, from your two class stats; equal or under succeeds, and the GM's difficulty counts. A miss still spends the action and costs one step of your engine: Sync −1. Never the full price."
+        },
+        {
+          "id": "chores",
+          "tab": "play",
+          "target": "engine-chores",
+          "title": "Housekeeping",
+          "text": "Always at hand, outside your 3 slots: Recalibrate (+1 Sync, no roll — in a fight you can't switch mode that round) and Patch the Drone (out of a fight: repair your wrecked drone). In a fight each one takes an action."
+        },
+        {
+          "id": "bar",
+          "title": "In a fight: the Tactical tab",
+          "text": "At the table, fights are played on the Tactical tab: under the map the class bar shows your meter and one tile per equipped ability, lit when you can use it — tap it. The Sheet tab's class, actions and health sections lock while you fight, so nothing gets played twice."
+        },
+        {
+          "id": "outside",
+          "title": "Out of a fight",
+          "text": "Once per mission each, Steady Hands stands in for Medicine / First Aid and Calibrate for Mechanics or Electronics. When the GM shows a scene picture they're on its *What you can do here* row, and when the GM asks for a roll one of them can answer, the roll card offers it."
         }
       ]
     },
@@ -176,6 +291,11 @@
       "id": "class.smuggler",
       "name": "Smuggler",
       "steps": [
+        {
+          "id": "role",
+          "title": "The Smuggler",
+          "text": "You live on nerve. The pendulum swings between Cold (calm aim: +2 on gun attacks) and Hot (adrenaline: +1 damage, +1 square); abilities push it one way or the other, and the best moves need a zone. Dealer (DEX / CHA): fast hands, fast talk. Trafficker (WIS / CHA): routes, contacts, coordination — and +1 damage in Cold."
+        },
         {
           "id": "pendulum",
           "tab": "play",
@@ -195,6 +315,37 @@
           "tab": "play",
           "title": "The rhythm",
           "text": "Plan in Cold, take a hit, swing Hot, cash in with a reckless move, crash back to Cold. Desperate Gamble goes all-in."
+        },
+        {
+          "id": "loadout",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Your loadout",
+          "text": "Equip up to 3 abilities between fights (⇄ Swap abilities, or Equip / Unequip on each card); a starter kit swaps all three at once. When a fight starts they're set until it ends — the get-ready window is the last chance to change. Abilities you haven't equipped stay listed, so you can plan."
+        },
+        {
+          "id": "roll",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "The Class TN roll",
+          "text": "Use rolls a d20 against your Class TN — the number on the button, from your two class stats; equal or under succeeds, and the GM's difficulty counts. A miss still spends the action and costs one step of your engine: the pendulum moves one step toward 0. Never the full price. Duck & Weave is a reaction: use it when you're attacked — it pays like a Dodge."
+        },
+        {
+          "id": "chores",
+          "tab": "play",
+          "target": "engine-chores",
+          "title": "Housekeeping",
+          "text": "Always at hand, outside your 3 slots: Breathe (move the pendulum one step, cooler or hotter, no roll) and Palm It (out of a fight: hide one item or weapon from a pat-down). In a fight each one takes an action."
+        },
+        {
+          "id": "bar",
+          "title": "In a fight: the Tactical tab",
+          "text": "At the table, fights are played on the Tactical tab: under the map the class bar shows your meter and one tile per equipped ability, lit when you can use it — tap it. The Sheet tab's class, actions and health sections lock while you fight, so nothing gets played twice."
+        },
+        {
+          "id": "outside",
+          "title": "Out of a fight",
+          "text": "Fast Talk stands in for Persuasion or Deception once per mission; Price Tag tells you what something is worth and who'd buy it; Know a Guy (once per mission) calls in a contact; Cover Story gives the crew +2 on their next lie to officials. When the GM shows a scene picture they're on its *What you can do here* row, and when the GM asks for a roll one of them can answer, the roll card offers it."
         }
       ]
     },
@@ -202,6 +353,11 @@
       "id": "class.scavenger",
       "name": "Scavenger",
       "steps": [
+        {
+          "id": "role",
+          "title": "The Scavenger",
+          "text": "You watch, then strike where it hurts. Each turn you place Tells on enemies you can see through your optic — more when you're Unseen — and spend them on a hit (+1d4 each) or on abilities. Prowler (DEX / CON): close, quick, slippery. Stalker (CON / INT): patient, long-range, a reader of patterns."
+        },
         {
           "id": "optic",
           "tab": "play",
@@ -229,6 +385,37 @@
           "target": "engine-abilities",
           "title": "Abilities",
           "text": "They spend the target's Tells: 1 for a small edge, 2 for a big one, 3 for the finisher. Close Study and Case the Room place more Tells."
+        },
+        {
+          "id": "loadout",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "Your loadout",
+          "text": "Equip up to 3 abilities between fights (⇄ Swap abilities, or Equip / Unequip on each card); a starter kit swaps all three at once. When a fight starts they're set until it ends — the get-ready window is the last chance to change. Abilities you haven't equipped stay listed, so you can plan."
+        },
+        {
+          "id": "roll",
+          "tab": "play",
+          "target": "engine-abilities",
+          "title": "The Class TN roll",
+          "text": "Use rolls a d20 against your Class TN — the number on the button, from your two class stats; equal or under succeeds, and the GM's difficulty counts. A miss still spends the action and costs one step of your engine: 1 Tell on the target (if the ability spends any). Never the full price. Sidestep is a reaction: when the enemy next to you attacks — it pays like a Dodge."
+        },
+        {
+          "id": "chores",
+          "tab": "play",
+          "target": "engine-chores",
+          "title": "Housekeeping",
+          "text": "Always at hand, outside your 3 slots: Scan (+1 Tell on your target, no roll — you show yourself: no Unseen next round) and Scrounge (out of a fight, once per scene: search a room or a body; the GM says what you find). In a fight each one takes an action."
+        },
+        {
+          "id": "bar",
+          "title": "In a fight: the Tactical tab",
+          "text": "At the table, fights are played on the Tactical tab: under the map the class bar shows your meter and one tile per equipped ability, lit when you can use it — tap it. The Sheet tab's class, actions and health sections lock while you fight, so nothing gets played twice."
+        },
+        {
+          "id": "outside",
+          "title": "Out of a fight",
+          "text": "Read the Room stands in for Perception or Investigation once per mission; Long Look, Track, Plant a Bug, Pickpocket and Lead the Way are your eyes and hands. When the GM shows a scene picture they're on its *What you can do here* row, and when the GM asks for a roll one of them can answer, the roll card offers it."
         }
       ]
     },

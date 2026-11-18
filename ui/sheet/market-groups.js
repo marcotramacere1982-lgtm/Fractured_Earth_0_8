@@ -11,10 +11,11 @@ const TOOL_DOMAIN = {
   sleight_of_hand: 'breakin', electronics_security: 'breakin', computers_hacking: 'breakin', stealth: 'breakin',
   mechanics_fabrication: 'force', forensics_investigation: 'force', climb_physical: 'climbing', perception_awareness: 'seeing', medicine_first_aid: 'medical',
 };
-const ITEM_ORDER = ['medical', 'stims', 'combat', 'breakin', 'force', 'climbing', 'seeing', 'weapongear', 'story', 'other'];
+const ITEM_ORDER = ['medical', 'stims', 'combat', 'breakin', 'force', 'climbing', 'seeing', 'weapongear', 'story', 'loot', 'other'];
 
 /** What an item is for, from what it does (decisions 58–60). */
 function itemGroup(e) {
+  if (e.loot) return 'loot'; // decision 317: only the GM-granted Add lists it
   if (e.use) {
     const opts = e.use.options;
     if (opts.some((o) => o.table)) return 'combat';
@@ -44,6 +45,7 @@ export function marketGroups(kind, list, data, fits = () => false) {
     case 'weaponMod': keyOf = (e) => data.weaponMods.types.find((x) => x.id === e.type)?.for ?? 'other'; label = (k) => t(`wmod.for.${k}`); break; // decision 173
     case 'droneMod': keyOf = (e) => e.type; label = (k) => data.droneMods.types?.find((x) => x.id === k)?.name ?? k; break; // decision 172
     case 'lifestyle': keyOf = (e) => e.category; label = (k) => data.lifestyle.categories.find((x) => x.id === k)?.name ?? k; break;
+    case 'essentials': return list.length ? [{ key: 'all', label: '', items: list }] : []; // owner 2026-11-14: in the list's order
     default: return list.length ? [{ key: 'all', label: '', items: [...list].sort(byPrice) }] : [];
   }
   const groups = new Map();

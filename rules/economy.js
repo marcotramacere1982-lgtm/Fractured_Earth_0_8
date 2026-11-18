@@ -1,4 +1,4 @@
-// Buying gear: official (Credit Score debt, traced) or street (physical cash x3-x10, untraced).
+// Buying gear: official (Credit Score debt, traced) or street (physical cash at the GM's markup, list price to x10, untraced).
 
 import { RuleError, message } from './messages.js';
 
@@ -7,10 +7,19 @@ export const CATALOGS = { weapon: 'weapons', armor: 'armor', item: 'items', deck
 /** Spare magazines (decision 55): one entry per gun with a magazine, priced from the gun. id 'mag.<weapon id>'. */
 const magCache = new WeakMap();
 export const magazineId = (weaponId) => `mag.${weaponId}`;
+/**
+ * The spare magazines a gun loads (decision 311): a modded copy (decision 173) or a Forge unique takes the magazines of
+ * the catalog gun it came from (`moddedFrom`, `forgedFrom`); only a unique with no such gun has magazines of its own.
+ */
+export function magazineFor(w, data) {
+  const from = w?.moddedFrom ?? w?.forgedFrom;
+  return magazineId(from && from !== w.id && data.weapons.some((x) => x.id === from && x.magSize && !x.unique) ? from : w?.id);
+}
 export function magazines(data) {
   if (!magCache.has(data.weapons)) {
     const m = data.economy.magazine;
-    magCache.set(data.weapons, data.weapons.filter((w) => w.magSize).map((w) => ({
+    // owner hotfix 2026-11-14: a modded / Forge copy of a catalog gun has no magazines of its own (decision 311) — not listed twice
+    magCache.set(data.weapons, data.weapons.filter((w) => w.magSize && magazineFor(w, data) === magazineId(w.id)).map((w) => ({
       id: magazineId(w.id), weaponId: w.id, name: `${w.name} magazine`, ammo: w.ammo, magSize: w.magSize, rarity: w.rarity,
       cost: { cr: Math.max(m.min, Math.round(w.cost.cr * m.pricePct)) },
     })));

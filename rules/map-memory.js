@@ -36,6 +36,7 @@ export function rememberMap(list, msg, now) {
     walls: [...walls, ...(prev?.walls ?? []).filter((w) => !walls.some((x) => x.id === w.id) && stale(mid(w)))],
     props: [...props, ...(prev?.props ?? []).filter((p) => !props.some((x) => x.id === p.id) && stale(p))],
     npcs: [...npcs, ...(prev?.npcs ?? []).filter((n) => !npcs.some((x) => x.key === n.key))],
+    ...(msg.areas?.length || prev?.areas?.length ? { areas: msg.areas ?? prev?.areas } : {}), // decision 294
     seen, first: prev?.first ?? now, last: now, ...(prev?.note ? { note: prev.note } : {}),
   };
   if (prev && sameBut(prev, next)) return memories;
@@ -53,7 +54,7 @@ export function noteMap(list, key, text) {
 /** A memory as the map viewer draws it: the remembered map, the NPC markers, and fog over what was never seen. */
 export function memoryView(m) {
   return {
-    map: { id: m.key, name: m.name, cols: m.cols, rows: m.rows, walls: m.walls, props: m.props },
+    map: { id: m.key, name: m.name, cols: m.cols, rows: m.rows, walls: m.walls, props: m.props, ...(m.areas ? { areas: m.areas } : {}) },
     tokens: m.npcs,
     fog: m.seen ? { mode: 'player', seen: m.seen, visible: m.seen } : null,
   };

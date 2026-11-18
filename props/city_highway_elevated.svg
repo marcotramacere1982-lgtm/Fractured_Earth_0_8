@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- An elevated highway top to bottom on pillars, over whatever is under it. City scale: a square is a district. -->
+  <path class="detail" d="M50 0 V100" fill="none" stroke="currentColor" stroke-width="16" stroke-linejoin="round" stroke-linecap="round" stroke-opacity="0.3"/>
+  <path class="detail" d="M42 0 V100 M58 0 V100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path class="detail" d="M50 0 V100" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 4"/>
+  <path class="solid" d="M46 12 H54 V18 H46 Z M46 47 H54 V53 H46 Z M46 82 H54 V88 H46 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+</svg>

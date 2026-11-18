@@ -2,7 +2,7 @@
 // dim (drawn faded, not clickable) or hide each layer to declutter the drawing. Only how the builder shows the map:
 // nothing is removed, the table never sees it. The first step towards checking wiring (Lights & power on its own).
 
-import { GROUND, sensesOf } from './props.js';
+import { GROUND, sensesOf, propDef } from './props.js';
 
 export const LAYERS = [
   { id: 'floors', name: 'Floors' },
@@ -13,6 +13,7 @@ export const LAYERS = [
   { id: 'network', name: 'Network' },
   { id: 'links', name: 'Links' },
   { id: 'zones', name: 'Zones' },
+  { id: 'guides', name: 'Guides (drawing only)' }, // decision 290
 ];
 export const LAYER_STATES = ['show', 'dim', 'hide'];
 
@@ -37,7 +38,7 @@ const stateOf = (layers, id) => (LAYER_STATES.includes(layers?.[id]) ? layers[id
  * layer is in that state. Builders draw 'show' and 'dim', and pick only from 'show'.
  */
 export function layerView(map, data, layers, state = 'show') {
-  const defOf = (p) => data.props.props.find((d) => d.id === p.prop);
+  const defOf = (p) => propDef(data, p.prop);
   return {
     ...map,
     walls: (map.walls ?? []).filter((w) => stateOf(layers, wallLayer(w)) === state),
@@ -50,8 +51,9 @@ export function layerView(map, data, layers, state = 'show') {
 export function layerCounts(map, data) {
   const out = Object.fromEntries(LAYERS.map((l) => [l.id, 0]));
   for (const w of map.walls ?? []) out[wallLayer(w)]++;
-  for (const p of map.props ?? []) out[propLayer(data.props.props.find((d) => d.id === p.prop))]++;
+  for (const p of map.props ?? []) out[propLayer(propDef(data, p.prop))]++;
   out.zones += (map.zones ?? []).length;
+  out.guides += (map.guides ?? []).length;
   return out;
 }
 

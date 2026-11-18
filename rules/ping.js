@@ -6,8 +6,9 @@
 import { propDef } from './props.js';
 import { netRole, networkState, networkTags, NET_NODES } from './network.js';
 import { applyPower } from './power.js';
+import { spaceDistance } from './floors.js';
 
-export const PING_RANGE = 10; // squares, through walls
+export const PING_RANGE = 10; // squares, through walls — and floors (decision 286: each floor up or down costs 4)
 export const SECURITY = { civil: 0, corp: 1, military: 2 }; // set on the uplink; Corporate when unset
 export const TRACE_LEVELS = [{ id: 'calm', from: 0 }, { id: 'twitchy', from: 3 }, { id: 'alert', from: 5 }, { id: 'lockdown', from: 7 }];
 const MOOD_MARGIN = 5; // a success by this much also tells the hacker how each network feels
@@ -25,7 +26,6 @@ export function networksOf(map, data) {
 }
 
 const centre = (at) => ({ x: at.x + 0.5, y: at.y + 0.5 });
-const near = (p, c, range) => Math.hypot(p.x - c.x, p.y - c.y) <= range;
 
 /**
  * What answers a ping from square `at`: every node and device within range that is on a network and reporting
@@ -34,6 +34,7 @@ const near = (p, c, range) => Math.hypot(p.x - c.x, p.y - c.y) <= range;
  * @returns [{ id, letter, name, security, nodes: [{ id, role, name }], devices: [{ id, name }], doors }] — GM-side, with ids.
  */
 export function pingScan(map, data, at, range = PING_RANGE) {
+  const near = (p, c) => spaceDistance(map, p, c) <= range; // decision 286: across floors, never sideways into the next frame
   const state = networkState(map, data);
   const props = new Map((map.props ?? []).map((p) => [p.id, p]));
   const rootOf = (id) => { let x = id; for (let n = 0; state.get(x)?.parent && n < 500; n += 1) x = state.get(x).parent; return x; };
@@ -45,7 +46,7 @@ export function pingScan(map, data, at, range = PING_RANGE) {
     if (s.status !== 'ok' && s.status !== 'fooled') continue;
     if (s.door) { // decision 256
       const w = walls.get(id);
-      if (!w || !near({ x: (w.a.x + w.b.x) / 2, y: (w.a.y + w.b.y) / 2 }, c, range)) continue;
+      if (!w || !near({ x: (w.a.x + w.b.x) / 2, y: (w.a.y + w.b.y) / 2 }, c)) continue;
       const net = rootOf(id);
       if (!nets.some((n) => n.id === net)) continue;
       const bucket = found.get(net) ?? { nodes: [], devices: [] };
@@ -54,7 +55,7 @@ export function pingScan(map, data, at, range = PING_RANGE) {
       continue;
     }
     const p = props.get(id);
-    if (!p || !near(p, c, range)) continue;
+    if (!p || !near(p, c)) continue;
     const def = propDef(data, p.prop);
     const role = netRole(def);
     const net = role === 'uplink' ? id : rootOf(id);
@@ -73,7 +74,7 @@ export function heardBy(map, data, at, scan) {
   const props = new Map((map.props ?? []).map((p) => [p.id, p]));
   const c = centre(at);
   return Object.fromEntries(scan.map((n) => {
-    const best = [...n.nodes].sort((a, b) => Math.hypot(props.get(a.id).x - c.x, props.get(a.id).y - c.y) - Math.hypot(props.get(b.id).x - c.x, props.get(b.id).y - c.y))[0];
+    const best = [...n.nodes].sort((a, b) => spaceDistance(map, props.get(a.id), c) - spaceDistance(map, props.get(b.id), c))[0]; // decision 286
     return [n.id, best ? best.name ?? tags.get(best.id) ?? best.role : null];
   }));
 }

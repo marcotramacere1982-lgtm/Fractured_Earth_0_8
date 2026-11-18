@@ -98,12 +98,17 @@
     },
     "gm.difficulty": {
       "title": "Table difficulty",
-      "text": "One step for the whole situation, pre-picked in every roll window. Easier steps (+2/+4/+6) are how help, time and good tools work. Off when the scene changes.",
+      "text": "One step for the whole situation, pre-picked in every roll window. Easier steps (+2/+4/+6) are how help, time and good tools work. Off when the scene changes. The header's ⚖ chip shows it and changes it (D).",
+      "anchor": "sec-9-4"
+    },
+    "gm.markup": {
+      "title": "Street markup",
+      "text": "What cash buys cost on the street for every sheet at the table: no markup (list price), ×3, ×5, ×7 or ×10 — by local risk. Players can't change it. In the header's ⚖ table chip.",
       "anchor": "sec-9-4"
     },
     "gm.light": {
       "title": "Light",
-      "text": "Bright / Dark for checks when no map is on the table. With a map, each player's own square decides.",
+      "text": "Bright / Dark for checks when no map is on the table. With a map, each player's own square decides. In the header's ⚖ table chip, on every tab.",
       "anchor": "sec-9-4"
     },
     "gm.notebook": {
@@ -117,8 +122,8 @@
       "anchor": "sec-9-5"
     },
     "gm.explore": {
-      "title": "Explore",
-      "text": "Who's best at each skill, plus every character's hooks: debt, traits, credentials, life path, backstory, look. Copy their portrait prompt and send them the picture (📷). Give everyone a moment.",
+      "title": "Story side",
+      "text": "The Table tab's Story side (decision 300): who's best at each skill, plus every character's hooks: debt, traits, credentials, life path, backstory, look. Copy their portrait prompt and send them the picture (📷). Give everyone a moment.",
       "anchor": "sec-9-5"
     },
     "gm.combat": {
@@ -221,6 +226,26 @@
       "text": "Not fighting: pick a role and Add — players see Worker 1 until you rename it. Party: several characters moving as one on a big map. Each has a private note.",
       "anchor": "sec-9-8"
     },
+    "gm.keyPoints": {
+      "title": "Key points",
+      "text": "What this mission needs from another (that mission done, or one of its objectives a success / failure) and its Plan B. ✓ ready · ⏳ waiting · ↪ Plan B when it went otherwise — or run Plan B now if the other crew stalls.",
+      "anchor": "sec-9-9"
+    },
+    "gm.timeline": {
+      "title": "World timeline",
+      "text": "Each crew's in-world date (+1 day / +1 week), closed missions in in-world order (closing one stamps its date and the canon order) and world events — what happened off-screen, maybe for some crews.",
+      "anchor": "sec-9-9"
+    },
+    "gm.crews": {
+      "title": "Crews",
+      "text": "Two groups in one campaign: each character has a home crew (set in Admin → Campaigns), each mission is for a crew and may take guests. The mission you play decides who's in tonight; each crew has its own trust track and stashes; the Alliance track is yours.",
+      "anchor": "sec-9-9"
+    },
+    "gm.campaigns": {
+      "title": "Campaigns",
+      "text": "One per group: each keeps its missions, crew, case boards, stashes, scene and map savegames. Switch on the Story tab; move characters here.",
+      "anchor": "sec-9-9"
+    },
     "gm.notes": {
       "title": "Notes",
       "text": "Your Markdown: notes in local/gm/notes/ plus the campaign documents. Autosaves. 🔎 Lens: a name or term → its sections, then every mention in every file.",
@@ -243,7 +268,7 @@
     },
     "gm.downtime": {
       "title": "Downtime",
-      "text": "Time passes, injuries heal, pressure +1. One story event each (suggested with a confidence %), shown as choices, never applied.",
+      "text": "Time passes, injuries heal, pressure +1, work pays. One story event each (suggested with a confidence %): they tick an option and pay on their Dossier; you see it all, reopen a choice, set their work, and call a noticed absence.",
       "anchor": "sec-9-12"
     },
     "gm.forge": {
@@ -298,7 +323,7 @@
     },
     "cover": {
       "title": "Cover",
-      "text": "Cover is armor: partial +2, full +4, added to every hit. It never cracks. Flanked targets lose it.",
+      "text": "Cover is armor: partial +2, full +4, added to every hit. A piece covers only whoever is right behind it (on their square or the next, and no nearer the attacker). It never cracks. Flanked targets lose it.",
       "anchor": "sec-7-2"
     },
     "armor": {
@@ -323,7 +348,7 @@
     },
     "downtime": {
       "title": "Downtime",
-      "text": "Between missions: HP and armor come back (injuries too, if long enough), upkeep is shown to settle at the table, and each player gets a story event. Debt pressure rises by 1 each downtime; an instalment lowers it.",
+      "text": "Between missions: HP and armor come back (injuries too, if long enough), official work pays, and each player gets a story event — tick one option on the Dossier and pay the upkeep there (cash, Credit Score or half and half). Debt pressure rises by 1 each downtime; an instalment or an option lowers it.",
       "anchor": "sec-5-10"
     },
     "crew": {

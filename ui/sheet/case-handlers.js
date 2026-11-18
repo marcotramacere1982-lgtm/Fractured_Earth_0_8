@@ -7,6 +7,7 @@ import { t } from '../../i18n/index.js';
 import { caseUi, currentBoard } from './case-tab.js';
 import { board as boardOf, TYPES, SIZES, freeSpot } from '../../rules/case-board.js';
 import { ICON } from '../case/board.js';
+import { openDoc } from '../doc-reader.js'; // decision 299
 
 /** ctx: { table, id (this character), toast, redraw } */
 export function caseHandlers({ table, id, toast, redraw, character }) {
@@ -44,15 +45,17 @@ export function caseHandlers({ table, id, toast, redraw, character }) {
           ${pics.map((e) => html`<button class="case-pic ${f.image === e.image ? 'is-on' : ''}" data-action="pic" data-v="${e.image}" title="${e.title}"><img src="${e.image}" alt="${e.title}"></button>`)}</div>` : html`<p class="hint">${t('case.noPictures')}</p>`}</div>
         <div class="cluster"><button class="btn btn--primary" data-action="save">${t('case.save')}</button><button class="btn btn--ghost" data-action="close">${t('common.cancel')}</button></div>`
         : html`${f.image ? html`<img class="case-full" src="${f.image}" alt="">` : ''}${f.text ? html`<p class="case-fulltext">${f.text}</p>` : ''}
+          ${c?.doc ? html`<button class="btn btn--primary" data-action="read">📄 ${t('gm.docRead')}</button>` : ''}
           ${c?.tip ? html`<p class="muted st-small">${t('case.tip')}</p>` : c?.by ? html`<p class="muted st-small">${t('case.by', { name: c.by })}</p>` : ''}`}
       </div>`, {
       click: {
+        read: () => { if (c?.doc) openDoc(c.doc, c.title || t('gm.doc')); }, // decision 299
         type: ({ v }) => { read(); f.type = v; d.redraw(); },
         size: ({ v }) => { read(); f.size = v; d.redraw(); },
         pic: ({ v }) => { read(); f.image = v; if (v && f.size !== 'b') f.size = 'b'; if (v && !f.title) f.title = pics.find((e) => e.image === v)?.title ?? ''; d.redraw(); },
         async save() {
           read();
-          const fields = { type: f.type, size: f.size, title: f.title.trim(), text: f.text, ...(f.image ? { image: f.image } : {}) };
+          const fields = { type: f.type, size: f.size, title: f.title.trim(), text: f.text, ...(f.image ? { image: f.image } : {}), ...(c?.doc ? { doc: c.doc } : {}) }; // decision 299: a document card keeps its document
           const spot = at ?? freeSpot(b(), { ...fields, id: '' }) ?? { x: 0, y: 0 };
           if (await (c ? op({ op: 'edit', card: c.id, fields }) : op({ op: 'add', card: { ...fields, ...spot } }))) d.close();
         },
@@ -70,10 +73,12 @@ export function caseHandlers({ table, id, toast, redraw, character }) {
       const mine = b().editor === id;
       const d = openDialog(() => html`<header class="card__head"><h2 class="card__title">${e.title}</h2><button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
         <div class="dialog__body stack">${e.image ? html`<img class="case-full" src="${e.image}" alt="">` : ''}${e.text ? html`<p class="case-fulltext">${e.text}</p>` : ''}
+          ${e.doc ? html`<button class="btn" data-action="read">📄 ${t('gm.docRead')}</button>` : ''}
           ${mine ? html`<button class="btn btn--primary" data-action="pin">📌 ${t('case.pin')}</button>` : ''}</div>`, {
         click: {
-          async pin() { // decision 279: the dossier entry as a card — a handout as a big picture card
-            const fields = { type: e.kind === 'person' ? 'person' : e.kind === 'place' ? 'place' : e.image ? 'document' : 'clue', size: e.image ? 'b' : 'w', title: e.title.slice(0, 60), text: (e.text ?? '').slice(0, 600), ...(e.image ? { image: e.image } : {}) };
+          read: () => openDoc(e.doc, e.title), // decision 299
+          async pin() { // decision 279: the dossier entry as a card — a handout as a big picture card; 299: a document as a document card
+            const fields = { type: e.kind === 'person' ? 'person' : e.kind === 'place' ? 'place' : e.image || e.doc ? 'document' : 'clue', size: e.image ? 'b' : 'w', title: e.title.slice(0, 60), text: (e.text ?? '').slice(0, 600), ...(e.image ? { image: e.image } : {}), ...(e.doc ? { doc: e.doc } : {}) };
             const spot = freeSpot(b(), { ...fields, id: '' }) ?? { x: 0, y: 0 };
             if (await op({ op: 'add', card: { ...fields, ...spot } })) { d.close(); toast(t('case.pinned'), 'success'); }
           },

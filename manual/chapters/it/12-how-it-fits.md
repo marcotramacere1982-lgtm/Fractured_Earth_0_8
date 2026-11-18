@@ -302,7 +302,7 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **A cosa serve.** Nessuno fa questi lavori per divertimento. Ogni Operatore deve qualcosa a qualcuno, e il debito è il motore della campagna: è il motivo per cui dici di sì.
 
-**La regola in una riga.** Il Credit Score è il debito che ti è concesso (gli acquisti ufficiali lo consumano, tracciati); i contanti sono soldi di strada (da ×3 a ×10, senza traccia); tra le missioni il downtime ti cura, la pressione del debito sale di 1, e una rata la fa scendere.
+**La regola in una riga.** Il Credit Score è il debito che ti è concesso (gli acquisti ufficiali lo consumano, tracciati); i contanti sono soldi di strada (dal prezzo di listino a ×10, il ricarico del GM, senza traccia); tra le missioni il downtime ti cura, la pressione del debito sale di 1, e una rata la fa scendere.
 
 **Chi decide.**
 - **Il GM** manda il downtime (quanto dura, un evento per ogni giocatore e per la crew) e fissa la pressione del debito quando la storia spinge.

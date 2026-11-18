@@ -6,6 +6,7 @@ import { t } from '../i18n/index.js';
 import { downtimeReport } from './sheet/timeline.js';
 import { unityCard } from './unity.js';
 import { puzzleView, clueLine } from './puzzle-view.js';
+import { openDoc } from './doc-reader.js'; // decision 299
 
 const time = (t) => new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -29,10 +30,11 @@ export function installTransmissions(store, table) {
     render(host, html`${unityCard(u, characterId(), mine)}${inbox.map((m) => html`
       <section class="transmission ${m.private ? 'transmission--private' : ''} ${m.tone === 'hit' ? 'transmission--hit' : ''} ${seen.has(m.id) ? '' : 'transmission--new'}" role="${seen.has(m.id) ? 'region' : 'alert'}" aria-label="${t('gm.message')}">
         <header class="transmission__head">
-          <span class="transmission__tag">${m.kind === 'downtime' ? `◷ ${t('downtime.tag')} · ${m.title}` : ''}${m.kind === 'downtime' ? '' : m.image ? `▣ ${t('gm.image')} · ` : ''}${m.kind === 'downtime' ? '' : m.tone === 'hit' ? `✖ ${t('gm.hit')}` : m.private ? `◉ ${t('gm.private')}` : `▲ ${t('gm.incoming')}`}</span>
+          <span class="transmission__tag">${m.kind === 'downtime' ? `◷ ${t('downtime.tag')} · ${m.title}` : ''}${m.kind === 'downtime' ? '' : m.image ? `▣ ${t('gm.image')} · ` : m.doc ? `📄 ${t('gm.doc')} · ` : ''}${m.kind === 'downtime' ? '' : m.tone === 'hit' ? `✖ ${t('gm.hit')}` : m.private ? `◉ ${t('gm.private')}` : `▲ ${t('gm.incoming')}`}</span>
           <span class="transmission__meta">GM · ${time(m.t)}</span>
           <button class="transmission__close" data-dismiss="${m.id}" aria-label="${t('gm.close')}">✕</button>
         </header>
+        ${m.doc ? html`<button class="btn btn--primary transmission__doc" data-doc="${m.doc}" data-title="${m.docTitle || t('gm.doc')}">📄 ${m.docTitle || t('gm.doc')} — ${t('gm.docRead')}</button>` : ''}
         ${m.image ? html`<a class="transmission__image" href="${m.image}" target="_blank" rel="noopener" title="${t('gm.imageOpen')}"><img src="${m.image}" alt="${t('gm.image')}"></a>` : ''}
         ${m.kind === 'downtime' ? downtimeReport(m) : html`${m.text ? html`<p class="transmission__text">${m.text}</p>` : ''}${m.puzzle ? puzzleView(m.puzzle) : ''}${m.puzzleClue ? html`<p class="transmission__text">🧩 ${t('puzzle.found')}: ${clueLine(m.puzzleClue.kind, m.puzzleClue.clue)}</p>` : ''}
         ${m.private ? html`<p class="transmission__hint">${t('gm.privateHint')}</p>` : ''}`}
@@ -43,6 +45,8 @@ export function installTransmissions(store, table) {
   host.addEventListener('click', (e) => {
     const vote = e.target.closest('[data-unity-vote]');
     if (vote) { table.vote(vote.dataset.check, vote.dataset.unityVote); return; }
+    const doc = e.target.closest('[data-doc]');
+    if (doc) { openDoc(doc.dataset.doc, doc.dataset.title); return; } // decision 299
     const btn = e.target.closest('[data-dismiss]');
     if (!btn) return;
     store.update(characterId(), (c) => { c.play.inbox = (c.play.inbox ?? []).filter((m) => m.id !== btn.dataset.dismiss); });
