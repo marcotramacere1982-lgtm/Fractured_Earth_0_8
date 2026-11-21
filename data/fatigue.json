@@ -1,0 +1,13 @@
+{
+  "note": "Decision 362: Fatigue — what a long night does to your body, beside Strain (the mind). 0–6, three bands; only the worse of Fatigue and Strain counts on a check. Gains come from the app (each fight's end, a long or bloody fight, a Push, a stim's crash) and the GM (a night without sleep, a forced march). Relief: a breather (−2, once per scene — the GM's safe New scene or Breather), sleep or downtime (back to 0), stims (−2 now, but the next breather won't help).",
+  "max": 6,
+  "bands": [
+    { "id": "fresh", "from": 0, "name": "Fresh", "tn": 0, "move": 0 },
+    { "id": "tired", "from": 3, "name": "Tired", "tn": -1, "move": 0 },
+    { "id": "spent", "from": 5, "name": "Spent", "tn": -2, "move": -1 }
+  ],
+  "physical": ["STR", "DEX", "CON"],
+  "gains": { "fight": 1, "longFight": 1, "longRounds": 4, "push": 1, "gm": 1 },
+  "breather": 2,
+  "push": { "tn": 2, "actions": 1 }
+}

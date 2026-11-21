@@ -3,7 +3,7 @@
 
 import { t } from '../../i18n/index.js';
 
-const WEAPON = { knife: 'melee', blunt: 'melee', melee: 'melee', 'stun gun': 'melee', pistol: 'pistols', SMG: 'smgs', 'assault rifle': 'rifles', shotgun: 'rifles', 'sniper rifle': 'snipers' };
+const WEAPON = { knife: 'melee', blunt: 'melee', melee: 'melee', 'stun gun': 'melee', pistol: 'pistols', SMG: 'smgs', 'assault rifle': 'rifles', shotgun: 'rifles', bow: 'rifles', 'sniper rifle': 'snipers' };
 const WEAPON_ORDER = ['melee', 'pistols', 'smgs', 'rifles', 'snipers'];
 const ARMOR = { helmet: 'head', vest: 'torso', jacket: 'torso', suit: 'body', sleeves: 'arms', bracers: 'arms', pants: 'legs', greaves: 'legs' };
 const ARMOR_ORDER = ['head', 'torso', 'body', 'arms', 'legs'];
@@ -11,7 +11,7 @@ const TOOL_DOMAIN = {
   sleight_of_hand: 'breakin', electronics_security: 'breakin', computers_hacking: 'breakin', stealth: 'breakin',
   mechanics_fabrication: 'force', forensics_investigation: 'force', climb_physical: 'climbing', perception_awareness: 'seeing', medicine_first_aid: 'medical',
 };
-const ITEM_ORDER = ['medical', 'stims', 'combat', 'breakin', 'force', 'climbing', 'seeing', 'weapongear', 'story', 'loot', 'other'];
+const ITEM_ORDER = ['medical', 'stims', 'combat', 'breakin', 'force', 'climbing', 'seeing', 'weapongear', 'carry', 'story', 'loot', 'other'];
 
 /** What an item is for, from what it does (decisions 58–60). */
 function itemGroup(e) {
@@ -22,6 +22,7 @@ function itemGroup(e) {
     if (opts.some((o) => o.boost || o.endStims)) return 'stims';
     return 'medical';
   }
+  if (e.bulkyRoom) return 'carry'; // owner 2026-11-18: bags for bulky things
   if (e.drone || e.light) return 'seeing'; // a toy drone (decision 171); a light you carry (decision 223)
   const tool = e.tool?.[0];
   if (tool) return tool.attack ? 'weapongear' : tool.attr ? 'force' : TOOL_DOMAIN[tool.skill] ?? 'other';

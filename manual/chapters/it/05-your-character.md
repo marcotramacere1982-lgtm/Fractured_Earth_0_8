@@ -31,7 +31,7 @@ In questo universo non sei un supereroe, un prescelto o un semidio tecnologico. 
 L'app è una scheda di carta intelligente: fa i conti, ti tiene le regole a un tocco di distanza e non ti fa mai sfogliare tabelle. Non è il gioco: tieni la testa alta e parla con la tua squadra.
 
 - **Creazione** — crea un personaggio in circa cinque minuti. Ogni passo si spiega da solo; i tiri compaiono in un registro stile terminale; le scelte da fare appaiono al momento. La *Modalità avanzata* permette ai giocatori esperti di scrivere direttamente i valori o di scegliere eventi precisi (segnati `[MANUAL]` per il GM).
-- **Scheda del personaggio** — la tua scheda viva durante il gioco: HP, corpo, armi, motore di classe, abilità, equipaggiamento, note. Tutto si ricalcola nel momento in cui qualcosa cambia.
+- **Scheda del personaggio** — la tua scheda viva durante il gioco: HP, corpo, armi, motore di classe, competenze, equipaggiamento, note. Tutto si ricalcola nel momento in cui qualcosa cambia.
 - **Dadi veri benvenuti** — ogni finestra di tiro accetta il tiro dell'app o il tuo. Dopo un colpo a segno, la finestra procede un passo alla volta: danni, poi (Scavenger) Exploit, poi la locazione colpita di un attacco a una locazione. A ogni passo premi *Tira*, oppure scrivi quello che mostrano i tuoi dadi e premi *Inserisci i miei dadi*; il riepilogo arriva alla fine.
 - **Tour guidati** — il pulsante **?** in cima alla scheda te la mostra in circa due minuti: stato, armi, il tuo turno, la finestra del tiro, il motore della classe, le prove, il mercato e il Dossier. La scheda del motore ha un **Tour della classe** per la risorsa e le abilità della tua classe, e la scheda Mappa ha un **Tour della mappa** (7-2 §5). Ognuno viene proposto una volta; i pulsanti **?** li ripetono.
 - **Manuale** — questo libro. Ogni ⓘ sulla scheda o durante la creazione apre una breve spiegazione con un link alla regola completa qui.
@@ -51,24 +51,24 @@ Il GM può far girare l'app da un portatile sul Wi-Fi del tavolo: ogni tablet ap
 
 ## 5-3. Attributi e prove {#sec-5-3}
 
-Le capacità fisiche, mentali e sociali del tuo Operatore sono definite da otto attributi principali. Sono loro a guidare ogni tiro, ogni prova di abilità e ogni azione di combattimento che compi sulla rete.
+Le capacità fisiche, mentali e sociali del tuo Operatore sono definite da otto attributi principali. Sono loro a guidare ogni tiro, ogni prova di competenza e ogni azione di combattimento che compi sulla rete.
 
 ::table[attributes]
 
-### Bonus e prove di abilità {#sec-5-3-skills}
+### Bonus e prove di competenza {#sec-5-3-skills}
 
-Raramente tiri contro un attributo nudo. Ogni attributo ha un **bonus pari a metà del suo valore, arrotondato per difetto**. Ogni abilità somma i bonus di due attributi, e quella somma è il **numero bersaglio (TN, *Target Number*)** dell'abilità.
+Raramente tiri contro un attributo nudo. Ogni attributo ha un **bonus pari a metà del suo valore, arrotondato per difetto**. Ogni competenza somma i bonus di due attributi, e quella somma è il **numero bersaglio (TN, *Target Number*)** della competenza.
 
-**Tira un d20: se il risultato è uguale o inferiore al TN, riesci.** Il GM può rendere la prova più difficile applicando una penalità di difficoltà (vedi *Prove di abilità e difficoltà*, 6-2).
+**Tira un d20: se il risultato è uguale o inferiore al TN, riesci.** Il GM può rendere la prova più difficile applicando una penalità di difficoltà (vedi *Prove di competenza e difficoltà*, 6-2).
 
 > **Esempio:** Thrown Objects usa DEX + INT. DEX 10 (bonus +5) e INT 12 (bonus +6) danno TN 11: devi fare 11 o meno su un d20.
 
-Siccome ogni attributo alimenta più abilità, trascurarne uno lascia punti ciechi in tutto l'albero. La scheda calcola tutte le abilità in tempo reale: tocca un'abilità per tirarla.
+Siccome ogni attributo alimenta più competenze, trascurarne uno lascia punti ciechi in tutto l'albero. La scheda calcola tutte le competenze in tempo reale: tocca una competenza per tirarla.
 
-**La finestra del tiro.** Si apre toccando un'abilità o un attributo. Dall'alto in basso:
+**La finestra del tiro.** Si apre toccando una competenza o un attributo. Dall'alto in basso:
 - **TN, difficoltà e Roll ≤** — il tuo TN, il livello di difficoltà (al tavolo è del GM e non puoi cambiarlo — la finestra lo mostra, *decisa dal GM*; da solo lo scegli tu; rosso se più difficile, verde se più facile, 6-2) e il numero da fare.
 - **In gioco** — oggetti ed effetti già contati nel TN: uno stimolante preso, una droga, un'ottica. Non devi fare niente; ti spiega perché il numero è quello.
-- **Attrezzatura utile** — gli attrezzi che porti adatti a questa abilità (un set da scasso, un medkit). Spunta quello giusto; ne conta solo uno, e il GM può dire che qui non vale.
+- **Attrezzatura utile** — gli attrezzi che porti adatti a questa competenza (un set da scasso, un medkit). Spunta quello giusto; ne conta solo uno, e il GM può dire che qui non vale.
 - **Luce** — solo al buio (7-2 §4): la scheda sceglie la riga dalla mappa o dall'interruttore Luce del GM; cambiala se la scena dice altro.
 - **Il tiro** — premi *Tira d20*, oppure scrivi quello che mostra il tuo dado e premi *Risolvi*. Margini, mancati di poco e 1 / 20 naturali sono spiegati.
 
@@ -101,7 +101,7 @@ Gli attacchi normali non incrinano mai l'armatura. Braccia rotte e gambe azzoppa
 Alla creazione ogni attributo parte da **6** e hai **20 punti** da spendere. In questa fase nessun attributo può superare **14** (eventi di vita e carriere potranno spingerlo più in alto). Il Credit Score parte da **20**: puoi abbassarlo per guadagnare punti, ma durante la creazione non puoi mai portarlo sopra 20. In gioco va da **0 a 100** come per tutti: il GM, un riciclatore o un talento possono portarlo oltre 20 (decisione 316).
 
 - **Evita il min-maxing.** Un operatore con CON 6 crolla al minimo danno; uno con WIS 6 viene preso alla sprovvista di continuo. I personaggi equilibrati sopravvivono più a lungo.
-- **Non sei sicuro?** Fai il quiz sullo stile di gioco nella Creazione: sei domande, una alla volta (tocca un numero per tornare a una). Ti suggerisce una classe e una distribuzione di attributi già pronta. Da lì una barra **Punti a** ti segue in attributi, giovinezza, carriere e classe: la classe verso cui costruisci (la cambi quando vuoi), le due statistiche su cui tira e la sua Class TN in quel momento. Quelle due statistiche sono segnate al passo degli attributi, e il passo della classe segna le sottoclassi con la TN migliore. All'ultimo passo puoi prendere un **kit di partenza** per la tua sottoclasse — tre ability e attrezzatura economica (un'arma scadente, pochissima armatura), gratis — oppure nessuno. Sulla scheda, i *Loadout suggeriti* del motore di classe mettono in un attimo le ability di un kit (l'attrezzatura resta com'è).
+- **Non sei sicuro?** Fai il quiz sullo stile di gioco nella Creazione: prima leggi le cinque classi, poi sei domande affiancate, ognuna con risposte brevi (quella intera compare sotto la risposta che scegli). Ti suggerisce una classe e una sottoclasse con il motivo — le risposte che puntano lì — e *Punta a questa* la imposta come obiettivo; il passo degli attributi propone la sua distribuzione già pronta. Da lì una barra **Punti a** ti segue in attributi, giovinezza, carriere e classe: la classe verso cui costruisci (la cambi quando vuoi), le due statistiche su cui tira e il suo TN di classe in quel momento. Quelle due statistiche sono segnate al passo degli attributi, e il passo della classe segna le sottoclassi con la TN migliore. All'ultimo passo puoi prendere un **kit di partenza** per la tua sottoclasse — tre abilità e attrezzatura economica (un'arma scadente, pochissima armatura), gratis — oppure nessuno. Sulla scheda, i *Loadout suggeriti* del motore di classe mettono in un attimo le abilità di un kit (l'attrezzatura resta com'è).
 
 ## 5-4. Giovinezza: gli eventi dell'adolescenza {#sec-5-4}
 
@@ -130,6 +130,8 @@ Dopo i 15 anni puoi finire subito in strada, oppure svolgere prima uno o più **
 
 ::table[career-events]
 
+**Legami.** Alcuni eventi ti legano a qualcuno: un **contatto** dentro uno dei poteri, un **nemico** potente, un **amante** facoltoso — e, in giovinezza, i soldi della **famiglia** di un erede. Chi sia viene tirato subito (i poteri sono le quattro corporazioni e le due fazioni delle Grey Zone: l'Euro-Grid Syndicate, l'Avalon-Collins Ledger, la Watch, la TRF, gli Air-Gappers, gli Hum-Singers) e finisce nel tuo Dossier, sotto *Legami*, con un nome e una nota da scrivere tu. Li vede anche il GM, e li userà.
+
 ### Invecchiamento {#sec-5-5-aging}
 
 Dai 27 anni in poi, ogni periodo applica i modificatori d'invecchiamento della tua fascia d'età attuale. Alcune fasce limitano gli attributi. Dai 45 anni il GM chiede una prova di morte.
@@ -144,13 +146,13 @@ Nessun Operatore finisce nel sottobosco per prestigio: ci vai perché sei in deb
 
 ## 5-6. Le classi {#sec-5-6}
 
-Le classi rappresentano la dottrina operativa del tuo Operatore: come gli attributi grezzi diventano azione tattica. Ogni classe è un **motore** distinto, con il suo ciclo di risorse e il suo ritmo di rischio e ricompensa. La tua **sottoclasse** determina i tuoi due attributi principali — la loro media è il tuo **Class TN** — e quali ability puoi equipaggiare.
+Le classi rappresentano la dottrina operativa del tuo Operatore: come gli attributi grezzi diventano azione tattica. Ogni classe è un **motore** distinto, con il suo ciclo di risorse e il suo ritmo di rischio e ricompensa. La tua **sottoclasse** determina i tuoi due attributi principali — la loro media è il tuo **TN di classe** — e quali abilità puoi equipaggiare.
 
 ::table[classes]
 
-### Equipaggiare le ability (brain fog) {#sec-5-6-equip}
+### Equipaggiare le abilità (brain fog) {#sec-5-6-equip}
 
-Conosci tutte le ability della tua sottoclasse, ma lo stress del combattimento limita quante puoi tenerne a portata di mano: ne **equipaggi fino a 3** (il GM può alzare il limite man mano che guadagni esperienza). Puoi cambiarle liberamente tra un combattimento e l'altro. Un'ability equipaggiata è **pronta** solo quando il tuo motore lo permette: la scheda mostra in verde quelle pronte e ti dice cosa manca alle altre.
+Conosci tutte le abilità della tua sottoclasse, ma lo stress del combattimento limita quante puoi tenerne a portata di mano: ne **equipaggi fino a 3** (il GM può alzare il limite man mano che guadagni esperienza). Puoi cambiarle liberamente tra un combattimento e l'altro. Un'abilità equipaggiata è **pronta** solo quando il tuo motore lo permette: la scheda mostra in verde quelle pronte e ti dice cosa manca alle altre.
 
 ### Il Soldier {#sec-5-6-soldier}
 
@@ -161,7 +163,7 @@ Il Soldier è la forza d'urto della squadra in prima linea, costruita sullo **St
 - **Attack:** danni normali, e **+2 TN agli attacchi con le armi**.
 - **Onslaught:** ×1,5 ai danni inflitti e subiti. Alto rischio, alta ricompensa.
 
-**Il flusso.** Ogni combattimento inizia in **Ready**. Solo le ability di stance ti portano in un'altra stance. Un **attacco normale tiene la stance** (è a questo che serve: colpi a ×1,5 in Onslaught, a ×0,5 quando sei trincerato), e lo stesso vale per *Mirare* prima di un attacco. **Qualsiasi altra cosa ti riporta a Ready** — muoverti, ricaricare, cambiare arma, interagire, usare un oggetto o un talento — ma i tuoi **TP restano**. Una stance dura per tutto il turno dei nemici e nel tuo turno successivo, fino a una di quelle azioni: finisci il turno in Onslaught e ogni colpo che subisci nel frattempo vale ×1,5.
+**Il flusso.** Ogni combattimento inizia in **Ready**. Solo le abilità di stance ti portano in un'altra stance. Un **attacco normale tiene la stance** (è a questo che serve: colpi a ×1,5 in Onslaught, a ×0,5 quando sei trincerato), e lo stesso vale per *Mirare* prima di un attacco. **Qualsiasi altra cosa ti riporta a Ready** — muoverti, ricaricare, cambiare arma, interagire, usare un oggetto o un talento — ma i tuoi **TP restano**. Una stance dura per tutto il turno dei nemici e nel tuo turno successivo, fino a una di quelle azioni: finisci il turno in Onslaught e ogni colpo che subisci nel frattempo vale ×1,5.
 
 I **TP** partono da **0 a ogni combattimento** e non hanno limite. Li accumuli combattendo: **ogni attacco normale a segno dà +1 TP**, *Brace & Dig In* dà +2 e *Steady Aim* +1. I colpi finali costano da 1 a 3 TP e cambiano la tua stance. La scheda applica la stance a ogni tiro di danni.
 
@@ -190,12 +192,12 @@ L'Hacker combatte con la guerra dell'informazione, bilanciando **RAM** e **Heat*
 
 Il Tech Wizard è un architetto del campo di battaglia e un medico da campo che sintonizza il suo rig sull'infrastruttura intorno a sé: linee elettriche, rottami, cavi. Il suo motore è il **Field Sync**: più a lungo mantiene uno scopo, più profonda diventa la sintonia.
 
-- **Due modalità.** **Mend** (supporto: riparare l'armatura incrinata, curare, alzare coperture, potenziare) o **Surge** (offensiva: incrinare armature, shock, trappole, torrette). Ogni ability ha una faccia Mend e una Surge; la modalità sceglie quale scatta.
-- **Sync 0–3:** *Cold → Warm → Tuned → Resonant*. +1 ogni volta che usi un'ability, e +1 alla fine di un round in cui non hai cambiato modalità.
+- **Due modalità.** **Mend** (supporto: riparare l'armatura incrinata, curare, alzare coperture, potenziare) o **Surge** (offensiva: incrinare armature, shock, trappole, torrette). Ogni abilità ha una faccia Mend e una Surge; la modalità sceglie quale scatta.
+- **Sync 0–3:** *Cold → Warm → Tuned → Resonant*. +1 ogni volta che usi un'abilità, e +1 alla fine di un round in cui non hai cambiato modalità.
 - **Cambiare** modalità è gratis all'inizio del tuo turno, ma il Sync torna a 0. **Scelta d'apertura:** in uno scontro, fino alla tua prima azione, scegliere la modalità è prepararsi, non cambiare — il Sync non si azzera e il +1 del round arriva lo stesso.
-- **Soglie:** le ability più forti richiedono un Sync minimo.
-- **Resonant burst:** a Sync 3 puoi far scattare un'ability con **entrambe le facce insieme**: la copertura ripara il tuo amico *e* le schegge colpiscono il nemico. Poi il Sync torna a 0 (la modalità resta).
-- **Brownout:** le mosse più pesanti (*Structural Collapse*) azzerano il Sync e mandano il rig offline — niente ability — fino alla fine del round successivo.
+- **Soglie:** le abilità più forti richiedono un Sync minimo.
+- **Resonant burst:** a Sync 3 puoi far scattare un'abilità con **entrambe le facce insieme**: la copertura ripara il tuo amico *e* le schegge colpiscono il nemico. Poi il Sync torna a 0 (la modalità resta).
+- **Brownout:** le mosse più pesanti (*Structural Collapse*) azzerano il Sync e mandano il rig offline — niente abilità — fino alla fine del round successivo.
 - **Disturbo:** perdere HP costa 1 Sync. Tieni il tuo Tech Wizard al riparo.
 - Ogni combattimento inizia a Cold.
 
@@ -265,20 +267,20 @@ Carica il ritratto sulla scheda (sezione Dossier): viene rimpicciolito in automa
 ## 5-8. La scheda del personaggio {#sec-5-8}
 
 - **Schermo** (in alto a destra) — la dimensione dell'interfaccia (Auto, oppure A− / A+) e il **tema**: *Notte*, *Giorno*, *Corp Interface* (HUD blu notte), *Grey Zone Terminal* (fosfori ambra), *Field Dossier* (un fascicolo stampato, chiaro), *Netrunner* (il neon dell'hacker), *Night Ops* (verde oliva e stencil, poco abbagliante), *Graphite Violet* o *Graphite Crimson* (grigio scuro con un accento viola o rosso) — un solo menu a tendina. Un tema cambia l'aspetto — colori, pannelli, bordi, titoli — mai la mappa, che tiene i suoi colori collaudati così nebbia, buio e luci si leggono sempre allo stesso modo. Ricordato su questo dispositivo.
-- **Barra di stato** — sempre visibile: HP, armatura, iniziativa, azioni, Class TN, Credit Score, contanti e condizioni attive. La sua seconda riga contiene le schede (Scheda, Dossier, Note e mappe, Progressi) accanto a Movimento, OFF e PER, e le tue condizioni stanno sotto la classe; gli strumenti — messaggio al GM, suoni, il tour (?), *Al tavolo*, *Esporta* — sono in alto a destra dello schermo. Al tavolo, una striscia sottile sopra può mostrare quello che il GM imposta per la scena — data e ora, meteo, temperatura, pericoli — e un timer o un conto alla rovescia a round che il GM ti dà; è la storia, nessuna regola la legge.
+- **Barra di stato** — sempre visibile: HP, armatura, iniziativa, azioni, TN di classe, Credit Score, contanti e condizioni attive. La sua seconda riga contiene le schede (Scheda, Dossier, Note e mappe, Progressi) accanto a Movimento, OFF e PER, e le tue condizioni stanno sotto la classe; gli strumenti — messaggio al GM, suoni, il tour (?), *Al tavolo*, *Esporta* — sono in alto a destra dello schermo. Al tavolo, una striscia sottile sopra può mostrare quello che il GM imposta per la scena — data e ora, meteo, temperatura, pericoli — e un timer o un conto alla rovescia a round che il GM ti dà; è la storia, nessuna regola la legge.
 - **Scheda** — il tuo personaggio in sezioni richiudibili, tutte chiuse all'inizio; chiusa, ognuna mostra un riassunto in una riga (*HP 30/33 · Wounded · armatura 3*), l'indice a sinistra (una riga in alto in una finestra stretta) ne apre una e la porta in vista, e toccarla di nuovo la chiude (*Apri tutto* / *Chiudi tutto* sotto); la scheda usa tutta la larghezza della finestra, e quello che lasci aperto resta aperto su questo dispositivo:
   - **Salute e condizioni** — HP, armatura, ferite e condizioni (con *Subisci un colpo*) e copertura.
   - **Armi** — i tuoi due slot: TN d'attacco, danni, munizioni, ricarica.
-  - **Classe e ability** — il motore di classe, le ability equipaggiate e i talenti.
+  - **Classe e abilità** — il motore di classe, le abilità equipaggiate e i talenti.
   - **Azioni** — il pannello del turno (*Inizia combattimento* e *Fine round* quando giochi senza tavolo — al tavolo il GM avvia, fa avanzare e chiude gli scontri, e la scheda non ha questi pulsanti —, un solo *Attacca* per l'arma in mano, *?* mostra cosa fa ogni azione). Al tavolo le ha anche la vista Tattica.
-  - **Attributi e abilità** — tutte le abilità (scrivi in *Cerca un'abilità* per filtrare per nome, statistica o gruppo) e gli attributi (modificabili per ferite, invecchiamento o decisioni del GM). Tocca per tirare con la difficoltà del GM.
+  - **Attributi e competenze** — tutte le competenze (scrivi in *Cerca una competenza* per filtrare per nome, statistica o gruppo) e gli attributi (modificabili per ferite, invecchiamento o decisioni del GM). Tocca per tirare con la difficoltà del GM.
   - **Inventario** — quello che porti (indossare armature, quantità, vendere / dare / buttare) e i tuoi nascondigli.
   - **Soldi, mercato e stile di vita** — contanti, Credit Score, il mercato, le offerte di un faccendiere e il tuo stile di vita.
 
   Movimento, OFF e PER stanno nella seconda riga dell'intestazione, aggiornati dalle condizioni. Quando il GM chiede un tiro, una finestra compare al centro dello schermo: *Tira* apre la stessa finestra della prova e il risultato va al GM.
 - **Tattica** — per prima finché il GM ha una mappa sul tavolo: lo scontro in una schermata (7-2 §5).
 - **Dossier** — identità, classe, trascorsi, debito (con pressione e rate), ritratto, storia e *La storia finora* (5-10).
-- **Note e mappe** — i tuoi appunti, **Mappe che abbiamo visto** (ogni mappa che è stata sul tavolo, per quanto la tua squadra l'ha vista, 7-2 §5) e il registro di tiri, acquisti e uso delle ability.
+- **Note e mappe** — i tuoi appunti, **Mappe che abbiamo visto** (ogni mappa che è stata sul tavolo, per quanto la tua squadra l'ha vista, 7-2 §5) e il registro di tiri, acquisti e uso delle abilità.
 - **Progressi** — livello, XP e gli alberi dei talenti (5-9).
 - **Mappa attiva** — solo mentre il GM ha una mappa sul tavolo: guardare, muoversi, aprire porte, controllare linea di vista e portata (7-2 §5).
 
@@ -303,7 +305,7 @@ Una missione vale di solito 5–8 XP.
 
 - **Ogni livello:** 1 **punto talento**.
 - **Livelli 2, 4, 6, 8, 10:** +1 a un attributo (valgono i soliti limiti e l'invecchiamento).
-- **Livelli 3, 6, 9:** +1 slot per le ability equipaggiate (oltre al tuo limite di brain fog).
+- **Livelli 3, 6, 9:** +1 slot per le abilità equipaggiate (oltre al tuo limite di brain fog).
 - **Livello 5:** si sbloccano i talenti di tier 3.
 
 Gli XP arrivano subito, ma un livello lo **spendi** solo quando il GM apre il **level-up**: il downtime, in un posto tranquillo tra una missione e l'altra. Un colpo seguito da una fuga resta un'unica lunga corsa. Un raro **addestramento** extra (tempo e soldi nel downtime) può alzare un attributo, se il GM lo permette.

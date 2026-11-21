@@ -49,8 +49,8 @@
       "text": "La tua presenza apre le porte negli ambienti aziendali. Aggiungi +1 a CHA."
     },
     "contact_within_a_megacorp": {
-      "name": "UN CONTATTO IN UNA MEGACORP",
-      "text": "Hai un contatto in una delle megacorporazioni. Decidi con il GM come ti passa informazioni o favori. Il primo favore: il tuo prossimo tiro di ingresso non serve."
+      "name": "UN CONTATTO IN UNO DEI POTERI",
+      "text": "Hai un contatto dentro uno dei poteri — una corporazione o una fazione delle Grey Zone (tirato: va nel tuo Dossier). Decidi con il GM chi è: informazioni riservate, un favore quando conta. Il primo favore: il tuo prossimo tiro di ingresso non serve."
     },
     "civil_defense_training": {
       "name": "DIFESA CIVILE",
@@ -106,7 +106,7 @@
     },
     "wealthy_lover": {
       "name": "AMANTE FACOLTOSO",
-      "text": "Il tuo amante è molto ricco e generoso. È complicato. +3 Credit Score, −1 MST."
+      "text": "Il tuo amante è molto ricco e generoso (chi: tirato, va nel tuo Dossier). È complicato. +3 Credit Score, −1 MST."
     },
     "steady_employment": {
       "name": "LAVORO STABILE",
@@ -130,7 +130,7 @@
     },
     "powerful_fanatic_enemy": {
       "name": "UN NEMICO POTENTE E FANATICO",
-      "text": "Ti sei fatto un nemico mortale e anche molto potente: un procuratore distrettuale, una vecchia fiamma con amici nelle corporazioni, il capo di un culto. Decidilo con il GM. Vivere guardandoti alle spalle: +1 MST."
+      "text": "Ti sei fatto un nemico mortale e anche molto potente (chi: tirato, va nel tuo Dossier). Decidi con il GM cosa gli hai fatto. Vivere guardandoti alle spalle: +1 MST."
     },
     "long_legs": {
       "name": "GAMBE LUNGHE",

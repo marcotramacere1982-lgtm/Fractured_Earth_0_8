@@ -2,19 +2,19 @@
   "refs": {
     "attributes": {
       "title": "Attributi",
-      "text": "Otto attributi principali. Ognuno ha un bonus pari a metà del suo valore (arrotondato per difetto); le abilità sommano due bonus."
+      "text": "Otto attributi principali. Ognuno ha un bonus pari a metà del suo valore (arrotondato per difetto); le competenze sommano due bonus."
     },
     "skill-check": {
-      "title": "Prove di abilità",
-      "text": "TN dell'abilità = bonus dell'attributo A + bonus dell'attributo B. Tira un d20: con un risultato uguale o inferiore riesci. Il GM può sottrarre una penalità di difficoltà."
+      "title": "Prove di competenza",
+      "text": "Il TN di una competenza è la somma di due bonus d'attributo. Tira un d20: uguale o sotto riesci. Il GM può renderla più difficile (o più facile) con un grado di difficoltà."
     },
     "passive": {
       "title": "Punteggio passivo",
       "text": "TN − 5. Quando non stai cercando attivamente, il GM confronta le minacce nascoste con questo valore senza chiederti di tirare."
     },
     "difficulty": {
-      "title": "Livelli di difficoltà",
-      "text": "Il GM riassume la situazione in un livello: Routine 0, Challenging −2, Hard −4, Severe −6, Extreme −8, Nightmare −10, da sottrarre al tuo TN."
+      "title": "Gradi di difficoltà",
+      "text": "Il GM riassume il momento in un grado. Più facile: Facilissima +6, Facile +4, Favorevole +2. Routine 0. Più difficile: Impegnativa −2, Difficile −4, Severa −6, Estrema −8, Incubo −10. Cambia il tuo TN per quel tiro."
     },
     "combat-values": {
       "title": "Valori di combattimento",
@@ -26,23 +26,23 @@
     },
     "actions": {
       "title": "Azioni per round",
-      "text": "Ogni azione di combattimento costa 1 azione: movimento, attacco, ability, ricarica, interazione. Puoi ripetere la stessa azione. Le azioni non spese si perdono a fine turno."
+      "text": "Ogni azione di combattimento costa 1 azione: movimento, attacco, abilità, ricarica, interazione. Puoi ripetere la stessa azione. Le azioni non spese si perdono a fine turno — tranne che una schivata può prenderne in prestito una dal prossimo round."
     },
     "hp": {
       "title": "Punti ferita (HP)",
-      "text": "HP massimi = CON + MST + 10. A 0 HP sei incapacitato e ogni round tiri una prova di morte su CON; arrivare a −CON significa morte immediata."
+      "text": "HP massimi = CON + MST + 10. A 0 HP sei Inabile: a ogni round in cui nessuno ti cura, tira CON — al secondo fallimento muori. A −CON muori subito."
     },
     "body": {
       "title": "Salute, armatura e ferite",
-      "text": "Una sola riserva di HP e un solo valore di armatura. Le locazioni contano solo negli attacchi a una locazione: il danno che supera l’armatura aggiunge una condizione (braccio rotto, gamba azzoppata, prono, rallentato, stordito); se l’armatura ferma tutto si incrina di 1."
+      "text": "Una sola riserva di HP e un solo valore di armatura. Le parti del corpo contano solo nei colpi mirati: il danno che supera l’armatura aggiunge una condizione (braccio rotto, gamba storpia, a terra, rallentato, stordito); se l’armatura ferma tutto si incrina di 1."
     },
     "hit-location": {
-      "title": "Attacco a una locazione",
-      "text": "−4 TN, poi d20: 1–4 gamba (Crippled leg), 5–8 braccio (Broken arm), 9–13 addome (Prone), 14–18 torace (Slowed), 19–20 testa (Stunned; Incapacitated a metà HP o meno). Aim (+1 azione) sposta il d20 di ±5."
+      "title": "Colpo mirato",
+      "text": "−4 TN, poi d20: 1–4 gamba (Gamba storpia), 5–8 braccio (Braccio rotto), 9–13 addome (A terra), 14–18 torace (Rallentato), 19–20 testa (Stordito; Inabile a metà HP o meno). Mirare (+1 azione) sposta il d20 di ±5."
     },
     "location-attack": {
-      "title": "Attacco a una locazione",
-      "text": "−4 TN, poi d20: 1–4 gamba (Crippled leg), 5–8 braccio (Broken arm), 9–13 addome (Prone), 14–18 torace (Slowed), 19–20 testa (Stunned; Incapacitated a metà HP o meno). Aim (+1 azione) sposta il d20 di ±5."
+      "title": "Colpo mirato",
+      "text": "−4 TN, poi d20: 1–4 gamba (Gamba storpia), 5–8 braccio (Braccio rotto), 9–13 addome (A terra), 14–18 torace (Rallentato), 19–20 testa (Stordito; Inabile a metà HP o meno). Mirare (+1 azione) sposta il d20 di ±5."
     },
     "cover": {
       "title": "Copertura",
@@ -50,27 +50,27 @@
     },
     "armor": {
       "title": "Armatura",
-      "text": "Somma dei pezzi indossati più la copertura, sottratta da ogni colpo. Si incrina di 1 solo quando ferma del tutto un attacco a una locazione (o un effetto la intacca); Ripara armatura sistema le incrinature. La copertura non si incrina mai."
+      "text": "Somma dei pezzi indossati più la copertura, sottratta da ogni colpo. Si incrina di 1 solo quando ferma del tutto un colpo mirato (o un effetto la intacca); Ripara armatura sistema le incrinature. La copertura non si incrina mai."
     },
     "conditions": {
       "title": "Condizioni",
-      "text": "Gli attacchi a una locazione aggiungono Broken arm, Crippled leg, Prone, Slowed, Stunned o Incapacitated; ability e pericoli aggiungono le altre. Le ferite agli arti restano finché non vengono curate (Primo soccorso, Trauma Patch, downtime)."
+      "text": "I colpi mirati aggiungono Braccio rotto, Gamba storpia, A terra, Rallentato, Stordito o Inabile; abilità e pericoli aggiungono le altre. Le ferite agli arti restano finché non vengono curate (Primo soccorso, Trauma Patch, il tempo tra le missioni)."
     },
     "round-end": {
       "title": "Fine del round",
       "text": "Prima le prove di morte, poi i motori di classe: i deck degli hacker smaltiscono 1 heat (o si riavviano dopo un Blue Screen), i Tech Wizard che hanno mantenuto la modalità ottengono +1 Sync (un Brownout fa il conto alla rovescia), gli Smuggler feriti scivolano di +1."
     },
     "class-tn": {
-      "title": "Class TN",
-      "text": "La media dei due attributi principali della tua sottoclasse, arrotondata. Tira un d20 con risultato uguale o inferiore per riuscire in una ability che richiede un tiro."
+      "title": "TN di classe",
+      "text": "La media dei due attributi principali della tua sottoclasse, arrotondata. Tira un d20 con risultato uguale o inferiore per riuscire in una abilità che richiede un tiro."
     },
     "brain-fog": {
       "title": "Equipaggiate e pronte",
-      "text": "Equipaggia ability fino al tuo limite di brain fog (3 all'inizio) e cambiale tra un combattimento e l'altro. Un'ability equipaggiata è pronta solo quando il tuo motore di classe lo permette."
+      "text": "Equipaggia abilità fino al tuo limite di brain fog (3 all'inizio) e cambiale tra un combattimento e l'altro. Un'abilità equipaggiata è pronta solo quando il tuo motore di classe lo permette."
     },
     "soldier": {
       "title": "Soldier · Stance-Flow",
-      "text": "Ogni combattimento inizia in Ready. I TP partono da 0; ogni attacco normale a segno dà +1 TP. Le ability di stance spendono TP e ti spostano: Defensive ×0,5, Attack +2 TN, Onslaught ×1,5 ai danni in entrambi i sensi. Gli attacchi normali tengono la stance; muoversi, ricaricare o usare oggetti riporta a Ready (i TP restano)."
+      "text": "Ogni combattimento inizia in Ready. I TP partono da 0; ogni attacco normale a segno dà +1 TP. Le abilità di stance spendono TP e ti spostano: Defensive ×0,5, Attack +2 TN, Onslaught ×1,5 ai danni in entrambi i sensi. Gli attacchi normali tengono la stance; muoversi, ricaricare o usare oggetti riporta a Ready (i TP restano)."
     },
     "hacker": {
       "title": "Hacker · RAM e Heat",
@@ -78,7 +78,7 @@
     },
     "techwiz": {
       "title": "Tech Wizard · Field Sync",
-      "text": "Mend (supporto) o Surge (offensiva). +1 Sync per ogni ability e per ogni round in cui mantieni la modalità; cambiare modalità azzera il Sync. Le ability richiedono un livello di Sync. A Resonant (3) un Resonant burst fa scattare entrambe le facce, poi Sync 0. Structural Collapse provoca un Brownout. I colpi alle locazioni costano 1 Sync."
+      "text": "Mend (supporto) o Surge (offensiva). +1 Sync per ogni abilità e per ogni round in cui mantieni la modalità; cambiare modalità azzera il Sync. Le abilità richiedono un livello di Sync. A Resonant (3) un Resonant burst fa scattare entrambe le facce, poi Sync 0. Structural Collapse provoca un Brownout. I colpi mirati costano 1 Sync."
     },
     "smuggler": {
       "title": "Smuggler · Pendulum",
@@ -90,7 +90,7 @@
     },
     "weapon-tn": {
       "title": "Attaccare con un'arma",
-      "text": "Il TN d'attacco è l'abilità corrispondente (pistola → Handguns, SMG/fucile → Automatic Firearms, cecchino → Long Guns, lame/manganelli → Melee). Ai danni si aggiunge il Bonus offensivo; si sottrae l'armatura."
+      "text": "Il TN d'attacco è la competenza dell'arma: pistola → Pistole · SMG, fucile d'assalto → Armi automatiche · fucile da cecchino, a pompa, arco → Armi lunghe / Fucili a pompa · lame, manganelli, storditori → Mischia · pugni → Rissa. Ai danni si aggiunge il tuo OFF (bonus offensivo); l'armatura del bersaglio si sottrae."
     },
     "credit-score": {
       "title": "Credit Score",
@@ -126,15 +126,15 @@
     },
     "progress": {
       "title": "Livello e XP",
-      "text": "XP dagli obiettivi della missione, dai combattimenti pericolosi e dallo Spotlight del GM. 10 XP = 1 livello: un punto talento a ogni livello, +1 attributo ai livelli pari, +1 slot ability ai livelli 3, 6, 9. Lo spendi quando il GM apre il level-up."
+      "text": "XP dagli obiettivi della missione, dai combattimenti pericolosi e dallo Spotlight del GM. 10 XP = 1 livello: un punto talento a ogni livello, +1 attributo ai livelli pari, +1 slot abilità ai livelli 3, 6, 9. Lo spendi quando il GM apre il level-up."
     },
     "talents": {
       "title": "Talenti",
       "text": "Vantaggi passivi comprati con i punti talento. Quelli automatici li applica la scheda; gli altri sono regole al tavolo. I talenti una-volta-per hanno un pulsante Usa."
     },
     "downtime": {
-      "title": "Downtime",
-      "text": "Tra una missione e l'altra: tornano HP e armatura (anche le ferite, se passa abbastanza tempo), il lavoro ufficiale paga, e ogni giocatore riceve un evento della sua storia: spunta un'opzione nel Dossier e paga lì le spese di vita (contanti, Credit Score o metà e metà). La pressione del debito sale di 1 a ogni downtime; una rata o un'opzione la abbassano."
+      "title": "Nel frattempo…",
+      "text": "Tra una missione e l'altra: tornano HP e armatura (anche le ferite, se passa abbastanza tempo), il lavoro ufficiale paga, e ogni giocatore riceve un evento della sua storia: spunta un'opzione nel Dossier e paga lì le spese di vita (contanti, Credit Score o metà e metà). La pressione del debito sale di 1 a ogni pausa tra le missioni; una rata o un'opzione la abbassano."
     },
     "crew": {
       "title": "Squadra e Unity",
@@ -178,19 +178,19 @@
     },
     "help": {
       "title": "Aiuto",
-      "text": "Un compagno che sa dire come aiuta tira un'abilità adatta: un successo +2 alla tua prossima prova, un 20 naturale −2 (è stato d'intralcio), altrimenti niente. Un aiutante alla volta; in uno scontro è un'azione; una nuova scena lo cancella."
+      "text": "Un compagno che sa dire come aiuta tira una competenza adatta: un successo +2 alla tua prossima prova, un 20 naturale −2 (è stato d'intralcio), altrimenti niente. Un aiutante alla volta; in uno scontro è un'azione; una nuova scena lo cancella."
     },
     "falling": {
       "title": "Cadere",
-      "text": "Fino a 3 m: nessun danno, tira Agility & Athletics o finisci Prone. Più in alto: 1d6 ogni 3 m pieni (al massimo 10d6). Atterrare bene (Agility & Athletics) dimezza il danno; un fallimento: Prone; un 20 naturale: una gamba azzoppata. L'armatura conta, la copertura no."
+      "text": "Fino a 3 m: nessun danno, tira Agilità / Atletica o finisci a terra. Più in alto: 1d6 ogni 3 m pieni (al massimo 10d6). Atterrare bene (Agilità / Atletica) dimezza il danno; un fallimento: a terra; un 20 naturale: una gamba storpia. L'armatura conta, la copertura no."
     },
     "breath": {
       "title": "Aria",
-      "text": "Trattenere il respiro dura CON round (metà se colto di sorpresa). Poi un tiro di CON a ogni round, −1 in più ogni volta; un fallimento: svieni (Incapacitated). Svenuto senz'aria: 1d6 a round, l'armatura non aiuta mai. Torna l'aria: ti riprendi."
+      "text": "Trattenere il respiro dura CON round (metà se colto di sorpresa). Poi un tiro di CON a ogni round, −1 in più ogni volta; un fallimento: svieni (Inabile). Svenuto senz'aria: 1d6 a round, l'armatura non aiuta mai. Torna l'aria: ti riprendi."
     },
     "chase": {
       "title": "Inseguimento",
-      "text": "Il distacco va da 0 (presi) a 6 (seminati). A ogni tratto fai una mossa — Corri, Guida, Fuoco di copertura, Hack, Trucco, Aiuta, Nasconditi — un tiro che conta anche per tenere il passo (metà della crew deve riuscire). Gli inseguitori tirano una volta. Dal tratto 5 ogni fallimento costa Strain e un tiro di CON."
+      "text": "Il distacco va da 0 (presi) a 6 (seminati). A ogni tratto fai una mossa — Corri, Guida, Fuoco di copertura, Hack, Trucco, Aiuta, Nasconditi — un tiro che conta anche per tenere il passo (metà della crew deve riuscire). Gli inseguitori tirano una volta. Dal tratto 5 ogni fallimento costa Stress e un tiro di CON."
     },
     "case": {
       "title": "Il caso",
@@ -198,11 +198,11 @@
     },
     "site-alert": {
       "title": "Allerta del sito",
-      "text": "Qui la sicurezza sta all'erta. In Alert, Stealth, Sleight of Hand, Electronics & Security, Computers & Hacking e la Class TN di un Hacker sono a −1 TN finché sei su questa mappa; in Lockdown −2. Lo gira il GM; ping e droni lo spingono."
+      "text": "Qui la sicurezza sta all'erta. In Allerta, Furtività, Destrezza di mano, Elettronica / Sicurezza, Computer / Hacking e il TN di classe di un Hacker sono a −1 TN finché sei su questa mappa; in Isolamento −2. Lo gira il GM; ping e droni lo spingono."
     },
     "darkness": {
       "title": "Il buio",
-      "text": "Al buio: un bersaglio visto solo come traccia termica −2 (niente colpi mirati), uno che non vedi −4; Stealth +2 non illuminato, −4 illuminato o con la torcia accesa; Perception −2 senza visione notturna o termica. La scheda suggerisce, tu confermi."
+      "text": "Al buio: un bersaglio visto solo come traccia termica −2 (niente colpi mirati), uno che non vedi −4; Furtività +2 non illuminato, −4 illuminato o con la torcia accesa; Perception −2 senza visione notturna o termica. La scheda suggerisce, tu confermi."
     },
     "drone": {
       "title": "Drone del Tech Wizard",
@@ -210,7 +210,7 @@
     },
     "housekeeping": {
       "title": "Manutenzione",
-      "text": "Piccole incombenze di classe, sempre a portata di mano: non occupano mai uno slot (brain fog). Nessun tiro di Class TN; in combattimento ognuna costa un'azione. Al massimo due per classe."
+      "text": "Piccole incombenze di classe, sempre a portata di mano: non occupano mai uno slot (brain fog). Nessun tiro del TN di classe; in combattimento ognuna costa un'azione. Al massimo due per classe."
     },
     "intel": {
       "title": "Intel",

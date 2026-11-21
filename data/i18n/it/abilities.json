@@ -25,7 +25,7 @@
       "desc": "Ogni alleato può muoversi fino ai suoi quadretti senza provocare attacchi di opportunità; chi finisce in copertura ottiene +2 di armatura fino al suo prossimo turno."
     },
     "fix_bayonets": {
-      "desc": "Carichi un nemico fino ai tuoi quadretti e colpisci: danni dell'arma +1d6, e il bersaglio è Prone."
+      "desc": "Carichi un nemico fino ai tuoi quadretti e colpisci: danni dell'arma +1d6, e il bersaglio è a terra."
     },
     "bunker_buster": {
       "desc": "Un colpo brutale a bruciapelo: danni dell'arma che ignorano metà dell'armatura del bersaglio, e gli incrini l'armatura di 1."
@@ -34,7 +34,7 @@
       "desc": "Svuoti il caricatore a bruciapelo: tira due volte i danni dell'arma (in mischia: due colpi). Servono almeno 3 colpi carichi."
     },
     "shift_stance": {
-      "desc": "Ti sposti di un passo tra Defensive e Attack senza un'ability. Niente TP; sei Unsteady (−2 TN agli attacchi) fino a fine round."
+      "desc": "Ti sposti di un passo tra Defensive e Attack senza un'abilità. Niente TP; sei Instabile (−2 TN agli attacchi) fino a fine round."
     },
     "field_strip": {
       "desc": "Fuori dal combattimento: togli Jammed e ricarichi entrambe le armi dai caricatori di scorta."
@@ -43,25 +43,25 @@
       "desc": "Reazione, quando un alleato in vista viene attaccato: è Covered — attacchi contro di lui a −2 TN fino a fine round. Si paga come la Schivata."
     },
     "hard_stare": {
-      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Interrogation / Intimidation."
+      "desc": "Una volta per missione, fuori dal combattimento: tiri il tuo TN di classe al posto di Interrogatorio / Intimidazione."
     },
     "human_shield": {
       "desc": "Fino al tuo prossimo turno, gli attacchi a un alleato accanto colpiscono te (li prende la tua armatura)."
     },
     "shoulder_charge": {
-      "desc": "Ti muovi fino a 2 quadretti contro un nemico adiacente e lo mandi Prone (nessun danno). Genera 1 TP; finisci in Attack."
+      "desc": "Ti muovi fino a 2 quadretti contro un nemico adiacente e lo mandi a terra (nessun danno). Genera 1 TP; finisci in Attack."
     },
     "breach_and_clear": {
       "desc": "Attraverso una porta chiusa o un muro debole con la forza bruta. Rumoroso: chi è vicino lo sente."
     },
     "second_wind": {
-      "desc": "In Onslaught: ti curi di 1d6 + il bonus di CON e ti scrolli di dosso Stunned."
+      "desc": "In Onslaught: ti curi di 1d6 + il bonus di CON e ti scrolli di dosso Stordito."
     },
     "battle_plan": {
       "desc": "Una volta per missione, fuori dal combattimento: lo pianifichi con la squadra. All'inizio del prossimo combattimento ogni alleato ha +2 all'iniziativa, e tu parti con 2 TP."
     },
     "rally": {
-      "desc": "Gli alleati in vista si scrollano di dosso Suppressed o Stunned e hanno +1 TN al prossimo tiro."
+      "desc": "Gli alleati in vista si scrollano di dosso Soppresso o Stordito e hanno +1 TN al prossimo tiro."
     },
     "flank_order": {
       "desc": "Un alleato si muove fino ai suoi quadretti e ha +2 TN al prossimo attacco contro il tuo bersaglio in questo round."
@@ -109,7 +109,7 @@
       "desc": "Avvolgi nel tuo firewall il cyberware di un alleato — o il drone del Tech Wizard: gli hack contro di lui falliscono finché regge."
     },
     "phish": {
-      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Deception o Persuasion, attraverso uno schermo."
+      "desc": "Una volta per missione, fuori dal combattimento: tiri il tuo TN di classe al posto di Inganno o Persuasione, attraverso uno schermo."
     },
     "bodycam_hijack": {
       "desc": "Vedi attraverso la bodycam o gli occhiali smart di una guardia: il GM ti dice cosa vede, e gli alleati hanno +2 TN contro quella guardia (Marked)."
@@ -156,7 +156,7 @@
     },
     "fortify_position": {
       "mend": "Un elemento di copertura diventa copertura totale (+4) fino alla fine del prossimo round.",
-      "surge": "Elettrifichi una copertura: un nemico dentro o accanto subisce 1d6 ed è Stunned."
+      "surge": "Elettrifichi una copertura: un nemico dentro o accanto subisce 1d6 ed è stordito."
     },
     "rig_power_conduit": {
       "mend": "Gli alleati adiacenti ottengono +2 di armatura fino alla fine del prossimo round.",
@@ -172,7 +172,7 @@
     },
     "structural_collapse": {
       "mend": "Puntelli la struttura: i pilastri danno a tutta la squadra copertura totale (+4) finché non vengono distrutti.",
-      "surge": "Fai crollare il soffitto su un'area 3×3: 3d6, la copertura lì viene distrutta, i bersagli sono Prone."
+      "surge": "Fai crollare il soffitto su un'area 3×3: 3d6, la copertura lì viene distrutta, i bersagli sono a terra."
     },
     "recalibrate": {
       "desc": "Regoli il rig: +1 Sync, nessun tiro. In combattimento costa un'azione, e in questo round non puoi cambiare modalità."
@@ -201,7 +201,7 @@
       "surge": "L'arma di un nemico adiacente si inceppa."
     },
     "steady_hands": {
-      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Medicine / First Aid."
+      "desc": "Una volta per missione, fuori dal combattimento: tiri il tuo TN di classe al posto di Medicina / Primo soccorso."
     },
     "remote_pilot": {
       "mend": "Fai volare il drone fino a {reach} quadretti avanti: il GM rivela cosa vede.",
@@ -213,10 +213,10 @@
     },
     "rig_trap": {
       "mend": "Un allarme a filo su un quadretto: sai subito quando qualcuno lo attraversa.",
-      "surge": "Una trappola elettrica su un quadretto: il primo nemico che passa subisce 2d6 ed è Stunned."
+      "surge": "Una trappola elettrica su un quadretto: il primo nemico che passa subisce 2d6 ed è stordito."
     },
     "calibrate": {
-      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Mechanics o Electronics."
+      "desc": "Una volta per missione, fuori dal combattimento: tiri il tuo TN di classe al posto di Meccanica o Elettronica."
     }
   },
   "smuggler": {
@@ -236,7 +236,7 @@
       "desc": "Tiri fuori qualcosa da una tasca nascosta. Scegli: curi 1d6 HP; +2 armatura fino alla fine del prossimo round; oppure fumo (area 2×2, chi attacca attraverso lo fa a −4 TN)."
     },
     "safehouse_route": {
-      "desc": "Guidi un alleato in vista lungo un percorso non sorvegliato: si muove fino ai suoi quadretti senza provocare attacchi e perde Prone o Stunned."
+      "desc": "Guidi un alleato in vista lungo un percorso non sorvegliato: si muove fino ai suoi quadretti senza provocare attacchi e non è più a terra né stordito."
     },
     "decoy_deployment": {
       "desc": "Piazzi un’esca entro 5 quadretti. Finché non viene distrutta (1 colpo) o finisce il prossimo round, i nemici che la vedono attaccano prima lei."
@@ -263,7 +263,7 @@
       "desc": "Reazione, quando vieni attaccato: sei Evasive — attacchi contro di te a −2 TN fino a fine round. Si paga come la Schivata."
     },
     "fast_talk": {
-      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Persuasion o Deception, per una bugia o un affare."
+      "desc": "Una volta per missione, fuori dal combattimento: tiri il tuo TN di classe al posto di Persuasione o Inganno, per una bugia o un affare."
     },
     "quick_draw": {
       "desc": "Prima della tua prima azione in un combattimento: spari con l'arma pronta a +2 TN (danni dell'arma, 1 colpo)."
@@ -278,7 +278,7 @@
       "desc": "Una volta per missione, fuori dal combattimento: un contatto si fa vivo — informazioni, un veicolo, attrezzatura a prezzo di costo o una porta aperta. Il GM dice cosa."
     },
     "cover_story": {
-      "desc": "Fuori dal combattimento: documenti e una storia per la squadra. Ogni alleato (e tu) ha +2 alla prossima prova di Deception o Persuasion contro i funzionari."
+      "desc": "Fuori dal combattimento: documenti e una storia per la squadra. Ogni alleato (e tu) ha +2 alla prossima prova di Inganno o Persuasione contro i funzionari."
     },
     "exit_plan": {
       "desc": "Indichi la via d'uscita: gli alleati che si muovono in questo round hanno +1 quadretto e ignorano il terreno difficile."
@@ -304,13 +304,13 @@
       "desc": "Finta e spostamento: il prossimo attacco del bersaglio è a −4 TN, e se manca colpisce un altro nemico accanto a lui, se c'è (decide il GM)."
     },
     "pin_the_route": {
-      "desc": "Annunci il suo percorso alla squadra: il bersaglio è Slowed fino alla fine del suo prossimo turno."
+      "desc": "Annunci il suo percorso alla squadra: il bersaglio è rallentato fino alla fine del suo prossimo turno."
     },
     "jam": {
       "desc": "Manometti l'arma di un bersaglio adiacente: è Jammed."
     },
     "called_shot": {
-      "desc": "Spari con l'arma pronta un attacco localizzato sulla tua Class TN, senza la penalità di −4: tira dove colpisce e applica l'effetto di quella zona."
+      "desc": "Spari con l'arma pronta un colpo mirato sul tuo TN di classe, senza la penalità di −4: tira dove colpisce e applica l'effetto di quella zona."
     },
     "strip": {
       "desc": "Strappi una piastra o disarmi un bersaglio adiacente. Scegli: lascia cadere l'arma (1 azione per raccoglierla; un'arma col blocco IA per te è inutile), oppure la sua armatura si incrina di 2."
@@ -328,16 +328,16 @@
       "desc": "Fuori dal combattimento, una volta per scena: perquisisci una stanza o un corpo — un oggetto piccolo, o un caricatore di scorta per un'arma che porti. Il GM dice cosa."
     },
     "read_the_room": {
-      "desc": "Una volta per missione, fuori dal combattimento: tiri la tua Class TN al posto di Perception / Awareness o Forensics / Investigation."
+      "desc": "Una volta per missione, fuori dal combattimento: tiri il tuo TN di classe al posto di Percezione / Attenzione o Scientifica / Indagine."
     },
     "spotter": {
-      "desc": "Indichi il punto debole: il prossimo attacco di un alleato sul tuo bersaglio può essere un attacco localizzato senza la penalità di −4."
+      "desc": "Indichi il punto debole: il prossimo attacco di un alleato sul tuo bersaglio può essere un colpo mirato senza la penalità di −4."
     },
     "lead_the_way": {
-      "desc": "Fuori dal combattimento: la squadra segue il tuo percorso — tutti hanno +2 alla prossima prova di Stealth."
+      "desc": "Fuori dal combattimento: la squadra segue il tuo percorso — tutti hanno +2 alla prossima prova di Furtività."
     },
     "pickpocket": {
-      "desc": "Fuori dal combattimento: sfili qualcosa a qualcuno che non ti sta combattendo, senza farti notare — la tua Class TN contro la sua Awareness."
+      "desc": "Fuori dal combattimento: sfili qualcosa a qualcuno che non ti sta combattendo, senza farti notare — il tuo TN di classe contro la sua Attenzione."
     },
     "dirty_trick": {
       "desc": "Polvere negli occhi: il bersaglio adiacente è Blinded fino al suo prossimo turno."

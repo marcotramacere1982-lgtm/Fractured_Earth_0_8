@@ -68,6 +68,10 @@ When two active characters directly oppose each other—such as an Operator atte
 
 - **Dual Failure:** If both participants fail their rolls (> TN), the situational status quo remains unchanged, or the action results in a chaotic neutral stall (e.g., both hackers lock each other out temporarily).
 
+- **Naturals:** a **natural 1** wins outright, whatever the other side rolled; a **natural 20** loses outright. **Both natural 1s** cancel out: nothing changes, as with a dual failure.
+
+> **When to use it.** Rarely. A difficulty step already says how hard the other side is — a fixer who can't be swindled is a *Hard* check, not a contest. Save contested checks for two characters who both have real numbers and both act at once: player against player, or a named elite in a scene that should feel like a duel.
+
 ### Helping a crewmate {#sec-6-2-help}
 
 One crewmate can help another's check — if they can say **how**: holding the light, reading out the schematic, keeping watch, talking the guard's ear off. The helper rolls a skill that fits what they do:
@@ -284,6 +288,24 @@ Attacks are not affected: under fire, training takes over. **Scars** stay on you
 **What brings it down.** A **safe moment** — the GM's new scene with time to breathe: −1 to everyone. A crewmate's **Steady** (*Steady a crewmate* under their Strain): −1, or −2 when the crew is *Tight*; it costs an action in a fight, and a *Fractured* crew can't do it under fire. **Downtime**: a few days −2, a few weeks −4, about a month −6, several months −10 — and a better home clears more (+1 for each tier above a tenement room).
 
 Whether what you saw was real, the game never says.
+
+### Fatigue: what the night does to your body {#sec-6-7-fatigue}
+
+Strain is your head; **Fatigue** is your body. A crew that fights four times in a night shouldn't feel as fresh as at the first — and the choice "rest, or push on?" is one of the best a table can face.
+
+| Fatigue | Band | What it does |
+|---|---|---|
+| 0–2 | **Fresh** | nothing |
+| 3–4 | **Tired** | −1 TN on physical checks (skills led by STR, DEX or CON) and attacks |
+| 5–6 | **Spent** | −2 TN on them, and a square less of move |
+
+It stops at 6: no collapse. **Only the worse of Fatigue and Strain counts** on a check — Tired and Shaken together are still −1.
+
+- **It goes up** when a fight ends (+1; +2 if it lasted 4 rounds or more, or you dropped below half HP in it), when you **Push** (+1), when a stim wears off with a crash, and when the GM says so — a night without sleep, a forced march.
+- **Push.** When it matters, dig deep: tick **Push** in any check or attack for **+2** on that roll, or in a fight take one more action this turn (once per turn) — each for +1 Fatigue. You can always go hard; it comes out of the same pool.
+- **It comes down** with a **breather** (−2, once per scene: the GM's safe New scene, or a quiet ten minutes the GM grants), with **sleep or downtime** (back to 0), and with **stims** (Wake-Up Strips, an adrenaline shot: −2 now — but your next breather won't help).
+
+> "Fatigue is your legs and lungs. Every fight costs a little, pushing costs more; Tired is −1 on anything physical, Spent −2. A breather takes two off, sleep clears it."
 
 ## 6-8. Falls, air and water {#sec-6-8}
 

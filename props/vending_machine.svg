@@ -2,7 +2,7 @@
   <!-- Vending machine, 1 × ½. Back at the top, glass and keypad at the front (bottom). -->
   <rect class="solid" x="4" y="4" width="92" height="42" fill="none" stroke="currentColor" stroke-width="4"/>
   <line class="solid" x1="4" y1="6" x2="96" y2="6" fill="none" stroke="currentColor" stroke-width="6"/>
-  <rect class="detail" x="10" y="26" width="54" height="14" fill="none" stroke="currentColor" stroke-width="2"/>
-  <rect class="detail" x="70" y="26" width="20" height="14" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail part-glass" x="10" y="26" width="54" height="14" fill="none" stroke="currentColor" stroke-width="2"/>
+  <rect class="detail part-plastic" x="70" y="26" width="20" height="14" fill="none" stroke="currentColor" stroke-width="2"/>
   <circle class="detail" cx="80" cy="33" r="2" fill="currentColor" stroke="none"/>
 </svg>

@@ -9,7 +9,7 @@
         },
         "tabs": {
           "title": "Quattro schede",
-          "text": "Scheda è il tuo personaggio in sezioni richiudibili — salute, armi, classe e ability, azioni, abilità, inventario, soldi e mercato; chiuse, ognuna mostra un riassunto in una riga, e l'indice a sinistra ne apre o chiude una. Dossier per la tua storia e il debito, Note e mappe per tutto il resto (e le mappe che avete visto), Progressi per XP e talenti. Quando il GM mette una mappa sul tavolo, la scheda Tattica viene per prima — con un suo breve tour."
+          "text": "Scheda è il tuo personaggio in sezioni richiudibili — salute, armi, classe e abilità, azioni, competenze, inventario, soldi e mercato; chiuse, ognuna mostra un riassunto in una riga, e l'indice a sinistra ne apre o chiude una. Dossier per la tua storia e il debito, Note e mappe per tutto il resto (e le mappe che avete visto), Progressi per XP e talenti. Quando il GM mette una mappa sul tavolo, la scheda Tattica viene per prima — con un suo breve tour."
         },
         "weapons": {
           "title": "Prepara le armi",
@@ -45,11 +45,11 @@
         },
         "health": {
           "title": "Salute e condizioni",
-          "text": "Quando vieni colpito usa Subisci un colpo: scrivi i danni e, per un attacco a una locazione, dove ha colpito. La scheda toglie l'armatura, abbassa gli HP e aggiunge la ferita o la condizione. Qui ci sono anche Cura completa e Ripara armatura. Tocca una condizione per attivarla; i Potenziamenti (in verde) sono quelle positive che il GM può concedere."
+          "text": "Quando vieni colpito usa Subisci un colpo: scrivi i danni e, per un colpo mirato, dove ha colpito. La scheda toglie l'armatura, abbassa gli HP e aggiunge la ferita o la condizione. Qui ci sono anche Cura completa e Ripara armatura. Tocca una condizione per attivarla; i Potenziamenti (in verde) sono quelle positive che il GM può concedere."
         },
         "checks": {
           "title": "Prove: la finestra del tiro",
-          "text": "Tocca un'abilità (o un attributo) per tirarla: d20, uguale o sotto il TN riesci. La finestra mostra la difficoltà del GM — compresi Favourable, Easy e Very easy quando qualcuno ti aiuta o le cose girano a tuo favore — gli strumenti che porti, gli oggetti in gioco (il +1 di un'iniezione, già contato) e, al buio, la Luce. Serrature: meccaniche → Sleight of Hand, elettroniche → Electronics, in rete → Hacking."
+          "text": "Tocca una competenza (o un attributo) per tirarla: d20, uguale o sotto il TN riesci. La finestra mostra la difficoltà del GM — compresi Favorevole, Facile e Facilissima quando qualcuno ti aiuta o le cose girano a tuo favore — gli strumenti che porti, gli oggetti in gioco (il +1 di un'iniezione, già contato) e, al buio, la Luce. Serrature: meccaniche → Destrezza di mano, elettroniche → Elettronica, in rete → Hacking."
         }
       }
     },
@@ -65,7 +65,7 @@
         },
         "abilities": {
           "title": "Le mosse finali",
-          "text": "Le ability costano TP e ti spostano tra le stance: ogni carta mostra da dove parte e dove ti porta, e la stance in cui sei adesso è evidenziata. Equipaggiane fino a 3; verde vuol dire pronta. Usarla tira la tua Class TN e spende un'azione."
+          "text": "Le abilità costano TP e ti spostano tra le stance: ogni carta mostra da dove parte e dove ti porta, e la stance in cui sei adesso è evidenziata. Equipaggiane fino a 3; verde vuol dire pronta. Usarla tira il tuo TN di classe e spende un'azione."
         },
         "role": {
           "title": "Il Soldier",
@@ -73,11 +73,11 @@
         },
         "loadout": {
           "title": "Il tuo equipaggiamento",
-          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+          "text": "Equipaggia fino a 3 abilità tra uno scontro e l'altro (⇄ Cambia abilità, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le abilità non equipaggiate restano in elenco, così puoi pianificare."
         },
         "roll": {
-          "title": "Il tiro di Class TN",
-          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 TP (se ne costa). Mai il prezzo pieno. Cover Me è una reazione: quando un alleato in vista viene attaccato, usala fuori dal tuo turno — si paga come una Schivata."
+          "title": "Il tiro del TN di classe",
+          "text": "Usare un'abilità tira un d20 contro il tuo TN di classe — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 TP (se ne costa). Mai il prezzo pieno. Cover Me è una reazione: quando un alleato in vista viene attaccato, usala fuori dal tuo turno — si paga come una Schivata."
         },
         "chores": {
           "title": "Manutenzione",
@@ -85,7 +85,7 @@
         },
         "bar": {
           "title": "In combattimento: la scheda Tattica",
-          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni abilità equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
         },
         "outside": {
           "title": "Fuori dal combattimento",
@@ -113,11 +113,11 @@
         },
         "loadout": {
           "title": "Il tuo equipaggiamento",
-          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+          "text": "Equipaggia fino a 3 abilità tra uno scontro e l'altro (⇄ Cambia abilità, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le abilità non equipaggiate restano in elenco, così puoi pianificare."
         },
         "roll": {
-          "title": "Il tiro di Class TN",
-          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 di calore (se l'hack ne produce). Mai il prezzo pieno."
+          "title": "Il tiro del TN di classe",
+          "text": "Usare un'abilità tira un d20 contro il tuo TN di classe — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 di calore (se l'hack ne produce). Mai il prezzo pieno."
         },
         "chores": {
           "title": "Manutenzione",
@@ -125,7 +125,7 @@
         },
         "bar": {
           "title": "In combattimento: la scheda Tattica",
-          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni abilità equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
         },
         "outside": {
           "title": "Fuori dal combattimento",
@@ -137,11 +137,11 @@
       "steps": {
         "mode": {
           "title": "Mend o Surge",
-          "text": "Ogni ability ha due facce: ✚ Mend (supporto, verde) e ⚡ Surge (offesa, rossa). Il modo sceglie quale scatta — su ogni carta è illuminata la faccia che otterresti adesso. Cambiare è gratis, ma la Sync torna a 0: l'altro pulsante te lo ricorda."
+          "text": "Ogni abilità ha due facce: ✚ Mend (supporto, verde) e ⚡ Surge (offesa, rossa). Il modo sceglie quale scatta — su ogni carta è illuminata la faccia che otterresti adesso. Cambiare è gratis, ma la Sync torna a 0: l'altro pulsante te lo ricorda."
         },
         "sync": {
           "title": "Field Sync",
-          "text": "Gli anelli sono la tua Sync, da Cold a Resonant, e si riempiono verso l'esterno: +1 per ogni ability usata, +1 a fine round se hai tenuto il modo, −1 quando perdi HP. La riga accanto dice cosa farà la fine di questo round. A Resonant si accendono entrambi i simboli: un lancio Resonant fa scattare entrambe le facce."
+          "text": "Gli anelli sono la tua Sync, da Cold a Resonant, e si riempiono verso l'esterno: +1 per ogni abilità usata, +1 a fine round se hai tenuto il modo, −1 quando perdi HP. La riga accanto dice cosa farà la fine di questo round. A Resonant si accendono entrambi i simboli: un lancio Resonant fa scattare entrambe le facce."
         },
         "abilities": {
           "title": "Le abilità",
@@ -149,19 +149,19 @@
         },
         "role": {
           "title": "Il Tech Wizard",
-          "text": "Tieni in vita la squadra e prepari il terreno. Ogni ability ha due facce — Mend (ripara, cura, copre) e Surge (toglie armatura, folgora, trappole) — e la Sync sale finché lavori nello stesso modo. Mechanic (CON / WIS): medicina da campo e fortificazioni. Engineer (DEX / WIS): droni e sabotaggio."
+          "text": "Tieni in vita la squadra e prepari il terreno. Ogni abilità ha due facce — Mend (ripara, cura, copre) e Surge (toglie armatura, folgora, trappole) — e la Sync sale finché lavori nello stesso modo. Mechanic (CON / WIS): medicina da campo e fortificazioni. Engineer (DEX / WIS): droni e sabotaggio."
         },
         "drone": {
           "title": "Il tuo drone",
-          "text": "Scegli qui il drone che possiedi (lo compri nella scheda Droni del Mercato). Alcune ability partono da lui e usano la sua portata — la carta dice fin dove. Se viene distrutto, Patch the Drone lo ripara fuori dal combattimento."
+          "text": "Scegli qui il drone che possiedi (lo compri nella scheda Droni del Mercato). Alcune abilità partono da lui e usano la sua portata — la carta dice fin dove. Se viene distrutto, Patch the Drone lo ripara fuori dal combattimento."
         },
         "loadout": {
           "title": "Il tuo equipaggiamento",
-          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+          "text": "Equipaggia fino a 3 abilità tra uno scontro e l'altro (⇄ Cambia abilità, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le abilità non equipaggiate restano in elenco, così puoi pianificare."
         },
         "roll": {
-          "title": "Il tiro di Class TN",
-          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: Sync −1. Mai il prezzo pieno."
+          "title": "Il tiro del TN di classe",
+          "text": "Usare un'abilità tira un d20 contro il tuo TN di classe — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: Sync −1. Mai il prezzo pieno."
         },
         "chores": {
           "title": "Manutenzione",
@@ -169,7 +169,7 @@
         },
         "bar": {
           "title": "In combattimento: la scheda Tattica",
-          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni abilità equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
         },
         "outside": {
           "title": "Fuori dal combattimento",
@@ -193,15 +193,15 @@
         },
         "role": {
           "title": "Lo Smuggler",
-          "text": "Vivi di nervi. Il pendolo oscilla tra Cold (mira calma: +2 agli attacchi con armi da fuoco) e Hot (adrenalina: +1 ai danni, +1 quadretto); le ability lo spingono da una parte o dall'altra, e le mosse migliori vogliono una zona. Dealer (DEX / CHA): mani veloci, lingua veloce. Trafficker (WIS / CHA): rotte, contatti, coordinamento — e +1 ai danni in Cold."
+          "text": "Vivi di nervi. Il pendolo oscilla tra Cold (mira calma: +2 agli attacchi con armi da fuoco) e Hot (adrenalina: +1 ai danni, +1 quadretto); le abilità lo spingono da una parte o dall'altra, e le mosse migliori vogliono una zona. Dealer (DEX / CHA): mani veloci, lingua veloce. Trafficker (WIS / CHA): rotte, contatti, coordinamento — e +1 ai danni in Cold."
         },
         "loadout": {
           "title": "Il tuo equipaggiamento",
-          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+          "text": "Equipaggia fino a 3 abilità tra uno scontro e l'altro (⇄ Cambia abilità, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le abilità non equipaggiate restano in elenco, così puoi pianificare."
         },
         "roll": {
-          "title": "Il tiro di Class TN",
-          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: il pendolo si sposta di un passo verso 0. Mai il prezzo pieno. Duck & Weave è una reazione: usala quando vieni attaccato — si paga come una Schivata."
+          "title": "Il tiro del TN di classe",
+          "text": "Usare un'abilità tira un d20 contro il tuo TN di classe — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: il pendolo si sposta di un passo verso 0. Mai il prezzo pieno. Duck & Weave è una reazione: usala quando vieni attaccato — si paga come una Schivata."
         },
         "chores": {
           "title": "Manutenzione",
@@ -209,7 +209,7 @@
         },
         "bar": {
           "title": "In combattimento: la scheda Tattica",
-          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni abilità equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
         },
         "outside": {
           "title": "Fuori dal combattimento",
@@ -237,15 +237,15 @@
         },
         "role": {
           "title": "Lo Scavenger",
-          "text": "Osservi, poi colpisci dove fa male. A ogni turno metti Tells sui nemici che vedi attraverso l'ottica — di più quando sei Unseen — e li spendi su un colpo (+1d4 ciascuno) o sulle ability. Prowler (DEX / CON): ravvicinato, rapido, sfuggente. Stalker (CON / INT): paziente, a lunga distanza, legge gli schemi."
+          "text": "Osservi, poi colpisci dove fa male. A ogni turno metti Tells sui nemici che vedi attraverso l'ottica — di più quando sei Unseen — e li spendi su un colpo (+1d4 ciascuno) o sulle abilità. Prowler (DEX / CON): ravvicinato, rapido, sfuggente. Stalker (CON / INT): paziente, a lunga distanza, legge gli schemi."
         },
         "loadout": {
           "title": "Il tuo equipaggiamento",
-          "text": "Equipaggia fino a 3 ability tra uno scontro e l'altro (⇄ Cambia ability, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le ability non equipaggiate restano in elenco, così puoi pianificare."
+          "text": "Equipaggia fino a 3 abilità tra uno scontro e l'altro (⇄ Cambia abilità, o Equipaggia / Togli su ogni carta); un kit iniziale le cambia tutte e tre insieme. Quando inizia uno scontro restano quelle fino alla fine — la finestra di preparazione è l'ultima occasione per cambiarle. Le abilità non equipaggiate restano in elenco, così puoi pianificare."
         },
         "roll": {
-          "title": "Il tiro di Class TN",
-          "text": "Usare un'ability tira un d20 contro la tua Class TN — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 Tell sul bersaglio (se l'ability ne spende). Mai il prezzo pieno. Sidestep è una reazione: quando il nemico accanto a te attacca — si paga come una Schivata."
+          "title": "Il tiro del TN di classe",
+          "text": "Usare un'abilità tira un d20 contro il tuo TN di classe — il numero sul pulsante, dalle tue due caratteristiche di classe; uguale o sotto riesce, e la difficoltà del GM conta. Un fallimento spende comunque l'azione e costa un passo del tuo motore: 1 Tell sul bersaglio (se l'abilità ne spende). Mai il prezzo pieno. Sidestep è una reazione: quando il nemico accanto a te attacca — si paga come una Schivata."
         },
         "chores": {
           "title": "Manutenzione",
@@ -253,7 +253,7 @@
         },
         "bar": {
           "title": "In combattimento: la scheda Tattica",
-          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni ability equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
+          "text": "Al tavolo gli scontri si giocano nella scheda Tattica: sotto la mappa la barra di classe mostra il tuo indicatore e una tessera per ogni abilità equipaggiata, accesa quando puoi usarla — toccala. Durante lo scontro le sezioni classe, azioni e salute di Scheda si bloccano, così niente si gioca due volte."
         },
         "outside": {
           "title": "Fuori dal combattimento",
@@ -286,7 +286,7 @@
         },
         "dark": {
           "title": "Combattere al buio",
-          "text": "Al buio la finestra del tiro aggiunge una riga Luce: un bersaglio che vedi solo come calore −2, uno che non vedi −4; Stealth +2 se non illuminato, −4 se sei illuminato o hai la torcia accesa; Perception −2 se non hai visione notturna o termica. La scheda suggerisce, tu confermi."
+          "text": "Al buio la finestra del tiro aggiunge una riga Luce: un bersaglio che vedi solo come calore −2, uno che non vedi −4; Furtività +2 se non illuminato, −4 se sei illuminato o hai la torcia accesa; Perception −2 se non hai visione notturna o termica. La scheda suggerisce, tu confermi."
         },
         "marks": {
           "title": "Indicalo",

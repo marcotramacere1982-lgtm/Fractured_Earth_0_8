@@ -24,6 +24,8 @@ export const DATA_FILES = {
   weaponMods: 'weapon-mods.json', // decision 173
   kits: 'kits.json', // decision 183: starter kits
   intel: 'intel.json', // decision 197: what characters know about enemy types
+  ties: 'ties.json', // decision 352: who a life event ties you to (contacts, enemies, lovers, family)
+  glossary: 'glossary.json', // decision 349: one plain line per game term (ui/term.js → gloss)
   drones: 'drones.json', // decision 172: the Tech Wizard's drone
   droneMods: 'drone-mods.json',
   optics: 'optics.json',
@@ -45,6 +47,7 @@ export const DATA_FILES = {
   downtime: 'downtime.json',
   crew: 'crew.json',
   strain: 'strain.json', // decision 266
+  fatigue: 'fatigue.json', // decision 362
   chase: 'chase.json', // decision 275
   tours: 'tours.json',
   map: 'map.json',
@@ -65,12 +68,12 @@ export const DATA_LANGS = ['it'];
  * Decision 242: skills and conditions show an Italian name with the English one beside it; the English stays on each
  * record as `nameEn` — what the sheet's log, the table and the GM use (`nameEn(rec)`).
  */
-const BILINGUAL = { skills: (t) => t.skills, conditions: (t) => t };
+const BILINGUAL = { skills: (t) => t.skills, conditions: (t) => t, glossary: (t) => t.terms }; // glossary: decision 349
 function keepEnglishNames(key, base, out) {
   if (!BILINGUAL[key]) return out;
   const en = new Map(BILINGUAL[key](base).map((r) => [r.id, r.name]));
   const add = (list) => list.map((r) => ({ ...r, nameEn: en.get(r.id) ?? r.name }));
-  return key === 'skills' ? { ...out, skills: add(out.skills) } : add(out);
+  return key === 'skills' ? { ...out, skills: add(out.skills) } : key === 'glossary' ? { ...out, terms: add(out.terms) } : add(out);
 }
 /**
  * Weapons' and armor's `type` is a key the code reads (icons, market groups) — an overlay may translate it for the

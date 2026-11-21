@@ -2,7 +2,7 @@
 // with a search that hides rows as you type (no redraw, so the field keeps its focus).
 
 import { html, raw, signed } from '../dom.js';
-import { enTerm } from '../term.js';
+import { enTerm, tg } from '../term.js';
 import { counter, card, temp } from './parts.js';
 import { bonus } from '../../rules/stats.js';
 import { passiveScore } from '../../rules/checks.js';
@@ -65,7 +65,7 @@ export function skillsTab(c, s, data) {
             </div>`)}
         </div>`)}
     </div>
-    <p class="hint">${t('skills.hint')}</p>`, { sub: t('skills.sub'), ref: 'skill-check', tour: 'skills' });
+    <p class="hint">${tg('skills.hint')}</p>`, { sub: t('skills.sub'), ref: 'skill-check', tour: 'skills' });
 
   return html`<div class="stack">${skills}${attrs}</div>`;
 }

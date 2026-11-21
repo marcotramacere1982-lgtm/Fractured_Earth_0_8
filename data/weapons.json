@@ -642,6 +642,136 @@
     "burst": 3
   },
   {
+    "id": "street_machete",
+    "name": "Street Machete",
+    "icon": "machete",
+    "class": "cqc",
+    "type": "knife",
+    "manufacturer": "Street Craft",
+    "damage": "1d8+2",
+    "ammo": null,
+    "magSize": 0,
+    "range": {
+      "min": 0,
+      "max": 1
+    },
+    "reliability": 10,
+    "rarity": "F",
+    "cost": {
+      "cr": 40
+    },
+    "magCost": {
+      "cr": 0
+    },
+    "skill": "melee_cqc",
+    "hands": 1,
+    "market": false
+  },
+  {
+    "id": "demolition_sledgehammer",
+    "name": "Demolition Sledgehammer",
+    "icon": "sledge",
+    "class": "cqc",
+    "type": "blunt",
+    "manufacturer": "Street Craft",
+    "damage": "2d6+2",
+    "ammo": null,
+    "magSize": 0,
+    "range": {
+      "min": 0,
+      "max": 1
+    },
+    "reliability": 10,
+    "rarity": "F",
+    "cost": {
+      "cr": 60
+    },
+    "magCost": {
+      "cr": 0
+    },
+    "skill": "melee_cqc",
+    "hands": 2,
+    "market": false
+  },
+  {
+    "id": "industrial_nail_gun",
+    "name": "Industrial Nail Gun",
+    "icon": "drill",
+    "class": "ranged",
+    "type": "pistol",
+    "manufacturer": "Street Craft",
+    "damage": "1d8+1",
+    "ammo": "Nail strip",
+    "magSize": 20,
+    "range": {
+      "min": 1,
+      "max": 10
+    },
+    "reliability": 6,
+    "rarity": "F",
+    "cost": {
+      "cr": 90
+    },
+    "magCost": {
+      "cr": 8
+    },
+    "skill": "handguns",
+    "hands": 1,
+    "market": false
+  },
+  {
+    "id": "compound_bow",
+    "name": "Compound Bow",
+    "icon": "bow",
+    "class": "ranged",
+    "type": "bow",
+    "manufacturer": "Airgapper workshop",
+    "damage": "1d10+1",
+    "ammo": "Arrows",
+    "magSize": 1,
+    "range": {
+      "min": 1,
+      "max": 60
+    },
+    "reliability": 10,
+    "rarity": "E",
+    "cost": {
+      "cr": 200
+    },
+    "magCost": {
+      "cr": 5
+    },
+    "skill": "long_guns_shotguns",
+    "hands": 2,
+    "market": false,
+    "silent": true
+  },
+  {
+    "id": "apex_breacher_12",
+    "name": "Apex Breacher-12",
+    "class": "ranged",
+    "type": "shotgun",
+    "manufacturer": "Apex Dynamics",
+    "damage": "3d6",
+    "ammo": "12-gauge shells",
+    "magSize": 8,
+    "range": {
+      "min": 1,
+      "max": 20
+    },
+    "reliability": 8,
+    "rarity": "B",
+    "cost": {
+      "cr": 3800
+    },
+    "magCost": {
+      "cr": 40
+    },
+    "skill": "long_guns_shotguns",
+    "hands": 2,
+    "market": false
+  },
+  {
     "id": "unarmed_fists",
     "natural": true,
     "legacyId": 26,

@@ -5,6 +5,7 @@
 // Score or both, rolls what it asks, and the debt pressure moves where the option says so; upkeep is paid the same way.
 
 import { RuleError } from '../../rules/messages.js';
+import { fatigueActions } from './fatigue-actions.js'; // decision 362
 import { emptyDowntime, stageOf } from '../../rules/downtime.js';
 import { log } from './actions.js';
 import { strainActions } from './strain-actions.js'; // decision 266
@@ -94,6 +95,7 @@ export const downtimeActions = {
     if (data.strain && c.play.strain) { // decision 266: rest — by how long, and a better home helps
       const home = lifestyleUpkeep(c.play.lifestyle ?? [], data).entries.find((x) => x.category === 'housing')?.tier ?? 0;
       strainActions.strainRelief(c, data, { n: Math.max(0, downtimeRelief(msg.duration, home, data.strain) + (data.jobs ? catchRelief(c, data) : 0)), why: `downtime (${msg.durationName ?? msg.duration})` });
+      if (data.fatigue) fatigueActions.fatigueRest(c, data, { why: 'downtime' }); // decision 362: rested
     }
     // decision 331: payday — the job's pay for the time that passed, debts take their share of the cash
     let pay = null;

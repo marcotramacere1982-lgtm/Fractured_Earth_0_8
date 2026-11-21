@@ -15,7 +15,7 @@ export function usableItems(inventory, itemsData) {
 export function effectFrom(item, option, id) {
   const b = option.boost ?? {};
   return { id, itemId: item.id, name: item.name, attrs: { ...(b.attrs ?? {}) }, mods: { ...(b.mods ?? {}) }, immune: [...(option.immune ?? [])],
-    roundsLeft: b.rounds ?? null, crash: Boolean(b.crash) };
+    roundsLeft: b.rounds ?? null, crash: Boolean(b.crash), ...(b.crashFatigue ? { crashFatigue: b.crashFatigue } : {}) }; // crashFatigue: decision 362
 }
 
 /** Summed attribute changes, condition-style mods and immunities of the active effects. */

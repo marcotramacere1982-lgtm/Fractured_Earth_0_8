@@ -49,6 +49,13 @@ export function studyLevel(intel, ref) {
   return lv >= STUDIED ? null : lv + 1;
 }
 
+/** Decision 352: an event that tied you to a power offers that power's types; else the event's own list (an old save). */
+function eventOptions(c, D, eventId) {
+  const kind = D.tieEvents?.[eventId];
+  const tie = kind ? (c.ties ?? []).find((x) => x.from === eventId && x.kind === kind && x.with) : null;
+  return (tie && D.powers?.[tie.with]) || D.events[eventId];
+}
+
 /**
  * Background Intel from a character's life path: `auto` (Known with no roll), `picks` (one roll each on a list:
  * one per career, one per listed life event) and `nemesis` (an elite of the player's choice, no roll).
@@ -61,7 +68,7 @@ export function backgroundIntel(c, data) {
   const auto = [...new Set(careers.flatMap((id) => D.careers[id]?.auto ?? []))];
   const picks = [
     ...careers.filter((id) => D.careers[id]?.pick?.length).map((id) => ({ source: id, kind: 'career', options: D.careers[id].pick.filter((x) => !auto.includes(x)) })),
-    ...[...new Set(events)].filter((id) => D.events[id]).map((id) => ({ source: id, kind: 'event', options: D.events[id].filter((x) => !auto.includes(x)) })),
+    ...[...new Set(events)].filter((id) => D.events[id]).map((id) => ({ source: id, kind: 'event', options: eventOptions(c, D, id).filter((x) => !auto.includes(x)) })),
   ].filter((p) => p.options.length);
   const nemesis = events.some((id) => D.nemesis.includes(id)) ? D.nemesisFrom : null;
   return { auto, picks, nemesis };

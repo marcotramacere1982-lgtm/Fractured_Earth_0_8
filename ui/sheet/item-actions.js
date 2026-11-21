@@ -2,6 +2,7 @@
 // the result (they enter it on their own sheet, as on paper). Logs stay English for the GM.
 
 import { nameEn } from '../../data/index.js'; // decision 242: logs stay English
+import { fatigueActions } from './fatigue-actions.js'; // decision 362
 import { RuleError } from '../../rules/messages.js';
 import { effectFrom, tickEffects, endCombatEffects } from '../../rules/items.js';
 import { deriveSheet } from '../../state/character.js';
@@ -25,6 +26,8 @@ export function tickItemEffects(c, data) {
   c.play.effects = out.effects;
   if (!out.ended.length) return;
   if (out.crash && !c.play.conditions.includes('slowed')) c.play.conditions.push('slowed');
+  const tired = out.ended.reduce((n, e) => n + (e.crashFatigue ?? 0), 0); // decision 362: a stim's crash leaves you tired
+  if (tired) fatigueActions.fatigueAdd(c, data, { n: tired, why: `${out.ended.filter((e) => e.crashFatigue).map((e) => e.name).join(', ')} crash` });
   fitHp(c, data);
   log(c, `${out.ended.map((e) => e.name).join(', ')} wore off${out.crash ? ' — crash: Slowed next round' : ''}`, out.crash ? 'bad' : 'info');
 }
@@ -49,8 +52,10 @@ export const itemActions = {
     c.play.droneFlat = false;
     c.play.sceneUses = {};
     c.play.help = null; // decision 270: help is for this moment
+    c.play.haggle = null; // decision 346: a street haggle lasts the trip
     log(c, `New scene${ended.length ? ` — ended: ${ended.map((e) => e.name).join(', ')}` : ''}`);
     if (data.strain && msg.safe) strainActions.strainRelief(c, data, { n: data.strain.safeScene, why: 'a safe moment' }); // decision 266
+    if (data.fatigue && msg.safe) fatigueActions.fatigueBreather(c, data, { why: 'a breather (a safe moment)', scene: msg.id }); // decision 362
     if (data.strain && msg.mission && c.debtId && (c.downtime?.pressure ?? 0) >= data.downtime.debt.max && c.play.debtStrainFor !== msg.mission) {
       c.play.debtStrainFor = String(msg.mission).slice(0, 40); // once per mission
       strainActions.strainAsk(c, data, { id: `debt${msg.id}`, n: data.strain.gains.debt, why: 'Your debt at its worst' });
@@ -99,6 +104,11 @@ export const itemActions = {
     if (opt.endStims) {
       const stims = (c.play.effects ?? []).filter((e) => e.crash);
       if (stims.length) { c.play.effects = c.play.effects.filter((e) => !e.crash); parts.push(`${stims.map((e) => e.name).join(', ')} ended`); fitHp(c, data); }
+    }
+    if (opt.fatigue) { // decision 362: a stim takes Fatigue off now — and the next breather won't help
+      fatigueActions.fatigueAdd(c, data, { n: opt.fatigue, why: item.name });
+      if (opt.stim) c.play.stimmed = true;
+      if (!opt.boost) parts.push(opt.text);
     }
     if (opt.boost || opt.immune) {
       const before = deriveSheet(c, data).hp.max;

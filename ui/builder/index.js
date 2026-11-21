@@ -18,7 +18,7 @@ import { takeKit } from '../../rules/kits.js';
 
 const KEY = 'fe.builder.draft.v1';
 const INTRO = 'fe.builder.intro'; // decision 169: the intro window was seen on this device
-const AIM_STEPS = ['attributes', 'adolescence', 'career', 'class']; // where the Aiming for bar shows
+const AIM_STEPS = ['attributes', 'adolescence', 'career']; // owner 2026-11-19: not on Class itself — you pick it there // where the Aiming for bar shows
 
 function newDraft(data) {
   return {
@@ -141,6 +141,11 @@ export function builderView({ data, store, main, table, library }) {
       d.quizAt = nextQuestion(data.quiz.questions, d.quiz, at);
     }),
     quizGo: ({ i }) => commit((d) => { d.quizAt = Number(i); }),
+    aimAt: ({ sub }) => commit((d) => { // owner 2026-11-18: "Aim for this" on a suggestion (as the Aiming for bar, decision 169)
+      d.target = sub;
+      const f = d.character.subclassId ? findSubclass(data.classes, sub) : null;
+      if (f) { d.character.classId = f.cls.id; d.character.subclassId = f.sub.id; }
+    }),
     intro: () => openIntro(),
     storyMode: ({ mode }) => commit((d) => { d.storyMode = mode; }),
     pickKit: ({ id: kit }) => commit((d) => { d.kit = kit || null; }), // decision 183
@@ -217,6 +222,7 @@ export function builderView({ data, store, main, table, library }) {
       toast(t('dossier.askedToast'), 'success');
     },
     create: () => {
+      if (!draft.character.drive?.type) { toast(t('builder.needDrive'), 'danger'); return; } // owner 2026-11-19: the drive is part of the character
       const kit = draft.kit && (data.kits?.kits ?? []).find((k) => k.id === draft.kit && k.subclass === draft.character.subclassId);
       const c = kit ? takeKit(draft.character, kit, data) : structuredClone(draft.character); // decision 183: the starter kit, gear free
       c.tags = c.tags.filter((t) => t !== 'Career ended');
@@ -277,6 +283,7 @@ export function builderView({ data, store, main, table, library }) {
         <button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
       <div class="dialog__body stack b-intro">
         ${stepArt(data, 'intro')}
+        <p><strong>${t('builder.intro.worldTitle')}</strong> ${t('builder.intro.world')} <a href="#/manual/sec-1-1" target="_blank" rel="noopener">${t('builder.intro.worldMore')} →</a></p>
         <p>${t('builder.intro.p1')}</p>
         <ol class="b-intro__steps">${STEPS.map((s) => html`<li>${s.title}</li>`)}</ol>
         <p>${t('builder.intro.p2')}</p>

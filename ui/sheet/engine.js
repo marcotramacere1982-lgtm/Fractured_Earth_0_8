@@ -14,6 +14,7 @@ import { hackerPanel, hackerMeta } from './engine-hacker.js';
 import { dronePanel } from './engine-drone.js';
 import { droneAbility } from '../../rules/field-drone.js';
 import { kitsFor } from '../../rules/kits.js';
+import { gloss } from '../term.js'; // decision 349: tap for what a mission / scene / reaction is
 
 
 /** A stance with its icon (decision 88): names stay, the picture makes the flow readable at a glance. */
@@ -225,7 +226,7 @@ export const kitButtons = (c, data) => {
 };
 
 /** Decision 174: the generic limits an ability carries, as small chips. */
-const flagChips = (a) => html`${a.inCombatOnly ? html`<span class="pill">${t('engine.flag.inCombatOnly')}</span>` : ''}${a.outOfCombat ? html`<span class="pill">${t('engine.flag.outOfCombat')}</span>` : ''}${a.opening ? html`<span class="pill">${t('engine.flag.opening')}</span>` : ''}${a.reaction ? html`<span class="pill pill--info">${t('engine.flag.reaction')}</span>` : ''}${a.perMission ? html`<span class="pill pill--accent">${t('engine.flag.perMission')}</span>` : ''}${a.perScene ? html`<span class="pill">${t('engine.flag.perScene')}</span>` : ''}`;
+const flagChips = (a) => html`${a.inCombatOnly ? html`<span class="pill">${t('engine.flag.inCombatOnly')}</span>` : ''}${a.outOfCombat ? html`<span class="pill">${t('engine.flag.outOfCombat')}</span>` : ''}${a.opening ? html`<span class="pill">${t('engine.flag.opening')}</span>` : ''}${a.reaction ? html`<span class="pill pill--info">${gloss('reaction', t('engine.flag.reaction'))}</span>` : ''}${a.perMission ? html`<span class="pill pill--accent">${gloss('mission', t('engine.flag.perMission'))}</span>` : ''}${a.perScene ? html`<span class="pill">${gloss('scene', t('engine.flag.perScene'))}</span>` : ''}`;
 
 /** combat: the GM's combat state at the table (the Scavenger's Tells sit on its hostiles). */
 /** The class engine's state for this sheet: its resources (filled in) and what abilities check against. */

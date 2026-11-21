@@ -8,9 +8,11 @@ import { CATALOGS, findGear, magazines, sellPrice } from '../../rules/economy.js
 import { weaponSlots } from '../../rules/weapon-mods.js';
 import { bonusText } from '../../rules/uniques.js';
 import { t } from '../../i18n/index.js';
-import { dealQuote } from '../../rules/washer.js';
+import { dealQuote, washable, gunQuote } from '../../rules/washer.js';
+import { haggleLabel } from '../../rules/haggle.js'; // decision 346
 import { stashesCard } from './stashes-card.js';
 import { typeLabel } from '../../data/index.js'; // the type on screen (translated), never the key
+import { isBulky } from '../../rules/carry.js'; // owner 2026-11-18
 
 /** Translated name of a gear category. */
 export const kindLabel = (kind) => t(`gear.kind.${kind}`);
@@ -44,6 +46,23 @@ function offersCard(c, data) {
   if (!offers.length) return '';
   const cap = data.attributes.crsScale.max; // decision 316: the play scale, not the creation cap
   return card(t('washer.title'), html`<div class="stack">${offers.map((o) => {
+    if (o.direction === 'gun') { // decision 345: a hot gun made clean
+      const hot = washable(c.play.inventory);
+      const row = hot.find((r) => r.id === o.item) ?? hot[0];
+      const g = gunQuote(o, row?.unique, c.play.cash);
+      return html`<div class="washer">
+        <p><strong>${t('washer.gun')}</strong> · ${t('washer.gunTerms', { share: o.commission })}</p>
+        ${o.note ? html`<p class="muted st-small">“${o.note}”</p>` : ''}
+        ${hot.length ? html`<div class="cluster">
+          <select class="input" data-action="dealItem" data-id="${o.id}" aria-label="${t('washer.gunPick')}">${hot.map((r) => html`<option value="${r.id}" ${r === row ? 'selected' : ''}>${r.unique.name}</option>`)}</select>
+          <span class="mono">${t('washer.gunSum', { fee: g.fee })}</span></div>
+          <p class="hint">${t('washer.gunRisk')}</p>` : ''}
+        ${g.ok ? '' : html`<p class="st-small text-danger">${t(`washer.why.${g.why}`)}</p>`}
+        ${haggleBit(o)}
+        <div class="cluster"><button class="btn btn--sm btn--primary" data-action="acceptDeal" data-id="${o.id}" ${g.ok ? '' : 'disabled'}>${t('washer.accept')}</button>
+          <button class="btn btn--sm btn--ghost" data-action="declineDeal" data-id="${o.id}">${t('washer.decline')}</button></div>
+      </div>`;
+    }
     const q = dealQuote(o, o.points ?? 1, { cash: c.play.cash, crs: c.attributes.CRS }, cap);
     return html`<div class="washer">
       <p><strong>${t(o.direction === 'wash' ? 'washer.wash' : 'washer.cashout')}</strong> · ${t('washer.terms', { rate: o.rate, commission: o.commission, max: o.max })}</p>
@@ -54,13 +73,26 @@ function offersCard(c, data) {
         <span class="mono">${t(o.direction === 'wash' ? 'washer.sumWash' : 'washer.sumCashout', { n: q.points, base: q.base, fee: q.fee, total: Math.abs(q.cash) })}</span>
       </div>
       ${q.ok ? '' : html`<p class="st-small text-danger">${t(`washer.why.${q.why}`, { cap })}</p>`}
+      ${haggleBit(o)}
       <div class="cluster"><button class="btn btn--sm btn--primary" data-action="acceptDeal" data-id="${o.id}" ${q.ok ? '' : 'disabled'}>${t('washer.accept')}</button>
         <button class="btn btn--sm btn--ghost" data-action="declineDeal" data-id="${o.id}">${t('washer.decline')}</button></div>
     </div>`;
   })}</div>`, { ref: 'washer' });
 }
 
+/** Decision 346: one haggle per offer — the button, or what it did (already in the sums above). */
+const haggleBit = (o) => (o.haggle
+  ? html`<p class="st-small ${o.haggle.pct > 0 ? 'text-success' : o.haggle.pct < 0 ? 'text-danger' : 'muted'}">🤝 ${t('haggle.done', { pct: haggleLabel(o.haggle.pct) })}</p>`
+  : html`<div><button class="btn btn--sm" data-action="haggleDeal" data-id="${o.id}" title="${t('haggle.hint')}">🤝 ${t('haggle.try')}</button></div>`);
+
 /** The gear cards: { offers, money, inventory, stash, lifestyle } (decision 215: the Sheet tab places them). */
+/** Decision 345: a looted gun's lock, its signal and its heat, as tags on its row. */
+function lockPills(r, shielded) {
+  const u = r.unique;
+  if (!u) return '';
+  return html`${u.lock ? html` <span class="pill pill--danger" title="${t(u.lock === 'smart' ? 'lock.smartHint' : 'lock.bioHint')}">🔒 ${t(`lock.${u.lock}`)}</span>` : ''}${u.tracked ? html` <span class="pill ${shielded ? '' : 'pill--warning'}" title="${t(shielded ? 'lock.shieldedHint' : 'lock.trackedHint')}">📡 ${t(shielded ? 'lock.shielded' : 'lock.tracked')}</span>` : ''}${u.hot ? html` <span class="pill pill--warning" title="${t('lock.hotHint')}">🔥 ${t('lock.hot')}</span>` : ''}`;
+}
+
 export function gearCards(c, s, data, ctx = {}) {
   const kinds = ['weapon', 'weaponMod', 'ammo', 'armor', 'item', 'deck', 'deckMod', 'drone', 'droneMod', 'optic', 'custom'];
   const money = card(t('gear.money'), html`
@@ -69,6 +101,8 @@ export function gearCards(c, s, data, ctx = {}) {
         <input class="input input--num" type="number" min="0" step="1" value="${c.play.cash}" data-action="cash" inputmode="numeric"></label>
       <div class="stat"><span class="label">Credit Score</span><span class="stat__value">${c.attributes.CRS}</span><span class="stat__sub">${t('gear.crsSub')}</span></div>
       <button class="btn btn--primary" data-action="shop" data-kind="essentials">${t('gear.openMarket')}</button>
+      ${c.play.haggle ? html`<span class="pill ${c.play.haggle.pct > 0 ? 'pill--success' : c.play.haggle.pct < 0 ? 'pill--danger' : ''}" title="${t('haggle.tripHint')}">🤝 ${t('haggle.trip', { pct: haggleLabel(c.play.haggle.pct) })}</span>`
+        : html`<button class="btn" data-action="haggleStreet" title="${t('haggle.streetHint')}">🤝 ${t('haggle.street')}</button>`}
     </div>
     <p class="hint">${t('gear.marketHint')}</p>`, { ref: 'market', tour: 'market' });
 
@@ -89,13 +123,14 @@ export function gearCards(c, s, data, ctx = {}) {
             const worn = kind === 'armor' && c.play.worn.includes(r.id);
             return html`<div class="row row--wrap ${r.unique ? 'row--unique' : ''}">
               ${iconFor(kind, e, data, 'gi--row')}
-              <div class="row__main"><div class="row__title">${e.name}${r.unique?.moddedFrom ? html` <span class="pill pill--info">${t('wmod.modded')}</span>` : r.unique ? html` <span class="pill pill--unique">${t('gear.unique')}</span>` : e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}${r.official ? html` <span class="pill pill--info" title="${t('gear.registeredHint')}">${t('gear.registered', { n: r.official })}</span>` : ''}${e.traced ? html` <span class="pill pill--warning" title="${t('gear.tracedHint')}">📡 ${t('gear.traced')}</span>` : ''}</div><div class="row__meta">${e.loot ? t('gear.lootMeta', { value: e.cost.cr, fence: sellPrice(e, data.economy) }) : describe(kind, e, data)}</div></div>
+              <div class="row__main"><div class="row__title">${e.name}${isBulky(kind, r.unique ?? e) ? html` <span class="pill pill--warning" title="${t('carry.bulkyHint')}">${t('carry.bulky')}</span>` : ''}${lockPills(r, s.carry.shielded)}${r.unique?.moddedFrom ? html` <span class="pill pill--info">${t('wmod.modded')}</span>` : r.unique ? html` <span class="pill pill--unique">${t('gear.unique')}</span>` : e.rarity ? html` <span class="pill">${e.rarity}</span>` : ''}${r.official ? html` <span class="pill pill--info" title="${t('gear.registeredHint')}">${t('gear.registered', { n: r.official })}</span>` : ''}${e.traced ? html` <span class="pill pill--warning" title="${t('gear.tracedHint')}">📡 ${t('gear.traced')}</span>` : ''}</div><div class="row__meta">${e.loot ? t('gear.lootMeta', { value: e.cost.cr, fence: sellPrice(e, data.economy) }) : describe(kind, e, data)}</div></div>
               ${kind === 'item' && e.story ? html`<button class="btn btn--sm" data-action="storyUse" data-id="${r.id}" title="${t('use.storyHint')}">${t('use.use')}</button>` : ''}
               ${kind === 'item' && e.drone ? (c.play.droneFlat
                 ? html`<button class="btn btn--sm" data-action="droneCharge" title="${t('drone.rechargeHint')}">🔋 ${t('drone.recharge')}</button>`
                 : html`<button class="btn btn--sm btn--primary" data-action="droneFly" data-id="${r.id}" ${c.play.turn?.inCombat ? 'disabled' : ''} title="${t(c.play.turn?.inCombat ? 'rule.droneCombat' : 'drone.flyHint')}">🛩 ${t('drone.fly')}</button>`) : ''}
               ${kind === 'item' && e.use ? html`<button class="btn btn--sm" data-action="useItem" data-id="${r.id}" title="${e.use.options.map((o) => o.text).join(' · ')}">${t('use.use')}</button>` : ''}
               ${kind === 'weapon' && weaponSlots(e, data.weaponMods) ? html`<button class="btn btn--sm" data-action="weaponMods" data-id="${r.id}" title="${t('wmod.title')}">🔧 ${(e.mods ?? []).length}/${weaponSlots(e, data.weaponMods)}</button>` : ''}
+              ${r.unique?.lock === 'smart' ? html`<button class="btn btn--sm" data-action="breakLock" data-id="${r.id}" title="${t('lock.breakHint')}">🔓 ${t('lock.break')}</button>` : ''}
               ${kind === 'armor' ? html`<button class="btn btn--sm" data-action="wear" data-id="${r.id}" aria-pressed="${worn}">${worn ? `✓ ${t('gear.worn')}` : t('gear.wear')}</button>` : ''}
               ${counter({ action: 'qty', value: r.qty, min: 0, args: { kind, id: r.id }, size: 'sm', label: `${e.name} · ${t('gear.qty')}` })}
               <span class="cluster inv-acts">
@@ -109,7 +144,9 @@ export function gearCards(c, s, data, ctx = {}) {
       </div>`;
   });
   const anyGear = c.play.inventory.length > 0;
-  const gear = card(t('gear.inventory'), anyGear ? html`<div class="stack">${inventory}</div>` : html`<p class="muted">${t('gear.nothing')}</p>`, {
+  const load = s.carry; // owner 2026-11-18: bulky things
+  const bulkyLine = load.bulky || load.bag ? html`<p class="${load.over ? 'notice notice--danger' : 'hint'}">${t('carry.line', { n: load.bulky, room: load.room })}${load.bag ? ` · ${load.bag.name}` : ''}${load.over ? ` — ${t('carry.overHint')}` : ''}</p>` : '';
+  const gear = card(t('gear.inventory'), anyGear ? html`<div class="stack">${bulkyLine}${inventory}</div>` : html`<p class="muted">${t('gear.nothing')}</p>`, {
     actions: html`<button class="btn btn--sm" data-action="shop" data-kind="item" data-free="1">${t('gear.addFree')}</button>`,
   });
 

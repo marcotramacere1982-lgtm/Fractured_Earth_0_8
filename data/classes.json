@@ -78,7 +78,8 @@
             "CON"
           ],
           "desc": "Front-line brawler: armor reduction, close-range devastation, aggressive Onslaught attacks.",
-          "legacyIndex": 0
+          "legacyIndex": 0,
+          "pitch": "Up close and hard to drop: hits harder and shrugs off more."
         },
         {
           "id": "officer",
@@ -88,7 +89,8 @@
             "INT"
           ],
           "desc": "Tactical commander: squad positioning, defensive holds, marking priority targets.",
-          "legacyIndex": 1
+          "legacyIndex": 1,
+          "pitch": "Positions the crew and shoots straight: covers, marks targets, holds ground."
         }
       ],
       "market": {
@@ -105,7 +107,9 @@
           "droneMod",
           "optic"
         ]
-      }
+      },
+      "pitch": "The front line: you take the hits, hold the ground and finish fights.",
+      "more": "Soldiers win fights the straight way. Normal hits build Tactical Points (TP); your stance decides how much you risk; the big moves spend the TP. Out of a fight you are the one who knows how this goes when it turns loud."
     },
     {
       "id": "hacker",
@@ -149,7 +153,8 @@
             "CHA"
           ],
           "desc": "Social engineering, credential spoofing, target distraction, low-cost sustained debuffs.",
-          "legacyIndex": 2
+          "legacyIndex": 2,
+          "pitch": "Talks and tricks: fake credentials, distractions — people believe what you show them."
         },
         {
           "id": "master",
@@ -159,7 +164,8 @@
             "WIS"
           ],
           "desc": "Heavy system destruction, deep network control, multi-target payloads, extreme heat.",
-          "legacyIndex": 3
+          "legacyIndex": 3,
+          "pitch": "Deep in the machine: takes whole systems down, controls networks, runs hot."
         }
       ],
       "market": {
@@ -171,11 +177,13 @@
           "droneMod",
           "optic"
         ]
-      }
+      },
+      "pitch": "Breaks into systems — doors, cameras, drones, phones — and turns them on their owners.",
+      "more": "Hackers fight through networks. Each hack uses RAM and builds heat; too much heat and the deck crashes. Out of a fight you open doors, read files and fool people who trust their screens."
     },
     {
       "id": "techwiz",
-      "name": "TechWiz",
+      "name": "Tech Wizard",
       "summary": "Battlefield architect controlling engagement flow through spatial manipulation, armor repair, and environmental control.",
       "resources": {
         "engine": "Field Sync",
@@ -225,7 +233,8 @@
             "WIS"
           ],
           "desc": "Field fortification, armor patching, scrap fabrication.",
-          "legacyIndex": 4
+          "legacyIndex": 4,
+          "pitch": "Field medic and builder: patches armor and people, raises cover."
         },
         {
           "id": "engineer",
@@ -235,7 +244,8 @@
             "WIS"
           ],
           "desc": "Weapon modifications, electrical traps, automated hardware.",
-          "legacyIndex": 5
+          "legacyIndex": 5,
+          "pitch": "Drones, traps and modded guns: works from a distance."
         }
       ],
       "market": {
@@ -247,7 +257,9 @@
           "deckMod",
           "optic"
         ]
-      }
+      },
+      "pitch": "Keeps the crew alive and shapes the fight: repairs, cover, traps and a drone.",
+      "more": "Every Tech Wizard ability has two faces: Mend (repair, heal, protect) and Surge (strip armor, shock, trap). Sync grows while you keep the same mode. Out of a fight you fix, build and patch whatever the job needs."
     },
     {
       "id": "smuggler",
@@ -313,7 +325,8 @@
             "CHA"
           ],
           "desc": "Agile gunman and trickster: quick-draw strikes, black-market ammo, close-range robbery.",
-          "legacyIndex": 6
+          "legacyIndex": 6,
+          "pitch": "Fast hands, fast talk: quick-draw shots, tricks, close-range robbery."
         },
         {
           "id": "trafficker",
@@ -323,7 +336,8 @@
             "CHA"
           ],
           "desc": "Tactical mastermind and off-grid navigator: map control, decoys, underground favors.",
-          "legacyIndex": 7
+          "legacyIndex": 7,
+          "pitch": "Routes and contacts: decoys, favours, moving the crew where it needs to be."
         }
       ],
       "market": {
@@ -338,7 +352,9 @@
           "droneMod",
           "optic"
         ]
-      }
+      },
+      "pitch": "Lives on nerve and luck: quick guns, quick talk, black-market tricks.",
+      "more": "Smugglers swing between Cold (calm aim: +2 to hit with firearms) and Hot (adrenaline: +1 damage, +1 square). Abilities push the pendulum one way or the other. Out of a fight you know who sells what, and how to get past a checkpoint."
     },
     {
       "id": "scavenger",
@@ -412,7 +428,8 @@
             "DEX",
             "CON"
           ],
-          "desc": "Close and quick-handed: reads an enemy face to face, lifts what it carries, jams its gun and strips its plates."
+          "desc": "Close and quick-handed: reads an enemy face to face, lifts what it carries, jams its gun and strips its plates.",
+          "pitch": "Close and quick-handed: reads enemies face to face, lifts what they carry."
         },
         {
           "id": "stalker",
@@ -421,7 +438,8 @@
             "CON",
             "INT"
           ],
-          "desc": "Patient eye at a distance: cases the room through the optic, marks targets for the crew, makes the shot that matters."
+          "desc": "Patient eye at a distance: cases the room through the optic, marks targets for the crew, makes the shot that matters.",
+          "pitch": "Patient eye at a distance: cases the room, marks targets, takes the shot that matters."
         }
       ],
       "market": {
@@ -435,7 +453,9 @@
           "drone",
           "droneMod"
         ]
-      }
+      },
+      "pitch": "Watches first, strikes later: reads a dangerous enemy, then cashes it all in at once.",
+      "more": "Through an optic you place Tells on enemies — more when nobody sees you — and spend them on one devastating hit or on abilities. Out of a fight you notice what others miss and find what is worth taking."
     }
   ],
   "abilityRoll": {

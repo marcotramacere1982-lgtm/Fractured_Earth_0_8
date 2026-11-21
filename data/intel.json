@@ -34,6 +34,15 @@
     "contacts_within_police_department": ["enemy.watch_patrolman", "enemy.watch_riot_guard", "enemy.watch_scout_drone"],
     "contact_within_a_megacorp": ["enemy.optic_drone", "enemy.grid_enforcer", "enemy.syndicate_subnet_throttler"]
   },
+  "tieEvents": { "contact_within_a_megacorp": "contact" },
+  "powers": {
+    "grid": ["enemy.optic_drone", "enemy.grid_enforcer", "enemy.syndicate_subnet_throttler", "enemy.stalking_relay_drone"],
+    "ledger": ["enemy.tenement_enforcer", "enemy.ledger_zealot"],
+    "watch": ["enemy.watch_patrolman", "enemy.guard_recruit", "enemy.watch_riot_guard", "enemy.watch_scout_drone"],
+    "obsidian": ["enemy.trf_operator", "enemy.trf_breach_specialist", "enemy.trf_recon_drone", "enemy.trf_sniper"],
+    "airgappers": ["enemy.neo_luddite_zealot", "enemy.ashram_archer"],
+    "humsingers": ["enemy.ghost_chaser_scavenger"]
+  },
   "nemesis": ["powerful_fanatic_enemy"],
   "nemesisFrom": ["elite.kaelen_the_carver_vane", "elite.centurion_shield_lead", "elite.ghost_chaser_preacher_malachai", "elite.rogue_tech_splicer_nix", "elite.ledger_reclamation_officer", "elite.syndicate_pit_boss_jax", "elite.neo_luddite_elder_hunter", "elite.watch_sector_overseer"]
 }

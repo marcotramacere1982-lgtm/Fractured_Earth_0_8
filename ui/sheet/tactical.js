@@ -14,6 +14,7 @@
 // Phones stack it and scroll as usual. Every button opens the same windows as the Play tab.
 
 import { html } from '../dom.js';
+import { pushTile } from './fatigue.js'; // decision 362
 import { railLayout, railOpen, railClose } from '../rails.js';
 import { t } from '../../i18n/index.js';
 import { statusBar, conditionsGrid } from './play.js';
@@ -45,7 +46,9 @@ export function tacticalView(c, s, data, ctx, nav) {
   // decision 198: the torch is a tile in the strip, lit while on (shown only when you carry one)
   const torch = ctx.torch == null ? '' : html`<button class="action-btn action-btn--k-torch ${ctx.torch ? 'action-btn--on' : ''}" data-action="mapTorch" data-on="${ctx.torch ? '0' : '1'}" aria-pressed="${ctx.torch}" data-tour="map-gear"
     title="${t(ctx.torch ? 'map.torch.on' : 'map.torch.off')} — ${t('map.torch.hint')}"><span class="action-btn__name">${icon(data, 'sun')}<span class="action-btn__label">${t(ctx.torch ? 'map.torch.on' : 'map.torch.off')}</span></span></button>`;
-  const { head, actors, grid } = turnPieces(c, s, data, ctx.combat, { hint: false, bare: true, strip: true, atTable: ctx.atTable, extra: torch });
+  // decision 360: a beam torch on — Aim, then tap the map where it should point (in a fight: once, on your turn)
+  const aim = ctx.aim == null ? '' : html`<button class="action-btn action-btn--k-torch ${ctx.aim ? 'action-btn--on' : ''}" data-action="mapAim" aria-pressed="${ctx.aim}" title="${t('map.aim.hint')}"><span class="action-btn__name">${icon(data, 'reticle')}<span class="action-btn__label">${t(ctx.aim ? 'map.aim.on' : 'map.aim')}</span></span></button>`;
+  const { head, actors, grid } = turnPieces(c, s, data, ctx.combat, { hint: false, bare: true, strip: true, atTable: ctx.atTable, extra: html`${torch}${aim}${pushTile(c, data, icon(data, 'act'))}` });
   const waiting = [boonsCard(c, data), breathCard(c, s, data)].filter(Boolean); // decision 273: holding your breath // initiative, roll calls (decision 193) and hits (decision 207) come mid-screen
   const ico = (id) => data.icons[id] ?? '';
   const conds = (c.play.conditions ?? []).length;

@@ -18,6 +18,7 @@
   "districts.json",
   "drones.json",
   "environment.json",
+  "glossary.json",
   "items.json",
   "lifestyle.json",
   "optics.json",
@@ -26,6 +27,7 @@
   "rules-ref.json",
   "skills.json",
   "talents.json",
+  "ties.json",
   "tours.json",
   "weapons.json"
 ]

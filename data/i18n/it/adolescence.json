@@ -42,7 +42,7 @@
     },
     "spoiled_heir": {
       "name": "EREDE VIZIATO",
-      "text": "Nato in una famiglia di soldi vecchi, con pesanti fili attaccati. +3 Credit Score, −1 MST (nessuno ti ha mai messo alla prova). Una telefonata di famiglia apre una porta: un tiro di ingresso non serve."
+      "text": "Nato in una famiglia di soldi vecchi, con pesanti fili attaccati — soldi che vengono da uno dei poteri (tirato: va nel tuo Dossier). +3 Credit Score, −1 MST (nessuno ti ha mai messo alla prova). Una telefonata di famiglia apre una porta: un tiro di ingresso non serve."
     },
     "military_heritage": {
       "name": "TRADIZIONE MILITARE",
@@ -125,8 +125,8 @@
       "text": "Conosci il tuo corpo e lo tieni in forma. +1 CON."
     },
     "contact_within_a_megacorp": {
-      "name": "UN CONTATTO IN UNA MEGACORP",
-      "text": "Concorda con il GM un contatto aziendale preciso, per informazioni riservate o favori sottobanco. Il primo favore: un tiro di ingresso non serve."
+      "name": "UN CONTATTO IN UNO DEI POTERI",
+      "text": "Qualcuno dentro uno dei poteri — una corporazione o una fazione delle Grey Zone — ti ha preso in simpatia (tirato: va nel tuo Dossier). Decidi con il GM chi è: informazioni riservate, un favore sottobanco. Il primo favore: un tiro di ingresso non serve."
     },
     "lucky_stiff": {
       "name": "FORTUNA SFACCIATA",

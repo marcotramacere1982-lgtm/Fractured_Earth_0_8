@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 10">
+  <!-- Small wall screen (an intercom, a door panel, a status display), 0.5 × 0.1: the top edge goes on the wall. -->
+  <rect class="solid part-screen" x="3" y="2" width="44" height="6" fill="none" stroke="currentColor" stroke-width="3"/>
+</svg>

@@ -7,7 +7,7 @@
       "desc": "Tira il TN d'attacco dell'arma. Se colpisci tira i danni + Bonus offensivo; il bersaglio sottrae l'armatura."
     },
     "ability": {
-      "desc": "Tira il tuo Class TN per riuscire in una delle tue ability pronte."
+      "desc": "Tira il tuo TN di classe per riuscire in una delle tue abilità pronte."
     },
     "reload": {
       "desc": "Inserisci un caricatore di scorta nell'arma in mano (quello vecchio si butta), o passa all'altra arma: solo l'arma in mano può attaccare."
@@ -16,7 +16,7 @@
       "desc": "Apri una porta, usa una console, prendi o passa un oggetto a un alleato vicino."
     },
     "aim": {
-      "desc": "Il tuo prossimo attacco a una locazione può spostare il tiro di locazione fino a ±5."
+      "desc": "Il tuo prossimo colpo mirato può spostare il tiro della parte colpita fino a ±5."
     },
     "disengage": {
       "desc": "Allontanati dalla mischia senza provocare un attacco di opportunità."
@@ -25,7 +25,7 @@
       "desc": "Sorveglia un quarto di cerchio fino al tuo prossimo turno: un colpo gratuito contro un nemico che lo attraversa, quando il GM lo chiama."
     },
     "first_aid": {
-      "desc": "Stabilizza o medica un alleato vicino (Medicine / First Aid, o un med-kit)."
+      "desc": "Stabilizza o medica un alleato vicino (Medicina / Primo soccorso, o un med-kit)."
     },
     "other": {
       "desc": "Qualsiasi altra cosa: il GM decide il tiro e quante azioni richiede."
@@ -34,7 +34,7 @@
       "desc": "Usa un consumabile: una cura, uno stimolante, un antidoto, una granata."
     },
     "study": {
-      "desc": "Studia un nemico in campo — il migliore tra Perception / Awareness e Forensics / Investigation. Un successo aggiunge alla tua Intel su quel tipo (Known, poi Studied). Una volta per scontro."
+      "desc": "Studia un nemico in campo — il migliore tra Percezione / Attenzione e Scientifica / Indagine. Un successo aggiunge alla tua Intel su quel tipo (Known, poi Studied). Una volta per scontro."
     }
   },
   "reactions": {

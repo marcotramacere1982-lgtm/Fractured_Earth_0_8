@@ -57,12 +57,13 @@ export function movement(squares, legs) {
 
 /**
  * Which readied weapons can be used with broken arms: one arm → only the first one-handed weapon; both → none.
- * @returns the same weapons with `usable` (and `why`: 'oneArm' | 'noArms') added.
+ * @returns the same weapons with `usable` (and `why`: 'oneArm' | 'noArms' | 'locked') added.
  */
 export function usableWeapons(weapons, arms) {
   let oneHandedLeft = 1;
   return weapons.map((w) => {
     if (w.empty) return w;
+    if (w.lock) return { ...w, usable: false, why: 'locked' }; // decision 345: a looted smart / biometric gun won't fire until it's unlocked
     if (arms >= 2) return { ...w, usable: false, why: 'noArms' };
     if (arms === 1) {
       const ok = (w.hands ?? 1) === 1 && oneHandedLeft-- > 0;

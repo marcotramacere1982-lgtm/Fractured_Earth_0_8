@@ -34,6 +34,10 @@
 .dossier__info { grid-area: info; }
 .dossier__story { grid-area: story; }
 .dossier__photo { grid-area: photo; }
+/* owner 2026-11-19: on the Dossier the backstory fills its card, the picture takes the column width */
+.dossier__story .prose { max-width: none; }
+.dossier__photo .portrait { align-items: stretch; }
+.dossier__photo .portrait__img, .dossier__photo .portrait__empty, .dossier__photo .portrait-frame { max-width: none; width: 100%; }
 @media (max-width: 1200px) { .sheet-grid--dossier { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); grid-template-areas: "info story" "photo story"; } }
 @media (max-width: 900px) { .sheet-grid--play, .gear-cols { grid-template-columns: 1fr; } .sheet-grid--dossier { grid-template-columns: 1fr; grid-template-areas: "info" "photo" "story"; } }
 
@@ -151,8 +155,14 @@
 .skill .icon { grid-row: span 2; color: var(--color-text-muted); }
 .skill__name { font-family: var(--font-ui); font-weight: 600; }
 /* decision 242: the English term beside an Italian skill / condition name */
-.term-en { font-weight: 400; font-size: var(--text-xs); color: var(--color-text-muted); margin-left: var(--space-1); }
-.term-en::before { content: '· '; }
+.term-en { display: none; font-weight: 400; font-size: var(--text-xs); color: var(--color-text-muted); margin-left: var(--space-1); }
+.term-en::before { content: '('; }
+.term-en::after { content: ')'; }
+/* decision 349: game words — dotted underline, tap or hover for the bubble; the English aside only with "English beside" */
+:root[data-terms='beside'] .term-en { display: inline; }
+.gloss { text-decoration: underline dotted; text-decoration-color: var(--color-text-muted); text-underline-offset: 0.2em; cursor: help; }
+.gloss:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; border-radius: var(--radius-sm); }
+:root[data-terms='off'] .gloss { text-decoration: none; cursor: inherit; pointer-events: none; }
 .skill__stats { grid-column: 2; font-size: var(--text-xs); color: var(--color-text-faint); font-family: var(--font-mono); }
 .skill__tn { grid-column: 3; grid-row: 1 / span 2; font-family: var(--font-mono); font-weight: 600; font-size: var(--text-xl); color: var(--color-accent); }
 .skill__passive { grid-column: 4; grid-row: 1 / span 2; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-faint); }
@@ -174,6 +184,7 @@
 
 /* ---------- notes & log ---------- */
 .textarea--tall { min-height: 22rem; }
+.textarea--short { min-height: 4rem; } /* decision 352: a tie's note */
 .log { display: flex; flex-direction: column; max-height: 28rem; overflow-y: auto; }
 .log__row { display: flex; gap: var(--space-3); padding: var(--space-1) 0; border-bottom: var(--border-width) solid var(--color-border); font-size: var(--text-sm); }
 .log__row--ok span:last-child { color: var(--color-success); }

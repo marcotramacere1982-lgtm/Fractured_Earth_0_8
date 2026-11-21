@@ -8,7 +8,7 @@
     },
     "skill-check": {
       "title": "Skill checks",
-      "text": "Skill TN = bonus of attribute A + bonus of attribute B. Roll a d20: equal or lower succeeds. The GM may subtract a difficulty penalty.",
+      "text": "A skill's TN is two attribute bonuses added together. Roll a d20: equal or under succeeds. The GM may make it harder (or easier) with a difficulty step.",
       "anchor": "sec-5-3-skills"
     },
     "passive": {
@@ -18,7 +18,7 @@
     },
     "difficulty": {
       "title": "Difficulty tiers",
-      "text": "The GM sums up the situation as one tier: Routine 0, Challenging −2, Hard −4, Severe −6, Extreme −8, Nightmare −10, subtracted from your TN.",
+      "text": "The GM sums up the moment as one step. Easier: Very easy +6, Easy +4, Favourable +2. Routine 0. Harder: Challenging −2, Hard −4, Severe −6, Extreme −8, Nightmare −10. It changes your TN for that roll.",
       "anchor": "sec-6-2"
     },
     "combat-values": {
@@ -33,7 +33,7 @@
     },
     "actions": {
       "title": "Actions per round",
-      "text": "Every combat action costs 1 action: move, attack, ability, reload, interact. You may repeat the same action. Unspent actions are lost at the end of your turn.",
+      "text": "Every combat action costs 1 action: move, attack, ability, reload, interact. You may repeat the same action. Unspent actions are lost at the end of your turn — except that a Dodge can borrow one from your next round.",
       "anchor": "sec-7-3"
     },
     "hostiles": {
@@ -43,7 +43,7 @@
     },
     "hp": {
       "title": "Hit points",
-      "text": "Max HP = CON + MST + 10. At 0 HP you are incapacitated and roll CON death saves each round; reaching −CON is instant death.",
+      "text": "Max HP = CON + MST + 10. At 0 HP you're Incapacitated: each round nobody treats you, roll CON — a second failure and you die. At −CON you die at once.",
       "anchor": "sec-7-7"
     },
     "body": {
@@ -55,6 +55,11 @@
       "title": "Location attack",
       "text": "−4 TN, then d20: 1–4 leg (Crippled leg), 5–8 arm (Broken arm), 9–13 abdomen (Prone), 14–18 chest (Slowed), 19–20 head (Stunned; Incapacitated at half HP or less). Aim (+1 action) shifts the d20 ±5.",
       "anchor": "sec-7-5"
+    },
+    "fatigue": {
+      "title": "Fatigue",
+      "text": "What a long night does to your body (0–6). Tired (3+) −1 TN on physical checks and attacks, Spent (5+) −2 and a square less of move; only the worse of Fatigue and Strain counts. +1 at each fight's end (+2 if long or bloody), +1 for each Push. Down: a breather −2 (once per scene), sleep or downtime clears it, stims −2 (the next breather won't help).",
+      "anchor": "sec-6-7-fatigue"
     },
     "strain": {
       "title": "Strain",
@@ -151,6 +156,11 @@
       "text": "0–10, start 5: whether the crew acts together, never whether it was right. Unity Check: secret votes, the actor decides, you record it.",
       "anchor": "sec-9-10"
     },
+    "gm.mapLighting": {
+      "title": "Lighting",
+      "text": "How this map draws light and sight: exact sight shapes, darkness and coloured lamps, or the classic squares; Coloured pieces draws each piece in its material (a piece's Look changes it). Saved with the map; display only — the rules don't change.",
+      "anchor": "sec-9-7"
+    },
     "gm.maps": {
       "title": "Map builder",
       "text": "1 square = 1.5 m. Walls, doors (locked never shows to players), windows, library pieces, hidden pieces, security, lights, darkness zones.",
@@ -243,7 +253,7 @@
     },
     "gm.campaigns": {
       "title": "Campaigns",
-      "text": "One per group: each keeps its missions, crew, case boards, stashes, scene and map savegames. Switch on the Story tab; move characters here.",
+      "text": "One per group: each keeps its missions, crew, case boards, stashes, scene and map savegames. Switch here (Put on the table) or on the Story tab; move characters here.",
       "anchor": "sec-9-9"
     },
     "gm.notes": {
@@ -274,6 +284,11 @@
     "gm.forge": {
       "title": "Forge",
       "text": "A one-off item for the player who found it: base item, new numbers, bonuses while in use, a note. A small bonus with a story beats a big one.",
+      "anchor": "sec-9-13"
+    },
+    "gm.npcGen": {
+      "title": "NPC generator",
+      "text": "A new library entry from an archetype: its numbers, catalog weapons (with a lock for when they're looted), talents and a fixed loot list. The meter rates it against the crew; hand-made entries are never overwritten.",
       "anchor": "sec-9-13"
     },
     "gm.backstories": {
@@ -413,7 +428,7 @@
     },
     "weapon-tn": {
       "title": "Attacking with a weapon",
-      "text": "Attack TN is the matching skill (pistol → Handguns, SMG/rifle → Automatic Firearms, sniper → Long Guns, blades/batons → Melee). Damage adds your Offensive Bonus; armor is subtracted.",
+      "text": "Attack TN is the matching skill: pistol → Handguns · SMG, assault rifle → Automatic Firearms · sniper rifle, shotgun, bow → Long Guns & Shotguns · blades, batons, stun guns → Melee · fists → Brawling. Damage adds your OFF (offensive bonus); the target's armor comes off it.",
       "anchor": "sec-8-2"
     },
     "credit-score": {

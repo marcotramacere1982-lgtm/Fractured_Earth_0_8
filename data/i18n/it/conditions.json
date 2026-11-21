@@ -86,9 +86,9 @@
     "targets": "Organici / cibernetici",
     "effects": [
       "Un braccio: puoi usare una sola arma a una mano (il deck da hacker funziona comunque).",
-      "Entrambe le braccia: solo movimento, parlare e abilità mentali."
+      "Entrambe le braccia: solo movimento, parlare e competenze mentali."
     ],
-    "clear": "Primo soccorso (1 azione, prova di Medicine / First Aid), un Basic Trauma Kit o un Paramedic Case, o il downtime.",
+    "clear": "Primo soccorso (1 azione, prova di Medicina / Primo soccorso), un Basic Trauma Kit o un Paramedic Case, o il tempo tra una missione e l'altra.",
     "name": "Braccio rotto"
   },
   "crippled_leg": {
@@ -97,7 +97,7 @@
       "Una gamba: metà dei quadretti per movimento (per difetto, minimo 1).",
       "Entrambe le gambe: 1 quadretto per movimento."
     ],
-    "clear": "Primo soccorso (1 azione, prova di Medicine / First Aid), un Basic Trauma Kit o un Paramedic Case, o il downtime.",
+    "clear": "Primo soccorso (1 azione, prova di Medicina / Primo soccorso), un Basic Trauma Kit o un Paramedic Case, o il tempo tra una missione e l'altra.",
     "name": "Gamba storpia"
   },
   "jammed": {
@@ -127,7 +127,7 @@
   "sharp": {
     "targets": "Operatori",
     "effects": [
-      "+1 TN alle prove di abilità."
+      "+1 TN alle prove di competenza."
     ],
     "clear": "Finché il GM non lo termina (di solito alla fine della scena).",
     "name": "Lucido"
@@ -182,7 +182,7 @@
     "effects": [
       "+2 armatura."
     ],
-    "clear": "Fino al tuo prossimo turno, o quanto dice l’ability."
+    "clear": "Fino al tuo prossimo turno, o quanto dice l’abilità."
   },
   "suppressed": {
     "name": "Soppresso",
@@ -190,7 +190,7 @@
     "effects": [
       "−4 TN agli attacchi."
     ],
-    "clear": "Quando lo dice l’ability (di solito: fine del prossimo round, o il suo prossimo attacco)."
+    "clear": "Quando lo dice l’abilità (di solito: fine del prossimo round, o il suo prossimo attacco)."
   },
   "marked": {
     "name": "Marcato",

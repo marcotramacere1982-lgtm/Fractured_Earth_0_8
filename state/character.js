@@ -1,6 +1,7 @@
 // Character model (schema v1) and full sheet derivation.
 
 import { bandOf, strainTn } from '../rules/strain.js'; // decision 266
+import { fatigueBand, isPhysical, worseTn } from '../rules/fatigue.js'; // decision 362
 import { computeSkills, computeCombat, initiative, weaponTN } from '../rules/stats.js';
 import { maxHp, armorTotals } from '../rules/body.js';
 import { limbs, movement, usableWeapons } from '../rules/injuries.js';
@@ -10,6 +11,7 @@ import { findSubclass, classTN, deckCapacity, deckStatus } from '../rules/classe
 import { zoneBonus, isRanged, opticStats, stanceOf } from '../rules/engines.js';
 import { lifestyleUpkeep, magazineId, magazineFor, addItem } from '../rules/economy.js';
 import { conditionMods, halvedMove } from '../rules/conditions.js';
+import { carryLoad, conditionsNow } from '../rules/carry.js';
 import { allowance, roundAllowance } from '../rules/turn.js';
 import { effectTotals } from '../rules/items.js';
 import { withUniques, uniqueBonuses } from '../rules/uniques.js';
@@ -36,6 +38,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
     criminalRecord: false,
     credentials: [],
     tags: [],
+    ties: [], // decision 352: who the life path tied you to — { id, kind, table, with, roll, from, age, name, note }
     waivers: [],
     history: { adolescence: [], careers: [] },
     classId: null,
@@ -62,6 +65,7 @@ export function createCharacter(data, { player = '', name = '' } = {}) {
       sparesGranted: true, // decision 55: guns bought from now on come with spare magazines
       naturalFists: true, // decision 147: fists aren't an item; an empty slot is your fists
       lifestyle: [], // lifestyle entry ids (rent tier, plans, bills)
+      fatigue: 0, // decision 362: the body's track (0–6) — stimmed: the next breather won't help
       strain: 0, // decision 266: the stress track (0–10) — strainAsks, breaking and scars live beside it
       worn: [], // armor ids currently worn
       slots: { 1: null, 2: null }, // weapon ids
@@ -97,6 +101,11 @@ export function upgradeSave(c, data = null) {
       if (data.weapons.find((w) => w.id === row.id)?.magSize) addItem(c, 'ammo', magazineId(row.id), data.economy.magazine.startSpares * row.qty);
     }
     c.play.sparesGranted = true;
+  }
+  if (!Array.isArray(c.ties)) { // decision 352: ties; a contact from before them becomes a blank one to fill in (never a surprise roll)
+    c.ties = (c.tags ?? []).includes('Corporation contact')
+      ? [{ id: 'contact_within_a_megacorp.1', kind: 'contact', table: 'powers', with: null, roll: null, from: 'contact_within_a_megacorp', age: null, name: '', note: '' }]
+      : [];
   }
   if (c.play.naturalFists !== true) { // decision 147: fists stop being an item — the bought ones go, an empty slot is your fists
     const had = c.play.inventory.some((x) => x.kind === 'weapon' && x.id === FISTS);
@@ -182,8 +191,10 @@ export function deriveSheet(character, data) {
     .map((k) => (uniq.skills[k.id] ? { ...k, value: k.value + uniq.skills[k.id], unique: uniq.skills[k.id] } : k))
     .map((k) => (lifeCatch[k.id] ? { ...k, value: k.value + lifeCatch[k.id], lifestyle: lifeCatch[k.id] } : k)); // decision 331: the cheapest plans' catch
   const strainNow = data.strain ? { value: character.play.strain ?? 0, band: bandOf(character.play.strain ?? 0, data.strain), tn: strainTn(character.play.strain ?? 0, data.strain) } : { value: 0, band: null, tn: 0 }; // decision 266
-  const skillMod = (cm.skillTn ?? 0) + strainNow.tn;
-  const modOf = (k) => skillMod + (k.id === 'avoid_reflexes' ? cm.dodgeTn ?? 0 : 0); // Guarded: Dodge only (decision 282)
+  const fatigueNow = data.fatigue ? (() => { const v = character.play.fatigue ?? 0; const band = fatigueBand(v, data.fatigue); return { value: v, band, tn: band.tn, move: band.move }; })() : { value: 0, band: null, tn: 0, move: 0 }; // decision 362
+  // decision 362: a physical check feels Fatigue and Strain, but only the worse of the two counts
+  const wearOf = (k) => (data.fatigue && isPhysical(k, data.fatigue) ? worseTn(strainNow.tn, fatigueNow.tn) : strainNow.tn);
+  const modOf = (k) => (cm.skillTn ?? 0) + wearOf(k) + (k.id === 'avoid_reflexes' ? cm.dodgeTn ?? 0 : 0); // Guarded: Dodge only (decision 282)
   const skills = skillsBase.map((k) => (modOf(k) ? { ...k, value: k.value + modOf(k), base: k.value } : k)); // Sharp, Strain: skill checks, not attacks
   const weapon = (id) => data.weapons.find((w) => w.id === id);
   const deck = data.decks.find((d) => d.id === character.play.deck) ?? null;
@@ -200,7 +211,7 @@ export function deriveSheet(character, data) {
       const tn = weaponTN(w, skillsBase) + zoneTn + stanceTn + (w.tnBonus ?? 0); // a unique's own TN bonus
       const rounds = character.play.ammo[slot] ?? 0;
       const spares = w.magSize ? character.play.inventory.find((x) => x.kind === 'ammo' && x.id === magazineFor(w, data))?.qty ?? 0 : 0; // a modded copy or a Forge unique loads its stock magazines (decisions 173, 311)
-      return { slot, ...w, tn: tn + cm.attackTn, base: cm.attackTn ? tn : undefined, zoneTn, stanceTn, rounds, spares, // Focused / Blinded; only a condition sets `base`, never a record field
+      return { slot, ...w, tn: tn + cm.attackTn + fatigueNow.tn, base: cm.attackTn || fatigueNow.tn ? tn : undefined, fatigueTn: fatigueNow.tn || undefined, /* decision 362: Fatigue on attacks */ zoneTn, stanceTn, rounds, spares, // Focused / Blinded; only a condition sets `base`, never a record field
         burst: w.burst ?? 1, attacksLeft: w.magSize ? Math.ceil(rounds / (w.burst ?? 1)) : null, // automatic weapons fire 3-round bursts
         inHand: slot === handSlot };
     }), injured.arms);
@@ -212,7 +223,7 @@ export function deriveSheet(character, data) {
     skills,
     weapons,
     handSlot,
-    armed: weapons.filter((w) => !w.empty && (!inCombat || w.inHand)), // what attacks and weapon abilities may use now
+    armed: weapons.filter((w) => !w.empty && !w.lock && (!inCombat || w.inHand)), // decision 345: a locked gun can't serve an ability either // what attacks and weapon abilities may use now
     deck: deck ? (() => {
       const capacity = deckCapacity(deck, character.play.deckMods ?? [], data.deckMods, fx.ram ?? 0);
       return { ...deck, capacity, status: deckStatus(capacity, character.play.resources) };
@@ -227,10 +238,13 @@ export function deriveSheet(character, data) {
     })(),
     combat,
     strain: strainNow, // decision 266
+    fatigue: fatigueNow, // decision 362
     zone,
-    move: halvedMove(movement(combat.sqr.value + zone.squares, injured.legs), cm.moveHalf), // squares per Move action (Prone: halved)
+    move: Math.max(1, halvedMove(movement(combat.sqr.value + zone.squares, injured.legs), cm.moveHalf) + fatigueNow.move), // squares per Move action (Prone: halved; Spent: −1, decision 362)
     moveBase: movement(combat.sqr.value + zone.squares, injured.legs),
-    actionsNow: roundAllowance(character.play.turn, combat.act.value, character.play.conditions, data.actions), // this round: Stunned 1, Slowed −1; prep actions in a head start (decision 233)
+    carry: carryLoad(character.play.inventory, data), // owner 2026-11-18: bulky things — over the room, Slowed
+    conditionsNow: conditionsNow(character.play.conditions, carryLoad(character.play.inventory, data)),
+    actionsNow: roundAllowance(character.play.turn, combat.act.value, conditionsNow(character.play.conditions, carryLoad(character.play.inventory, data)), data.actions), // this round: Stunned 1, Slowed −1; prep actions in a head start (decision 233)
     conditionMods: cm,
     injured: { ...injured, locations: character.play.injuries ?? [] },
     initiative: initiative(a, data.combat) + (fx.initiative ?? 0) + uniq.init,

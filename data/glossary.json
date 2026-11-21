@@ -1,0 +1,347 @@
+{
+  "note": "The player glossary (owner 2026-11-18, decision 349): one plain sentence per game term. Screens mark a word with ui/term.js → gloss(); a tap (or hover) shows the word, the English term in other languages, this line, and a link to the manual. Overlays translate name and text.",
+  "terms": [
+    {
+      "id": "d20",
+      "name": "d20",
+      "text": "The twenty-sided die. Every check is one d20.",
+      "anchor": "sec-6-2"
+    },
+    {
+      "id": "tn",
+      "name": "TN",
+      "text": "Target Number: roll it or under on a d20 to succeed. Higher is better.",
+      "anchor": "sec-6-2"
+    },
+    {
+      "id": "check",
+      "name": "Check",
+      "text": "One d20 against a TN to see if something works.",
+      "anchor": "sec-6-2"
+    },
+    {
+      "id": "difficulty",
+      "name": "Difficulty",
+      "text": "How hard the GM says the moment is. It moves your TN for that roll: Routine changes nothing, Hard is −4, Easy is +4.",
+      "anchor": "sec-6-2"
+    },
+    {
+      "id": "margin",
+      "name": "Margin",
+      "text": "How far under your TN you rolled. A big margin can earn something extra.",
+      "anchor": "sec-6-2"
+    },
+    {
+      "id": "natural",
+      "name": "Natural 1 / 20",
+      "text": "The die itself shows 1 (something goes your way) or 20 (a complication), whatever the TN.",
+      "anchor": "sec-6-2"
+    },
+    {
+      "id": "crit",
+      "name": "Crit / fumble",
+      "text": "On an attack: a natural 1 or a big margin is a crit (ignores armor); a natural 20 is a fumble (a jam, or you are exposed).",
+      "anchor": "sec-7-5-crit"
+    },
+    {
+      "id": "passive",
+      "name": "Passive score",
+      "text": "Your TN − 5: what the GM uses when you don't roll (do you notice the camera?).",
+      "anchor": "sec-6-2"
+    },
+    {
+      "id": "help",
+      "name": "Help",
+      "text": "A crewmate who says how they help rolls a skill: +2 on your next check if they succeed.",
+      "anchor": "sec-6-2-help"
+    },
+    {
+      "id": "contested",
+      "name": "Contested check",
+      "text": "Two characters roll at once; the bigger margin wins. Rare: usually the difficulty does the job.",
+      "anchor": "sec-6-2"
+    },
+    {
+      "id": "attribute",
+      "name": "Attribute",
+      "text": "One of eight core numbers: STR, DEX, CON, INT, WIS, CHA, MST, CRS.",
+      "anchor": "sec-5-3"
+    },
+    {
+      "id": "bonus",
+      "name": "Bonus",
+      "text": "Half an attribute, rounded down. A skill adds two bonuses together.",
+      "anchor": "sec-5-3"
+    },
+    {
+      "id": "skill",
+      "name": "Skill",
+      "text": "Something you have learned (Stealth, Hacking…). Its number is its TN.",
+      "anchor": "sec-5-3-skills"
+    },
+    {
+      "id": "class",
+      "name": "Class",
+      "text": "What you do on a job (Soldier, Hacker…) and, with your subclass, how.",
+      "anchor": "sec-5-6"
+    },
+    {
+      "id": "ability",
+      "name": "Ability",
+      "text": "A move your class gives you. You equip a few and use them in play. Not a skill.",
+      "anchor": "sec-5-6-equip"
+    },
+    {
+      "id": "class_tn",
+      "name": "Class TN",
+      "text": "The TN your abilities roll against: the average of your subclass's two main attributes.",
+      "anchor": "sec-5-6"
+    },
+    {
+      "id": "talent",
+      "name": "Talent",
+      "text": "A permanent perk you buy with levels.",
+      "anchor": "sec-5-9-talents"
+    },
+    {
+      "id": "hp",
+      "name": "HP",
+      "text": "Hit points. At 0 you are Incapacitated; at −CON you die.",
+      "anchor": "sec-7-7"
+    },
+    {
+      "id": "armor",
+      "name": "Armor",
+      "text": "Taken off every hit: what you wear, plus cover.",
+      "anchor": "sec-8-3"
+    },
+    {
+      "id": "crack",
+      "name": "Crack",
+      "text": "Armor that stopped a location attack loses 1 until it is repaired.",
+      "anchor": "sec-7-5"
+    },
+    {
+      "id": "cover",
+      "name": "Cover",
+      "text": "Something solid between you and a shooter: +2 (partial) or +4 (full) armor.",
+      "anchor": "sec-7-2"
+    },
+    {
+      "id": "condition",
+      "name": "Condition",
+      "text": "A state that changes your numbers for a while (Prone, Slowed, Focused…).",
+      "anchor": "sec-7-6"
+    },
+    {
+      "id": "injury",
+      "name": "Injury",
+      "text": "A broken arm or crippled leg from a location hit. It stays until treated.",
+      "anchor": "sec-7-6"
+    },
+    {
+      "id": "boost",
+      "name": "Boost",
+      "text": "A short-lived bonus (a stim, an item, the GM). It shows in green, the normal number small beside it.",
+      "anchor": "sec-8-4"
+    },
+    {
+      "id": "strain",
+      "name": "Strain",
+      "text": "Stress, 0–10. The higher it is, the more it costs you.",
+      "anchor": "sec-12-12"
+    },
+    {
+      "id": "crs",
+      "name": "Credit Score",
+      "text": "How much the system lets you owe. Official purchases spend it.",
+      "anchor": "sec-6-5"
+    },
+    {
+      "id": "cash",
+      "name": "Cash",
+      "text": "Street money: untraced, for anything bought off the books.",
+      "anchor": "sec-8-1"
+    },
+    {
+      "id": "round",
+      "name": "Round",
+      "text": "In a fight, everyone acts once, in initiative order.",
+      "anchor": "sec-7-3"
+    },
+    {
+      "id": "turn",
+      "name": "Turn",
+      "text": "Your part of a round: you spend your actions.",
+      "anchor": "sec-7-3"
+    },
+    {
+      "id": "action",
+      "name": "Action",
+      "text": "One thing you do on your turn: move, attack, reload, use an ability… You get your Actions number each round.",
+      "anchor": "sec-7-3"
+    },
+    {
+      "id": "reaction",
+      "name": "Reaction",
+      "text": "Something you do out of turn, like a Dodge: it spends an action from your next round.",
+      "anchor": "sec-7-3"
+    },
+    {
+      "id": "initiative",
+      "name": "Initiative",
+      "text": "Who goes first: a d20 plus your Initiative bonus, rolled when the fight starts.",
+      "anchor": "sec-7-1"
+    },
+    {
+      "id": "head_start",
+      "name": "Head start",
+      "text": "Round 0, when the crew knows a fight is coming: a few prep actions before initiative.",
+      "anchor": "sec-12-7"
+    },
+    {
+      "id": "scene",
+      "name": "Scene",
+      "text": "One stretch of the story in one place. The GM starts a new one; \"once per scene\" things come back.",
+      "anchor": "sec-12-1"
+    },
+    {
+      "id": "mission",
+      "name": "Mission",
+      "text": "One job, from briefing to debrief. \"Once per mission\" comes back at the next one.",
+      "anchor": "sec-6-1"
+    },
+    {
+      "id": "downtime",
+      "name": "Downtime",
+      "text": "The time between missions: you heal, pay, work, and something happens in your life.",
+      "anchor": "sec-5-10"
+    },
+    {
+      "id": "move",
+      "name": "Move",
+      "text": "One Move action takes you up to your squares on the map (a square is 1.5 m).",
+      "anchor": "sec-7-2-map"
+    },
+    {
+      "id": "in_hand",
+      "name": "In hand",
+      "text": "You ready two weapons in two slots; only the one in hand attacks. Swapping costs an action in a fight.",
+      "anchor": "sec-8-2"
+    },
+    {
+      "id": "attack_tn",
+      "name": "Attack TN",
+      "text": "Your TN to hit with a weapon: its skill, plus the weapon's own bonus.",
+      "anchor": "sec-8-2"
+    },
+    {
+      "id": "location_attack",
+      "name": "Location attack",
+      "text": "Aim at a body part: −4 TN, and a hit adds an injury or a condition.",
+      "anchor": "sec-7-5-location"
+    },
+    {
+      "id": "reliability",
+      "name": "Reliability",
+      "text": "How likely a weapon is to jam on a fumble. Higher is safer.",
+      "anchor": "sec-7-5-crit"
+    },
+    {
+      "id": "overwatch",
+      "name": "Overwatch",
+      "text": "You watch a direction instead of acting: the first enemy that moves there, you may shoot.",
+      "anchor": "sec-12-8"
+    },
+    {
+      "id": "dodge",
+      "name": "Dodge",
+      "text": "A reaction when you are hit: roll to avoid it, paid with an action from your next round.",
+      "anchor": "sec-7-3"
+    },
+    {
+      "id": "hostiles",
+      "name": "Hostiles",
+      "text": "The enemies the GM has shown you, by letter.",
+      "anchor": "sec-7-1"
+    },
+    {
+      "id": "wound_band",
+      "name": "Wound band",
+      "text": "How hurt someone looks: Unhurt, Hurt, Bloodied (half HP or less), Down.",
+      "anchor": "sec-7-1"
+    },
+    {
+      "id": "ally",
+      "name": "Ally",
+      "text": "Someone fighting on your side. The GM runs them.",
+      "anchor": "sec-7-1"
+    },
+    {
+      "id": "intel",
+      "name": "Intel",
+      "text": "What you know about an enemy type (Known, Studied) or an ally (Known, Full profile).",
+      "anchor": "sec-12-13"
+    },
+    {
+      "id": "site_alert",
+      "name": "Site alert",
+      "text": "How much this place's security is paying attention. On Alert and Lockdown, quiet technical work is harder.",
+      "anchor": "sec-6-4-alert"
+    },
+    {
+      "id": "markup",
+      "name": "Street markup",
+      "text": "How much more than list price the street charges tonight. The GM sets it.",
+      "anchor": "sec-8-1"
+    },
+    {
+      "id": "bulky",
+      "name": "Bulky",
+      "text": "Two-handed or big things: one is free, a bag carries one more, past that you are Slowed.",
+      "anchor": "sec-8-carry"
+    },
+    {
+      "id": "locked",
+      "name": "Locked · tracked · hot",
+      "text": "A looted gun that won't fire, reports where it is, and fetches only a quarter from a fence.",
+      "anchor": "sec-8-bodies"
+    },
+    {
+      "id": "stash",
+      "name": "Stash",
+      "text": "A place to keep things off your back: yours, or the crew's.",
+      "anchor": "sec-8-stash"
+    },
+    {
+      "id": "washer",
+      "name": "Washer",
+      "text": "A fixer who moves money between cash and Credit Score, or cleans a hot gun.",
+      "anchor": "sec-8-washer"
+    },
+    {
+      "id": "haggle",
+      "name": "Haggle",
+      "text": "One roll to move a price: pick how hard you push and how.",
+      "anchor": "sec-8-haggle"
+    },
+    {
+      "id": "fatigue",
+      "name": "Fatigue",
+      "text": "The body’s wear, 0–6. Tired −1, Spent −2 on physical checks and attacks.",
+      "anchor": "sec-6-7-fatigue"
+    },
+    {
+      "id": "push",
+      "name": "Push",
+      "text": "+2 on a roll, or one more action in a fight, for +1 Fatigue.",
+      "anchor": "sec-6-7-fatigue"
+    },
+    {
+      "id": "breather",
+      "name": "Breather",
+      "text": "A quiet moment: −2 Fatigue, once per scene.",
+      "anchor": "sec-6-7-fatigue"
+    }
+  ]
+}

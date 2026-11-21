@@ -1,0 +1,232 @@
+{
+  "terms": {
+    "d20": {
+      "name": "d20",
+      "text": "Il dado a venti facce. Ogni prova è un d20."
+    },
+    "tn": {
+      "name": "TN",
+      "text": "Il numero da fare uguale o sotto con un d20 per riuscire. Più è alto, meglio è."
+    },
+    "check": {
+      "name": "Prova",
+      "text": "Un d20 contro un TN per vedere se qualcosa riesce."
+    },
+    "difficulty": {
+      "name": "Difficoltà",
+      "text": "Quanto il GM dice che è difficile il momento. Sposta il tuo TN per quel tiro: Routine non cambia niente, Difficile è −4, Facile è +4."
+    },
+    "margin": {
+      "name": "Margine",
+      "text": "Di quanto sei sotto il tuo TN. Un margine grande può valere qualcosa in più."
+    },
+    "natural": {
+      "name": "1 / 20 naturale",
+      "text": "Il dado mostra proprio 1 (qualcosa va a tuo favore) o 20 (una complicazione), qualunque sia il TN."
+    },
+    "crit": {
+      "name": "Critico / fallimento critico",
+      "text": "In un attacco: un 1 naturale o un margine grande è un critico (ignora l'armatura); un 20 naturale è un fallimento critico (un inceppamento, o resti scoperto)."
+    },
+    "passive": {
+      "name": "Punteggio passivo",
+      "text": "Il tuo TN − 5: quello che usa il GM quando non tiri (ti accorgi della telecamera?)."
+    },
+    "help": {
+      "name": "Aiuto",
+      "text": "Un compagno che dice come aiuta tira una competenza: +2 alla tua prossima prova se riesce."
+    },
+    "contested": {
+      "name": "Prova contrapposta",
+      "text": "Due personaggi tirano insieme; vince il margine più grande. Rara: di solito basta la difficoltà."
+    },
+    "attribute": {
+      "name": "Attributo",
+      "text": "Uno degli otto numeri base: STR, DEX, CON, INT, WIS, CHA, MST, CRS."
+    },
+    "bonus": {
+      "name": "Bonus",
+      "text": "Metà di un attributo, per difetto. Una competenza somma due bonus."
+    },
+    "skill": {
+      "name": "Competenza",
+      "text": "Qualcosa che hai imparato (Furtività, Hacking…). Il suo numero è il suo TN."
+    },
+    "class": {
+      "name": "Classe",
+      "text": "Cosa fai in un lavoro (Soldier, Hacker…) e, con la sottoclasse, come."
+    },
+    "ability": {
+      "name": "Abilità",
+      "text": "Una mossa che ti dà la tua classe. Ne equipaggi alcune e le usi in gioco. Non è una competenza."
+    },
+    "class_tn": {
+      "name": "TN di classe",
+      "text": "Il TN contro cui tirano le tue abilità: la media dei due attributi principali della tua sottoclasse."
+    },
+    "talent": {
+      "name": "Talento",
+      "text": "Un vantaggio permanente che compri con i livelli."
+    },
+    "hp": {
+      "name": "HP",
+      "text": "Punti ferita. A 0 sei Inabile; a −CON muori."
+    },
+    "armor": {
+      "name": "Armatura",
+      "text": "Si toglie da ogni colpo: quello che indossi, più la copertura."
+    },
+    "crack": {
+      "name": "Incrinatura",
+      "text": "Un'armatura che ha fermato un colpo mirato perde 1 finché non la ripari."
+    },
+    "cover": {
+      "name": "Copertura",
+      "text": "Qualcosa di solido tra te e chi spara: +2 (parziale) o +4 (totale) di armatura."
+    },
+    "condition": {
+      "name": "Condizione",
+      "text": "Uno stato che cambia i tuoi numeri per un po' (A terra, Rallentato, Concentrato…)."
+    },
+    "injury": {
+      "name": "Ferita",
+      "text": "Un braccio rotto o una gamba storpia da un colpo mirato. Resta finché non viene curata."
+    },
+    "boost": {
+      "name": "Potenziamento",
+      "text": "Un bonus temporaneo (uno stim, un oggetto, il GM). Compare in verde, con il numero normale piccolo accanto."
+    },
+    "fatigue": {
+      "name": "Fatica",
+      "text": "L'usura del corpo, 0–6. Stanco −1, Sfinito −2 alle prove fisiche e agli attacchi."
+    },
+    "push": {
+      "name": "Spinta",
+      "text": "+2 a un tiro, o un'azione in più in combattimento, per +1 Fatica."
+    },
+    "breather": {
+      "name": "Pausa",
+      "text": "Un momento tranquillo: −2 Fatica, una volta per scena."
+    },
+    "strain": {
+      "name": "Stress",
+      "text": "Lo stress, 0–10. Più è alto, più ti costa."
+    },
+    "crs": {
+      "name": "Credit Score",
+      "text": "Quanto il sistema ti lascia indebitare. Gli acquisti ufficiali lo consumano."
+    },
+    "cash": {
+      "name": "Contanti",
+      "text": "Soldi di strada: non tracciati, per tutto ciò che compri in nero."
+    },
+    "round": {
+      "name": "Round",
+      "text": "In uno scontro, tutti agiscono una volta, in ordine di iniziativa."
+    },
+    "turn": {
+      "name": "Turno",
+      "text": "La tua parte del round: spendi le tue azioni."
+    },
+    "action": {
+      "name": "Azione",
+      "text": "Una cosa che fai nel tuo turno: muoverti, attaccare, ricaricare, usare un'abilità… Ne hai quante dice Azioni, a ogni round."
+    },
+    "reaction": {
+      "name": "Reazione",
+      "text": "Qualcosa che fai fuori dal tuo turno, come una schivata: spende un'azione del tuo prossimo round."
+    },
+    "initiative": {
+      "name": "Iniziativa",
+      "text": "Chi agisce prima: un d20 più il tuo bonus di Iniziativa, tirato all'inizio dello scontro."
+    },
+    "head_start": {
+      "name": "Vantaggio",
+      "text": "Il round 0, quando la crew sa che arriva uno scontro: qualche azione di preparazione prima dell'iniziativa."
+    },
+    "scene": {
+      "name": "Scena",
+      "text": "Un tratto di storia in un luogo. Il GM ne apre una nuova; le cose \"una volta per scena\" tornano."
+    },
+    "mission": {
+      "name": "Missione",
+      "text": "Un lavoro, dal briefing al debriefing. \"Una volta per missione\" torna alla prossima."
+    },
+    "downtime": {
+      "name": "Nel frattempo…",
+      "text": "Il tempo tra una missione e l'altra: guarisci, paghi, lavori, e nella tua vita succede qualcosa."
+    },
+    "move": {
+      "name": "Movimento",
+      "text": "Un'azione di movimento ti porta fino ai tuoi quadretti sulla mappa (un quadretto è 1,5 m)."
+    },
+    "in_hand": {
+      "name": "In mano",
+      "text": "Prepari due armi in due slot; attacca solo quella in mano. Cambiare costa un'azione in combattimento."
+    },
+    "attack_tn": {
+      "name": "TN d'attacco",
+      "text": "Il tuo TN per colpire con un'arma: la sua competenza, più il bonus dell'arma."
+    },
+    "location_attack": {
+      "name": "Colpo mirato",
+      "text": "Miri a una parte del corpo: −4 TN, e il colpo aggiunge una ferita o una condizione."
+    },
+    "reliability": {
+      "name": "Affidabilità",
+      "text": "Quanto è probabile che un'arma si inceppi in un fallimento critico. Più è alta, più è sicura."
+    },
+    "overwatch": {
+      "name": "Sovrallerta",
+      "text": "Sorvegli una direzione invece di agire: il primo nemico che si muove lì, puoi colpirlo."
+    },
+    "dodge": {
+      "name": "Schivata",
+      "text": "Una reazione quando vieni colpito: tiri per evitarlo, con un'azione del tuo prossimo round."
+    },
+    "hostiles": {
+      "name": "Ostili",
+      "text": "I nemici che il GM ti ha mostrato, per lettera."
+    },
+    "wound_band": {
+      "name": "Stato delle ferite",
+      "text": "Quanto sembra ferito qualcuno: Illeso, Ferito, Sanguinante (metà HP o meno), Fuori combattimento."
+    },
+    "ally": {
+      "name": "Alleato",
+      "text": "Qualcuno che combatte dalla tua parte. Lo gestisce il GM."
+    },
+    "intel": {
+      "name": "Intel",
+      "text": "Quello che sai di un tipo di nemico (Noto, Studiato) o di un alleato (Noto, Profilo completo)."
+    },
+    "site_alert": {
+      "name": "Allerta del sito",
+      "text": "Quanto la sicurezza del posto sta all'erta. In Allerta e Isolamento il lavoro silenzioso e tecnico è più difficile."
+    },
+    "markup": {
+      "name": "Ricarico di strada",
+      "text": "Quanto più del prezzo di listino chiede la strada stasera. Lo decide il GM."
+    },
+    "bulky": {
+      "name": "Ingombrante",
+      "text": "Cose a due mani o grosse: una è gratis, una borsa ne porta un'altra, oltre sei Rallentato."
+    },
+    "locked": {
+      "name": "Bloccata · tracciata · scottante",
+      "text": "Un'arma presa a un nemico che non spara, dice dove si trova, e un ricettatore paga solo un quarto."
+    },
+    "stash": {
+      "name": "Nascondiglio",
+      "text": "Un posto dove tenere le cose che non porti addosso: tuo, o della crew."
+    },
+    "washer": {
+      "name": "Riciclatore",
+      "text": "Un faccendiere che sposta soldi tra contanti e Credit Score, o ripulisce un'arma scottante."
+    },
+    "haggle": {
+      "name": "Contrattare",
+      "text": "Un tiro per spostare un prezzo: scegli quanto spingere e come."
+    }
+  }
+}

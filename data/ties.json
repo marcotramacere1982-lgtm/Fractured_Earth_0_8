@@ -1,0 +1,128 @@
+{
+  "note": "Decision 352: who a life event ties you to. An event with effects.tie { kind, table } rolls on a table here; the tie goes on the character (`ties`), shown on the Dossier and to the GM, with a name and a note to fill in. Kinds: contact, enemy, lover, family.",
+  "kinds": [
+    {
+      "id": "contact",
+      "name": "Contact"
+    },
+    {
+      "id": "enemy",
+      "name": "Enemy"
+    },
+    {
+      "id": "lover",
+      "name": "Lover"
+    },
+    {
+      "id": "family",
+      "name": "Family"
+    }
+  ],
+  "tables": {
+    "powers": {
+      "dice": "1d6",
+      "entries": [
+        {
+          "roll": 1,
+          "id": "grid",
+          "name": "The Euro-Grid Syndicate"
+        },
+        {
+          "roll": 2,
+          "id": "ledger",
+          "name": "The Avalon-Collins Liquidity Ledger"
+        },
+        {
+          "roll": 3,
+          "id": "watch",
+          "name": "Centurion-Vanguard (the Watch)"
+        },
+        {
+          "roll": 4,
+          "id": "obsidian",
+          "name": "Obsidian Response Group (the TRF)"
+        },
+        {
+          "roll": 5,
+          "id": "airgappers",
+          "name": "The Air-Gappers"
+        },
+        {
+          "roll": 6,
+          "id": "humsingers",
+          "name": "The Hum-Singers"
+        }
+      ]
+    },
+    "enemies": {
+      "dice": "1d6",
+      "entries": [
+        {
+          "roll": 1,
+          "id": "district_attorney",
+          "name": "A district attorney who wants your head"
+        },
+        {
+          "roll": 2,
+          "id": "old_flame",
+          "name": "An old flame with corporate friends"
+        },
+        {
+          "roll": 3,
+          "id": "cult_leader",
+          "name": "A cult leader"
+        },
+        {
+          "roll": 4,
+          "id": "watch_officer",
+          "name": "A Watch officer with a grudge"
+        },
+        {
+          "roll": 5,
+          "id": "loan_shark",
+          "name": "A loan shark you crossed"
+        },
+        {
+          "roll": 6,
+          "id": "gang_boss",
+          "name": "A gang boss who lost face because of you"
+        }
+      ]
+    },
+    "lovers": {
+      "dice": "1d6",
+      "entries": [
+        {
+          "roll": 1,
+          "id": "ledger_executive",
+          "name": "A Ledger executive"
+        },
+        {
+          "roll": 2,
+          "id": "grid_heir",
+          "name": "An heir to Grid money"
+        },
+        {
+          "roll": 3,
+          "id": "old_money",
+          "name": "Old money with a name to protect"
+        },
+        {
+          "roll": 4,
+          "id": "tech_founder",
+          "name": "A tech founder on the rise"
+        },
+        {
+          "roll": 5,
+          "id": "watch_commander",
+          "name": "A Watch commander"
+        },
+        {
+          "roll": 6,
+          "id": "collector",
+          "name": "A collector of rare and stolen things"
+        }
+      ]
+    }
+  }
+}

@@ -58,10 +58,11 @@
   "sell": {
     "fraction": 0.5,
     "officialFraction": 0.25,
-    "note": "Selling gives half the list price in cash; gear bought officially (registered) only a quarter — resale is allowed, but corporate planned obsolescence makes it worth little (decision 57). Street-bought units are sold first. Custom items: the player types the amount."
+    "note": "Selling gives half the list price in cash; gear bought officially (registered) only a quarter — resale is allowed, but corporate planned obsolescence makes it worth little (decision 57). Street-bought units are sold first. Custom items: the player types the amount. Hot goods (decision 345: a looted tracked weapon, a traced item) fetch a quarter: the fence takes the risk.",
+    "hotFraction": 0.25
   },
   "washer": {
-    "note": "A fixer turns cash into Credit Score (fake salaries) or Credit Score into cash (borrowing against your score). The GM makes each offer; these are the form's starting values (decision 143).",
+    "note": "A fixer turns cash into Credit Score (fake salaries) or Credit Score into cash (borrowing against your score). The GM makes each offer; these are the form's starting values (decision 143). A hot gun (decision 345): the fixer takes share % of its list price; a d20 at or under risk and the trail leads back to the crew.",
     "wash": {
       "rate": 500
     },
@@ -69,7 +70,11 @@
       "rate": 250
     },
     "commission": 20,
-    "max": 3
+    "max": 3,
+    "gun": {
+      "share": 40,
+      "risk": 3
+    }
   },
   "essentials": {
     "note": "Owner 2026-11-14: the market's first tab — the most basic gear covering every base before going out (one each). Not specialist tools (lockpicks, RFID kits). role → shop.ess.<role> (why it's there).",
@@ -120,5 +125,68 @@
         "id": "multi_tool_utility_pliers"
       }
     ]
+  },
+  "carry": {
+    "note": "Owner 2026-11-18: bulky things (two-handed weapons, anything marked bulky) — everyone carries freeBulky without trouble; one bag (bulkyRoom) adds its room; more than that and you are Slowed until you put something down.",
+    "freeBulky": 1
+  },
+  "bodyLoot": {
+    "note": "Decision 345: a fallen enemy's weapon drops usable by its rarity (percent; rolled when the body is made). Junk always; the best almost never — a truly remarkable event.",
+    "dropChance": {
+      "F": 100,
+      "E": 100,
+      "D": 50,
+      "C": 33,
+      "B": 16,
+      "A": 5,
+      "U": 16
+    }
+  },
+  "haggle": {
+    "note": "Owner 2026-11-18 (decision 346): one roll to move a price. The player picks how hard to push (each step a % and a difficulty step) and how: an honest haggle, working the street, or a swindle (double the %, but a failure burns the deal). A natural 20 makes it worse by fumblePct. The GM can set the other side's mood: easy −1 step, tough +1. At the market it lasts the trip (until the next scene).",
+    "steps": [
+      {
+        "id": "little",
+        "pct": 5,
+        "tier": 0
+      },
+      {
+        "id": "fair",
+        "pct": 10,
+        "tier": 1
+      },
+      {
+        "id": "deal",
+        "pct": 15,
+        "tier": 2
+      },
+      {
+        "id": "robbery",
+        "pct": 25,
+        "tier": 3
+      }
+    ],
+    "approaches": [
+      {
+        "id": "honest",
+        "skill": "persuasion_social"
+      },
+      {
+        "id": "street",
+        "skill": "streetwise_dealing"
+      },
+      {
+        "id": "swindle",
+        "skill": "deception_conning",
+        "double": true,
+        "burns": true
+      }
+    ],
+    "moods": {
+      "easy": -1,
+      "normal": 0,
+      "tough": 1
+    },
+    "fumblePct": 10
   }
 }

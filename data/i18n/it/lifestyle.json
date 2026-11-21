@@ -27,7 +27,10 @@
   },
   "entries": {
     "housing_capsule_bunk": {
-      "catch": {"label": "Dormire in capsula", "note": "meno Strain recuperato in downtime (la casa più bassa)"},
+      "catch": {
+        "label": "Dormire in capsula",
+        "note": "meno Stress recuperato tra una missione e l'altra (la casa più bassa)"
+      },
       "name": "Cuccetta a capsula",
       "desc": "Capsula per dormire in affitto in un caseggiato gestito da un'azienda, pagata a notte in scrip aziendale. Bagni in comune, armadietti a parte."
     },
@@ -48,7 +51,9 @@
       "desc": "Residenza recintata in una Pristine Enclave. Servono uno sponsor e un Credit Score impeccabile."
     },
     "data_ad_supported": {
-      "catch": {"label": "Lente piena di pubblicità"},
+      "catch": {
+        "label": "Lente piena di pubblicità"
+      },
       "name": "Piano Anchor con pubblicità",
       "desc": "Dati gratis in cambio di pubblicità non saltabili e fatturazione basata sul tracciamento dello sguardo. DRM Amber Static di serie."
     },
@@ -81,7 +86,9 @@
       "desc": "Imposta senza preavviso da un'amministrazione cittadina paralizzata dai debiti. L'importo varia."
     },
     "food_scrip_rations": {
-      "catch": {"label": "A cibo da scrip"},
+      "catch": {
+        "label": "A cibo da scrip"
+      },
       "name": "Razioni dell'emporio aziendale",
       "desc": "Cibo sintetico, lavorato dalle aziende, comprato con lo scrip negli empori di loro proprietà."
     },

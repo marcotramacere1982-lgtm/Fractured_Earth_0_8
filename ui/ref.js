@@ -5,6 +5,7 @@
 
 import { html, escape } from './dom.js';
 import { t } from '../i18n/index.js';
+import { glossEntry } from './term.js'; // decision 349: glossary words share this popover
 
 let refs = {};
 let pop = null;
@@ -29,6 +30,10 @@ function close() {
 }
 
 function content(el) {
+  if (el.dataset.gloss) { // decision 349: a game word — the word, its English name (other languages), one line, the manual
+    const g = glossEntry(el.dataset.gloss);
+    return g ? { title: g.nameEn && g.nameEn !== g.name ? `${g.name} · ${g.nameEn}` : g.name, html: `<p class="ref-pop__text">${escape(g.text)}</p>`, anchor: g.anchor } : null;
+  }
   const key = el.dataset.explain ?? el.dataset.hint;
   if (key) return explainer(key);
   const ref = refs[el.dataset.ref];
@@ -78,16 +83,16 @@ export function installRefs(refsData, opts = {}) {
   pop.hidden = true;
   document.body.append(pop);
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-ref], [data-explain]');
+    const btn = e.target.closest('[data-ref], [data-explain], [data-gloss]');
     if (btn) { e.preventDefault(); e.stopPropagation(); open(btn); return; }
     if (e.target.closest('.ref-pop__more')) { close(); return; }
     if (!e.target.closest('.ref-pop')) close();
   }, true);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('[data-gloss]')) { e.preventDefault(); open(e.target); } });
 
   // hover (mouse / trackpad only — touch screens use the ⓘ tap)
-  if (opts.hover && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const TARGETS = '[data-ref], [data-explain], [data-hint]';
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) { // decision 349: glossary words open on hover everywhere; the rest only where opts.hover (the GM console)
+    const TARGETS = opts.hover ? '[data-ref], [data-explain], [data-hint], [data-gloss]' : '[data-gloss]';
     let timer = null;
     document.addEventListener('pointerover', (e) => {
       const el = e.target.closest(TARGETS);

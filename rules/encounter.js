@@ -2,6 +2,7 @@
 // Pure functions over a plain object; every function returns a new encounter (no mutation).
 
 import { intelRef } from './intel.js';
+import { artId } from './npc-gen.js';
 import { roll } from './dice.js';
 import { hitLocations } from './body.js';
 import { locationOutcome } from './injuries.js';
@@ -59,6 +60,7 @@ export function spawn(template, label) {
     talents: structuredClone(template.talents ?? []),
     immune: [...(template.immune ?? [])], // conditions this enemy shrugs off (elites: "can't be knocked down"…)
     vision: template.vision ?? 'none', // decision 76: none / night / thermal — darkness doesn't hide anyone from night vision or thermal
+    ...(template.artOf ? { artOf: template.artOf } : {}), // decision 343: a generated NPC borrows its archetype's picture
     injuries: { arm: 0, leg: 0 }, // broken arms / crippled legs (synthetic: jammed mounts are a condition)
     conditions: [],
     notes: '',
@@ -100,6 +102,7 @@ export function addEnemies(enc, template, count = 1, { waiting = false, group = 
       letter, publicName: template.publicName ?? '', hidden: waiting, // what the players' sheets see (publicView)
       look: n, // decision 152: which picture this copy wears (looks cycle through what exists)
       ...(waiting ? { waiting: true } : {}),
+      ...(template.side === 'ally' ? { ally: true } : {}), // decision 343: a generated ally comes in on the crew's side (the GM can still switch it)
       ...(group ? { group: { id: String(group.id), name: String(group.name ?? '').slice(0, 40) } } : {}),
     });
     if (next.active && !waiting) next.order.push(`e${next.seq}`);
@@ -202,7 +205,7 @@ export function fleeEnemy(enc, key) {
 export function endFight(enc, data = null) {
   let next = endCombat(enc, data);
   const fighters = next.entries.filter((e) => e.enemy && !e.waiting);
-  const fallen = fighters.filter((e) => e.enemy.hp <= 0).map((e) => ({ key: e.key, name: e.name, notes: e.enemy.notes ?? '' }));
+  const fallen = fighters.filter((e) => e.enemy.hp <= 0).map((e) => ({ key: e.key, name: e.name, notes: e.enemy.notes ?? '', templateId: e.enemy.templateId, ally: Boolean(e.ally) })); // templateId, ally: decision 345 (what the body holds)
   for (const f of fallen) next = removeEntry(next, f.key);
   const standing = fighters.filter((e) => e.enemy.hp > 0).map((e) => e.key);
   for (const e of next.entries) if (standing.includes(e.key)) Object.assign(e, { waiting: true, reinforcement: false, roll: null });
@@ -228,6 +231,15 @@ export function groupMates(enc, keys) {
 
 /** Decision 211: the waiting enemies' keys. */
 export const waitingKeys = (enc) => enc.entries.filter((e) => e.waiting).map((e) => e.key);
+
+/** Decision 354: an enemy that hasn't noticed anyone (asleep, headphones on) — it never raises Contact; players see 💤. */
+export function setUnaware(enc, key, on) {
+  const next = clone(enc);
+  const e = entryOf(next, key);
+  if (e?.enemy) { if (on) e.unaware = true; else delete e.unaware; }
+  return next;
+}
+export const unawareKeys = (enc) => enc.entries.filter((e) => e.enemy && e.unaware).map((e) => e.key);
 
 /**
  * Decision 211: waiting enemies join the fight — `reveal`ed ones show to the players, the rest stay hidden (an
@@ -527,7 +539,8 @@ export function publicView(enc, data, { art = null, faces = null } = {}) {
       tag: e.enemy.tag ?? 'organic',
       elite: e.enemy.kind === 'elite',
       ally: Boolean(e.ally),
-      art: art?.[e.enemy.templateId]?.key ?? null, // decision 152: an opaque key, never the bestiary id
+      ...(e.unaware ? { unaware: true } : {}), // decision 354: asleep, busy — the crew can see it
+      art: art?.[artId(art, e.enemy)]?.key ?? null, // decision 152: an opaque key, never the bestiary id (343: or its archetype's)
       ref: e.enemy.templateId ? intelRef(e.enemy.templateId) : null, // decision 197: matched against a sheet's Intel (the same opaque key)
       look: e.look ?? 1,
       band: woundBand(e.enemy.hp, e.enemy.maxHp, data),

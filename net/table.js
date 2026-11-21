@@ -186,6 +186,9 @@ export function createTableLink(store, hooks) {
       case 'strain': // decision 266: the GM adds Strain — a card to answer on the sheet
         if (id && hooks.strain?.(id, msg)) hooks.notify?.('message');
         break;
+      case 'fatigue': // decision 362: the GM's +1, a breather, a night's sleep
+        if (id && hooks.fatigue?.(id, msg)) hooks.notify?.('message');
+        break;
       case 'scene': // the GM starts a new scene (decision 180)
         if (id && hooks.scene?.(id, msg)) hooks.toast(t('scene.toast'), 'success');
         break;
@@ -257,7 +260,7 @@ export function createTableLink(store, hooks) {
       }
       case 'moveRefused': // decision 232: your move arrived after the GM stopped movement (or it isn't your turn): the marker went back
         hooks.moveRefused?.(); // decision 293: the marker goes back to where the table has it
-        if (id) hooks.toast(t(msg.why === 'turn' ? 'map.refused.turn' : msg.why === 'stopped' ? 'map.refused.stopped' : 'map.refused.blocked'), 'danger');
+        if (id) hooks.toast(t(msg.why === 'turn' ? 'map.refused.turn' : msg.why === 'stopped' ? 'map.refused.stopped' : msg.why === 'aimed' ? 'map.refused.aimed' : 'map.refused.blocked'), 'danger');
         emit();
         break;
       case 'prepare': { // decision 232: the GM prepares a fight — the get-ready window, with initiative; gm: the sheets the GM took over
@@ -364,6 +367,14 @@ export function createTableLink(store, hooks) {
       if (!state.joinedId) return false;
       try {
         const res = await fetch('/api/table/move', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, to }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 360: points this sheet's torch (degrees, 0 = east, 90 = south); the GM console decides. */
+    async aim(mapId, angle) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/aim', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, angle }) });
         return res.ok;
       } catch { return false; }
     },
@@ -500,6 +511,14 @@ export function createTableLink(store, hooks) {
       if (!state.joinedId) return false;
       try {
         const res = await fetch('/api/table/drone', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, purpose, outcome, margin: Number(margin) || 0 }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 345: someone tried to break a looted gun's smart lock — the GM gets a line, and +1 Trace on the live map. */
+    async lockHack(mapId, { weapon, success }) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/lock-hack', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, weapon: String(weapon ?? '').slice(0, 60), success: Boolean(success) }) });
         return res.ok;
       } catch { return false; }
     },

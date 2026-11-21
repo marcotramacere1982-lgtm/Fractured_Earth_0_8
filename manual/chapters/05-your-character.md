@@ -101,7 +101,7 @@ Normal attacks never crack armor. Broken arms and crippled legs stay until treat
 At creation every attribute starts at **6** and you have **20 points** to spend. No attribute may go above **14** at this stage (life events and careers can push it higher later). Credit Score starts at **20**: you can lower it to gain points, but you can never raise it above 20 during creation. In play it runs **0–100** like everyone's: the GM, a washer or a talent can take it past 20 (decision 316).
 
 - **Avoid min-maxing.** A 6 CON operator collapses under minimal damage; a 6 WIS operator is constantly blindsided. Balanced builds survive longer.
-- **Not sure?** Take the playstyle quiz in the builder: six questions, one at a time (tap a number to go back to one). It suggests a class and a ready-made attribute spread. From then on an **Aiming for** bar follows you through attributes, youth, careers and class: the class you're building towards (change it any time), the two stats it rolls on and its Class TN right now. Those two stats are marked on the attributes step, and the class step marks the subclasses with the best TN. On the last step you can take a **starter kit** for your subclass — three abilities and cheap gear (a lousy gun, very little armor), free — or none. On the sheet, the engine card's *Suggested loadouts* swap in a kit's abilities at any time (the gear stays as it is).
+- **Not sure?** Take the playstyle quiz in the builder: first read the five classes, then six questions side by side, each with short answers (the full one shows under the answer you pick). It suggests a class and a subclass with the reason — the answers that pointed there — and *Aim for this* sets it as your target; the attributes step offers its ready-made spread. From then on an **Aiming for** bar follows you through attributes, youth, careers and class: the class you're building towards (change it any time), the two stats it rolls on and its Class TN right now. Those two stats are marked on the attributes step, and the class step marks the subclasses with the best TN. On the last step you can take a **starter kit** for your subclass — three abilities and cheap gear (a lousy gun, very little armor), free — or none. On the sheet, the engine card's *Suggested loadouts* swap in a kit's abilities at any time (the gear stays as it is).
 
 ## 5-4. Youth: Adolescence Events {#sec-5-4}
 
@@ -129,6 +129,8 @@ After 15 you can go straight to the streets, or serve one or more **career terms
 ### Career events {#sec-5-5-events}
 
 ::table[career-events]
+
+**Ties.** A few events tie you to someone: a **contact** inside one of the powers, a powerful **enemy**, a wealthy **lover** — and, in your youth, an heir's **family** money. Who it is gets rolled on the spot (the powers are the four corporations and the two Grey Zone factions: the Euro-Grid Syndicate, the Avalon-Collins Ledger, the Watch, the TRF, the Air-Gappers, the Hum-Singers) and goes on your Dossier, under *Ties*, with a name and a note for you to write. The GM sees them too, and will use them.
 
 ### Aging {#sec-5-5-aging}
 

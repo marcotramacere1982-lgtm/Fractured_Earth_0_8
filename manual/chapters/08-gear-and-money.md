@@ -35,9 +35,37 @@ On the table map, crates, lockers, safes and car boots can hold things. **Open**
 
 ::table[loot]
 
+### Haggling {#sec-8-haggle}
+
+A price is an opening offer. **🤝 Haggle** — on a fixer's offer, or **Haggle on the street** beside *Open market* — is **one roll**: pick how hard you push and how.
+
+::table[haggle]
+
+- **Haggle honestly** (Persuasion) or **work the street** (Streetwise): fail and nothing changes; a **natural 20** and the price gets 10% worse.
+- **Swindle** (Deception): **double** the cut — but fail and the deal is off (on the street: the dealers know your face, 10% worse).
+- A fixer's **mood** (the GM's) makes it one step easier or harder.
+
+On a fixer's offer it moves that deal — washing, cashing out, cleaning a gun — once. On the street it lasts the **trip**, until the next scene: what you pay *and* what a fence pays you. Official purchases (Credit Score) don't haggle: the system has fixed prices.
+
+### Bodies, locked guns and hot goods {#sec-8-bodies}
+
+The fallen keep what they carried: some cash, often their weapon and a magazine, whatever was in their pockets. **Search** a body like a container (*Interact* next to it). Don't count on the good guns: the better a weapon, the more likely it was wrecked in the fight, bricked by its owner, or lost — a junk pistol always survives, a top-grade rifle almost never.
+
+When one does, it is rarely a gift. The Watch's and corporate officers' guns carry a **🔒 smart lock**, keyed to their owner; the TRF's a **biometric lock** that bricks itself when its operator falls. A locked gun **won't fire**. A smart lock can be broken on the spot — **🔓 Break the lock** in your inventory, a Hard Hacking roll and an action, and the site notices whether you manage or not. A biometric one can't: only a washer brings it back.
+
+They are also **📡 tracked** — they report where they are. While you carry one unshielded, the site you're on **stays at least on Alert**; a **Shielded Duffel** blocks the signal. And they are **🔥 hot**: a fence pays only a quarter (traced loot too), and being caught with one is the kind of thing the GM remembers. Between missions a **washer** can clean one: unlocked, untracked, a clean history — for a share of its price, and a roll to see whether the trail leads back to you.
+
+> **Never touch a smart weapon without a plan.** Grab it at the start of a job and it calls home all night. Take it on the way out, in the right bag, and get rid of the trail.
+
+### Carrying bulky things {#sec-8-carry}
+
+A rifle, a sledgehammer, a shotgun — anything you need **two hands** for, and anything marked **bulky** — doesn't fit in a pocket. You carry **one** bulky thing without trouble, slung on your back. A **bag** carries one more: a **Duffel Bag** (cheap, and everyone can see you're carrying something) or a **Shielded Duffel** (rare, street only: its lining blocks the signal of a tracked item inside). Only one bag counts. Pistols, SMGs, blades, magazines, cash and small loot never count.
+
+Carry more than that and you are **Slowed** (−1 action, never below 1) for as long as you do: the sheet shows *Slowed · carrying too much* and the inventory counts *Bulky 2/1*. Put something down — in a stash, in a teammate's hands, on the floor — and it ends. Letting go is free; picking it up again in a fight is an action. Four rifles off a patrol make a good story and a bad escape.
+
 ### The washer {#sec-8-washer}
 
-Some fixers move money between the two worlds. **Washing** turns cash into Credit Score: a fake salary, a fake contract, and your score goes up. **Cashing out** goes the other way: you borrow against your score and walk out with untraced cash, and your score goes down. The fixer names a rate (cash per Credit Score point) and takes a commission; the GM makes the offer, it appears in Gear, and you choose how many points to take — the sheet shows the sum before you agree. Credit Score never goes above its cap or below 0 this way. Every deal is logged: a fixer's books are a trail of their own.
+Some fixers move money between the two worlds. **Washing** turns cash into Credit Score: a fake salary, a fake contract, and your score goes up. **Cashing out** goes the other way: you borrow against your score and walk out with untraced cash, and your score goes down. The fixer names a rate (cash per Credit Score point) and takes a commission; the GM makes the offer, it appears in Gear, and you choose how many points to take — the sheet shows the sum before you agree. Credit Score never goes above its cap or below 0 this way. A fixer may also offer to **wash a hot gun**: pick which, pay their share of its price, and it comes back unlocked, untracked and yours — then a d20 decides whether the trail leads back to the crew. Every deal is logged: a fixer's books are a trail of their own.
 
 ## 8-2. Weapons {#sec-8-2}
 

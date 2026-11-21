@@ -1,31 +1,40 @@
 {
   "tiers": {
     "0": {
-      "example": "Linea di vista libera, appoggio stabile, rete standard, poco stress."
+      "example": "Linea di vista libera, appoggio stabile, rete standard, poco stress.",
+      "name": "Routine"
     },
     "1": {
-      "example": "Pioggia leggera o nebbia, cifratura civile di base, un po' di fretta."
+      "example": "Pioggia leggera o nebbia, cifratura civile di base, un po' di fretta.",
+      "name": "Impegnativa"
     },
     "2": {
-      "example": "Pioggia battente, poca luce, firewall commerciali, sparare mentre corri al riparo."
+      "example": "Pioggia battente, poca luce, firewall commerciali, sparare mentre corri al riparo.",
+      "name": "Difficile"
     },
     "3": {
-      "example": "Visibilità zero o fumo denso, cifratura militare, fuoco di soppressione."
+      "example": "Visibilità zero o fumo denso, cifratura militare, fuoco di soppressione.",
+      "name": "Severa"
     },
     "4": {
-      "example": "Appeso a un velivolo in volo, blocco termico attivo, sparare alla cieca."
+      "example": "Appeso a un velivolo in volo, blocco termico attivo, sparare alla cieca.",
+      "name": "Estrema"
     },
     "5": {
-      "example": "Azioni complesse durante un System Hard Reboot, violare il core di una megacorp sotto il fuoco."
+      "example": "Azioni complesse durante un System Hard Reboot, violare il core di una megacorp sotto il fuoco.",
+      "name": "Incubo"
     },
     "-3": {
-      "example": "Una squadra intera che lavora insieme, l'attrezzatura giusta e tutto il tempo necessario: si tira solo per quello che può ancora andare storto."
+      "example": "Una squadra intera che lavora insieme, l'attrezzatura giusta e tutto il tempo necessario: si tira solo per quello che può ancora andare storto.",
+      "name": "Facilissima"
     },
     "-2": {
-      "example": "Due o tre che si aiutano (una spinta per scavalcare un muro), buoni attrezzi, nessuna fretta."
+      "example": "Due o tre che si aiutano (una spinta per scavalcare un muro), buoni attrezzi, nessuna fretta.",
+      "name": "Facile"
     },
     "-1": {
-      "example": "Qualcuno che aiuta, un attrezzo utile o una dritta da un contatto, un momento per prepararsi."
+      "example": "Qualcuno che aiuta, un attrezzo utile o una dritta da un contatto, un momento per prepararsi.",
+      "name": "Favorevole"
     }
   },
   "cover": {

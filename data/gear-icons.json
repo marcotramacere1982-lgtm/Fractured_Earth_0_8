@@ -136,7 +136,11 @@
     "bottle": "delapouite/wine-bottle",
     "coffee": "delapouite/coffee-cup",
     "passport": "delapouite/passport",
-    "sunglasses": "delapouite/sunglasses"
+    "sunglasses": "delapouite/sunglasses",
+    "machete": "lorc/machete",
+    "sledge": "lorc/flat-hammer",
+    "bow": "delapouite/bow-arrow",
+    "duffel": "delapouite/duffel-bag"
   },
   "weapons": {
     "knife": "knife",
@@ -147,7 +151,8 @@
     "assault rifle": "rifle",
     "sniper rifle": "sniper",
     "shotgun": "shotgun",
-    "melee": "fist"
+    "melee": "fist",
+    "bow": "bow"
   },
   "experimentalAmmo": [
     "Coil Cartridge",

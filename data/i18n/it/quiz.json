@@ -4,121 +4,157 @@
       "text": "Trovi le prove che un boss del quartiere sta rubando soldi alla gente sotto di lui. Cosa fai?",
       "options": {
         "A": {
-          "text": "Stai zitto, costruisci un caso inattaccabile e lo fai cadere quando fa più male."
+          "text": "Stai zitto, costruisci un caso inattaccabile e lo fai cadere quando fa più male.",
+          "short": "Costruisci un caso"
         },
         "B": {
-          "text": "Gli fai capire che sai tutto, e fissi il tuo prezzo per il silenzio."
+          "text": "Gli fai capire che sai tutto, e fissi il tuo prezzo per il silenzio.",
+          "short": "Ricattalo"
         },
         "C": {
-          "text": "Fai trapelare tutto in forma anonima e ti godi lo spettacolo da lontano."
+          "text": "Fai trapelare tutto in forma anonima e ti godi lo spettacolo da lontano.",
+          "short": "Fai trapelare tutto"
         },
         "D": {
-          "text": "Scopri dove finiscono i soldi e li dirotti in silenzio verso di te."
+          "text": "Scopri dove finiscono i soldi e li dirotti in silenzio verso di te.",
+          "short": "Dirotta i soldi"
         },
         "E": {
-          "text": "Entri di notte e ti prendi il registro, e qualunque altra cosa valga la pena."
+          "text": "Entri di notte e ti prendi il registro, e qualunque altra cosa valga la pena.",
+          "short": "Ruba il registro"
         }
-      }
+      },
+      "title": "I soldi sporchi del boss"
     },
     "q2": {
       "text": "Un rivale commette un grosso errore e resta scoperto. La tua mossa?",
       "options": {
         "A": {
-          "text": "Niente fretta. Prepari una trappola che trasformi il suo errore in una disfatta totale."
+          "text": "Niente fretta. Prepari una trappola che trasformi il suo errore in una disfatta totale.",
+          "short": "Prepara una trappola"
         },
         "B": {
-          "text": "Lo colpisci subito, e forte, prima che possa riprendersi."
+          "text": "Lo colpisci subito, e forte, prima che possa riprendersi.",
+          "short": "Colpisci subito"
         },
         "C": {
-          "text": "Lo isoli: niente rifornimenti, niente rinforzi, nessuna via di fuga."
+          "text": "Lo isoli: niente rifornimenti, niente rinforzi, nessuna via di fuga.",
+          "short": "Isolalo"
         },
         "D": {
-          "text": "Gli passi informazioni false, così si scava la fossa da solo."
+          "text": "Gli passi informazioni false, così si scava la fossa da solo.",
+          "short": "Dagli informazioni false"
         },
         "E": {
-          "text": "Lo osservi per un po'. Impari le sue abitudini, poi colpisci dove fa male."
+          "text": "Lo osservi per un po'. Impari le sue abitudini, poi colpisci dove fa male.",
+          "short": "Osserva, poi colpisci"
         }
-      }
+      },
+      "title": "Un rivale sbaglia"
     },
     "q3": {
       "text": "La squadra ha una notte per prepararsi a un colpo. Come la passi?",
       "options": {
         "A": {
-          "text": "Studiando mappe, orari e turni di guardia finché il piano non ha una falla."
+          "text": "Studiando mappe, orari e turni di guardia finché il piano non ha una falla.",
+          "short": "Studia il piano"
         },
         "B": {
-          "text": "Pulendo, controllando e mettendo a punto armi ed equipaggiamento."
+          "text": "Pulendo, controllando e mettendo a punto armi ed equipaggiamento.",
+          "short": "Prepara le armi"
         },
         "C": {
-          "text": "Riscuotendo favori: qualcuno all'interno, un autista, un ricettatore."
+          "text": "Riscuotendo favori: qualcuno all'interno, un autista, un ricettatore.",
+          "short": "Riscuoti favori"
         },
         "D": {
-          "text": "Capendo come accecare telecamere e sensori prima di entrare."
+          "text": "Capendo come accecare telecamere e sensori prima di entrare.",
+          "short": "Acceca le telecamere"
         },
         "E": {
-          "text": "A studiare il posto da un tetto finché non conosci ogni angolo cieco."
+          "text": "A studiare il posto da un tetto finché non conosci ogni angolo cieco.",
+          "short": "Studia il posto dall’alto"
         }
-      }
+      },
+      "title": "Una notte prima del colpo"
     },
     "q4": {
       "text": "Sei chiuso in una stanza e un allarme sta facendo il conto alla rovescia. Come esci?",
       "options": {
         "A": {
-          "text": "Sfondi la porta, o il muro."
+          "text": "Sfondi la porta, o il muro.",
+          "short": "Sfonda tutto"
         },
         "B": {
-          "text": "Hackeri il pannello della porta."
+          "text": "Hackeri il pannello della porta.",
+          "short": "Hackera il pannello"
         },
         "C": {
-          "text": "Convinci la guardia fuori ad aprire, o la spaventi finché non lo fa."
+          "text": "Convinci la guardia fuori ad aprire, o la spaventi finché non lo fa.",
+          "short": "Convinci la guardia"
         },
         "D": {
-          "text": "Costruisci qualcosa con quello che trovi in giro."
+          "text": "Costruisci qualcosa con quello che trovi in giro.",
+          "short": "Costruisci qualcosa"
         },
         "E": {
-          "text": "Forzi la serratura con quello che hai in tasca."
+          "text": "Forzi la serratura con quello che hai in tasca.",
+          "short": "Forza la serratura"
         }
-      }
+      },
+      "title": "Chiuso dentro, allarme in corsa"
     },
     "q5": {
       "text": "Che rapporto hai con le regole?",
       "options": {
         "A": {
-          "text": "Le regole sono piene di buchi, e io so come infilarmici."
+          "text": "Le regole sono piene di buchi, e io so come infilarmici.",
+          "short": "Mi infilo nei buchi"
         },
         "B": {
-          "text": "Le regole si rompono quando mi intralciano."
+          "text": "Le regole si rompono quando mi intralciano.",
+          "short": "Le rompo"
         },
         "C": {
-          "text": "Delle regole non mi importa: conta solo portare a termine il lavoro."
+          "text": "Delle regole non mi importa: conta solo portare a termine il lavoro.",
+          "short": "Conta solo il lavoro"
         },
         "D": {
-          "text": "Ogni sistema ha i suoi schemi. Imparali e potrai piegarli."
+          "text": "Ogni sistema ha i suoi schemi. Imparali e potrai piegarli.",
+          "short": "Imparo gli schemi"
         },
         "E": {
-          "text": "Le regole sono per chi ha qualcosa da perdere."
+          "text": "Le regole sono per chi ha qualcosa da perdere.",
+          "short": "Niente da perdere"
         }
-      }
+      },
+      "title": "Tu e le regole"
     },
     "q6": {
       "text": "Il lavoro è fatto, ma è andato male e ne sei uscito per un pelo. Qual è la prima cosa che fai?",
       "options": {
         "A": {
-          "text": "Ripercorri ogni passaggio per capire cosa è andato storto."
+          "text": "Ripercorri ogni passaggio per capire cosa è andato storto.",
+          "short": "Capisci cosa è andato storto"
         },
         "B": {
-          "text": "Vendi in fretta quello che hai preso, prima che qualcuno venga a cercarlo."
+          "text": "Vendi in fretta quello che hai preso, prima che qualcuno venga a cercarlo.",
+          "short": "Vendi subito il bottino"
         },
         "C": {
-          "text": "Sistemi l'equipaggiamento della squadra, così è pronto per la prossima volta."
+          "text": "Sistemi l'equipaggiamento della squadra, così è pronto per la prossima volta.",
+          "short": "Ripara l'equipaggiamento"
         },
         "D": {
-          "text": "Cancelli ogni traccia digitale che hai lasciato."
+          "text": "Cancelli ogni traccia digitale che hai lasciato.",
+          "short": "Cancella le tracce"
         },
         "E": {
-          "text": "Sparisci per qualche giorno, poi torni a prenderti quello che hai lasciato."
+          "text": "Sparisci per qualche giorno, poi torni a prenderti quello che hai lasciato.",
+          "short": "Sparisci e torna dopo"
         }
-      }
+      },
+      "title": "Dopo un colpo andato male"
     }
   },
   "suggestedStats": {

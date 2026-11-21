@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 25">
+  <!-- Illuminated shop sign, 1.5 × 0.25, on a wall: the top edge goes on the wall. Its caption is written along it. -->
+  <rect class="solid" x="4" y="4" width="142" height="17" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+  <line class="detail" x1="10" y1="2" x2="10" y2="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <line class="detail" x1="140" y1="2" x2="140" y2="4" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

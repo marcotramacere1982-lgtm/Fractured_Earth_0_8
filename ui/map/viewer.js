@@ -12,6 +12,8 @@ import { createTapCycle } from './tap-cycle.js'; // decision 301
 import { createCamera } from './camera.js';
 import { marksSvg, nextFade, markAt } from './marks.js';
 import { zonesSvg, hazardsSvg } from './zones.js';
+import { createLightLayer, drawsShapes } from './light-layer.js'; // decision 357
+import { lightingOf } from '../../rules/lighting.js'; // decision 358
 import { zoneAt } from '../../rules/zones.js';
 import { squareAt, onBoard, squaresBetween, doorAt, hitWall } from '../../rules/map.js';
 import { floorOf } from '../../rules/floors.js';
@@ -71,29 +73,37 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   let framed = 'all'; // decision 133: Fit frames the focus (what was explored), again the whole map, and back
   let gesture = null;
   const pointers = new Map();
+  const lightLayer = createLightLayer(data); // decision 357
+  /** The map palette's fog colour, as the CSS has it here (the map keeps its own palette, whatever the theme). */
+  const paletteColors = () => { const unseen = getComputedStyle(svg).getPropertyValue('--color-map-unseen').trim() || '#050608'; return { unseen, shade: unseen }; };
   const cam = createCamera(svg, { units: U, size: () => state?.map ?? { cols: 10, rows: 10 } });
 
   function update(next) {
     if (next.key !== state?.key) fitted = false;
     state = next;
-    const key = JSON.stringify([next.map.cols, next.map.rows, next.map.walls, next.map.areas ?? null]);
+    const paint = Boolean(lightingOf(next.map, data).paint); // decision 358: pieces in their materials' colours
+    const key = JSON.stringify([next.map.cols, next.map.rows, next.map.walls, next.map.areas ?? null, paint]);
     if (key !== boardKey) {
       boardKey = key;
-      render(board, html`${boardSvg(next.map, data, prefix)}${areasSvg(next.map.areas, data, prefix)}`); // decision 294: floor areas on the board
+      render(board, html`${boardSvg(next.map, data, prefix)}${areasSvg(next.map.areas, data, prefix, { paint })}`); // decision 294: floor areas on the board
       render(wallsLayer, wallsSvg(next.map, data));
     }
     const links = (next.map.walls ?? []).filter((w) => w.kind.startsWith('link_')); // drawn with the pieces (decision 119)
-    const pk = JSON.stringify([next.map.props ?? [], next.selectedProp ?? null, links]);
+    const pk = JSON.stringify([next.map.props ?? [], next.selectedProp ?? null, links, paint]);
     if (pk !== propsKey) {
       propsKey = pk;
-      render(propsLayer, propsSvg(next.map.props, data, { selected: next.selectedProp, links }));
+      render(propsLayer, propsSvg(next.map.props, data, { selected: next.selectedProp, links, paint }));
     }
     zonesLayer.innerHTML = next.map.zones?.length ? zonesSvg(next.map.zones, data, { selected: next.selectedZone }) // GM only: players' maps carry no zones —
       : next.map.hazards?.length ? hazardsSvg(next.map.hazards, data) : ''; // decision 258: but the hazards on and shown
     render(tokensLayer, tokensSvg(next.tokens, data, next));
     losLayer.innerHTML = (next.coverage?.length ? next.coverage.map((s) => `<rect class="map-sensed" x="${s.x * U}" y="${s.y * U}" width="${U}" height="${U}"/>`).join('') : '') // decision 269: the sensors' coverage (GM)
       + (next.watch?.length ? watchSvg(next.watch, next.watchOwn) : '') + (next.sight ? sightSvg(next.sight) : ''); // decision 250: overwatch areas (GM); 251: your own, red
-    fogLayer.innerHTML = next.fog ? fogSvg(next.map, next.fog) : '';
+    // decision 357: the light layer (sight shapes, soft coloured light) unless the map keeps the classic look;
+    // shown with fog (sheets, TV, the table's map) or when asked (the builder's light preview)
+    const shapes = drawsShapes(next.map, data) && Boolean(next.fog || next.lighting);
+    const lit = shapes ? lightLayer.draw(next.map, { fog: next.fog, tokens: next.tokens ?? [], colors: paletteColors() }) : null;
+    fogLayer.innerHTML = (lit?.under ?? '') + (next.fog ? fogSvg(next.map, next.fog, shapes) : '') + (lit?.over ?? '');
     drawMarks();
     drawFloors();
     settle();
@@ -197,7 +207,8 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
    * 'player', seen, visible, light? } — light: { allDark, dark, lit } from rules/light.js → lightState.
    * Shadow shows where someone looks now; the GM also sees every light's pool, seen or not.
    */
-  function fogSvg(map, fog) {
+  function fogSvg(map, fog, shapes = false) {
+    if (shapes && fog.mode === 'player') return ''; // decision 357: the light layer draws the players' fog
     const seen = new Set(fog.seen);
     const now = new Set(fog.visible);
     const all = Boolean(fog.all); // fog off (GM): only the light is drawn
@@ -217,6 +228,7 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
         const looking = all || now.has(k);
         if (!all && !seen.has(k)) cover += r;
         else if (!looking) memory += r;
+        if (shapes) continue; // decision 357: light and darkness come from the light layer
         if (isDark(k) && litSet.has(k) && (looking || gm)) pool += r; // the GM sees every light's pool
         else if (isDark(k) && looking) shadow += r; // shadow only where someone looks: a dark map stays readable
       }

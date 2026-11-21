@@ -13,8 +13,11 @@ import { deriveSheet } from '../../state/character.js';
 import { storyPrompt, portraitPrompt } from './prompts.js';
 import { kitsFor } from '../../rules/kits.js';
 import { findGear } from '../../rules/economy.js';
+import { describe } from '../sheet/gear.js';
+import { iconFor } from '../gear-icon.js';
 import { explain, hint } from '../explain.js';
 import { t } from '../../i18n/index.js';
+import { gloss, tg } from '../term.js'; // decision 349
 import { ruleText } from '../rule-text.js';
 
 // ------------------------------------------------------------------ shared fragments
@@ -49,9 +52,76 @@ export function aimBar(draft, data) {
       ${a ? '' : html`<option value="" selected>${t('builder.aim.pick')}</option>`}
       ${data.classes.classes.map((cls) => html`<optgroup label="${cls.name}">${cls.subclasses.map((sub) => html`<option value="${sub.id}" ${a?.sub.id === sub.id ? raw('selected') : ''}>${cls.name} · ${sub.name}</option>`)}</optgroup>`)}
     </select>
-    ${a ? html`<span class="b-aim__tn mono">${t('builder.aim.tn', { a: a.sub.stats[0], va: at[a.sub.stats[0]], b: a.sub.stats[1], vb: at[a.sub.stats[1]], tn: classTN(at, a.sub) })}</span>
-      <span class="muted st-small">${t('builder.aim.why')}</span>` : html`<span class="muted st-small">${t('builder.aim.none')}</span>`}
+    ${a ? html`<span class="b-aim__tn">${gloss('class_tn')} <strong class="mono">${classTN(at, a.sub)}</strong></span>
+      <details class="b-aim__how"><summary class="st-small">${t('builder.aim.how')}</summary>
+        <span class="mono st-small">${t('builder.aim.tn', { a: a.sub.stats[0], va: at[a.sub.stats[0]], b: a.sub.stats[1], vb: at[a.sub.stats[1]], tn: classTN(at, a.sub) })}</span> <span class="muted st-small">${t('builder.aim.why')}</span></details>` : html`<span class="muted st-small">${t('builder.aim.none')}</span>`}
   </div>`;
+}
+
+/** Owner 2026-11-18: the five classes before the questionnaire — a line each, and a fold with the longer read and both subclasses. */
+function classOverview(data) {
+  return html`<section class="stack stack--tight b-overview"><h3 class="label">${t('builder.classes.title')}</h3>
+    <div class="b-ov__grid">${data.classes.classes.map((c) => html`<details class="b-ov__class" data-keep="b-class-${c.id}">
+      <summary><span class="icon" aria-hidden="true">${raw(data.icons[c.id] ?? '')}</span><span class="b-ov__name">${c.name}</span><span class="b-ov__pitch">${c.pitch ?? c.summary}</span></summary>
+      <div class="b-ov__more"><p>${c.more ?? c.summary}</p>
+        <ul class="b-ov__subs">${c.subclasses.map((s) => html`<li><strong>${s.name}</strong> <span class="muted">(${s.stats.join(' / ')})</span> — ${s.pitch ?? s.desc}</li>`)}</ul></div>
+    </details>`)}</div></section>`;
+}
+
+/**
+ * Owner 2026-11-18: where the answers point, as cards — the subclass in a line, the two stats it rolls on, and why
+ * (the answers that pointed there). "Aim for this" makes it the target the next steps build towards (decision 169).
+ */
+function recCards(ranked, draft, data) {
+  const why = (r) => data.quiz.questions.flatMap((q) => {
+    const o = q.options.find((x) => x.id === draft.quiz[q.id]);
+    return o?.scores[r.key] ? [o.short ?? o.text] : [];
+  });
+  return html`<section class="stack stack--tight"><h3 class="label">${t('builder.fit')}</h3><div class="b-recs">${ranked.map((r, i) => {
+    const f = findSubclass(data.classes, r.subclassId);
+    if (!f) return '';
+    const aimed = (draft.target ?? draft.character.subclassId) === f.sub.id;
+    return html`<div class="b-rec-card ${i === 0 ? 'is-primary' : ''}">
+      <span class="icon b-rec-card__icon" aria-hidden="true">${raw(data.icons[f.cls.id] ?? '')}</span>
+      <div class="stack stack--tight">
+        <span class="label">${i === 0 ? t('builder.primary') : t('builder.secondary')}</span>
+        <strong>${f.cls.name} · ${f.sub.name} <span class="muted">(${f.sub.stats.join(' / ')})</span></strong>
+        <p>${f.sub.pitch ?? f.sub.desc}</p>
+        <p class="muted st-small">${t('builder.quiz.why', { answers: why(r).join(' · ') })}</p>
+        <div><button class="btn btn--sm ${aimed ? 'btn--primary' : ''}" data-action="aimAt" data-sub="${f.sub.id}" aria-pressed="${aimed}">${aimed ? `✓ ${t('builder.quiz.aimed')}` : t('builder.quiz.aimFor')}</button></div>
+      </div></div>`;
+  })}</div></section>`;
+}
+
+/**
+ * Owner 2026-11-18: the careers, readable — *Open for your next term* (the ones that fit your aim first, then the best
+ * odds) and, folded, *Not open to you yet* with only what is missing. A card: the career, what it changes (green up,
+ * red down), the entry odds. Unemployed is not a choice: one line under them.
+ */
+function careerGroups(draft, data, c, a) {
+  const all = data.careers.careers.filter((k) => !k.fallbackOnly).map((k) => {
+    const ch = careerChecks(c, k, data.careers);
+    const fit = a ? careerFit(k, a.sub.stats) : { plus: [], minus: [] };
+    return { k, ...ch, entry: entryTarget(c, k, data.careers), fit, fits: fit.plus.length > 0 && !fit.minus.length };
+  });
+  const open = all.filter((x) => x.eligible || x.waived)
+    .sort((x, y) => Number(y.fits) - Number(x.fits) || (y.entry?.chance ?? 100) - (x.entry?.chance ?? 100));
+  const shut = all.filter((x) => !(x.eligible || x.waived));
+  const changes = (k) => html`<span class="b-career__mods">${Object.entries(k.modifiers).map(([s, v]) => html`<span class="${v > 0 ? 'text-success' : 'text-danger'}">${s} ${signed(v)}</span>`)}</span>`;
+  const head = (x) => html`<span class="b-career__cat">${x.k.name === 'Standard' ? '' : x.k.category}${x.fit.plus.length || x.fit.minus.length ? html`<span class="b-career__fit">${x.fit.plus.map((s) => html`<span class="text-success">▲ ${s}</span>`)}${x.fit.minus.map((s) => html`<span class="text-danger">▼ ${s}</span>`)}</span>` : ''}</span>
+    <span class="b-career__name">${x.k.name === 'Standard' ? x.k.category : x.k.name}</span>`;
+  const odds = (x) => (x.entry ? t('builder.entryOdds', { tn: x.entry.tn, pct: x.entry.chance, stat: x.entry.stat }) + (x.entry.stay ? ` · ${t('builder.entryStay', { n: x.entry.stay })}` : '') : x.k.entryRoll === false ? t('builder.entryOpen') : t('builder.entryWaived'));
+  const fallback = data.careers.careers.filter((k) => k.fallbackOnly);
+  return html`
+    <h3 class="label">${t('builder.careers.open', { n: open.length })}</h3>
+    <div class="b-careers">${open.map((x) => html`<button class="b-career ${x.fits ? 'b-career--fits' : ''}" data-action="pickCareer" data-id="${x.k.id}" aria-pressed="${draft.careerId === x.k.id}">
+      ${head(x)}${changes(x.k)}
+      <span class="b-career__entry mono ${x.entry && x.entry.chance < 60 ? 'text-warning' : ''}">${odds(x)}</span></button>`)}</div>
+    ${shut.length ? html`<details class="b-careers-shut" data-keep="b-careers-shut"><summary class="label">${t('builder.careers.shut', { n: shut.length })}</summary>
+      <div class="b-careers">${shut.map((x) => html`<button class="b-career is-blocked" data-action="pickCareer" data-id="${x.k.id}" aria-pressed="${draft.careerId === x.k.id}">
+        ${head(x)}${changes(x.k)}
+        <span class="b-career__req">${x.checks.filter((r) => !r.met).map((r) => html`<span class="text-danger">✗ ${ruleText(r)}</span>`)}</span></button>`)}</div></details>` : ''}
+    ${fallback.map((k) => html`<p class="hint">${t('builder.careers.fallback', { name: k.name })} ${t('builder.fallbackOnly')}</p>`)}`;
 }
 
 /** Decision 183: starter kits for the chosen subclass — 3 abilities and cheap gear; or none. */
@@ -59,10 +129,18 @@ function kitPicker(draft, data) {
   const kits = kitsFor(draft.character.subclassId, data);
   if (!kits.length) return '';
   const abilityName = (id) => data.abilities[draft.character.classId]?.find((a) => a.id === id)?.name ?? id;
-  const gearName = ([kind, id, qty]) => `${findGear(kind, id, data)?.name ?? id}${qty > 1 ? ` ×${qty}` : ''}`;
-  return html`<div class="stack-tight b-kits"><span class="label">${t('builder.kit.title')}</span><p class="hint">${t('builder.kit.hint')}</p>
+  // owner 2026-11-19: the gear first, as a list that says what each thing is; then the abilities, each with its line,
+  // and that they can be swapped on the sheet any time
+  const ability = (id) => data.abilities[draft.character.classId]?.find((a) => a.id === id);
+  const gearRow = ([kind, id, qty]) => {
+    const e = findGear(kind, id, data);
+    return html`<li class="b-kit__row">${e ? iconFor(kind, e, data, 'gi--row') : ''}<span><strong>${e?.name ?? id}${qty > 1 ? ` ×${qty}` : ''}</strong>${e ? html` <span class="muted st-small">${describe(kind, e, data)}</span>` : ''}</span></li>`;
+  };
+  return html`<div class="stack stack--tight b-kits"><span class="label">${t('builder.kit.title')}</span><p class="hint">${t('builder.kit.hint')}</p>
     <div class="b-kits__list">${kits.map((k) => html`<button class="b-kit" data-action="pickKit" data-id="${k.id}" aria-pressed="${draft.kit === k.id}">
-      <strong>${k.name}</strong><span class="st-small">${k.abilities.map(abilityName).join(' · ')}</span><span class="muted st-small">${k.gear.map(gearName).join(', ')}</span></button>`)}
+      <strong class="b-kit__name">${draft.kit === k.id ? '✓ ' : ''}${k.name}</strong>
+      <span class="label">${t('builder.kit.gear')}</span><ul class="b-kit__list">${k.gear.map(gearRow)}</ul>
+      <span class="label">${t('builder.kit.abilities')}</span><ul class="b-kit__list">${k.abilities.map((id) => { const a = ability(id); return html`<li><strong>${a?.name ?? id}</strong>${a ? html` <span class="muted st-small">— ${a.desc ?? `${a.mend} / ${a.surge}`}</span>` : ''}</li>`; })}</ul></button>`)}
       <button class="b-kit" data-action="pickKit" data-id="" aria-pressed="${!draft.kit}"><strong>${t('builder.kit.none')}</strong><span class="muted st-small">${t('builder.kit.noneHint')}</span></button></div></div>`;
 }
 
@@ -99,21 +177,25 @@ export const STEPS = [
     get title() { return t('builder.quiz.title'); },
     get lede() { return t('builder.quiz.lede'); },
     view(draft, data) {
+      // owner 2026-11-18: the five classes first, then all six questions as a grid (short answers with icons; the full
+      // answer shows under the one you pick), then where your answers point — and why
       const ranked = recs(draft, data);
       const qs = data.quiz.questions;
-      const at = Math.max(0, Math.min(draft.quizAt ?? 0, qs.length)); // decision 169: one question at a time
-      const q = qs[at];
+      const answered = qs.filter((q) => draft.quiz[q.id]).length;
       return html`
-        <div class="b-qdots" role="group" aria-label="${t('builder.quiz.progress')}">${qs.map((x, i) => html`<button class="b-qdot ${draft.quiz[x.id] ? 'is-done' : ''} ${i === at ? 'is-current' : ''}" data-action="quizGo" data-i="${i}" aria-label="${t('builder.quiz.question', { n: i + 1 })}" aria-current="${i === at}">${i + 1}</button>`)}</div>
-        ${q ? html`<fieldset class="b-q b-q--single">
-            <legend><span class="b-q__n">${at + 1}</span>${q.text}</legend>
-            <div class="b-q__opts">${q.options.map((o) => html`
-              <button class="b-opt" data-action="answer" data-q="${q.id}" data-o="${o.id}" aria-pressed="${draft.quiz[q.id] === o.id}">${o.text}</button>`)}</div>
-          </fieldset>` : html`<p class="notice notice--ok">${t('builder.quiz.done')}</p>`}
-        ${ranked.length ? html`<div class="b-rec">
-          <span class="label">${t('builder.fit')}</span>
-          ${ranked.map((r, i) => html`<span class="pill ${i === 0 ? 'pill--accent' : 'pill--info'}">${i === 0 ? t('builder.primary') : t('builder.secondary')} · ${recommendationLabel(r, data.classes)} (${r.score})</span>`)}
-        </div>` : ''}`;
+        ${classOverview(data)}
+        <div class="spread"><h3 class="label">${t('builder.quiz.gridTitle')}</h3><span class="muted st-small">${t('builder.quiz.count', { n: answered, of: qs.length })}</span></div>
+        <div class="b-qgrid">${qs.map((q) => {
+          const picked = q.options.find((o) => o.id === draft.quiz[q.id]);
+          return html`<fieldset class="b-qcard ${picked ? 'is-done' : ''}">
+            <legend class="b-qcard__title">${q.title ?? q.text}</legend>
+            <p class="b-qcard__text">${q.text}</p>
+            <div class="b-qcard__opts">${q.options.map((o) => html`<button class="b-chip" data-action="answer" data-q="${q.id}" data-o="${o.id}" aria-pressed="${picked?.id === o.id}" title="${o.text}">
+              <span class="icon" aria-hidden="true">${raw(data.icons[o.icon] ?? '')}</span><span>${o.short ?? o.text}</span></button>`)}</div>
+            ${picked ? html`<p class="b-qcard__picked">“${picked.text}”</p>` : ''}
+          </fieldset>`;
+        })}</div>
+        ${ranked.length ? recCards(ranked, draft, data) : html`<p class="hint">${t('builder.quiz.lede')}</p>`}`;
     },
     done: () => true,
   },
@@ -223,25 +305,7 @@ export const STEPS = [
           ${c.waivers.length ? html`<span class="pill pill--success">${t('builder.waiver')}</span>` : ''}
         </div>
         ${closed ? html`<p class="notice notice--danger">${t('builder.careerEnded')}</p>` : html`
-          <div class="b-careers">
-            ${data.careers.careers.map((k) => {
-              const { eligible, checks, waived } = careerChecks(c, k, data.careers);
-              if (k.fallbackOnly) return html`<div class="b-career is-blocked b-career--fallback">
-                <span class="b-career__cat">${k.category}</span>
-                <span class="b-career__name">${k.name}</span>
-                <span class="b-career__mods mono">${Object.entries(k.modifiers).map(([a, v]) => `${a} ${signed(v)}`).join(' · ')}</span>
-                <span class="b-career__req text-danger">${t('builder.fallbackOnly')}</span></div>`;
-              const entry = entryTarget(c, k, data.careers);
-              const fit = a ? careerFit(k, a.sub.stats) : { plus: [], minus: [] };
-              return html`<button class="b-career ${eligible ? '' : 'is-blocked'} ${fit.plus.length && !fit.minus.length ? 'b-career--fits' : ''}" data-action="pickCareer" data-id="${k.id}" aria-pressed="${draft.careerId === k.id}">
-                <span class="b-career__cat">${k.category}${fit.plus.length || fit.minus.length ? html`<span class="b-career__fit">${fit.plus.map((x) => html`<span class="text-success">▲ ${x}</span>`)}${fit.minus.map((x) => html`<span class="text-danger">▼ ${x}</span>`)}</span>` : ''}</span>
-                <span class="b-career__name">${k.name === 'Standard' ? k.category : k.name}</span>
-                <span class="b-career__mods mono">${Object.entries(k.modifiers).map(([a, v]) => `${a} ${signed(v)}`).join(' · ')}</span>
-                <span class="b-career__req">${checks.length ? checks.map((x) => html`<span class="${x.met || waived ? 'text-success' : 'text-danger'}">${x.met || waived ? '✓' : '✗'} ${ruleText(x)}</span>`) : html`<span class="text-success">✓ ${t('builder.noReqs')}</span>`}</span>
-                <span class="b-career__entry mono ${entry && entry.chance < 60 ? 'text-warning' : ''}">${entry ? t('builder.entryOdds', { tn: entry.tn, pct: entry.chance, stat: entry.stat }) + (entry.stay ? ` · ${t('builder.entryStay', { n: entry.stay })}` : '') : k.entryRoll === false ? t('builder.entryOpen') : t('builder.entryWaived')}</span>
-              </button>`;
-            })}
-          </div>
+          ${careerGroups(draft, data, c, a)}
           <div class="cluster">
             <button class="btn btn--primary" data-action="serveTerm" ${sel && (careerChecks(c, sel, data.careers).eligible || draft.ignoreReqs) && !draft.pending.length ? '' : raw('disabled')}>
               ${sel ? t('builder.serveTerm', { career: sel.name === 'Standard' ? sel.category : sel.name }) : t('builder.pickCareer')}</button>
@@ -265,12 +329,15 @@ export const STEPS = [
       return html`
         <div class="cluster">
           <button class="btn btn--primary" data-action="rollDebt">${t('builder.rollDebt')}</button>
-          <select class="select" data-field="debtId" aria-label="${t('builder.chooseDebt')}">
-            <option value="">— ${t('builder.orChoose')} —</option>
+          ${draft.advanced ? html`<select class="select" data-field="debtId" aria-label="${t('builder.chooseDebt')}">
+            <option value="">— [${t('builder.advanced')}] ${t('builder.orChoose')} —</option>
             ${data.debts.map((x) => html`<option value="${x.id}" ${draft.character.debtId === x.id ? raw('selected') : ''}>${x.name}</option>`)}
-          </select>
+          </select>` : ''}
         </div>
-        ${debt ? html`<article class="b-debt"><h3 class="card__title">${debt.name}</h3><p>${debt.debt}</p><p class="hint"><strong>${t('builder.ifNotPaid')}:</strong> ${debt.threat}</p></article>` : ''}`;
+        ${debt ? html`<article class="b-debt"><h3 class="card__title">${debt.name}</h3>
+          <div class="b-debt__cols"><div><span class="label">${t('builder.debtOwe')}</span><p>${debt.debt}</p></div>
+            <div><span class="label">${t('builder.ifNotPaid')}</span><p>${debt.threat}</p></div></div></article>`
+          : html`<p class="hint">${t('builder.debtFirst')}</p>`}`;
     },
     done: (d) => (d.character.debtId ? true : t('builder.needDebt')),
   },
@@ -282,25 +349,24 @@ export const STEPS = [
     view(draft, data) {
       const c = draft.character;
       const ranked = recs(draft, data).map((r) => r.subclassId);
-      const sel = c.subclassId ? findSubclass(data.classes, c.subclassId) : null;
-      const best = Math.max(...data.classes.classes.flatMap((k) => k.subclasses.map((sub) => classTN(c.attributes, sub)))); // decision 169
+      // owner 2026-11-19: one list of subclasses, best first (your Class TN, then what you aimed at, then the quiz);
+      // the TN big, the formula only in the tooltip; no ability names (they mean nothing yet, and change freely later)
       const aimed = aim(draft, data)?.sub.id;
+      const at = c.attributes;
+      const subs = data.classes.classes.flatMap((cls) => cls.subclasses.map((sub) => ({ cls, sub, tn: classTN(at, sub) })))
+        .sort((x, y) => y.tn - x.tn || Number(y.sub.id === aimed) - Number(x.sub.id === aimed) || (ranked.indexOf(x.sub.id) + 1 || 99) - (ranked.indexOf(y.sub.id) + 1 || 99));
+      const best = subs[0]?.tn;
       return html`
-        <div class="b-classes">
-          ${data.classes.classes.map((cls) => html`
-            <div class="b-class">
-              <div class="b-class__head"><span class="icon">${raw(data.icons[cls.id] ?? '')}</span><strong>${cls.name}</strong><span class="muted">${cls.resources.engine}</span></div>
-              <p class="hint">${cls.summary}</p>
-              <div class="b-class__subs">${cls.subclasses.map((sub) => html`
-                <button class="b-sub ${classTN(c.attributes, sub) === best ? 'b-sub--best' : ''} ${!c.subclassId && aimed === sub.id ? 'b-sub--aim' : ''}" data-action="pickClass" data-id="${sub.id}" aria-pressed="${c.subclassId === sub.id}">
-                  <span class="b-sub__name">${sub.name} ${ranked.includes(sub.id) ? html`<span class="pill pill--accent">${ranked[0] === sub.id ? t('builder.quizPick') : t('builder.quizAlt')}</span>` : ''}${!c.subclassId && aimed === sub.id && !ranked.includes(sub.id) ? html`<span class="pill pill--info">${t('builder.aim.yours')}</span>` : ''}</span>
-                  <span class="mono ${classTN(c.attributes, sub) === best ? 'text-accent' : 'muted'}">${sub.stats.join(' + ')} · TN ${classTN(c.attributes, sub)}${classTN(c.attributes, sub) === best ? ` · ${t('builder.class.best')}` : ''}</span>
-                  <span class="b-sub__desc">${sub.desc}</span>
-                </button>`)}</div>
-            </div>`)}
-        </div>
-        ${sel ? html`<div class="b-abilities"><span class="label">${t('builder.subAbilities', { sub: sel.sub.name })}</span>
-          <div class="cluster">${data.abilities[sel.cls.id].filter((a) => a.subclasses.includes(sel.sub.id)).map((a) => html`<span class="pill" title="${a.desc ?? `${a.mend} / ${a.surge}`}">${a.name}</span>`)}</div></div>` : ''}`;
+        <p class="hint">${tg('builder.class.sortHint')}</p>
+        <div class="b-subgrid">${subs.map(({ cls, sub, tn }) => html`
+          <button class="b-sub ${tn === best ? 'b-sub--best' : ''} ${!c.subclassId && aimed === sub.id ? 'b-sub--aim' : ''}" data-action="pickClass" data-id="${sub.id}" aria-pressed="${c.subclassId === sub.id}">
+            <span class="b-sub__head"><span class="icon" aria-hidden="true">${raw(data.icons[cls.id] ?? '')}</span>
+              <span class="b-sub__title"><span class="b-sub__class">${cls.name}</span><span class="b-sub__name">${sub.name}</span></span>
+              <span class="b-sub__tn ${tn === best ? 'text-accent' : ''}" title="${t('builder.aim.tn', { a: sub.stats[0], va: at[sub.stats[0]], b: sub.stats[1], vb: at[sub.stats[1]], tn })}"><span class="label">TN</span>${tn}</span></span>
+            <span class="cluster">${tn === best ? html`<span class="pill pill--accent">${t('builder.class.best')}</span>` : ''}${ranked.includes(sub.id) ? html`<span class="pill pill--info">${ranked[0] === sub.id ? t('builder.quizPick') : t('builder.quizAlt')}</span>` : ''}${!c.subclassId && aimed === sub.id ? html`<span class="pill">${t('builder.aim.yours')}</span>` : ''}</span>
+            <span class="b-sub__desc">${sub.pitch ?? sub.desc}</span>
+            <span class="muted st-small">${t('builder.class.rollsOn', { a: sub.stats[0], b: sub.stats[1] })}</span>
+          </button>`)}</div>`;
     },
     done: (d) => (d.character.subclassId ? true : t('builder.needSub')),
   },
@@ -369,9 +435,10 @@ export const STEPS = [
           <div class="stack">
             <span class="label">${t('builder.topSkills')}</span>
             <div class="b-skills">${[...s.skills].sort((x, y) => y.value - x.value).slice(0, 10).map((k) => html`<span class="pill">${k.name} <strong class="text-accent">${k.value}</strong></span>`)}</div>
-            ${driveEditor(c, data, 'builder')}
+            <section class="b-drive ${c.drive?.type ? 'is-done' : ''}">${driveEditor(c, data, 'builder')}</section>
             ${kitPicker(draft, data)}
-            <button class="btn btn--primary btn--block b-create" data-action="create">${t('builder.create')}</button>
+            ${c.drive?.type ? '' : html`<p class="notice notice--warn">${t('builder.needDrive')}</p>`}
+            <button class="btn btn--primary btn--block b-create" data-action="create" ${c.drive?.type ? '' : raw('disabled')}>${t('builder.create')}</button>
           </div>
         </div>`;
     },

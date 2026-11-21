@@ -183,6 +183,11 @@
   ],
   "light": {
     "darkSight": 1,
+    "colors": { "warm": "#ff9a3c", "sodium": "#ffb000", "cold": "#bfe0ff", "neon": "#ff3df2", "cyan": "#2ef2ff", "red": "#ff2a2a", "green": "#5cff7a", "police": "#3d7bff", "screen": "#a8d8ff" },
+    "lighting": { "look": "shapes", "dim": 0, "dark": 0.55, "bright": 0.35, "lift": 0.35, "reach": 1, "core": 0.3, "mem": 0.45, "blend": "screen", "paint": true, "tops": false },
+    "materials": ["wood","wood_dark","fabric_red","fabric_blue","fabric_green","fabric_grey","carpet","tile","stone","lino","concrete","asphalt","rubber","metal","paint_red","paint_blue","paint_white","paint_yellow","paint_green","paint_black","plastic","cardboard","porcelain","plant","earth","water"],
+    "parts": ["glass","screen","lamp","linen","chrome","plastic"],
+    "lightingNote": "Decision 357: how the map draws light and sight — display only, the rules stay square by square. colors: each light piece's light.color; lighting: the defaults, a map may keep its own (map.lighting). look shapes = exact sight shapes and soft coloured light, squares = the classic look.",
     "note": "Decision 74: in the dark a marker sees only lit squares (an on light covers squares within its radius that it can see) and the squares within darkSight of itself. Bright environment: lights don't matter, except where Darkness zones are laid."
   },
   "darkness": {

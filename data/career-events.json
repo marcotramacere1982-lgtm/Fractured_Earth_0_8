@@ -145,13 +145,16 @@
     {
       "roll": 14,
       "id": "contact_within_a_megacorp",
-      "name": "CONTACT WITHIN A MEGACORP",
-      "text": "You have a contact within one of the megacorporations. Work with your GM to decide how this contact provides insider info or favors. The first favor: your next entry roll is waived.",
+      "name": "CONTACT INSIDE ONE OF THE POWERS",
+      "text": "You have a contact inside one of the powers — a corporation or a Grey Zone faction (rolled: it goes on your Dossier). Fill in who they are with your GM: insider information, a favour when it counts. The first favour: your next entry roll is waived.",
       "effects": {
-        "tag": "Corporation contact",
         "waiveEntry": {
           "careers": "*",
           "uses": 1
+        },
+        "tie": {
+          "kind": "contact",
+          "table": "powers"
         }
       }
     },
@@ -314,11 +317,15 @@
       "roll": 28,
       "id": "wealthy_lover",
       "name": "WEALTHY LOVER",
-      "text": "Your lover is very wealthy and quite generous. It's complicated. +3 Credit Score, −1 MST.",
+      "text": "Your lover is very wealthy and quite generous (who: rolled, it goes on your Dossier). It is complicated. +3 Credit Score, −1 MST.",
       "effects": {
         "attributes": {
           "CRS": 3,
           "MST": -1
+        },
+        "tie": {
+          "kind": "lover",
+          "table": "lovers"
         }
       }
     },
@@ -384,10 +391,14 @@
       "roll": 34,
       "id": "powerful_fanatic_enemy",
       "name": "POWERFUL, FANATIC ENEMY",
-      "text": "You have made a deadly enemy who is also quite powerful: a district attorney, an old flame with corporate friends, a cult leader. Work it out with your GM. Living looking over your shoulder: +1 MST.",
+      "text": "You have made a deadly enemy who is also quite powerful (who: rolled, it goes on your Dossier). Work out with your GM what you did to them. Living looking over your shoulder: +1 MST.",
       "effects": {
         "attributes": {
           "MST": 1
+        },
+        "tie": {
+          "kind": "enemy",
+          "table": "enemies"
         }
       }
     },

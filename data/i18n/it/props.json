@@ -693,6 +693,21 @@
     "uc_campfire": {
       "name": "Fuoco da campo"
     },
+    "shop_sign_wall": {
+      "name": "Insegna (a muro)"
+    },
+    "shop_sign_hanging": {
+      "name": "Insegna (appesa)"
+    },
+    "ceiling_cable_bulbs": {
+      "name": "Cavo con lampadine"
+    },
+    "hanging_ad_screen": {
+      "name": "Schermo pubblicitario appeso"
+    },
+    "wall_screen_small": {
+      "name": "Schermo a muro piccolo"
+    },
     "uc_lantern_string": {
       "name": "Fila di lanterne"
     },

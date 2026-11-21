@@ -45,39 +45,39 @@
   },
   "adrenaline_auto_injector": {
     "effectType": "Potenziamento / Rianimazione",
-    "effect": "+2 DEX per 3 round, poi il crollo (Slowed per 1 round) / Un paziente Incapacitated sopra 0 HP si rialza",
+    "effect": "+2 DEX per 3 round e −2 Fatica subito (la prossima pausa non aiuta), poi un crollo (Rallentato 1 round) / Un paziente Incapacitato sopra 0 HP si rialza",
     "desc": "Iniezione d'emergenza di epinefrina. Stabilizza all'istante chi sta morendo.",
     "use": {
       "options": {
         "boost": {
-          "text": "+2 DEX per 3 round, poi il crollo (Slowed per 1 round)"
+          "text": "+2 DEX per 3 round, poi il crollo (Rallentato per 1 round)"
         },
         "revive": {
-          "text": "Un paziente Incapacitated sopra 0 HP si rialza"
+          "text": "Un paziente Inabile sopra 0 HP si rialza"
         }
       }
     }
   },
   "focus_pills_cogni_boost": {
     "effectType": "Potenziamento",
-    "effect": "+1 TN alle prove di abilità e +2 MST per la scena",
+    "effect": "+1 TN alle prove di competenza e +2 MST per la scena",
     "desc": "Pillole nootrope stimolanti per una mente lucida.",
     "use": {
       "options": {
         "boost": {
-          "text": "+1 TN alle prove di abilità e +2 MST per la scena"
+          "text": "+1 TN alle prove di competenza e +2 MST per la scena"
         }
       }
     }
   },
   "coagulant_pills_stanch": {
     "effectType": "Rimuove condizione",
-    "effect": "Cura 1d4+1 e termina Slowed",
+    "effect": "Cura 1d4+1 e termina Rallentato",
     "desc": "Farmaco orale che accelera la coagulazione interna.",
     "use": {
       "options": {
         "heal": {
-          "text": "Cura 1d4+1 e termina Slowed"
+          "text": "Cura 1d4+1 e termina Rallentato"
         }
       }
     }
@@ -120,7 +120,7 @@
   },
   "stim_patch_reflex": {
     "effectType": "Potenziamento",
-    "effect": "+1 azione per 2 round (+2 iniziativa se usato prima dello scontro), poi il crollo",
+    "effect": "+1 azione per 2 round (+2 all’iniziativa se usato prima dello scontro), poi un crollo: Rallentato 1 round e +1 Fatica",
     "desc": "Cerotto transdermico che rilascia stimolanti neurali.",
     "use": {
       "options": {
@@ -132,12 +132,12 @@
   },
   "paramedic_case": {
     "effectType": "Cura",
-    "effect": "Cura 2d6+4, tratta ogni Broken arm / Crippled leg, e un paziente Incapacitated sopra 0 HP si rialza",
+    "effect": "Cura 2d6+4, tratta ogni Braccio rotto / Gamba storpia, e un paziente Inabile sopra 0 HP si rialza",
     "desc": "Attrezzatura chirurgica con espansori di volume e suturatrici cutanee.",
     "use": {
       "options": {
         "all": {
-          "text": "Cura 2d6+4, tratta ogni Broken arm / Crippled leg, e un paziente Incapacitated sopra 0 HP si rialza"
+          "text": "Cura 2d6+4, tratta ogni Braccio rotto / Gamba storpia, e un paziente Inabile sopra 0 HP si rialza"
         }
       }
     },
@@ -149,19 +149,19 @@
   },
   "smelling_salts_capsule": {
     "effectType": "Rimuove condizione",
-    "effect": "Termina Stunned; un paziente Incapacitated sopra 0 HP si riprende",
+    "effect": "Termina Stordito; un paziente Inabile sopra 0 HP si riprende",
     "desc": "Capsula di ammoniaca per risvegliare di colpo chi è svenuto.",
     "use": {
       "options": {
         "wake": {
-          "text": "Termina Stunned; un paziente Incapacitated sopra 0 HP si riprende"
+          "text": "Termina Stordito; un paziente Inabile sopra 0 HP si riprende"
         }
       }
     }
   },
   "mechanical_lockpick_set": {
-    "effectType": "Attrezzo per abilità",
-    "effect": "Sleight of Hand +2 · serrature fisiche",
+    "effectType": "Attrezzo per competenze",
+    "effect": "Destrezza di mano +2 · serrature fisiche",
     "desc": "Grimaldelli in acciaio al carbonio e tensori per serrature meccaniche.",
     "tool": {
       "main": {
@@ -170,7 +170,7 @@
     }
   },
   "keycard_bypass_cloner": {
-    "effectType": "Attrezzo per abilità",
+    "effectType": "Attrezzo per competenze",
     "effect": "Electronics / Security +3 · serrature magnetiche e RFID, lettori di badge",
     "desc": "Dispositivo portatile che forza le serrature magnetiche / RFID.",
     "tool": {
@@ -181,7 +181,7 @@
   },
   "fiber_optic_scope": {
     "effectType": "Utilità",
-    "effect": "Perception / Awareness (PB) +2 · guardare sotto le porte e dietro gli angoli",
+    "effect": "Percezione / Attenzione (PB) +2 · guardare sotto le porte e dietro gli angoli",
     "desc": "Tubo-telecamera flessibile di 2 m che manda video da sotto le porte.",
     "tool": {
       "main": {
@@ -195,8 +195,8 @@
     "desc": "Ganasce in acciaio temprato per tagliare lucchetti e recinzioni."
   },
   "glass_cutter_kit": {
-    "effectType": "Attrezzo per abilità",
-    "effect": "Stealth +2 · entrare in silenzio attraverso il vetro",
+    "effectType": "Attrezzo per competenze",
+    "effect": "Furtività +2 · entrare in silenzio attraverso il vetro",
     "desc": "Taglierina a punta di diamante con ventose per entrare senza rumore.",
     "tool": {
       "main": {
@@ -248,7 +248,7 @@
   },
   "laser_distance_tape": {
     "effectType": "Utilità",
-    "effect": "Perception / Awareness (PB) +1 · mappare in fretta una stanza o un edificio",
+    "effect": "Percezione / Attenzione (PB) +1 · mappare in fretta una stanza o un edificio",
     "desc": "Metro LiDAR portatile che mappa da solo la pianta delle stanze.",
     "tool": {
       "main": {
@@ -258,7 +258,7 @@
   },
   "ultrasonic_weld_inspector": {
     "effectType": "Utilità",
-    "effect": "Forensics / Investigation +2 · cavità, difetti, scomparti nascosti nei muri",
+    "effect": "Scientifica / Indagine +2 · cavità, difetti, scomparti nascosti nei muri",
     "desc": "Rileva difetti strutturali o cavità dentro cemento o acciaio spessi.",
     "tool": {
       "main": {
@@ -267,7 +267,7 @@
     }
   },
   "electric_screwdriver_set": {
-    "effectType": "Attrezzo per abilità",
+    "effectType": "Attrezzo per competenze",
     "effect": "Mechanics / Fabrication +2 · aprire pannelli e scocche",
     "desc": "Avvitatore ad alta coppia con 50 inserti di sicurezza.",
     "tool": {
@@ -298,7 +298,7 @@
   },
   "tactical_ar_glasses": {
     "effectType": "Potenziamento",
-    "effect": "Perception / Awareness (PB) +2 · indossati: ogni prova di Perception",
+    "effect": "Percezione / Attenzione (PB) +2 · indossati: ogni prova di Perception",
     "desc": "Occhiali HUD con sovrapposizioni termiche e collegamento alle armi.",
     "tool": {
       "main": {
@@ -308,7 +308,7 @@
   },
   "clip_on_thermal_lens": {
     "effectType": "Utilità",
-    "effect": "Perception / Awareness (PB) +3 · al buio o nel fumo, per individuare corpi caldi",
+    "effect": "Percezione / Attenzione (PB) +3 · al buio o nel fumo, per individuare corpi caldi",
     "desc": "Lente termica da agganciare a normali occhiali.",
     "tool": {
       "main": {
@@ -322,7 +322,7 @@
     "desc": "Emettitore che blocca rete cellulare, Wi-Fi e onde corte in un raggio di 20 m."
   },
   "bug_and_tap_detector": {
-    "effectType": "Attrezzo per abilità",
+    "effectType": "Attrezzo per competenze",
     "effect": "Electronics / Security +3 · trovare microfoni e telecamere nascosti",
     "desc": "Scanner portatile che segnala microfoni o telecamere nascosti nelle vicinanze.",
     "tool": {
@@ -333,7 +333,7 @@
   },
   "parabolic_listening_mic": {
     "effectType": "Utilità",
-    "effect": "Perception / Awareness (PB) +2 · ascoltare a distanza",
+    "effect": "Percezione / Attenzione (PB) +2 · ascoltare a distanza",
     "desc": "Microfono direzionale che capta i suoni attraverso il vetro o all'aperto.",
     "tool": {
       "main": {
@@ -342,7 +342,7 @@
     }
   },
   "rugged_field_data_deck": {
-    "effectType": "Attrezzo per abilità",
+    "effectType": "Attrezzo per competenze",
     "effect": "Computers / Hacking +2 · prove di Computers / Hacking (non è un deck da Hacker)",
     "desc": "Tablet rinforzato carico di strumenti di diagnostica di rete.",
     "tool": {
@@ -357,8 +357,8 @@
     "desc": "Batteria al litio per ricaricare occhiali AR, radio e attrezzi elettrici."
   },
   "pocket_rfid_skimmer": {
-    "effectType": "Attrezzo per abilità",
-    "effect": "Sleight of Hand +2 · sfilare credenziali da una carta o un badge",
+    "effectType": "Attrezzo per competenze",
+    "effect": "Destrezza di mano +2 · sfilare credenziali da una carta o un badge",
     "desc": "Dispositivo discreto che legge le credenziali delle keycard vicine.",
     "tool": {
       "main": {
@@ -411,7 +411,7 @@
     }
   },
   "folding_grappling_hook": {
-    "effectType": "Attrezzo per abilità",
+    "effectType": "Attrezzo per competenze",
     "effect": "Climb / Physical +2 · arrampicarsi con una corda",
     "desc": "Rampino pieghevole in acciaio a quattro punte, per le funi da scalata.",
     "tool": {
@@ -422,7 +422,7 @@
   },
   "tactical_torch_2000lm": {
     "effectType": "Utilità",
-    "effect": "Fonte di luce / strobo",
+    "effect": "Fonte di luce / strobo · sulla mappa: accendila dalla scheda Mappa — un fascio di 30° lungo 6 quadretti (più i quadretti intorno a te); Punta la orienta",
     "desc": "Torcia robusta in alluminio anodizzato con funzione strobo."
   },
   "chemical_flare_sticks_x5": {
@@ -456,7 +456,7 @@
     "desc": "Telo riflettente che trattiene il 90% del calore corporeo col maltempo."
   },
   "multi_tool_utility_pliers": {
-    "effectType": "Attrezzo per abilità",
+    "effectType": "Attrezzo per competenze",
     "effect": "Mechanics / Fabrication +1 · qualunque riparazione improvvisata",
     "desc": "Pinza multiuso pieghevole in acciaio inox, con seghetto e lame.",
     "tool": {
@@ -478,7 +478,7 @@
     }
   },
   "vehicle_patch_kit": {
-    "effectType": "Attrezzo per abilità",
+    "effectType": "Attrezzo per competenze",
     "effect": "Mechanics / Fabrication +2 · solo veicoli",
     "desc": "Tappi per gomme, sigillante spray, nastro per cavi e fusibili di ricambio.",
     "tool": {
@@ -513,7 +513,7 @@
     }
   },
   "rappelling_harness": {
-    "effectType": "Attrezzo per abilità",
+    "effectType": "Attrezzo per competenze",
     "effect": "Climb / Physical +3 · calarsi lungo una corda",
     "desc": "Imbracatura rinforzata con moschettoni e discensore.",
     "tool": {
@@ -626,5 +626,23 @@
     "desc": "Il telefono di qualcuno, ancora bloccato. Tracciato: segnala l'account del proprietario finché non viene cancellato.",
     "effectType": "Bottino · contrabbando",
     "effect": "Si vende a un ricettatore per metà del valore di strada · tracciato"
+  },
+  "duffel_bag": {
+    "name": "Borsone",
+    "desc": "Un grosso borsone di tela con la tracolla. C'è posto per un'altra cosa ingombrante — un fucile, una mazza — e tutti vedono che stai portando qualcosa.",
+    "effectType": "Trasporto",
+    "effect": "Porti un altro oggetto ingombrante"
+  },
+  "shielded_duffel": {
+    "name": "Borsone schermato",
+    "desc": "Un borsone foderato di rete che blocca i segnali. Posto per un altro oggetto ingombrante, e un'arma tracciata lì dentro smette di chiamare casa.",
+    "effectType": "Trasporto",
+    "effect": "Porti un altro oggetto ingombrante · blocca il segnale di un oggetto tracciato"
+  },
+  "wake_up_strips": {
+    "name": "Wake-Up Strips",
+    "effectType": "Potenziamento",
+    "desc": "Strisce di anfetamina che si sciolgono in bocca, vendute a dozzine in ogni chiosco del turno di notte. Ti tengono in piedi; non ti fanno riposare.",
+    "effect": "−2 Fatica subito; la prossima pausa non aiuta"
   }
 }

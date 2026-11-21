@@ -118,7 +118,7 @@ export const progressActions = {
     }
     if ((msg.acts === 1 || msg.acts === -1) && c.play.turn?.inCombat) { // owner hotfix 2026-11-14: the GM's − / + on your actions
       const s = deriveSheet(c, data);
-      const next = adjustActions(c.play.turn, roundAllowance(c.play.turn, s.combat.act.value, c.play.conditions, data.actions), msg.acts);
+      const next = adjustActions(c.play.turn, roundAllowance(c.play.turn, s.combat.act.value, s.conditionsNow, data.actions), msg.acts);
       if (next !== c.play.turn) {
         c.play.turn = next;
         log(c, msg.acts > 0 ? `The GM gave you back an action (round ${next.round})` : `The GM took an action (round ${next.round})`, msg.acts > 0 ? 'ok' : 'warn');

@@ -4,12 +4,16 @@
       "summary": "Forza d'urto in prima linea, costruita per posizionarsi in modo dinamico, combattere a combo e giocare all'attacco ad alto rischio.",
       "subclasses": {
         "grunt": {
-          "desc": "Picchiatore di prima linea: riduzione dell'armatura, devastazione a corto raggio, attacchi aggressivi in Onslaught."
+          "desc": "Picchiatore di prima linea: riduzione dell'armatura, devastazione a corto raggio, attacchi aggressivi in Onslaught.",
+          "pitch": "Ravvicinato e duro da abbattere: colpisce più forte e incassa di più."
         },
         "officer": {
-          "desc": "Comandante tattico: posizionamento della squadra, tenuta difensiva, marcatura dei bersagli prioritari."
+          "desc": "Comandante tattico: posizionamento della squadra, tenuta difensiva, marcatura dei bersagli prioritari.",
+          "pitch": "Posiziona la squadra e spara con precisione: copre, segna i bersagli, tiene la posizione."
         }
-      }
+      },
+      "pitch": "La prima linea: incassi i colpi, tieni la posizione e chiudi gli scontri.",
+      "more": "I Soldier vincono gli scontri nel modo diretto. I colpi normali accumulano Tactical Points (TP); la stance decide quanto rischi; le mosse forti spendono i TP. Fuori dallo scontro sei quello che sa come va a finire quando la cosa si fa rumorosa."
     },
     "hacker": {
       "summary": "Specialista della guerra informatica: bilancia RAM e stress termico per manipolare da remoto le reti nemiche.",
@@ -24,34 +28,46 @@
       },
       "subclasses": {
         "scammer": {
-          "desc": "Ingegneria sociale, credenziali falsificate, distrazione dei bersagli, debuff sostenuti a basso costo."
+          "desc": "Ingegneria sociale, credenziali falsificate, distrazione dei bersagli, debuff sostenuti a basso costo.",
+          "pitch": "Parole e trucchi: credenziali false, distrazioni — la gente crede a quello che le mostri."
         },
         "master": {
-          "desc": "Distruzione pesante dei sistemi, controllo profondo delle reti, payload multi-bersaglio, heat estremo."
+          "desc": "Distruzione pesante dei sistemi, controllo profondo delle reti, payload multi-bersaglio, heat estremo.",
+          "pitch": "Dentro la macchina: abbatte sistemi interi, controlla le reti, lavora al limite del calore."
         }
-      }
+      },
+      "pitch": "Entra nei sistemi — porte, telecamere, droni, telefoni — e li rivolta contro i proprietari.",
+      "more": "Gli Hacker combattono attraverso le reti. Ogni hack usa RAM e produce calore; troppo calore e il deck va in crash. Fuori dallo scontro apri porte, leggi file e inganni chi si fida del proprio schermo."
     },
     "techwiz": {
       "summary": "Architetto del campo di battaglia: controlla lo scontro manipolando lo spazio, riparando armature e plasmando l'ambiente.",
       "subclasses": {
         "mechanic": {
-          "desc": "Fortificazioni da campo, rattoppo delle armature, fabbricazione con rottami."
+          "desc": "Fortificazioni da campo, rattoppo delle armature, fabbricazione con rottami.",
+          "pitch": "Medico da campo e costruttore: rattoppa armature e persone, alza coperture."
         },
         "engineer": {
-          "desc": "Modifiche alle armi, trappole elettriche, hardware automatizzato."
+          "desc": "Modifiche alle armi, trappole elettriche, hardware automatizzato.",
+          "pitch": "Droni, trappole e armi modificate: lavora a distanza."
         }
-      }
+      },
+      "pitch": "Tiene in vita la squadra e plasma lo scontro: riparazioni, coperture, trappole e un drone.",
+      "more": "Ogni abilità del Tech Wizard ha due facce: Mend (ripara, cura, protegge) e Surge (toglie armatura, folgora, intrappola). La Sync cresce finché resti nello stesso modo. Fuori dallo scontro aggiusti, costruisci e rattoppi quello che serve al lavoro."
     },
     "smuggler": {
       "summary": "Opportunista ad alta velocità che prospera nel caos, nello slancio e nelle scommesse ad alto rischio del mercato nero.",
       "subclasses": {
         "dealer": {
-          "desc": "Pistolero agile e imbroglione: estrazione rapida, munizioni del mercato nero, rapine a distanza ravvicinata."
+          "desc": "Pistolero agile e imbroglione: estrazione rapida, munizioni del mercato nero, rapine a distanza ravvicinata.",
+          "pitch": "Mani veloci, lingua veloce: estrazione rapida, trucchi, rapine a distanza ravvicinata."
         },
         "trafficker": {
-          "desc": "Stratega tattico e navigatore fuori rete: controllo della mappa, esche, favori del sottobosco."
+          "desc": "Stratega tattico e navigatore fuori rete: controllo della mappa, esche, favori del sottobosco.",
+          "pitch": "Rotte e contatti: esche, favori, porta la squadra dove deve stare."
         }
-      }
+      },
+      "pitch": "Vive di nervi e fortuna: pistola veloce, lingua veloce, trucchi da mercato nero.",
+      "more": "Gli Smuggler oscillano tra Cold (mira calma: +2 a colpire con armi da fuoco) e Hot (adrenalina: +1 ai danni, +1 quadretto). Le abilità spingono il pendolo da una parte o dall'altra. Fuori dallo scontro sai chi vende cosa, e come passare un posto di blocco."
     },
     "scavenger": {
       "summary": "Paziente lettore dello scontro: studia il bersaglio pericoloso, poi incassa tutto quello che ha imparato in un colpo solo, o si prende quello che il nemico si porta addosso.",
@@ -85,12 +101,16 @@
       },
       "subclasses": {
         "prowler": {
-          "desc": "Da vicino e con le mani svelte: legge un nemico faccia a faccia, gli sfila quello che porta, gli inceppa l'arma e gli strappa le piastre."
+          "desc": "Da vicino e con le mani svelte: legge un nemico faccia a faccia, gli sfila quello che porta, gli inceppa l'arma e gli strappa le piastre.",
+          "pitch": "Ravvicinato e lesto di mano: legge i nemici faccia a faccia, gli sfila quello che portano."
         },
         "stalker": {
-          "desc": "Occhio paziente a distanza: studia la stanza attraverso l'ottica, marca i bersagli per la squadra, fa il colpo che conta."
+          "desc": "Occhio paziente a distanza: studia la stanza attraverso l'ottica, marca i bersagli per la squadra, fa il colpo che conta.",
+          "pitch": "Occhio paziente a distanza: studia il posto, segna i bersagli, fa il colpo che conta."
         }
-      }
+      },
+      "pitch": "Prima osserva, poi colpisce: legge un nemico pericoloso, poi incassa tutto in un colpo.",
+      "more": "Attraverso un'ottica metti dei Tell sui nemici — di più quando nessuno ti vede — e li spendi in un colpo devastante o nelle abilità. Fuori dallo scontro noti quello che agli altri sfugge e trovi quello che vale la pena prendere."
     }
   }
 }

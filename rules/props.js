@@ -134,7 +134,7 @@ export function propCorners(p, data) {
 /** A prop's outline as four segments (they block sight / movement like walls when the prop does). */
 export function propEdges(p, data) {
   const c = propCorners(p, data);
-  return c.map((a, i) => ({ a, b: c[(i + 1) % c.length], kind: 'prop', prop: p.prop }));
+  return c.map((a, i) => ({ a, b: c[(i + 1) % c.length], kind: 'prop', prop: p.prop, id: p.id })); // id: decision 361
 }
 
 /** Is the point inside the prop's footprint? (edges count) */

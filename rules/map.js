@@ -3,6 +3,7 @@
 // GM map builder and, later, the sheet's map view. Every change returns a new map.
 
 import { normalizeZones, publicHazards } from './zones.js';
+import { normalizeLighting, pieceLook } from './lighting.js'; // decisions 357, 358
 import { isDistrict, cleanDistrict } from './districts.js'; // decision 301
 import { activeProps, propDef, propEdges, insideProp, propCorners, difficultSquares, normRot, sensorState, propState, publicState, blockedEdges, shellEdges, propBlocksMove, propBlocksSight } from './props.js';
 import { FAIL_MODES } from './power.js';
@@ -126,6 +127,9 @@ export function resizeMap(map, { cols, rows }, data) {
  * Checks a map read from a file or sent to the server: known kinds and widths, finite coordinates inside a
  * generous frame, no zero-length segments. Unknown fields are dropped. Throws on a file that isn't a map.
  */
+/** Decision 357: the map's own lighting levels, kept only when there are some. */
+const lightingField = (raw) => { const l = normalizeLighting(raw); return Object.keys(l).length ? { lighting: l } : {}; };
+
 export function normalizeMap(raw, data) {
   if (!raw || typeof raw !== 'object' || !Array.isArray(raw.walls)) throw new Error('Not a map file.');
   const kinds = new Set(data.map.kinds.map((k) => k.id));
@@ -168,13 +172,13 @@ export function normalizeMap(raw, data) {
     const { min, max } = data.map.sensor.reach;
     const reach = Object.fromEntries(Object.entries(q.reach ?? {}).filter(([k, n]) => def.sensor?.reach?.[k] != null && Number.isFinite(n)).map(([k, n]) => [k, Math.max(min, Math.min(max, Math.round(n)))]));
     const text = (k, max) => (typeof q[k] === 'string' && q[k].trim() ? { [k]: q[k].trim().slice(0, max) } : {}); // GM label / note (decision 99)
-    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(['uplink', 'router', 'ap', 'repeater'].includes(def.net) ? text('netName', 30) : {}), ...(def.net === 'uplink' && ['civil', 'corp', 'military'].includes(q.security) ? { security: q.security } : {}), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}), ...(q.search === true ? { search: true } : {}), ...(q.silent === true && def.sensor ? { silent: true } : {}), /* decision 298: a silent sensor (GM-only) */ ...(isDistrict(def) && Object.keys(cleanDistrict(q.district, data)).length ? { district: cleanDistrict(q.district, data) } : {}), /* decision 301: a district's defaults (GM-only) */ ...(cleanLoot(q.loot) ? { loot: cleanLoot(q.loot) } : {}) }); // decision 277: searchable, and what's in it
+    props.push({ id, prop: q.prop, x: round(q.x, 0.01), y: round(q.y, 0.01), rot: normRot(q.rot), hidden: q.hidden === true, ...state, ...pieceLook(q, def, data), /* decision 358 */ ...(Object.keys(reach).length ? { reach } : {}), ...text('label', 40), ...text('note', 300), ...text('caption', 60), ...(['uplink', 'router', 'ap', 'repeater'].includes(def.net) ? text('netName', 30) : {}), ...(def.net === 'uplink' && ['civil', 'corp', 'military'].includes(q.security) ? { security: q.security } : {}), ...(Number.isInteger(q.height) && q.height >= 0 && q.height <= 4 ? { height: q.height } : {}), ...(typeof q.battery === 'boolean' ? { battery: q.battery } : {}), ...(q.search === true ? { search: true } : {}), ...(q.silent === true && def.sensor ? { silent: true } : {}), /* decision 298: a silent sensor (GM-only) */ ...(isDistrict(def) && Object.keys(cleanDistrict(q.district, data)).length ? { district: cleanDistrict(q.district, data) } : {}), /* decision 301: a district's defaults (GM-only) */ ...(cleanLoot(q.loot) ? { loot: cleanLoot(q.loot) } : {}) }); // decision 277: searchable, and what's in it
   }
   const wires = normalizeAllWires(raw.wires, { walls, props }, data); // decisions 127, 129: GM-only power wiring and data links
   const floors = normalizeFloors(raw, { cols: base.cols, rows: base.rows, props }, data); // decision 184
   const guides = normalizeGuides(raw.guides); // decision 290: construction guides (the builder's only)
   const areas = normalizeAreas(raw.areas, base, data); // decision 294: floor areas
-  return { ...base, walls, props, ...(wires.length ? { wires } : {}), ...(floors.floors.length ? floors : {}), ...(guides.length ? { guides } : {}), ...(areas.length ? { areas } : {}), zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
+  return { ...base, walls, props, ...(wires.length ? { wires } : {}), ...(floors.floors.length ? floors : {}), ...(guides.length ? { guides } : {}), ...(areas.length ? { areas } : {}), ...lightingField(raw.lighting), zones: normalizeZones(raw.zones, data), ambient: raw.ambient === 'dark' ? 'dark' : 'bright', updatedAt: Number(raw.updatedAt) || base.updatedAt };
 }
 
 /** Counts by kind, for the builder's summary. */
@@ -212,16 +216,18 @@ export function publicMap(live, people, data) {
   const m = live.map;
   return {
     type: 'map', id: live.id, ...(live.mapId ? { mapId: live.mapId } : {}), name: m.name, cols: m.cols, rows: m.rows, canMove: live.playersMove !== false,
+    ...(m.lighting ? { lighting: m.lighting } : {}), // decision 357: how this map draws light
     // hidden lasers and props stay with the GM; so do on / off and the sensor flags (players never know if a sensor is live)
     walls: m.walls.filter((w) => !w.hidden).map((w) => ({ id: w.id, a: w.a, b: w.b, kind: w.kind, width: w.width, ...(w.kind === 'door' ? { open: w.open } : {}), ...(w.kind === 'door' && w.powered ? { powered: true } : {}), // decision 256: an electric door looks it (never its lock, wiring or name)
       ...(w.broken ? { broken: true } : {}), ...(w.cracks ? { cracks: true } : {}), ...(isLink(w) && w.cut ? { cut: true } : {}) })), // a weak wall's `breakable` never leaves the GM (decision 83)
-    props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.reach ? { reach: p.reach } : {}), ...(p.caption ? { caption: p.caption } : {}), ...(p.height != null ? { height: p.height } : {}), ...publicState(p, propDef(data, p.prop)) })), // a caption travels; label and note never do
+    props: activeProps(m).filter((p) => !propDef(data, p.prop)?.gmOnly).map((p) => ({ id: p.id, prop: p.prop, x: p.x, y: p.y, rot: p.rot, ...(p.on === false && propDef(data, p.prop)?.light ? { on: false } : {}), /* decision 357: a lamp that is off shows as off */ ...pieceLook(p, propDef(data, p.prop), data), /* decision 358: its colour, its light */ ...(p.reach ? { reach: p.reach } : {}), ...(p.caption ? { caption: p.caption } : {}), ...(p.height != null ? { height: p.height } : {}), ...publicState(p, propDef(data, p.prop)) })), // a caption travels; label and note never do
     ...((m.zones ?? []).some((z) => z.type === 'hazard') ? { hazards: publicHazards(m) } : {}), // decision 258: on and shown only
     ...(m.areas?.length ? { areas: m.areas } : {}), // decision 294: floor areas (the players' fog covers what they haven't seen)
     ...(m.floors?.length ? { floors: m.floors, floorLinks: (m.floorLinks ?? []).filter((l) => [l.a, l.b].every((id) => activeProps(m).some((p) => p.id === id))) } : {}), // decision 184: the building's floors
     tokens: people.filter((p) => !p.hidden && live.tokens[p.key]).map((p) => ({
-      key: p.key, kind: p.kind, label: p.label, name: p.name, x: live.tokens[p.key].x, y: live.tokens[p.key].y, down: Boolean(p.down), current: Boolean(p.current),
+      key: p.key, kind: p.kind, label: p.label, name: p.name, x: live.tokens[p.key].x, y: live.tokens[p.key].y, down: Boolean(p.down), current: Boolean(p.current), ...(p.unaware ? { unaware: true } : {}), // decision 354: 💤
       ...(p.kind === 'player' && p.color ? { color: p.color } : {}), // the player's chosen colour, also their marks' (decision 82)
+      ...(p.kind === 'player' && p.vision?.torch ? { torch: p.vision.torch, ...(p.vision.torchColor ? { torchColor: p.vision.torchColor } : {}), ...(p.vision.beam ? { beam: p.vision.beam, facing: live.tokens[p.key].facing ?? 0 } : {}) } : {}), // decision 358: a lit torch glows on every map; 360: its beam and where it points
     })),
   };
 }

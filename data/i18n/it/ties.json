@@ -1,0 +1,84 @@
+{
+  "kinds": {
+    "contact": {
+      "name": "Contatto"
+    },
+    "enemy": {
+      "name": "Nemico"
+    },
+    "lover": {
+      "name": "Amante"
+    },
+    "family": {
+      "name": "Famiglia"
+    }
+  },
+  "tables": {
+    "powers": {
+      "entries": {
+        "grid": {
+          "name": "L’Euro-Grid Syndicate"
+        },
+        "ledger": {
+          "name": "L’Avalon-Collins Liquidity Ledger"
+        },
+        "watch": {
+          "name": "Centurion-Vanguard (la Watch)"
+        },
+        "obsidian": {
+          "name": "Obsidian Response Group (la TRF)"
+        },
+        "airgappers": {
+          "name": "Gli Air-Gappers"
+        },
+        "humsingers": {
+          "name": "Gli Hum-Singers"
+        }
+      }
+    },
+    "enemies": {
+      "entries": {
+        "district_attorney": {
+          "name": "Un procuratore distrettuale che vuole la tua testa"
+        },
+        "old_flame": {
+          "name": "Una vecchia fiamma con amici nelle corporazioni"
+        },
+        "cult_leader": {
+          "name": "Il capo di un culto"
+        },
+        "watch_officer": {
+          "name": "Un ufficiale della Watch con un conto aperto"
+        },
+        "loan_shark": {
+          "name": "Uno strozzino a cui hai fatto un torto"
+        },
+        "gang_boss": {
+          "name": "Un capobanda che ha perso la faccia per colpa tua"
+        }
+      }
+    },
+    "lovers": {
+      "entries": {
+        "ledger_executive": {
+          "name": "Un dirigente della Ledger"
+        },
+        "grid_heir": {
+          "name": "Un erede dei soldi della Grid"
+        },
+        "old_money": {
+          "name": "Soldi vecchi con un nome da proteggere"
+        },
+        "tech_founder": {
+          "name": "Un fondatore di startup in ascesa"
+        },
+        "watch_commander": {
+          "name": "Un comandante della Watch"
+        },
+        "collector": {
+          "name": "Un collezionista di cose rare e rubate"
+        }
+      }
+    }
+  }
+}

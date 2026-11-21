@@ -32,6 +32,32 @@ function frameControls(portrait) {
   </details>`;
 }
 
+/**
+ * Decision 352: the people and powers the life path tied you to — a contact, an enemy, a lover, a family's money.
+ * The kind and who were rolled in the builder; the name and the note are yours to write (story, never audited).
+ * A tie still open (a contact from before ties) gets a picker, to settle with the GM.
+ */
+function tiesCard(c, data) {
+  const list = c.ties ?? [];
+  if (!list.length || !data.ties) return '';
+  const kindName = (id) => data.ties.kinds.find((k) => k.id === id)?.name ?? id;
+  const events = [...data.adolescence.events, ...data.careerEvents.events];
+  return card(t('dossier.ties'), html`<div class="stack">${list.map((x, i) => {
+    const tbl = data.ties.tables[x.table];
+    const who = tbl?.entries.find((e) => e.id === x.with);
+    const from = events.find((e) => e.id === x.from)?.name;
+    return html`<div class="tie stack stack--tight">
+      <div class="cluster"><span class="pill ${x.kind === 'enemy' ? 'pill--danger' : x.kind === 'contact' ? 'pill--info' : 'pill--accent'}">${kindName(x.kind)}</span>
+        ${who ? html`<strong>${who.name}</strong>` : tbl ? html`<select class="select" data-action="field" data-path="ties.${i}.with" aria-label="${kindName(x.kind)}">
+          <option value="">${t('dossier.tieOpen')}</option>${tbl.entries.map((e) => html`<option value="${e.id}">${e.name}</option>`)}</select>` : ''}</div>
+      ${x.nemesis ? html`<span class="st-small">${t('dossier.tieNemesis', { name: data.collection?.elites.find((e) => e.id === x.nemesis)?.name ?? x.nemesis })}</span>` : ''}
+      ${from ? html`<span class="muted st-small">${t('dossier.tieFrom', { event: from })}${x.age ? ` · ${t('dossier.tieAge', { n: x.age })}` : ''}</span>` : ''}
+      <input class="input" data-action="field" data-path="ties.${i}.name" value="${x.name ?? ''}" maxlength="60" placeholder="${t('dossier.tieNamePh')}" aria-label="${t('dossier.tieName')}">
+      <textarea class="textarea textarea--short" data-action="field" data-path="ties.${i}.note" maxlength="400" placeholder="${t('dossier.tieNotePh')}" aria-label="${t('dossier.tieNote')}">${x.note ?? ''}</textarea>
+    </div>`;
+  })}</div>`, { sub: t('dossier.tiesSub') });
+}
+
 export function dossierTab(c, s, data, ctx = {}) {
   const subOptions = data.classes.classes.map((cls) => html`
     <optgroup label="${cls.name}">${cls.subclasses.map((sub) => html`
@@ -85,6 +111,8 @@ export function dossierTab(c, s, data, ctx = {}) {
       })() : ''}
     </dl>`);
 
+  const ties = tiesCard(c, data); // decision 352
+
   const motivator = card(t('dossier.debt'), html`
     <label class="field"><span class="label">${t('dossier.debtAnchor')}</span>
       <select class="select" data-action="field" data-path="debtId">
@@ -115,7 +143,7 @@ export function dossierTab(c, s, data, ctx = {}) {
 
   return html`
     <div class="sheet-grid sheet-grid--dossier">
-      <div class="stack dossier__info">${identity}${background}${motivator}${intelCard(c, s, data, ctx)}</div>
+      <div class="stack dossier__info">${identity}${background}${ties}${motivator}${intelCard(c, s, data, ctx)}</div>
       <div class="stack dossier__story">${downtimeCard(c, s, data, ctx)}${story}${timelineCard(c)}</div>
       <div class="stack dossier__photo">${portrait}${card(t('look.title'), lookFields(c.narrative.look ?? {}), { tour: 'look' })}</div>
     </div>`;

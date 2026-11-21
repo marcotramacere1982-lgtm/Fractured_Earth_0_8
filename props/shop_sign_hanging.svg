@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30">
+  <!-- Hanging shop sign, 1 × 0.3, lit on both faces; two chains to the ceiling. Its caption is written along it. -->
+  <rect class="solid" x="4" y="8" width="92" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path class="detail" d="M14 8 L14 3 M86 8 L86 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <circle class="detail" cx="14" cy="3" r="1.5" fill="currentColor" stroke="none"/>
+  <circle class="detail" cx="86" cy="3" r="1.5" fill="currentColor" stroke="none"/>
+</svg>

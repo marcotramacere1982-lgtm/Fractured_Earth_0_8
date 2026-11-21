@@ -39,7 +39,7 @@ export function findEvent(eventsData, rollTotal) {
  * Applies an event's effects. `choices` resolves `choice` effects, e.g. { INT: 2 }.
  * Attributes never drop below `floor` during creation nor rise above `cap` (the life-path cap); CRS is clamped to [0, 100].
  */
-export function applyEvent(character, event, { choices = null, floor = 6, cap = Infinity, rng = Math.random } = {}) {
+export function applyEvent(character, event, { choices = null, floor = 6, cap = Infinity, rng = Math.random, ties = null } = {}) { // ties: data.ties (decision 352)
   const c = clone(character);
   const fx = event.effects ?? {};
   const log = [];
@@ -81,6 +81,14 @@ export function applyEvent(character, event, { choices = null, floor = 6, cap = 
       if (requirements) c.waivers.push(`req!:${x}`);
     }
     if (targets.length) log.push(uses === 'always' ? message('entryWaiverAlways', {}, 'No entry roll for good there') : message('entryWaiverOnce', {}, 'One entry roll waived'));
+  }
+  if (fx.tie) { // decision 352: who this event ties you to — rolled on its table, kept on the character (`ties`)
+    const tbl = ties?.tables?.[fx.tie.table];
+    const r = tbl ? roll(tbl.dice, rng) : null;
+    const hit = r ? tbl.entries.find((x) => x.roll === r.total) ?? null : null;
+    const kind = ties?.kinds?.find((k) => k.id === fx.tie.kind)?.name ?? fx.tie.kind;
+    c.ties = [...(c.ties ?? []), { id: `${event.id}.${(c.ties ?? []).length + 1}`, kind: fx.tie.kind, table: fx.tie.table, with: hit?.id ?? null, roll: r?.total ?? null, from: event.id, age: c.age, name: '', note: '' }];
+    log.push(message('tie', { kind, name: hit?.name ?? '—' }, `Tie — ${kind}: ${hit?.name ?? 'to settle with the GM'}`));
   }
   if (fx.fallbackStudent && !c.waivers.includes('fallback:student')) c.waivers.push('fallback:student');
   if (fx.nextTermFallback && !c.waivers.includes('forced:fallback')) { c.waivers.push('forced:fallback'); log.push(message('forcedFallback', {}, 'Next two years: unemployed')); }

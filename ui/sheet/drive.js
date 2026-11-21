@@ -13,8 +13,11 @@ export function driveEditor(c, data, mode = 'sheet') {
   const lines = data.crew.lines.filter((l) => !d.type || l.drive === d.type);
   return html`<div class="drive stack stack--tight">
     <span class="label">${t('drive.title')}${info('drive', t('drive.title'))}</span>
-    <div class="segmented" role="group">${data.crew.drives.map((x) => html`<button class="segmented__opt" ${pick(x.id)} aria-pressed="${d.type === x.id}" title="${x.desc}">${x.name}</button>`)}</div>
-    ${d.type ? html`<p class="hint">${data.crew.drives.find((x) => x.id === d.type)?.desc}</p>` : html`<p class="hint">${t('drive.pickHint')}</p>`}
+    ${mode === 'builder' // owner 2026-11-19: in the builder, two real choices with their meaning on them
+      ? html`<p class="hint">${t('drive.pickHint')}</p><div class="drive-cards" role="group">${data.crew.drives.map((x) => html`<button class="drive-card" ${pick(x.id)} aria-pressed="${d.type === x.id}">
+          <strong class="drive-card__name">${d.type === x.id ? '✓ ' : ''}${x.name}</strong><span class="drive-card__desc">${x.desc}</span></button>`)}</div>`
+      : html`<div class="segmented" role="group">${data.crew.drives.map((x) => html`<button class="segmented__opt" ${pick(x.id)} aria-pressed="${d.type === x.id}" title="${x.desc}">${x.name}</button>`)}</div>
+    ${d.type ? html`<p class="hint">${data.crew.drives.find((x) => x.id === d.type)?.desc}</p>` : html`<p class="hint">${t('drive.pickHint')}</p>`}`}
     <select class="select" ${save('drive.line')} aria-label="${t('drive.suggestions')}">
       <option value="">${t('drive.suggestions')}…</option>
       ${lines.map((l) => html`<option value="${l.text}" ${d.line === l.text ? raw('selected') : ''}>${l.text}</option>`)}

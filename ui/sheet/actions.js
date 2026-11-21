@@ -24,15 +24,18 @@ import { abilityActions } from './ability-actions.js';
 import { itemActions, tickItemEffects, endItemEffects } from './item-actions.js';
 import { wornGrants } from '../../rules/body.js';
 import { strainActions } from './strain-actions.js'; // decision 266
+import { fatigueActions } from './fatigue-actions.js'; // decision 362
 import { breathActions } from './breath-actions.js'; // decision 273
 import { landing } from '../../rules/falling.js'; // decision 272
 import { harmOutcome } from '../../rules/harm.js'; // decision 274
+import { streetDiscount } from '../../rules/haggle.js'; // decision 346
 
 /** In combat, spends one action and returns the log prefix "R2 · 1/4 · "; outside combat returns ''. what: { kind, name? }. */
 export function spend(c, data, what) {
   const turn = c.play.turn ?? newTurn();
   if (!turn.inCombat) return '';
-  const max = roundAllowance(turn, deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions); // decision 233: prep actions in round 0
+  const sh = deriveSheet(c, data);
+  const max = roundAllowance(turn, sh.combat.act.value, sh.conditionsNow, data.actions); // decision 233: prep actions in round 0
   c.play.turn = spendAction(turn, max, what);
   const before = c.play.resources?.stance;
   if (c.classId === 'soldier' && c.play.resources) c.play.resources = stanceAfterAction(c.classId, c.play.resources, what.kind, data.classes); // decision 88
@@ -62,7 +65,8 @@ function fieldStrip(c, data) {
 function reactionSpend(c, data) {
   const turn = c.play.turn ?? newTurn();
   if (!turn.inCombat) return '';
-  const max = roundAllowance(turn, deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions); // decision 233: prep actions in round 0
+  const sh = deriveSheet(c, data);
+  const max = roundAllowance(turn, sh.combat.act.value, sh.conditionsNow, data.actions); // decision 233: prep actions in round 0
   const now = turn.used < max;
   c.play.turn = now ? spendAction(turn, max, { kind: 'reaction' }) : borrowAction(turn, max);
   return `R${turn.round} · reaction (${now ? "this round's action" : "next round's action"}) · `;
@@ -159,6 +163,7 @@ export const actions = {
     const hpNow = s.hp.current - outcome.taken;
     c.play.hp = hpNow >= s.hp.max ? null : hpNow;
     if (data.strain && s.hp.current >= s.hp.max / 2 && hpNow < s.hp.max / 2 && hpNow > 0) strainActions.strainAsk(c, data, { id: `hp${Date.now()}`, n: data.strain.gains.halfHp, why: 'Dropped below half HP' }); // decision 266
+    if (s.hp.current >= s.hp.max / 2 && hpNow < s.hp.max / 2 && c.play.turn?.inCombat) c.play.fightBloodied = true; // decision 362: a bloody fight tires more
     const sync = hurt(c, data, outcome.taken);
     let effect = '';
     if (outcome.condition) {
@@ -280,7 +285,7 @@ export const actions = {
     if (kind === 'weapon' && data.weapons.find((w) => w.id === id)?.magSize) addItem(c, 'ammo', magazineId(id), data.economy.magazine.startSpares); // guns come with spares
   },
   buy(c, data, { kind, id, method, multiplier }) {
-    const res = buy(c, { kind, id }, method, data, { multiplier: Number(multiplier), discount: deriveSheet(c, data).talents.cashDiscount ?? 0 });
+    const res = buy(c, { kind, id }, method, data, { multiplier: Number(multiplier), discount: streetDiscount(c, deriveSheet(c, data).talents.cashDiscount ?? 0) }); // decision 346: a street haggle this trip
     Object.assign(c, res.character);
     if (kind === 'armor') autoWear(c, id, data);
     log(c, res.log, method === 'official' ? 'warn' : 'info');
@@ -437,6 +442,7 @@ export const actions = {
   },
   combatEnd(c, data) {
     if (data) endItemEffects(c, data);
+    if (data?.fatigue && c.play.turn?.inCombat) fatigueActions.fatigueFightEnd(c, data); // decision 362: every fight costs something
     c.play.turn = endCombat(c.play.turn ?? newTurn());
     c.play.aimed = false;
     c.play.overwatch = null; // decision 250
@@ -582,6 +588,8 @@ export const actions = {
   },
   intelBackgroundDone(c, data, { nemesis = null }) {
     c.play.intelBackground = { ...(c.play.intelBackground ?? { rolls: {} }), nemesis, done: true };
+    const enemy = nemesis && (c.ties ?? []).find((x) => x.kind === 'enemy' && !x.nemesis); // decision 352: the enemy tie is that elite
+    if (enemy) enemy.nemesis = nemesis;
   },
 
   /** Decision 232: initiative rolled in the get-ready window (the GM has it); "I'm ready" opens. */
@@ -678,6 +686,7 @@ export const actions = {
     const w = data.weapons.find((x) => x.id === c.play.slots[slot]) ?? data.weapons.find((x) => x.natural); // an empty slot: fists (decision 147)
     if (!w) throw new RuleError('noWeapon', {}, 'No weapon in that slot.');
     const ws = deriveSheet(c, data).weapons.find((x) => String(x.slot) === String(slot));
+    if (ws?.why === 'locked') throw new RuleError('weaponLocked', { weapon: w.name }, `${w.name} is locked: it won't fire until it's unlocked.`); // decision 345
     if (ws?.usable === false) throw new RuleError(ws.why === 'noArms' ? 'noArms' : 'oneArm', { weapon: w.name }, ws.why === 'noArms' ? 'Both arms are broken: no weapons.' : `${w.name}: with a broken arm you can use only one one-handed weapon.`);
     if (w.magSize && (c.play.ammo[slot] ?? 0) <= 0) throw new RuleError('weaponEmpty', { weapon: w.name }, `${w.name} is empty — reload first.`);
     if (c.play.turn?.inCombat && ws && !ws.inHand) throw new RuleError('notInHand', { weapon: w.name }, `The ${w.name} isn't in your hand: swap to it first.`);
@@ -735,7 +744,7 @@ export const actions = {
   dodge(c, data, { rollText, success }) {
     const s = deriveSheet(c, data);
     const turn = c.play.turn ?? newTurn();
-    const max = roundAllowance(turn, s.combat.act.value, c.play.conditions, data.actions);
+    const max = roundAllowance(turn, s.combat.act.value, s.conditionsNow, data.actions);
     // decision 161 (owner): an action left this round pays for the Dodge; only when they're gone does it borrow from next round
     const now = turn.used < max;
     c.play.turn = now ? spendAction(turn, max, { kind: 'dodge' }) : borrowAction(turn, max);
@@ -807,6 +816,7 @@ export const actions = {
   ...progressActions,
   ...downtimeActions,
   ...strainActions,
+  ...fatigueActions,
   ...breathActions,
   ...storyActions,
   ...inventoryActions,

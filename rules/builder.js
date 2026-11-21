@@ -60,7 +60,7 @@ export function resolveEvent(character, eventsData, data, { rng = Math.random, p
     entries.push(line('warn', `Choose +${event.effects.choice.amount} among ${event.effects.choice.of.join(' / ')}.`, 'chooseAmong', { n: event.effects.choice.amount, of: event.effects.choice.of.join(' / ') }));
     return { character, entries, pending: [event], record: { roll: event.roll, eventId: event.id } };
   }
-  const res = applyEvent(character, event, { rng, cap: data.attributes?.creation?.lifePathMax ?? Infinity });
+  const res = applyEvent(character, event, { rng, cap: data.attributes?.creation?.lifePathMax ?? Infinity, ties: data.ties });
   res.log.forEach((m) => entries.push(fromMessage('mod', m)));
   if (!res.log.length) entries.push(line('dim', 'No mechanical effect.', 'noEffect'));
   return { character: res.character, entries, pending: [], record: { roll: event.roll, eventId: event.id } };
@@ -68,7 +68,7 @@ export function resolveEvent(character, eventsData, data, { rng = Math.random, p
 
 /** Applies a previously pending choice event. */
 export function resolveChoice(character, event, choices, data = null) {
-  const res = applyEvent(character, event, { choices, cap: data?.attributes?.creation?.lifePathMax ?? Infinity });
+  const res = applyEvent(character, event, { choices, cap: data?.attributes?.creation?.lifePathMax ?? Infinity, ties: data?.ties });
   return { character: res.character, entries: [line('mod', 'Choice applied:', 'choiceApplied'), ...res.log.map((m) => fromMessage('mod', m))] };
 }
 

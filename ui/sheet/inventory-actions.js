@@ -6,6 +6,8 @@ import { RuleError } from '../../rules/messages.js';
 import { flightOutcome, checkFlight } from '../../rules/drone.js';
 import { checkInstall, moddedWeapon, INSTALLERS } from '../../rules/weapon-mods.js';
 import { uid } from '../../state/id.js';
+import { unlocked } from '../../rules/body-loot.js'; // decision 345
+import { paid } from '../../rules/haggle.js'; // decision 346
 import { log, spend, actions } from './actions.js';
 
 const rowOf = (c, kind, id) => c.play.inventory.find((x) => x.kind === kind && x.id === id);
@@ -98,6 +100,15 @@ export const inventoryActions = {
     return outcome;
   },
   droneCharge(c) { c.play.droneFlat = false; log(c, 'Drone: recharged'); },
+  /** Decision 345: a Hacker breaks a looted gun's smart lock in the field — a Hard Hacking roll and an action; +1 Trace either way (the GM's map). */
+  breakLock(c, data, { id, success, rollText }) {
+    const row = rowOf(c, 'weapon', id);
+    if (row?.unique?.lock !== 'smart') throw new RuleError('noLock', {}, 'There is no smart lock to break on that.');
+    const prefix = spend(c, data, { kind: 'interact', name: `break the lock of ${row.unique.name}` });
+    if (success) row.unique = unlocked(row.unique);
+    log(c, `${prefix}Break the smart lock of ${row.unique.name}: ${rollText} → ${success ? 'it fires now (still tracked)' : 'it holds'}`, success ? 'ok' : 'bad');
+    return success;
+  },
   /** Decision 313: the GM's +1 / −1 / throw away on one row, from the console. Once per message id; logged for the audit. */
   gmInventory(c, data, { msg }) {
     c.play.gmEdits ??= [];
@@ -140,7 +151,7 @@ export const inventoryActions = {
     const row = rowOf(c, kind, id);
     if (!row) throw new RuleError('noItem', {}, 'Not in your inventory any more.');
     const official = nextIsOfficial(row);
-    const cash = kind === 'custom' ? Math.max(0, Math.round(Number(price) || 0)) : sellPrice(findGear(kind, id, data), data.economy, { official });
+    const cash = kind === 'custom' ? Math.max(0, Math.round(Number(price) || 0)) : paid(sellPrice(findGear(kind, id, data), data.economy, { official }), c.play.haggle?.pct ?? 0); // decision 346: a street haggle this trip
     takeOne(c, data, kind, id);
     c.play.cash += cash;
     log(c, `Sold ${itemName(row, data)} for $${cash}${official ? ' (registered: a quarter of list)' : ''}`);

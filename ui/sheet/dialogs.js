@@ -6,6 +6,8 @@ import { segmented } from './parts.js';
 import { resolveCheck } from '../../rules/checks.js';
 import { roll, formatRoll, typedRoll, parseDice } from '../../rules/dice.js';
 import { priceOptions, findGear, magazineId, creditScoreCost, lifestyleSlot } from '../../rules/economy.js';
+import { streetDiscount, haggleLabel } from '../../rules/haggle.js'; // decision 346
+import { deriveSheet } from '../../state/character.js';
 import { catalog, describe, kindLabel } from './gear.js';
 import { marketGroups } from './market-groups.js';
 import { info } from '../ref.js';
@@ -58,6 +60,13 @@ export function openDialog(draw, handlers, { wide = false, cls = '' } = {}) {
 /** site (decision 268): { level: 'alert' | 'lockdown', tn } — the site alert on the map you stand on; a fixed row, like the GM's difficulty. */
 /** help (decision 270): { from, tn, skill } — a crewmate's help on this check; a fixed row. */
 /** Decision 204: the target's cover as the map shows it — information like the GM's difficulty, never added to the roll. */
+/**
+ * Decision 362: Push — +2 on this roll for +1 Fatigue, offered on every check and attack. The sheet sets what a push is
+ * (setPush: () → { tn, use(what) } or null when the game has no Fatigue); the window adds the tick and spends it on the roll.
+ */
+let pushOf = () => null;
+export const setPush = (fn) => { pushOf = fn; };
+
 const coverLine = (c, data) => html`<p class="check-cover"><span class="label">${t('attack.cover')}${info('cover', t('attack.cover'))}</span>
   <strong>${c.armor ? `${data.difficulty.cover.find((x) => x.armor === c.armor)?.name ?? ''} +${c.armor}` : t('attack.coverNone')}</strong>${c.text ? html` <span class="muted st-small">· ${c.text}</span>` : ''}
   ${c.armor ? html`<span class="muted st-small">· ${t('attack.coverGm')}</span>` : ''}</p>`;
@@ -66,12 +75,14 @@ const coverLine = (c, data) => html`<p class="check-cover"><span class="label">$
 /** Decision 265: odds(rollUnder) → a line under the TN before rolling (crit / fumble ranges); missFlow(result) → a flow after a miss (the jam check); narrative: false for attacks (their own crit rules replace the skill checks' natural 1 / 20 line). */
 export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, missFlow = null, odds = null, narrative = true, tools = [], light = null, boosts = [], aim = null, notice = '', foe = null, site = null, help = null } = {}) {
   const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false,
-    tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null, aim: aim?.pick ?? null, foe: foe?.pick ?? '' };
+    tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null, aim: aim?.pick ?? null, foe: foe?.pick ?? '', standIn: null };
+  const standIn = () => (target.standIns ?? []).find((x) => x.id === state.standIn) ?? null; // decision 347: an ability rolls the Class TN instead of the skill
   const aimOpt = () => aim?.options.find((o) => o.id === state.aim) ?? null;
   const tool = () => tools.find((x) => x.id === state.tool) ?? null;
   const lightOpt = () => light?.options.find((o) => o.id === state.light) ?? null;
+  const push = pushOf(); // decision 362
   const foeOpt = () => foe?.options.find((o) => o.id === (state.foe ?? '')) ?? null;
-  const tn = () => target.tn + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0) + (aimOpt()?.tn ?? 0) + (foeOpt()?.tn ?? 0) + (site?.tn ?? 0) + (help?.tn ?? 0); // foe: its conditions (decision 158); site: decision 268; help: decision 270
+  const tn = () => (standIn()?.tn ?? target.tn) + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0) + (aimOpt()?.tn ?? 0) + (foeOpt()?.tn ?? 0) + (site?.tn ?? 0) + (help?.tn ?? 0) + (state.push && push ? push.tn : 0); // push: decision 362; foe: its conditions (decision 158); site: decision 268; help: decision 270
   const cur = () => (state.result?.success ? flow : state.missFlow); // decision 265: a miss may have its own steps
   const flowOn = () => Boolean(state.result && cur());
   const step = () => (flowOn() ? cur().next(state.answers) : null);
@@ -82,6 +93,8 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
     const lo = lightOpt();
     state.result = { ...resolveCheck(tn(), value, state.tier, data.difficulty), dice, tool: tool(), light: lo?.tn ? { tn: lo.tn, label: t(`light.${light.kind}.${lo.id}`) } : null, site: site?.tn ? { tn: site.tn, label: `site ${site.level}` } : null, help: help?.tn ? { tn: help.tn, label: `help from ${help.from}` } : null };
     state.missFlow = !state.result.success && missFlow ? missFlow(state.result) : null;
+    if (state.push && push) { state.result.push = push.tn; push.use(target.name ?? 'a roll'); } // decision 362: +1 Fatigue with the roll
+    if (standIn()) { state.result.standIn = { id: standIn().id, name: standIn().name }; standIn().use(state.result); } // decision 347: the charge is spent with the roll
     state.extra = after ? after(state.result) : '';
     onResult(state.result);
     finish();
@@ -165,7 +178,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
     answer(tr.out);
   };
   /** Decision 156: once rolled, the setup folds into one line — the flow below needs the room. */
-  const summaryLine = () => [foe ? foe.options.find((o) => o.id === (state.foe ?? ''))?.label : '', aimOpt()?.label, tool()?.name, light ? t(`light.${light.kind}.${state.light}`) : '', site ? `${t(`site.${site.level}`)} ${site.tn}` : '', help ? `${t('help.row')} ${help.tn > 0 ? '+' : ''}${help.tn}` : '',
+  const summaryLine = () => [standIn()?.name, foe ? foe.options.find((o) => o.id === (state.foe ?? ''))?.label : '', aimOpt()?.label, tool()?.name, light ? t(`light.${light.kind}.${state.light}`) : '', site ? `${t(`site.${site.level}`)} ${site.tn}` : '', help ? `${t('help.row')} ${help.tn > 0 ? '+' : ''}${help.tn}` : '',
     tiers.find((x) => x.id === state.tier)?.name].filter(Boolean).join(' · ');
   const draw = () => {
     const tier = tiers.find((x) => x.id === state.tier);
@@ -191,10 +204,15 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
         ${aim ? html`<div class="stack stack--tight ${state.aim === 'located' && aim.table ? 'check-setup__wide' : ''}"><span class="label">${t('attack.aim')}${info('location-attack', t('attack.aim'))}</span>
           <div class="segmented" role="group" aria-label="${t('attack.aim')}">${aim.options.map((o) => html`<button class="segmented__opt" data-action="aim" data-id="${o.id}" aria-pressed="${state.aim === o.id}">${o.label}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div>
           ${state.aim === 'located' && aim.table ? aim.table(state.foe) : aimOpt()?.hint ? html`<p class="hint">${aimOpt().hint}</p>` : ''}</div>` : ''}
+        ${(target.standIns ?? []).length ? html`<div class="stack stack--tight"><span class="label">${t('standIn.title')}</span>
+          <div class="tool-list">${target.standIns.map((x) => html`<label class="tool ${state.standIn === x.id ? 'is-on' : ''}" title="${x.desc ?? ''}">
+            <input type="checkbox" data-action="standIn" data-id="${x.id}" ${state.standIn === x.id ? 'checked' : ''}>
+            <span><strong>${t('standIn.use', { name: x.name, tn: x.tn, was: target.tn })}</strong>${x.limit ? html` <span class="muted">· ${x.limit}</span>` : ''}</span></label>`)}</div></div>` : ''}
         ${tools.length ? html`<div class="stack stack--tight"><span class="label">${t('tools.title')}</span>
           <div class="tool-list">${tools.map((x) => html`<label class="tool ${state.tool === x.id ? 'is-on' : ''}" title="${t('tools.hint')}">
             <input type="checkbox" data-action="tool" data-id="${x.id}" ${state.tool === x.id ? 'checked' : ''}>
             <span><strong>${x.name} +${x.tn}</strong> <span class="muted">· ${x.when}</span></span></label>`)}</div></div>` : ''}
+        ${push && !state.result ? html`<label class="tool ${state.push ? 'is-on' : ''}" title="${t('push.rollHint')}"><input type="checkbox" data-action="push" ${state.push ? 'checked' : ''}><span><strong>💪 ${t('push.roll', { n: push.tn })}</strong> <span class="muted">· ${t('push.rollCost')}</span></span></label>` : ''}
         ${light ? html`<div class="stack stack--tight"><span class="label">${t('light.title')}${info('darkness', t('light.title'))}</span>
           <div class="segmented" role="group" aria-label="${t('light.title')}">${light.options.map((o) => html`<button class="segmented__opt" data-action="light" data-id="${o.id}" aria-pressed="${state.light === o.id}" title="${t('light.suggested', { option: t(`light.${light.kind}.${light.pick}`) })}">${t(`light.${light.kind}.${o.id}`)}${o.tn ? ` ${o.tn > 0 ? '+' : '−'}${Math.abs(o.tn)}` : ''}</button>`)}</div></div>` : ''}
         ${help ? html`<div class="stack stack--tight"><span class="label">${t('help.row')}${info('help', t('help.row'))}</span>
@@ -228,7 +246,9 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       dieSkip: () => (state.trayRoll ? landTray() : land()), // decisions 314–315: a tap lands the dice at once
       enter: () => { if (state.rolling) return; const v = Number(state.manual); if (v >= 1 && v <= 20) resolve(v); },
       tool: ({ id }) => { if (once && state.result) return; state.tool = state.tool === id ? null : id; state.result = null; d.redraw(); },
+      standIn: ({ id }) => { if (state.result) return; state.standIn = state.standIn === id ? null : id; d.redraw(); }, // decision 347
       light: ({ id }) => { if (once && state.result) return; state.light = id; state.result = null; d.redraw(); },
+      push: () => { if (state.result) return; state.push = !state.push; d.redraw(); }, // decision 362
       foePick: ({ id }) => { if (once && state.result) return; state.foe = id; foe.onPick?.(id); state.result = null; d.redraw(); }, // decision 153
       aim: ({ id }) => { if (once && state.result) return; state.aim = id; aim.onPick?.(id); state.result = null; d.redraw(); },
       flowChoose: ({ value }) => answer(value),
@@ -242,7 +262,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
       manual: (_, e) => { state.manual = e.target.value; },
       flowTyped: ({ key }, e) => { state.typed[key] = e.target.value; },
     },
-  }, { wide: Boolean(foe || aim || tools.length || light) });
+  }, { wide: Boolean(foe || aim || tools.length || light || (target.standIns ?? []).length) });
 }
 
 /** A small choice (Reload / swap…): choices [{ value, label, why }] — a choice with a `why` shows disabled with it. */
@@ -280,12 +300,13 @@ export function openShop({ kind = 'weapon', free = false, markup = () => null },
     if (kind === 'lifestyle') return ` · ${t('shop.monthly', { cash: e.cost.cr, crs: creditScoreCost(e, 'lifestyle', data.economy) ?? '—' })}`;
     if (kind !== 'weapon' || !e.magSize) return '';
     const mag = findGear('ammo', magazineId(e.id), data);
-    return mag ? ` · ${t('shop.spareMag', { cash: priceOptions(mag, 'ammo', data.economy, state.multiplier).cash.cash })}` : '';
+    return mag ? ` · ${t('shop.spareMag', { cash: priceOptions(mag, 'ammo', data.economy, state.multiplier, streetDiscount(character(), deriveSheet(character(), data).talents.cashDiscount ?? 0)).cash.cash })}` : '';
   };
   /** Lifestyle (decision 86): does this entry add to the others, or replace one? */
   const addsUp = (e) => lifestyleSlot(e, data) === `entry:${e.id}`;
   const draw = () => {
     const c = character();
+    const disc = streetDiscount(c, deriveSheet(c, data).talents.cashDiscount ?? 0);
     // decision 160: what this class needs in action (★) and what it can't use — buying stays open to everyone
     const cls = data.classes.classes.find((k) => k.id === c.classId) ?? null;
     const need = (k) => Boolean(cls?.market?.need.includes(k));
@@ -308,13 +329,14 @@ export function openShop({ kind = 'weapon', free = false, markup = () => null },
         <div class="cluster cluster--gap">
           <input class="input" type="search" placeholder="${t('common.search')}…" value="${state.query}" data-action="query" aria-label="${t('common.search')}">
           ${free || state.kind === 'lifestyle' ? '' : html`<span class="pill" title="${t('shop.markupHint')}">${t('shop.markup')} ${state.multiplier === 1 ? t('shop.noMarkup') : `×${state.multiplier}`} · ${t(gmMarkup() == null ? 'shop.markupUsual' : 'shop.markupGm')}</span>`}
+          ${!free && c.play.haggle ? html`<span class="pill ${c.play.haggle.pct > 0 ? 'pill--success' : c.play.haggle.pct < 0 ? 'pill--danger' : ''}" title="${t('haggle.tripHint')}">🤝 ${t('haggle.trip', { pct: haggleLabel(c.play.haggle.pct) })}</span>` : ''}
         </div>
         ${state.message ? html`<p class="notice ${state.message.startsWith('✓') ? 'notice--ok' : 'notice--danger'}">${state.message}</p>` : ''}
         ${state.kind === 'custom' ? customForm() : html`<div class="rows">
           ${marketGroups(state.kind, list, data, fits).map((g) => html`${g.label ? html`<h3 class="market-group">${g.label} <span class="muted">· ${g.items.length}</span></h3>` : ''}
           ${g.items.map((e) => {
             const k = e._kind ?? state.kind; // Essentials mix the shelves
-            const p = priceOptions(e, k, data.economy, state.multiplier);
+            const p = priceOptions(e, k, data.economy, state.multiplier, disc); // decision 346: this trip's haggle (and the Fixer's Number) — what you will pay
             const have = e._role && c.play.inventory.some((x) => x.kind === k && x.id === e.id);
             return html`<div class="row row--wrap ${have ? 'row--done' : ''}">
               ${iconFor(k, e, data, 'gi--row')}

@@ -4,6 +4,7 @@
 // freely. The GM console checks the move again before it applies it.
 
 import { openSquares, dropLanding } from '../../rules/vertical.js'; // decision 287
+import { facingTo } from '../../rules/light.js'; // decision 360
 import { intelFactsView } from './intel.js';
 import { intelFor } from '../../rules/intel.js';
 import { html, raw } from '../dom.js';
@@ -34,6 +35,10 @@ const PENDING_MS = 8000;
 export const dropPending = () => { pending = null; };
 let target = null; // the marker tapped to check line of sight and range (step 4)
 let info = null; // { kind: 'prop' | 'laser', id } — a piece tapped to see what it is (decision 70)
+let aiming = false; // decision 360: the next tap on the map points your torch
+/** Decision 360: aiming the torch (the strip's Aim button). */
+export const isAiming = () => aiming;
+export const setAiming = (v) => { aiming = Boolean(v); };
 let lastSquare = ''; // where your marker was last drawn (map:x,y): arriving next to a door opens its line, however you got there
 
 /** What a tapped piece is: its name, its group and what it does physically — never its state (on, open, flags). */
@@ -342,7 +347,7 @@ export function mapPanel(c, s, data, { map, id, combat, doorUse, torch = null, m
  * opts: { onIdle(), move(): { max, combat } | { why } | null, onMove(to, steps, combat) → bool,
  *         marks, myColor, onMark(body) → Promise<bool> (decision 82) }
  */
-export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = null, myColor = null, onMark = async () => false, overwatch = null }) {
+export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = null, myColor = null, onMark = async () => false, overwatch = null, onAim = null }) {
   if (!map || !main.querySelector('[data-map-slot]')) return;
   if (skyNow(map, data)) { // look only: a tap shows the district under it
     skyView ??= createSkylineViewer({ data, prefix: 'sheetsky' });
@@ -368,11 +373,15 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   Object.assign(viewer.on, {
     idle: onIdle,
     canDrag: (key) => key === id && map.canMove && Boolean(move()?.max),
-    tapToken(key) { info = null; target = key === id || key === target ? null : key; onIdle(); },
+    wantsSquare: () => aiming && Boolean(onAim), // decision 360: aiming takes the next tap, wherever it lands
+    tapToken(key) { if (aiming && onAim) { const tk = tokens.find((x) => x.key === key); aiming = false; if (tk && me() && key !== id) onAim(Math.round(facingTo(me(), tk))); onIdle(); return; } info = null; target = key === id || key === target ? null : key; onIdle(); },
     tapProp(pid) { info = info?.id === pid ? null : { kind: 'prop', id: pid }; onIdle(); },
     tapDoor(wid) { info = info?.id === wid ? null : { kind: 'door', id: wid }; onIdle(); },
     tapLaser(wid) { info = info?.id === wid ? null : { kind: 'laser', id: wid }; onIdle(); },
-    tapSquare() { if (target || info) { target = null; info = null; onIdle(); } },
+    tapSquare(sq) {
+      if (aiming && onAim) { aiming = false; if (me() && sq && (sq.x !== me().x || sq.y !== me().y)) onAim(Math.round(facingTo(me(), sq))); onIdle(); return; } // decision 360
+      if (target || info) { target = null; info = null; onIdle(); }
+    },
     reach: () => { routes = routesFrom(map, data, me(), move().max); return routes.steps; }, // decision 293: worked out once per drag
     route: (_key, to) => { // decision 287: onto an opening — the route to where you land, one floor down
       const land = map.floors?.length ? dropLanding(map, open, to) : null;

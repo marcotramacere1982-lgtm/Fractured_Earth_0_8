@@ -3,13 +3,13 @@
     "desc": "+3 HP massimi."
   },
   "shake_it_off": {
-    "desc": "Rialzarti da Prone non costa azioni, una volta per round."
+    "desc": "Rialzarti da terra non costa azioni, una volta per round."
   },
   "iron_jaw": {
-    "desc": "Un colpo alla testa ti lascia Stunned, mai Incapacitated, finché sei sopra 0 HP."
+    "desc": "Un colpo alla testa ti lascia Stordito, mai Inabile, finché sei sopra 0 HP."
   },
   "bone_setter": {
-    "desc": "Il Primo soccorso su un braccio rotto o una gamba azzoppata non richiede tiri, e puoi curarti da solo."
+    "desc": "Il Primo soccorso su un braccio rotto o una gamba storpia non richiede tiri, e puoi curarti da solo."
   },
   "unbreakable": {
     "desc": "Una volta per combattimento, rifiuta una condizione nel momento in cui ti viene applicata."
@@ -24,7 +24,7 @@
     "desc": "I prezzi di strada (in contanti) costano il 10% in meno."
   },
   "read_the_room": {
-    "desc": "+2 TN a Persuasion o Deception contro qualcuno che hai visto agire in questa scena."
+    "desc": "+2 TN a Persuasione o Inganno contro qualcuno che hai visto agire in questa scena."
   },
   "clean_slate": {
     "desc": "Una volta: +5 Credit Score, e un precedente penale viene cancellato senza rumore."
@@ -33,7 +33,7 @@
     "desc": "Una volta per missione, un contatto ti dà informazioni, una porta o un favore (decide il GM). Un Trafficker invece ha Know a Guy due volte per missione."
   },
   "safe_house": {
-    "desc": "Nel downtime le ferite vengono curate e l’armatura riparata gratis."
+    "desc": "Tra una missione e l'altra le ferite vengono curate e l’armatura riparata gratis."
   },
   "quick_draw": {
     "desc": "+2 all’iniziativa."
@@ -42,7 +42,7 @@
     "desc": "La copertura parziale ti dà +3 invece di +2."
   },
   "marksman": {
-    "desc": "Attacchi a una locazione a −2 TN invece di −4."
+    "desc": "Colpi mirati a −2 TN invece di −4."
   },
   "fast_hands": {
     "desc": "Una volta per round, ricaricare o cambiare arma non costa azioni."
@@ -111,13 +111,13 @@
     "desc": "Cure in Mend +1 (Triage, Healing Surge…)."
   },
   "reinforce": {
-    "desc": "Portata del drone +2: le ability che arrivano tramite lui vanno più lontano."
+    "desc": "Portata del drone +2: le abilità che arrivano tramite lui vanno più lontano."
   },
   "steady_rig": {
     "desc": "Cambiare modalità ti lascia 1 Sync."
   },
   "live_wire": {
-    "desc": "Danni in Surge +1: i dadi delle tue ability e la torretta del drone."
+    "desc": "Danni in Surge +1: i dadi delle tue abilità e la torretta del drone."
   },
   "extra_mount": {
     "desc": "Il tuo drone ha +4 HP e +1 armatura (anche come torretta)."
@@ -138,7 +138,7 @@
     "desc": "Desperate Gamble richiede solo 2 colpi carichi."
   },
   "showstopper": {
-    "desc": "Una volta per combattimento, un attacco Hot a segno butta anche il bersaglio Prone."
+    "desc": "Una volta per combattimento, un attacco Hot a segno butta anche il bersaglio a terra."
   },
   "old_friends": {
     "desc": "Call in Favor richiede solo ≤ −2."

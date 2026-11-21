@@ -26,7 +26,7 @@ export function normalizeAreas(raw, map, data) {
     let id = typeof a.id === 'string' && /^a\d+$/.test(a.id) && !used.has(a.id) ? a.id : null;
     for (let n = out.length + 1; !id; n++) if (!used.has(`a${n}`)) id = `a${n}`;
     used.add(id);
-    out.push({ id, tex: a.tex, x, y, w, h, rot: ROTS.includes(int(a.rot)) ? int(a.rot) : 0 });
+    out.push({ id, tex: a.tex, x, y, w, h, rot: ROTS.includes(int(a.rot)) ? int(a.rot) : 0, ...(data.map.light?.materials?.includes(a.mat) ? { mat: a.mat } : {}) }); // mat: decision 358
   }
   return out;
 }
@@ -41,6 +41,20 @@ export function addArea(map, data, { tex, x, y, w, h, rot = 0 }) {
   return a ? { ...map, areas: [...(map.areas ?? []), { ...a, id: nextId(map) }] } : map;
 }
 export const removeArea = (map, id) => ({ ...map, areas: (map.areas ?? []).filter((a) => a.id !== id) });
+
+/** Decision 358: change one area (texture, turn, material), cleaned like a new one; its id stays. */
+export function setArea(map, data, id, fields) {
+  const list = map.areas ?? [];
+  const i = list.findIndex((a) => a.id === id);
+  if (i < 0) return map;
+  const merged = { ...list[i], ...fields };
+  for (const k of Object.keys(fields)) if (fields[k] === undefined) delete merged[k];
+  const [a] = normalizeAreas([merged], map, data);
+  if (!a) return map;
+  const areas = [...list];
+  areas[i] = { ...a, id };
+  return { ...map, areas };
+}
 
 /** The topmost area covering a point (the last drawn), or null. */
 export function areaAt(map, p) {
@@ -60,6 +74,68 @@ export function areaDifficult(map, data) {
     for (let x = a.x; x < a.x + a.w; x++) for (let y = a.y; y < a.y + a.h; y++) out.add(`${x},${y}`);
   }
   return out;
+}
+
+/**
+ * Owner 2026-11-20: walls part rooms. Does a wall, door, window or glass wall stand between two side-by-side squares?
+ * (the line between their centres crosses it). Links (pipes, cables) don't count.
+ */
+export function wallCut(map) {
+  const walls = (map.walls ?? []).filter((w) => !w.kind.startsWith('link_') && w.kind !== 'laser');
+  const cross = (p1, p2, q1, q2) => {
+    const c = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+    const d1 = c(q1, q2, p1); const d2 = c(q1, q2, p2); const d3 = c(p1, p2, q1); const d4 = c(p1, p2, q2);
+    return d1 * d2 < 0 && d3 * d4 <= 0;
+  };
+  const memo = new Map();
+  return (x1, y1, x2, y2) => {
+    const k = `${x1},${y1},${x2},${y2}`;
+    if (!memo.has(k)) { const a = { x: x1 + 0.5, y: y1 + 0.5 }; const b = { x: x2 + 0.5, y: y2 + 0.5 }; memo.set(k, walls.some((w) => cross(a, b, w.a, w.b))); }
+    return memo.get(k);
+  };
+}
+
+/** The fewest rectangles covering a set of squares ("x,y"): row runs, stacked when they line up — never across a wall. */
+export function rectsOf(cells, cut = () => false) {
+  const has = (x, y) => cells.has(`${x},${y}`);
+  const pts = [...cells].map((c) => c.split(',').map(Number)).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+  const taken = new Set();
+  const out = [];
+  for (const [x0, y0] of pts) {
+    if (taken.has(`${x0},${y0}`)) continue;
+    let w = 1;
+    while (has(x0 + w, y0) && !taken.has(`${x0 + w},${y0}`) && !cut(x0 + w - 1, y0, x0 + w, y0)) w++;
+    let h = 1;
+    for (;;) {
+      let row = true;
+      for (let i = 0; i < w; i++) {
+        const x = x0 + i; const y = y0 + h;
+        if (!has(x, y) || taken.has(`${x},${y}`) || cut(x, y - 1, x, y) || (i > 0 && cut(x - 1, y, x, y))) { row = false; break; }
+      }
+      if (!row) break;
+      h++;
+    }
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) taken.add(`${x0 + i},${y0 + j}`);
+    out.push({ x: x0, y: y0, w, h });
+  }
+  return out;
+}
+
+/** Owner 2026-11-20: every floor area cut where a wall crosses it, so one area is one room's floor. @returns { map, split } */
+export function splitAtWalls(map, data, only = null) {
+  const cut = wallCut(map);
+  let split = 0;
+  const areas = (map.areas ?? []).flatMap((a) => {
+    if (only && !only.has(a.id)) return [a];
+    const cells = new Set();
+    for (let x = a.x; x < a.x + a.w; x++) for (let y = a.y; y < a.y + a.h; y++) cells.add(`${x},${y}`);
+    const rects = rectsOf(cells, cut);
+    if (rects.length < 2) return [a];
+    split++;
+    return rects.map((r, i) => ({ ...a, ...r, id: i ? undefined : a.id }));
+  });
+  if (!split) return { map, split: 0 };
+  return { map: { ...map, areas: normalizeAreas(areas, map, data) }, split };
 }
 
 /**
@@ -84,28 +160,11 @@ export function mergeTiles(map, data) {
   let areas = [...(map.areas ?? [])];
   let made = 0;
   let tiles = 0;
+  const cut = wallCut(map);
   for (const [k, cells] of groups) {
     const [tex, rot] = k.split('|');
     tiles += cells.size;
-    const has = (x, y) => cells.has(`${x},${y}`);
-    // row runs, then runs with the same span on the next rows join them (a rectangle grows downward)
-    const pts = [...cells].map((c) => c.split(',').map(Number)).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
-    const taken = new Set();
-    for (const [x0, y0] of pts) {
-      if (taken.has(`${x0},${y0}`)) continue;
-      let w = 0;
-      while (has(x0 + w, y0) && !taken.has(`${x0 + w},${y0}`)) w++;
-      let h = 1;
-      for (;;) {
-        let row = true;
-        for (let i = 0; i < w; i++) if (!has(x0 + i, y0 + h) || taken.has(`${x0 + i},${y0 + h}`)) { row = false; break; }
-        if (!row) break;
-        h++;
-      }
-      for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) taken.add(`${x0 + i},${y0 + j}`);
-      areas.push({ tex, x: x0, y: y0, w, h, rot: Number(rot) });
-      made++;
-    }
+    for (const r of rectsOf(cells, cut)) { areas.push({ tex, rot: Number(rot), ...r }); made++; }
   }
   if (!tiles) return { map, tiles: 0, areas: 0 };
   areas = normalizeAreas(areas, map, data);

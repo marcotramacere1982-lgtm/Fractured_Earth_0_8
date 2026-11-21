@@ -132,7 +132,7 @@
       "roll": 12,
       "id": "spoiled_heir",
       "name": "SPOILED HEIR",
-      "text": "Born into old money with heavy family strings attached. +3 Credit Score, −1 MST (nobody ever tested you). A family call opens a door: one entry roll is waived.",
+      "text": "Born into old money with heavy family strings attached — money that comes from one of the powers (rolled: it goes on your Dossier). +3 Credit Score, −1 MST (nobody ever tested you). A family call opens a door: one entry roll is waived.",
       "effects": {
         "attributes": {
           "CRS": 3,
@@ -142,6 +142,10 @@
         "waiveEntry": {
           "careers": "*",
           "uses": 1
+        },
+        "tie": {
+          "kind": "family",
+          "table": "powers"
         }
       }
     },
@@ -388,13 +392,16 @@
     {
       "roll": 33,
       "id": "contact_within_a_megacorp",
-      "name": "CONTACT WITHIN A MEGACORP",
-      "text": "Coordinate with your GM to establish a specific corporate contact for insider information or backchannel favors. The first favor: one entry roll is waived.",
+      "name": "CONTACT INSIDE ONE OF THE POWERS",
+      "text": "Someone inside one of the powers — a corporation or a Grey Zone faction — took a liking to you (rolled: it goes on your Dossier). Fill in who they are with your GM: insider information, a backchannel favour. The first favour: one entry roll is waived.",
       "effects": {
-        "tag": "Corporation contact",
         "waiveEntry": {
           "careers": "*",
           "uses": 1
+        },
+        "tie": {
+          "kind": "contact",
+          "table": "powers"
         }
       }
     },

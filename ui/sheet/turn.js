@@ -8,6 +8,7 @@ import { card, temp, icon } from './parts.js';
 import { info } from '../ref.js';
 import { turnStatus, newTurn } from '../../rules/turn.js';
 import { t } from '../../i18n/index.js';
+import { tg } from '../term.js'; // decision 349
 
 /** The GM's initiative order, as the sheet sees it (enemies are just "Hostile"). */
 /** Decision 159: a player's face in the order — their portrait (blue ring), or their initial; enemies stay faceless. */
@@ -26,7 +27,7 @@ function orderStrip(c, combat) {
   return html`
     ${mineNow ? html`<div class="your-turn" role="status">▶ ${t('turn.yours')}</div>` : who ? html`<p class="turn-now" role="status">▶ ${who}</p>` : ''}
     <ol class="init-strip" aria-label="${t('turn.order')}">${combat.order.map((o) => html`
-      <li class="init-strip__item ${o.current ? 'is-current' : ''} ${o.done ? 'is-done' : ''} ${o.key === c.id ? 'is-me' : ''} ${o.key === 'hostile' ? 'is-hostile' : ''} ${o.key === 'ally' ? 'is-ally' : ''} ${o.down ? 'is-down' : ''}">${face(o, c)}${o.key === c.id ? t('map.you') : o.name}</li>`)}</ol>`;
+      <li class="init-strip__item ${o.current ? 'is-current' : ''} ${o.done ? 'is-done' : ''} ${o.key === c.id ? 'is-me' : ''} ${o.key === 'hostile' ? 'is-hostile' : ''} ${o.key === 'ally' ? 'is-ally' : ''} ${o.down ? 'is-down' : ''}">${face(o, c)}${o.key === c.id ? t('map.you') : o.key === 'hostile' ? t('turn.hostileOne') : o.name}</li>`)}</ol>`;
 }
 
 /**
@@ -41,11 +42,11 @@ function foeCard(h, data, intel = null) {
       <span class="foe__letter" aria-hidden="true">${h.letter}</span><img src="${pic}" alt="" loading="lazy"></button>`
       : html`<span class="foe__pic foe__pic--none"><span class="foe__letter">${h.letter}</span></span>`}
     <div class="foe__body">
-      <div class="foe__head"><span class="letter-badge">${h.letter}</span><span class="foe__name">${h.name}</span>
-        ${h.elite ? html`<span class="pill pill--warning">${t('foe.elite')}</span>` : ''}${h.ally ? html`<span class="pill pill--success">${t('foe.ally')}</span>` : ''}</div>
+      <div class="foe__head"><span class="letter-badge">${h.letter}</span><span class="foe__name">${h.name === data.encounter.hostileLabel ? t('turn.hostileOne') : h.name}</span>
+        ${h.elite ? html`<span class="pill pill--warning">${t('foe.elite')}</span>` : ''}${h.ally ? html`<span class="pill pill--success">${t('foe.ally')}</span>` : ''}${h.unaware ? html`<span class="pill" title="${t('foe.unawareHint')}">💤 ${t('foe.unaware')}</span>` : ''}</div>
       <div class="foe__tags"><span class="pill hostiles__band hostiles__band--${h.band}">${t(`turn.band.${h.band}`)}</span><span class="pill tag--${h.tag}">${h.tag}</span>
         ${h.conditions.map((id) => html`<span class="pill pill--danger">${icon(data, data.conditions.find((k) => k.id === id)?.icon)}${condName(id)}</span>`)}</div>
-      ${h.ally ? '' : intelFactsView(intelFor(intel, h.ref), data)}
+      ${intelFactsView(intelFor(intel, h.ref), data)}
     </div>
   </li>`;
 }
@@ -54,7 +55,7 @@ function hostilesList(combat, data, intel = null) {
   const allies = combat.hostiles.filter((h) => h.ally);
   const foes = combat.hostiles.filter((h) => !h.ally);
   return html`
-    ${allies.length ? html`<h3 class="label hostiles__title">${t('foe.allies')}</h3><ul class="foes">${allies.map((h) => foeCard(h, data))}</ul>` : ''}
+    ${allies.length ? html`<h3 class="label hostiles__title">${t('foe.allies')}</h3><ul class="foes">${allies.map((h) => foeCard(h, data, intel))}</ul>` : ''}
     ${foes.length ? html`<h3 class="label hostiles__title">${t('turn.hostiles')}${info('hostiles', t('turn.hostiles'))}</h3>
     <ul class="foes" data-tour="hostiles">${foes.map((h) => foeCard(h, data, intel))}</ul>` : ''}`;
 }
@@ -76,7 +77,7 @@ function spentList(spent) {
  * combat: the GM's combat state when this sheet is at the table and the GM runs the rounds.
  */
 export function turnPieces(c, s, data, combat = null, { tips = false, hint = true, bare = false, atTable = false, strip = false, extra = '' } = {}) {
-  const ts = turnStatus(c.play.turn ?? newTurn(), s.combat.act.value, c.play.conditions, data.actions);
+  const ts = turnStatus(c.play.turn ?? newTurn(), s.combat.act.value, s.conditionsNow, data.actions);
   const gmRuns = Boolean(combat && ts.inCombat && c.play.turn?.tableCombat === combat.id);
   const pipsHtml = Array.from({ length: ts.max }, (_, i) => html`<span class="act-pip ${i < ts.used ? 'is-used' : ''}" aria-hidden="true"></span>`);
   const weapons = s.weapons.filter((w) => !w.empty && w.inHand); // decision 97: one Attack, the weapon in hand (aim at a location inside the roll window)
@@ -135,7 +136,7 @@ export function turnPieces(c, s, data, combat = null, { tips = false, hint = tru
         <span class="action-btn__name">${icon(data, data.actions.reactions[0].icon)}${label(t('dodge.title'))}</span>${iconOnly ? '' : html`<span class="action-btn__live">Avoid ${s.skills.find((k) => k.id === 'avoid_reflexes')?.value}</span>`}${sub(t('turn.dodgeSub'))}</button>` : ''}
       ${extra}
     </div>
-    ${strip ? '' : html`<div class="spread">${hint ? html`<p class="hint">${t('turn.abilitiesHint', { tn: s.class ? ` (${s.class.tn})` : '' })}</p>` : ''}
+    ${strip ? '' : html`<div class="spread">${hint ? html`<p class="hint">${tg('turn.abilitiesHint', { tn: s.class ? ` (${s.class.tn})` : '' })}</p>` : ''}
       <button class="btn btn--sm btn--ghost" data-action="actionTips" aria-pressed="${tips}" title="${t('turn.tipsHint')}">? ${t(tips ? 'turn.tipsHide' : 'turn.tipsShow')}</button></div>`}`;
   return { head, actors, grid };
 }

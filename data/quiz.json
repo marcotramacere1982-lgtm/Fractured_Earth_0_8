@@ -10,7 +10,9 @@
           "scores": {
             "soldier.officer": 2,
             "hacker.master": 1
-          }
+          },
+          "short": "Build a case",
+          "icon": "forensics_investigation"
         },
         {
           "id": "B",
@@ -18,7 +20,9 @@
           "scores": {
             "hacker.scammer": 2,
             "smuggler.dealer": 1
-          }
+          },
+          "short": "Blackmail them",
+          "icon": "deception_conning"
         },
         {
           "id": "C",
@@ -26,7 +30,9 @@
           "scores": {
             "smuggler.trafficker": 2,
             "hacker.scammer": 1
-          }
+          },
+          "short": "Leak it anonymously",
+          "icon": "computers_hacking"
         },
         {
           "id": "D",
@@ -34,7 +40,9 @@
           "scores": {
             "smuggler.dealer": 2,
             "techwiz.mechanic": 1
-          }
+          },
+          "short": "Redirect the money",
+          "icon": "streetwise_dealing"
         },
         {
           "id": "E",
@@ -42,9 +50,12 @@
           "scores": {
             "scavenger.prowler": 2,
             "smuggler.dealer": 1
-          }
+          },
+          "short": "Steal the ledger",
+          "icon": "sleight_of_hand"
         }
-      ]
+      ],
+      "title": "The boss's dirty money"
     },
     {
       "id": "q2",
@@ -56,7 +67,9 @@
           "scores": {
             "soldier.officer": 2,
             "hacker.master": 1
-          }
+          },
+          "short": "Set a trap",
+          "icon": "fx_control"
         },
         {
           "id": "B",
@@ -64,7 +77,9 @@
           "scores": {
             "soldier.grunt": 2,
             "smuggler.dealer": 1
-          }
+          },
+          "short": "Hit them now",
+          "icon": "melee_cqc"
         },
         {
           "id": "C",
@@ -72,7 +87,9 @@
           "scores": {
             "techwiz.engineer": 2,
             "techwiz.mechanic": 1
-          }
+          },
+          "short": "Cut them off",
+          "icon": "lock"
         },
         {
           "id": "D",
@@ -80,7 +97,9 @@
           "scores": {
             "hacker.scammer": 2,
             "smuggler.trafficker": 1
-          }
+          },
+          "short": "Feed them lies",
+          "icon": "interrogation_intimidation"
         },
         {
           "id": "E",
@@ -88,9 +107,12 @@
           "scores": {
             "scavenger.stalker": 2,
             "soldier.officer": 1
-          }
+          },
+          "short": "Watch, then strike",
+          "icon": "scope"
         }
-      ]
+      ],
+      "title": "A rival slips up"
     },
     {
       "id": "q3",
@@ -102,7 +124,9 @@
           "scores": {
             "soldier.officer": 2,
             "hacker.master": 2
-          }
+          },
+          "short": "Study the plan",
+          "icon": "administration_legal"
         },
         {
           "id": "B",
@@ -110,7 +134,9 @@
           "scores": {
             "soldier.grunt": 2,
             "techwiz.mechanic": 1
-          }
+          },
+          "short": "Tune your weapons",
+          "icon": "automatic_firearms"
         },
         {
           "id": "C",
@@ -118,7 +144,9 @@
           "scores": {
             "smuggler.dealer": 2,
             "smuggler.trafficker": 1
-          }
+          },
+          "short": "Call in favours",
+          "icon": "persuasion_social"
         },
         {
           "id": "D",
@@ -126,7 +154,9 @@
           "scores": {
             "techwiz.engineer": 2,
             "hacker.master": 1
-          }
+          },
+          "short": "Blind the cameras",
+          "icon": "electronics_security"
         },
         {
           "id": "E",
@@ -134,9 +164,12 @@
           "scores": {
             "scavenger.stalker": 2,
             "scavenger.prowler": 1
-          }
+          },
+          "short": "Scout from a rooftop",
+          "icon": "perception_awareness"
         }
-      ]
+      ],
+      "title": "One night before the job"
     },
     {
       "id": "q4",
@@ -148,7 +181,9 @@
           "scores": {
             "soldier.grunt": 2,
             "techwiz.mechanic": 1
-          }
+          },
+          "short": "Smash through",
+          "icon": "brawling"
         },
         {
           "id": "B",
@@ -156,7 +191,9 @@
           "scores": {
             "hacker.master": 2,
             "hacker.scammer": 1
-          }
+          },
+          "short": "Hack the panel",
+          "icon": "computers_hacking"
         },
         {
           "id": "C",
@@ -164,7 +201,9 @@
           "scores": {
             "hacker.scammer": 2,
             "smuggler.dealer": 1
-          }
+          },
+          "short": "Talk the guard round",
+          "icon": "persuasion_social"
         },
         {
           "id": "D",
@@ -172,7 +211,9 @@
           "scores": {
             "techwiz.mechanic": 2,
             "techwiz.engineer": 1
-          }
+          },
+          "short": "Build something",
+          "icon": "mechanics_fabrication"
         },
         {
           "id": "E",
@@ -180,9 +221,12 @@
           "scores": {
             "scavenger.prowler": 2,
             "techwiz.mechanic": 1
-          }
+          },
+          "short": "Pick the lock",
+          "icon": "sleight_of_hand"
         }
-      ]
+      ],
+      "title": "Locked in, alarm ticking"
     },
     {
       "id": "q5",
@@ -194,7 +238,9 @@
           "scores": {
             "smuggler.dealer": 2,
             "hacker.scammer": 1
-          }
+          },
+          "short": "Slip through the gaps",
+          "icon": "stealth"
         },
         {
           "id": "B",
@@ -202,7 +248,9 @@
           "scores": {
             "soldier.grunt": 2,
             "soldier.officer": 1
-          }
+          },
+          "short": "Break them",
+          "icon": "str"
         },
         {
           "id": "C",
@@ -210,7 +258,9 @@
           "scores": {
             "smuggler.trafficker": 2,
             "techwiz.engineer": 1
-          }
+          },
+          "short": "Only the job matters",
+          "icon": "fx_self"
         },
         {
           "id": "D",
@@ -218,7 +268,9 @@
           "scores": {
             "hacker.master": 2,
             "techwiz.engineer": 1
-          }
+          },
+          "short": "Learn the patterns",
+          "icon": "int"
         },
         {
           "id": "E",
@@ -226,9 +278,12 @@
           "scores": {
             "scavenger.prowler": 2,
             "smuggler.trafficker": 1
-          }
+          },
+          "short": "Nothing to lose",
+          "icon": "mst"
         }
-      ]
+      ],
+      "title": "You and the rules"
     },
     {
       "id": "q6",
@@ -240,7 +295,9 @@
           "scores": {
             "soldier.officer": 2,
             "hacker.master": 1
-          }
+          },
+          "short": "Work out what went wrong",
+          "icon": "forensics_investigation"
         },
         {
           "id": "B",
@@ -248,7 +305,9 @@
           "scores": {
             "smuggler.dealer": 2,
             "smuggler.trafficker": 1
-          }
+          },
+          "short": "Sell the loot fast",
+          "icon": "streetwise_dealing"
         },
         {
           "id": "C",
@@ -256,7 +315,9 @@
           "scores": {
             "techwiz.mechanic": 2,
             "techwiz.engineer": 1
-          }
+          },
+          "short": "Fix the crew's gear",
+          "icon": "mechanics_fabrication"
         },
         {
           "id": "D",
@@ -264,7 +325,9 @@
           "scores": {
             "hacker.master": 2,
             "smuggler.trafficker": 2
-          }
+          },
+          "short": "Erase your traces",
+          "icon": "computers_hacking"
         },
         {
           "id": "E",
@@ -272,9 +335,12 @@
           "scores": {
             "scavenger.stalker": 2,
             "scavenger.prowler": 1
-          }
+          },
+          "short": "Vanish, come back later",
+          "icon": "stealth"
         }
-      ]
+      ],
+      "title": "After a job gone wrong"
     }
   ],
   "suggestedStats": {

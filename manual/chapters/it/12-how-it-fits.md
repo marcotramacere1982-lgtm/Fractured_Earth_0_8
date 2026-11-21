@@ -17,34 +17,34 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 | Fase | Cosa succede | Cosa morde |
 |---|---|---|
-| **Esplorazione** | La crew si muove libera sulla mappa; parla, cerca, hackera, si nasconde. | Prove e difficoltà · luce · **allerta del sito** e **sensori** · reti e porte · pericoli · **Strain** (l'Hum, un fumble, il debito all'inizio di una missione) |
-| **Inseguimento** | Qualcuno scappa: tratti di una mossa ciascuno, il distacco da 0 a 6 — fuori dalla mappa finché non si ferma. | Prove di gruppo · aiuto · fuoco di copertura e hack · imprevisti via ⚡ Harm · Strain e CON dal tratto 5 |
+| **Esplorazione** | La crew si muove libera sulla mappa; parla, cerca, hackera, si nasconde. | Prove e difficoltà · luce · **allerta del sito** e **sensori** · reti e porte · pericoli · **Stress** (l'Hum, un fumble, il debito all'inizio di una missione) |
+| **Inseguimento** | Qualcuno scappa: tratti di una mossa ciascuno, il distacco da 0 a 6 — fuori dalla mappa finché non si ferma. | Prove di gruppo · aiuto · fuoco di copertura e hack · imprevisti via ⚡ Harm · Stress e CON dal tratto 5 |
 | **Contatto** | Qualcuno vede un nemico in attesa sulla mappa: tutti si fermano. | Nebbia di guerra · intel · la scelta del GM: parlare, sgattaiolare oltre, o combattere |
 | **Preparazione** | La finestra per prepararsi: iniziativa, equipaggiamento, un'ultima mossa. Un *Head start* dà un round 0 a un'imboscata. | Iniziativa · sorpresa · azioni di preparazione |
-| **Scontro** | Round e azioni, colpi e coperture. | Vista e copertura · critici e fumble · condizioni · overwatch · **Strain** (metà HP, un compagno a terra) · aiuto della crew |
-| **Dopo** | Corpi, bottino, respiro. | Cure · una *New scene* tranquilla (Strain −1) · intel · il sito resta allerta quanto l'hai lasciato |
+| **Scontro** | Round e azioni, colpi e coperture. | Vista e copertura · critici e fumble · condizioni · overwatch · **Stress** (metà HP, un compagno a terra) · aiuto della crew |
+| **Dopo** | Corpi, bottino, respiro. | Cure · una *New scene* tranquilla (Stress −1) · intel · il sito resta allerta quanto l'hai lasciato |
 | **Tra le missioni** | Il tempo passa. | Downtime · debito · esperienza e livelli · crew e Unity |
 
 ## 12-2. Prove e difficoltà {#sec-12-2}
 
 **A cosa serve.** Quasi tutto quello che fanno gli Operatori è incerto senza essere drammatico: scassinare una serratura, leggere una stanza, superare un impiegato a parole. Una prova lo risolve con un tiro e manda avanti la storia — successo o fallimento, qualcosa succede.
 
-**La regola in una riga.** Tira un d20 uguale o sotto il tuo TN (un'abilità, un attributo o la tua Class TN), meno la difficoltà che il GM fissa per la situazione.
+**La regola in una riga.** Tira un d20 uguale o sotto il tuo TN (una competenza, un attributo o il tuo TN di classe), meno la difficoltà che il GM fissa per la situazione.
 
 **Chi decide.**
-- **Il giocatore** sceglie *cosa* tenta e *come* — l'abilità segue dal mezzo.
+- **Il giocatore** sceglie *cosa* tenta e *come* — la competenza segue dal mezzo.
 - **Il GM** fissa la difficoltà — un solo grado per tutta la situazione, da *Very easy* (+6) a *Nightmare* (−10) — e dice cosa costa il fallimento. Può bloccare il grado su tutte le schede.
-- **L'app** calcola il TN (attributi, abilità, talenti, oggetti), suggerisce la riga della luce, aggiunge gli attrezzi adatti che porti, mostra l'allerta del sito e lo Strain quando mordono, e tira — o prende il numero del tuo dado vero. Non decide mai cosa significa un successo.
+- **L'app** calcola il TN (attributi, competenze, talenti, oggetti), suggerisce la riga della luce, aggiunge gli attrezzi adatti che porti, mostra l'allerta del sito e lo Stress quando mordono, e tira — o prende il numero del tuo dado vero. Non decide mai cosa significa un successo.
 
 **Come si collega.**
-- *Alimentata da:* attributi e abilità (il personaggio), attrezzi e potenziamenti (l'equipaggiamento), talenti (l'esperienza), la luce (12-3), l'allerta del sito (12-10), lo Strain (12-12), le condizioni (12-6).
-- *Alimenta:* tutto — porte, hacking, intel, enigmi. Un 20 naturale aggiunge Strain.
-- *Inoltre:* le **prove contrapposte** (tirano entrambi; vince il margine migliore), i **punteggi passivi** (TN − 5, il GM controlla in silenzio) l'**aiuto** — un compagno che sa dire come tira un'abilità adatta: +2 alla tua prossima prova, −2 con un 20 naturale, un aiutante alla volta — e le **prove di gruppo** (tirano tutti, metà deve riuscire).
+- *Alimentata da:* attributi e competenze (il personaggio), attrezzi e potenziamenti (l'equipaggiamento), talenti (l'esperienza), la luce (12-3), l'allerta del sito (12-10), lo Stress (12-12), le condizioni (12-6).
+- *Alimenta:* tutto — porte, hacking, intel, enigmi. Un 20 naturale aggiunge Stress.
+- *Inoltre:* le **prove contrapposte** (tirano entrambi; vince il margine migliore), i **punteggi passivi** (TN − 5, il GM controlla in silenzio) l'**aiuto** — un compagno che sa dire come tira una competenza adatta: +2 alla tua prossima prova, −2 con un 20 naturale, un aiutante alla volta — e le **prove di gruppo** (tirano tutti, metà deve riuscire).
 
 **Dillo al tavolo.**
 > "Dimmi cosa fai e come. Tiri un d20 e vuoi fare il tuo numero o meno. Ti dico quanto è difficile — l'app ti mostra tutto prima del tiro. Comunque vada, qualcosa succede. Se qualcuno può aiutarti, tira prima lui: un buon tiro ti dà +2."
 
-**Dove guardare.** [5-3, abilità](#/manual/sec-5-3), [6-2, difficoltà](#/manual/sec-6-2), [aiutare](#/manual/sec-6-2-help), [prove di gruppo](#/manual/sec-6-2-group). Il lato del GM: [9-4](#/manual/sec-9-4).
+**Dove guardare.** [5-3, competenze](#/manual/sec-5-3), [6-2, difficoltà](#/manual/sec-6-2), [aiutare](#/manual/sec-6-2-help), [prove di gruppo](#/manual/sec-6-2-group). Il lato del GM: [9-4](#/manual/sec-9-4).
 
 ## 12-3. Luce e buio {#sec-12-3}
 
@@ -101,7 +101,7 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **Come si collega.**
 - *Alimentato da:* le armi (affilate, affidabilità), le modifiche (*Keen Edge*, *Match Trigger*), il tuo TN (un TN più alto raggiunge il margine più spesso).
-- *Alimenta:* il danno (armatura e copertura ignorate) · le condizioni (Exposed) · le munizioni (un'arma inceppata) · lo **Strain** (un fumble o un 20 naturale aggiungono +1).
+- *Alimenta:* il danno (armatura e copertura ignorate) · le condizioni (Exposed) · le munizioni (un'arma inceppata) · lo **Stress** (un fumble o un 20 naturale aggiungono +1).
 
 **Dillo al tavolo.**
 > "Fai 1, o batti il tuo numero di 10, ed è un critico — dritto attraverso armatura e copertura. Fai 20, o manchi di 10, e qualcosa va storto: l'arma può incepparsi, o resti scoperto. La finestra d'attacco ti mostra le probabilità prima del tiro."
@@ -141,7 +141,7 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **Come si collega.**
 - *Alimentato da:* nebbia di guerra e luce (chi vede chi) · la mappa mostrata (una mappa nascosta non avvista nessuno) · l'intel (sapere cosa hai davanti).
-- *Alimenta:* lo scontro (iniziativa, sorpresa) · lo Strain più avanti (un compagno a terra).
+- *Alimenta:* lo scontro (iniziativa, sorpresa) · lo Stress più avanti (un compagno a terra).
 - *Accanto:* l'**allerta del sito** (12-10) è il sito che nota la crew; il contatto è la crew che nota il nemico.
 
 **Dillo al tavolo.**
@@ -203,7 +203,7 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **Come si collega.**
 - *Alimentata da:* ping e droni (hacking) · sensori e laser (la mappa) · porte forzate o hackerate (porte in rete) · la lettura della storia del GM.
-- *Alimenta:* il TN di **Stealth, Sleight of Hand, Electronics & Security, Computers & Hacking** e i tiri di Class TN dell'Hacker · le conseguenze con un tocco: *Arm the sensors*, *Lock the networked doors* · il racconto del GM (pattuglie, tecnici, rapporti).
+- *Alimenta:* il TN di **Stealth, Sleight of Hand, Electronics & Security, Computers & Hacking** e i tiri di TN di classe dell'Hacker · le conseguenze con un tocco: *Arm the sensors*, *Lock the networked doors* · il racconto del GM (pattuglie, tecnici, rapporti).
 - *Respinta da:* un hacker che mette in loop o taglia una telecamera prima che la crew passi (un sensore fuori dalla rete non dice niente) · *Clean Logs* e *Backdoor* (meno Trace) · il buio (al buio una telecamera non vede niente) · fare il lavoro in silenzio.
 
 **Dillo al tavolo.**
@@ -215,7 +215,7 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **A cosa serve.** I posti dove lavorano gli Operatori sono rotti: cavi scoperti, fughe di gas, tubi del vapore, celle frigo. L'ambiente è un nemico che non ha turni.
 
-**La regola in una riga.** Una zona di pericolo ferisce chi ci sta dentro (Electric, Gas, Poison, Steam, Fire, Heat, Cold — ognuna con i suoi dadi e l'abilità che la gestisce); una valvola o un interruttore possono spegnerla.
+**La regola in una riga.** Una zona di pericolo ferisce chi ci sta dentro (Electric, Gas, Poison, Steam, Fire, Heat, Cold — ognuna con i suoi dadi e la competenza che la gestisce); una valvola o un interruttore possono spegnerla.
 
 **Chi decide.**
 - **Il GM** disegna le zone, le accende e spegne, le mostra o le nasconde, e manda il danno — tirato o scritto, come ogni altro dado.
@@ -224,7 +224,7 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **Come si collega.**
 - *Alimentati da:* la mappa (zone, comandi collegati), la corrente (interruttori).
-- *Alimentano:* HP · condizioni · **Strain** (sotto metà HP) · l'**Hum** (12-12), una zona che ferisce la mente invece del corpo.
+- *Alimentano:* HP · condizioni · **Stress** (sotto metà HP) · l'**Hum** (12-12), una zona che ferisce la mente invece del corpo.
 - **Cadere** funziona allo stesso modo, senza zona: il GM manda una caduta (1d6 ogni 3 m pieni sopra i 3 m); atterri con Agility & Athletics per metà, o finisci Prone; l'armatura conta.
 - **Tutto il resto che fa male** (vetro, una scossa, le fiamme…): **⚡ Harm** del GM — danno con o senza armatura, e il tuo tiro per evitarlo o dimezzarlo (senza azioni), una condizione se fallisci.
 - **Aria e acqua:** *High water* è terreno difficile; *Submerged* fa anche partire l'apnea — CON round, poi tiri di CON a −1, −2…, poi svieni e anneghi (1d6 a round). Fumo e gas: trattieni il respiro a mano.
@@ -234,28 +234,28 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **Dove guardare.** Cadute, aria e acqua: [6-8](#/manual/sec-6-8). Il lato del GM: [9-7, Costruire le mappe](#/manual/sec-9-7) — *Hazards*, e [9-8](#/manual/sec-9-8).
 
-## 12-12. Lo Strain e l'Hum {#sec-12-12}
+## 12-12. Lo Stress e l'Hum {#sec-12-12}
 
-**A cosa serve.** Gli HP misurano cosa fa il mondo al tuo corpo; lo Strain cosa fa alla tua testa — il debito, la violenza, le notti lunghe, e le cose nei segnali che nessuno sa spiegare. Non è follia né un contatore morale: è usura. Chi se lo porta dietro comincia a logorarsi, e un giorno si spezza.
+**A cosa serve.** Gli HP misurano cosa fa il mondo al tuo corpo; lo Stress cosa fa alla tua testa — il debito, la violenza, le notti lunghe, e le cose nei segnali che nessuno sa spiegare. Non è follia né un contatore morale: è usura. Chi se lo porta dietro comincia a logorarsi, e un giorno si spezza.
 
-**La regola in una riga.** Lo Strain va da 0 a 10; a 4 le tue prove di abilità sono a −1 TN, a 7 a −2; a 10 arrivi a un punto di rottura (un d6 sulla tabella), poi torni a 6.
+**La regola in una riga.** Lo Stress va da 0 a 10; a 4 le tue prove di competenza sono a −1 TN, a 7 a −2; a 10 arrivi a un punto di rottura (un d6 sulla tabella), poi torni a 6.
 
 **Chi decide.**
-- **L'app** aggiunge Strain quando le regole lo dicono: scendere sotto metà HP (+1), un fumble o un 20 naturale (+1), un compagno che cade (+2 a tutti gli altri), il debito al peggio all'inizio di una missione (+1), una zona Hum (+1). Non tira niente per te: ogni aumento arriva come una carta.
+- **L'app** aggiunge Stress quando le regole lo dicono: scendere sotto metà HP (+1), un fumble o un 20 naturale (+1), un compagno che cade (+2 a tutti gli altri), il debito al peggio all'inizio di una missione (+1), una zona Hum (+1). Non tira niente per te: ogni aumento arriva come una carta.
 - **Il giocatore** risponde alla carta: tira **Mental Strength** per tenere duro (un successo dimezza l'aumento, per difetto — un punto solo sparisce) o lo prende e basta. A un punto di rottura il giocatore tira il d6 (e un secondo d6 per una cicatrice con un 6), sull'app o con dadi veri.
-- **Il GM** aggiunge Strain per quello che fa la storia (+1 / +2 sulla carta di un giocatore, o a tutti), viene avvisato quando qualcuno è *Logorato* o si spezza (una riga in *Needs you*), e gioca il risultato del punto di rottura con il giocatore.
+- **Il GM** aggiunge Stress per quello che fa la storia (+1 / +2 sulla carta di un giocatore, o a tutti), viene avvisato quando qualcuno è *Logorato* o si spezza (una riga in *Needs you*), e gioca il risultato del punto di rottura con il giocatore.
 - **La crew** può toglierlo: lo *Steady* di un compagno (−1, −2 quando la crew è Tight), una *New scene* tranquilla (−1), il downtime (di più quanto più dura, e quanto migliore è casa tua).
 
 **Come si collega.**
 - *Alimentato da:* gli HP (metà), critici e fumble, la crew (qualcuno a terra), il debito (la prima scena della missione), i pericoli (l'Hum), il GM.
-- *Alimenta:* il TN di ogni prova di abilità (non gli attacchi) · i punti di rottura e le cicatrici · i sussurri del GM (chi è logorato nota cose che gli altri non notano).
+- *Alimenta:* il TN di ogni prova di competenza (non gli attacchi) · i punti di rottura e le cicatrici · i sussurri del GM (chi è logorato nota cose che gli altri non notano).
 - *Alleviato da:* la Unity (una crew Tight tiene su meglio; una spezzata non può farlo in uno scontro) · downtime e casa · scene tranquille.
-- **L'Hum** ne è il lato inquietante: una zona di pericolo che disegna il GM, nascosta di default, senza dadi di danno. Chi ci entra, la attraversa o ci inizia un turno prende +1 Strain — una volta per zona, finché il GM non la riaccende. Nessun altro lo sente.
+- **L'Hum** ne è il lato inquietante: una zona di pericolo che disegna il GM, nascosta di default, senza dadi di danno. Chi ci entra, la attraversa o ci inizia un turno prende +1 Stress — una volta per zona, finché il GM non la riaccende. Nessun altro lo sente.
 
 **Dillo al tavolo.**
-> "Lo Strain sono i tuoi nervi. Le cose brutte lo fanno salire — essere ferito gravemente, vedere cadere un amico, il debito che chiama. Ogni volta che sale puoi tirare Mental Strength per scrollartene metà. Oltre la metà rende le tue abilità più incerte; in cima ti spezzi, e tiriamo per vedere come. Il riposo, un momento tranquillo e la tua crew lo fanno scendere."
+> "Lo Stress sono i tuoi nervi. Le cose brutte lo fanno salire — essere ferito gravemente, vedere cadere un amico, il debito che chiama. Ogni volta che sale puoi tirare Mental Strength per scrollartene metà. Oltre la metà rende le tue competenze più incerte; in cima ti spezzi, e tiriamo per vedere come. Il riposo, un momento tranquillo e la tua crew lo fanno scendere."
 
-**Dove guardare.** La regola: [6-7, Strain](#/manual/sec-6-7). Il lato del GM: [9-3, Il controllo delle schede](#/manual/sec-9-3) — *Lo Strain sulle carte*; l'Hum: [9-7, Costruire le mappe](#/manual/sec-9-7) — *Hazards*.
+**Dove guardare.** La regola: [6-7, Stress](#/manual/sec-6-7). Il lato del GM: [9-3, Il controllo delle schede](#/manual/sec-9-3) — *Lo Stress sulle carte*; l'Hum: [9-7, Costruire le mappe](#/manual/sec-9-7) — *Hazards*.
 
 ## 12-13. Intel {#sec-12-13}
 
@@ -290,7 +290,7 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **Come si collega.**
 - *Alimentata da:* le Unity Check · la storia.
-- *Alimenta:* i favori della crew · l'aiuto in uno scontro · lo **Strain** (una crew Tight tiene su meglio; una spezzata non può farlo in uno scontro) · gli eventi del downtime · gli spunti di missione (una crew che si separa).
+- *Alimenta:* i favori della crew · l'aiuto in uno scontro · lo **Stress** (una crew Tight tiene su meglio; una spezzata non può farlo in uno scontro) · gli eventi del downtime · gli spunti di missione (una crew che si separa).
 - *Accanto:* il **Drive** di ogni personaggio (Justice o Ambition, più una frase) — mai a punti, ma agire secondo il Drive a caro prezzo può valere XP di Spotlight.
 
 **Dillo al tavolo.**
@@ -306,12 +306,12 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **Chi decide.**
 - **Il GM** manda il downtime (quanto dura, un evento per ogni giocatore e per la crew) e fissa la pressione del debito quando la storia spinge.
-- **L'app** ripristina HP e armatura (anche le ferite, se dura abbastanza), abbassa lo Strain secondo il riposo, mostra spese e opzioni degli eventi — senza mai applicarle — e tiene la pressione del debito.
+- **L'app** ripristina HP e armatura (anche le ferite, se dura abbastanza), abbassa lo Stress secondo il riposo, mostra spese e opzioni degli eventi — senza mai applicarle — e tiene la pressione del debito.
 - **I giocatori** pagano le rate, comprano, vendono, nascondono, e sistemano gli eventi al tavolo.
 
 **Come si collega.**
 - *Alimentato da:* le missioni (la paga — il **🎁 Give** del GM: una finestra da prendere, oggetti, contanti, Credit Score), quello che trovi (contenitori sulla mappa: un nascondiglio per la crew, una parte nascosta con un tiro), il mercato, il riciclatore (contanti ↔ Credit Score), lo stile di vita (dove vivi).
-- *Alimenta:* lo **Strain** (il debito al peggio aggiunge +1 all'inizio di una missione; il downtime e una casa migliore lo tolgono) · gli eventi del downtime · gli spunti di missione.
+- *Alimenta:* lo **Stress** (il debito al peggio aggiunge +1 all'inizio di una missione; il downtime e una casa migliore lo tolgono) · gli eventi del downtime · gli spunti di missione.
 
 **Dillo al tavolo.**
 > "Il tuo Credit Score non sono soldi — è quanto il sistema ti lascia indebitare. I contanti comprano tutto, in silenzio, a prezzi di strada. Tra un lavoro e l'altro ti curi e il debito sale; paga una rata per togliertelo di dosso."
@@ -326,12 +326,12 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 
 **Chi decide.**
 - **Il GM** assegna gli XP di una missione una volta sola (obiettivi, scontri registrati come Hard o Deadly, Spotlight), apre il level-up — per un giocatore o per tutti — e può regalare un talento.
-- **Il giocatore** spende il livello: talenti, attributi, abilità.
+- **Il giocatore** spende il livello: talenti, attributi, competenze.
 - **L'app** fa i conti, controlla cosa richiede ogni talento, e applica alla scheda i talenti automatici.
 
 **Come si collega.**
 - *Alimentati da:* missioni · scontri · Spotlight (spesso un Drive seguito a caro prezzo).
-- *Alimentano:* attributi e abilità (12-2) · abilità di classe e il motore di classe · talenti (Cover Habit, Keen Edge…).
+- *Alimentano:* attributi e competenze (12-2) · abilità di classe e il motore di classe · talenti (Cover Habit, Keen Edge…).
 
 **Dillo al tavolo.**
 > "Guadagni XP per il lavoro, il pericolo e i momenti che sono stati tuoi. Ogni 10 è un livello, e lo spendi quando apro il level-up — di solito tra una missione e l'altra."
@@ -350,9 +350,9 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 - **L'app** sposta il distacco secondo le regole, tiene conto di chi ha fallito e quante volte, e mette ogni costo su un pulsante — senza mai applicarlo da sola.
 
 **Come si collega.**
-- *Usa:* le prove di gruppo (12-2) per tenere il passo · l'aiuto (12-2) · armi e munizioni (Fuoco di copertura) · l'hacking (12-9) — un drone sopra vuol dire niente nascondigli finché non cade · ⚡ Harm (12-11) per ogni imprevisto e ogni colpo · lo Strain (12-12) e la CON dal tratto 5.
+- *Usa:* le prove di gruppo (12-2) per tenere il passo · l'aiuto (12-2) · armi e munizioni (Fuoco di copertura) · l'hacking (12-9) — un drone sopra vuol dire niente nascondigli finché non cade · ⚡ Harm (12-11) per ogni imprevisto e ogni colpo · lo Stress (12-12) e la CON dal tratto 5.
 - *Finisce in:* uno scontro sulla mappa (12-7: Prepare) se presi o fermati; niente se scappano.
-- *Più avanti:* i veicoli — robotaxi con autopiloti hackerabili, la guida manuale come abilità rara — sullo stesso percorso.
+- *Più avanti:* i veicoli — robotaxi con autopiloti hackerabili, la guida manuale come competenza rara — sullo stesso percorso.
 
 **Dillo al tavolo.**
 > "Vi stanno addosso. A ogni tratto ditemi cosa fate — correre, trovare una via, rallentarli, abbattere il drone, nascondervi — e tiratelo. Se metà di voi tiene il passo, mantenete o allungate il distacco. A sei siete spariti; a zero vi hanno preso. E più dura, più costa."
@@ -378,3 +378,23 @@ Gran parte del gioco gira in un solo ciclo. Ogni fase ha le sue pressioni; i sis
 > "Tutto quello che sapete per certo è nel fascicolo della scheda Caso — obiettivi, immagini, nomi. La lavagna è vostra: uno di voi ha la penna e appende le cose, gli altri suggeriscono. Passatevi la penna quando volete."
 
 **Dove guardare.** [6-10, Il caso](#/manual/sec-6-10). Il lato del GM: [9-9](#/manual/sec-9-9).
+
+## 12-19. Trasporto e bottino {#sec-12-19}
+
+**A cosa serve.** Nel 2045 la gente porta quello che riesce a nascondere. Un fucile sulla schiena è una dichiarazione; tre sono un problema — per lo scontro, per il posto di blocco, per la fuga.
+
+**La regola in una riga.** Una cosa ingombrante (a due mani, o segnata ingombrante) è gratis; una borsa ne porta un'altra; oltre, sei Slowed finché non posi qualcosa. Ciò che i caduti portavano resta sui loro corpi; le armi buone sopravvivono di rado, e quelle che ce la fanno sono bloccate, tracciate e scottanti finché un riciclatore non le ripulisce.
+
+**Chi decide.**
+- **L'app** conta le cose ingombranti nell'inventario, aggiunge la borsa migliore e applica Slowed finché sei oltre — e lo toglie appena non lo sei più. Riempie ogni corpo con il bottino del nemico, tira i contanti e se ogni arma è sopravvissuta, e impedisce a un'arma bloccata di sparare.
+- **I giocatori** decidono cosa portare, cosa lasciare, chi porta la borsa.
+- **Il GM** decide cosa significa farsi vedere con quella roba: un posto di blocco, un negoziante nervoso, una pattuglia che si ricorda — e cosa porta un'arma tracciata addosso alla crew (il sito resta in Alert; chi viene a cercarla lo decide il GM). Il GM fa le offerte del riciclatore.
+
+**Come si collega.**
+- *Alimentata da:* il mercato (borse) · il bottino da contenitori e corpi · il 🎁 Give del GM.
+- *Alimenta:* Slowed (meno azioni in combattimento) · inseguimenti e furtività (a giudizio del GM) · attraversamenti e posti di blocco · l'allerta del sito (un'arma tracciata) · il ricettatore e il riciclatore (roba che scotta).
+
+**Dillo al tavolo.**
+> "Una cosa grossa la porti sulla schiena. Un borsone ne tiene un'altra. Oltre, sei Slowed — posa qualcosa e non lo sei più. Quel fucile? È bloccato, e sta dicendo alla Watch dove sei. Mettilo in borsa, o lascialo lì."
+
+**Dove guardare.** [8-1, portare cose ingombranti](#/manual/sec-8-carry), [corpi e armi bloccate](#/manual/sec-8-bodies), [il riciclatore](#/manual/sec-8-washer). Il lato del GM: [9-8](#/manual/sec-9-8).

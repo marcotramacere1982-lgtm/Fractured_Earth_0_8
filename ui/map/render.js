@@ -4,7 +4,8 @@
 
 import { html, raw, escape } from '../dom.js';
 import { propMarkup } from './props.js';
-import { sensesOf, reachOf, GROUND, propDef } from '../../rules/props.js';
+import { sensesOf, reachOf, GROUND, propDef, normRot } from '../../rules/props.js';
+import { materialOf } from '../../rules/lighting.js'; // decision 358
 
 const ORDER = { wall: 0, window: 1, door: 2, laser: 3 }; // doors and windows sit on top of the walls they cut; lasers over all
 
@@ -87,17 +88,18 @@ export function wallsSvg(map, data, { selected = null } = {}) {
  * Decision 294: floor areas — each texture (and turn) a pattern of its library drawing, each area one rectangle filled
  * with it. prefix: keeps the pattern ids apart when several maps share a page. selected: an area id (builder).
  */
-export function areasSvg(areas, data, prefix = 'map', { selected = null } = {}) {
+export function areasSvg(areas, data, prefix = 'map', { selected = null, paint = false } = {}) {
   if (!areas?.length) return raw('');
   const U = data.map.square.units;
-  const pid = (a) => `${prefix}-area-${a.tex}-${a.rot ?? 0}`;
+  const pid = (a) => `${prefix}-area-${a.tex}-${a.rot ?? 0}${paint && a.mat ? `-${a.mat}` : ''}`;
   const pats = new Map();
   for (const a of areas) {
     if (pats.has(pid(a))) continue;
     const m = propMarkup(a.tex);
     const def = propDef(data, a.tex);
     const body = m ? `<svg x="0" y="0" width="${U}" height="${U}" viewBox="${m.viewBox}" overflow="visible">${m.inner}</svg>` : `<rect class="map-prop__outline" width="${U}" height="${U}"/>`;
-    pats.set(pid(a), `<pattern id="${pid(a)}" patternUnits="userSpaceOnUse" width="${U}" height="${U}"><g class="map-prop map-prop--${def?.category ?? 'floor'}" transform="rotate(${a.rot ?? 0} ${U / 2} ${U / 2})">${body}</g></pattern>`);
+    const mat = paint ? materialOf(a, def, data) : null; // decision 358: the area's own, else the texture's
+    pats.set(pid(a), `<pattern id="${pid(a)}" patternUnits="userSpaceOnUse" width="${U}" height="${U}"><g class="map-prop map-prop--${def?.category ?? 'floor'}${mat ? ` map-mat map-mat--${mat}` : ''}" transform="rotate(${a.rot ?? 0} ${U / 2} ${U / 2})">${body}</g></pattern>`);
   }
   const rects = areas.map((a) => `<rect class="map-area${a.id === selected ? ' is-selected' : ''}" x="${a.x * U}" y="${a.y * U}" width="${a.w * U}" height="${a.h * U}" fill="url(#${pid(a)})"/>`).join('');
   return raw(`<defs>${[...pats.values()].join('')}</defs><g class="map-areas">${rects}</g>`);
@@ -109,10 +111,11 @@ export function tokensSvg(tokens, data, { you = null, selected = null } = {}) {
     const cx = (tk.x + 0.5) * U;
     const cy = (tk.y + 0.5) * U;
     const cls = ['map-token', `map-token--${tk.kind}`, /^[a-z]+$/.test(tk.color ?? '') && `map-token--c-${tk.color}`, tk.key === you && 'map-token--you', tk.current && 'map-token--current', tk.thermal && 'map-token--thermal', tk.lit && 'map-token--lit',
-      tk.down && 'map-token--down', tk.hidden && 'map-token--hidden', tk.key === selected && 'map-token--selected'].filter(Boolean).join(' ');
+      tk.down && 'map-token--down', tk.unaware && 'map-token--unaware', tk.hidden && 'map-token--hidden', tk.key === selected && 'map-token--selected'].filter(Boolean).join(' ');
     return `<g class="${cls}">${tk.current || tk.key === selected ? `<circle class="map-token__ring" cx="${cx}" cy="${cy}" r="${U * 0.42}"/>` : ''}`
       + `<circle class="map-token__disc" cx="${cx}" cy="${cy}" r="${U * 0.32}"/>`
-      + `<text class="map-token__label" x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central" font-size="${U * (tk.label.length > 2 ? 0.22 : 0.28)}">${escape(tk.label)}</text></g>`;
+      + `<text class="map-token__label" x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central" font-size="${U * (tk.label.length > 2 ? 0.22 : 0.28)}">${escape(tk.label)}</text>`
+      + (tk.unaware ? `<text class="map-token__zzz" x="${cx + U * 0.3}" y="${cy - U * 0.3}" text-anchor="middle" dominant-baseline="central" font-size="${U * 0.3}">💤</text>` : '') + '</g>'; // decision 354
   }).join(''));
 }
 
@@ -126,7 +129,7 @@ export const tintOf = (def) => def.tint ?? (!sensesOf(def).length ? null : sense
 
 /** `links`: the map's walls; its links (decision 119) are drawn on the ground pieces and under the rest, so they run
  *  over terrain and city tiles and into a node instead of over it. */
-export function propsSvg(props, data, { selected = null, links = null } = {}) {
+export function propsSvg(props, data, { selected = null, links = null, paint = false } = {}) { // paint: decision 358 — pieces in their materials
   const U = data.map.square.units;
   // floor textures, city tiles (decision 121), decals on them (drains, stains, highways), links, darkness zones, terrain
   // and outlines, pieces that tuck under furniture (chairs), then the rest — each layer keeps the placing order (decision 102)
@@ -147,13 +150,18 @@ export function propsSvg(props, data, { selected = null, links = null } = {}) {
     // sensors (decision 69): motion = a dotted line straight ahead (the front), audio = a dotted circle; both turn with the piece
     const senses = sensesOf(def);
     const tint = tintOf(def) ? ` map-prop--tint-${tintOf(def)}` : '';
+    const mat = paint ? materialOf(p, def, data) : null;
+    const look = mat ? ` map-mat map-mat--${mat}` : '';
     const dots = (gap) => `stroke-linecap="round" stroke-dasharray="0.1 ${U * gap}"`;
     const motion = senses.includes('motion') ? `<line class="map-sense map-sense--motion" x1="0" y1="${h / 2}" x2="0" y2="${h / 2 + reachOf(p, def, 'motion') * U}" stroke-width="${U * 0.05}" ${dots(0.14)}/>` : '';
     const audio = senses.includes('audio') ? `<circle class="map-sense map-sense--audio" r="${reachOf(p, def, 'audio') * U}" stroke-width="${U * 0.04}" ${dots(0.12)}/>` : '';
     // a selected light shows how far it reaches (decision 74)
     const reachRing = p.id === selected && def.light?.radius ? `<circle class="map-light-reach" r="${(def.light.radius + 0.5) * U}" stroke-width="${U * 0.04}" stroke-dasharray="${U * 0.12} ${U * 0.1}"/>` : '';
+    // decision 361: a shop sign shows its caption, written along the sign (it turns with it)
+    const upside = normRot(p.rot) > 90 && normRot(p.rot) <= 270; // the words always read the right way up
+    const sign = def.sign && p.caption ? `<text class="map-sign"${upside ? ' transform="rotate(180)"' : ''} x="0" y="${(upside ? -1 : 1) * h * 0.08}" text-anchor="middle" dominant-baseline="central" font-size="${Math.min(h * 0.62, (w * 0.9) / Math.max(3, String(p.caption).length * 0.62))}">${escape(String(p.caption).toUpperCase())}</text>` : '';
     const frame = p.id === selected ? `<rect class="map-prop__sel" x="${-w / 2 - 8}" y="${-h / 2 - 8}" width="${w + 16}" height="${h + 16}"/>` : '';
-    return `<g class="map-prop map-prop--${def.category}${tint}${p.hidden ? ' map-prop--hidden' : ''}${p.on === false ? ' map-prop--off' : ''}${p.open ? ' map-prop--open' : ''}${p.wrecked ? ' map-prop--wrecked' : ''}" transform="translate(${p.x * U} ${p.y * U}) rotate(${p.rot ?? 0})">${audio}${motion}${reachRing}${body}${frame}</g>`;
+    return `<g data-prop="${String(p.prop).replace(/[^\w-]/g, '')}" class="map-prop map-prop--${def.category}${tint}${look}${p.hidden ? ' map-prop--hidden' : ''}${p.on === false ? ' map-prop--off' : ''}${p.open ? ' map-prop--open' : ''}${p.wrecked ? ' map-prop--wrecked' : ''}" transform="translate(${p.x * U} ${p.y * U}) rotate(${p.rot ?? 0})">${audio}${motion}${reachRing}${body}${sign}${frame}</g>`;
   });
   parts.splice(at < 0 ? parts.length : at, 0, linkMarkup);
   return raw(parts.join(''));

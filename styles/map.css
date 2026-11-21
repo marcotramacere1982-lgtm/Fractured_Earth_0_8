@@ -322,3 +322,49 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 
 /* decision 301: a district's card on the sheet's map */
 .district-card { margin: var(--space-1) 0 0; font-size: var(--text-sm); }
+
+/* decision 357: the light layer's images (app/ui/map/light-layer.js) — colour blended into the map, then darkness and fog */
+.map-light { pointer-events: none; }
+.map-light--screen { mix-blend-mode: screen; }
+.map-light--soft-light { mix-blend-mode: soft-light; }
+
+/* decision 358: materials — on when the map paints its pieces (lighting.paint); a placed piece may pick another */
+.map-mat--wood .solid { fill: var(--mp-mat-wood); stroke: var(--mp-mat-wood-line); } .map-mat--wood .detail { stroke: var(--mp-mat-wood-line); }
+.map-mat--wood_dark .solid { fill: var(--mp-mat-wood_dark); stroke: var(--mp-mat-wood_dark-line); } .map-mat--wood_dark .detail { stroke: var(--mp-mat-wood_dark-line); }
+.map-mat--fabric_red .solid { fill: var(--mp-mat-fabric_red); stroke: var(--mp-mat-fabric_red-line); } .map-mat--fabric_red .detail { stroke: var(--mp-mat-fabric_red-line); }
+.map-mat--fabric_blue .solid { fill: var(--mp-mat-fabric_blue); stroke: var(--mp-mat-fabric_blue-line); } .map-mat--fabric_blue .detail { stroke: var(--mp-mat-fabric_blue-line); }
+.map-mat--fabric_green .solid { fill: var(--mp-mat-fabric_green); stroke: var(--mp-mat-fabric_green-line); } .map-mat--fabric_green .detail { stroke: var(--mp-mat-fabric_green-line); }
+.map-mat--fabric_grey .solid { fill: var(--mp-mat-fabric_grey); stroke: var(--mp-mat-fabric_grey-line); } .map-mat--fabric_grey .detail { stroke: var(--mp-mat-fabric_grey-line); }
+.map-mat--carpet .solid { fill: var(--mp-mat-carpet); stroke: var(--mp-mat-carpet-line); } .map-mat--carpet .detail { stroke: var(--mp-mat-carpet-line); }
+.map-mat--tile .solid { fill: var(--mp-mat-tile); stroke: var(--mp-mat-tile-line); } .map-mat--tile .detail { stroke: var(--mp-mat-tile-line); }
+.map-mat--stone .solid { fill: var(--mp-mat-stone); stroke: var(--mp-mat-stone-line); } .map-mat--stone .detail { stroke: var(--mp-mat-stone-line); }
+.map-mat--lino .solid { fill: var(--mp-mat-lino); stroke: var(--mp-mat-lino-line); } .map-mat--lino .detail { stroke: var(--mp-mat-lino-line); }
+.map-mat--concrete .solid { fill: var(--mp-mat-concrete); stroke: var(--mp-mat-concrete-line); } .map-mat--concrete .detail { stroke: var(--mp-mat-concrete-line); }
+.map-mat--asphalt .solid { fill: var(--mp-mat-asphalt); stroke: var(--mp-mat-asphalt-line); } .map-mat--asphalt .detail { stroke: var(--mp-mat-asphalt-line); }
+.map-mat--rubber .solid { fill: var(--mp-mat-rubber); stroke: var(--mp-mat-rubber-line); } .map-mat--rubber .detail { stroke: var(--mp-mat-rubber-line); }
+.map-mat--metal .solid { fill: var(--mp-mat-metal); stroke: var(--mp-mat-metal-line); } .map-mat--metal .detail { stroke: var(--mp-mat-metal-line); }
+.map-mat--paint_red .solid { fill: var(--mp-mat-paint_red); stroke: var(--mp-mat-paint_red-line); } .map-mat--paint_red .detail { stroke: var(--mp-mat-paint_red-line); }
+.map-mat--paint_blue .solid { fill: var(--mp-mat-paint_blue); stroke: var(--mp-mat-paint_blue-line); } .map-mat--paint_blue .detail { stroke: var(--mp-mat-paint_blue-line); }
+.map-mat--paint_white .solid { fill: var(--mp-mat-paint_white); stroke: var(--mp-mat-paint_white-line); } .map-mat--paint_white .detail { stroke: var(--mp-mat-paint_white-line); }
+.map-mat--paint_yellow .solid { fill: var(--mp-mat-paint_yellow); stroke: var(--mp-mat-paint_yellow-line); } .map-mat--paint_yellow .detail { stroke: var(--mp-mat-paint_yellow-line); }
+.map-mat--paint_green .solid { fill: var(--mp-mat-paint_green); stroke: var(--mp-mat-paint_green-line); } .map-mat--paint_green .detail { stroke: var(--mp-mat-paint_green-line); }
+.map-mat--paint_black .solid { fill: var(--mp-mat-paint_black); stroke: var(--mp-mat-paint_black-line); } .map-mat--paint_black .detail { stroke: var(--mp-mat-paint_black-line); }
+.map-mat--plastic .solid { fill: var(--mp-mat-plastic); stroke: var(--mp-mat-plastic-line); } .map-mat--plastic .detail { stroke: var(--mp-mat-plastic-line); }
+.map-mat--cardboard .solid { fill: var(--mp-mat-cardboard); stroke: var(--mp-mat-cardboard-line); } .map-mat--cardboard .detail { stroke: var(--mp-mat-cardboard-line); }
+.map-mat--porcelain .solid { fill: var(--mp-mat-porcelain); stroke: var(--mp-mat-porcelain-line); } .map-mat--porcelain .detail { stroke: var(--mp-mat-porcelain-line); }
+.map-mat--plant .solid { fill: var(--mp-mat-plant); stroke: var(--mp-mat-plant-line); } .map-mat--plant .detail { stroke: var(--mp-mat-plant-line); }
+.map-mat--earth .solid { fill: var(--mp-mat-earth); stroke: var(--mp-mat-earth-line); } .map-mat--earth .detail { stroke: var(--mp-mat-earth-line); }
+.map-mat--water .solid { fill: var(--mp-mat-water); stroke: var(--mp-mat-water-line); } .map-mat--water .detail { stroke: var(--mp-mat-water-line); }
+/* fixed parts keep their colour whatever the material (a windscreen stays glass on a red car) */
+.map-mat .part-glass, .map-mat .solid.part-glass { fill: var(--mp-part-glass); fill-opacity: 1; stroke: var(--mp-part-glass-line); }
+.map-mat .part-screen, .map-mat .solid.part-screen { fill: var(--mp-part-screen); fill-opacity: 1; stroke: var(--mp-part-screen-line); }
+.map-mat .part-lamp, .map-mat .solid.part-lamp { fill: var(--mp-part-lamp); fill-opacity: 1; stroke: var(--mp-part-lamp-line); }
+.map-mat .part-linen, .map-mat .solid.part-linen { fill: var(--mp-part-linen); fill-opacity: 1; stroke: var(--mp-part-linen-line); }
+.map-mat .part-chrome, .map-mat .solid.part-chrome { fill: var(--mp-part-chrome); fill-opacity: 1; stroke: var(--mp-part-chrome-line); }
+.map-mat .part-plastic, .map-mat .solid.part-plastic { fill: var(--mp-part-plastic); fill-opacity: 1; stroke: var(--mp-part-plastic-line); }
+/* floors are drawn faint when plain; painted, they carry their material at full strength */
+.map-mat.map-prop--floor { opacity: 1; }
+.map-mat.map-prop--floor .solid { fill-opacity: 0.9; stroke: none; }
+.map-mat.map-prop--floor .detail { stroke-opacity: 0.7; }
+/* decision 361: a shop sign's caption, along the sign */
+.map-sign { fill: currentColor; font-family: var(--font-display); pointer-events: none; }

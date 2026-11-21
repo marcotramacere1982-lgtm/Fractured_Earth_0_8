@@ -16,7 +16,7 @@ export function intelFactsView(entry, data) {
   const f = entry.facts ?? {};
   const cond = (id) => data.conditions.find((x) => x.id === id)?.name ?? id;
   return html`<div class="intel__facts">
-    <div class="cluster intel__stats"><span class="pill ${entry.level >= STUDIED ? 'pill--accent' : 'pill--info'}">${t(entry.level >= STUDIED ? 'intel.studied' : 'intel.known')}</span>
+    <div class="cluster intel__stats"><span class="pill ${entry.level >= STUDIED ? 'pill--accent' : 'pill--info'}">${t(entry.level >= STUDIED ? (entry.ally ? 'intel.full' : 'intel.studied') : 'intel.known')}</span>
       <span class="mono">${t('intel.armor')} ${f.armor}</span><span class="mono">HP ${f.hp}</span>${f.sqr != null ? html`<span class="mono">${t('intel.squares', { n: f.sqr })}</span>` : ''}
       ${entry.level >= STUDIED ? html`<span class="mono">${t('intel.actions', { n: f.actions })}</span><span class="mono">INIT ${signed(f.init ?? 0)}</span>` : ''}</div>
     ${(f.attacks ?? []).length ? html`<ul class="intel__attacks">${f.attacks.map((a) => html`<li><strong>${a.name}</strong> <span class="muted">${a.type}</span> <span class="mono">${a.damage}</span></li>`)}</ul>` : ''}
@@ -38,6 +38,7 @@ function backgroundCard(c, s, data, atTable) {
   const lifeEvents = [...data.adolescence.events, ...(Array.isArray(data.careerEvents.events) ? data.careerEvents.events : Object.values(data.careerEvents.events ?? {}).flat())];
   const eventName = (id) => { const n = lifeEvents.find((x) => x.id === id)?.name ?? id; return n.charAt(0) + n.slice(1).toLowerCase(); };
   const sourceName = (p) => (p.kind === 'career' ? career(p.source) : eventName(p.source));
+  const enemyTie = (() => { const x = (c.ties ?? []).find((y) => y.kind === 'enemy'); return x ? data.ties?.tables[x.table]?.entries.find((e) => e.id === x.with)?.name ?? null : null; })(); // decision 352
   return html`<section class="stack intel-bg">
     <h3 class="label">${t('intel.bgTitle')}</h3>
     <p class="hint">${t('intel.bgLead', { int: s.attributes.INT })}</p>
@@ -49,7 +50,7 @@ function backgroundCard(c, s, data, atTable) {
           : html`<span class="cluster"><select class="select" data-intel-pick="${p.source}" aria-label="${t('intel.bgPick')}">${p.options.map((id) => html`<option value="${id}">${nameOf(id)}</option>`)}</select>
             <button class="btn btn--sm btn--primary" data-action="intelBgRoll" data-source="${p.source}">🎲 INT ${s.attributes.INT}</button></span>`}</div>`;
     })}
-    ${bg.nemesis ? html`<div class="spread spread--wrap intel-bg__pick"><span class="st-small"><strong>${t('intel.bgNemesis')}</strong></span>
+    ${bg.nemesis ? html`<div class="spread spread--wrap intel-bg__pick"><span class="st-small"><strong>${enemyTie ? t('intel.bgNemesisTie', { who: enemyTie }) : t('intel.bgNemesis')}</strong></span>
       <select class="select" data-intel-nemesis aria-label="${t('intel.bgNemesis')}">${bg.nemesis.map((id) => html`<option value="${id}">${nameOf(id)}</option>`)}</select></div>` : ''}
     ${atTable ? html`<button class="btn btn--primary" data-action="intelBgSend" ${bg.picks.every((p) => rolls[p.source]) ? '' : raw('disabled')}>${t('intel.bgSend')}</button>`
       : html`<p class="hint">${t('intel.bgAtTable')}</p>`}
@@ -58,13 +59,17 @@ function backgroundCard(c, s, data, atTable) {
 
 /** The Dossier's Intel card: the background picks (once), then the file — each entry with Share. */
 export function intelCard(c, s, data, ctx) {
-  const entries = Object.values(c.play.intel ?? {}).sort((a, b) => a.name.localeCompare(b.name));
+  const all = Object.values(c.play.intel ?? {}).sort((a, b) => a.name.localeCompare(b.name));
+  const entries = all.filter((e) => !e.ally);
+  const allies = all.filter((e) => e.ally); // decision 348: what the GM let the crew know about an ally
+  const row = (e) => html`<li class="intel-file__row">
+      <div class="spread"><strong>${e.name}</strong>${ctx.atTable ? html`<button class="btn btn--sm btn--ghost" data-action="intelShare" data-id="${e.id}" title="${t('intel.shareHint')}">⇪ ${t('intel.share')}</button>` : ''}</div>
+      ${intelFactsView(e, data)}</li>`;
   const bg = backgroundCard(c, s, data, ctx.atTable);
-  if (!entries.length && !bg) return '';
+  if (!all.length && !bg) return '';
   return card(t('intel.title'), html`<div class="stack">
     ${bg}
-    ${entries.length ? html`<ul class="intel-file">${entries.map((e) => html`<li class="intel-file__row">
-      <div class="spread"><strong>${e.name}</strong>${ctx.atTable ? html`<button class="btn btn--sm btn--ghost" data-action="intelShare" data-id="${e.id}" title="${t('intel.shareHint')}">⇪ ${t('intel.share')}</button>` : ''}</div>
-      ${intelFactsView(e, data)}</li>`)}</ul>` : html`<p class="muted">${t('intel.empty')}</p>`}
+    ${allies.length ? html`<h3 class="label">${t('intel.allies')}</h3><ul class="intel-file">${allies.map(row)}</ul>` : ''}
+    ${entries.length ? html`${allies.length ? html`<h3 class="label">${t('intel.enemies')}</h3>` : ''}<ul class="intel-file">${entries.map(row)}</ul>` : allies.length ? '' : html`<p class="muted">${t('intel.empty')}</p>`}
   </div>`, { sub: t('intel.sub'), ref: 'intel' });
 }

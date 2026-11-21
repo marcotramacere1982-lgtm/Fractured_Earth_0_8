@@ -273,6 +273,48 @@
   --mp-text-muted: #8c95a1;
   --mp-warning: #e2c35a;
   --mp-warning-soft: rgba(226, 195, 90, 0.16);
+  --mp-light-warm: #ff9a3c;
+  --mp-light-sodium: #ffb000;
+  --mp-light-cold: #bfe0ff;
+  --mp-light-neon: #ff3df2;
+  --mp-light-cyan: #2ef2ff;
+  --mp-light-red: #ff2a2a;
+  --mp-light-green: #5cff7a;
+  --mp-light-police: #3d7bff;
+  --mp-light-screen: #a8d8ff;
+  /* decision 358: materials (a piece's colour, by what it is made of) and fixed parts (glass, screens…) — muted, so lights and markers read on top */
+  --mp-mat-wood: #563b26; --mp-mat-wood-line: #85603f;
+  --mp-mat-wood_dark: #3b2a1d; --mp-mat-wood_dark-line: #5e4430;
+  --mp-mat-fabric_red: #5a1f2c; --mp-mat-fabric_red-line: #8f3b4d;
+  --mp-mat-fabric_blue: #233a5a; --mp-mat-fabric_blue-line: #3d5f8c;
+  --mp-mat-fabric_green: #2c4a33; --mp-mat-fabric_green-line: #4a7553;
+  --mp-mat-fabric_grey: #45454b; --mp-mat-fabric_grey-line: #6a6a72;
+  --mp-mat-carpet: #3f2231; --mp-mat-carpet-line: #573044;
+  --mp-mat-tile: #354749; --mp-mat-tile-line: #4c6366;
+  --mp-mat-stone: #4a4640; --mp-mat-stone-line: #5d5850;
+  --mp-mat-lino: #3c4636; --mp-mat-lino-line: #4f5c47;
+  --mp-mat-concrete: #33363a; --mp-mat-concrete-line: #4a4e53;
+  --mp-mat-asphalt: #1f2124; --mp-mat-asphalt-line: #2c2f33;
+  --mp-mat-rubber: #24272a; --mp-mat-rubber-line: #31353a;
+  --mp-mat-metal: #454b53; --mp-mat-metal-line: #66707b;
+  --mp-mat-paint_red: #6b2626; --mp-mat-paint_red-line: #a04040;
+  --mp-mat-paint_blue: #24467a; --mp-mat-paint_blue-line: #3d68a8;
+  --mp-mat-paint_white: #7a7a72; --mp-mat-paint_white-line: #a8a89e;
+  --mp-mat-paint_yellow: #7a6420; --mp-mat-paint_yellow-line: #b0922f;
+  --mp-mat-paint_green: #2e4a30; --mp-mat-paint_green-line: #47704a;
+  --mp-mat-paint_black: #1c1e21; --mp-mat-paint_black-line: #41464d;
+  --mp-mat-plastic: #2e3135; --mp-mat-plastic-line: #4a4f55;
+  --mp-mat-cardboard: #6b5532; --mp-mat-cardboard-line: #94784a;
+  --mp-mat-porcelain: #8d969b; --mp-mat-porcelain-line: #c3cbcf;
+  --mp-mat-plant: #2f5a35; --mp-mat-plant-line: #4d8a55;
+  --mp-mat-earth: #4a3a2a; --mp-mat-earth-line: #6b543c;
+  --mp-mat-water: #1d3a4f; --mp-mat-water-line: #2f5a78;
+  --mp-part-glass: #1b3a4a; --mp-part-glass-line: #4d7d94;
+  --mp-part-screen: #0e2a33; --mp-part-screen-line: #2ef2ff;
+  --mp-part-lamp: #fff2b0; --mp-part-lamp-line: #ffd24a;
+  --mp-part-linen: #a8a296; --mp-part-linen-line: #cfc8b8;
+  --mp-part-chrome: #9aa3ab; --mp-part-chrome-line: #d0d6db;
+  --mp-part-plastic: #2e3135; --mp-part-plastic-line: #4a4f55;
 }
 :root[data-map='light'] {
   --mp-accent: #b86e00;

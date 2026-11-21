@@ -76,5 +76,24 @@
   },
   "unarmed_fists": {
     "type": "mischia"
+  },
+  "street_machete": {
+    "name": "Machete di strada",
+    "type": "coltello"
+  },
+  "demolition_sledgehammer": {
+    "name": "Mazza da demolizione",
+    "type": "contundente"
+  },
+  "industrial_nail_gun": {
+    "name": "Sparachiodi industriale",
+    "type": "pistola"
+  },
+  "compound_bow": {
+    "name": "Arco compound",
+    "type": "arco"
+  },
+  "apex_breacher_12": {
+    "type": "fucile a pompa"
   }
 }

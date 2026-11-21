@@ -12,9 +12,9 @@ La fase narrativa comprende tutto il gioco che si svolge al di fuori del combatt
 
 Per mantenere una pressione realistica durante le operazioni a tempo, il tempo narrativo si misura con un **Operating Clock** diviso in **intervalli standard di 10 secondi** (la durata di un round di combattimento tattico). Quando gli Operatori tentano qualcosa mentre l'orologio corre — aggirare una rete di sicurezza prima di un giro di controllo, forzare una serratura prima che passi una pattuglia, scaricare dati grezzi prima che la connessione salti — il GM assegna un costo in tempo misurato in questi blocchi da 10 secondi, per stabilire quanti round passano sullo sfondo.
 
-### Prove di abilità e risoluzione della difficoltà
+### Prove di competenza e risoluzione della difficoltà
 
-Quando un Operatore tenta un'impresa impegnativa o dall'esito incerto, la si risolve tirando un **d20** contro il **numero bersaglio (TN) dell'abilità o dell'attributo** pertinente, modificato dal **livello di difficoltà globale** dichiarato dal GM:
+Quando un Operatore tenta un'impresa impegnativa o dall'esito incerto, la si risolve tirando un **d20** contro il **numero bersaglio (TN) della competenza o dell'attributo** pertinente, modificato dal **livello di difficoltà globale** dichiarato dal GM:
 
 - **Grado di successo / fallimento:** la qualità del risultato dipende direttamente dal margine del tiro. Fallire una prova di un solo punto può comunque dare un "successo a caro prezzo" o un progresso parziale, mentre superare la soglia di 10 punti o più può dare bonus meccanici o narrativi inattesi (per esempio scoprire dati extra, impiegare meno tempo o guadagnare una leva).
 
@@ -32,15 +32,15 @@ I periodi lunghi tra un'operazione e l'altra portano gli Operatori in una **fase
 
 - **Recupero e manutenzione:** il riposo è la finestra necessaria per riparare la cibernetica danneggiata, guarire le ferite gravi, ricalibrare l'hardware usato troppo e trasformare i contanti in equipaggiamento o in un miglior stile di vita.
 
-## 6-2. Prove di abilità e soglie di difficoltà {#sec-6-2}
+## 6-2. Prove di competenza e soglie di difficoltà {#sec-6-2}
 
-In *Fractured Earth* ogni azione dall'esito incerto o ad alto rischio operativo si risolve con una **prova di abilità con il d20**. Ogni tiro mette alla prova la capacità naturale o l'addestramento specifico di un Operatore contro un numero bersaglio (TN), corretto dal GM per la complessità dell'ambiente e della situazione.
+In *Fractured Earth* ogni azione dall'esito incerto o ad alto rischio operativo si risolve con una **prova di competenza con il d20**. Ogni tiro mette alla prova la capacità naturale o l'addestramento specifico di un Operatore contro un numero bersaglio (TN), corretto dal GM per la complessità dell'ambiente e della situazione.
 
 ### La formula universale
 
 Per fare una prova, il giocatore tira un solo **d20** e confronta il risultato con il suo **TN effettivo**. L'azione riesce se il risultato del d20 è **minore o uguale** al TN effettivo:
 
-> **TN effettivo = valore base dell'attributo o dell'abilità − livello di difficoltà globale**
+> **TN effettivo = valore base dell'attributo o della competenza − livello di difficoltà globale**
 
 > - **Successo (sotto o uguale):** un risultato ≤ TN effettivo riesce.
 
@@ -58,7 +58,7 @@ Il GM non fa calcoli complicati al momento. Tutti i pericoli ambientali, i probl
 
 Quando due personaggi attivi si oppongono direttamente — per esempio un Operatore che cerca di passare di soppiatto sotto gli occhi di una guardia all'erta, o un Hacker che forza un deck difeso da un NetRunner attivo — si risolve con una **prova contrapposta**:
 
-- **Tirano entrambi:** ogni partecipante tira un d20 contro il TN della propria abilità o attributo (tenendo conto di eventuali livelli di difficoltà).
+- **Tirano entrambi:** ogni partecipante tira un d20 contro il TN della propria competenza o attributo (tenendo conto di eventuali livelli di difficoltà).
 
 **Chi vince:**
 
@@ -68,15 +68,19 @@ Quando due personaggi attivi si oppongono direttamente — per esempio un Operat
 
 - **Doppio fallimento:** se falliscono entrambi (> TN), la situazione resta com'è, oppure l'azione finisce in uno stallo caotico (per esempio i due hacker si chiudono fuori a vicenda per un po').
 
+- **Naturali:** un **1 naturale** vince subito, qualunque cosa abbia tirato l'altro; un **20 naturale** perde subito. **Due 1 naturali** si annullano: non cambia niente, come in un doppio fallimento.
+
+> **Quando usarle.** Di rado. Un grado di difficoltà dice già quanto è duro l'avversario — un faccendiere che non si fa imbrogliare è una prova *Hard*, non una sfida. Tieni le prove contrapposte per due personaggi che hanno entrambi numeri veri e agiscono insieme: giocatore contro giocatore, o un'élite con un nome in una scena che deve sembrare un duello.
+
 ### Aiutare un compagno {#sec-6-2-help}
 
-Un compagno può aiutare la prova di un altro — se sa dire **come**: tenendo la luce, leggendo lo schema, facendo da palo, intrattenendo la guardia. Chi aiuta tira un'abilità adatta a quello che fa:
+Un compagno può aiutare la prova di un altro — se sa dire **come**: tenendo la luce, leggendo lo schema, facendo da palo, intrattenendo la guardia. Chi aiuta tira una competenza adatta a quello che fa:
 
-- **Successo:** l'altro ha **+2 TN** alla sua prossima prova di abilità o attributo.
+- **Successo:** l'altro ha **+2 TN** alla sua prossima prova di competenza o attributo.
 - **Un 20 naturale:** è stato d'intralcio — **−2 TN** invece.
 - **Qualsiasi altro fallimento:** non cambia niente.
 
-Solo **un aiutante** alla volta: un secondo non aggiunge niente. In uno scontro, aiutare costa un'azione a chi aiuta. Al tavolo, *🤝 Aiuta un compagno* (accanto al tuo Strain) sceglie chi e come, tira, e il bonus aspetta sulla sua scheda — compare come riga a sé nella sua prossima finestra di prova, e una nuova scena lo cancella.
+Solo **un aiutante** alla volta: un secondo non aggiunge niente. In uno scontro, aiutare costa un'azione a chi aiuta. Al tavolo, *🤝 Aiuta un compagno* (accanto al tuo Stress) sceglie chi e come, tira, e il bonus aspetta sulla sua scheda — compare come riga a sé nella sua prossima finestra di prova, e una nuova scena lo cancella.
 
 ### Prove di gruppo {#sec-6-2-group}
 
@@ -86,7 +90,7 @@ Quando tutta la crew fa la stessa cosa — attraversare un atrio senza farsi not
 
 Quando un Operatore non sta dichiarando un'azione, ma la sua attenzione di fondo o il suo addestramento potrebbero fargli notare una minaccia nascosta (una mina dormiente nel pavimento, un'imboscata imminente, una bugia), il GM usa una **soglia passiva**:
 
-**Punteggio passivo = valore base dell'abilità − 5**
+**Punteggio passivo = valore base della competenza − 5**
 
 Se un pericolo ambientale o il tiro di furtività di un PNG è peggiore del punteggio passivo dell'Operatore, il GM segnala il dettaglio al giocatore senza chiedergli di tirare, mantenendo la narrazione scorrevole.
 
@@ -100,7 +104,7 @@ Quando un Operatore dichiara un'azione fuori dal combattimento, prima di tirare 
 
 - **Intento:** qual è esattamente l'obiettivo? *(es.: "Voglio che il luogotenente della gang mi dica dov'è la cassa con i dati.")*
 
-- **Mezzo:** come usi le abilità, le statistiche o l'ambiente del tuo personaggio per ottenerlo? *(es.: "Uso Streetwise/Dealing per offrirgli come mazzetta un caricatore di munizioni militari di alta qualità.")*
+- **Mezzo:** come usi le competenze, le statistiche o l'ambiente del tuo personaggio per ottenerlo? *(es.: "Uso Streetwise/Dealing per offrirgli come mazzetta un caricatore di munizioni militari di alta qualità.")*
 
 > Unendo intento e mezzo, il GM capisce subito se l'azione richiede una prova, se riesce in automatico grazie alla leva giusta o se fallisce perché la difficoltà è assurda. Spariscono le dichiarazioni vaghe come *"Tiro Persuasione"* o *"Hackero il terminale"*.
 
@@ -124,13 +128,13 @@ Per tenere alta la tensione fuori dal combattimento, il GM inquadra le scene com
 
 Prima che si estraggano le armi o scatti un allarme, gli Operatori hanno spesso una breve finestra per valutare le minacce, manipolare l'elettronica del posto o mettersi in posizione di vantaggio. Invece di una catena infinita di prove durante l'esplorazione, la preparazione ad alta posta prima del combattimento si gestisce con la **fase di preparazione** (*Prep Phase*, il "round zero").
 
-### Prove di abilità o regole abbreviate
+### Prove di competenza o regole abbreviate
 
-Durante l'esplorazione normale, le attività generiche — perlustrare un corridoio, scassinare una serratura meccanica, frugare in una sottorete locale — si risolvono con normali **prove di abilità** (per esempio *Computers/Hacking*, *Stealth* o *Perception/Awareness*).
+Durante l'esplorazione normale, le attività generiche — perlustrare un corridoio, scassinare una serratura meccanica, frugare in una sottorete locale — si risolvono con normali **prove di competenza** (per esempio *Computers/Hacking*, *Stealth* o *Perception/Awareness*).
 
-Quando però gli Operatori si preparano attivamente a un'irruzione, a un'imboscata o a uno scontro a fuoco imminente, possono usare ability di classe o manovre specifiche. Per non riempire la narrazione di regole di combattimento, queste azioni di preparazione dipendono dalla valutazione del GM sul tempo disponibile e sulla consapevolezza della situazione.
+Quando però gli Operatori si preparano attivamente a un'irruzione, a un'imboscata o a uno scontro a fuoco imminente, possono usare abilità di classe o manovre specifiche. Per non riempire la narrazione di regole di combattimento, queste azioni di preparazione dipendono dalla valutazione del GM sul tempo disponibile e sulla consapevolezza della situazione.
 
-> Di norma le ability di combattimento non si usano fuori dal combattimento, ma il GM può decidere diversamente se la situazione lo giustifica.
+> Di norma le abilità di combattimento non si usano fuori dal combattimento, ma il GM può decidere diversamente se la situazione lo giustifica.
 
 ### La fase di preparazione (il "round zero")
 
@@ -166,7 +170,7 @@ La sicurezza moderna non vive solo di guardie. Le pattuglie hanno visori AR e ra
 
 Telecamere, sensori di movimento e linee laser avvisano il GM quando ci entri — a meno che siano spenti, tagliati dalla loro rete o messi in loop prima da un hacker. Il quadrante non lo vedi. Vedi il sito cambiare: le guardie smettono di girovagare e sorvegliano le loro postazioni, le pattuglie vanno in coppia, un tecnico viene a guardare la telecamera che hai accecato, le porte che hai attraversato un minuto fa ora sono bloccate. Il ping riuscito bene di un hacker ne legge l'umore.
 
-**In Alert il lavoro silenzioso è più difficile.** Finché sei su quella mappa, **Stealth**, **Sleight of Hand**, **Electronics & Security** e **Computers & Hacking** sono a **−1 TN**, e così i tiri di **Class TN** di un Hacker; in **Lockdown, −2**. La finestra del tiro lo mostra come una riga a sé (*Sito · In Alert −1*). Il livello non scende mai da solo: solo il tempo, molto più avanti, o una buona storia calmano un sito.
+**In Alert il lavoro silenzioso è più difficile.** Finché sei su quella mappa, **Stealth**, **Sleight of Hand**, **Electronics & Security** e **Computers & Hacking** sono a **−1 TN**, e così i tiri di **TN di classe** di un Hacker; in **Lockdown, −2**. La finestra del tiro lo mostra come una riga a sé (*Sito · In Alert −1*). Il livello non scende mai da solo: solo il tempo, molto più avanti, o una buona storia calmano un sito.
 
 ## 6-5. Economia, debito e leva sociale {#sec-6-5}
 
@@ -262,9 +266,9 @@ Un Drive non viene mai valutato né giudicato. Quando agisci seguendolo in un mo
 
 > In nessun caso il disaccordo del gruppo deve fermarti, se senti che quello che stai facendo è assolutamente la scelta giusta: a volte vedi oltre quello che succede adesso, e scommetti sul futuro. Fai attenzione, però, a non allontanare la tua squadra: è l'unica cosa che può salvarti.
 
-## 6-7. Strain: cosa il mondo fa alla tua testa {#sec-6-7}
+## 6-7. Stress: cosa il mondo fa alla tua testa {#sec-6-7}
 
-Gli HP sono quello che il mondo fa al tuo corpo. Lo **Strain** (0–10, accanto agli HP sulla scheda) è quello che fa alla tua testa — il peso del secolo, il debito, le cose che hai visto e che non dovrebbero essere possibili (decisione 266).
+Gli HP sono quello che il mondo fa al tuo corpo. Lo **Stress** (0–10, accanto agli HP sulla scheda) è quello che fa alla tua testa — il peso del secolo, il debito, le cose che hai visto e che non dovrebbero essere possibili (decisione 266).
 
 **Cosa lo alza.** Quasi tutto lo fa l'app: scendere sotto metà HP (+1), un fumble o un 20 naturale (+1), un compagno che cade (+2 a tutti gli altri al tavolo), il debito al suo peggio quando comincia una missione (+1), e certi posti — quelli che non dovrebbero essere possibili — ti entrano in testa (+1, da soli). Il resto lo aggiunge il GM — qualcosa di duro da reggere (+1), qualcosa di orribile (+2).
 
@@ -272,18 +276,36 @@ Gli HP sono quello che il mondo fa al tuo corpo. Lo **Strain** (0–10, accanto 
 
 **Cosa fa:**
 
-| Strain | Stato | Effetto |
+| Stress | Stato | Effetto |
 |---|---|---|
 | 0–3 | **Calmo** | — |
-| 4–6 | **Scosso** | −1 TN alle prove di abilità |
-| 7–9 | **Logorato** | −2 TN alle prove di abilità; il GM può farti notare cose che gli altri non vedono |
-| 10 | **Punto di rottura** | tira un d6 (o scrivi il tuo dado): ti blocchi, esplodi, scappi, senti il tuo nome nel rumore, perdi dieci minuti — oppure una **cicatrice**, un segno che resta, tirata con un suo d6. Poi lo Strain scende a 6. |
+| 4–6 | **Scosso** | −1 TN alle prove di competenza |
+| 7–9 | **Logorato** | −2 TN alle prove di competenza; il GM può farti notare cose che gli altri non vedono |
+| 10 | **Punto di rottura** | tira un d6 (o scrivi il tuo dado): ti blocchi, esplodi, scappi, senti il tuo nome nel rumore, perdi dieci minuti — oppure una **cicatrice**, un segno che resta, tirata con un suo d6. Poi lo Stress scende a 6. |
 
-Gli attacchi non ne risentono: sotto il fuoco comanda l'addestramento. Le **cicatrici** restano sulla scheda (sotto lo Strain) finché il GM non dice altrimenti.
+Gli attacchi non ne risentono: sotto il fuoco comanda l'addestramento. Le **cicatrici** restano sulla scheda (sotto lo Stress) finché il GM non dice altrimenti.
 
-**Cosa lo abbassa.** Un **momento tranquillo** — la nuova scena del GM con il tempo di respirare: −1 a tutti. Lo **Steady** di un compagno (*Calma un compagno* sotto il suo Strain): −1, o −2 se la squadra è *Tight*; in uno scontro costa un'azione, e una squadra *Fractured* non può farlo sotto il fuoco. Il **riposo**: qualche giorno −2, qualche settimana −4, circa un mese −6, diversi mesi −10 — e una casa migliore aiuta (+1 per ogni livello sopra la stanza in un caseggiato).
+**Cosa lo abbassa.** Un **momento tranquillo** — la nuova scena del GM con il tempo di respirare: −1 a tutti. Lo **Steady** di un compagno (*Calma un compagno* sotto il suo Stress): −1, o −2 se la squadra è *Tight*; in uno scontro costa un'azione, e una squadra *Fractured* non può farlo sotto il fuoco. Il **riposo**: qualche giorno −2, qualche settimana −4, circa un mese −6, diversi mesi −10 — e una casa migliore aiuta (+1 per ogni livello sopra la stanza in un caseggiato).
 
 Se quello che hai visto era reale, il gioco non lo dice mai.
+
+### La Fatica: cosa fa la notte al tuo corpo {#sec-6-7-fatigue}
+
+Lo Stress è la tua testa; la **Fatica** è il tuo corpo. Una squadra che combatte quattro volte in una notte non dovrebbe sentirsi fresca come al primo scontro — e la scelta "riposarsi o tirare dritto?" è una delle migliori che un tavolo possa affrontare.
+
+| Fatica | Fascia | Cosa fa |
+|---|---|---|
+| 0–2 | **Fresco** | niente |
+| 3–4 | **Stanco** | −1 TN alle prove fisiche (competenze guidate da STR, DEX o CON) e agli attacchi |
+| 5–6 | **Sfinito** | −2 TN a quelle, e un quadretto di movimento in meno |
+
+Si ferma a 6: nessun crollo. **Conta solo il peggiore tra Fatica e Stress** su una prova — Stanco e Scosso insieme fanno comunque −1.
+
+- **Sale** alla fine di uno scontro (+1; +2 se è durato 4 round o più, o sei sceso sotto metà HP), quando **Spingi** (+1), quando uno stimolante finisce con un crollo, e quando lo dice il GM — una notte senza dormire, una marcia forzata.
+- **Spingere.** Quando conta, dai fondo alle forze: spunta **Spingi** in una prova o un attacco per **+2** a quel tiro, o in combattimento prendi un'azione in più in questo turno (una volta per turno) — ognuno per +1 Fatica. Puoi sempre dare il massimo; esce dalla stessa riserva.
+- **Scende** con una **pausa** (−2, una volta per scena: la New scene sicura del GM, o dieci minuti tranquilli che concede), con il **sonno o il downtime** (torna a 0), e con gli **stimolanti** (Wake-Up Strips, un'iniezione di adrenalina: −2 subito — ma la prossima pausa non aiuta).
+
+> "La Fatica sono le tue gambe e i tuoi polmoni. Ogni scontro costa un po', spingere costa di più; Stanco è −1 su tutto ciò che è fisico, Sfinito −2. Una pausa toglie due, il sonno la azzera."
 
 ## 6-8. Cadute, aria e acqua {#sec-6-8}
 
@@ -332,9 +354,9 @@ Un inseguimento procede a **tratti** — un pezzo di corsa ciascuno. A ogni trat
 | **Corri** | Agility & Athletics | tieni il passo |
 | **Guida** | Streetwise o Perception | tieni il passo, e la crew ha **+2** al prossimo tratto |
 | **Fuoco di copertura** | la tua arma (una raffica spesa) | tieni il passo; gli inseguitori hanno **−2** al prossimo tratto — e il loro fuoco arriva prima a te |
-| **Hack** | Computers & Hacking, o la Class TN di un Hacker | tieni il passo; il loro **drone** cade, o feed e autopiloti inciampano (**−2** al prossimo tratto) |
+| **Hack** | Computers & Hacking, o il TN di classe di un Hacker | tieni il passo; il loro **drone** cade, o feed e autopiloti inciampano (**−2** al prossimo tratto) |
 | **Trucco** | Deception, Sleight of Hand o Mechanics | tieni il passo; una bancarella giù, una saracinesca abbassata — un imprevisto per *loro* |
-| **Aiuta** | l'abilità adatta | il tiro di un compagno in questo tratto ha **+2** se riesci |
+| **Aiuta** | la competenza adatta | il tiro di un compagno in questo tratto ha **+2** se riesci |
 | **Nasconditi** | Stealth — solo da distacco 3, senza droni sopra | se tutti si nascondono e metà riesce, sparite |
 
 3. **Gli inseguitori agiscono**: inseguono (un tiro per il gruppo; i più veloci hanno +2), o **si fermano a sparare** — allora non accorciano il distacco, ma chi ha fatto fuoco di copertura (o ha fallito) può essere colpito.
@@ -345,7 +367,7 @@ Un inseguimento procede a **tratti** — un pezzo di corsa ciascuno. A ogni trat
 | **Voi tenete il passo** | distacco **+1** (+2 se ce l'avete fatta tutti) | resta uguale |
 | **Voi no** | resta uguale — e l'imprevisto colpisce chi ha fallito | distacco **−1** (−2 se per loro è stato facile) |
 
-**Restare indietro.** Fallisci due tratti di fila e il GM può lasciarti indietro — qualcuno dovrà tornare a prenderti. **Stancarsi.** Dal **5° tratto**, ogni fallimento costa anche **+1 Strain** e un **tiro di CON** (se lo fallisci sei *Slowed*). A un certo punto, voltarsi e combattere è una scelta.
+**Restare indietro.** Fallisci due tratti di fila e il GM può lasciarti indietro — qualcuno dovrà tornare a prenderti. **Stancarsi.** Dal **5° tratto**, ogni fallimento costa anche **+1 Stress** e un **tiro di CON** (se lo fallisci sei *Slowed*). A un certo punto, voltarsi e combattere è una scelta.
 
 **La fine.** Distacco 6, o un Nasconditi riuscito: li avete seminati. Distacco 0: presi — è uno scontro, sulla mappa. Un vicolo cieco, un cancello chiuso, il bordo di un tetto: il GM può fermare l'inseguimento lì e portarlo su una mappa tattica.
 

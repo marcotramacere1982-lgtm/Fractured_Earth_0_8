@@ -94,7 +94,7 @@
     "icon": "injector",
     "desc": "Emergency epinephrine shot. Stabilizes dying state instantly.",
     "effectType": "Stat Buff / Revive",
-    "effect": "+2 DEX for 3 rounds, then a crash (Slowed 1 round) / An Incapacitated patient above 0 HP gets back up",
+    "effect": "+2 DEX for 3 rounds and −2 Fatigue now (your next breather won’t help), then a crash (Slowed 1 round) / An Incapacitated patient above 0 HP gets back up",
     "skillBonus": "None",
     "rarity": "D",
     "cost": {
@@ -112,7 +112,9 @@
             "rounds": 3,
             "crash": true
           },
-          "text": "+2 DEX for 3 rounds, then a crash (Slowed 1 round)"
+          "text": "+2 DEX for 3 rounds and −2 Fatigue now (your next breather won’t help), then a crash (Slowed 1 round)",
+          "fatigue": -2,
+          "stim": true
         },
         {
           "id": "revive",
@@ -149,6 +151,29 @@
             "rounds": null
           },
           "text": "+1 TN on skill checks and +2 MST for the scene"
+        }
+      ]
+    }
+  },
+  {
+    "id": "wake_up_strips",
+    "name": "Wake-Up Strips",
+    "icon": "pills",
+    "desc": "Dissolving amphetamine strips, sold by the dozen at every night-shift kiosk. They keep you upright; they don’t make you rested.",
+    "effectType": "Stat Buff",
+    "effect": "−2 Fatigue now; your next breather won’t help",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 60
+    },
+    "use": {
+      "options": [
+        {
+          "id": "take",
+          "fatigue": -2,
+          "stim": true,
+          "text": "−2 Fatigue now; your next breather won’t help"
         }
       ]
     }
@@ -273,7 +298,7 @@
     "icon": "patch",
     "desc": "Transdermal patch releasing neural stimulants.",
     "effectType": "Stat Buff",
-    "effect": "+1 action for 2 rounds (+2 initiative if used before the fight), then a crash",
+    "effect": "+1 action for 2 rounds (+2 initiative if used before the fight), then a crash: Slowed 1 round and +1 Fatigue",
     "skillBonus": "None",
     "rarity": "D",
     "cost": {
@@ -288,9 +313,10 @@
               "act": 1
             },
             "rounds": 2,
-            "crash": true
+            "crash": true,
+            "crashFatigue": 1
           },
-          "text": "+1 action for 2 rounds (+2 initiative if used before the fight), then a crash"
+          "text": "+1 action for 2 rounds (+2 initiative if used before the fight), then a crash: Slowed 1 round and +1 Fatigue"
         }
       ]
     }
@@ -987,7 +1013,7 @@
     "icon": "torch",
     "desc": "Heavy anodized aluminum flashlight with strobe feature.",
     "effectType": "Utility",
-    "effect": "Light Source / Strobe · on the map: switch it on from the Map tab to light 4 squares around you",
+    "effect": "Light Source / Strobe · on the map: switch it on from the Map tab — a 30° beam 6 squares long (plus the squares round you); Aim points it",
     "skillBonus": "None",
     "rarity": "F",
     "cost": {
@@ -996,7 +1022,13 @@
     "story": true,
     "light": {
       "radius": 4,
-      "carried": true
+      "carried": true,
+      "color": "cold",
+      "beam": {
+        "angle": 30,
+        "range": 6,
+        "spill": 1
+      }
     }
   },
   {
@@ -1512,5 +1544,34 @@
     "market": false,
     "loot": "contraband",
     "traced": true
+  },
+  {
+    "id": "duffel_bag",
+    "name": "Duffel Bag",
+    "icon": "duffel",
+    "desc": "A big canvas bag with a shoulder strap. Room for one more bulky thing — a rifle, a sledgehammer — and everyone can see you are carrying something.",
+    "effectType": "Carry",
+    "effect": "Carry one more bulky item",
+    "skillBonus": "None",
+    "rarity": "F",
+    "cost": {
+      "cr": 40
+    },
+    "bulkyRoom": 1
+  },
+  {
+    "id": "shielded_duffel",
+    "name": "Shielded Duffel",
+    "icon": "duffel",
+    "desc": "A duffel lined with a signal-blocking mesh. Room for one more bulky item, and a tracked gun inside it stops calling home.",
+    "effectType": "Carry",
+    "effect": "Carry one more bulky item · blocks a tracked item's signal",
+    "skillBonus": "None",
+    "rarity": "B",
+    "cost": {
+      "cr": 900
+    },
+    "bulkyRoom": 1,
+    "shields": true
   }
 ]

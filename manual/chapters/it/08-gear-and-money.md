@@ -35,13 +35,41 @@ Il **bottino** (decisione 317) è ciò che trovi o rubi e non puoi comprare: rot
 
 ::table[loot]
 
+### Contrattare {#sec-8-haggle}
+
+Un prezzo è un'offerta d'apertura. **🤝 Contratta** — su un'offerta di un faccendiere, o **Contratta per strada** accanto a *Open market* — è **un solo tiro**: scegli quanto spingere e come.
+
+::table[haggle]
+
+- **Contratta onestamente** (Persuasion) o **gioca da strada** (Streetwise): se fallisci non cambia niente; con un **20 naturale** il prezzo peggiora del 10%.
+- **Imbroglia** (Deception): il **doppio** dello sconto — ma se fallisci l'affare salta (per strada: gli spacciatori ti riconoscono, 10% peggio).
+- L'**umore** di un faccendiere (lo decide il GM) rende il tiro di un grado più facile o più difficile.
+
+Su un'offerta di un faccendiere sposta quell'affare — riciclare, monetizzare, ripulire un'arma — una volta. Per strada vale per il **giro**, fino alla prossima scena: quanto paghi *e* quanto ti paga un ricettatore. Gli acquisti ufficiali (Credit Score) non si contrattano: il sistema ha prezzi fissi.
+
+### Corpi, armi bloccate e roba che scotta {#sec-8-bodies}
+
+I caduti tengono ciò che portavano: un po' di contanti, spesso la loro arma e un caricatore, quello che avevano in tasca. **Perquisisci** un corpo come un contenitore (*Interact* lì accanto). Non contare sulle armi buone: migliore è un'arma, più è probabile che si sia rotta nello scontro, che il proprietario l'abbia bloccata o che sia andata persa — una pistola da poco sopravvive sempre, un fucile di prima scelta quasi mai.
+
+Quando succede, è raramente un regalo. Le armi della Watch e degli ufficiali delle corporazioni hanno un **🔒 blocco smart**, legato al proprietario; quelle della TRF un **blocco biometrico** che si disattiva da solo quando l'operatore cade. Un'arma bloccata **non spara**. Un blocco smart si può forzare sul posto — **🔓 Forza il blocco** nell'inventario, una prova Hard di Hacking e un'azione, e il sito se ne accorge che tu ci riesca o no. Uno biometrico no: solo un riciclatore può ridarle vita.
+
+Sono anche **📡 tracciate** — comunicano dove si trovano. Finché ne porti una non schermata, il sito in cui sei **resta almeno in Alert**; un **Borsone schermato** blocca il segnale. E **🔥 scottano**: un ricettatore paga solo un quarto (anche il bottino rintracciabile), e farsi trovare con una addosso è il tipo di cosa che il GM ricorda. Tra una missione e l'altra un **riciclatore** può ripulirne una: sbloccata, non tracciata, una storia pulita — per una quota del suo prezzo, e un tiro per vedere se la pista riporta a te.
+
+> **Mai toccare un'arma smart senza un piano.** Prendila all'inizio di un lavoro e chiamerà casa tutta la notte. Prendila all'uscita, nella borsa giusta, e fai sparire la pista.
+
+### Portare cose ingombranti {#sec-8-carry}
+
+Un fucile, una mazza, un fucile a pompa — tutto ciò che richiede **due mani**, e tutto ciò che è segnato **ingombrante** — non sta in tasca. Una cosa ingombrante la porti **senza problemi**, a tracolla. Una **borsa** ne porta un'altra: un **Borsone** (economico, e tutti vedono che porti qualcosa) o un **Borsone schermato** (raro, solo per strada: la fodera blocca il segnale di un oggetto tracciato messo dentro). Conta una borsa sola. Pistole, SMG, lame, caricatori, contanti e piccolo bottino non contano mai.
+
+Se ne porti di più sei **Slowed** (−1 azione, mai sotto 1) finché continui a farlo: la scheda mostra *Slowed · porti troppo* e l'inventario conta *Ingombranti 2/1*. Posa qualcosa — in un nascondiglio, nelle mani di un compagno, per terra — e finisce. Lasciarlo è gratis; raccoglierlo di nuovo in combattimento è un'azione. Quattro fucili presi a una pattuglia sono una bella storia e una brutta fuga.
+
 ### Il riciclatore {#sec-8-washer}
 
-Alcuni faccendieri spostano il denaro fra i due mondi. **Ripulire** trasforma i contanti in Credit Score: uno stipendio falso, un contratto falso, e il punteggio sale. **Monetizzare** fa il contrario: prendi in prestito sul tuo punteggio ed esci con contanti non tracciati, e il punteggio scende. Il faccendiere fissa un tasso (contanti per punto di Credit Score) e trattiene una commissione; l'offerta la fa il GM, compare in Equipaggiamento, e scegli quanti punti prendere — la scheda mostra il totale prima che tu accetti. Così il Credit Score non supera mai il suo massimo né scende sotto 0. Ogni accordo finisce nel registro: anche i libri di un faccendiere lasciano tracce.
+Alcuni faccendieri spostano il denaro fra i due mondi. **Ripulire** trasforma i contanti in Credit Score: uno stipendio falso, un contratto falso, e il punteggio sale. **Monetizzare** fa il contrario: prendi in prestito sul tuo punteggio ed esci con contanti non tracciati, e il punteggio scende. Il faccendiere fissa un tasso (contanti per punto di Credit Score) e trattiene una commissione; l'offerta la fa il GM, compare in Equipaggiamento, e scegli quanti punti prendere — la scheda mostra il totale prima che tu accetti. Così il Credit Score non supera mai il suo massimo né scende sotto 0. Un faccendiere può anche offrirti di **ripulire un'arma scottante**: scegli quale, paghi la sua quota sul prezzo e torna sbloccata, non tracciata e tua — poi un d20 decide se la pista riporta alla crew. Ogni accordo finisce nel registro: anche i libri di un faccendiere lasciano tracce.
 
 ## 8-2. Armi {#sec-8-2}
 
-Ogni arma attacca con un'abilità: coltelli, manganelli e storditori usano **Melee / CQC**, le pistole **Handguns**, SMG e fucili d'assalto **Automatic Firearms**, i fucili di precisione **Long Guns / Shotguns**, i pugni **Brawling**. Ai danni si aggiunge il tuo Bonus offensivo.
+Ogni arma attacca con una competenza: coltelli, manganelli e storditori usano **Melee / CQC**, le pistole **Handguns**, SMG e fucili d'assalto **Automatic Firearms**, i fucili di precisione **Long Guns / Shotguns**, i pugni **Brawling**. Ai danni si aggiunge il tuo Bonus offensivo.
 
 ::table[weapons]
 
@@ -65,7 +93,7 @@ Gli **ID Scramble Kit** non sono armature: passamontagna, guanti e uno strato es
 
 **Usare gli oggetti.** I consumabili (kit, stimolanti, antidoti, granate) hanno un pulsante **Usa** nell'inventario, e *Usa oggetto* nella scheda Turno (**1 azione** in combattimento, gratis fuori). Scegli l'oggetto e, se offre una scelta, cosa fa; gli oggetti medici funzionano **su di te** o **su un alleato accanto a te** (la finestra mostra il risultato, es. "cura 7", e lui lo inserisce sulla sua scheda). Le cure le tira l'app o le scrivi dai tuoi dadi. Gli **effetti a tempo** (+2 DEX per 3 round…) compaiono come una pillola verde nella barra di stato, scalano a ogni fine round e alzano tutti i numeri che ne dipendono; gli stimolanti forti finiscono con un **crollo** (Slowed per un round). Gli oggetti venduti in confezioni ("×5") ne danno altrettanti. Fumo, EMP, dardi e simili cambiano il campo di battaglia: la scheda spende l'azione e registra l'effetto, lo applica il GM.
 
-**Attrezzi.** L'attrezzatura che porti (grimaldelli, rampini, occhiali AR, un piede di porco) aiuta un tiro quando è adatta: la finestra del tiro elenca come caselle gli attrezzi per quell'abilità, attributo o attacco ("Mechanical Lockpick Set +2 · serrature fisiche"). Spunta quello che vale; **conta un attrezzo per tiro**, non si consuma nulla, e il GM può dire che qui non vale. L'attrezzatura sempre attiva (occhiali AR per Perception, un mirino laser per gli attacchi con armi da fuoco) parte già spuntata. Il registro indica l'attrezzo usato. Una **maschera antigas** nell'inventario ti rende immune ai gas.
+**Attrezzi.** L'attrezzatura che porti (grimaldelli, rampini, occhiali AR, un piede di porco) aiuta un tiro quando è adatta: la finestra del tiro elenca come caselle gli attrezzi per quella competenza, attributo o attacco ("Mechanical Lockpick Set +2 · serrature fisiche"). Spunta quello che vale; **conta un attrezzo per tiro**, non si consuma nulla, e il GM può dire che qui non vale. L'attrezzatura sempre attiva (occhiali AR per Perception, un mirino laser per gli attacchi con armi da fuoco) parte già spuntata. Il registro indica l'attrezzo usato. Una **maschera antigas** nell'inventario ti rende immune ai gas.
 
 ::table[items]
 
@@ -79,7 +107,7 @@ Il deck determina la **RAM** e l'**heat cap** dell'Hacker. Gli slot mod accolgon
 
 ### Droni del Tech Wizard {#sec-8-5-drones}
 
-Il drone del Tech Wizard è un oggetto, si compra e si modifica come un deck — e ogni Tech Wizard parte con uno **Scrap Drone** gratuito, il suo progetto personale. Non ha mai un turno: il Tech Wizard spende azioni nelle ability che lo usano. I suoi numeri entrano in quelle: la barriera di *Deploy Sentry* dell'Engineer è il drone in volo, la torretta è il drone che atterra (con i suoi HP, armatura e danni). E dà **portata**: *Healing Surge*, *Field Maintenance* e *Rig Power Conduit*, di solito accanto a te, funzionano fino alla portata del drone. Gli slot mod accettano un collegamento più lungo (portata), un telaio (HP), una placcatura (armatura), un payload (danni della torretta) o un emettitore di scudo (armatura per gli alleati dietro la barriera). Quando viene abbattuto, segnalo **Distrutto** sul motore: non si spegne mai, ma lavora a metà portata e metà danni finché *Restock & Repair* o il tempo tra una missione e l'altra non lo sistemano. Tutti i valori sono provvisori.
+Il drone del Tech Wizard è un oggetto, si compra e si modifica come un deck — e ogni Tech Wizard parte con uno **Scrap Drone** gratuito, il suo progetto personale. Non ha mai un turno: il Tech Wizard spende azioni nelle abilità che lo usano. I suoi numeri entrano in quelle: la barriera di *Deploy Sentry* dell'Engineer è il drone in volo, la torretta è il drone che atterra (con i suoi HP, armatura e danni). E dà **portata**: *Healing Surge*, *Field Maintenance* e *Rig Power Conduit*, di solito accanto a te, funzionano fino alla portata del drone. Gli slot mod accettano un collegamento più lungo (portata), un telaio (HP), una placcatura (armatura), un payload (danni della torretta) o un emettitore di scudo (armatura per gli alleati dietro la barriera). Quando viene abbattuto, segnalo **Distrutto** sul motore: non si spegne mai, ma lavora a metà portata e metà danni finché *Restock & Repair* o il tempo tra una missione e l'altra non lo sistemano. Tutti i valori sono provvisori.
 
 ::table[drones]
 
@@ -105,6 +133,6 @@ L'ottica determina **Portata**, **Track** e **modalità** dello Scavenger (5-6).
 
 ## 8-6. Stile di vita {#sec-8-6}
 
-Il costo mensile dell'esistere. Gli operatori partono dal fondo; salire è qualcosa che ci si guadagna. Scegli il tuo nella sezione Stile di vita del mercato con **Scegli**: non costa nulla. Alcune categorie tengono **una** sola scelta e una nuova la sostituisce — casa, piano dati, cibo: un nuovo appartamento sostituisce il vecchio. Altre **si sommano** — bollette, trasporti, tasse, un club — tranne quando due voci sono alternative tra loro (assicurazione medica base o premium, streaming con o senza pubblicità). Ogni riga del mercato dice quale (*si somma alle altre* / *sostituisce quella che hai*); ✕ ne toglie una. La scheda mostra il mantenimento mensile in $ (o ≈ Credit Score se pagato ufficialmente); dopo un downtime lo paghi per il tempo trascorso: contanti, Credit Score o metà e metà (5-10). I piani più economici hanno un prezzo nascosto: il **piano dati con pubblicità** ti riempie la lente (−1 a *Perception / Awareness*); le **razioni dell'emporio aziendale** ti logorano (1 Strain in meno recuperato in downtime); una **cuccetta a capsula** è la casa che fa recuperare meno.
+Il costo mensile dell'esistere. Gli operatori partono dal fondo; salire è qualcosa che ci si guadagna. Scegli il tuo nella sezione Stile di vita del mercato con **Scegli**: non costa nulla. Alcune categorie tengono **una** sola scelta e una nuova la sostituisce — casa, piano dati, cibo: un nuovo appartamento sostituisce il vecchio. Altre **si sommano** — bollette, trasporti, tasse, un club — tranne quando due voci sono alternative tra loro (assicurazione medica base o premium, streaming con o senza pubblicità). Ogni riga del mercato dice quale (*si somma alle altre* / *sostituisce quella che hai*); ✕ ne toglie una. La scheda mostra il mantenimento mensile in $ (o ≈ Credit Score se pagato ufficialmente); dopo un downtime lo paghi per il tempo trascorso: contanti, Credit Score o metà e metà (5-10). I piani più economici hanno un prezzo nascosto: il **piano dati con pubblicità** ti riempie la lente (−1 a *Perception / Awareness*); le **razioni dell'emporio aziendale** ti logorano (1 Stress in meno recuperato in downtime); una **cuccetta a capsula** è la casa che fa recuperare meno.
 
 ::table[lifestyle]

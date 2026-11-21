@@ -1,6 +1,8 @@
 // The prop library's drawings (decision 68): app/props/*.svg, read once and inlined into maps so their
 // `currentColor` and class names follow the theme. Anything that could run or leak is stripped on load.
 
+import { outlineOf } from './outline.js';
+
 const cache = new Map(); // prop id -> { viewBox, inner } | null
 let loading = null;
 
@@ -12,7 +14,7 @@ function clean(text) {
   for (const el of svg.querySelectorAll('*')) {
     for (const a of [...el.attributes]) if (/^on/i.test(a.name) || a.name === 'id' || /href$/i.test(a.name)) el.removeAttribute(a.name);
   }
-  return { viewBox: svg.getAttribute('viewBox') ?? '0 0 100 100', inner: svg.innerHTML };
+  return { viewBox: svg.getAttribute('viewBox') ?? '0 0 100 100', inner: svg.innerHTML, outline: outlineOf(svg) }; // outline: decision 359, for shadows
 }
 
 /** Fetches every drawing once (later calls get the same promise). */
@@ -29,3 +31,5 @@ export function loadProps(data) {
 /** The drawing for a prop id, or null while it loads (the map shows its outline meanwhile). */
 export const propMarkup = (id) => cache.get(id) ?? null;
 export const propsLoaded = () => cache.size > 0;
+/** Decision 359: a piece's traced outline ([[u, v]] fractions of its drawing), or null (use its box). */
+export const propOutline = (id) => cache.get(id)?.outline ?? null;

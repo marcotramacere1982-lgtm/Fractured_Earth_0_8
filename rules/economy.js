@@ -31,7 +31,7 @@ export function magazines(data) {
  * What selling one gives back: half the list price; a quarter for gear bought officially (registered, decision 57).
  * Custom items have no price: the player types it.
  */
-export const sellPrice = (entry, economy, { official = false } = {}) => (entry?.cost ? Math.floor((entry.cost.cr / (entry.pack ?? 1)) * (official ? economy.sell.officialFraction : economy.sell.fraction)) : 0); // per unit of a pack
+export const sellPrice = (entry, economy, { official = false } = {}) => (entry?.cost ? Math.floor((entry.cost.cr / (entry.pack ?? 1)) * (entry.hot || entry.traced ? economy.sell.hotFraction ?? economy.sell.officialFraction : official ? economy.sell.officialFraction : economy.sell.fraction)) : 0); // per unit of a pack; decision 345: hot goods (a looted tracked gun, a traced passport) fetch a quarter
 
 /** Whether the next unit of a row to leave is a registered (officially bought) one: street units go first. */
 export const nextIsOfficial = (row) => (row?.official ?? 0) >= (row?.qty ?? 0) && (row?.official ?? 0) > 0;

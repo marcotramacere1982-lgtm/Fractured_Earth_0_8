@@ -98,7 +98,9 @@
 .b-career__req { display: flex; flex-direction: column; font-size: var(--text-xs); }
 
 /* ---------- debt ---------- */
-.b-debt { padding: var(--space-4); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-danger); background: var(--color-danger-soft); max-width: 70ch; }
+.b-debt { padding: var(--space-4); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-danger); background: var(--color-danger-soft); }
+.b-debt__cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: var(--space-3) var(--space-5); }
+.b-debt__cols p { margin: var(--space-1) 0 0; }
 
 /* ---------- classes ---------- */
 .b-classes { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
@@ -153,3 +155,57 @@
 .b-kits__list { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); }
 .b-kit { display: grid; gap: var(--space-1); text-align: left; padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-md); background: transparent; color: inherit; cursor: pointer; min-height: var(--touch); }
 .b-kit[aria-pressed='true'] { border-color: var(--color-accent); background: var(--color-accent-soft); }
+
+/* owner 2026-11-18: the questionnaire screen — the five classes, six questions as a grid, suggestion cards */
+.b-ov__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--space-2); }
+.b-ov__class { border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-2); }
+.b-ov__class > summary { display: grid; grid-template-columns: auto 1fr; gap: 0 var(--space-2); align-items: center; padding: var(--space-2) var(--space-3); cursor: pointer; min-height: var(--touch); }
+.b-ov__class > summary .icon { grid-row: span 2; width: 2rem; height: 2rem; color: var(--color-accent); }
+.b-ov__name { font-family: var(--font-ui); font-weight: 700; }
+.b-ov__pitch { font-size: var(--text-sm); color: var(--color-text-muted); line-height: var(--leading-tight); }
+.b-ov__more { padding: 0 var(--space-3) var(--space-3); font-size: var(--text-sm); }
+.b-ov__more p { margin: 0 0 var(--space-2); }
+.b-ov__subs { margin: 0; padding-left: var(--space-4); display: grid; gap: var(--space-1); }
+.b-qgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: var(--space-3); }
+.b-qcard { border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-3); margin: 0; background: var(--color-surface-2); display: flex; flex-direction: column; gap: var(--space-2); }
+.b-qcard.is-done { border-color: var(--color-success); }
+.b-qcard__title { float: left; width: 100%; padding: 0; font-family: var(--font-ui); font-weight: 700; font-size: var(--text-md); }
+.b-qcard__title + * { clear: both; }
+.b-qcard__text { margin: 0; font-size: var(--text-sm); color: var(--color-text-muted); line-height: var(--leading-tight); }
+.b-qcard__opts { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.b-chip { display: inline-flex; align-items: center; gap: var(--space-1); min-height: var(--touch); padding: var(--space-1) var(--space-2); border-radius: var(--radius-md); border: var(--border-width) solid var(--color-border-strong); background: var(--color-surface); color: var(--color-text); font: inherit; font-size: var(--text-sm); cursor: pointer; }
+.b-chip .icon { width: 1.25rem; height: 1.25rem; flex: none; }
+.b-chip:hover { border-color: var(--color-accent); }
+.b-chip[aria-pressed='true'] { border-color: var(--color-accent); background: var(--color-accent-soft); color: var(--color-accent); }
+.b-qcard__picked { margin: 0; font-size: var(--text-sm); font-style: italic; }
+.b-recs { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: var(--space-3); }
+.b-rec-card { display: grid; grid-template-columns: auto 1fr; gap: var(--space-3); padding: var(--space-3); border: var(--border-width) solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface-2); }
+.b-rec-card.is-primary { border-color: var(--color-accent); }
+.b-rec-card__icon { width: 2.5rem; height: 2.5rem; color: var(--color-accent); }
+.b-rec-card p { margin: 0; }
+/* owner 2026-11-18: careers grouped — open first, the closed ones folded */
+.b-career__mods { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); font-family: var(--font-mono); font-size: var(--text-sm); }
+.b-careers-shut > summary { cursor: pointer; min-height: var(--touch); display: flex; align-items: center; }
+.b-careers-shut[open] > summary { margin-bottom: var(--space-2); }
+/* owner 2026-11-19: the Class step as one list, best first */
+.b-subgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: var(--space-2); }
+.b-sub__head { display: grid; grid-template-columns: auto 1fr auto; gap: var(--space-2); align-items: center; }
+.b-sub__head .icon { width: 1.75rem; height: 1.75rem; color: var(--color-accent); }
+.b-sub__title { display: flex; flex-direction: column; line-height: var(--leading-tight); }
+.b-sub__class { font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.b-sub__tn { display: flex; flex-direction: column; align-items: center; font-family: var(--font-mono); font-size: var(--text-xl); font-weight: 700; line-height: 1; }
+.b-aim__how > summary { cursor: pointer; color: var(--color-text-muted); }
+/* the drive in the builder: two real choices */
+.b-drive { padding: var(--space-3); border: var(--border-width) solid var(--color-warning); border-radius: var(--radius-md); background: var(--color-surface-2); }
+.b-drive.is-done { border-color: var(--color-success); }
+.drive-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--space-2); }
+.drive-card { display: flex; flex-direction: column; gap: var(--space-1); min-height: var(--touch); padding: var(--space-3); text-align: left; border-radius: var(--radius-md); border: var(--border-width) solid var(--color-border-strong); background: var(--color-surface); color: var(--color-text); font: inherit; cursor: pointer; }
+.drive-card:hover { border-color: var(--color-accent); }
+.drive-card[aria-pressed='true'] { border-color: var(--color-accent); background: var(--color-accent-soft); }
+.drive-card__name { font-family: var(--font-ui); font-size: var(--text-lg); }
+.drive-card__desc { font-size: var(--text-sm); color: var(--color-text-muted); }
+/* starter kits: the gear as a list, then the abilities */
+.b-kit { display: flex; flex-direction: column; gap: var(--space-1); text-align: left; }
+.b-kit__name { font-family: var(--font-ui); font-size: var(--text-lg); }
+.b-kit__list { margin: 0 0 var(--space-2); padding: 0; list-style: none; display: grid; gap: var(--space-1); font-size: var(--text-sm); }
+.b-kit__row { display: flex; align-items: center; gap: var(--space-2); }

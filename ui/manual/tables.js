@@ -132,7 +132,9 @@ const TABLES = {
     d.items.filter((i) => !i.loot).sort((a, b) => a.cost.cr - b.cost.cr).map((i) => [`<strong>${e(i.name)}</strong><br><span class="muted">${e(i.desc)}</span>`, e(i.effectType), e(i.effect), e(i.skillBonus), rarity(i.rarity), i.cost.cr, crs(i, 'item', d)]), 'md-table--dense'),
   // decision 317: loot — found or stolen, never in the market; a fence pays half the street value
   loot: (d) => table(['Loot', 'Kind', 'Street value $', 'Fence pays $', 'Traced'],
-    d.items.filter((i) => i.loot).map((i) => [`<strong>${e(i.name)}</strong><br><span class="muted">${e(i.desc)}</span>`, e(t(`loot.${i.loot}`)), i.cost.cr, Math.floor(i.cost.cr * d.economy.sell.fraction), i.traced ? '📡' : '—']), 'md-table--dense'),
+    d.items.filter((i) => i.loot).map((i) => [`<strong>${e(i.name)}</strong><br><span class="muted">${e(i.desc)}</span>`, e(t(`loot.${i.loot}`)), i.cost.cr, Math.floor(i.cost.cr * (i.traced ? d.economy.sell.hotFraction : d.economy.sell.fraction)), i.traced ? '📡' : '—']), 'md-table--dense'), // decision 345: traced = hot, a quarter
+  // decision 346: how hard to push when haggling — the % and the difficulty step (a fixer's mood moves it by one)
+  haggle: (d) => table(['Ask for', 'Price moves', 'Difficulty'], d.economy.haggle.steps.map((s) => [`<strong>${e(t(`haggle.step.${s.id}`, { pct: s.pct }))}</strong>`, `${s.pct}%`, e(d.difficulty.tiers.find((x) => x.id === s.tier)?.name ?? '')])),
   decks: (d) => table(['Deck', 'RAM', 'Heat cap', 'Mod slots', 'Battery (idle / use)', 'Visibility', 'Rarity', 'List $', 'CRS'],
     [...d.decks].sort((a, b) => a.cost.cr - b.cost.cr).map((k) => [`<strong>${e(k.name)}</strong><br><span class="muted">${e(k.desc)}</span>`, k.ram, k.heatCap, k.modSlots, `${e(k.battery.idle)} / ${e(k.battery.usage)}`, `${k.visibility}/5`, rarity(k.rarity), k.cost.cr, crs(k, 'deck', d)]), 'md-table--dense'),
   optics: (d) => table(['Optic', 'Range', 'Track', 'Mode', 'Visibility', 'Rarity', 'List $', 'CRS'],

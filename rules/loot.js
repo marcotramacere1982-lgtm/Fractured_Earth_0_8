@@ -12,9 +12,11 @@ function cleanRow(r) {
   const kind = text(r.kind, 12);
   const name = text(r.name, 60);
   if (kind === 'custom' && !name) return null;
-  return { kind, id: text(r.id, 80) || kind, name, qty: Math.max(1, Math.min(99, Math.round(Number(r.qty) || 1))), ...(text(r.note, 200) ? { note: text(r.note, 200) } : {}), ...(r.unique && typeof r.unique === 'object' ? { unique: r.unique } : {}) };
+  return { kind, id: text(r.id, 80) || kind, name, qty: Math.max(1, Math.min(99, Math.round(Number(r.qty) || 1))), ...(text(r.note, 200) ? { note: text(r.note, 200) } : {}), ...(r.unique && typeof r.unique === 'object' ? { unique: r.unique } : {}), ...(['smart', 'biometric'].includes(r.lock) ? { lock: r.lock } : {}) }; // lock: decision 345 (a body's weapon)
 }
-const cleanPart = (x) => ({ items: (Array.isArray(x?.items) ? x.items : []).map(cleanRow).filter(Boolean).slice(0, 30), cash: Math.max(0, Math.round(Number(x?.cash) || 0)) });
+const DICE = /^\d{0,2}d\d{1,3}([+-]\d{1,3})?$/i;
+const cleanPart = (x) => ({ items: (Array.isArray(x?.items) ? x.items : []).map(cleanRow).filter(Boolean).slice(0, 30), cash: Math.max(0, Math.round(Number(x?.cash) || 0)),
+  ...(DICE.test(String(x?.cashRoll ?? '').replace(/\s+/g, '')) ? { cashRoll: String(x.cashRoll).replace(/\s+/g, '') } : {}) }); // decision 345: an enemy's cash, rolled when it falls
 
 /** A piece's loot, made safe. hidden: { items, cash, check } — check defaults to Perception. */
 export function cleanLoot(raw) {
@@ -33,7 +35,7 @@ export function cleanLoot(raw) {
 export const hasAny = (part) => Boolean(part && ((part.items ?? []).length || part.cash));
 
 /** In words, for the GM: "Pistol, Trauma kit ×2, $200". */
-export const lootText = (part) => [...(part?.items ?? []).map((r) => `${r.unique?.name ?? r.name ?? r.id}${r.qty > 1 ? ` ×${r.qty}` : ''}`), ...(part?.cash ? [`$${part.cash}`] : [])].join(', ');
+export const lootText = (part) => [...(part?.items ?? []).map((r) => `${r.unique?.name ?? r.name ?? r.id}${r.qty > 1 ? ` ×${r.qty}` : ''}${r.lock ? ' 🔒' : ''}`), ...(part?.cash ? [`$${part.cash}`] : []), ...(part?.cashRoll ? [`$${part.cashRoll}`] : [])].join(', ');
 
 /** The units one part puts into a stash (one per item: the stash rules count them), custom ones with a fresh id. */
 export function stashUnits(part, newId) {

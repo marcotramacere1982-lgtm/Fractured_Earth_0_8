@@ -13,7 +13,7 @@ import { setExplainSource } from '../explain.js';
 import { findSkill } from './skills.js';
 import { tacticalView } from './tactical.js';
 import { dossierTab, notesTab } from './dossier.js';
-import { openCheck, openShop, openChoice, openDialog, setTierLock } from './dialogs.js';
+import { openCheck, openShop, openChoice, openDialog, setTierLock, setPush } from './dialogs.js';
 import { optionMeta, payWays } from '../../rules/downtime-choice.js'; // decision 332
 import { applyFor } from '../../rules/jobs.js'; // decision 334
 import { stageOf } from '../../rules/downtime.js';
@@ -45,6 +45,8 @@ import { whisperButton, openWhisper } from './whisper.js';
 import { hitHandlers } from './hit-handlers.js';
 import { playAbility, detonate } from './ability-play.js';
 import { findGear, sellPrice, nextIsOfficial } from '../../rules/economy.js';
+import { haggleSteps, haggleApproaches, haggleTier, haggleOutcome, paid } from '../../rules/haggle.js'; // decision 346
+import { standInsFor } from './scene-abilities.js'; // decision 347
 import { t, tn, getLang } from '../../i18n/index.js';
 import { storyPrompt } from '../builder/prompts.js';
 import { soundOn, setSound, cue } from '../sound.js';
@@ -52,7 +54,7 @@ import { startTour, tourDone, markTourDone } from '../tour.js';
 import { ruleText } from '../rule-text.js';
 import { boostsFor } from './check-boosts.js';
 import { paintedRect, placePins, takeStairs } from './map-tab.js'; // decision 320: pins on the scene picture
-import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky, mapTarget, coverTo } from './map-tab.js';
+import { mapTab, attachMap, mapBusy, mapFit, mapZoom, clearTarget, targetSeen, toggleSky, mapTarget, coverTo, isAiming, setAiming } from './map-tab.js';
 import { railOpen } from '../rails.js';
 import { loadoutOverlay, openSwap, closeSwap } from './loadout.js';
 import { hitOverlay, grantOverlay } from './hits.js';
@@ -130,7 +132,7 @@ export function sheetView({ data, store, main, table }, route) {
   const nameOfSkill = (skillId) => data.skills.skills.find((k) => k.id === skillId)?.name ?? skillId;
   /** In combat, an action needs a free action this round. */
   const actionAvailable = (c, sh) => {
-    const ts = turnStatus(c.play.turn ?? newTurn(), sh.combat.act.value, c.play.conditions, data.actions);
+    const ts = turnStatus(c.play.turn ?? newTurn(), sh.combat.act.value, sh.conditionsNow, data.actions);
     // decision 202: when the GM runs the rounds, actions are spent on your own turn (reactions don't come through here)
     const combat = table?.state.joinedId === id ? table.state.combat : null;
     if (ts.inCombat && combat?.active && c.play.turn?.tableCombat === combat.id && combat.current && combat.current !== c.id) { toast(t('turn.notYours'), 'danger'); return false; }
@@ -173,7 +175,7 @@ export function sheetView({ data, store, main, table }, route) {
     if (strip) startStripClock();
     const crewsNow = atTableNow ? table.state.crews : null; // decision 326: this character's crew, and whether it's a guest tonight
     const homeCrew = crewsNow?.list?.find((k) => k.id === crewsNow.home?.[id]) ?? null;
-    const ctx = { crew: homeCrew ? { name: crewLabel(homeCrew), guest: isGuest(crewsNow.home, crewsNow.tonight, id) } : null, view: tableView(), pins: (tableView() && table.state.viewPins?.[tableView().id]) || [], sceneBig: sceneMem.big, strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null, caseState: table?.state.joinedId === id ? table.state.case : null, names: caseNames(), joined: atTableNow, crewVote: (batch) => (atTableNow ? table.state.crewVotes?.[batch] : undefined) /* decision 333 */ };
+    const ctx = { crew: homeCrew ? { name: crewLabel(homeCrew), guest: isGuest(crewsNow.home, crewsNow.tonight, id) } : null, view: tableView(), pins: (tableView() && table.state.viewPins?.[tableView().id]) || [], sceneBig: sceneMem.big, strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, aim: tab.id === 'map' && c.play.torch && visionOf(c, withUniques(data, c)).beam && tableMap() ? isAiming() : null, /* decision 360 */ actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null, caseState: table?.state.joinedId === id ? table.state.case : null, names: caseNames(), joined: atTableNow, crewVote: (batch) => (atTableNow ? table.state.crewVotes?.[batch] : undefined) /* decision 333 */ };
     const tabNav = html`<nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
             ${tabs().map((x) => html`<a class="tab ${x.id === 'map' ? 'tab--live' : ''}" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
           </nav>`;
@@ -214,7 +216,7 @@ export function sheetView({ data, store, main, table }, route) {
     const bar = main.querySelector('.sheet-status')?.offsetHeight; // the Sheet tab's index sticks just under the status bar
     if (bar) main.style.setProperty('--status-h', `${bar}px`);
     if (tab.id === 'map') placePins(main); // decision 320
-    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark, overwatch: c.play.overwatch }); // decision 251
+    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark, overwatch: c.play.overwatch, onAim: async (angle) => { if (!(await table?.aim(tableMap()?.id, angle))) toast(t('map.aim.failed'), 'danger'); } }); // decision 251; 360: point the torch
     if (tab.id === 'notes') attachMemory(main, data, c, draw); // decision 122
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
   };
@@ -234,7 +236,7 @@ export function sheetView({ data, store, main, table }, route) {
     const turn = c.play.turn ?? newTurn();
     const left = turn.moveLeft ?? 0; // squares left from this round's Move (decision 73)
     // decision 161: dragging in a fight needs a Move first — no drag spends an action by itself
-    if (!left) return { why: turnStatus(turn, s.combat.act.value, c.play.conditions, data.actions).left > 0 ? 'pressMove' : 'noActions', move: s.move };
+    if (!left) return { why: turnStatus(turn, s.combat.act.value, s.conditionsNow, data.actions).left > 0 ? 'pressMove' : 'noActions', move: s.move };
     return { max: left, combat: true, left, move: s.move };
   };
   /**
@@ -297,7 +299,8 @@ export function sheetView({ data, store, main, table }, route) {
     if (!combat?.active) return 'ok';
     if (combat.current !== id) return 'wait';
     const c = character();
-    return turnStatus(c.play.turn ?? newTurn(), deriveSheet(c, data).combat.act.value, c.play.conditions, data.actions).left > 0 ? 'ok' : 'noActions';
+    const sh = deriveSheet(c, data);
+    return turnStatus(c.play.turn ?? newTurn(), sh.combat.act.value, sh.conditionsNow, data.actions).left > 0 ? 'ok' : 'noActions';
   };
   /** A move the sheet accepted: in combat it is a Move action (logged); then the GM console applies it. */
   const mapMoved = (to, steps, inCombat) => {
@@ -347,6 +350,8 @@ export function sheetView({ data, store, main, table }, route) {
     return result;
   };
 
+  // decision 362: Push on every check and attack — +2, paid with +1 Fatigue when the roll is made
+  setPush(() => (data.fatigue ? { tn: data.fatigue.push.tn, use: (what) => run('fatiguePushRoll', { what: String(what) }) } : null));
   /** Decision 332: how to pay a downtime cost — cash, Credit Score, half and half — then go(way). */
   const payFirst = (label, cost, go) => {
     const ways = payWays(cost, character(), data);
@@ -362,7 +367,24 @@ export function sheetView({ data, store, main, table }, route) {
       return { name: t('check.attribute', { name: a.name }), en: `${a.id} check`, tn: v, sub: `${a.id} ${v} (bonus ${bonus(v)})`, tools: toolsFor(c.play.inventory, data.items, { attr: targetId }), boosts: boostsFor(c, data, { kind: 'attr', id: targetId }) };
     }
     const k = s.skills.find((x) => x.id === targetId);
-    return { name: bothNames(k), en: nameEn(k), tn: k.value, sub: k.stats.join(' + '), tools: toolsFor(c.play.inventory, data.items, { skill: targetId }), boosts: boostsFor(c, data, { kind: 'skill', id: targetId }) };
+    // decision 347: out of a fight, an equipped ability that stands in for this skill (Phish for Deception…) — the check window offers it
+    const standIns = !c.play.turn?.inCombat && s.class && actionAvailable(c, s) ? standInsFor(c, s, data, targetId).map(({ a, limit }) => ({ id: a.id, name: a.name, desc: a.desc, tn: s.class.tn, limit,
+      use: (r) => run('useRolled', { id: a.id, success: r.success, rollText: rollText(r) }) })) : [];
+    return { name: bothNames(k), en: nameEn(k), tn: k.value, sub: k.stats.join(' + '), tools: toolsFor(c.play.inventory, data.items, { skill: targetId }), boosts: boostsFor(c, data, { kind: 'skill', id: targetId }), standIns };
+  };
+
+  /** Decision 346: how hard to push (a % and a step, moved by the other side's mood), how (the skill), then one roll. */
+  const haggleFlow = (mood, done, lead = '') => {
+    const tierName = (n) => data.difficulty.tiers.find((x) => x.id === n)?.name ?? '';
+    openChoice(t('haggle.howMuch'), haggleSteps(data).map((st) => ({ value: st.id, label: t(`haggle.step.${st.id}`, { pct: st.pct }), sub: tierName(haggleTier(st.id, mood, data)) })), (step) => {
+      openChoice(t('haggle.how'), haggleApproaches(data).map((a) => ({ value: a.id, label: t(`haggle.approach.${a.id}`), sub: t(`haggle.approachSub.${a.id}`) })), (approach) => {
+        const skill = haggleApproaches(data).find((a) => a.id === approach).skill;
+        const target = checkTarget({ kind: 'skill', id: skill });
+        openCheck({ ...target, name: `${t('haggle.try')} · ${target.name}` }, data, (r) => done({ step, approach, success: r.success, natural: r.natural, rollText: rollText(r) }),
+          { tier: haggleTier(step, mood, data), once: true, tools: target.tools, boosts: target.boosts,
+            after: (r) => html`<p class="notice ${r.success ? 'notice--ok' : 'notice--danger'}">${t(`haggle.out.${haggleOutcome({ step, approach, success: r.success, natural: r.natural }, data).code}`)}</p>` });
+      });
+    }, { lead });
   };
 
   const tableCombat = () => (table?.state.joinedId === id ? table.state.combat : null);
@@ -682,7 +704,10 @@ export function sheetView({ data, store, main, table }, route) {
     foeImage: ({ art, look, name }) => openDialog(() => html`
       <header class="card__head"><h2 class="card__title">${name}</h2><button class="btn btn--ghost btn--icon" data-action="close" aria-label="${t('common.close')}">✕</button></header>
       <div class="dialog__body foe-full"><img src="/api/table/art?art=${art}&size=full&look=${look}" alt="${name}"></div>`, { click: {} }), // decision 152
-    acceptDeal: ({ id: dealId }) => run('acceptDeal', { id: dealId }), // decision 143: the washer
+    acceptDeal: ({ id: dealId }) => { // decision 143: the washer; 345: a hot gun's result goes to the GM
+      const r = run('acceptDeal', { id: dealId });
+      if (r?.name) { toast(t(r.traced ? 'washer.gunTraced' : 'washer.gunClean', { item: r.name }), r.traced ? 'danger' : 'success'); table?.downtimeNote(`🧼 ${character().name || 'A player'} had ${r.name} washed for ${r.fee} — d20 ${r.roll}${r.traced ? ': the trail leads back to the crew' : ': clean'}`); }
+    },
     declineDeal: ({ id: dealId }) => run('declineDeal', { id: dealId }),
     stashRename: () => { const name = prompt(t('stash.name'), character().play.stash?.name ?? ''); if (name !== null) run('stashName', { value: name }); }, // decision 144
     ...hitHandlers({ character, data, run, table, toast, rollText, tier: tableTier }), // decision 154
@@ -752,6 +777,23 @@ export function sheetView({ data, store, main, table }, route) {
       });
     },
     droneCharge: () => run('droneCharge'),
+    /** Decision 346: one haggle per washer offer (the GM's mood for it), or one on the street per trip. */
+    haggleDeal: ({ id: dealId }) => {
+      const o = (character().play.offers ?? []).find((x) => x.id === dealId);
+      if (o && !o.haggle) haggleFlow(o.mood ?? 'normal', (r) => run('haggleDeal', { id: dealId, ...r }));
+    },
+    haggleStreet: () => { if (!character().play.haggle) haggleFlow('normal', (r) => run('haggleStreet', r), t('haggle.streetLead')); },
+    /** Decision 345: break a looted gun's smart lock — a Hard Hacking roll (or the table's, if harder); +1 Trace on the GM's map either way. */
+    breakLock: ({ id: itemId }) => {
+      const row = character().play.inventory.find((x) => x.kind === 'weapon' && x.id === itemId);
+      if (row?.unique?.lock !== 'smart') return;
+      const target = checkTarget({ kind: 'skill', id: 'computers_hacking' });
+      openCheck({ ...target, name: `${t('lock.break')} · ${row.unique.name}` }, data, (r) => {
+        const ok = run('breakLock', { id: itemId, success: r.success, rollText: rollText(r) });
+        if (ok !== undefined) table?.lockHack(tableMap()?.id ?? null, { weapon: nameEn(row.unique), success: r.success });
+      }, { tier: Math.max(2, Number(tableTier()) || 0), once: true, tools: target.tools, boosts: target.boosts,
+        after: (r) => html`<p class="notice ${r.success ? 'notice--ok' : 'notice--danger'}">${t(r.success ? 'lock.broke' : 'lock.held')}</p>` });
+    },
     endEffect: ({ id: effectId }) => run('endEffect', { id: effectId }),
     storyUse: ({ id: itemId }) => { run('storyUse', { id: itemId }); toast(t('use.storyDone')); },
     /** Decision 55: drop one (asks first). */
@@ -768,7 +810,7 @@ export function sheetView({ data, store, main, table }, route) {
       const atTable = table?.state.available && table.state.joinedId === id;
       const registered = nextIsOfficial(row);
       const unfenceable = Boolean(row.unique && !row.unique.cost?.cr); // a unique the GM marked "can't be fenced"
-      openTrade({ name, registered, unfenceable, price: kind === 'custom' ? null : sellPrice(findGear(kind, itemId, withUniques(data, c)), data.economy, { official: registered }) }, {
+      openTrade({ name, registered, unfenceable, price: kind === 'custom' ? null : paid(sellPrice(findGear(kind, itemId, withUniques(data, c)), data.economy, { official: registered }), c.play.haggle?.pct ?? 0) }, { // decision 346: this trip's haggle
         inCombat: Boolean(c.play.turn?.inCombat),
         players: atTable ? async () => (await table.players()).filter((p) => p.id !== id) : null,
         onSell: (price) => { let cash = 0; store.update(id, (draft) => { cash = actions.sell(draft, data, { kind, id: itemId, price }); }); return t('trade.sold', { item: name, n: cash }); },
@@ -863,6 +905,9 @@ export function sheetView({ data, store, main, table }, route) {
     mapStairs: () => takeStairs(), // owner hotfix 2026-11-14
     mapCross: async ({ id: prop }) => { toast(await table?.cross(table.state.map?.mapId ?? table.state.map?.id, prop) ? t('district.crossSent') : t('ping.offline'), 'success'); }, // decision 303: the GM decides
     mapTorch: ({ on }) => run('torch', { on: on === '1' }),
+    mapAim: () => { setAiming(!isAiming()); draw(); }, // decision 360: the next tap on the map points the torch
+    fatigueHand: ({ delta }) => run('fatigueHand', { delta: Number(delta) }), // decision 362
+    pushAction: () => run('fatiguePushAction'),
     fixStance: ({ value }) => run('fixStance', { value }), // decision 88: a hand correction, logged
     ...markHandlers({ draw, run, send: sendMark, mine: () => myMarks(tableMarks(), tableMap(), id) }),
     inDark: ({ on }) => run('inDark', { on: on === '1' }),
@@ -1021,7 +1066,7 @@ export function sheetView({ data, store, main, table }, route) {
         if (helpNow && c.play.help?.id === helpNow.id) c.play.help = null;
         if (d.ask && !answered) { // decision 165: the GM asked for this roll — the first result goes back, the card goes
           answered = true;
-          table?.rollResult({ ask: d.ask, name: target.en ?? target.name, roll: r.roll, tn: r.effective, success: r.success, margin: r.margin }).then((ok) => { if (!ok) toast(t('crewStash.why.offline'), 'danger'); });
+          table?.rollResult({ ask: d.ask, name: `${target.en ?? target.name}${r.standIn ? ` (${r.standIn.name})` : ''}`, roll: r.roll, tn: r.effective, success: r.success, margin: r.margin }).then((ok) => { if (!ok) toast(t('crewStash.why.offline'), 'danger'); });
           c.play.rollAsks = (c.play.rollAsks ?? []).filter((a) => a.id !== d.ask);
         }
         if (r.natural === 'crit-failure' && data.strain) actions.strainAsk(c, data, { id: `nat${Date.now()}`, n: data.strain.gains.fumble, why: `A natural 20 (${target.en ?? target.name})` }); // decision 266
@@ -1094,6 +1139,7 @@ export function sheetView({ data, store, main, table }, route) {
     subclass: (_, e) => run('subclass', { value: e.target.value }),
     cash: (_, e) => run('cash', { value: e.target.value }),
     dealPoints: ({ id: dealId }, e) => run('dealPoints', { id: dealId, value: e.target.value }), // decision 143
+    dealItem: ({ id: dealId }, e) => run('dealItem', { id: dealId, value: e.target.value }), // decision 345: which hot gun to wash
     stashName: (_, e) => run('stashName', { value: e.target.value }), // decision 144
     mapTag: (_, e) => run('mapTag', { value: e.target.value }), // decision 160: your letters on the map
     field: (d, e) => run('field', { path: d.path, value: d.number ? Number(e.target.value) : e.target.value }),

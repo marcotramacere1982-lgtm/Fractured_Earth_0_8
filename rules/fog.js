@@ -155,7 +155,7 @@ export const squareList = (set) => [...set];
 
 /** The players' eyes: the squares of their placed markers, with what each sees with (rules/light.js → visionOf). */
 export const eyesOf = (live, people) => people.filter((p) => p.kind === 'player' && live.tokens[p.key])
-  .map((p) => ({ ...live.tokens[p.key], dark: p.vision?.dark ?? 0, thermal: p.vision?.thermal ?? 0, torch: p.vision?.torch ?? 0 }));
+  .map((p) => ({ ...live.tokens[p.key], dark: p.vision?.dark ?? 0, thermal: p.vision?.thermal ?? 0, torch: p.vision?.torch ?? 0, ...(p.vision?.beam ? { beam: p.vision.beam } : {}) })); // facing comes with the token (decision 360)
 
 /**
  * Thermal (decision 75): squares where an eye with thermal picks up a warm body — within its thermal range and

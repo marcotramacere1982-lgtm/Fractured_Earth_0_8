@@ -31,7 +31,7 @@ export function hitOverlay(c, s, data) {
   const fight = Boolean(c.play.turn?.inCombat);
   const avoid = s.skills.find((k) => k.id === 'avoid_reflexes')?.value;
   const turn = c.play.turn ?? newTurn();
-  const thisRound = turn.used < roundAllowance(turn, s.combat.act.value, c.play.conditions, data.actions); // decision 161: this round's action first
+  const thisRound = turn.used < roundAllowance(turn, s.combat.act.value, s.conditionsNow, data.actions); // decision 161: this round's action first
   return html`<div class="loadout" role="dialog" aria-modal="true" aria-labelledby="hit-title">
     <div class="loadout__box loadout__box--fight hit-box">
       <header class="loadout__head"><h2 id="hit-title" class="loadout__title">✖ ${t('hit.title')}${hits.length > 1 ? html` <small class="hit-box__count">${t('hit.of', { n: 1, total: hits.length })}</small>` : ''}</h2>

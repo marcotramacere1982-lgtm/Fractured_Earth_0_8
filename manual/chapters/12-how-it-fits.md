@@ -378,3 +378,23 @@ Most of the game happens in one loop. Each stage has its own pressures; the syst
 > "Everything you know for sure is in the dossier on your Case tab — objectives, pictures, names. The board is yours: one of you holds the pen and pins things up, the rest of you suggest. Pass the pen when you like."
 
 **Where to look.** [6-10, The case](#/manual/sec-6-10). The GM's side: [9-9](#/manual/sec-9-9).
+
+## 12-19. Carrying and loot {#sec-12-19}
+
+**What it's for.** People in 2045 carry what they can hide. A rifle on your back is a statement; three of them are a problem — for the fight, for the checkpoint, for the escape.
+
+**The rule in one line.** One bulky thing (two-handed, or marked bulky) is free; a bag carries one more; more than that and you are Slowed until you put something down. What the fallen carried stays on their bodies; good guns rarely survive, and the ones that do are locked, tracked and hot until a washer cleans them.
+
+**Who decides.**
+- **The app** counts bulky things in your inventory, adds the best bag, and applies Slowed while you are over — and lifts it the moment you aren't. It fills each body from the enemy's loot, rolls the cash and whether each weapon survived, and keeps a locked gun from firing.
+- **The players** decide what to carry, what to leave, who carries the bag.
+- **The GM** decides what being seen with it means: a checkpoint, a nervous shopkeeper, a patrol that remembers — and what a tracked gun on the crew brings (the site stays on Alert; who comes looking is the GM's call). The GM makes the washer's offers.
+
+**How it connects.**
+- *Fed by:* the market (bags) · loot from containers and bodies · the GM's 🎁 Give.
+- *Feeds:* Slowed (fewer actions in a fight) · chases and sneaking (the GM's call) · crossings and checkpoints · the site alert (a tracked gun) · the fence and the washer (hot goods).
+
+**Say it at the table.**
+> "You can carry one big thing on your back. A duffel bag holds one more. Anything past that and you're Slowed — drop something and you're not. That rifle? Locked, and it's telling the Watch where you are. Bag it, or leave it."
+
+**Where to look.** [8-1, carrying bulky things](#/manual/sec-8-carry), [bodies and locked guns](#/manual/sec-8-bodies), [the washer](#/manual/sec-8-washer). The GM's side: [9-8](#/manual/sec-9-8).
