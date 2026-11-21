@@ -25,6 +25,7 @@ import { itemActions, tickItemEffects, endItemEffects } from './item-actions.js'
 import { wornGrants } from '../../rules/body.js';
 import { strainActions } from './strain-actions.js'; // decision 266
 import { fatigueActions } from './fatigue-actions.js'; // decision 362
+import { luckActions } from './luck-actions.js'; // decision 363
 import { breathActions } from './breath-actions.js'; // decision 273
 import { landing } from '../../rules/falling.js'; // decision 272
 import { harmOutcome } from '../../rules/harm.js'; // decision 274
@@ -497,7 +498,7 @@ export const actions = {
     const known = kind === 'attr' ? data.attributes.attributes.some((a) => a.id === msg.target) : data.skills.skills.some((k) => k.id === msg.target);
     if (!known) return false;
     const tier = data.difficulty.tiers.some((x) => x.id === msg.tier) ? { tier: msg.tier } : {}; // decision 321: the GM's difficulty for this roll
-    c.play.rollAsks = [...asks, { ...base, kind, target: msg.target, ...tier }].slice(-5);
+    c.play.rollAsks = [...asks, { ...base, kind, target: msg.target, ...tier, ...(msg.tense ? { tense: true } : {}) }].slice(-5); // tense: decision 363
     return true;
   },
   /** Put aside without rolling: the card goes (rolling clears it in the check handler). */
@@ -817,6 +818,7 @@ export const actions = {
   ...downtimeActions,
   ...strainActions,
   ...fatigueActions,
+  ...luckActions,
   ...breathActions,
   ...storyActions,
   ...inventoryActions,

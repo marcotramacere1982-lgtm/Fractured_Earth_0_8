@@ -72,6 +72,15 @@ When two active characters directly oppose each other—such as an Operator atte
 
 > **When to use it.** Rarely. A difficulty step already says how hard the other side is — a fixer who can't be swindled is a *Hard* check, not a contest. Save contested checks for two characters who both have real numbers and both act at once: player against player, or a named elite in a scene that should feel like a duel.
 
+### When luck runs out: Edge {#sec-6-2-edge}
+
+Some nights the dice hate you. A failure still moves the story — but a string of them, through no fault of the character, is no fun. So the game breaks a bad run in the open, by the rules:
+
+- **Three failed rolls in a row** (checks and attacks; a fumble counts) and **your luck turns**: your next roll has **Edge** — roll **two d20 and keep the better** (the lower). The app rolls both and shows them; with real dice, roll two and type the lower.
+- The GM can also give you **Fortune**: Edge on your next roll, the same way.
+- Edge is used by that roll, success or not; then the count starts again.
+- **Tense rolls don't count.** When everything hangs on one roll, the GM marks it *Tense*: it neither uses your Edge (it waits for the next roll) nor counts towards the three.
+
 ### Helping a crewmate {#sec-6-2-help}
 
 One crewmate can help another's check — if they can say **how**: holding the light, reading out the schematic, keeping watch, talking the guard's ear off. The helper rolls a skill that fits what they do:

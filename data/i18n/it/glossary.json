@@ -96,6 +96,10 @@
       "name": "Potenziamento",
       "text": "Un bonus temporaneo (uno stim, un oggetto, il GM). Compare in verde, con il numero normale piccolo accanto."
     },
+    "edge": {
+      "name": "Vantaggio",
+      "text": "Tira due d20, tieni il migliore — dopo tre fallimenti di fila, o con la Fortuna del GM."
+    },
     "fatigue": {
       "name": "Fatica",
       "text": "L'usura del corpo, 0–6. Stanco −1, Sfinito −2 alle prove fisiche e agli attacchi."

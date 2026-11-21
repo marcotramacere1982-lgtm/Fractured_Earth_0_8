@@ -186,6 +186,9 @@ export function createTableLink(store, hooks) {
       case 'strain': // decision 266: the GM adds Strain — a card to answer on the sheet
         if (id && hooks.strain?.(id, msg)) hooks.notify?.('message');
         break;
+      case 'fortune': // decision 363: the GM's Fortune — Edge on the next roll
+        if (id && hooks.fortune?.(id, msg)) { hooks.toast(t('luck.fortuneToast'), 'success'); hooks.notify?.('message'); }
+        break;
       case 'fatigue': // decision 362: the GM's +1, a breather, a night's sleep
         if (id && hooks.fatigue?.(id, msg)) hooks.notify?.('message');
         break;

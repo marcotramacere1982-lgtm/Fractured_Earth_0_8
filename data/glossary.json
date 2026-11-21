@@ -342,6 +342,12 @@
       "name": "Breather",
       "text": "A quiet moment: −2 Fatigue, once per scene.",
       "anchor": "sec-6-7-fatigue"
+    },
+    {
+      "id": "edge",
+      "name": "Edge",
+      "text": "Roll two d20, keep the better — after three misses in a row, or the GM’s Fortune.",
+      "anchor": "sec-6-2-edge"
     }
   ]
 }

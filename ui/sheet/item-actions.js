@@ -2,6 +2,7 @@
 // the result (they enter it on their own sheet, as on paper). Logs stay English for the GM.
 
 import { nameEn } from '../../data/index.js'; // decision 242: logs stay English
+import { luckActions } from './luck-actions.js'; // decision 363
 import { fatigueActions } from './fatigue-actions.js'; // decision 362
 import { RuleError } from '../../rules/messages.js';
 import { effectFrom, tickEffects, endCombatEffects } from '../../rules/items.js';
@@ -55,6 +56,7 @@ export const itemActions = {
     c.play.haggle = null; // decision 346: a street haggle lasts the trip
     log(c, `New scene${ended.length ? ` — ended: ${ended.map((e) => e.name).join(', ')}` : ''}`);
     if (data.strain && msg.safe) strainActions.strainRelief(c, data, { n: data.strain.safeScene, why: 'a safe moment' }); // decision 266
+    if (msg.mission) luckActions.luckMission(c, data, { mission: msg.mission }); // decision 363: the tally is per mission
     if (data.fatigue && msg.safe) fatigueActions.fatigueBreather(c, data, { why: 'a breather (a safe moment)', scene: msg.id }); // decision 362
     if (data.strain && msg.mission && c.debtId && (c.downtime?.pressure ?? 0) >= data.downtime.debt.max && c.play.debtStrainFor !== msg.mission) {
       c.play.debtStrainFor = String(msg.mission).slice(0, 40); // once per mission

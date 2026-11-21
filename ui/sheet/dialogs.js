@@ -66,6 +66,12 @@ export function openDialog(draw, handlers, { wide = false, cls = '' } = {}) {
  */
 let pushOf = () => null;
 export const setPush = (fn) => { pushOf = fn; };
+/**
+ * Decision 363: the streak-breaker. The sheet says whether this roll has Edge and records each result (setLuck: () →
+ * { edge: null | 'streak' | 'fortune', record(result, { tense, edgeUsed }) }). Edge: two d20, the better (lower) counts.
+ */
+let luckOf = () => null;
+export const setLuck = (fn) => { luckOf = fn; };
 
 const coverLine = (c, data) => html`<p class="check-cover"><span class="label">${t('attack.cover')}${info('cover', t('attack.cover'))}</span>
   <strong>${c.armor ? `${data.difficulty.cover.find((x) => x.armor === c.armor)?.name ?? ''} +${c.armor}` : t('attack.coverNone')}</strong>${c.text ? html` <span class="muted st-small">· ${c.text}</span>` : ''}
@@ -73,7 +79,7 @@ const coverLine = (c, data) => html`<p class="check-cover"><span class="label">$
 
 /** foe (decision 153): { options: [{ id, label, cover }], pick, onPick(id) } — which enemy an attack goes at (told to the GM). */
 /** Decision 265: odds(rollUnder) → a line under the TN before rolling (crit / fumble ranges); missFlow(result) → a flow after a miss (the jam check); narrative: false for attacks (their own crit rules replace the skill checks' natural 1 / 20 line). */
-export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, missFlow = null, odds = null, narrative = true, tools = [], light = null, boosts = [], aim = null, notice = '', foe = null, site = null, help = null } = {}) {
+export function openCheck(target, data, onResult, { tier = 0, once = false, after = null, flow = null, missFlow = null, odds = null, narrative = true, tools = [], light = null, boosts = [], aim = null, notice = '', foe = null, site = null, help = null, tense = false } = {}) {
   const state = { tier, result: null, manual: '', extra: '', answers: {}, typed: {}, flowError: '', finished: false,
     tool: tools.find((x) => x.always)?.id ?? null, light: light?.pick ?? null, aim: aim?.pick ?? null, foe: foe?.pick ?? '', standIn: null };
   const standIn = () => (target.standIns ?? []).find((x) => x.id === state.standIn) ?? null; // decision 347: an ability rolls the Class TN instead of the skill
@@ -81,6 +87,8 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
   const tool = () => tools.find((x) => x.id === state.tool) ?? null;
   const lightOpt = () => light?.options.find((o) => o.id === state.light) ?? null;
   const push = pushOf(); // decision 362
+  const luck = luckOf(); // decision 363
+  const edge = !tense && luck?.edge ? luck.edge : null; // a tense roll keeps its edge for later
   const foeOpt = () => foe?.options.find((o) => o.id === (state.foe ?? '')) ?? null;
   const tn = () => (standIn()?.tn ?? target.tn) + (tool()?.tn ?? 0) + (lightOpt()?.tn ?? 0) + (aimOpt()?.tn ?? 0) + (foeOpt()?.tn ?? 0) + (site?.tn ?? 0) + (help?.tn ?? 0) + (state.push && push ? push.tn : 0); // push: decision 362; foe: its conditions (decision 158); site: decision 268; help: decision 270
   const cur = () => (state.result?.success ? flow : state.missFlow); // decision 265: a miss may have its own steps
@@ -94,6 +102,9 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
     state.result = { ...resolveCheck(tn(), value, state.tier, data.difficulty), dice, tool: tool(), light: lo?.tn ? { tn: lo.tn, label: t(`light.${light.kind}.${lo.id}`) } : null, site: site?.tn ? { tn: site.tn, label: `site ${site.level}` } : null, help: help?.tn ? { tn: help.tn, label: `help from ${help.from}` } : null };
     state.missFlow = !state.result.success && missFlow ? missFlow(state.result) : null;
     if (state.push && push) { state.result.push = push.tn; push.use(target.name ?? 'a roll'); } // decision 362: +1 Fatigue with the roll
+    if (edge && dice?.edge) state.result.edge = { kind: edge, rolls: dice.edge }; // decision 363
+    else if (edge) state.result.edge = { kind: edge, rolls: null }; // typed: they rolled two and typed the better
+    luck?.record(state.result, { tense, edgeUsed: Boolean(edge) });
     if (standIn()) { state.result.standIn = { id: standIn().id, name: standIn().name }; standIn().use(state.result); } // decision 347: the charge is spent with the roll
     state.extra = after ? after(state.result) : '';
     onResult(state.result);
@@ -106,6 +117,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
   const rollApp = () => {
     if (state.rolling || (once && state.result)) return;
     const dice = roll('1d20');
+    if (edge) { const other = roll('1d20'); dice.edge = [dice.total, other.total]; dice.total = Math.min(dice.total, other.total); } // decision 363: Edge, the better of two
     if (!tumbles()) { resolve(dice.total, dice); return; }
     state.rolling = { dice, stop: null, timer: null };
     d.redraw();
@@ -224,6 +236,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
         : html`<label class="stack stack--tight"><span class="label">${t('table.difficulty')}${info('difficulty', t('check.difficulty'))}</span>
           <select class="select" data-action="tierPick" aria-label="${t('table.difficulty')}" title="${tier.example}">${tiers.map((x) => html`<option value="${x.id}" ${x.id === state.tier ? raw('selected') : ''}>${x.name}${x.penalty ? ` (${signed(-x.penalty)})` : ''}</option>`)}</select></label>`}
         </div>`}
+        ${edge && !r ? html`<p class="notice notice--info check-edge">⚡ <strong>${t(edge === 'fortune' ? 'luck.fortune' : 'luck.edge')}</strong> · ${t('luck.edgeHow')}</p>` : ''}
         ${once && r ? '' : html`<div class="cluster">
           <button class="btn btn--primary" data-action="roll" ${state.rolling ? 'disabled' : ''}>${t('check.roll')}</button>
           <span class="muted">${t('check.physical')}</span>
@@ -234,6 +247,7 @@ export function openCheck(target, data, onResult, { tier = 0, once = false, afte
           <span class="roll__die">${r.roll}</span>
           <div class="stack stack--tight">
             <strong>${r.success ? t('check.success') : t('check.failure')} · ${t('check.margin')} ${r.margin >= 0 ? '+' : ''}${r.margin}</strong>
+            ${r.edge?.rolls ? html`<span class="muted st-small">⚡ ${t('luck.kept', { a: r.edge.rolls[0], b: r.edge.rolls[1], n: r.roll })}</span>` : ''}
             <span class="muted">${narrative && r.natural === 'crit-success' ? t('check.nat1') : narrative && r.natural === 'crit-failure' ? t('check.nat20') : r.nearMiss ? t('check.nearMiss') : narrative && r.bigSuccess ? t('check.big') : ''}</span>
             ${r.dice ? html`<span class="mono muted">${formatRoll(r.dice)}</span>` : ''}
           </div></div>${state.extra}${flowView()}${once && (!flowOn() || state.finished) ? html`<button class="btn btn--primary btn--block" data-action="close">${t('common.done')}</button>` : ''}` : ''}

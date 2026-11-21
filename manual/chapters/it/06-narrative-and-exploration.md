@@ -72,6 +72,15 @@ Quando due personaggi attivi si oppongono direttamente — per esempio un Operat
 
 > **Quando usarle.** Di rado. Un grado di difficoltà dice già quanto è duro l'avversario — un faccendiere che non si fa imbrogliare è una prova *Hard*, non una sfida. Tieni le prove contrapposte per due personaggi che hanno entrambi numeri veri e agiscono insieme: giocatore contro giocatore, o un'élite con un nome in una scena che deve sembrare un duello.
 
+### Quando la fortuna finisce: il Vantaggio {#sec-6-2-edge}
+
+Certe sere i dadi ti odiano. Un fallimento fa comunque andare avanti la storia — ma una fila di fallimenti, senza colpa del personaggio, non diverte. Così il gioco spezza una serie negativa apertamente, con le regole:
+
+- **Tre tiri falliti di fila** (prove e attacchi; un fumble conta) e **la fortuna gira**: il tuo prossimo tiro ha il **Vantaggio** — tira **due d20 e tieni il migliore** (il più basso). L'app li tira entrambi e li mostra; con dadi veri, tirane due e scrivi il più basso.
+- Il GM può anche darti **Fortuna**: Vantaggio al prossimo tiro, allo stesso modo.
+- Il Vantaggio si consuma con quel tiro, riuscito o no; poi il conteggio ricomincia.
+- **I tiri tesi non contano.** Quando tutto dipende da un solo tiro, il GM lo segna come *Teso*: non usa il tuo Vantaggio (aspetta il tiro dopo) e non conta per i tre.
+
 ### Aiutare un compagno {#sec-6-2-help}
 
 Un compagno può aiutare la prova di un altro — se sa dire **come**: tenendo la luce, leggendo lo schema, facendo da palo, intrattenendo la guardia. Chi aiuta tira una competenza adatta a quello che fa:

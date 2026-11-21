@@ -13,7 +13,7 @@ import { setExplainSource } from '../explain.js';
 import { findSkill } from './skills.js';
 import { tacticalView } from './tactical.js';
 import { dossierTab, notesTab } from './dossier.js';
-import { openCheck, openShop, openChoice, openDialog, setTierLock, setPush } from './dialogs.js';
+import { openCheck, openShop, openChoice, openDialog, setTierLock, setPush, setLuck } from './dialogs.js';
 import { optionMeta, payWays } from '../../rules/downtime-choice.js'; // decision 332
 import { applyFor } from '../../rules/jobs.js'; // decision 334
 import { stageOf } from '../../rules/downtime.js';
@@ -352,6 +352,8 @@ export function sheetView({ data, store, main, table }, route) {
 
   // decision 362: Push on every check and attack — +2, paid with +1 Fatigue when the roll is made
   setPush(() => (data.fatigue ? { tn: data.fatigue.push.tn, use: (what) => run('fatiguePushRoll', { what: String(what) }) } : null));
+  // decision 363: every roll counts towards the streak-breaker; Edge when the luck has turned (or the GM's Fortune)
+  setLuck(() => (data.luck ? { edge: character().play.luck?.edge ?? null, record: (r, { tense, edgeUsed }) => run('luckRoll', { success: r.success, tense, edgeUsed }) } : null));
   /** Decision 332: how to pay a downtime cost — cash, Credit Score, half and half — then go(way). */
   const payFirst = (label, cost, go) => {
     const ways = payWays(cost, character(), data);
@@ -1071,7 +1073,7 @@ export function sheetView({ data, store, main, table }, route) {
         }
         if (r.natural === 'crit-failure' && data.strain) actions.strainAsk(c, data, { id: `nat${Date.now()}`, n: data.strain.gains.fumble, why: `A natural 20 (${target.en ?? target.name})` }); // decision 266
         log(c, `${target.en ?? target.name}${d.ask ? ' (GM asked)' : ''}: rolled ${r.roll} vs ${r.effective}${r.tool ? ` (+${r.tool.tn} ${r.tool.name})` : ''}${r.light ? ` (${r.light.label} ${r.light.tn > 0 ? '+' : ''}${r.light.tn})` : ''}${r.site ? ` (${r.site.label} ${r.site.tn})` : ''}${r.help ? ` (${r.help.label} ${r.help.tn > 0 ? '+' : ''}${r.help.tn})` : ''} → ${r.success ? 'success' : 'failure'} (${r.margin >= 0 ? '+' : ''}${r.margin})`, r.success ? 'ok' : 'bad');
-      }), { tier: (d.ask && character().play.rollAsks?.find((a) => a.id === d.ask)?.tier) ?? tableTier(), /* decision 321: the GM's difficulty for this roll */ tools: target.tools, boosts: target.boosts, light: d.kind === 'skill' ? lightFor(lightKind(d.id)) : null, site: d.kind === 'skill' ? siteFor({ kind: 'skill', id: d.id }) : null, help: helpNow });
+      }), { tense: Boolean(d.ask && character().play.rollAsks?.find((a) => a.id === d.ask)?.tense), /* decision 363 */ tier: (d.ask && character().play.rollAsks?.find((a) => a.id === d.ask)?.tier) ?? tableTier(), /* decision 321: the GM's difficulty for this roll */ tools: target.tools, boosts: target.boosts, light: d.kind === 'skill' ? lightFor(lightKind(d.id)) : null, site: d.kind === 'skill' ? siteFor({ kind: 'skill', id: d.id }) : null, help: helpNow });
     },
     shop: ({ kind, free }) => openShop({ kind, free: Boolean(free), markup: () => (table?.state.joinedId === id ? table.state.market : null) }, character, withUniques(data, character()), ({ kind: k, id: itemId, method, multiplier, ...rest }) => {
       if (method === 'free') { run('add', { kind: k, id: itemId }); return t('shop.added'); }

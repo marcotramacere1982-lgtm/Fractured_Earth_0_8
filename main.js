@@ -68,6 +68,7 @@ async function boot() {
     grant: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveGrant(c, data, { msg }); }); return out; }, // decision 276
     breath: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveBreath(c, data, { msg }); }); return out; }, // decision 273
     strain: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveStrain(c, data, { msg }); }); return out; }, // decision 266
+    fortune: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveFortune(c, data, { msg }); }); return out; }, // decision 363
     fatigue: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receiveFatigue(c, data, { msg }); }); return out; }, // decision 362
     ping: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.receivePing(c, data, { msg }); }); return out; }, // decision 170
     ask: (id, msg) => { let out = false; store.update(id, (c) => { out = actions.askRoll(c, data, { msg }); }); return out; }, // decision 165

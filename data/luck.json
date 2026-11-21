@@ -1,0 +1,4 @@
+{
+  "note": "Decision 363: the streak-breaker. After `streak` failed rolls in a row (checks and attacks; a fumble counts), the next roll has Edge: two d20, keep the better (roll-under: the lower). The GM's Fortune gives Edge too. Tense rolls (the GM's Ask with Tense ticked) neither use Edge nor count. The tally (successes, failures) is per mission; the GM sees it on the player's card.",
+  "streak": 3
+}
