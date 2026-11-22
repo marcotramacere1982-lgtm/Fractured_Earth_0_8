@@ -317,6 +317,13 @@ line.map-los--blocked, .map-los__target.map-los--blocked { stroke: var(--color-d
 /* decision 250: squares someone on overwatch watches (the GM's map) */
 .map-watch { fill: var(--mp-accent-soft); stroke: var(--mp-accent); stroke-width: 1; stroke-opacity: 0.35; pointer-events: none; }
 .map-watch--own { fill: var(--mp-danger-soft); stroke: var(--mp-danger); } /* decision 251: where you are looking (your overwatch) */
+.map-night { fill: var(--mp-success); opacity: 0.16; pointer-events: none; } /* decision 369: what your night vision reaches */
+.map-heat { stroke: none; pointer-events: none; }
+.map-heat--hot { fill: var(--mp-danger); opacity: 0.6; }
+.map-heat--warm { fill: var(--mp-warning); opacity: 0.55; }
+.map-blip { fill: none; stroke: var(--mp-success); stroke-width: 3; stroke-dasharray: 4 3; pointer-events: none; } /* a tracker's blip: roughly here */
+.map-eyes { fill: var(--mp-danger); stroke: none; opacity: 0.22; pointer-events: none; } /* decision 366: what awake enemies see (GM) */
+.map-plan { color: var(--mp-accent); fill: none; stroke: currentColor; stroke-width: 3; stroke-dasharray: 6 5; stroke-linecap: round; opacity: 0.85; pointer-events: none; } /* decision 365: a planned move */
 .map-sensed { fill: var(--mp-danger-soft); stroke: none; opacity: 0.55; pointer-events: none; } /* decision 269: what the sensors cover (GM) */
 .map-ctx__door { display: inline-flex; align-items: center; gap: var(--space-2); } /* one door in the context line (two doors: one each, by side) */
 

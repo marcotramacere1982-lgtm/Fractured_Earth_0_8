@@ -23,7 +23,7 @@ function itemGroup(e) {
     return 'medical';
   }
   if (e.bulkyRoom) return 'carry'; // owner 2026-11-18: bags for bulky things
-  if (e.drone || e.light) return 'seeing'; // a toy drone (decision 171); a light you carry (decision 223)
+  if (e.drone || e.light || e.vision) return 'seeing'; // a toy drone (decision 171); a light you carry (decision 223); goggles, a tracker, a mesh (decision 369)
   const tool = e.tool?.[0];
   if (tool) return tool.attack ? 'weapongear' : tool.attr ? 'force' : TOOL_DOMAIN[tool.skill] ?? 'other';
   return e.story ? 'story' : 'other';

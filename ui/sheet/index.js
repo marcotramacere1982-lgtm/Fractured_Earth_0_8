@@ -1,6 +1,8 @@
 // Character sheet view: #/sheet/<id>/<tab>
 
 import { html, render, delegate, cleanup, signed } from '../dom.js';
+import { openPlanOther } from './rounds-line.js'; // decision 365
+import { paceMax } from '../../rules/stealth.js'; // decision 367
 import { href, go } from '../router.js';
 import { toast } from '../shell.js';
 import { deriveSheet } from '../../state/character.js';
@@ -82,7 +84,7 @@ import { crewLabel, isGuest } from '../../rules/crews.js'; // decision 326
 
 /** Decision 314: which sheet actions make a sound — a toggle (equip, wear, slot…) or "it went through". Hand edits
  *  (HP, ammo, cash, resources) and anything not listed stay silent; a refusal always sounds (in run). */
-const TOGGLE = ['wear', 'equip', 'slot', 'hand', 'optic', 'deck', 'deckMod', 'droneSel', 'droneMod', 'techMode', 'torch', 'cover', 'inDark', 'markAdd', 'markRemove', 'mapTag', 'mapColor'];
+const TOGGLE = ['wear', 'equip', 'slot', 'hand', 'optic', 'deck', 'deckMod', 'droneSel', 'droneMod', 'techMode', 'torch', 'goggles', 'cover', 'inDark', 'markAdd', 'markRemove', 'mapTag', 'mapColor'];
 const DONE = ['act', 'attack', 'useItem', 'useTalent', 'reload', 'trash', 'installMod', 'removeMod', 'repairArmor', 'heal', 'payInstalment', 'stashPut', 'stashTake', 'crewPut', 'crewTake', 'equipKit', 'abilitySelf', 'study', 'overwatch', 'overwatchPass', 'dodge', 'dodgedHit', 'release', 'releaseAll', 'combatReady', 'prepareReady', 'buyTalent', 'raiseAttribute', 'chooseLifestyle', 'applyBoon', 'acceptDeal', 'droneFlight', 'droneCharge', 'useRolled', 'chooseDowntime', 'payUpkeep', 'downtimeWork'];
 const SOUND_OF = {
   ...Object.fromEntries(TOGGLE.map((k) => [k, 'toggle'])),
@@ -175,7 +177,7 @@ export function sheetView({ data, store, main, table }, route) {
     if (strip) startStripClock();
     const crewsNow = atTableNow ? table.state.crews : null; // decision 326: this character's crew, and whether it's a guest tonight
     const homeCrew = crewsNow?.list?.find((k) => k.id === crewsNow.home?.[id]) ?? null;
-    const ctx = { crew: homeCrew ? { name: crewLabel(homeCrew), guest: isGuest(crewsNow.home, crewsNow.tonight, id) } : null, view: tableView(), pins: (tableView() && table.state.viewPins?.[tableView().id]) || [], sceneBig: sceneMem.big, strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, aim: tab.id === 'map' && c.play.torch && visionOf(c, withUniques(data, c)).beam && tableMap() ? isAiming() : null, /* decision 360 */ actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null, caseState: table?.state.joinedId === id ? table.state.case : null, names: caseNames(), joined: atTableNow, crewVote: (batch) => (atTableNow ? table.state.crewVotes?.[batch] : undefined) /* decision 333 */ };
+    const ctx = { crew: homeCrew ? { name: crewLabel(homeCrew), guest: isGuest(crewsNow.home, crewsNow.tonight, id) } : null, view: tableView(), pins: (tableView() && table.state.viewPins?.[tableView().id]) || [], sceneBig: sceneMem.big, strip, combat: table?.state.joinedId === id ? table.state.combat : null, atTable: Boolean(table?.state.available), map: tableMap(), id, mapMove: tab.id === 'map' ? mapMove() : null, doorUse: tab.id === 'map' ? doorUse() : null, torch: tab.id === 'map' ? (carriesTorch(c, withUniques(data, c)) ? Boolean(c.play.torch) : null) : null, goggles: tab.id === 'map' && visionOf(c, withUniques(data, c)).gear ? c.play.goggles !== false : null, /* decision 369 */ gogglesBlind: Boolean(table?.state.goggles?.blind), /* decision 371 */ aim: tab.id === 'map' && c.play.torch && visionOf(c, withUniques(data, c)).beam && tableMap() ? isAiming() : null, /* decision 360 */ actionTips: tipsOn(), mapDark: (tab.id === 'play' || tab.id === 'map') && c.classId === 'scavenger' && tableMap() ? (() => { const d = darkCtx(); return d.dark && !d.lit; })() : null, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), stashes: table?.state.joinedId === id ? table.state.stashes : null, caseState: table?.state.joinedId === id ? table.state.case : null, names: caseNames(), joined: atTableNow, crewVote: (batch) => (atTableNow ? table.state.crewVotes?.[batch] : undefined) /* decision 333 */ };
     const tabNav = html`<nav class="tabs" data-tour="tabs" role="tablist" aria-label="${t('sheet.sections')}">
             ${tabs().map((x) => html`<a class="tab ${x.id === 'map' ? 'tab--live' : ''}" role="tab" href="${href('sheet', id, x.id)}" aria-selected="${x.id === tab.id}">${t(x.label)}</a>`)}
           </nav>`;
@@ -216,7 +218,7 @@ export function sheetView({ data, store, main, table }, route) {
     const bar = main.querySelector('.sheet-status')?.offsetHeight; // the Sheet tab's index sticks just under the status bar
     if (bar) main.style.setProperty('--status-h', `${bar}px`);
     if (tab.id === 'map') placePins(main); // decision 320
-    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark, overwatch: c.play.overwatch, onAim: async (angle) => { if (!(await table?.aim(tableMap()?.id, angle))) toast(t('map.aim.failed'), 'danger'); } }); // decision 251; 360: point the torch
+    if (tab.id === 'map') attachMap(main, data, tableMap(), id, { layer: table?.state.goggles?.map === tableMap()?.id ? table.state.goggles : null, /* decision 369 */ onIdle: draw, move: mapMove, onMove: mapMoved, marks: tableMarks(), myColor: myMarkColor(c, data, tableMap()), onMark: sendMark, overwatch: c.play.overwatch, onAim: async (angle) => { if (!(await table?.aim(tableMap()?.id, angle))) toast(t('map.aim.failed'), 'danger'); } }); // decision 251; 360: point the torch
     if (tab.id === 'notes') attachMemory(main, data, c, draw); // decision 122
     main.querySelectorAll('details[data-keep]').forEach((d) => { if (open.has(d.dataset.keep)) d.open = true; });
   };
@@ -229,6 +231,7 @@ export function sheetView({ data, store, main, table }, route) {
     const map = tableMap();
     if (!map?.canMove || !map.tokens.some((tk) => tk.key === id)) return null;
     const combat = tableCombat();
+    if (!combat?.active && map.rounds) return { max: paceMax(deriveSheet(character(), data).move, map.rounds.pace?.[id] === 'move' ? 'move' : 'sneak'), combat: false }; // decision 367: sneak = half your Move
     if (!combat?.active) return { max: map.careful ? deriveSheet(character(), data).move : data.map.move.explore, combat: false }; // decision 296: a guarded map — each drag reaches your Move
     if (combat.current !== id && combat.round !== 0) return { why: 'notTurn' }; // decision 233: in a head start everyone moves
     const c = character();
@@ -310,7 +313,7 @@ export function sheetView({ data, store, main, table }, route) {
       } catch (err) { toast(ruleText(err), 'danger'); return false; }
     }
     table.move(tableMap().id, to);
-    return true;
+    return tableMap().rounds && !inCombat ? 'plan' : true; // decision 365: a plan — your marker stays until the round resolves
   };
 
   /**
@@ -907,6 +910,7 @@ export function sheetView({ data, store, main, table }, route) {
     mapStairs: () => takeStairs(), // owner hotfix 2026-11-14
     mapCross: async ({ id: prop }) => { toast(await table?.cross(table.state.map?.mapId ?? table.state.map?.id, prop) ? t('district.crossSent') : t('ping.offline'), 'success'); }, // decision 303: the GM decides
     mapTorch: ({ on }) => run('torch', { on: on === '1' }),
+    mapGoggles: ({ on }) => run('goggles', { on: on === '1' }), // decision 369
     mapAim: () => { setAiming(!isAiming()); draw(); }, // decision 360: the next tap on the map points the torch
     fatigueHand: ({ delta }) => run('fatigueHand', { delta: Number(delta) }), // decision 362
     pushAction: () => run('fatiguePushAction'),
@@ -953,6 +957,10 @@ export function sheetView({ data, store, main, table }, route) {
       }
       table.door(tableMap().id, door, open === '1');
     },
+    // decision 365: exploration rounds — something else in a few words, or clear your plan
+    roundsOther: () => openPlanOther((text) => table.plan(tableMap()?.id, 'other', text)),
+    roundsClear: () => table.plan(tableMap()?.id, 'clear'),
+    roundsPace: ({ pace }) => table.plan(tableMap()?.id, 'pace', '', pace), // decision 367
     joinTable: () => table.join(id),
     leaveTable: () => table.leave(),
     // decision 266: Strain — steady yourself (a Mental Strength roll halves it) or take it; the breaking point's dice

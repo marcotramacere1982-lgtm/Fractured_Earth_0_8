@@ -698,7 +698,7 @@
     "legacyId": 27,
     "name": "Tactical AR Glasses",
     "icon": "glasses",
-    "desc": "HUD glasses displaying thermal overlays and weapon links.",
+    "desc": "Commercial HUD glasses: maps, ads, an ammo count, a weapon link. Consumer-grade: they do not share a crew's goggles (that takes a Tac-Mesh AR).",
     "effectType": "Stat Buff",
     "effect": "Perception / Awareness (PB) +2 · worn: every Perception check",
     "skillBonus": "Perception (+2)",
@@ -715,6 +715,36 @@
         "always": true
       }
     ]
+  },
+  {
+    "id": "tac_mesh_ar",
+    "name": "Tac-Mesh AR",
+    "icon": "antennas",
+    "desc": "Mil-spec AR set on a closed squad mesh: what one wearer's goggles or tracker pick up, every wearer sees. It is a network — a hacker's ping can find it.",
+    "effectType": "Utility",
+    "effect": "Shares night vision, thermal and motion-tracker layers with every other Tac-Mesh wearer on the map",
+    "rarity": "C",
+    "cost": {
+      "cr": 3500
+    },
+    "vision": {
+      "mesh": true
+    }
+  },
+  {
+    "id": "motion_tracker",
+    "name": "Ultrasonic Motion Tracker",
+    "icon": "radar",
+    "desc": "A handheld ultrasonic pinger: a blip for whatever moved lately, through walls, give or take a square. Standing still beats it.",
+    "effectType": "Utility",
+    "effect": "On the map: blips for whatever moved in the last minute (or this round) up to 5 squares away, through walls, give or take a square",
+    "rarity": "C",
+    "cost": {
+      "cr": 1500
+    },
+    "vision": {
+      "motion": 5
+    }
   },
   {
     "id": "clip_on_thermal_lens",
@@ -747,7 +777,7 @@
     "icon": "nightvision",
     "desc": "Light-amplifying goggles: grainy green, but you see in the dark.",
     "effectType": "Utility",
-    "effect": "Perception / Awareness (PB) +2 · in darkness; on the map you see unlit squares up to 6 away",
+    "effect": "Perception / Awareness (PB) +2 · in darkness; on the map you see unlit squares up to 6 away (only you — shared through a Tac-Mesh AR)",
     "skillBonus": "Perception (+2)",
     "rarity": "D",
     "cost": {

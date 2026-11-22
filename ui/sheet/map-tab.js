@@ -24,6 +24,8 @@ import { watchedSquares } from '../../rules/overwatch.js';
 import { sceneAbilities } from './scene-abilities.js'; // decision 322
 import { stairsAt } from '../../rules/floors.js';
 import { openChoice } from './dialogs.js';
+import { roundsLine } from './rounds-line.js'; // decision 365
+import { movePlans } from '../../rules/rounds.js';
 
 let viewer = null; // one per page: it keeps its zoom across the sheet's re-renders
 let skyView = null; // decision 123: the skyline, look only
@@ -232,7 +234,7 @@ function hint(map, move) {
   if (move.why === 'noActions') return t('map.hint.noActions');
   if (move.why === 'pressMove') return t('map.hint.pressMove', { n: move.move }); // decision 161
   if (move.combat && move.left) return t('map.hint.budget', { left: move.left, n: move.max });
-  return move.combat ? t('map.hint.turn', { n: move.max }) : map.careful ? t('map.hint.careful', { n: move.max }) : t('map.hint.free'); // decision 296
+  return move.combat ? t('map.hint.turn', { n: move.max }) : map.rounds ? t('map.hint.rounds', { n: move.max }) /* decision 365 */ : map.careful ? t('map.hint.careful', { n: move.max }) : t('map.hint.free'); // decision 296
 }
 
 /** Owner hotfix 2026-11-14: the stairs, asked — never taken by themselves. */
@@ -317,6 +319,7 @@ export function mapTab(c, s, data, { map, id, combat, mapMove, doorUse = null, a
     ${tourDone('map') ? '' : html`<p class="notice tour-offer map-card__offer"><span>${t('map.tourOffer')}</span>
       <button class="btn btn--sm btn--primary" data-action="tour" data-id="map">${t('tour.offerStart')}</button>
       <button class="btn btn--sm btn--ghost" data-action="tourSkip" data-id="map">${t('tour.offerNo')}</button></p>`}
+    ${roundsLine(map, id)}
     ${contextLine(map, data, s, id, { doorUse, mapMove })}
     ${scene === 'big' ? sceneAbilities(c, s, data) : ''}
     <div class="map-card__body map-card__body--folded">
@@ -347,8 +350,14 @@ export function mapPanel(c, s, data, { map, id, combat, doorUse, torch = null, m
  * opts: { onIdle(), move(): { max, combat } | { why } | null, onMove(to, steps, combat) → bool,
  *         marks, myColor, onMark(body) → Promise<bool> (decision 82) }
  */
-export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = null, myColor = null, onMark = async () => false, overwatch = null, onAim = null }) {
+export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = null, myColor = null, onMark = async () => false, overwatch = null, onAim = null, layer = null }) {
   if (!map || !main.querySelector('[data-map-slot]')) return;
+  // decision 369: your goggles' layer — the room your night vision shows joins your map as seen now (night tint), with its walls and pieces
+  if (layer?.night?.length && map.fog) {
+    const night = layer.night.map(([x, y]) => `${x},${y}`);
+    map = { ...map, walls: [...map.walls, ...(layer.walls ?? [])], props: [...map.props, ...(layer.props ?? [])],
+      fog: { ...map.fog, visible: [...new Set([...(map.fog.visible ?? []), ...night])], seen: [...new Set([...(map.fog.seen ?? []), ...night])] } };
+  }
   if (skyNow(map, data)) { // look only: a tap shows the district under it
     skyView ??= createSkylineViewer({ data, prefix: 'sheetsky' });
     skyView.on.idle = onIdle;
@@ -364,7 +373,7 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
     const moved = there && (there.x !== pending.from.x || there.y !== pending.from.y); // the table has you somewhere new: its answer wins (a staircase may land you elsewhere)
     if (!there || moved || Date.now() - pending.t > PENDING_MS) pending = null;
   }
-  const tokens = shown(map, id);
+  const tokens = [...shown(map, id), ...(layer?.tokens ?? []).filter((tk) => !map.tokens.some((x) => x.key === tk.key)).map((tk) => ({ ...tk, night: true }))]; // decision 369: who your night vision shows
   if (target && !tokens.some((tk) => tk.key === target)) target = null; // gone from the map (or hidden again)
   const me = () => tokens.find((tk) => tk.key === id);
   let routes = null; // decision 293: this drag's walk
@@ -395,11 +404,13 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
       const check = m?.max ? checkMove(map, data, me(), to, m.max, others()) : { ok: false, code: 'blocked', max: 0 };
       if (!check.ok) { toast(t(`map.err.${check.code}`, { max: check.max }), 'danger'); return; }
       const go = (dest, steps) => {
-        if (!onMove(dest, steps, m.combat)) return;
+        const done = onMove(dest, steps, m.combat);
+        if (!done) return;
         // decision 163: end a move beside a door and its panel opens by itself (a door left behind closes its panel)
         const door = map.walls.find((w) => w.kind === 'door' && nextToDoor(dest, w));
         if (door) info = { kind: 'door', id: door.id }; else if (info?.kind === 'door') info = null;
-        pending = { to: dest, from: { x: me().x, y: me().y }, t: Date.now() }; onIdle();
+        if (done !== 'plan') pending = { to: dest, from: { x: me().x, y: me().y }, t: Date.now() }; // decision 365: a plan leaves you where you are
+        onIdle();
       };
       // owner hotfix 2026-11-14: ending on a linked staircase asks — up / down, or stay here
       const stairs = check.dropped ? null : stairsAt(map, data, check.to, others());
@@ -430,7 +441,7 @@ export function attachMap(main, data, map, id, { onIdle, move, onMove, marks = n
   const sight = sightTo(map, data, id, tokens);
   const mine = tokens.find((tk) => tk.key === id);
   const watch = overwatch?.dir && mine ? watchedSquares(map, data, mine, overwatch.dir, overwatch.reach) : []; // decision 251: where you are looking
-  viewer.update({ key: map.id, map, tokens, you: id, follow: id, /* decision 287: the floor you're on */ watch, watchOwn: true, fog: map.fog ? { mode: 'player', ...map.fog, light: map.light ?? null } : null, focus: focusBox(map, map.fog?.seen, tokens), sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
+  viewer.update({ key: map.id, map, tokens, you: id, follow: id, plans: movePlans(map.rounds), /* decision 365 */ goggles: layer, /* decision 369 */ /* decision 287: the floor you're on */ watch, watchOwn: true, fog: map.fog ? { mode: 'player', ...map.fog, light: map.light ?? null } : null, focus: focusBox(map, map.fog?.seen, tokens), sight: sight && { from: sight.me, to: sight.tgt, result: sight.los.result }, marks: hooks.view });
   keepFitted(main); // before attaching, so the viewer fits the final size
   viewer.attach(main);
 }

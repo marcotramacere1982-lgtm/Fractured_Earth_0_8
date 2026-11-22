@@ -231,6 +231,10 @@
     "haggle": {
       "name": "Contrattare",
       "text": "Un tiro per spostare un prezzo: scegli quanto spingere e come."
+    },
+    "shadow": {
+      "name": "Ombra",
+      "text": "Nei turni di esplorazione: ciò che ti dà un buon tiro di Furtività — ogni nemico che ti intravede costa 1 o 2; quando finisce, tiri di nuovo."
     }
   }
 }

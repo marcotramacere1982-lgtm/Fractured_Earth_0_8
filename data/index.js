@@ -49,6 +49,7 @@ export const DATA_FILES = {
   strain: 'strain.json', // decision 266
   fatigue: 'fatigue.json', // decision 362
   luck: 'luck.json', // decision 363
+  awareness: 'awareness.json', // decision 366: enemies' eyes, ears and link
   chase: 'chase.json', // decision 275
   tours: 'tours.json',
   map: 'map.json',

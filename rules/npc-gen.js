@@ -42,6 +42,7 @@ export function draftFrom(base) {
     weapons: [], // [{ id } | { unique }, with tn, lock]
     talents: structuredClone(base.talents ?? []), immune: [...(base.immune ?? [])],
     loot: null, public: false,
+    awareness: structuredClone(base.awareness ?? {}), // decision 366: only what differs from the defaults
   };
 }
 
@@ -57,6 +58,7 @@ export function draftOf(entry, base) {
     weapons: (entry.gear?.weapons ?? []).map((g, i) => ({ ...g, tn: entry.attacks.find((a) => a.gear === i)?.tn ?? 10 })),
     talents: structuredClone(entry.talents ?? []), immune: [...(entry.immune ?? [])],
     loot: entry.loot ?? null, public: Boolean(entry.public),
+    awareness: structuredClone(entry.awareness ?? {}), // decision 366
   };
 }
 
@@ -100,6 +102,7 @@ export function buildEntry(draft, base, weapons, taken = new Set()) {
     side: SIDES.includes(draft.side) ? draft.side : 'hostile',
     gear: { weapons: gear },
     ...(draft.loot ? { loot: draft.loot } : {}),
+    ...(draft.awareness && Object.keys(draft.awareness).length ? { awareness: { ...draft.awareness } } : {}), // decision 366
     ...(draft.public ? { public: true } : {}),
   };
   for (const k of Object.keys(entry)) if (entry[k] === undefined) delete entry[k];

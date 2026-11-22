@@ -259,18 +259,19 @@ const centre = (s) => ({ x: s.x + 0.5, y: s.y + 0.5 });
  * Doors and windows drawn over a wall cut it (as the drawing shows): every wall minus the stretches covered by
  * a door or window lying along it. Returns segments { a, b, kind, open? } — openings included as they are.
  */
-export function solidSegments(map) {
+export function solidSegments(map, gridDoor = null) {
   const standing = map.walls.filter((w) => !w.broken); // a broken-through wall is a gap (decision 83)
   const openings = standing.filter((w) => w.kind !== 'wall' && !isLink(w)); // links block nothing and never cut a wall
   const out = [...openings];
+  const cutOf = (o) => (gridDoor?.(o) ? onGrid(o) : [o.a, o.b]);
   for (const w of standing.filter((x) => x.kind === 'wall')) {
     const dx = w.b.x - w.a.x;
     const dy = w.b.y - w.a.y;
     const len2 = dx * dx + dy * dy;
     const along = (p) => ((p.x - w.a.x) * dx + (p.y - w.a.y) * dy) / len2;
     const onLine = (p) => Math.abs((p.x - w.a.x) * dy - (p.y - w.a.y) * dx) / Math.sqrt(len2) < 0.02;
-    const cuts = openings.filter((o) => onLine(o.a) && onLine(o.b))
-      .map((o) => [Math.max(0, Math.min(along(o.a), along(o.b))), Math.min(1, Math.max(along(o.a), along(o.b)))])
+    const cuts = openings.filter((o) => onLine(o.a) && onLine(o.b)).map(cutOf)
+      .map(([p, q]) => [Math.max(0, Math.min(along(p), along(q))), Math.min(1, Math.max(along(p), along(q)))])
       .filter(([t0, t1]) => t1 > t0).sort((p, q) => p[0] - q[0]);
     let t = 0;
     const at = (u) => ({ x: w.a.x + dx * u, y: w.a.y + dy * u });
@@ -281,6 +282,27 @@ export function solidSegments(map) {
     if (t < 1) out.push({ a: at(t), b: w.b, kind: 'wall' });
   }
   return out;
+}
+
+/**
+ * Decision 364: a door drawn off the grid (half-square snap) still lets people through. Steps cross a square edge at
+ * its midpoint, so for movement a passable opening on a grid line clears every whole square edge whose midpoint it
+ * covers; a closed door still touches those midpoints and blocks them. Sight and light keep the drawn door.
+ */
+function onGrid(o) {
+  const flat = Math.abs(o.a.y - o.b.y) < 0.02;
+  const upright = Math.abs(o.a.x - o.b.x) < 0.02;
+  const line = flat ? o.a.y : o.a.x;
+  if ((!flat && !upright) || Math.abs(line - Math.round(line)) > 0.02) return [o.a, o.b];
+  const lo = Math.min(flat ? o.a.x : o.a.y, flat ? o.b.x : o.b.y);
+  const hi = Math.max(flat ? o.a.x : o.a.y, flat ? o.b.x : o.b.y);
+  const k0 = Math.ceil(lo - 0.5 - 0.02);
+  const k1 = Math.floor(hi - 0.5 + 0.02);
+  if (k1 < k0) return [o.a, o.b];
+  const from = Math.min(lo, k0);
+  const to = Math.max(hi, k1 + 1);
+  const y = Math.round(line);
+  return flat ? [{ x: from, y }, { x: to, y }] : [{ x: y, y: from }, { x: y, y: to }];
 }
 
 /**
@@ -297,11 +319,13 @@ function stepClear(a, b, blockers) {
   return (straight(a, c1) && straight(c1, b)) || (straight(a, c2) && straight(c2, b));
 }
 
+const passable = (o, data) => (data.map.kinds.find((k) => k.id === o.kind)?.blocksMove ?? 'always') !== 'always';
+
 /** Everything that stops a step: walls, windows, closed doors, and props that block movement (decision 68). */
 const blockMemo = new WeakMap(); // decision 293: one list per map state (the index is built once per list)
 const moveBlockers = (map, data) => { let l = blockMemo.get(map); if (!l) { l = moveBlockersOf(map, data); blockMemo.set(map, l); } return l; };
 const moveBlockersOf = (map, data) => [
-  ...solidSegments(map).filter((w) => blocksMove(w, data)),
+  ...solidSegments(map, (o) => passable(o, data)).filter((w) => blocksMove(w, data)),
   ...activeProps(map).filter((p) => propBlocksMove(propDef(data, p.prop), p)).flatMap((p) => propEdges(p, data)),
   ...activeProps(map).flatMap((p) => blockedEdges(p, data)), // stairs and elevators: invisible side walls (decision 72)
   ...activeProps(map).flatMap((p) => shellEdges(p, data)), // walk-in containers: walls all round, the door while closed (decision 85)

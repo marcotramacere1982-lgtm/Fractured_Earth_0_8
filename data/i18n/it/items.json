@@ -299,7 +299,7 @@
   "tactical_ar_glasses": {
     "effectType": "Potenziamento",
     "effect": "Percezione / Attenzione (PB) +2 · indossati: ogni prova di Perception",
-    "desc": "Occhiali HUD con sovrapposizioni termiche e collegamento alle armi.",
+    "desc": "Occhiali HUD commerciali: mappe, pubblicità, conteggio munizioni, collegamento all'arma. Di consumo: non condividono i visori della squadra (serve un Tac-Mesh AR).",
     "tool": {
       "main": {
         "when": "indossati: ogni prova di Perception"
@@ -525,7 +525,7 @@
   "night_vision_goggles": {
     "name": "Visore notturno",
     "desc": "Visori ad amplificazione di luce: verde granuloso, ma vedi al buio.",
-    "effect": "Percezione / Allerta (PB) +2 · al buio; sulla mappa vedi i quadretti non illuminati fino a 6 di distanza",
+    "effect": "Percezione / Allerta (PB) +2 · al buio; sulla mappa vedi i quadretti non illuminati fino a 6 di distanza (solo tu — condivisi tramite un Tac-Mesh AR)",
     "tool": {
       "main": {
         "when": "al buio"
@@ -644,5 +644,14 @@
     "effectType": "Potenziamento",
     "desc": "Strisce di anfetamina che si sciolgono in bocca, vendute a dozzine in ogni chiosco del turno di notte. Ti tengono in piedi; non ti fanno riposare.",
     "effect": "−2 Fatica subito; la prossima pausa non aiuta"
+  },
+  "tac_mesh_ar": {
+    "desc": "Set AR di grado militare su una rete di squadra chiusa: ciò che rilevano i visori o il rilevatore di un portatore, lo vedono tutti i portatori. È una rete — il ping di un hacker può trovarla.",
+    "effect": "Condivide i livelli di visore notturno, termico e rilevatore di movimento con ogni altro portatore di Tac-Mesh sulla mappa"
+  },
+  "motion_tracker": {
+    "name": "Rilevatore di movimento a ultrasuoni",
+    "desc": "Un pinger a ultrasuoni portatile: un segnale per qualunque cosa si sia mossa di recente, attraverso i muri, con un quadretto di scarto. Stare fermi lo batte.",
+    "effect": "Sulla mappa: segnali per ciò che si è mosso nell'ultimo minuto (o in questo turno) fino a 5 quadretti, attraverso i muri, con un quadretto di scarto"
   }
 }

@@ -1,6 +1,6 @@
 // Status bar and the sheet's cards (health, body, weapons, conditions); the Sheet tab places them (decision 215).
 
-import { strainStat } from './strain.js'; // decision 266
+import { strainStat, strainExtras } from './strain.js'; // decision 266
 import { fatigueStat } from './fatigue.js'; // decision 362
 import { critMargin } from '../../rules/crits.js'; // decision 265
 import { iconFor } from '../gear-icon.js';
@@ -32,14 +32,19 @@ export function statusBar(c, s, data, { compact = false, all = false, tabs = '',
           })}</div>` : ''}
         </div>
       </div>
-      <div class="sheet-status__stats">
-        <div class="stat stat--hp">
-          <span class="label">HP${explain('hp', '', 'HP')}</span>
-          <div class="cluster">${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span></div>
-          ${meter(s.hp.current, s.hp.max, hpKind)}
+      <div class="sheet-status__tracks">
+        <div class="sheet-status__three">
+          <div class="stat track stat--hp">
+            <span class="track__head"><span class="label">HP${explain('hp', '', 'HP')}</span></span>
+            <div class="cluster track__row">${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span></div>
+            ${meter(s.hp.current, s.hp.max, hpKind)}
+          </div>
+          ${strainStat(c, s, data)}
+          ${fatigueStat(c, s, data)}
         </div>
-        ${strainStat(c, s, data, { atTable })}
-        ${fatigueStat(c, s, data)}
+        ${strainExtras(c, data, { atTable })}
+      </div>
+      <div class="sheet-status__stats">
         <div class="stat"><span class="label">${t('stat.armor')}${info('armor', t('stat.armor'))}</span><span class="stat__value stat__value--info">${temp(s.armor.general - s.armor.condition, s.armor.general)}</span></div>
         <div class="stat"><span class="label">${t('stat.init')}${explain('initiative', '', t('explain.feeds.initiative'))}</span><span class="stat__value">${signed(s.initiative)}</span></div>
         <div class="stat"><span class="label">${t('stat.actions')}${explain('combat', 'act', t('stat.actions'))}</span><span class="stat__value">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></div>
@@ -64,6 +69,7 @@ function compactStatus(c, s, data, hpKind, { all = false } = {}) {
     ${portraitImg(c.portrait, 'avatar avatar--xs')}<strong class="sheet-status__name sheet-status__name--sm">${c.name || t('common.unnamed')}</strong>
     <div class="sheet-status__hp">${icon(data, 'hp', 'ico--hp')}${counter({ action: 'hp', value: s.hp.current, max: s.hp.max, label: 'HP' })}<span class="mono muted">/ ${s.hp.max}</span>${meter(s.hp.current, s.hp.max, hpKind)}</div>
     ${s.strain.band ? html`<span class="chip-stat" title="${t('strain.label')}"><span class="label">🧠 ${t('strain.label')}</span><span class="chip-stat__v ${s.strain.tn ? 'stat__value--danger' : ''}">${s.strain.value}</span>${s.strain.tn ? html`<span class="chip-stat__u">${t(`strain.band.${s.strain.band.id}`)}</span>` : ''}</span>` : ''}
+    ${s.fatigue ? html`<span class="chip-stat" title="${t('fatigue.label')}"><span class="label">🫁 ${t('fatigue.label')}</span><span class="chip-stat__v ${s.fatigue.tn ? 'stat__value--danger' : ''}">${s.fatigue.value}</span>${s.fatigue.tn ? html`<span class="chip-stat__u">${t(`fatigue.band.${s.fatigue.band.id}`)}</span>` : ''}</span>` : ''}
     <span class="chip-stat"><span class="label">${icon(data, 'armor')}${t('stat.armor')}</span><span class="chip-stat__v stat__value--info">${temp(s.armor.general - s.armor.condition, s.armor.general)}</span></span>
     <span class="chip-stat"><span class="label">${icon(data, 'ini')}${t('stat.init')}</span><span class="chip-stat__v">${signed(s.initiative)}</span></span>
     <span class="chip-stat"><span class="label">${icon(data, 'act')}${t('stat.actions')}</span><span class="chip-stat__v">${temp(s.combat.act.base ?? s.combat.act.value, s.actionsNow)}</span></span>

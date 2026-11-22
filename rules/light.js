@@ -40,7 +40,10 @@ export function visionOf(c, data) {
   }
   const torch = c.play?.torch ? best((i) => (i.light?.carried ? i.light.radius : 0)) : 0;
   const lamp = torch ? carried.find((i) => i.light?.carried && i.light.radius === torch) : null;
-  return { dark: best((i) => i.vision?.dark ?? 0), thermal, torch, ...(lamp?.light?.color ? { torchColor: lamp.light.color } : {}), ...(lamp?.light?.beam ? { beam: lamp.light.beam } : {}) }; // torchColor: decision 358, the look only; beam: decision 360
+  const off = c.play?.goggles === false; // decision 369: goggles switched off (the Scavenger's optic is part of them, not a switch)
+  return { dark: off ? 0 : best((i) => i.vision?.dark ?? 0), thermal: off ? (c.classId === 'scavenger' && data.optics.find((o) => o.id === c.play?.optic)?.mode === 'thermal' ? thermal : 0) : thermal, torch,
+    motion: off ? 0 : best((i) => i.vision?.motion ?? 0), mesh: carried.some((i) => i.vision?.mesh), // decision 369
+    gear: carried.some((i) => i.vision?.dark || i.vision?.thermal || i.vision?.motion), ...(lamp?.light?.color ? { torchColor: lamp.light.color } : {}), ...(lamp?.light?.beam ? { beam: lamp.light.beam } : {}) }; // torchColor: decision 358, the look only; beam: decision 360
 }
 
 /** Does this character carry something that lights up (a torch)? */

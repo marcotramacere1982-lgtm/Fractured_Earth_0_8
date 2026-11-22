@@ -322,6 +322,10 @@ export function createTableLink(store, hooks) {
         emit();
         break;
       }
+      case 'goggles': // decision 369: this sheet's own layer — night vision, heat, blips (not kept)
+        state.goggles = msg;
+        emit();
+        break;
       case 'marks':
         state.marks = { map: msg.map, list: msg.list ?? [], skew: Date.now() - (msg.now ?? Date.now()) };
         emit();
@@ -378,6 +382,14 @@ export function createTableLink(store, hooks) {
       if (!state.joinedId) return false;
       try {
         const res = await fetch('/api/table/aim', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, angle }) });
+        return res.ok;
+      } catch { return false; }
+    },
+    /** Decision 365: this sheet's plan for the exploration round — 'other' (a few words) or 'clear'; moves and doors go as usual. */
+    async plan(mapId, kind, text = '', pace = null) {
+      if (!state.joinedId) return false;
+      try {
+        const res = await fetch('/api/table/plan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: state.joinedId, map: mapId, kind, text, ...(pace ? { pace } : {}) }) });
         return res.ok;
       } catch { return false; }
     },

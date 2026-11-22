@@ -1,0 +1,117 @@
+{
+  "note": "Decision 366: what an enemy notices in exploration rounds. Each bestiary entry may override any of these in its own `awareness`; an enemy never turned on the map looks all round.",
+  "defaults": {
+    "cone": 120,
+    "range": 8,
+    "ears": 2,
+    "dark": 0,
+    "thermal": 0,
+    "motion": 0,
+    "link": "alone"
+  },
+  "limits": {
+    "cone": [
+      30,
+      360
+    ],
+    "range": [
+      1,
+      30
+    ],
+    "ears": [
+      0,
+      8
+    ],
+    "dark": [
+      0,
+      12
+    ],
+    "thermal": [
+      0,
+      12
+    ],
+    "motion": [
+      0,
+      10
+    ]
+  },
+  "links": [
+    {
+      "id": "alone",
+      "name": "Alone",
+      "text": "Sees with his own eyes. To warn the others he has to shout, run or radio."
+    },
+    {
+      "id": "squad",
+      "name": "Squad",
+      "text": "Linked to his group: what one sees, the group knows at once."
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "text": "On the site's network: his group knows at once, and the site's alert rises."
+    }
+  ],
+  "fields": {
+    "cone": "Field of view, degrees (360 = all round)",
+    "range": "Sight range, squares (in the light)",
+    "ears": "Hears a full-pace move up to, squares",
+    "dark": "Sees in the dark up to, squares (night vision)",
+    "thermal": "Thermal up to, squares (warm bodies in the dark and smoke)",
+    "motion": "Motion tracker up to, squares (through walls)"
+  },
+  "stealth": {
+    "note": "Decision 367: stealth in exploration rounds. Sneak = half Move (at least 1). Unseen / exposed (a Stealth roll, or Shadow) / caught (lit, in their eyes, this close or closer). Shadow = base + margin × perMargin, at most max; an exposure costs light (dark, far, along half cover) or heavy (close, lit, a full-pace move).",
+    "caughtWithin": 2,
+    "closeWithin": 3,
+    "farFrom": 6,
+    "mods": {
+      "far": 2,
+      "close": -2,
+      "halfCover": 2,
+      "onlyHeard": 2
+    },
+    "shadow": {
+      "base": 1,
+      "perMargin": 0.5,
+      "max": 6,
+      "light": 1,
+      "heavy": 2
+    }
+  },
+  "goggles": {
+    "note": "Decision 369: goggles are personal - each wearer has their own layer on their map (shared between Tac-Mesh AR wearers): night vision a green wash on the dark squares it reaches, thermal heat (glass stops it), a motion tracker blips (whatever moved lately, give or take a square, through walls).",
+    "hot": {
+      "people": true,
+      "lights": true,
+      "hazards": [
+        "fire",
+        "steam",
+        "heat"
+      ]
+    },
+    "warm": {
+      "sensors": true,
+      "props": [
+        "body_outline_1",
+        "body_outline_2",
+        "body_outline_3"
+      ]
+    },
+    "thermalBlockers": [
+      "window",
+      "glass"
+    ],
+    "motionWindowMs": 60000,
+    "glare": {
+      "note": "Decision 371: a torch beam or a flare on a night-vision wearer washes it out while the light is on them (players lose their night layer; an enemy sees nothing but thermal).",
+      "props": [
+        "flare_light"
+      ]
+    },
+    "trackerTrace": {
+      "note": "Decision 371: each Resolve a player has a motion tracker on, with an enemy on the network on the map, the site alert gets +1.",
+      "trace": 1
+    }
+  }
+}

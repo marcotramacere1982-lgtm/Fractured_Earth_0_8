@@ -348,6 +348,12 @@
       "name": "Edge",
       "text": "Roll two d20, keep the better — after three misses in a row, or the GM’s Fortune.",
       "anchor": "sec-6-2-edge"
+    },
+    {
+      "id": "shadow",
+      "name": "Shadow",
+      "text": "In exploration rounds: what a good Stealth roll buys — each enemy who catches a glimpse of you costs 1 or 2; when it runs out, you roll again.",
+      "anchor": "sec-7-2-map"
     }
   ]
 }

@@ -78,6 +78,23 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
   const paletteColors = () => { const unseen = getComputedStyle(svg).getPropertyValue('--color-map-unseen').trim() || '#050608'; return { unseen, shade: unseen }; };
   const cam = createCamera(svg, { units: U, size: () => state?.map ?? { cols: 10, rows: 10 } });
 
+  /** Decision 369: night vision a green wash, heat red (hot) / yellow (warm), a tracker's blips as rings. */
+  function gogglesSvg(g) {
+    const sq = ([x, y], cls) => `<rect class="${cls}" x="${x * U}" y="${y * U}" width="${U}" height="${U}"/>`;
+    return (g.night ?? []).map((s) => sq(s, 'map-night')).join('')
+      + (g.heat ?? []).map((h) => `<circle class="map-heat ${h.hot ? 'map-heat--hot' : 'map-heat--warm'}" cx="${(h.x + 0.5) * U}" cy="${(h.y + 0.5) * U}" r="${U * 0.38}"/>`).join('')
+      + (g.blips ?? []).map(([x, y]) => `<circle class="map-blip" cx="${(x + 0.5) * U}" cy="${(y + 0.5) * U}" r="${U * 0.3}"/>`).join('');
+  }
+  /** Decision 365: planned moves as dashed lines in each player's colour, a ring where they mean to end. */
+  function plansSvg(plans, tokens) {
+    const at = (s) => `${(s.x + 0.5) * U},${(s.y + 0.5) * U}`;
+    return plans.map((p) => {
+      const tk = tokens?.find((x) => x.key === p.key);
+      const pts = p.path?.length ? p.path : tk ? [tk, p.to] : [p.to];
+      const c = /^[a-z]+$/.test(tk?.color ?? '') ? ` map-mark--c-${tk.color}` : '';
+      return `<g class="map-plan${c}"><polyline points="${pts.map(at).join(' ')}"/><circle cx="${(p.to.x + 0.5) * U}" cy="${(p.to.y + 0.5) * U}" r="${U * 0.32}"/></g>`;
+    }).join('');
+  }
   function update(next) {
     if (next.key !== state?.key) fitted = false;
     state = next;
@@ -97,8 +114,11 @@ export function createMapViewer({ data, prefix, interactive = false, on = {} }) 
     zonesLayer.innerHTML = next.map.zones?.length ? zonesSvg(next.map.zones, data, { selected: next.selectedZone }) // GM only: players' maps carry no zones —
       : next.map.hazards?.length ? hazardsSvg(next.map.hazards, data) : ''; // decision 258: but the hazards on and shown
     render(tokensLayer, tokensSvg(next.tokens, data, next));
-    losLayer.innerHTML = (next.coverage?.length ? next.coverage.map((s) => `<rect class="map-sensed" x="${s.x * U}" y="${s.y * U}" width="${U}" height="${U}"/>`).join('') : '') // decision 269: the sensors' coverage (GM)
-      + (next.watch?.length ? watchSvg(next.watch, next.watchOwn) : '') + (next.sight ? sightSvg(next.sight) : ''); // decision 250: overwatch areas (GM); 251: your own, red
+    losLayer.innerHTML = (next.eyes?.length ? next.eyes.map((q) => `<rect class="map-eyes" x="${q.x * U}" y="${q.y * U}" width="${U}" height="${U}"/>`).join('') : '') // decision 366: what awake enemies see (GM)
+      + (next.coverage?.length ? next.coverage.map((s) => `<rect class="map-sensed" x="${s.x * U}" y="${s.y * U}" width="${U}" height="${U}"/>`).join('') : '') // decision 269: the sensors' coverage (GM)
+      + (next.watch?.length ? watchSvg(next.watch, next.watchOwn) : '') + (next.sight ? sightSvg(next.sight) : '')
+      + (next.plans?.length ? plansSvg(next.plans, next.tokens) : '') // decision 365: the round's planned moves
+      + (next.goggles ? gogglesSvg(next.goggles) : ''); // decision 369: your goggles' own layer // decision 250: overwatch areas (GM); 251: your own, red
     // decision 357: the light layer (sight shapes, soft coloured light) unless the map keeps the classic look;
     // shown with fog (sheets, TV, the table's map) or when asked (the builder's light preview)
     const shapes = drawsShapes(next.map, data) && Boolean(next.fog || next.lighting);

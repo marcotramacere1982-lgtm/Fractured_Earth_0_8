@@ -632,6 +632,11 @@ export const actions = {
     if (data.map.marks.colors.includes(color)) c.play.mapColor = color;
   },
   /** The torch (decision 75): switched on, it lights the squares round your marker on the table map. */
+  /** Decision 369: goggles and trackers on / off (the Scavenger's optic stays). */
+  goggles(c, _data, { on }) {
+    c.play.goggles = Boolean(on);
+    log(c, on ? 'Goggles on' : 'Goggles off');
+  },
   torch(c, _data, { on }) {
     c.play.torch = Boolean(on);
     log(c, on ? 'Torch on' : 'Torch off');

@@ -2,6 +2,7 @@
 // a Mental Strength roll, or take it), the breaking point (a d6, a Scar a second d6, rolled or typed) and what it did —
 // and the Strain line beside HP. Numbers come from rules/strain.js.
 
+import { counter } from './parts.js'; // owner 2026-11-22: the same counter as HP
 import { html, raw } from '../dom.js';
 import { t } from '../../i18n/index.js';
 import { addStrain, steadied, bandOf } from '../../rules/strain.js';
@@ -46,22 +47,27 @@ export function strainOverlay(c, s, data) {
 }
 
 /** The Strain line in the status bar: n / max, the band, − / + to fix it, Steady a crewmate. */
-export function strainStat(c, s, data, { atTable = false } = {}) {
+export function strainStat(c, s, data) {
   const d = data.strain;
   if (!d) return '';
   const v = s.strain.value;
   const band = s.strain.band ?? bandOf(v, d);
   const kind = band.id === 'steady' ? 'info' : band.id === 'shaken' ? 'warning' : 'danger';
-  return html`<div class="stat stat--strain">
-    <span class="label">${t('strain.label')}${info('strain', t('strain.label'))}</span>
-    <div class="cluster"><button class="btn btn--sm btn--ghost" data-action="strainHand" data-delta="-1" aria-label="${t('strain.less')}" ${v ? '' : raw('disabled')}>−</button>
-      <span class="stat__value mono">${v}</span><span class="mono muted">/ ${d.max}</span>
-      <button class="btn btn--sm btn--ghost" data-action="strainHand" data-delta="1" aria-label="${t('strain.more')}">+</button></div>
+  // owner 2026-11-22: HP, Strain and Fatigue drawn alike — label and band, the same counter, the bar
+  return html`<div class="stat track stat--strain">
+    <span class="track__head"><span class="label">${t('strain.label')}${info('strain', t('strain.label'))}</span>
+      <span class="pill ${band.id === 'steady' ? '' : kind === 'warning' ? 'pill--warning' : 'pill--danger'}">${t(`strain.band.${band.id}`)}${band.tn ? ` ${band.tn}` : ''}</span></span>
+    <div class="cluster track__row">${counter({ action: 'strainHand', value: v, min: 0, label: t('strain.label') })}<span class="mono muted">/ ${d.max}</span></div>
     ${meter(v, d.max, kind)}
-    <span class="cluster"><span class="pill ${band.id === 'steady' ? '' : kind === 'warning' ? 'pill--warning' : 'pill--danger'}">${t(`strain.band.${band.id}`)}${band.tn ? ` ${band.tn}` : ''}</span>
-      ${atTable ? html`<button class="btn btn--sm btn--ghost" data-action="steadyCrew" title="${t('strain.steadyCrewHint')}">${t('strain.steadyCrew')}</button>
-        <button class="btn btn--sm btn--ghost" data-action="helpCrew" title="${t('help.crewHint')}">🤝 ${t('help.crew')}</button>` : ''}</span>
-    ${c.play.help ? html`<span class="pill ${c.play.help.tn > 0 ? 'pill--success' : 'pill--danger'}" title="${t('help.from', { from: c.play.help.from, skill: c.play.help.skill })}">🤝 ${t('help.chip', { n: `${c.play.help.tn > 0 ? '+' : ''}${c.play.help.tn}` })}</span>` : ''}
-    ${(c.play.scars ?? []).length ? html`<details class="strain-scars"><summary class="muted st-small">${t('strain.scars', { n: c.play.scars.length })}</summary><ul>${c.play.scars.map((x) => html`<li>${t(`strain.scar.${x.id}`)}</li>`)}</ul></details>` : ''}
   </div>`;
+}
+
+/** Under the tracks: steady / help a crewmate, help received, scars (decision 266). */
+export function strainExtras(c, data, { atTable = false } = {}) {
+  if (!data.strain) return '';
+  const help = c.play.help ? html`<span class="pill ${c.play.help.tn > 0 ? 'pill--success' : 'pill--danger'}" title="${t('help.from', { from: c.play.help.from, skill: c.play.help.skill })}">🤝 ${t('help.chip', { n: `${c.play.help.tn > 0 ? '+' : ''}${c.play.help.tn}` })}</span>` : '';
+  const scars = (c.play.scars ?? []).length ? html`<details class="strain-scars"><summary class="muted st-small">${t('strain.scars', { n: c.play.scars.length })}</summary><ul>${c.play.scars.map((x) => html`<li>${t(`strain.scar.${x.id}`)}</li>`)}</ul></details>` : '';
+  if (!atTable && !help && !scars) return '';
+  return html`<div class="cluster sheet-status__extras">${atTable ? html`<button class="btn btn--sm btn--ghost" data-action="steadyCrew" title="${t('strain.steadyCrewHint')}">${t('strain.steadyCrew')}</button>
+    <button class="btn btn--sm btn--ghost" data-action="helpCrew" title="${t('help.crewHint')}">🤝 ${t('help.crew')}</button>` : ''}${help}${scars}</div>`;
 }

@@ -64,9 +64,19 @@
 .chip-stat__v { font-family: var(--font-mono); font-size: var(--text-lg); font-weight: 700; }
 .chip-stat__u { font-size: var(--text-xs); color: var(--color-text-muted); }
 .stat--hp { min-width: 11rem; }
+/* owner 2026-11-22: HP, Strain and Fatigue as three matching tracks — label and band on top, the counter, the bar */
+.sheet-status__tracks { display: flex; flex-direction: column; gap: var(--space-1); flex: 1 1 32rem; min-width: 0; }
+.sheet-status__three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); align-items: start; }
+.track { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.track .meter { width: 100%; }
+.track__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: var(--space-6); }
+.track__row { flex-wrap: nowrap; }
+.sheet-status__extras { gap: var(--space-2); justify-content: flex-start; }
+.sheet-status__stats { flex: 0 1 auto; }
 @media (max-width: 640px) {
   .sheet-status { position: static; }
   .sheet-status__stats { justify-content: flex-start; }
+  .sheet-status__three { gap: var(--space-2); }
   .sheet-status__combat { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; }
   .chip-stat { flex: none; }
 }
@@ -838,6 +848,7 @@
 .map-ctx__weapon.map-range--in { color: var(--color-success); }
 .map-ctx__weapon.map-range--far, .map-ctx__weapon.map-range--close { color: var(--color-text-muted); }
 .action-btn--k-torch { --tile: var(--color-warning); }
+.action-btn--k-goggles { --tile: var(--color-success); } /* decision 369 */
 .action-btn--k-torch.action-btn--on,
 .action-grid--bare .action-btn--on { background: color-mix(in srgb, var(--tile) 35%, var(--color-surface)); border-color: var(--tile); } /* on (a lit torch, aimed): filled in its own colour, no words — the size never changes */
 .action-grid--bare .action-btn--on .action-btn__name { color: var(--tile); }
@@ -956,8 +967,6 @@
 .ow-pick__dir:hover, .ow-pick__dir:focus-visible { border-color: var(--color-danger); color: var(--color-danger); }
 .ow-pick__me { width: 4rem; height: 4rem; display: grid; place-items: center; font-size: var(--text-lg); }
 /* decision 266: Strain beside HP, its windows */
-.stat--strain .cluster { flex-wrap: nowrap; }
-.stat--strain .stat__value { font-size: var(--text-lg); }
 .strain-scars summary { cursor: pointer; }
 .strain-scars ul { margin: var(--space-1) 0 0; padding-left: var(--space-4); font-size: var(--text-sm); }
 .strain-table { margin: 0; padding-left: 0; list-style: none; display: grid; gap: var(--space-1); }
