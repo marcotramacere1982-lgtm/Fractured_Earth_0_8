@@ -529,6 +529,7 @@ export function publicView(enc, data, { art = null, faces = null } = {}) {
     active: enc.active,
     round: enc.round,
     current: enc.round === 0 ? null : currentKey(enc),
+    players: enc.entries.filter((e) => e.kind === 'player').map((e) => e.key), // owner 2026-11-24: who is in this fight — the other sheets stay out of it
     ...(enc.active && enc.head && enc.round === 0 ? { head: { n: enc.head.n } } : {}), // decision 233: the head start
     ...(enc.active && enc.head?.surprise && enc.round === 1 ? { surprise: true } : {}),
     ...(enc.active && (enc.countdowns ?? []).some((c) => c.show) ? { countdowns: enc.countdowns.filter((c) => c.show).map((c) => ({ label: c.label, left: c.left })) } : {}), // decision 237

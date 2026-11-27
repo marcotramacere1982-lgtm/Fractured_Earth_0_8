@@ -150,6 +150,9 @@
     "wall_safe": {
       "name": "Cassaforte a muro"
     },
+    "fallen": {
+      "name": "Caduto"
+    },
     "body_outline_1": {
       "name": "Sagoma (distesa)"
     },

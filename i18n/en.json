@@ -1153,6 +1153,7 @@
   "map.hint.budget": "Your turn: {left} squares left from this Move — step as you like; going further takes another Move action (up to {n} in all).",
   "map.hint.careful": "Careful here: drag up to {n} squares at a time (no action out of combat).",
   "map.hint.free": "Drag your marker to move (no action out of combat).",
+  "map.hint.held": "Hold: the GM is with the fight elsewhere. You'll move again when they release you; plan with your crew meanwhile.",
   "map.hint.gm": "Movement is off: the GM will open it (they may be setting up). Ask if you're waiting.",
   "map.hint.look": "Drag the map to look around · pinch or mouse wheel to zoom · 1 square = 1.5 m.",
   "map.hint.noActions": "No actions left this round: your marker stays put.",
@@ -2327,5 +2328,6 @@
   "map.goggles.off": "Goggles off",
   "map.goggles.hint": "Night vision, thermal and trackers: your own layer on the map (green: what your night vision sees; red / yellow: heat; dashed rings: something moved). Shared only through a Tac-Mesh AR.",
   "map.goggles.blind": "Glare!",
-  "map.goggles.blindHint": "A torch beam or a flare is on you: your night vision is washed out until the light moves off you (thermal and trackers still work)."
+  "map.goggles.blindHint": "A torch beam or a flare is on you: your night vision is washed out until the light moves off you (thermal and trackers still work).",
+  "wmod.adds.quiet": "Quiet: heard only up to 2 squares · −1 damage · −25% max range"
 }

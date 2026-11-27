@@ -3,6 +3,7 @@
 import { html, render, delegate, cleanup, signed } from '../dom.js';
 import { openPlanOther } from './rounds-line.js'; // decision 365
 import { paceMax } from '../../rules/stealth.js'; // decision 367
+import { shotNoise } from '../../rules/noise.js'; // decision 372
 import { href, go } from '../router.js';
 import { toast } from '../shell.js';
 import { deriveSheet } from '../../state/character.js';
@@ -583,7 +584,7 @@ export function sheetView({ data, store, main, table }, route) {
       const report = (extra) => {
         if (!combat) return;
         const h = foes.find((x) => x.key === spec.target);
-        table?.report({ target: spec.target ?? '', targetLabel: h ? `${h.letter} · ${h.name}` : '', weapon: w.name, ...extra });
+        table?.report({ target: spec.target ?? '', targetLabel: h ? `${h.letter} · ${h.name}` : '', weapon: w.name, noise: shotNoise(w, data) /* decision 372 */, ...extra });
       };
       // decision 265: critical hits and fumbles — the odds before rolling, the banner after, the crit told to the GM
       const crits = data.encounter.crits;

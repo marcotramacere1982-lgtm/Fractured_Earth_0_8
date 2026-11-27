@@ -4,6 +4,7 @@
 // 70–120 %, remembered per device. Touch targets keep a floor (tokens.css → --touch). One Display menu (Aa) holds the
 // size and the day / night switch, in the player app and the GM console alike.
 
+import { installPopovers } from './popover.js';
 import { html } from './dom.js';
 import { t } from '../i18n/index.js';
 import { THEMES, setTheme, theme } from './themes.js';
@@ -38,6 +39,7 @@ function set(next) {
 /** Starts the scale (once, at boot) and the Display menu's buttons, wherever the menu is drawn. */
 export function installScale() {
   apply();
+  installPopovers(); // owner 2026-11-23: the Display menu and the 🔔 close on a tap outside
   let last = currentScale();
   window.addEventListener('resize', () => { if (pref === 'auto' && autoScale() !== last) { last = autoScale(); apply(); } });
   // decision 225: the theme dropdown (any copy of the menu: the header's, the Tactical view's)
@@ -62,7 +64,7 @@ export function installScale() {
  * The Display menu: size − / + / Auto, and the theme (decision 219). A <details>, so it opens and closes without code.
  * themes: the theme ids offered (all of them by default). Decision 225: the theme is one dropdown.
  */
-export const displayMenu = ({ themes = THEMES.map((x) => x.id), sound = false } = {}) => html`<details class="display-menu" data-keep="display-menu">
+export const displayMenu = ({ themes = THEMES.map((x) => x.id), sound = false } = {}) => html`<details class="display-menu" data-keep="display-menu" data-popover>
   <summary class="btn btn--sm display-menu__btn" title="${t('display.title')}" aria-label="${t('display.title')}">${t('display.button')}</summary>
   <div class="display-menu__panel">
     <span class="label">${t('display.size')}</span>

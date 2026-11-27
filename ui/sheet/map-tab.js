@@ -228,6 +228,7 @@ function contextLine(map, data, s, id, { doorUse, mapMove }) {
 
 /** The hint under the map: what this player can do right now. move: from moveState() */
 function hint(map, move) {
+  if (map.heldOut) return t('map.hint.held'); // decision 376
   if (!map.canMove) return t('map.hint.gm');
   if (!move) return t('map.notPlaced');
   if (move.why === 'notTurn') return t('map.hint.wait');

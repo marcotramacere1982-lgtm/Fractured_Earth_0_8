@@ -1,5 +1,5 @@
 {
-  "note": "Decision 173: weapon mods. Slots by rarity (a weapon may set its own modSlots); one mod of each kind per weapon; installed out of a fight by a Soldier or a Tech Wizard. range / mag amounts are percentages; crit (decision 265) lowers the crit margin by its amount. PROVISIONAL prices: owner to tune.",
+  "note": "Decision 173: weapon mods. Slots by rarity (a weapon may set its own modSlots); one mod of each kind per weapon; installed out of a fight by a Soldier or a Tech Wizard. range / mag amounts are percentages; crit (decision 265) lowers the crit margin by its amount. PROVISIONAL prices: owner to tune. Decision 372: the muzzle — a suppressor makes a shot quiet (heard only close by, awareness.json → noise) for less damage and range; not on shotguns or bows.",
   "slotsByRarity": {
     "F": 1,
     "E": 1,
@@ -56,6 +56,16 @@
       "name": "Trigger",
       "for": "ranged",
       "adds": "crit"
+    },
+    {
+      "id": "muzzle",
+      "name": "Muzzle",
+      "for": "ranged",
+      "adds": "quiet",
+      "notTypes": [
+        "shotgun",
+        "bow"
+      ]
     }
   ],
   "mods": [
@@ -144,6 +154,19 @@
       "rarity": "C",
       "cost": {
         "cr": 800
+      },
+      "provisional": true
+    },
+    {
+      "id": "suppressor",
+      "name": "Suppressor",
+      "type": "muzzle",
+      "amount": 1,
+      "damage": -1,
+      "range": -25,
+      "rarity": "C",
+      "cost": {
+        "cr": 600
       },
       "provisional": true
     }

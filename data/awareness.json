@@ -93,6 +93,7 @@
     "warm": {
       "sensors": true,
       "props": [
+        "fallen",
         "body_outline_1",
         "body_outline_2",
         "body_outline_3"
@@ -113,5 +114,20 @@
       "note": "Decision 371: each Resolve a player has a motion tracker on, with an enemy on the network on the map, the site alert gets +1.",
       "trace": 1
     }
+  },
+  "noise": {
+    "note": "Decision 372: how far a shot is heard, in squares (straight distance, through walls) by enemies not in the fight. A suppressed weapon is quiet; melee makes no noise. A squad hears what one of them heard; a network enemy also raises the site alert.",
+    "byType": {
+      "pistol": 8,
+      "SMG": 10,
+      "assault rifle": 12,
+      "shotgun": 12,
+      "sniper rifle": 15,
+      "bow": 1
+    },
+    "other": 10,
+    "suppressed": 2,
+    "melee": 0,
+    "networkTrace": 1
   }
 }

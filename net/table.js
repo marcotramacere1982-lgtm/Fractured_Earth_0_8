@@ -118,6 +118,8 @@ export function createTableLink(store, hooks) {
         hooks.notify?.('message');
         break;
       case 'combat': {
+        // owner 2026-11-24: a fight for part of the table — a sheet not in it carries on as if there were none
+        if (id && msg.active && Array.isArray(msg.players) && !msg.players.includes(id)) msg = { ...msg, active: false, notMine: true };
         // your turn starts: one soft chime per turn (Delay can bring you back the same round: no second chime)
         const mark = `${msg.id}:${msg.round}`;
         if (msg.active && id && msg.current === id) {
@@ -268,7 +270,7 @@ export function createTableLink(store, hooks) {
         break;
       case 'prepare': { // decision 232: the GM prepares a fight — the get-ready window, with initiative; gm: the sheets the GM took over
         const was = state.prepare;
-        state.prepare = msg.active ? msg : null;
+        state.prepare = msg.active && !(id && Array.isArray(msg.players) && !msg.players.includes(id)) ? msg : null; // owner 2026-11-24: not in this fight — no get-ready window
         if (id && state.prepare && !was) { hooks.toast(t('prep.toast'), 'success'); hooks.notify?.('message'); }
         if (id && state.prepare?.gm?.includes(id) && !was?.gm?.includes(id)) hooks.toast(t('prep.takenOver'), 'success');
         emit();
@@ -314,6 +316,8 @@ export function createTableLink(store, hooks) {
         emit();
         break;
       case 'map': {
+        // decision 376: held outside a running fight — this sheet can't move until the GM releases it
+        if (id && !msg.closed && Array.isArray(msg.held) && msg.held.includes(id)) msg = { ...msg, canMove: false, heldOut: true };
         state.map = msg.closed ? null : msg;
         if (id && state.map) hooks.map?.(id, msg); // decision 122: the sheet remembers what it saw
         let last = null;

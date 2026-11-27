@@ -18,6 +18,8 @@ const WATCHED = [
   { path: 'play.stash.cash', label: 'Stash cash', explain: [/^Stash: /] }, // decision 144
   { path: 'play.stash.items', label: 'Stash', explain: [/^Stash: /] },
   { path: 'play.lifestyle', label: 'Lifestyle', explain: [/^Bought /, /^Lifestyle: /, /^From the GM: lifestyle/i] }, // owner 2026-11-15: the GM's own changes
+  { path: 'play.fatigue', label: 'Fatigue', explain: [/^Fatigue [+−-]\d/] }, // decision 362: every change the sheet makes is logged (− / +, Push, breather, rest, the GM's card)
+  { path: 'play.strain', label: 'Strain', explain: [/^Strain [+−-]\d/, /^By hand: Strain /, /(: |· )Strain -\d/, /→ Strain \d/] }, // decision 266: taken, relieved, fixed by hand (the hand edit's own line), a crewmate's Steady, after a breaking point
   // advancement (decision 44): XP and gifts come from the GM; talents and raises only while level-up is open
   { path: 'progress.xp', label: 'XP', explain: [/^XP [+−-]/] },
   { path: 'progress.talents', label: 'Talents', explain: [/^Talent: /] },

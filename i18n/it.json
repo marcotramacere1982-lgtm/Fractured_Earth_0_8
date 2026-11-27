@@ -1153,6 +1153,7 @@
   "map.hint.budget": "Tocca a te: ti restano {left} quadretti di questo Movimento — muoviti a passi come vuoi; oltre serve un'altra azione Movimento (fino a {n} in tutto).",
   "map.hint.careful": "Qui con cautela: trascina fino a {n} quadretti alla volta (fuori dal combattimento non costa azioni).",
   "map.hint.free": "Trascina il segnalino per muoverti (fuori dal combattimento non costa azioni).",
+  "map.hint.held": "Fermi: il GM è con lo scontro altrove. Potrete muovervi quando vi libera; intanto pianificate con la squadra.",
   "map.hint.gm": "I movimenti sono fermi: li aprirà il GM (forse sta preparando). Chiedi se stai aspettando.",
   "map.hint.look": "Trascina la mappa per guardarti intorno · pizzica o rotella del mouse per lo zoom · 1 quadretto = 1,5 m.",
   "map.hint.noActions": "Nessuna azione rimasta in questo round: il segnalino resta fermo.",
@@ -2327,5 +2328,6 @@
   "map.goggles.off": "Visori spenti",
   "map.goggles.hint": "Visore notturno, termico e rilevatori: il tuo livello personale sulla mappa (verde: ciò che vede il visore notturno; rosso / giallo: calore; cerchi tratteggiati: qualcosa si è mosso). Condiviso solo tramite un Tac-Mesh AR.",
   "map.goggles.blind": "Abbagliato!",
-  "map.goggles.blindHint": "Un fascio di torcia o un razzo ti illumina: il visore notturno è accecato finché la luce non si sposta (termico e rilevatori funzionano ancora)."
+  "map.goggles.blindHint": "Un fascio di torcia o un razzo ti illumina: il visore notturno è accecato finché la luce non si sposta (termico e rilevatori funzionano ancora).",
+  "wmod.adds.quiet": "Silenziosa: si sente solo entro 2 caselle · −1 danni · −25% gittata massima"
 }
